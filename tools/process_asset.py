@@ -363,6 +363,10 @@ def sheet_subjects(img, count=None, grid=None):
     """Cut-out frames from one RGBA sheet: even grid cells (grid='COLSxROWS') or separate
     subjects in reading order. Each frame is cropped to its opaque pixels."""
     cells = [fr for _, fr in slice_frames(img, grid)]
+    if not grid and count and len(cells) != count:
+        # Frames in one row with narrow gaps merge when subjects are found by shape: split at the
+        # empty columns between them instead.
+        cells = row_frames(img) or cells
     frames = []
     for fr in cells:
         ys, xs = np.nonzero(np.asarray(fr)[..., 3] >= 128)
@@ -374,15 +378,43 @@ def sheet_subjects(img, count=None, grid=None):
     return frames
 
 
-def _shrink(fr, k):
-    """Area-average downscale with premultiplied alpha, so edges don't pick up the background."""
-    a = np.asarray(fr.convert("RGBA")).astype(np.float32) / 255.0
-    W, H = max(1, round(fr.width * k)), max(1, round(fr.height * k))
-    al = a[..., 3]
-    chans = [a[..., i] * al for i in range(3)] + [al]
-    out = [np.asarray(Image.fromarray(c, "F").resize((W, H), Image.BOX)) for c in chans]
-    rgb = np.stack(out[:3], -1) / np.maximum(out[3], 1e-6)[..., None]
-    return np.clip(rgb * 255, 0, 255), out[3]
+def row_frames(img, min_gap=3):
+    """Split a one-row sheet at runs of fully transparent columns (gaps of at least min_gap px)."""
+    cols = (np.asarray(img)[..., 3] >= 128).any(axis=0)
+    runs, start, gap = [], None, 0
+    for x, on in enumerate(cols):
+        if on:
+            if start is None: start = x
+            gap = 0
+        elif start is not None:
+            gap += 1
+            if gap >= min_gap:
+                runs.append((start, x - gap + 1)); start = None
+    if start is not None:
+        runs.append((start, len(cols)))
+    return [img.crop((a, 0, b, img.height)) for a, b in runs]
+
+
+def _block_shrink(idx, k, priority, share=0.12):
+    """Palette-index image -> k-scaled index image. Each output pixel is a block of source pixels:
+    transparent if mostly transparent, else the priority colour (eyes) if it covers `share` of
+    the block, else the block's most common colour. Keeps small dark details that averaging blurs."""
+    H, W = idx.shape
+    oh, ow = max(1, round(H * k)), max(1, round(W * k))
+    ys = np.linspace(0, H, oh + 1).round().astype(int); xs = np.linspace(0, W, ow + 1).round().astype(int)
+    out = np.full((oh, ow), -1, int)
+    for j in range(oh):
+        for i in range(ow):
+            blk = idx[ys[j]:ys[j + 1], xs[i]:xs[i + 1]].ravel()
+            if not blk.size:
+                continue
+            op = blk[blk >= 0]
+            if op.size * 2 < blk.size:
+                continue
+            counts = np.bincount(op, minlength=priority.max() + 1)
+            pri = [c for c in priority if counts[c] >= share * blk.size]
+            out[j, i] = pri[0] if pri else int(counts.argmax())
+    return out
 
 
 def _ring(idx):
@@ -400,6 +432,7 @@ def pixel_sheet(frames, fw, fh, baseline=None, do_outline=True, pal_path=PIXEL_P
     oi = _pal_index(pal, OUTLINE_HEX)
     detail = [_pal_index(pal, hx) for hx in DETAIL_HEX]
     lines = [_pal_index(pal, hx) for hx in ("#8A6E5E", "#534239", "#9F8272", "#946F57")]
+    ink = _pal_index(pal, "#534239")
     baseline = fh - 1 if baseline is None else baseline
     pad = 1 if do_outline else 0
     k = min((fw - 2 * pad) / max(f.width for f in frames), (baseline + 1 - 2 * pad) / max(f.height for f in frames))
@@ -407,9 +440,9 @@ def pixel_sheet(frames, fw, fh, baseline=None, do_outline=True, pal_path=PIXEL_P
     strip = np.full((fh, fw * len(frames)), -1, int)
     report = [f"  scale {k:.4f} (shared by all {len(frames)} frames), cell {fw}x{fh}, feet on row {baseline}"]
     for i, fr in enumerate(frames):
-        rgb, al = _shrink(fr, k)
-        idx = ((((_to_lab(rgb)[..., None, :] - pal_lab[None, None]) * w8) ** 2).sum(-1)).argmin(-1)
-        idx = np.where(al >= 0.5, idx, -1)
+        src = np.asarray(fr.convert("RGBA")).astype(np.float32)
+        full = ((((_to_lab(src[..., :3])[..., None, :] - pal_lab[None, None]) * w8) ** 2).sum(-1)).argmin(-1)
+        idx = _block_shrink(np.where(src[..., 3] >= 128, full, -1), k, np.array([ink]))
         idx, _ = despeckle(idx, keep=~np.isin(idx, detail))
         if do_outline:
             # The source's own (usually thick) outline: peel its outer layer so only our crisp 1 px ring remains.

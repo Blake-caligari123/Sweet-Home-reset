@@ -68,6 +68,11 @@ class SheetTest(unittest.TestCase):
         for i in range(6):
             self.assertGreaterEqual(ink[:, i * 24:(i + 1) * 24].sum(), 2, f"frame {i + 1} still has eyes")
 
+    def test_close_set_frames_in_one_row_are_still_found(self):
+        sheet = bunny_sheet(cell=140)  # 140 px cells hold ~136 px bunnies: gaps of a few px
+        frames = pa.sheet_subjects(pa.cutout(sheet, "floodfill")[0], 6)
+        self.assertEqual(len(frames), 6)
+
     def test_wrong_frame_count_is_a_clear_error(self):
         src = os.path.join(tempfile.mkdtemp(), "sheet.png"); bunny_sheet(n=5).save(src)
         _, out = self.run_cli(src)
