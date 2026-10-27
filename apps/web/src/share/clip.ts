@@ -7,9 +7,13 @@ import { CLIP_MS, clipFrame } from './timeline';
 // (FRONTEND-PLAN §10). 1080×1920 portrait, ready for TikTok, Reels and Shorts.
 const W = 1080;
 const H = 1920;
-const SCALE = 4; // 180×390 room → 720×1560
-const ROOM_X = (W - 180 * SCALE) / 2;
-const ROOM_Y = 230;
+
+/** Largest whole-number upscale that fits the picture in the frame (180×390 rooms get 4×). */
+function layout(w: number, h: number) {
+  const scale = Math.max(1, Math.floor(Math.min((W - 24) / w, (H - 360) / h)));
+  const rw = w * scale; const rh = h * scale;
+  return { scale, w, h, rw, rh, x: Math.round((W - rw) / 2), y: Math.max(230, Math.round((H - rh) / 2)) };
+}
 
 function canvasOf(pc: PixelCanvas) {
   const c = document.createElement('canvas');
@@ -20,21 +24,23 @@ function canvasOf(pc: PixelCanvas) {
 
 function drawFrame(ctx: CanvasRenderingContext2D, before: HTMLCanvasElement, after: HTMLCanvasElement, puffs: HTMLCanvasElement[], title: string, ms: number) {
   const f = clipFrame(ms);
+  const L = layout(after.width, after.height);
+  const SCALE = L.scale; const ROOM_X = L.x; const ROOM_Y = L.y;
   ctx.imageSmoothingEnabled = false;
   ctx.fillStyle = '#F9EDC2';
   ctx.fillRect(0, 0, W, H);
   for (let x = 0; x < W; x += 60) { ctx.fillStyle = '#F6E3A1'; ctx.fillRect(x, 0, 22, H); }
   // Frame around the room.
   ctx.fillStyle = '#8A6E5E';
-  ctx.beginPath(); ctx.roundRect(ROOM_X - 18, ROOM_Y - 18, 180 * SCALE + 36, 390 * SCALE + 36, 36); ctx.fill();
-  ctx.drawImage(after, ROOM_X, ROOM_Y, 180 * SCALE, 390 * SCALE);
-  const cut = Math.round(f.wipe * 180) * SCALE;
-  if (cut < 180 * SCALE) ctx.drawImage(before, cut / SCALE, 0, 180 - cut / SCALE, 390, ROOM_X + cut, ROOM_Y, 180 * SCALE - cut, 390 * SCALE);
+  ctx.beginPath(); ctx.roundRect(ROOM_X - 12, ROOM_Y - 12, L.rw + 24, L.rh + 24, 28); ctx.fill();
+  ctx.drawImage(after, ROOM_X, ROOM_Y, L.rw, L.rh);
+  const cut = Math.round(f.wipe * L.w) * SCALE;
+  if (cut < L.rw) ctx.drawImage(before, cut / SCALE, 0, L.w - cut / SCALE, L.h, ROOM_X + cut, ROOM_Y, L.rw - cut, L.rh);
   if (f.label === 'wipe') {
-    ctx.fillStyle = '#FFF8EC'; ctx.fillRect(ROOM_X + cut - 6, ROOM_Y, 12, 390 * SCALE);
-    ctx.fillStyle = '#8A6E5E'; ctx.fillRect(ROOM_X + cut - 9, ROOM_Y, 3, 390 * SCALE); ctx.fillRect(ROOM_X + cut + 6, ROOM_Y, 3, 390 * SCALE);
+    ctx.fillStyle = '#FFF8EC'; ctx.fillRect(ROOM_X + cut - 6, ROOM_Y, 12, L.rh);
+    ctx.fillStyle = '#8A6E5E'; ctx.fillRect(ROOM_X + cut - 9, ROOM_Y, 3, L.rh); ctx.fillRect(ROOM_X + cut + 6, ROOM_Y, 3, L.rh);
     for (let i = 0; i < 6; i += 1) {
-      const y = ROOM_Y + ((ms * 0.37 + i * 260) % (390 * SCALE));
+      const y = ROOM_Y + ((ms * 0.37 + i * 260) % L.rh);
       ctx.fillStyle = '#FFFFFF'; ctx.fillRect(ROOM_X + cut - 4 + ((i % 2) * 12 - 6), y, 8, 8);
     }
   }

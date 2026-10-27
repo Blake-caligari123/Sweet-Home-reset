@@ -1,0 +1,38 @@
+// Every gameplay number comes from claude/config/tuning.json (GDD v3 A8). Never hard-code them.
+import raw from '../../../../claude/config/tuning.json';
+
+export interface Tuning {
+  dayRealMinutes: number;
+  gameMinutesPerTick: number;
+  fluffStart: number;
+  fluffMaxStep: number;
+  fluffToolUse: number;
+  fluffCharged: [number, number];
+  fluffLowThreshold: number;
+  dozeWakeFluffFraction: number;
+  restoreThreshold: number;
+  messHitsTier1: Record<string, number>;
+  bagSlotsStart: number;
+  gardenPlotStart: [number, number];
+  realChoreReward: { sparkles: number; maxFluffBonus: number };
+  realChoreCapPerDay: number;
+  autosaveSeconds: number;
+  townName: string;
+  fountainName: string;
+  walkTilesPerSecond?: number;
+  walkTilesPerSecondTired?: number;
+  colourRippleMs?: number;
+  toolSwingMs?: number;
+  putAwaySparkles?: number;
+  cropDays?: Record<string, number>;
+}
+
+export const TUNING: Tuning = raw as unknown as Tuning;
+
+/** Values the frontend plan lists in its tuning table but tuning.json doesn't carry yet. */
+export const WALK_SPEED = TUNING.walkTilesPerSecond ?? 4;
+export const WALK_SPEED_TIRED = TUNING.walkTilesPerSecondTired ?? 3;
+export const RIPPLE_MS = TUNING.colourRippleMs ?? 300;
+export const SWING_MS = TUNING.toolSwingMs ?? 260;
+export const PUTAWAY_SPARKLES = TUNING.putAwaySparkles ?? 5;
+export const cropDays = (crop: string) => TUNING.cropDays?.[crop] ?? 3;

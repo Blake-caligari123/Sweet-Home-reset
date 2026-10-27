@@ -1,0 +1,911 @@
+{
+ "schemaVersion": 1,
+ "id": "hollowfern-spring",
+ "version": 1,
+ "items": {
+  "sock": {
+   "name": "Sock",
+   "home": "basket"
+  },
+  "book": {
+   "name": "Book",
+   "home": "shelf"
+  },
+  "cup": {
+   "name": "Cup",
+   "home": "sink"
+  },
+  "pin": {
+   "name": "Rolling pin",
+   "home": "shelf"
+  },
+  "tray": {
+   "name": "Baking tray",
+   "home": "shelf"
+  },
+  "radish_seeds": {
+   "name": "Radish seeds"
+  },
+  "radish": {
+   "name": "Radish",
+   "snack": 20
+  },
+  "tart": {
+   "name": "Berry tart",
+   "snack": 40
+  }
+ },
+ "areas": [
+  {
+   "id": "burrow",
+   "name": "Puff's burrow",
+   "kind": "home",
+   "drained": true,
+   "edge": "#534239",
+   "theme": {
+    "wall": "#F7D2BF",
+    "wallAccent": "#F4C2A8",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#A9CDA0",
+    "rugShade": "#79B176"
+   },
+   "legend": {
+    "#": "wall",
+    ".": "wood",
+    ",": "rug",
+    "=": "tile",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "######################",
+    "######################",
+    "#......#.......#.....#",
+    "#......#.......#=====#",
+    "#..,,,.#..,,,,.#=====#",
+    "#..,,,.#..,,,,.#=====#",
+    "#......#..,,,,.#=====#",
+    "#...............=====#",
+    "#...............=====#",
+    "#......#.......#=====#",
+    "#......#.......#=====#",
+    "#......#.......#=====#",
+    "##########.###########",
+    "##########m###########"
+   ],
+   "restoreReward": 50,
+   "props": [
+    {
+     "type": "bed",
+     "x": 1,
+     "y": 2,
+     "w": 2,
+     "h": 3,
+     "action": "sleep",
+     "colour": "#A9BFD6"
+    },
+    {
+     "type": "basket",
+     "x": 5,
+     "y": 2,
+     "action": "putaway",
+     "accepts": [
+      "sock"
+     ]
+    },
+    {
+     "type": "lamp",
+     "x": 4,
+     "y": 2
+    },
+    {
+     "type": "plant",
+     "x": 6,
+     "y": 11
+    },
+    {
+     "type": "shelf",
+     "x": 12,
+     "y": 2,
+     "w": 2,
+     "action": "putaway",
+     "accepts": [
+      "book"
+     ]
+    },
+    {
+     "type": "armchair",
+     "x": 8,
+     "y": 4
+    },
+    {
+     "type": "lamp",
+     "x": 14,
+     "y": 2
+    },
+    {
+     "type": "table",
+     "x": 11,
+     "y": 9,
+     "w": 2
+    },
+    {
+     "type": "plant",
+     "x": 8,
+     "y": 11,
+     "colour": "#A9BFD6"
+    },
+    {
+     "type": "counter",
+     "x": 16,
+     "y": 2,
+     "w": 3,
+     "colour": "#A9CDA0"
+    },
+    {
+     "type": "sink",
+     "x": 19,
+     "y": 2,
+     "w": 2,
+     "action": "putaway",
+     "accepts": [
+      "cup"
+     ],
+     "colour": "#A9CDA0"
+    },
+    {
+     "type": "table",
+     "x": 17,
+     "y": 9,
+     "w": 2
+    },
+    {
+     "type": "chair",
+     "x": 16,
+     "y": 9,
+     "colour": "#F4C2A8"
+    },
+    {
+     "type": "chair",
+     "x": 19,
+     "y": 9,
+     "colour": "#F4C2A8"
+    }
+   ],
+   "doors": [
+    {
+     "x": 10,
+     "y": 13,
+     "to": "yard",
+     "toX": 12,
+     "toY": 5
+    }
+   ],
+   "mess": [
+    {
+     "type": "dust",
+     "x": 4,
+     "y": 6
+    },
+    {
+     "type": "dust",
+     "x": 5,
+     "y": 6
+    },
+    {
+     "type": "dust",
+     "x": 4,
+     "y": 7
+    },
+    {
+     "type": "dust",
+     "x": 5,
+     "y": 8
+    },
+    {
+     "type": "clutter",
+     "x": 2,
+     "y": 9,
+     "item": "sock"
+    },
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      9,
+      6,
+      3
+     ],
+     "density": 0.3,
+     "seed": 3
+    },
+    {
+     "type": "dust",
+     "rect": [
+      8,
+      6,
+      7,
+      6
+     ],
+     "density": 0.25,
+     "seed": 5
+    },
+    {
+     "type": "clutter",
+     "x": 9,
+     "y": 8,
+     "item": "book"
+    },
+    {
+     "type": "stain",
+     "x": 17,
+     "y": 2
+    },
+    {
+     "type": "stain",
+     "x": 16,
+     "y": 2
+    },
+    {
+     "type": "stain",
+     "rect": [
+      16,
+      3,
+      5,
+      9
+     ],
+     "density": 0.18,
+     "seed": 7
+    },
+    {
+     "type": "clutter",
+     "x": 18,
+     "y": 6,
+     "item": "cup"
+    }
+   ],
+   "spawn": {
+    "x": 3,
+    "y": 4
+   }
+  },
+  {
+   "id": "yard",
+   "name": "Puff's yard",
+   "kind": "outdoor",
+   "drained": true,
+   "edge": "#79B176",
+   "theme": {
+    "wall": "#F7D2BF",
+    "wallAccent": "#F4C2A8",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#A9CDA0",
+    "rugShade": "#79B176"
+   },
+   "legend": {
+    "h": "hedge",
+    "g": "grass",
+    "p": "path",
+    "c": "cobble",
+    "s": "soil",
+    "f": "flowers",
+    "w": "water",
+    "x": "fence",
+    " ": "void"
+   },
+   "map": [
+    "hhhhhhhhhhhhhhhhhhhhhhhhhh",
+    "hggggggggggggggggggggggggh",
+    "hggggggggggggggggggggggggh",
+    "hgfgggggggggggggggggggfggh",
+    "hggggggggggggggggggggggggh",
+    "hgggggggggggpggggggggggggg",
+    "hgggggggggggpppppppppppggh",
+    "hggggggggggggggggggggggpgh",
+    "hgggfggggggggggggggggggpgh",
+    "hgxxxxxxxxgggggggggggggppp",
+    "hgxssssssxgggggggggggggppp",
+    "hgxssssssxggggggggfgggggph",
+    "hgxssssssxgggggggggggggggh",
+    "hgxssssssxgggggggggggggggh",
+    "hgxxxxpxxxgggggggggggggggh",
+    "hggggggggggggggggggggggggh",
+    "hggggggggggggggggggggggggh",
+    "hhhhhhhhhhhhhhhhhhhhhhhhhh"
+   ],
+   "props": [
+    {
+     "type": "burrow",
+     "x": 9,
+     "y": 1,
+     "w": 6,
+     "h": 4
+    },
+    {
+     "type": "mailbox",
+     "x": 14,
+     "y": 5,
+     "action": "mailbox"
+    },
+    {
+     "type": "tree",
+     "x": 1,
+     "y": 1,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 20,
+     "y": 1,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 1,
+     "y": 15,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 17,
+     "y": 13,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "bush",
+     "x": 5,
+     "y": 3
+    },
+    {
+     "type": "bush",
+     "x": 16,
+     "y": 3
+    },
+    {
+     "type": "bush",
+     "x": 22,
+     "y": 15
+    },
+    {
+     "type": "sign",
+     "x": 22,
+     "y": 6,
+     "action": "sign"
+    }
+   ],
+   "signs": [
+    {
+     "x": 22,
+     "y": 6,
+     "text": "Town Square this way \u2192"
+    }
+   ],
+   "doors": [
+    {
+     "x": 12,
+     "y": 5,
+     "to": "burrow",
+     "toX": 10,
+     "toY": 12
+    },
+    {
+     "x": 25,
+     "y": 9,
+     "to": "square",
+     "toX": 1,
+     "toY": 11
+    },
+    {
+     "x": 25,
+     "y": 10,
+     "to": "square",
+     "toX": 1,
+     "toY": 12
+    }
+   ],
+   "mess": [
+    {
+     "type": "weeds",
+     "rect": [
+      3,
+      6,
+      8,
+      3
+     ],
+     "density": 0.3,
+     "seed": 11
+    },
+    {
+     "type": "weeds",
+     "rect": [
+      13,
+      7,
+      9,
+      8
+     ],
+     "density": 0.12,
+     "seed": 13
+    },
+    {
+     "type": "weeds",
+     "x": 7,
+     "y": 15
+    },
+    {
+     "type": "weeds",
+     "x": 11,
+     "y": 12
+    }
+   ],
+   "spawn": {
+    "x": 12,
+    "y": 6
+   }
+  },
+  {
+   "id": "square",
+   "name": "Town Square",
+   "kind": "outdoor",
+   "drained": true,
+   "edge": "#79B176",
+   "theme": {
+    "wall": "#F7D2BF",
+    "wallAccent": "#F4C2A8",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#A9CDA0",
+    "rugShade": "#79B176"
+   },
+   "legend": {
+    "h": "hedge",
+    "g": "grass",
+    "p": "path",
+    "c": "cobble",
+    "s": "soil",
+    "f": "flowers",
+    "w": "water",
+    "x": "fence",
+    " ": "void"
+   },
+   "map": [
+    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+    "hggggggggggggggggggggggggggggh",
+    "hggggggggggggggggggggggggggggh",
+    "hggggggggggggggggggggggggggggh",
+    "hggggggggggggggggggggggggggggh",
+    "hggggcgggggggggggggggggcgggggh",
+    "hgfgccccccccccccccccccccccggfh",
+    "hgggccccccccccccccccccccccgggh",
+    "hgggccccccccccccccccccccccgggh",
+    "hgggccccccccccccccccccccccgggh",
+    "hgggccccccccccccccccccccccgggh",
+    "ppppccccccccccccccccccccccpppp",
+    "ppppccccccccccccccccccccccpppp",
+    "hgggccccccccccccccccccccccgggh",
+    "hgggccccccccccccccccccccccgggh",
+    "hgggccccccccccccccccccccccgggh",
+    "hgfgccccccccccccccccccccccgfgh",
+    "hggggggggggggggggggggggggggggh",
+    "hgggggfgggggggggggggggfggggggh",
+    "hggggggggggggggggggggggggggggh",
+    "hggggggggggggggggggggggggggggh",
+    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+   ],
+   "props": [
+    {
+     "type": "shopfront",
+     "x": 2,
+     "y": 1,
+     "w": 8,
+     "h": 4,
+     "colour": "#A9BFD6",
+     "doorX": 5
+    },
+    {
+     "type": "shopfront",
+     "x": 19,
+     "y": 1,
+     "w": 8,
+     "h": 4,
+     "colour": "#F4C2A8",
+     "doorX": 23
+    },
+    {
+     "type": "fountain",
+     "x": 13,
+     "y": 8,
+     "w": 4,
+     "h": 4
+    },
+    {
+     "type": "board",
+     "x": 8,
+     "y": 6,
+     "w": 2,
+     "action": "board"
+    },
+    {
+     "type": "bench",
+     "x": 9,
+     "y": 15,
+     "w": 2
+    },
+    {
+     "type": "bench",
+     "x": 19,
+     "y": 15,
+     "w": 2
+    },
+    {
+     "type": "lamppost",
+     "x": 5,
+     "y": 7
+    },
+    {
+     "type": "lamppost",
+     "x": 24,
+     "y": 7
+    },
+    {
+     "type": "lamppost",
+     "x": 5,
+     "y": 15
+    },
+    {
+     "type": "lamppost",
+     "x": 24,
+     "y": 15
+    },
+    {
+     "type": "tree",
+     "x": 1,
+     "y": 18,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 26,
+     "y": 18,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "bush",
+     "x": 12,
+     "y": 18
+    },
+    {
+     "type": "bush",
+     "x": 17,
+     "y": 18
+    },
+    {
+     "type": "sign",
+     "x": 27,
+     "y": 10,
+     "action": "sign"
+    },
+    {
+     "type": "sign",
+     "x": 22,
+     "y": 6,
+     "action": "sign"
+    }
+   ],
+   "signs": [
+    {
+     "x": 27,
+     "y": 10,
+     "text": "Neighbour Lane: the gate opens soon."
+    },
+    {
+     "x": 22,
+     "y": 6,
+     "text": "A note on the bakery door: \u201cBack soon, petal! The kitchen's in a state. Any help is lovely. \u2014 Hazel\u201d"
+    }
+   ],
+   "doors": [
+    {
+     "x": 0,
+     "y": 11,
+     "to": "yard",
+     "toX": 24,
+     "toY": 9
+    },
+    {
+     "x": 0,
+     "y": 12,
+     "to": "yard",
+     "toX": 24,
+     "toY": 10
+    },
+    {
+     "x": 23,
+     "y": 5,
+     "to": "bakery",
+     "toX": 8,
+     "toY": 10
+    },
+    {
+     "x": 5,
+     "y": 5,
+     "to": "store",
+     "toX": 0,
+     "toY": 0,
+     "closedText": "The General Store opens tomorrow."
+    },
+    {
+     "x": 29,
+     "y": 11,
+     "to": "lane",
+     "toX": 0,
+     "toY": 0,
+     "closedText": "Neighbour Lane's gate opens soon."
+    },
+    {
+     "x": 29,
+     "y": 12,
+     "to": "lane",
+     "toX": 0,
+     "toY": 0,
+     "closedText": "Neighbour Lane's gate opens soon."
+    }
+   ],
+   "mess": [
+    {
+     "type": "weeds",
+     "rect": [
+      4,
+      6,
+      22,
+      11
+     ],
+     "density": 0.06,
+     "seed": 17
+    }
+   ],
+   "spawn": {
+    "x": 2,
+    "y": 11
+   }
+  },
+  {
+   "id": "bakery",
+   "name": "Hazel's bakery",
+   "kind": "home",
+   "drained": true,
+   "edge": "#534239",
+   "theme": {
+    "wall": "#F9EDC2",
+    "wallAccent": "#F6E3A1",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#F4C2A8",
+    "rugShade": "#DCA88D"
+   },
+   "legend": {
+    "#": "wall",
+    ".": "wood",
+    ",": "rug",
+    "=": "tile",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "##################",
+    "##################",
+    "#=====#..........#",
+    "#=====#..........#",
+    "#=====#..........#",
+    "#................#",
+    "#................#",
+    "#................#",
+    "#................#",
+    "#................#",
+    "#................#",
+    "########m#########"
+   ],
+   "restoreReward": 100,
+   "props": [
+    {
+     "type": "oven",
+     "x": 1,
+     "y": 2,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "flour",
+     "x": 3,
+     "y": 2
+    },
+    {
+     "type": "sink",
+     "x": 4,
+     "y": 2,
+     "w": 2,
+     "action": "putaway",
+     "accepts": [
+      "cup"
+     ],
+     "colour": "#F6E3A1"
+    },
+    {
+     "type": "shelf",
+     "x": 8,
+     "y": 2,
+     "w": 3,
+     "action": "putaway",
+     "accepts": [
+      "pin",
+      "tray"
+     ]
+    },
+    {
+     "type": "crate",
+     "x": 15,
+     "y": 2
+    },
+    {
+     "type": "crate",
+     "x": 16,
+     "y": 2
+    },
+    {
+     "type": "display",
+     "x": 3,
+     "y": 6,
+     "w": 6
+    },
+    {
+     "type": "counter",
+     "x": 11,
+     "y": 6,
+     "w": 3,
+     "colour": "#F4C2A8"
+    },
+    {
+     "type": "table",
+     "x": 3,
+     "y": 9,
+     "w": 2
+    },
+    {
+     "type": "chair",
+     "x": 2,
+     "y": 9,
+     "colour": "#A9CDA0"
+    },
+    {
+     "type": "chair",
+     "x": 5,
+     "y": 9,
+     "colour": "#A9CDA0"
+    },
+    {
+     "type": "table",
+     "x": 12,
+     "y": 9,
+     "w": 2
+    },
+    {
+     "type": "chair",
+     "x": 11,
+     "y": 9,
+     "colour": "#A9BFD6"
+    },
+    {
+     "type": "chair",
+     "x": 14,
+     "y": 9,
+     "colour": "#A9BFD6"
+    },
+    {
+     "type": "plant",
+     "x": 16,
+     "y": 10
+    }
+   ],
+   "doors": [
+    {
+     "x": 8,
+     "y": 11,
+     "to": "square",
+     "toX": 23,
+     "toY": 6
+    }
+   ],
+   "mess": [
+    {
+     "type": "dust",
+     "rect": [
+      7,
+      2,
+      10,
+      3
+     ],
+     "density": 0.35,
+     "seed": 21
+    },
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      7,
+      16,
+      4
+     ],
+     "density": 0.25,
+     "seed": 23
+    },
+    {
+     "type": "stain",
+     "rect": [
+      1,
+      4,
+      5,
+      1
+     ],
+     "density": 0.8,
+     "seed": 25
+    },
+    {
+     "type": "stain",
+     "x": 12,
+     "y": 6
+    },
+    {
+     "type": "stain",
+     "x": 13,
+     "y": 6
+    },
+    {
+     "type": "stain",
+     "x": 6,
+     "y": 6
+    },
+    {
+     "type": "clutter",
+     "x": 2,
+     "y": 5,
+     "item": "cup"
+    },
+    {
+     "type": "clutter",
+     "x": 14,
+     "y": 8,
+     "item": "cup"
+    },
+    {
+     "type": "clutter",
+     "x": 10,
+     "y": 4,
+     "item": "pin"
+    },
+    {
+     "type": "clutter",
+     "x": 7,
+     "y": 8,
+     "item": "tray"
+    },
+    {
+     "type": "clutter",
+     "x": 15,
+     "y": 5,
+     "item": "tray"
+    }
+   ],
+   "spawn": {
+    "x": 8,
+    "y": 10
+   }
+  }
+ ]
+}
