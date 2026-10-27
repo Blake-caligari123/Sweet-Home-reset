@@ -108,6 +108,7 @@ export class TownGame {
         busy: () => this.puff.path.length > 0 || this.puff.swingMs > 0 || this.modal > 0 || this.fading,
         /** Jump to an area in full colour, for screenshots. */
         visit: (id: string, x: number, y: number, colour = true) => { if (colour) this.messFor(id).colour.fill(FULL_COLOUR); this.enterArea(id, x, y, false); },
+        puffSprite: () => ({ ...this.world.puffDebug, pose: this.puff.pose, dir: this.puff.dir }),
         drawn: () => { const p = this.puff; const n = p.path[0]; return { x: n ? p.x + (n.x - p.x) * p.seg : p.x, y: n ? p.y + (n.y - p.y) * p.seg : p.y }; }
       };
     }

@@ -255,6 +255,9 @@ export class World {
   /** World pixel → screen point, for the speech bubble. */
   toScreen(px: number, py: number) { return this.stage.toGlobal({ x: px, y: py }); }
 
+  /** Puff's current draw scale and texture, for the ?debug test hook. */
+  get puffDebug() { return { sx: this.puff.scale.x, sy: this.puff.scale.y, frame: this.puff.texture.frame.x }; }
+
   /** How tall Puff is drawn right now, in world pixels (for placing the speech bubble). */
   get puffHeight() { return Math.abs(this.puff.height); }
 
