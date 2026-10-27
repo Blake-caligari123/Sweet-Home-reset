@@ -1,6 +1,7 @@
 import { Application, TextureStyle } from 'pixi.js';
 import { Sound } from '../fx/sound';
 import { loadNativeBridge } from '../native';
+import { FrameStats } from './frame-stats';
 import { keepUpdated } from '../pwa-update';
 import { h } from '../ui/dom';
 import { puffPortrait } from '../ui/pixel-image';
@@ -52,7 +53,9 @@ document.addEventListener('pointerdown', () => sound.unlock(), { capture: true }
 document.addEventListener('keydown', () => sound.unlock(), { capture: true });
 
 const app = new Application();
-await app.init({ resizeTo: window, background: '#534239', antialias: false, autoDensity: true, roundPixels: true, resolution: Math.min(window.devicePixelRatio || 1, 3) });
+// Chunky pixel art gains nothing above 2x density, and 3x phones would push 2.25x the pixels every
+// frame (the main cause of stutter on mid-range phones); the world scale stays a whole number.
+await app.init({ resizeTo: window, background: '#534239', antialias: false, autoDensity: true, roundPixels: true, resolution: Math.min(window.devicePixelRatio || 1, 2) });
 app.canvas.setAttribute('aria-label', `${TUNING.townName}. Tap the ground to walk, tap mess to clean it.`);
 app.canvas.tabIndex = 0;
 host.append(app.canvas);
@@ -60,10 +63,20 @@ host.append(app.canvas);
 function start() {
   const game = new TownGame(app, ui, pack!, native, sound, settings, saved);
   void sprites.then((bank) => game.setSprites(bank));
+  if (new URLSearchParams(location.search).has('fps')) showFrameStats();
   void native.onBack(() => game.back());
   const flush = () => void game.save(false);
   document.addEventListener('visibilitychange', () => { if (document.hidden) { flush(); sound.stopMusic(); } else sound.startMusic(); });
   window.addEventListener('pagehide', flush);
+}
+
+/** ?fps: a small corner readout of frame rate and the worst stall each second, for testers. */
+function showFrameStats() {
+  const stats = new FrameStats();
+  const el = h('div', { style: { position: 'fixed', left: '6px', top: '50%', zIndex: '99', font: '12px/1.3 monospace', background: 'rgba(0,0,0,.6)', color: '#fff', padding: '3px 6px', borderRadius: '4px', pointerEvents: 'none' } });
+  document.body.append(el);
+  app.ticker.add((t) => stats.push(t.deltaMS));
+  window.setInterval(() => { const s = stats.take(); el.textContent = `${s.fps} fps · worst ${s.worstMs} ms · stalls ${s.stalls} · ${app.renderer.resolution}x`; }, 1000);
 }
 
 if (saved) start();
