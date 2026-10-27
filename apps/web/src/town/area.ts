@@ -1,6 +1,7 @@
 import { seeded } from '../art/pixel-canvas';
 import { isBlockedGround, type Ground, type PropDef, type Theme } from './art';
 import type { MessSpot } from './mess';
+import type { NeighbourDef } from './neighbours';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 export interface Door { x: number; y: number; to: string; toX: number; toY: number; closedText?: string }
@@ -16,7 +17,7 @@ export interface AreaPack {
   nav?: { floor: number[][]; blockers: number[][] };
 }
 
-export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string }> }
+export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string }>; neighbours?: NeighbourDef[] }
 
 export class Area {
   readonly w: number;
@@ -83,6 +84,16 @@ export function validateTownPack(input: unknown): TownPack {
       const target = p.areas.find((t) => t.id === d.to);
       if (target && !new Area(target).walkable(d.toX, d.toY)) throw new Error(`area ${a.id}: door lands on a blocked tile in ${d.to}`);
     }
+  }
+  const places = new Set([...ids, ...p.areas.flatMap((a) => a.doors.map((d) => d.to))]);
+  const who = new Set<string>();
+  for (const n of p.neighbours ?? []) {
+    if (!n.id || who.has(n.id) || !Array.isArray(n.schedule) || !n.schedule.length) throw new Error(`neighbour ${n.id}: shape`);
+    who.add(n.id);
+    n.schedule.forEach((s, i) => {
+      if (![s.at, s.x, s.y].every(isNum) || (i && s.at < n.schedule[i - 1].at)) throw new Error(`neighbour ${n.id}: schedule`);
+      if (!places.has(s.area)) throw new Error(`neighbour ${n.id}: unknown place ${s.area}`);
+    });
   }
   return p;
 }

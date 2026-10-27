@@ -54,6 +54,15 @@ export function puffClip(dir: Dir, pose: PuffPose, has: (name: string) => boolea
   }
 }
 
+/** A neighbour's sheet (`hazel_walk_right` …), with Puff's fallbacks; null keeps them code-drawn. */
+export function neighbourClip(id: string, dir: Dir, pose: 'walk' | 'idle' | 'sleep', has: (name: string) => boolean): Clip | null {
+  const side = sideOf(dir); const mirror = dir === 'left';
+  if (pose === 'sleep' && has(`${id}_sleep`)) return { name: `${id}_sleep`, mirror: false };
+  if (pose === 'walk') return has(`${id}_walk_${side}`) ? { name: `${id}_walk_${side}`, mirror } : null;
+  if (has(`${id}_idle_${side}`)) return { name: `${id}_idle_${side}`, mirror };
+  return has(`${id}_walk_${side}`) ? { name: `${id}_walk_${side}`, mirror, hold: 0 } : null;
+}
+
 /** Which sheet and frame draws a mess tile: the item's own art for clutter, else a variant of the mess type. */
 export function messSprite(type: string, tile: number, item: string | undefined, has: (name: string) => boolean, frames: (name: string) => number): { name: string; frame: number } | null {
   if (type === 'clutter' && item && has(`item_${item}`)) return { name: `item_${item}`, frame: 0 };

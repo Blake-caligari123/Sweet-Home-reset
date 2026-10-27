@@ -72,6 +72,7 @@
   "fountainName": "Glimmerwell",
   "walkTilesPerSecond": 4,
   "walkTilesPerSecondTired": 3,
+  "neighbourWalkTilesPerSecond": 2.5,
   "colourRippleMs": 300,
   "toolSwingMs": 260,
   "putAwaySparkles": 5,

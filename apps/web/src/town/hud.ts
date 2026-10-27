@@ -140,9 +140,10 @@ export class Hud {
 }
 
 /** A bottom dialogue box: 48 px portrait, two lines, tap to close (A11.3 Dialogue). */
-export function dialogue(host: HTMLElement, text: string, opts: { reducedMotion: boolean; buttons?: { label: string; primary?: boolean; onClick: () => void }[] } ) {
+/** `speaker`: someone other than Puff talking, with their name and portrait. */
+export function dialogue(host: HTMLElement, text: string, opts: { reducedMotion: boolean; buttons?: { label: string; primary?: boolean; onClick: () => void }[]; speaker?: { name: string; portrait: HTMLElement } } ) {
   const close = () => box.remove();
-  const portrait = puffPortrait(1, null, opts.reducedMotion);
+  const portrait = opts.speaker ? { el: opts.speaker.portrait } : puffPortrait(1, null, opts.reducedMotion);
   const buttons = (opts.buttons ?? [{ label: 'OK', primary: true, onClick: () => {} }]).map((b) => {
     const el = h('button', { class: `btn small ${b.primary ? 'primary' : ''}`, type: 'button' }, b.label);
     el.addEventListener('click', () => { close(); b.onClick(); });
@@ -150,7 +151,7 @@ export function dialogue(host: HTMLElement, text: string, opts: { reducedMotion:
   });
   const box = h('div', { class: 'dialogue panel', role: 'dialog', 'aria-live': 'polite' },
     h('div', { class: 'portrait' }, portrait.el),
-    h('div', { class: 'dialogue-body' }, h('p', {}, text), h('div', { class: 'btn-row' }, ...buttons))
+    h('div', { class: 'dialogue-body' }, opts.speaker ? h('p', { class: 'speaker' }, opts.speaker.name) : '', h('p', {}, text), h('div', { class: 'btn-row' }, ...buttons))
   );
   host.append(box);
   window.setTimeout(() => buttons[0]?.focus(), 30);

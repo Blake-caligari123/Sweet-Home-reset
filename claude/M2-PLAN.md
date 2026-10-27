@@ -1,6 +1,8 @@
 # M2 Neighbours: build plan (27 Oct 2026)
 
-Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Planning only; nothing here is built yet.
+Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Progress is ticked in the Steps table as each step lands.
+
+**Step 1 notes:** Hazel, Bea and Pip are in the pack with routines. Until Neighbour Lane is built (step 7), Bea and Pip live on `lane` (offstage behind the gate) and only visit the bakery: Bea 7:20–7:50, Pip 15:00–16:00. Fixed on the way: a memory leak on every area change (about 70 KB each, from M1), which may have fed the freezing reports in long sessions.
 
 **Pass test (A9):** onboarding to 30:00 completes; playtesters befriend neighbours and restore 3 homes within 14 days; a home restores at 95% and triggers the reveal; hearts never drop. FRONTEND-PLAN adds: onboarding to 30:00 by script, and 30 area changes without a memory leak.
 
@@ -15,7 +17,7 @@ Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Planning only; nothing here is buil
 ## Steps
 | # | Step | What it does | Done when (tests) |
 |---|---|---|---|
-| 1 | **Neighbours walk the town** | Neighbour pack schema (id, home, species, loves/likes/dislikes, daily schedule of places by time). Neighbours appear as placeholder sprites, walk their routes with the free-movement nav, and are depth-sorted with Puff. Tap one: Puff walks over and faces them. Save schema bump with migration. | Schedule tests (Hazel bakes 6–11, shop 11–17, asleep by 21); old saves migrate; neighbours never stand in a wall; 30 area changes don't grow memory. |
+| 1 ✅ | **Neighbours walk the town** | Neighbour pack schema (id, home, species, loves/likes/dislikes, daily schedule of places by time). Neighbours appear as placeholder sprites, walk their routes with the free-movement nav, and are depth-sorted with Puff. Tap one: Puff walks over and faces them. Save schema bump with migration. | Schedule tests (Hazel bakes 6–11, shop 11–17, asleep by 21); old saves migrate; neighbours never stand in a wall; 30 area changes don't grow memory. |
 | 2 | **Talking** | Dialogue box with a name and portrait slot. Line pools picked by GDD §6.1 (flag > hearts > weather > season > time > generic, no repeats in the last 5). Talk once a day = +1, then short "busy" lines. | Pool selection tests; copy-rule test over every line. |
 | 3 | **Gifts and hearts** | Give the held bag item: loved +8, liked +3, others +1 thanks; disliked gets a kind "not for me" with no loss. 10 points a heart. A Friends page in the menu shows each neighbour's hearts. | Points from tuning; **hearts never drop** across gifts, days and save/load. |
 | 4 | **Heart events** | A scene runner for the pack format in GDD §7: lines, choices, flags, rewards, triggers (area, time band) and conditions. Events at 2, 4, 6, 8 and 10 for all six (30 scenes), drafted from STORY.md for Blake to review. Skippable. | Each event fires once, at the right hearts, and remembers flags (e.g. Hazel 2 remembers the counter request). |
@@ -26,7 +28,7 @@ Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Planning only; nothing here is buil
 | 9 | **Plus gate stub** | Otto, Moss and Mabel check one `hasPlus()` stub; test builds unlock everything. Real Plus arrives in M5. | Stub on: all six playable. Stub off: the three are silhouettes with a kind "later" line, no paywall. |
 | 10 | **M2 check** | Full playthrough at 390×844 and the QA Group pass, then Blake's phone test. | A9 M2 pass test. |
 
-## Decisions for Blake
+## Decisions (all three recommendations accepted by Blake, 27 Oct 2026)
 1. **Where Moss and Mabel live during M2.** The library is tied to the Woodland edge and Mabel's lighthouse to the Beach, and both areas arrive in M4. **Recommended:** Moss's library sits at the woodland end of Neighbour Lane (the Woodland edge joins onto it in M4); Mabel takes visitors in the square in the evenings (18:00–1:00, her routine) until the lighthouse opens in M4.
 2. **Rooms per home.** Part B says 2–4 rooms per home. **Recommended:** one painted room per home in M2, like the bakery, with extra rooms added later as pack data (no code change). It keeps your painting count sensible.
 3. **Dialogue.** I draft all lines (about 40 per neighbour plus 30 heart-event scenes) from STORY.md; you review them in one doc before they ship.
