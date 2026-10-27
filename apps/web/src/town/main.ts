@@ -1,6 +1,7 @@
 import { Application, TextureStyle } from 'pixi.js';
 import { Sound } from '../fx/sound';
 import { loadNativeBridge } from '../native';
+import { keepUpdated } from '../pwa-update';
 import { h } from '../ui/dom';
 import { puffPortrait } from '../ui/pixel-image';
 import { validateTownPack, type TownPack } from './area';
@@ -17,6 +18,8 @@ const ui = document.querySelector<HTMLElement>('#ui')!;
 
 const native = await loadNativeBridge();
 void native.setup();
+// Native builds load files from the app bundle, so only the web build needs a service worker.
+if (!native.isNative && import.meta.env.PROD) keepUpdated();
 TextureStyle.defaultOptions.scaleMode = 'nearest';
 
 async function loadPack(): Promise<TownPack | null> {

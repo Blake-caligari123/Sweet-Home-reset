@@ -6,6 +6,7 @@ import { migrate } from './game/profile';
 import { loadSave } from './game/storage';
 import { loadNativeBridge } from './native';
 import './style.css';
+import { keepUpdated } from './pwa-update';
 
 const host = document.querySelector<HTMLElement>('#app')!;
 const ui = document.querySelector<HTMLElement>('#ui')!;
@@ -15,7 +16,7 @@ void native.setup();
 
 if (!native.isNative && import.meta.env.PROD) {
   // Native builds load files from the app bundle, so only the web build needs a service worker.
-  void import('virtual:pwa-register').then(({ registerSW }) => registerSW({ immediate: true }));
+  keepUpdated();
 }
 
 // Pixel art: nearest-neighbour everywhere, whole-pixel positions.
