@@ -32,8 +32,9 @@ def find_spec(asset):
     sys.exit(f"No spec found for asset '{asset}'")
 
 
-def remove_watermark(img):
-    """Inpaint the Grok mark in the bottom-right corner (RGB). Returns (img, pixels_changed)."""
+def remove_watermark(img, painting=False):
+    """Inpaint the Grok mark in the bottom-right corner (RGB). Returns (img, pixels_changed).
+    painting: the mark may touch the painting's outline; only art above the logo's letters is kept."""
     import cv2
     rgb = np.asarray(img.convert("RGB")).copy()
     h, w = rgb.shape[:2]
@@ -50,6 +51,12 @@ def remove_watermark(img):
     lab, _ = ndimage.label(m)
     art_ids = np.unique(np.concatenate([lab[0], lab[:, 0]])); art_ids = art_ids[art_ids > 0]
     art = np.isin(lab, art_ids)
+    sizes = ndimage.sum(m, lab, range(1, lab.max() + 1))
+    letters = [i + 1 for i, n in enumerate(sizes) if n > 100 and i + 1 not in art_ids]
+    if painting and letters:
+        # The letters ("rok") float free; the logo's circle and G may join the outline above them.
+        top = np.where(np.isin(lab, letters).any(axis=1))[0][0]
+        art[top - 3:] = False
     m = (m & ~art).astype(np.uint8)
     m = cv2.dilate(m, np.ones((5, 5), np.uint8), iterations=2)
     m[ndimage.binary_dilation(art, iterations=2)] = 0
@@ -425,6 +432,8 @@ def decontaminate(rgba, bg):
     tint = np.min(a[..., hi], axis=-1) - a[..., lo]
     spill = near_edge & (tint > 12) & (a[..., hi[-1]] - a[..., lo] > 25)
     a[..., :3][spill] = _hex_rgb(SPILL_HEX)
+    # The art has crisp outlines: keep edges fully solid or fully clear, so no tinted fringe survives.
+    a[..., 3] = np.where(a[..., 3] >= 128, 255, 0)
     return Image.fromarray(a.astype(np.uint8), "RGBA")
 
 
@@ -438,15 +447,19 @@ def _resize_premul(fr, size):
     return np.clip(rgb, 0, 1), out[3]
 
 
-def hires_sheet(frames, fw, fh, s):
+def hires_sheet(frames, fw, fh, s, each=False):
     """Frames -> one-row strip of (fw·s)×(fh·s) cells keeping the art's own colours and outline: one
-    shared scale, each body centred on its alpha centroid, feet on the bottom row. Drawn by the game
-    at 1/s so a cell covers fw×fh world pixels."""
+    shared scale (or, with each=True, every frame fitted to its cell: variants like dust puffs), each
+    body centred on its alpha centroid, feet on the bottom row. Drawn by the game at 1/s so a cell
+    covers fw×fh world pixels."""
     W, H = fw * s, fh * s
-    k = min((W - 2) / max(f.width for f in frames), (H - 1) / max(f.height for f in frames))
+    fit = lambda fs: min((W - 2) / max(f.width for f in fs), (H - 1) / max(f.height for f in fs))
+    k = fit(frames)
     strip = np.zeros((H, W * len(frames), 4), np.float32)
-    report = [f"  scale {k:.4f} (shared by all {len(frames)} frames), cell {W}x{H} = {fw}x{fh} world px at {s}x"]
+    report = [f"  scale {'per frame' if each else f'{k:.4f} (shared by all {len(frames)} frames)'}, cell {W}x{H} = {fw}x{fh} world px at {s}x"]
     for i, fr in enumerate(frames):
+        if each:
+            k = fit([fr])
         rgb, al = _resize_premul(fr, (max(1, round(fr.width * k)), max(1, round(fr.height * k))))
         ys, xs = np.nonzero(al > 0.04)
         rgb, al = rgb[ys.min():ys.max() + 1, xs.min():xs.max() + 1], al[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
@@ -620,7 +633,7 @@ def run_sheet(a):
         rows = [[clean_ground(f) for f in row] for row in rows]
     os.makedirs(a.sprites_dir, exist_ok=True); os.makedirs(a.out, exist_ok=True)
     if a.hires:
-        everything, report = hires_sheet([f for row in rows for f in row], fw, fh, a.hires)
+        everything, report = hires_sheet([f for row in rows for f in row], fw, fh, a.hires, each=a.fit_each)
         cw = fw * a.hires
         strips = [everything.crop((k * frames_out * cw, 0, (k + 1) * frames_out * cw, everything.height)) for k in range(len(rows))]
     else:
@@ -671,7 +684,7 @@ def run_background(a):
     img = Image.open(raw).convert("RGB")
     edge = np.median(np.asarray(img)[:8, :8].reshape(-1, 3), axis=0)
     if not a.keep_watermark:
-        img, n = remove_watermark(img); print(f"watermark removed (inpainted {n} px, per Blake overrule)")
+        img, n = remove_watermark(img, painting=True); print(f"watermark removed (inpainted {n} px, per Blake overrule)")
     out = fit_background(img, cols, rows, a.tile_px, edge)
     os.makedirs(a.areas_dir, exist_ok=True)
     dst = os.path.join(a.areas_dir, name + ".webp")
@@ -709,6 +722,7 @@ def main():
     p.add_argument("--grid", help="sheet: split the source into even COLSxROWS cells instead of finding subjects")
     p.add_argument("--rows", help="sheet: the source has one sheet per row; comma list of their names, top to bottom ('-' skips a row; write --rows=-,name when the first row is skipped)")
     p.add_argument("--order", help="sheet: which source frames to keep and in what order, 1-based, e.g. 1,3,5,6 (repeats allowed)")
+    p.add_argument("--fit-each", action="store_true", help="sheet --hires: fit every frame to its cell (variants), not one shared scale")
     p.add_argument("--hires", type=int, metavar="S", help="sheet: keep the art's own colours at S texture px per world px (no palette or pixel shrink)")
     p.add_argument("--background", metavar="COLSxROWS", help="painted area: pad/crop to this many tiles and write apps/web/public/areas/<name>.webp")
     p.add_argument("--tile-px", type=int, default=64, help="background: painting pixels per tile (default 64 = 4 per world px)")

@@ -3,6 +3,7 @@ import { PixelCanvas } from '../art/pixel-canvas';
 import { clear, h } from '../ui/dom';
 import { pixelImage, puffPortrait } from '../ui/pixel-image';
 import { drawItemIcon, drawPuff24, drawToolMini } from './art';
+import { spriteIcon } from './sprites';
 import type { ToolId } from './mess';
 
 // The DOM HUD (GDD v3 A5 / A11.3): live text, real buttons, 44 pt targets, safe-area aware.
@@ -18,6 +19,8 @@ function toolIcon(tool: ToolId) {
 }
 
 export function itemIcon(id: string, scale = 2) {
+  const art = spriteIcon(`item_${id}`, 14 * scale, id);
+  if (art) return art;
   const pc = new PixelCanvas(14, 14);
   drawItemIcon(pc, id);
   return pixelImage(pc, scale, id);
@@ -25,6 +28,7 @@ export function itemIcon(id: string, scale = 2) {
 
 export class Hud {
   readonly root: HTMLElement;
+  private bagButton!: HTMLElement;
   private fluffBar: HTMLElement;
   private fluffNum: HTMLElement;
   private fluffIcon: HTMLElement;
@@ -58,6 +62,7 @@ export class Hud {
       return b;
     });
     const bag = h('button', { class: 'tool bag', type: 'button', 'aria-label': 'Bag' }, itemIcon('sock'), h('span', {}, 'Bag'));
+    this.bagButton = bag;
     bag.addEventListener('click', handlers.bag);
     const pause = h('button', { class: 'icon-btn pause-btn', type: 'button', 'aria-label': 'Pause and settings' }, '❚❚');
     pause.addEventListener('click', handlers.pause);
@@ -81,6 +86,9 @@ export class Hud {
   }
 
   private tired = false;
+
+  /** Item art arrived: swap the bag button's icon for it. */
+  refreshIcons() { this.bagButton.firstElementChild?.replaceWith(itemIcon('sock')); }
 
   setFluff(value: number, cap: number, tired: boolean) {
     this.fluffBar.style.width = `${Math.max(0, Math.min(100, (value / cap) * 100))}%`;

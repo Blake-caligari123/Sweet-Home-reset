@@ -1,6 +1,42 @@
 {
  "version": 1,
  "sheets": {
+  "item_book": {
+   "frames": 1,
+   "w": 64,
+   "h": 64,
+   "scale": 4
+  },
+  "item_cup": {
+   "frames": 1,
+   "w": 64,
+   "h": 64,
+   "scale": 4
+  },
+  "item_pin": {
+   "frames": 1,
+   "w": 64,
+   "h": 64,
+   "scale": 4
+  },
+  "item_sock": {
+   "frames": 1,
+   "w": 64,
+   "h": 64,
+   "scale": 4
+  },
+  "item_tray": {
+   "frames": 1,
+   "w": 64,
+   "h": 64,
+   "scale": 4
+  },
+  "mess_dust": {
+   "frames": 8,
+   "w": 64,
+   "h": 64,
+   "scale": 4
+  },
   "puff_blink_down": {
    "frames": 2,
    "w": 144,

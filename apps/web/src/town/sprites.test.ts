@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { blinkClip, BREATH_MS, BREATH_RISE, breathScale, HOP_LIFT, puffClip } from './sprites';
+import { blinkClip, BREATH_MS, BREATH_RISE, breathScale, HOP_LIFT, messSprite, puffClip } from './sprites';
 
 const have = (...names: string[]) => (n: string) => names.includes(n);
 
@@ -43,5 +43,14 @@ describe('Puff sprite clips', () => {
     expect(breathScale(BREATH_MS)[1]).toBeCloseTo(1);
     // 3.5% of a 28 px Puff is about 1 world pixel: enough to read as breathing on a phone.
     expect(28 * BREATH_RISE).toBeGreaterThanOrEqual(0.95);
+  });
+
+  it('draws clutter with its item art and other mess with spread-out variants', () => {
+    const has = have('item_sock', 'mess_dust'); const frames = () => 8;
+    expect(messSprite('clutter', 5, 'sock', has, frames)).toEqual({ name: 'item_sock', frame: 0 });
+    expect(messSprite('clutter', 5, 'cup', has, frames)).toBeNull();
+    expect(messSprite('stain', 5, undefined, has, frames)).toBeNull();
+    const seen = new Set(Array.from({ length: 40 }, (_, i) => messSprite('dust', i, undefined, has, frames)!.frame));
+    expect(seen.size).toBe(8);
   });
 });

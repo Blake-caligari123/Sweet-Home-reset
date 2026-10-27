@@ -37,3 +37,10 @@ Allowed instead:
 | puff_idle_down (top row of `art/sprites/raw/puff_idle_blink.jpg`, frames 1,1,1,2,2,2; frames 3-4 off-model, unused) | `apps/web/public/sprites/puff_idle_down.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
 | puff_blink_down (bottom row of `art/sprites/raw/puff_idle_blink.jpg`) | `apps/web/public/sprites/puff_blink_down.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
 | burrow | `apps/web/public/areas/burrow.webp` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+| mess_dust (cropped from `art/sprites/raw/mess_dust_items.jpg`, puff clouds) | `apps/web/public/sprites/mess_dust.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (crop excludes the mark; jpg kept) |
+| item_sock (cropped from `art/sprites/raw/mess_dust_items.jpg`) | `apps/web/public/sprites/item_sock.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (crop excludes the mark; jpg kept) |
+| item_pin (cropped from `art/sprites/raw/items_pin_tray.jpg`) | `apps/web/public/sprites/item_pin.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (crop excludes the mark; jpg kept) |
+| item_tray (cropped from `art/sprites/raw/items_pin_tray.jpg`) | `apps/web/public/sprites/item_tray.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (crop excludes the mark; jpg kept) |
+| item_cup (cropped from `art/sprites/raw/items_cup_book.jpg`) | `apps/web/public/sprites/item_cup.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (crop excludes the mark; jpg kept) |
+| item_book (cropped from `art/sprites/raw/items_cup_book.jpg`) | `apps/web/public/sprites/item_book.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (crop excludes the mark; jpg kept) |
+| bakery | `apps/web/public/areas/bakery.webp` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
