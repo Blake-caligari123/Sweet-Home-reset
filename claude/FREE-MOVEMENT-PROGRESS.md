@@ -6,7 +6,7 @@ front layer so Puff walks *behind* tall furniture. Live game is untouched until 
 If a session ends mid-way: read this, check `git log`, carry on from the first unticked step.
 
 ## Design
-- **Nav grid** (`apps/web/src/town/nav.ts`): 4 world-px cells (4×4 per tile). Code-drawn areas build it
+- **Nav grid** (`apps/web/src/town/world/nav.ts`): 4 world-px cells (4×4 per tile). Code-drawn areas build it
   from their tiles; painted areas from `nav.floor` / `nav.blockers` polygons (world px) in the pack.
   Puff's feet get a small clearance. A* (8 directions, no corner cutting) then line-of-sight smoothing.
 - **Puff position**: feet point in world px (`fx`, `fy`); `x`/`y` stay as the tile under the feet for

@@ -1,6 +1,8 @@
 # Sweet Home Reset
 
-Scrub a little room back to sparkling with Puff the dust bunny, then take one gentle real-world reset step. The game is calm, local-first, and never punishes a player for taking time away.
+A cosy top-down town life sim: Puff the dust bunny tidies homes in the town of Hollowfern, befriends neighbours and restores the Glimmerwell fountain, with an optional tiny real chore each day. The game is calm, local-first, and never punishes a player for taking time away.
+
+The town game (GDD v3, `claude/GAME-DESIGN.md`) is being built milestone by milestone on the `/test/` link. The main link still plays the original room game. See `docs/ARCHITECTURE.md` for how the code is laid out.
 
 ## Stack
 
@@ -12,11 +14,18 @@ Scrub a little room back to sparkling with Puff the dust bunny, then take one ge
 ## Repository layout
 
 ```
-apps/web/          PixiJS game shell and bundled starter pack
+apps/web/          The game (PixiJS, DOM UI, PWA, Capacitor)
+  src/town/          the town game (/test/ link), in feature folders
+  src/room/          the original room game (main link), frozen
+  src/shared/        code both use
+  public/            packs, area paintings, sprite strips, icons
 apps/api/          Cloudflare Worker API and D1 migrations
 packages/shared/   Save types and shared domain constants
 config/            Product configuration; prices have one source of truth
-docs/              Architecture and delivery notes
+claude/            Design and build docs (GDD, plans, story, tuning.json)
+art/               Source art (Blake's Grok originals) and previews
+tools/             Asset processing (process_asset.py)
+docs/              Architecture
 ```
 
 ## Quick start
@@ -34,7 +43,7 @@ In another terminal, start the API when needed:
 npm run dev:api
 ```
 
-Run the checks with `npm run typecheck`, `npm test`, and `npm run build`.
+Run the checks with `npm run typecheck`, `npm run lint`, `npm test`, and `npm run build`.
 
 ## Mobile apps (iOS and Android)
 
@@ -60,7 +69,12 @@ The **Mobile builds** workflow tests and builds an unsigned debug APK on every c
 
 ## Status
 
-The game loop is playable on web, iOS and Android builds, fully offline and signed out:
+**Town game (`/test/`):**
+- **Milestone 1:** the burrow, yard, Town Square and Hazel's bakery; tap-to-walk with free movement; mess and four tools; colour coming back; Fluff, the day clock and bed; onboarding; saves.
+- **Milestone 2, in progress:** Hazel, Bea and Pip with daily routines, talking, gifts, hearts, heart events and the Friends page, plus the notice board and jobs.
+- **Progress tracking:** `claude/M2-PLAN.md`.
+
+**Room game (main link, the original):** playable on web, iOS and Android builds, fully offline and signed out:
 
 - **Three starter rooms** (Kitchen Nook, Living Room, Bedroom) as pack data in `apps/web/public/packs-bundled/starter-home/2/pack.json`. The next room opens after the one before it, or early through real chores.
 - **Cleaning brings the colour back:** a messy room starts drained and dull, with stains, cobwebs and dust. Scrubbing reveals the bright room underneath, and the whole room brightens a step at each stage.
@@ -71,7 +85,7 @@ The game loop is playable on web, iOS and Android builds, fully offline and sign
 - **Real-chore loop:** a matching chore after each room (Do it for real / Not now), honour ticks, 10 Sparkles + 1 Energy each, 5 rewarded a day. Energy buys the optional Big sponge; scrubbing never needs it.
 - **Puff:** frame-based 48 px pixel sprite (idle, blink, hop, sneeze, spin, walk in 4 directions) who follows your brush and wanders the floor.
 - **Shop** with fixed Sparkle prices for room decor and Puff outfits, **Cosy Days** that never drop, welcome-back party, settings for sound, haptics, reduced motion and a big brush.
-- Pixel art is drawn in code with the 24-colour palette (`apps/web/src/art/palette.ts`, copied from the design docs' `palette24.json`) on the 180×390 grid, scaled by whole device pixels so it stays crisp. Sounds are synthesised with WebAudio.
+- Pixel art is drawn in code with the 24-colour palette (`apps/web/src/shared/art/palette.ts`, copied from the design docs' `palette24.json`) on the 180×390 grid, scaled by whole device pixels so it stays crisp. Sounds are synthesised with WebAudio.
 
 Controls: drag to scrub and to move clutter, tap dust bunnies. On a keyboard, arrow keys or WASD move the brush and Space or Enter scrubs, picks up and drops. Escape (or Android back) pauses.
 
