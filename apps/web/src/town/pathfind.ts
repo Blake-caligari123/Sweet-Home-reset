@@ -68,6 +68,24 @@ export function findPath(grid: Grid, start: Tile, goal: Tile): Tile[] | null {
   return null;
 }
 
+export interface Route { from: Tile; seg: number; path: Tile[] }
+
+/**
+ * A new path for a walker that may be part-way between `from` and `next` (`seg` of the way).
+ * Mid-step it either carries on through `next` or turns back through `from`, whichever is
+ * shorter, and keeps the drawn position the same, so a new tap never snaps Puff backwards.
+ */
+export function retarget(grid: Grid, from: Tile, next: Tile | null, seg: number, goal: Tile): Route | null {
+  if (!next || seg <= 0) {
+    const path = findPath(grid, from, goal);
+    return path && { from, seg: 0, path };
+  }
+  const ahead = findPath(grid, next, goal);
+  const back = findPath(grid, from, goal);
+  if (ahead && (!back || 1 - seg + ahead.length <= seg + back.length)) return { from, seg, path: [next, ...ahead] };
+  return back && { from: next, seg: 1 - seg, path: [from, ...back] };
+}
+
 /** Every tile reachable from start (flood fill), for picking the nearest reachable target. */
 export function reachable(grid: Grid, start: Tile) {
   const seen = new Uint8Array(grid.w * grid.h);

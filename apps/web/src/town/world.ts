@@ -4,6 +4,7 @@ import { PixelCanvas } from '../art/pixel-canvas';
 import { Particles } from '../scenes/particles';
 import { toCanvas, toTexture } from '../scenes/textures';
 import { drawCrop, drawMess, drawPuff24, drawToolMini, T, type Dir } from './art';
+import { Ambience, drawTapRing, vignetteTexture } from './ambience';
 import type { Area } from './area';
 import { bakeArea } from './bake';
 import { FULL_COLOUR, type AreaMess } from './mess';
@@ -13,6 +14,7 @@ import { RIPPLE_MS } from './tuning';
 // follows the colour array, mess sprites, actors sorted by foot y, effects and the time tint.
 // The logical view is about 11 tiles wide, scaled by whole device pixels.
 export const VIEW_TILES = 11;
+const MARKER_MS = 450;
 
 const messTextures = new Map<string, Texture>();
 function messTexture(type: string, variant: number, item?: string) {
@@ -60,6 +62,9 @@ export class World {
   private tint = new Graphics();
   private marker = new Graphics();
   private highlight = new Graphics();
+  private vignette = new Sprite(vignetteTexture());
+  readonly ambience = new Ambience();
+  private markerAt = { x: 0, y: 0 };
   private puff = new Sprite();
   private puffShadow = new Graphics();
   private toolSprite = new Sprite();
@@ -84,8 +89,9 @@ export class World {
     this.actors.sortableChildren = true;
     this.puff.anchor.set(0.5, 1);
     this.toolSprite.anchor.set(0.5);
-    for (const c of [this.base, this.drained, this.messLayer, this.cropLayer, this.actors, this.particles.container, this.tint, this.marker, this.highlight]) c.eventMode = 'none';
-    this.stage.addChild(this.base, this.drained, this.cropLayer, this.messLayer, this.highlight, this.actors, this.particles.container, this.marker, this.tint);
+    for (const c of [this.base, this.drained, this.messLayer, this.cropLayer, this.actors, this.particles.container, this.tint, this.marker, this.highlight, this.vignette]) c.eventMode = 'none';
+    this.stage.addChild(this.base, this.drained, this.cropLayer, this.messLayer, this.highlight, this.marker, this.actors, this.particles.container, this.ambience.container, this.tint, this.ambience.lights);
+    this.root.addChild(this.vignette);
     this.puffShadow.ellipse(0, 0, 7, 2.5).fill({ color: P.ink, alpha: 0.28 });
     this.actors.addChild(this.puffShadow, this.puff, this.toolSprite);
   }
@@ -112,6 +118,7 @@ export class World {
     this.cropLayer.removeChildren().forEach((c) => c.destroy());
     this.cropSprites.clear();
     this.particles.clear();
+    this.ambience.load(area);
     this.resize();
   }
 
@@ -178,12 +185,14 @@ export class World {
   }
 
   showMarker(x: number, y: number) {
-    this.markerMs = 400;
-    this.marker.clear().rect(x * T + 1, y * T + 1, T - 2, T - 2).stroke({ width: 1, color: P.white, alpha: 0.9 });
+    this.markerMs = MARKER_MS;
+    this.markerAt = { x: x * T + T / 2, y: y * T + T - 4 };
+    drawTapRing(this.marker, this.markerAt.x, this.markerAt.y, 0);
   }
 
   /** Time-of-day tint over the world only (never the HUD). */
   setTint(minutes: number) {
+    this.ambience.minutes = minutes;
     const h = minutes / 60;
     const [colour, alpha] = h < 8 ? [P.butter, 0.14] : h < 16 ? [P.white, 0] : h < 19 ? [P.peach, 0.16] : h < 21 ? [P.peachShade, 0.22] : [P.blueShade, 0.34];
     this.tint.clear();
@@ -206,6 +215,7 @@ export class World {
     this.stage.scale.set(this.scale);
     this.backdrop.clear().rect(0, 0, width, height).fill(this.area?.pack.edge ?? P.ink);
     this.root.hitArea = this.app.screen;
+    this.vignette.width = width; this.vignette.height = height;
     this.follow(this.cam.x, this.cam.y, true);
   }
 
@@ -255,7 +265,13 @@ export class World {
 
   update(dt: number) {
     this.particles.update(dt);
-    if (this.markerMs > 0) { this.markerMs -= dt; if (this.markerMs <= 0) this.marker.clear(); }
+    this.ambience.reducedMotion = this.reducedMotion;
+    this.ambience.update(dt);
+    if (this.markerMs > 0) {
+      this.markerMs -= dt;
+      if (this.markerMs <= 0) this.marker.clear();
+      else drawTapRing(this.marker, this.markerAt.x, this.markerAt.y, 1 - this.markerMs / MARKER_MS);
+    }
     // Colour ripple: step the shown levels toward the real ones over RIPPLE_MS.
     if (!this.mess || this.reducedMotion) return;
     const step = (FULL_COLOUR * dt) / RIPPLE_MS;

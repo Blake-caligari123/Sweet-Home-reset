@@ -321,7 +321,8 @@
      "x": 9,
      "y": 1,
      "w": 6,
-     "h": 4
+     "h": 4,
+     "doorX": 12
     },
     {
      "type": "mailbox",
@@ -383,7 +384,7 @@
     {
      "x": 22,
      "y": 6,
-     "text": "Town Square this way \u2192"
+     "text": "Town Square this way →"
     }
    ],
    "doors": [
@@ -608,7 +609,7 @@
     {
      "x": 22,
      "y": 6,
-     "text": "A note on the bakery door: \u201cBack soon, petal! The kitchen's in a state. Any help is lovely. \u2014 Hazel\u201d"
+     "text": "A note on the bakery door: “Back soon, petal! The kitchen's in a state. Any help is lovely. — Hazel”"
     }
    ],
    "doors": [

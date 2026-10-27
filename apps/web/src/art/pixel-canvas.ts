@@ -38,6 +38,36 @@ export class PixelCanvas {
     for (let j = 0; j < h; j += 1) for (let i = 0; i < w; i += 1) this.set(x + i, y + j, colour, alpha);
   }
 
+  /** Scale an opaque pixel's colour: k < 1 for shadow and occlusion, k > 1 for light. */
+  mul(x: number, y: number, k: number) {
+    x = Math.round(x); y = Math.round(y);
+    if (!this.alpha(x, y)) return;
+    const i = (y * this.width + x) * 4;
+    for (let c = 0; c < 3; c += 1) this.data[i + c] = Math.min(255, Math.round(this.data[i + c] * k));
+  }
+
+  /** Blend a colour over an opaque pixel at strength a (0–1): highlights and glazes. */
+  mix(x: number, y: number, colour: string, a: number) {
+    x = Math.round(x); y = Math.round(y);
+    if (!this.alpha(x, y)) return;
+    const [r, g, b] = rgb(colour);
+    const i = (y * this.width + x) * 4;
+    this.data[i] = Math.round(this.data[i] * (1 - a) + r * a);
+    this.data[i + 1] = Math.round(this.data[i + 1] * (1 - a) + g * a);
+    this.data[i + 2] = Math.round(this.data[i + 2] * (1 - a) + b * a);
+  }
+
+  /** Soft elliptical shadow: darkest in the middle, fading to the rim. */
+  shadowEllipse(cx: number, cy: number, rx: number, ry: number, k = 0.78) {
+    for (let y = Math.floor(cy - ry); y <= Math.ceil(cy + ry); y += 1) {
+      for (let x = Math.floor(cx - rx); x <= Math.ceil(cx + rx); x += 1) {
+        const dx = (x - cx) / (rx + 0.5); const dy = (y - cy) / (ry + 0.5);
+        const d = dx * dx + dy * dy;
+        if (d <= 1) this.mul(x, y, d < 0.45 ? k : d < 0.8 ? (k + 1) / 2 + 0.02 : 0.95);
+      }
+    }
+  }
+
   hline(x: number, y: number, w: number, colour: string) { this.rect(x, y, w, 1, colour); }
   vline(x: number, y: number, h: number, colour: string) { this.rect(x, y, 1, h, colour); }
 

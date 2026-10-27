@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { findPath, pathToward, standTiles, type Grid } from './pathfind';
+import { findPath, pathToward, retarget, standTiles, type Grid } from './pathfind';
 
 function grid(rows: string[]): Grid {
   return { w: rows[0].length, h: rows.length, walkable: (x, y) => rows[y]?.[x] === '.' };
@@ -45,5 +45,26 @@ describe('pathfinder', () => {
     const t0 = performance.now();
     for (let i = 0; i < 50; i += 1) findPath(g, { x: 0, y: 0 }, { x: 39, y: 29 });
     expect((performance.now() - t0) / 50).toBeLessThan(2);
+  });
+
+  it('re-targets mid-step without snapping back to the last tile', () => {
+    const g = grid(['.....', '.....']);
+    // Puff is 70% of the way from (1,0) to (2,0) and the new goal is further right: carry on.
+    const ahead = retarget(g, { x: 1, y: 0 }, { x: 2, y: 0 }, 0.7, { x: 4, y: 0 })!;
+    expect(ahead).toEqual({ from: { x: 1, y: 0 }, seg: 0.7, path: [{ x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 }] });
+    // New goal is behind: turn around from where Puff is drawn, keeping the same on-screen spot.
+    const back = retarget(g, { x: 1, y: 0 }, { x: 2, y: 0 }, 0.7, { x: 0, y: 0 })!;
+    expect(back.from).toEqual({ x: 2, y: 0 });
+    expect(back.seg).toBeCloseTo(0.3);
+    expect(back.path).toEqual([{ x: 1, y: 0 }, { x: 0, y: 0 }]);
+    const drawnX = (r: typeof back) => r.from.x + (r.path[0].x - r.from.x) * r.seg;
+    expect(drawnX(back)).toBeCloseTo(1.7);
+    expect(drawnX(ahead)).toBeCloseTo(1.7);
+  });
+
+  it('re-targets from a standstill as a plain path', () => {
+    const g = grid(['...']);
+    expect(retarget(g, { x: 0, y: 0 }, null, 0, { x: 2, y: 0 })).toEqual({ from: { x: 0, y: 0 }, seg: 0, path: [{ x: 1, y: 0 }, { x: 2, y: 0 }] });
+    expect(retarget(grid(['.#.']), { x: 0, y: 0 }, null, 0, { x: 2, y: 0 })).toBeNull();
   });
 });
