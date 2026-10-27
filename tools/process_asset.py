@@ -408,6 +408,9 @@ SPILL_HEX = "#5A4038"  # the dark outline brown of the AI character art
 def decontaminate(rgba, bg):
     """Remove the background colour bleeding into soft edges (chroma-key unmix): c = (obs - (1-a)·bg) / a."""
     a = np.asarray(rgba).astype(np.float32)
+    # Background enclosed by the art (a gap between the feet) never touched the border, so the
+    # flood fill kept it: clear anything that is plainly the key colour.
+    a[..., 3][np.abs(a[..., :3] - np.asarray(bg, np.float32)).sum(-1) < 90] = 0
     al = a[..., 3:4] / 255.0
     rgb = (a[..., :3] - (1 - al) * np.asarray(bg, np.float32)) / np.maximum(al, 1e-3)
     a[..., :3] = np.where(al > 0, np.clip(rgb, 0, 255), 0)
@@ -571,6 +574,8 @@ def run_sheet(a):
     global BG_REF
     names = a.rows.split(",") if a.rows else [a.asset]
     for name in names:
+        if name == "-":
+            continue
         if not re.fullmatch(r"[a-z0-9]+(_[a-z0-9]+)*", name):
             sys.exit(f"Sheet names are lowercase snake_case, got '{name}'")
     fw, fh = map(int, a.frame.lower().split("x"))
@@ -594,16 +599,25 @@ def run_sheet(a):
             rows.append(got)
     if len(raws) > 1:
         rows = [[f for row in rows for f in row]]
+    # "-" in --rows skips that row (not written, not part of the shared scale).
+    keep = [k for k, n in enumerate(names) if n != "-"]
+    names = [names[k] for k in keep]; rows = [rows[k] for k in keep]
     for row in rows:
         if len(row) != a.sheet:
             sys.exit(f"Got {len(row)} frames in a sheet, expected {a.sheet}")
+    if a.order:
+        pick = [int(v) for v in a.order.split(",")]
+        if not all(1 <= v <= a.sheet for v in pick):
+            sys.exit(f"--order uses frames 1..{a.sheet}, got {a.order}")
+        rows = [[row[v - 1] for v in pick] for row in rows]
+    frames_out = len(rows[0])
     if not a.no_ground_clean:
         rows = [[clean_ground(f) for f in row] for row in rows]
     os.makedirs(a.sprites_dir, exist_ok=True); os.makedirs(a.out, exist_ok=True)
     if a.hires:
         everything, report = hires_sheet([f for row in rows for f in row], fw, fh, a.hires)
         cw = fw * a.hires
-        strips = [everything.crop((k * a.sheet * cw, 0, (k + 1) * a.sheet * cw, everything.height)) for k in range(len(rows))]
+        strips = [everything.crop((k * frames_out * cw, 0, (k + 1) * frames_out * cw, everything.height)) for k in range(len(rows))]
     else:
         strips, report = [], []
         for row in rows:
@@ -611,12 +625,12 @@ def run_sheet(a):
     for name, strip in zip(names, strips):
         dst = safe_path(os.path.join(a.sprites_dir, name + ".png")); strip.save(dst, optimize=True)
         if a.hires:  # the strip is already full size: it is its own preview
-            size = (fw * a.hires, fh * a.hires); print(f"wrote {dst} ({strip.width}x{strip.height}, {a.sheet} frames)")
+            size = (fw * a.hires, fh * a.hires); print(f"wrote {dst} ({strip.width}x{strip.height}, {frames_out} frames)")
         else:
             preview = safe_path(os.path.join(a.out, name + "_x4.png"))
             strip.resize((strip.width * PIXEL_SCALE, strip.height * PIXEL_SCALE), Image.NEAREST).save(preview)
-            size = (fw, fh); print(f"wrote {dst} ({strip.width}x{strip.height}, {a.sheet} frames) and preview {preview}")
-        print(f"manifest: {update_sprite_manifest(a.sprites_dir, name, a.sheet, *size, scale=a.hires or 1)}")
+            size = (fw, fh); print(f"wrote {dst} ({strip.width}x{strip.height}, {frames_out} frames) and preview {preview}")
+        print(f"manifest: {update_sprite_manifest(a.sprites_dir, name, frames_out, *size, scale=a.hires or 1)}")
         if a.log:
             spec = dict(stem=name, file=os.path.relpath(dst, ROOT), prompt_file="claude/SPRITE-SHEETS.md")
             print(log_licence(spec, dst, a.keep_watermark))
@@ -647,7 +661,8 @@ def main():
                    help="sprite sheet mode: N frames -> one-row strip at --frame size in apps/web/public/sprites/ (see claude/SPRITE-SHEETS.md)")
     p.add_argument("--frame", default="24x24", help="sheet cell size WxH (default 24x24, the world Puff)")
     p.add_argument("--grid", help="sheet: split the source into even COLSxROWS cells instead of finding subjects")
-    p.add_argument("--rows", help="sheet: the source has one sheet per row; comma list of their names, top to bottom")
+    p.add_argument("--rows", help="sheet: the source has one sheet per row; comma list of their names, top to bottom ('-' skips a row)")
+    p.add_argument("--order", help="sheet: which source frames to keep and in what order, 1-based, e.g. 1,3,5,6 (repeats allowed)")
     p.add_argument("--hires", type=int, metavar="S", help="sheet: keep the art's own colours at S texture px per world px (no palette or pixel shrink)")
     p.add_argument("--sprites-dir", default=SPRITES_PUBLIC, help="sheet: engine output dir (default apps/web/public/sprites)")
     a = p.parse_args()

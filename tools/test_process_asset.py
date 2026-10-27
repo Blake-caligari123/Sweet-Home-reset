@@ -105,6 +105,23 @@ class SheetTest(unittest.TestCase):
         out, _ = pa.remove_watermark(img)
         self.assertTrue((np.asarray(out)[125:180, 335:355] == 120).all(), "feet untouched")
 
+    def test_order_picks_and_reorders_frames(self):
+        src = os.path.join(tempfile.mkdtemp(), "sheet.png"); bunny_sheet().save(src)
+        tmp, out = self.run_cli(src, "--order", "1,3,5,6", "--hires", "6", "--frame", "24x28")
+        self.assertEqual(out.returncode, 0, out.stderr)
+        manifest = json.load(open(os.path.join(tmp, "sprites", "manifest.json")))
+        self.assertEqual(manifest["sheets"]["test_bunny_walk"], {"frames": 4, "w": 144, "h": 168, "scale": 6})
+        self.assertEqual(Image.open(os.path.join(tmp, "sprites", "test_bunny_walk.png")).size, (576, 168))
+        _, bad = self.run_cli(src, "--order", "1,7")
+        self.assertNotEqual(bad.returncode, 0)
+
+    def test_key_colour_enclosed_by_the_art_is_cleared(self):
+        img = Image.new("RGBA", (40, 40), (90, 90, 90, 255))
+        ImageDraw.Draw(img).rectangle((15, 25, 20, 39), fill=(240, 0, 120, 255))  # gap between the feet
+        out = np.asarray(pa.decontaminate(img, (240, 0, 120)))
+        self.assertTrue((out[26:39, 16:20, 3] == 0).all())
+        self.assertTrue((out[5:20, 5:30, 3] == 255).all())
+
     def test_wrong_frame_count_is_a_clear_error(self):
         src = os.path.join(tempfile.mkdtemp(), "sheet.png"); bunny_sheet(n=5).save(src)
         _, out = self.run_cli(src)
