@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "starter-home",
+  "version": "1",
+  "title": "First Little Resets",
+  "tier": "free",
+  "rooms": [
+    { "id": "kitchen-nook", "title": "Kitchen Nook", "tasks": ["scrub", "wipe", "pop"] }
+  ]
+}

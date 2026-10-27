@@ -1,0 +1,15 @@
+{
+  "name": "@sweet-home-reset/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "wrangler deploy --dry-run",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --max-warnings=0"
+  },
+  "dependencies": { "hono": "^4.6.0" },
+  "devDependencies": { "@cloudflare/workers-types": "^4.20261001.0", "typescript": "^5.7.0", "vitest": "^3.0.0", "wrangler": "^4.0.0" }
+}

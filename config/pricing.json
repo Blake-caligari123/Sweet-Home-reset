@@ -1,0 +1,9 @@
+{
+  "currency": "AUD",
+  "monthly": 7.99,
+  "yearly": 44.99,
+  "foundingFirstYear": 34.99,
+  "foundingWebOnly": true,
+  "trialDays": 7,
+  "renewalCopy": "Renews automatically at {monthly}/month (or {yearly}/year) until you cancel. Cancel anytime in the app."
+}
