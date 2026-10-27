@@ -12,6 +12,8 @@ export interface AreaPack {
   spawn: { x: number; y: number }; restoreReward?: number; signs?: { x: number; y: number; text: string }[];
   /** A painted background (Blake's art) instead of code-drawn tiles: `scale` painting px per world px. */
   background?: { src: string; scale: number };
+  /** Free-movement outlines traced over a painting (world px polygons): where feet may go, and furniture. */
+  nav?: { floor: number[][]; blockers: number[][] };
 }
 
 export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string }> }

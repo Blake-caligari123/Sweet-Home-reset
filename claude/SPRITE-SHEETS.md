@@ -57,6 +57,7 @@ Decided 27 Oct 2026 (Blake): areas are Grok paintings too, so the whole game loo
 1. Save the painting as `art/areas/raw/<area>.jpg`.
 2. `tools/.venv/bin/python tools/process_asset.py <area> --background COLSxROWS --log` (64 painting px per tile, so a 1792×1008 painting is 28×16 tiles). It removes the Grok mark, makes the ground outside the building transparent (the game fills it with the area's `edge` colour and never greys it), pads to the exact grid and writes `apps/web/public/areas/<area>.webp`.
 3. In the pack, give the area `"background": { "src": "areas/<area>.webp", "scale": 4 }`, set `edge` to the colour the tool prints, and trace the map over the painting (walls `#`, floor, rugs `,` for the onboarding, doors). Props stay in the pack as invisible blockers and for their actions (bed, basket, shelf, sink); lamps also place the night glow.
+   Then trace free movement as `"nav": { "floor": [...], "blockers": [...] }` (world-px polygons = painting px ÷ 4; see the burrow): the floor where Puff's feet may go, and one blocker per object covering its **whole painted shape**, so Puff never overlaps it from behind. Check it with an overlay of the open cells on the painting.
 4. The grey "messy" version is made in code from the painting, per tile; mess is drawn by the game on top.
-Later: furniture tops and tree canopies cut into a front layer so Puff can walk behind them.
+Puff moves freely (no grid) on a fine 4 px walking grid built from those outlines (`apps/web/src/town/nav.ts`). Still to build, with the yard and square: a front layer for tree canopies and shop roofs, so Puff can walk behind them (see `claude/FREE-MOVEMENT-PROGRESS.md`).
 

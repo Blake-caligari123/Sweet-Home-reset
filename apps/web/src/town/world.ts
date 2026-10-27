@@ -51,6 +51,7 @@ function cropTexture(stage: number, watered: boolean) {
   return t;
 }
 
+/** x, y: the bottom-centre of Puff's sprite in world px. */
 export interface PuffView { x: number; y: number; dir: Dir; pose: 'walk' | 'idle' | 'swing' | 'sleep' | 'hop'; tool: string | null }
 
 export class World {
@@ -197,9 +198,10 @@ export class World {
     for (const t of tiles) this.highlight.rect(t.x * T, t.y * T, T, T).stroke({ width: 1, color: P.white, alpha: 0.9 });
   }
 
+  /** Tap ring at a world point. */
   showMarker(x: number, y: number) {
     this.markerMs = MARKER_MS;
-    this.markerAt = { x: x * T + T / 2, y: y * T + T - 4 };
+    this.markerAt = { x, y };
     drawTapRing(this.marker, this.markerAt.x, this.markerAt.y, 0);
   }
 
@@ -247,9 +249,10 @@ export class World {
   }
 
   /** Screen point → tile. */
-  tileAt(sx: number, sy: number) {
+  /** Screen point → world px. */
+  toWorld(sx: number, sy: number) {
     const p = this.stage.toLocal({ x: sx, y: sy });
-    return { x: Math.floor(p.x / T), y: Math.floor(p.y / T) };
+    return { x: p.x, y: p.y };
   }
 
   /** World pixel → screen point, for the speech bubble. */
@@ -284,7 +287,7 @@ export class World {
       this.puff.texture = puffTexture(v.dir, frame, v.pose === 'swing' ? 'idle' : v.pose);
       this.puff.scale.set(1, 1);
     }
-    const px = Math.round(v.x * T + T / 2); const py = Math.round(v.y * T + T - 1);
+    const px = Math.round(v.x); const py = Math.round(v.y);
     this.puff.position.set(px, py - lift);
     this.puff.zIndex = py;
     this.puffShadow.position.set(px, py - 1);

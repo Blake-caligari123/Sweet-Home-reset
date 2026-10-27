@@ -13,7 +13,8 @@ import { Fluff } from './fluff';
 import { dialogue, Hud, itemIcon, TOOL_NAMES } from './hud';
 import { AreaMess, FULL_COLOUR, TOOL_FOR, type MessType, type ToolId } from './mess';
 import { Onboarding, type OnboardEvent } from './onboarding';
-import { retarget, standTiles, type Route, type Tile } from './pathfind';
+import { FEET, navFor, REACH, type NavGrid, type Pt } from './nav';
+import { standTiles, type Tile } from './pathfind';
 import { eraseTown, stamp, writeTown, type TownSave } from './save';
 import { cropDays, PUTAWAY_SPARKLES, SWING_MS, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './tuning';
 import type { SpriteBank } from './sprites';
@@ -26,6 +27,9 @@ type Target =
   | { kind: 'soil'; x: number; y: number }
   | { kind: 'door'; x: number; y: number }
   | { kind: 'prop'; x: number; y: number; action: string; accepts?: string[]; text?: string };
+
+/** The sprite's bottom edge is drawn this far below the feet point. */
+const FEET_TO_BASE = 5;
 
 interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
 type Settings = TownSave['settings'];
@@ -54,7 +58,9 @@ export class TownGame {
   private flags: string[] = [];
   private onboarding = new Onboarding();
   private chores = { day: '', keys: [] as string[], total: 0 };
-  private puff = { x: 3, y: 4, dir: 'down' as Dir, pose: 'idle' as 'walk' | 'idle' | 'swing' | 'sleep' | 'hop', path: [] as Tile[], seg: 0, action: null as Target | null, repeat: 0, swingMs: 0, hopMs: 0 };
+  /** x, y: the tile under Puff's feet (mess, doors, saves). fx, fy: the feet in world px; path: waypoints in world px. */
+  private puff = { x: 3, y: 4, fx: 3 * T + T / 2, fy: 4 * T + FEET, dir: 'down' as Dir, pose: 'idle' as 'walk' | 'idle' | 'swing' | 'sleep' | 'hop', path: [] as Pt[], action: null as Target | null, repeat: 0, swingMs: 0, hopMs: 0 };
+  private navs = new Map<string, NavGrid>();
   private modal = 0;
   private fading = false;
   private bubbleMs = 0;
@@ -86,10 +92,11 @@ export class TownGame {
     this.fade = h('div', { class: 'fade', 'aria-hidden': 'true' });
     ui.append(this.fade);
     this.deviceId = (saved?.deviceId as string) ?? (crypto.randomUUID?.() ?? String(Math.random()).slice(2));
-    if (saved) this.restore(saved);
+    let feet: Pt | undefined;
+    if (saved) feet = this.restore(saved);
     else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
     this.world.reducedMotion = settings.reducedMotion;
-    this.enterArea(this.areaId, this.puff.x, this.puff.y, false);
+    this.enterArea(this.areaId, this.puff.x, this.puff.y, false, feet);
     this.bindInput();
     app.ticker.add((t) => this.update(t.deltaMS));
     window.addEventListener('resize', () => { app.resize(); this.world.resize(); });
@@ -104,12 +111,16 @@ export class TownGame {
         mess: () => { const m = this.mess; const out: { x: number; y: number; type: string; hp: number; item?: string }[] = []; for (let i = 0; i < m.type.length; i += 1) if (m.type[i]) out.push({ x: i % m.w, y: Math.floor(i / m.w), type: m.typeAt(i % m.w, Math.floor(i / m.w)), hp: m.hp[i], item: m.item[i] }); return out; },
         props: () => this.area.pack.props.filter((p) => p.action).map((p) => ({ type: p.type, x: p.x, y: p.y, action: p.action, accepts: p.accepts })),
         doors: () => this.area.pack.doors.filter((d) => !d.closedText),
-        tapTile: (x: number, y: number) => this.tap({ x, y }),
+        tapTile: (x: number, y: number) => this.tap((x + 0.5) * T, (y + 0.5) * T),
+        tapPoint: (x: number, y: number) => this.tap(x, y),
+        feet: () => ({ x: this.puff.fx, y: this.puff.fy }),
+        openAt: (x: number, y: number) => this.nav.openAt(x, y),
         busy: () => this.puff.path.length > 0 || this.puff.swingMs > 0 || this.modal > 0 || this.fading,
         /** Jump to an area in full colour, for screenshots. */
         visit: (id: string, x: number, y: number, colour = true) => { if (colour) this.messFor(id).colour.fill(FULL_COLOUR); this.enterArea(id, x, y, false); },
         puffSprite: () => ({ ...this.world.puffDebug, pose: this.puff.pose, dir: this.puff.dir }),
-        drawn: () => { const p = this.puff; const n = p.path[0]; return { x: n ? p.x + (n.x - p.x) * p.seg : p.x, y: n ? p.y + (n.y - p.y) * p.seg : p.y }; }
+        /** Where Puff is drawn, in tile units (the tile's own coords when standing at its usual spot). */
+        drawn: () => ({ x: this.puff.fx / T - 0.5, y: (this.puff.fy + FEET_TO_BASE + 1) / T - 1 })
       };
     }
   }
@@ -130,15 +141,23 @@ export class TownGame {
   }
 
   private get area() { return this.areas.get(this.areaId)!; }
+  /** The fine walking grid for the current area: traced polygons for painted areas, else tiles. */
+  private get nav() {
+    let g = this.navs.get(this.areaId);
+    if (!g) { g = navFor(this.area); this.navs.set(this.areaId, g); }
+    return g;
+  }
   private get mess() { return this.messFor(this.areaId); }
 
-  private enterArea(id: string, x: number, y: number, announce = true) {
+  private enterArea(id: string, x: number, y: number, announce = true, feet?: Pt) {
     this.areaId = id;
-    Object.assign(this.puff, { x, y, path: [], seg: 0, action: null, pose: 'idle' });
+    // Stand at the tile's usual spot (or a saved exact spot), nudged onto open floor if needed.
+    const spot = this.nav.nearestOpen(feet && this.nav.openAt(feet.x, feet.y) ? feet : { x: x * T + T / 2, y: y * T + FEET }) ?? { x: x * T + T / 2, y: y * T + FEET };
+    Object.assign(this.puff, { fx: spot.x, fy: spot.y, x: Math.floor(spot.x / T), y: Math.floor(spot.y / T), path: [], action: null, pose: 'idle' });
     this.world.load(this.area, this.mess);
     this.world.setCrops(this.cropsHere());
     this.world.setTint(this.clock.state.minutes);
-    this.world.follow((x + 0.5) * T, (y + 0.5) * T, true);
+    this.world.follow(spot.x, spot.y - 8, true);
     this.updateHighlight();
     if (announce) { this.hud.announce(this.area.pack.name); this.onboard({ type: 'entered', area: id }); }
   }
@@ -163,7 +182,8 @@ export class TownGame {
       const d = this.down; this.down = null;
       if (!d || Math.hypot(e.global.x - d.x, e.global.y - d.y) > 14) return;
       this.sound.unlock();
-      this.tap(this.world.tileAt(e.global.x, e.global.y));
+      const p = this.world.toWorld(e.global.x, e.global.y);
+      this.tap(p.x, p.y);
     });
     window.addEventListener('keydown', (e) => this.key(e));
   }
@@ -177,15 +197,15 @@ export class TownGame {
     if (m) {
       e.preventDefault();
       if (this.puff.path.length || this.puff.swingMs > 0) return;
-      const nx = this.puff.x + m[0]; const ny = this.puff.y + m[1];
-      this.puff.dir = m[2];
-      if (this.area.walkable(nx, ny)) { this.puff.path = [{ x: nx, y: ny }]; this.puff.seg = 0; }
+      const p = this.puff; const to = { x: p.fx + m[0] * T, y: p.fy + m[1] * T };
+      p.dir = m[2];
+      if (this.nav.clear({ x: p.fx, y: p.fy }, to)) p.path = [to];
       return;
     }
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
       const d = { down: [0, 1], up: [0, -1], left: [-1, 0], right: [1, 0] }[this.puff.dir];
-      this.tap({ x: this.puff.x + d[0], y: this.puff.y + d[1] });
+      this.tap((this.puff.x + d[0] + 0.5) * T, (this.puff.y + d[1] + 0.5) * T);
       return;
     }
     const n = Number(e.key);
@@ -212,77 +232,57 @@ export class TownGame {
     return { kind: 'walk', x, y };
   }
 
-  private tap(tile: Tile) {
+  /** A tap at a world point: walk there, or walk within reach of what's there and use it. */
+  private tap(px: number, py: number) {
+    const tile = { x: Math.floor(px / T), y: Math.floor(py / T) };
     if (this.modal || this.fading || !this.area.inside(tile.x, tile.y)) return;
     const target = this.targetAt(tile.x, tile.y);
-    this.world.showMarker(tile.x, tile.y);
+    this.world.showMarker(px, py);
+    const p = this.puff; const feet = { x: p.fx, y: p.fy };
     // Tapping the thing Puff is already working on queues another go.
-    if (this.puff.swingMs > 0 && this.puff.action && target.kind === this.puff.action.kind && target.x === this.puff.action.x && target.y === this.puff.action.y) {
-      this.puff.repeat = Math.min(3, this.puff.repeat + 1);
+    if (p.swingMs > 0 && p.action && target.kind === p.action.kind && target.x === p.action.x && target.y === p.action.y) {
+      p.repeat = Math.min(3, p.repeat + 1);
       return;
     }
-    if (target.kind === 'walk' || target.kind === 'door') {
-      this.walkTo(tile, target.kind === 'door' ? target : null);
-      return;
-    }
-    // Act from a free tile beside the target (any tile of a multi-tile prop).
-    const goals = this.standFor(target);
-    if (goals.some((g) => g.x === this.puff.x && g.y === this.puff.y) && !this.puff.path.length) { this.act(target); return; }
-    let best: Route | null = null;
-    for (const g of goals) {
-      const r = this.route(g);
-      if (r && (!best || r.path.length - r.seg < best.path.length - best.seg)) best = r;
-    }
-    if (!best) { this.say('Hmm, can\'t reach that.'); return; }
-    this.go(best, target);
+    if (target.kind === 'walk') { this.go(this.nav.findPathTo(feet, { x: px, y: py }), null); return; }
+    if (target.kind === 'door') { this.go(this.nav.findPathNear(feet, this.rectOf(target), 0), target); return; } // feet inside the door tile
+    // Act from wherever is close enough to the target (any tile of a multi-tile prop).
+    const r = this.rectOf(target);
+    if (!p.path.length && this.distTo(r) <= REACH) { this.act(target); return; }
+    const path = this.nav.findPathNear(feet, r, REACH);
+    if (!path) { this.say('Hmm, can\'t reach that.'); return; }
+    this.go(path, target);
   }
 
-  /** A path to `goal` from wherever Puff is drawn right now, even part-way between two tiles. */
-  private route(goal: Tile) {
-    const p = this.puff;
-    return retarget(this.area, { x: p.x, y: p.y }, p.path[0] ?? null, p.seg, goal);
+  private go(path: Pt[] | null, action: Target | null) {
+    if (!path) return;
+    this.puff.path = path; this.puff.action = action;
   }
 
-  private go(r: Route, action: Target | null) {
-    Object.assign(this.puff, { x: r.from.x, y: r.from.y, seg: r.seg, path: r.path, action });
+  /** The world-px rect of a target: its tile, or the whole prop. */
+  private rectOf(t: Target) {
+    const prop = t.kind === 'prop' ? this.area.propAt(t.x, t.y) : null;
+    const x = prop ? prop.x : t.x; const y = prop ? prop.y : t.y;
+    return { x0: x * T, y0: y * T, x1: (x + (prop?.w ?? 1)) * T, y1: (y + (prop?.h ?? 1)) * T };
   }
 
-  private standFor(t: Target): Tile[] {
-    const tiles: Tile[] = [{ x: t.x, y: t.y }];
-    if (t.kind === 'prop') {
-      const p = this.area.propAt(t.x, t.y)!;
-      for (let dy = 0; dy < (p.h ?? 1); dy += 1) for (let dx = 0; dx < (p.w ?? 1); dx += 1) tiles.push({ x: p.x + dx, y: p.y + dy });
-    }
-    const out: Tile[] = [];
-    for (const tile of tiles) for (const s of standTiles(this.area, tile)) if (!out.some((o) => o.x === s.x && o.y === s.y)) out.push(s);
-    // Floor mess can also be cleaned standing on it.
-    if (t.kind !== 'prop' && this.area.walkable(t.x, t.y)) out.push({ x: t.x, y: t.y });
-    return out;
-  }
-
-  private walkTo(tile: Tile, door: Target | null) {
-    const direct = this.area.walkable(tile.x, tile.y) ? this.route(tile) : null;
-    if (direct) { this.go(direct, door); return; }
-    // Unreachable: go to the closest reachable spot (FRONTEND-PLAN §4).
-    let best: Route | null = null; let bestD = Infinity;
-    for (let r = 1; r < 6 && !best; r += 1) {
-      for (let dy = -r; dy <= r; dy += 1) for (let dx = -r; dx <= r; dx += 1) {
-        const c = { x: tile.x + dx, y: tile.y + dy };
-        if (!this.area.walkable(c.x, c.y)) continue;
-        const p = this.route(c);
-        const d = Math.abs(dx) + Math.abs(dy);
-        if (p && d < bestD) { best = p; bestD = d; }
-      }
-    }
-    if (best) this.go(best, null);
+  private distTo(r: { x0: number; y0: number; x1: number; y1: number }) {
+    const { fx, fy } = this.puff;
+    return Math.hypot(Math.max(r.x0 - fx, 0, fx - r.x1), Math.max(r.y0 - fy, 0, fy - r.y1));
   }
 
   // ---- actions -----------------------------------------------------------------------------
 
-  private face(x: number, y: number) {
-    const dx = x - this.puff.x; const dy = y - this.puff.y;
-    if (!dx && !dy) return;
-    this.puff.dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : dy > 0 ? 'down' : 'up';
+  /** Turn toward a tile. */
+  private face(x: number, y: number) { this.faceAlong((x + 0.5) * T - this.puff.fx, (y + 0.5) * T - this.puff.fy); }
+
+  /** Face along a direction; near diagonals keep the current facing so Puff doesn't flicker. */
+  private faceAlong(dx: number, dy: number) {
+    if (Math.abs(dx) < 0.01 && Math.abs(dy) < 0.01) return;
+    const h: Dir = dx > 0 ? 'right' : 'left'; const v: Dir = dy > 0 ? 'down' : 'up';
+    if (Math.abs(dx) > Math.abs(dy) * 1.2) this.puff.dir = h;
+    else if (Math.abs(dy) > Math.abs(dx) * 1.2) this.puff.dir = v;
+    else if (this.puff.dir !== h && this.puff.dir !== v) this.puff.dir = h;
   }
 
   private act(t: Target) {
@@ -401,7 +401,7 @@ export class TownGame {
 
   /** After bumping a closed door, step back one tile so the next tap isn't swallowed. */
   private stepOff(x: number, y: number) {
-    for (const s of standTiles(this.area, { x, y })) if (!this.area.doorAt(s.x, s.y)) { this.puff.path = [s]; this.puff.seg = 0; this.puff.action = null; return; }
+    for (const s of standTiles(this.area, { x, y })) if (!this.area.doorAt(s.x, s.y)) { this.go(this.nav.findPathTo({ x: this.puff.fx, y: this.puff.fy }, { x: s.x * T + T / 2, y: s.y * T + FEET }), null); return; }
   }
 
   private cropsHere() {
@@ -556,40 +556,32 @@ export class TownGame {
         if (e === 'late') { this.hud.setLate(true); this.say('Getting fluffy-sleepy...'); }
         if (e === 'doze' && !this.settings.relaxed) void this.endDay(true);
       }
-      // Walk the path tile by tile.
+      // Walk the waypoints at walking speed; the tile under the feet drives mess, doors and onboarding.
       if (p.path.length) {
-        const speed = (this.fluff.tired ? WALK_SPEED_TIRED : WALK_SPEED) / 1000;
-        p.seg += dt * speed;
-        while (p.path.length && p.seg >= 1) {
-          const next = p.path.shift()!;
-          this.face(next.x, next.y);
-          p.x = next.x; p.y = next.y; p.seg -= 1;
-          this.onboard({ type: 'stood', ground: this.area.groundAt(p.x, p.y), area: this.areaId });
-          const door = this.area.doorAt(p.x, p.y);
-          if (door && !p.path.length) { p.action = null; this.useDoor(p.x, p.y); break; }
+        let budget = dt * ((this.fluff.tired ? WALK_SPEED_TIRED : WALK_SPEED) * T / 1000);
+        while (budget > 0 && p.path.length) {
+          const n = p.path[0]; const dx = n.x - p.fx; const dy = n.y - p.fy; const d = Math.hypot(dx, dy);
+          this.faceAlong(dx, dy);
+          if (d <= budget) { p.fx = n.x; p.fy = n.y; p.path.shift(); budget -= d; } else { p.fx += (dx / d) * budget; p.fy += (dy / d) * budget; budget = 0; }
+          const tx = Math.floor(p.fx / T); const ty = Math.floor(p.fy / T);
+          if (tx !== p.x || ty !== p.y) { p.x = tx; p.y = ty; this.onboard({ type: 'stood', ground: this.area.groundAt(tx, ty), area: this.areaId }); }
         }
         if (!p.path.length) {
-          p.seg = 0; p.pose = 'idle';
-          if (p.action && p.action.kind !== 'door') { const a = p.action; p.action = null; this.act(a); }
-        } else {
-          p.pose = 'walk';
-          const n = p.path[0];
-          if (n) this.face(n.x, n.y);
-        }
+          p.pose = 'idle';
+          const a = p.action; p.action = null;
+          if (this.area.doorAt(p.x, p.y)) this.useDoor(p.x, p.y);
+          else if (a && a.kind !== 'door') this.act(a);
+        } else p.pose = 'walk';
       }
       if (p.swingMs > 0) { p.swingMs -= dt; if (p.swingMs <= 0) this.finishSwing(); }
       if (p.hopMs > 0) { p.hopMs -= dt; if (p.hopMs <= 0 && p.pose === 'hop') p.pose = 'idle'; }
       this.autosaveMs += dt;
       if (this.autosaveMs > TUNING.autosaveSeconds * 1000) { this.autosaveMs = 0; void this.save(false); }
     }
-    // Interpolated draw position between tiles.
-    const next = p.path[0];
-    const fx = next ? p.x + (next.x - p.x) * p.seg : p.x;
-    const fy = next ? p.y + (next.y - p.y) * p.seg : p.y;
-    this.world.drawPuff({ x: fx, y: fy, dir: p.dir, pose: p.pose, tool: this.selected }, dt);
-    this.world.follow((fx + 0.5) * T, (fy + 0.5) * T);
+    this.world.drawPuff({ x: p.fx, y: p.fy + FEET_TO_BASE, dir: p.dir, pose: p.pose, tool: this.selected }, dt);
+    this.world.follow(p.fx, p.fy - 8);
     this.world.update(dt);
-    this.placeBubble(fx, fy);
+    this.placeBubble(p.fx, p.fy + FEET_TO_BASE);
     this.updateHudLive();
     if (this.bubbleMs > 0) { this.bubbleMs -= dt; if (this.bubbleMs <= 0) this.hud.bubble.classList.remove('show'); }
   }
@@ -650,9 +642,10 @@ export class TownGame {
     this.bubbleMs = 2600;
   }
 
+  /** x, y: the bottom-centre of Puff's sprite in world px. */
   private placeBubble(x: number, y: number) {
     // Just above Puff's ears, whatever art Puff is drawn with.
-    const s = this.world.toScreen((x + 0.5) * T, (y + 1) * T - 1 - this.world.puffHeight - 2);
+    const s = this.world.toScreen(x, y - this.world.puffHeight - 2);
     this.hud.fadeNear(s.y + 20);
     if (!this.hud.bubble.classList.contains('show')) return;
     const half = Math.min(120, this.hud.bubble.offsetWidth / 2 + 8);
@@ -771,7 +764,7 @@ export class TownGame {
     return stamp({
       deviceId: this.deviceId, day: this.clock.state.day, minutes: this.clock.state.minutes,
       fluff: { value: this.fluff.value, max: this.fluff.max, boost: this.fluff.boost }, sparkles: this.sparkles,
-      bag: this.bag.slots, tools: this.tools, area: this.areaId, puff: { x: this.puff.x, y: this.puff.y, facing: this.puff.dir },
+      bag: this.bag.slots, tools: this.tools, area: this.areaId, puff: { x: this.puff.x, y: this.puff.y, fx: this.puff.fx, fy: this.puff.fy, facing: this.puff.dir },
       areas, crops: this.crops, flags: this.flags, onboarding: this.onboarding.step, chores: this.chores, settings: this.settings,
       selected: this.selected, lastClean: this.lastClean
     });
@@ -779,7 +772,8 @@ export class TownGame {
 
   async save(bedtime: boolean) { await writeTown(this.snapshot(), bedtime); }
 
-  private restore(s: TownSave) {
+  /** Load a save; returns Puff's exact saved feet position when there is one. */
+  private restore(s: TownSave): Pt | undefined {
     this.clock.state = { day: s.day, minutes: Math.min(DAY_END, Math.max(DAY_START, s.minutes)) };
     this.fluff = new Fluff(s.fluff.value, s.fluff.max, s.fluff.boost);
     this.sparkles = s.sparkles;
@@ -803,6 +797,7 @@ export class TownGame {
     this.puff.x = ok ? s.puff.x : a.pack.spawn.x; this.puff.y = ok ? s.puff.y : a.pack.spawn.y;
     this.puff.dir = s.puff.facing ?? 'down';
     if (this.clock.state.minutes >= LATE_AT) this.hud?.setLate(true);
+    return ok && typeof s.puff.fx === 'number' && typeof s.puff.fy === 'number' ? { x: s.puff.fx, y: s.puff.fy } : undefined;
   }
 }
 
