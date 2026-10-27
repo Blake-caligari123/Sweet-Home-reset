@@ -1,5 +1,6 @@
+import { seeded } from '../art/pixel-canvas';
 import { DirtMap } from './dirt';
-import type { RoomDef, TaskDef } from './pack';
+import type { Point, RoomDef, TaskDef } from './pack';
 
 export const STAGES = [25, 50, 75, 100] as const;
 export const ROOM_CLEAN_AT = 95;
@@ -12,15 +13,19 @@ export type SessionEvent =
   | { type: 'stage'; stage: (typeof STAGES)[number] }
   | { type: 'roomClean' }
   | { type: 'pop'; task: number; bunny: number }
+  | { type: 'crumb'; task: number; crumb: number }
   | { type: 'placed'; task: number; item: number; bin: string }
   | { type: 'bounce'; task: number; item: number; wrongBin: boolean };
 
-export interface SessionSave { seed: number; /** run-length pairs [value, count, ...] */ hp: number[]; popped: boolean[][]; placed: (string | null)[][]; stage: number; complete: boolean }
+export interface SessionSave { seed: number; /** run-length pairs [value, count, ...] */ hp: number[]; popped: boolean[][]; placed: (string | null)[][]; vacuumed?: boolean[][]; stage: number; complete: boolean }
 
 export class RoomSession {
   readonly dirt: DirtMap;
   readonly popped: boolean[][];
   readonly placed: (string | null)[][];
+  /** Crumb positions for vacuum tasks, scattered from the mess seed. */
+  readonly crumbs: Point[][];
+  readonly vacuumed: boolean[][];
   readonly done: boolean[];
   stage = 0;
   complete = false;
@@ -29,6 +34,8 @@ export class RoomSession {
     this.dirt = new DirtMap(room.tasks, seed);
     this.popped = room.tasks.map((t) => (t.type === 'pop' ? t.bunnies.map(() => false) : []));
     this.placed = room.tasks.map((t) => (t.type === 'sort' ? t.items.map(() => null) : []));
+    this.crumbs = room.tasks.map((t) => (t.type === 'vacuum' ? scatter(t.areas, t.count, seed * 104729 + t.seed) : []));
+    this.vacuumed = this.crumbs.map((list) => list.map(() => false));
     this.done = room.tasks.map(() => false);
     if (saved && saved.seed === seed) this.restore(saved);
   }
@@ -41,6 +48,7 @@ export class RoomSession {
     switch (task.type) {
       case 'scrub': case 'wipe': return Math.min(1, this.dirt.progress(index) / PATCH_DONE_AT);
       case 'pop': return this.popped[index].filter(Boolean).length / task.bunnies.length;
+      case 'vacuum': return this.vacuumed[index].filter(Boolean).length / this.crumbs[index].length;
       case 'sort': return this.placed[index].filter(Boolean).length / task.items.length;
     }
   }
@@ -52,13 +60,19 @@ export class RoomSession {
 
   scrub(x0: number, y0: number, x1: number, y1: number, radius: number) {
     const result = this.dirt.stroke(x0, y0, x1, y1, radius);
-    return { box: result.box, changed: result.changed, events: result.changed ? this.settle() : [] };
+    return { box: result.box, changed: result.changed, cleared: result.cleared, events: result.changed ? this.settle() : [] };
   }
 
   pop(task: number, bunny: number): SessionEvent[] {
     if (this.tasks[task]?.type !== 'pop' || this.popped[task][bunny] !== false) return [];
     this.popped[task][bunny] = true;
     return [{ type: 'pop', task, bunny }, ...this.settle()];
+  }
+
+  vacuum(task: number, crumb: number): SessionEvent[] {
+    if (this.tasks[task]?.type !== 'vacuum' || this.vacuumed[task][crumb] !== false) return [];
+    this.vacuumed[task][crumb] = true;
+    return [{ type: 'crumb', task, crumb }, ...this.settle()];
   }
 
   /** Drop a sort item at a room point. Right bin snaps in; a wrong bin bounces it back, no penalty. */
@@ -86,6 +100,7 @@ export class RoomSession {
     const events: SessionEvent[] = [];
     if (task.type === 'scrub' || task.type === 'wipe') this.dirt.clearTask(index);
     if (task.type === 'pop') this.popped[index].forEach((p, b) => { if (!p) { this.popped[index][b] = true; events.push({ type: 'pop', task: index, bunny: b }); } });
+    if (task.type === 'vacuum') this.vacuumed[index].forEach((v, c) => { if (!v) { this.vacuumed[index][c] = true; events.push({ type: 'crumb', task: index, crumb: c }); } });
     if (task.type === 'sort') this.placed[index].forEach((p, i) => {
       if (p === null) {
         const bin = task.bins.find((b) => b.accepts.includes(task.items[i].kind))!;
@@ -117,13 +132,14 @@ export class RoomSession {
   }
 
   save(): SessionSave {
-    return { seed: this.seed, hp: encodeRuns(this.dirt.snapshot()), popped: this.popped.map((p) => [...p]), placed: this.placed.map((p) => [...p]), stage: this.stage, complete: this.complete };
+    return { seed: this.seed, hp: encodeRuns(this.dirt.snapshot()), popped: this.popped.map((p) => [...p]), placed: this.placed.map((p) => [...p]), vacuumed: this.vacuumed.map((v) => [...v]), stage: this.stage, complete: this.complete };
   }
 
   private restore(saved: SessionSave) {
     this.dirt.restore(decodeRuns(saved.hp, this.dirt.hp.length));
     saved.popped.forEach((list, t) => list.forEach((v, b) => { if (this.popped[t] && b < this.popped[t].length) this.popped[t][b] = Boolean(v); }));
     saved.placed.forEach((list, t) => list.forEach((v, i) => { if (this.placed[t] && i < this.placed[t].length) this.placed[t][i] = v; }));
+    (saved.vacuumed ?? []).forEach((list, t) => list.forEach((v, c) => { if (this.vacuumed[t] && c < this.vacuumed[t].length) this.vacuumed[t][c] = Boolean(v); }));
     this.tasks.forEach((_, i) => { if (this.taskProgress(i) >= 1) this.done[i] = true; });
     this.stage = saved.stage;
     this.complete = saved.complete;
@@ -148,6 +164,19 @@ export function decodeRuns(runs: number[], length: number) {
     const end = Math.min(length, k + Math.max(0, runs[i + 1]));
     out.fill(runs[i], k, end);
     k = end;
+  }
+  return out;
+}
+
+/** Seeded crumb positions spread across the areas, at least 4 px apart where possible. */
+export function scatter(areas: { x: number; y: number; w: number; h: number }[], count: number, seed: number): Point[] {
+  const rand = seeded(seed);
+  const out: Point[] = [];
+  for (let guard = 0; out.length < count && guard < count * 40; guard += 1) {
+    const a = areas[Math.floor(rand() * areas.length)];
+    const p = { x: Math.round(a.x + rand() * (a.w - 1)), y: Math.round(a.y + rand() * (a.h - 1)) };
+    if (guard < count * 30 && out.some((q) => Math.abs(q.x - p.x) < 4 && Math.abs(q.y - p.y) < 4)) continue;
+    out.push(p);
   }
   return out;
 }

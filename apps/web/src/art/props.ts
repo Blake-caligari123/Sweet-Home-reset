@@ -37,6 +37,8 @@ export const PROPS: Record<string, Draw> = {
     pc.rect(x + 1, y + 1, w - 2, h - 2, P.blueLight);
     pc.ellipse(x + 12, y + 10, 5, 2, P.white);
     pc.ellipse(x + 16, y + 9, 4, 2, P.white);
+    pc.ellipse(x + w - 12, y + 16, 3, 1, P.white);
+    pc.set(x + w - 20, y + 8, P.ink); pc.set(x + w - 19, y + 7, P.ink); pc.set(x + w - 18, y + 8, P.ink);
     pc.rect(x + 1, y + h - 9, w - 2, 8, P.sageLight);
     pc.rect(x + w - 18, y + h - 15, 10, 14, P.peachLight);
     pc.rect(x + w - 18, y + h - 15, 10, 1, P.outlineLight);
@@ -88,6 +90,7 @@ export const PROPS: Record<string, Draw> = {
     const top = 20;
     pc.box(x, y, w, top, P.creamShade, P.outline);
     pc.hline(x + 1, y + 1, w - 2, P.white);
+    for (let i = 3; i < w - 3; i += 7) pc.set(x + i, y + 5 + ((i * 7) % (top - 8)), P.grey);
     pc.box(x, y + top - 1, w, h - top, colour, P.outline);
     const doors = Math.max(1, Math.round(w / 30));
     const dw = Math.floor(w / doors);
@@ -139,6 +142,12 @@ export const PROPS: Record<string, Draw> = {
     pc.box(x, y, w, h, colour, P.outline, 2);
     pc.box(x + 4, y + 4, w - 8, h - 8, colour, P.peachShade, 1);
     pc.box(x + 8, y + 8, w - 16, h - 16, P.peachLight, P.peachShade, 1);
+    const cx = x + Math.floor(w / 2); const cy = y + Math.floor(h / 2);
+    for (let d = 0; d < Math.min(w, h) / 2 - 12; d += 1) {
+      pc.set(cx - d, cy - (Math.min(w, h) / 2 - 12 - d), colour); pc.set(cx + d, cy - (Math.min(w, h) / 2 - 12 - d), colour);
+      pc.set(cx - d, cy + (Math.min(w, h) / 2 - 12 - d), colour); pc.set(cx + d, cy + (Math.min(w, h) / 2 - 12 - d), colour);
+    }
+    for (let i = x + 14; i < x + w - 14; i += 10) { pc.set(i, y + 11, colour); pc.set(i, y + h - 12, colour); }
     for (let i = x + 4; i < x + w - 3; i += 4) { pc.vline(i, y - 2, 2, P.outlineLight); pc.vline(i, y + h, 2, P.outlineLight); }
   },
 
@@ -153,6 +162,10 @@ export const PROPS: Record<string, Draw> = {
       pc.hline(x + 14 + s * sw, y + 16, sw - 4, P.sageLight);
     }
     pc.box(x + 2, y + 33, w - 4, 11, P.sageShade, P.outline);
+    for (let i = x + 6; i < x + w - 6; i += 4) pc.set(i, y + 38, P.sage);
+    // A folded throw over one arm.
+    pc.box(x + w - 16, y + 12, 14, 22, P.peach, P.outline, 1);
+    for (let j = y + 15; j < y + 32; j += 3) pc.hline(x + w - 14, j, 10, P.peachShade);
   },
 
   coffeeTable(pc, { x, y, w = 44, h = 22 }) {
@@ -176,6 +189,8 @@ export const PROPS: Record<string, Draw> = {
       }
       pc.hline(x + 1, sy + 14, w - 2, P.brownLight);
     }
+    pc.box(x + w - 12, y - 6, 8, 7, P.peach, P.outline, 1);
+    pc.ellipseBox(x + w - 8, y - 9, 4, 3, P.sage, P.sageShade);
   },
 
   bed(pc, { x, y, w = 76, h = 108, colour = P.blue }) {
@@ -187,7 +202,12 @@ export const PROPS: Record<string, Draw> = {
     pc.box(x + 4, y + 4, pw, 16, P.white, P.outlineLight, 2); pc.box(x + w - 4 - pw, y + 4, pw, 16, P.white, P.outlineLight, 2);
     pc.box(x, y + 26, w, h - 26, colour, P.outline, 1);
     pc.box(x + 1, y + 26, w - 2, 8, P.blueLight, P.outlineLight);
-    for (let i = y + 42; i < y + h - 4; i += 12) pc.hline(x + 6, i, w - 12, P.blueShade);
+    for (let qy = y + 36; qy < y + h - 8; qy += 12) {
+      for (let qx = x + 2; qx < x + w - 2; qx += 12) {
+        pc.rect(qx, qy, 1, 12, P.blueShade); pc.hline(qx, qy, 12, P.blueShade);
+        if (((qx + qy) / 12) % 2 === 0) { pc.set(qx + 6, qy + 6, P.blueLight); pc.set(qx + 5, qy + 6, P.blueLight); pc.set(qx + 6, qy + 5, P.blueLight); pc.set(qx + 7, qy + 6, P.blueLight); pc.set(qx + 6, qy + 7, P.blueLight); }
+      }
+    }
     pc.box(x, y + h - 6, w, 6, P.blueShade, P.outline);
   },
 

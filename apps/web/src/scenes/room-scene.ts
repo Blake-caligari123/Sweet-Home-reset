@@ -1,10 +1,14 @@
 import { Application, Container, Graphics, Sprite, Texture, type FederatedPointerEvent } from 'pixi.js';
 import { P } from '../art/palette';
+import { composeBefore } from '../art/before-after';
+import { drawCrumb } from '../art/crumbs';
+import { dingeAlpha, dingeLayer, dullen } from '../art/dull';
 import { PixelCanvas } from '../art/pixel-canvas';
-import { drawDustBunny, drawItem, ITEM_SIZE } from '../art/props';
+import { drawDustBunny, drawItem } from '../art/props';
 import type { Outfit } from '../art/puff';
 import { drawDecor, drawRoom, drawStageOverlay } from '../art/room-art';
-import { DirtMap } from '../game/dirt';
+import { drawTool, TOOL_SIZE, type Tool } from '../art/tools';
+import { Combo } from '../game/combo';
 import { line, type LineKey } from '../game/lines';
 import { ROOM_H, ROOM_W, type DecorDef, type Point, type RoomDef, type StageEffect } from '../game/pack';
 import { STAGES, type RoomSession, type SessionEvent } from '../game/session';
@@ -20,6 +24,10 @@ const ITEM_GRAB = 12;
 const BUNNY_HIT = 11;
 const HINT_AFTER_MS = 6000;
 const HELP_AFTER_MS = 20000;
+const NAP_AFTER_MS = 32000;
+const VACUUM_REACH = 16;
+const VACUUM_PULL = 22;
+const SCRUB_PER_COMBO = 260;
 
 export interface RoomHooks {
   feedback(event: FeedbackEvent, level?: number): void;
@@ -30,6 +38,8 @@ export interface RoomHooks {
   helpReady(ready: boolean): void;
   save(): void;
   finished(): void;
+  combo(count: number): void;
+  tool(tool: Tool | null): void;
 }
 
 interface Tween { update(dt: number): boolean }
@@ -49,6 +59,13 @@ function tween(ms: number, step: (t: number) => void, done?: () => void): Tween 
 const ease = (t: number) => 1 - (1 - t) * (1 - t);
 
 let bunnyFrames: Texture[] | null = null;
+let crumbTextures: Texture[] | null = null;
+const toolTextures = new Map<Tool, Texture>();
+function toolTexture(tool: Tool) {
+  let t = toolTextures.get(tool);
+  if (!t) { t = toTexture(drawTool(tool)); toolTextures.set(tool, t); }
+  return t;
+}
 const itemTextures = new Map<string, Texture>();
 function itemTexture(kind: string) {
   let t = itemTextures.get(kind);
@@ -65,13 +82,25 @@ export class RoomScene {
   private particles = new Particles();
   private loops = new LoopEffects();
   private dirtSprite = new Sprite();
+  private dingeSprite = new Sprite();
   private decorSprite = new Sprite();
+  private crumbLayer = new Container();
+  private toolSprite = new Sprite();
+  private wave = new Graphics();
   private ring = new Sprite();
   private cursor = new Sprite();
   private dirtCanvas!: HTMLCanvasElement;
   private dirtCtx!: CanvasRenderingContext2D;
   private dirtImage!: ImageData;
   private dirtTexture: Texture | null = null;
+  private dull!: PixelCanvas;
+  private crumbs: { sprite: Sprite; task: number; index: number }[] = [];
+  private tool: Tool | null = null;
+  private combo = new Combo();
+  private shakeMs = 0;
+  private napping = false;
+  private toolBob = 0;
+  private clearedRun = 0;
   private stageSprites = new Map<number, Sprite[]>();
   private bunnies: { sprite: Sprite; task: number; index: number }[] = [];
   private items: { sprite: Sprite; task: number; index: number; home: Point }[] = [];
@@ -96,6 +125,9 @@ export class RoomScene {
     this.root.addChild(this.backdrop, this.world);
     this.ring.texture = hintRing(); this.ring.anchor.set(0.5); this.ring.visible = false; this.ring.eventMode = 'none';
     this.cursor.texture = keyboardCursor(); this.cursor.anchor.set(0.5); this.cursor.visible = false; this.cursor.eventMode = 'none';
+    this.toolSprite.anchor.set(0.15, 0.85); this.toolSprite.visible = false; this.toolSprite.eventMode = 'none';
+    this.wave.eventMode = 'none';
+    this.crumbLayer.eventMode = 'none';
     this.actors.sortableChildren = true;
     this.root.eventMode = 'static';
     this.root.on('pointerdown', (e) => this.onDown(e));
@@ -116,14 +148,21 @@ export class RoomScene {
     this.particles.reducedMotion = options.reducedMotion;
     this.loops.reducedMotion = options.reducedMotion;
     this.brush = options.brush;
-    this.finale = false; this.idleMs = 0; this.hinting = false; this.helpShown = false;
+    this.finale = false; this.idleMs = 0; this.hinting = false; this.helpShown = false; this.napping = false;
+    this.combo = new Combo();
+    this.clearedRun = 0;
+    this.tool = null; this.toolSprite.visible = false;
 
-    const clean = new Sprite(toTexture(drawRoom(room)));
+    const cleanArt = drawRoom(room);
+    const clean = new Sprite(toTexture(cleanArt));
+    this.dull = dullen(cleanArt);
+    this.dingeSprite.texture = toTexture(dingeLayer(this.dull, session.dirt.owner, room.theme.wallHeight, session.seed));
+    this.dingeSprite.alpha = dingeAlpha(session.stage);
     this.decorSprite.texture = toTexture(drawDecor(options.decor));
     this.dirtCanvas = toCanvas(new PixelCanvas(ROOM_W, ROOM_H));
     this.dirtCtx = this.dirtCanvas.getContext('2d')!;
     this.dirtImage = this.dirtCtx.getImageData(0, 0, ROOM_W, ROOM_H);
-    session.dirt.paint(this.dirtImage.data);
+    session.dirt.paint(this.dirtImage.data, undefined, this.dull.data);
     this.dirtCtx.putImageData(this.dirtImage, 0, 0);
     this.dirtTexture?.destroy(true);
     this.dirtTexture = Texture.from(this.dirtCanvas);
@@ -148,7 +187,7 @@ export class RoomScene {
     this.loops.clear();
     this.particles.clear();
     this.world.removeChildren();
-    this.world.addChild(clean, this.overlays, this.decorSprite, this.dirtSprite, this.actors, this.loops.container, this.particles.container, this.ring, this.cursor);
+    this.world.addChild(clean, this.overlays, this.decorSprite, this.dingeSprite, this.dirtSprite, this.crumbLayer, this.actors, this.loops.container, this.particles.container, this.wave, this.ring, this.toolSprite, this.cursor);
     for (const stage of STAGES) if (session.stage >= stage) this.showStage(stage, true);
 
     this.resize();
@@ -175,9 +214,18 @@ export class RoomScene {
 
   private buildActors(outfit: Outfit) {
     this.actors.removeChildren();
-    this.bunnies = []; this.items = [];
+    this.crumbLayer.removeChildren();
+    this.bunnies = []; this.items = []; this.crumbs = [];
     bunnyFrames ??= [toTexture(drawDustBunny(0)), toTexture(drawDustBunny(1))];
+    crumbTextures ??= [0, 1, 2, 3, 4, 5].map((v) => toTexture(drawCrumb(v)));
     this.room.tasks.forEach((task, t) => {
+      if (task.type === 'vacuum') this.session.crumbs[t].forEach((c, i) => {
+        if (this.session.vacuumed[t][i]) return;
+        const sprite = new Sprite(crumbTextures![i % crumbTextures!.length]);
+        sprite.anchor.set(0.5); sprite.position.set(c.x, c.y);
+        this.crumbLayer.addChild(sprite);
+        this.crumbs.push({ sprite, task: t, index: i });
+      });
       if (task.type === 'pop') task.bunnies.forEach((b, i) => {
         if (this.session.popped[t][i]) return;
         const sprite = new Sprite(bunnyFrames![i % 2]);
@@ -207,11 +255,26 @@ export class RoomScene {
     const fit = fitStage(width, height, this.app.renderer.resolution);
     this.world.scale.set(fit.scale);
     this.world.position.set(fit.x, fit.y);
-    const wallBottom = fit.y + (this.room?.theme.wallHeight ?? 112) * fit.scale;
-    this.backdrop.clear()
-      .rect(0, 0, width, wallBottom).fill(this.room?.theme.wall ?? P.cream)
-      .rect(0, wallBottom, width, height - wallBottom).fill(this.room?.theme.floorA ?? P.cream);
+    this.fit = fit;
+    this.paintBackdrop();
     this.root.hitArea = this.app.screen;
+  }
+
+  private fit = { k: 1, scale: 1, x: 0, y: 0 };
+
+  /** The screen edges beside the room dull and brighten with it. */
+  private paintBackdrop() {
+    const { width, height } = this.app.screen;
+    const wallBottom = this.fit.y + (this.room?.theme.wallHeight ?? 112) * this.fit.scale;
+    const amount = this.room ? this.dingeSprite.alpha : 0;
+    const tone = (hex: string) => {
+      const c = new PixelCanvas(1, 1); c.set(0, 0, hex);
+      const d = dullen(c).data; const [r, g, b] = [c.data[0], c.data[1], c.data[2]];
+      return (Math.round(r + (d[0] - r) * amount) << 16) | (Math.round(g + (d[1] - g) * amount) << 8) | Math.round(b + (d[2] - b) * amount);
+    };
+    this.backdrop.clear()
+      .rect(0, 0, width, wallBottom).fill(tone(this.room?.theme.wall ?? P.cream))
+      .rect(0, wallBottom, width, height - wallBottom).fill(tone(this.room?.theme.floorA ?? P.cream));
   }
 
   /** Puff's head position in CSS pixels, for the speech bubble. */
@@ -250,20 +313,47 @@ export class RoomScene {
 
   private pressAt(p: Point) {
     if (!this.active || this.finale || this.session.complete) return;
+    if (this.napping) this.wake();
     const item = this.items.find((it) => Math.abs(it.sprite.x - p.x) <= ITEM_GRAB && Math.abs(it.sprite.y - p.y) <= ITEM_GRAB);
     if (item) {
       this.dragging = { task: item.task, index: item.index, sprite: item.sprite };
       item.sprite.zIndex = 10_000;
       item.sprite.position.set(Math.round(p.x), Math.round(p.y));
+      this.setTool('hand', p);
       return;
     }
+    this.setTool(this.toolFor(p), p);
     this.last = p;
     this.scrubTo(p);
   }
 
+  /** The right tool for whatever is under the finger, picked for the player. */
+  private toolFor(p: Point): Tool {
+    if (this.crumbs.some((c) => Math.hypot(c.sprite.x - p.x, c.sprite.y - p.y) <= VACUUM_REACH)) return 'vacuum';
+    if (this.bunnies.some((b) => Math.hypot(b.sprite.x - p.x, b.sprite.y - 6 - p.y) <= BUNNY_HIT)) return 'hand';
+    const owner = this.ownerNear(p);
+    const task = owner >= 0 ? this.room.tasks[owner] : null;
+    if (task?.type === 'wipe') return task.surface === 'glass' ? 'squeegee' : 'duster';
+    return 'sponge';
+  }
+
+  private setTool(tool: Tool, p: Point) {
+    this.tool = tool;
+    this.toolSprite.texture = toolTexture(tool);
+    this.toolSprite.visible = tool !== 'hand';
+    this.toolSprite.position.set(Math.round(p.x), Math.round(p.y));
+    this.hooks.tool(tool);
+  }
+
   private dragTo(p: Point) {
     if (this.dragging) { this.dragging.sprite.position.set(Math.round(p.x), Math.round(p.y)); return; }
-    if (this.last) { this.scrubTo(p); }
+    if (this.last) {
+      // Switch tools as the brush crosses onto a different surface.
+      const next = this.toolFor(p);
+      if (next !== this.tool && next !== 'hand') this.setTool(next, p);
+      this.toolSprite.position.set(Math.round(p.x), Math.round(p.y - (this.toolBob % 2)));
+      this.scrubTo(p);
+    }
   }
 
   private release() {
@@ -273,6 +363,9 @@ export class RoomScene {
       this.handle(this.session.drop(task, index, sprite.x, sprite.y));
     }
     this.last = null;
+    this.tool = null;
+    this.toolSprite.visible = false;
+    this.hooks.tool(null);
   }
 
   private scrubTo(p: Point) {
@@ -282,26 +375,56 @@ export class RoomScene {
     for (const b of [...this.bunnies]) {
       if (Math.hypot(b.sprite.x - p.x, b.sprite.y - 6 - p.y) <= BUNNY_HIT) this.handle(this.session.pop(b.task, b.index));
     }
+    if (this.tool === 'vacuum') this.vacuumAt(p);
     const owner = this.ownerNear(p);
     const result = this.session.scrub(from.x, from.y, p.x, p.y, this.brush);
     if (result.changed && result.box) {
       if (!this.finale) {
-        this.session.dirt.paint(this.dirtImage.data, result.box);
+        this.session.dirt.paint(this.dirtImage.data, result.box, this.dull.data);
         this.dirtCtx.putImageData(this.dirtImage, 0, 0, result.box.x, result.box.y, result.box.w, result.box.h);
         this.dirtTexture!.source.update();
       }
       const surface = owner >= 0 ? this.room.tasks[owner] : null;
       const glass = surface?.type === 'wipe' && surface.surface === 'glass';
+      const dust = surface?.type === 'wipe' && surface.surface === 'dust';
       this.hooks.feedback(glass ? 'wipe' : 'scrub', this.session.meter() / 100);
-      if (Math.random() < 0.6) {
-        this.particles.burst(glass ? 'dot' : 'suds', p.x, p.y, 2, glass ? [P.white, P.blueLight] : [P.white, P.blueLight, P.cream], 22, 30);
-      }
+      this.toolBob += 1;
+      if (glass) this.particles.burst('dot', p.x, p.y, 2, [P.white, P.blueLight], 18, 60);
+      else if (dust) this.particles.burst('puff', p.x, p.y, 1, [P.greyLight, P.white], 16, -10);
+      else this.particles.trail(p.x, p.y, this.brush);
+      // Every chunk of freshly cleaned surface counts as one combo step.
+      this.clearedRun += result.cleared.reduce((a, b) => a + b, 0);
+      while (this.clearedRun >= SCRUB_PER_COMBO) { this.clearedRun -= SCRUB_PER_COMBO; this.comboHit(); }
       this.noteProgress();
       this.puffFollow(p);
       this.hooks.progress();
     }
     this.handle(result.events);
   }
+
+  /** Crumbs near the nozzle zip in and disappear. */
+  private vacuumAt(p: Point) {
+    for (const c of [...this.crumbs]) {
+      const d = Math.hypot(c.sprite.x - p.x, c.sprite.y - p.y);
+      if (d > VACUUM_PULL) continue;
+      this.crumbs.splice(this.crumbs.indexOf(c), 1);
+      const from = { x: c.sprite.x, y: c.sprite.y };
+      this.tweens.push(tween(this.reducedMotion ? 0 : 120, (t) => {
+        c.sprite.position.set(Math.round(from.x + (p.x - from.x) * t), Math.round(from.y + (p.y - from.y) * t));
+      }, () => c.sprite.destroy()));
+      this.handle(this.session.vacuum(c.task, c.index));
+    }
+  }
+
+  private comboHit() {
+    const milestone = this.combo.hit(performance.now());
+    if (milestone) {
+      this.hooks.combo(milestone);
+      if (!this.puff.busy) this.puff.play('hop', 1);
+    }
+  }
+
+  get comboBonus() { return this.combo.bonus; }
 
   private ownerNear(p: Point) {
     const x = Math.round(p.x); const y = Math.round(p.y);
@@ -361,9 +484,17 @@ export class RoomScene {
             if (!this.finale) {
               this.particles.burst('puff', x, y - 5, 10, [P.greyLight, P.grey, P.white], 34, 20);
               this.hooks.feedback('pop');
+              this.comboHit();
               if (Math.random() < 0.35) this.say('pop');
             }
           }
+          changed = true;
+          break;
+        }
+        case 'crumb': {
+          const c = this.crumbs.find((x) => x.task === event.task && x.index === event.crumb);
+          if (c) { this.crumbs.splice(this.crumbs.indexOf(c), 1); c.sprite.destroy(); }
+          if (!this.finale) { this.hooks.feedback('crumb'); this.comboHit(); }
           changed = true;
           break;
         }
@@ -382,7 +513,7 @@ export class RoomScene {
               it.sprite.destroy();
               this.particles.burst('sparkle', to.x, to.y, 6, [P.white, P.butterLight], 26, 0);
             }));
-            if (!this.finale) this.hooks.feedback('placed');
+            if (!this.finale) { this.hooks.feedback('placed'); this.comboHit(); }
           }
           changed = true;
           break;
@@ -420,6 +551,7 @@ export class RoomScene {
             this.particles.burst('sparkle', ROOM_W / 2, 200, 40, [P.white, P.butterLight, P.peachLight], 70, 20);
             this.say(`stage${event.stage}` as LineKey);
             this.puff.play('hop', 2);
+            this.stageWave();
           }
           this.hooks.stage(event.stage);
           break;
@@ -432,12 +564,32 @@ export class RoomScene {
     if (changed) this.noteProgress();
     // A finished patch clears its last specks in one go, so repaint the whole dirt layer.
     if (!this.finale && events.some((e) => e.type === 'taskDone')) this.repaintDirt();
+    if (events.some((e) => e.type === 'stage')) this.liftDinge();
     this.hooks.progress();
     this.hooks.save();
   }
 
+  /** The whole room brightens a step at each stage. */
+  private liftDinge() {
+    const from = this.dingeSprite.alpha;
+    const to = dingeAlpha(this.session.stage);
+    if (this.reducedMotion) { this.dingeSprite.alpha = to; this.paintBackdrop(); return; }
+    this.tweens.push(tween(700, (t) => { this.dingeSprite.alpha = from + (to - from) * (Math.floor(t * 5) / 5); this.paintBackdrop(); }));
+  }
+
+  /** A ring of light rolls out from the room's middle, with a tiny shake. */
+  private stageWave() {
+    if (this.reducedMotion) return;
+    this.shakeMs = 220;
+    this.tweens.push(tween(650, (t) => {
+      const r = Math.round(10 + t * 220);
+      this.wave.clear();
+      if (t < 1) this.wave.circle(ROOM_W / 2, 220, r).stroke({ width: 3, color: P.white, alpha: 0.7 * (1 - Math.floor(t * 4) / 4) });
+    }, () => this.wave.clear()));
+  }
+
   private repaintDirt() {
-    this.session.dirt.paint(this.dirtImage.data);
+    this.session.dirt.paint(this.dirtImage.data, undefined, this.dull.data);
     this.dirtCtx.putImageData(this.dirtImage, 0, 0);
     this.dirtTexture!.source.update();
   }
@@ -446,6 +598,7 @@ export class RoomScene {
     const task = this.room.tasks[index];
     if (task.type === 'scrub' || task.type === 'wipe') { const a = task.areas[0]; return { x: a.x + a.w / 2, y: a.y + a.h / 2 }; }
     if (task.type === 'pop') return task.bunnies[0];
+    if (task.type === 'vacuum') { const a = task.areas[0]; return { x: a.x + a.w / 2, y: a.y + a.h / 2 }; }
     return { x: task.bins[0].x + task.bins[0].w / 2, y: task.bins[0].y + task.bins[0].h / 2 };
   }
 
@@ -500,21 +653,7 @@ export class RoomScene {
 
   /** The 3 s before/after wipe (a crossfade with reduced motion). */
   private beforeAfter(done: () => void) {
-    const before = new PixelCanvas(ROOM_W, ROOM_H);
-    before.draw(drawRoom(this.room), 0, 0);
-    const fresh = new DirtMap(this.room.tasks, this.session.seed);
-    const rgba = new Uint8ClampedArray(ROOM_W * ROOM_H * 4);
-    fresh.paint(rgba);
-    for (let i = 0; i < rgba.length; i += 4) {
-      const a = rgba[i + 3] / 255;
-      if (!a) continue;
-      for (let c = 0; c < 3; c += 1) before.data[i + c] = Math.round(rgba[i + c] * a + before.data[i + c] * (1 - a));
-    }
-    this.room.tasks.forEach((task) => {
-      if (task.type === 'pop') task.bunnies.forEach((b, i) => before.draw(drawDustBunny((i % 2) as 0 | 1), b.x - 7, b.y - 11));
-      if (task.type === 'sort') task.items.forEach((it) => before.draw(drawItem(it.kind), it.x - ITEM_SIZE / 2, it.y - ITEM_SIZE / 2));
-    });
-    const sprite = new Sprite(toTexture(before));
+    const sprite = new Sprite(toTexture(composeBefore(this.room, this.session.seed)));
     const mask = new Graphics();
     const divider = new Graphics().rect(-1, 0, 2, ROOM_H).fill(P.cream).rect(-2, 0, 1, ROOM_H).fill(P.outline).rect(1, 0, 1, ROOM_H).fill(P.outline);
     this.world.addChild(sprite, mask, divider);
@@ -546,6 +685,12 @@ export class RoomScene {
     this.puff.update(dtMs);
     this.particles.update(dtMs);
     this.loops.update(dtMs);
+    if (this.shakeMs > 0) {
+      // A one-pixel shake on stage-ups (never with reduced motion).
+      this.shakeMs -= dtMs;
+      const on = this.shakeMs > 0;
+      this.world.pivot.set(on ? (Math.random() < 0.5 ? -1 : 1) : 0, on ? (Math.random() < 0.5 ? -1 : 1) : 0);
+    }
     for (const b of this.bunnies) {
       // Shy wiggle, two frames, out of step with each other.
       const frame = Math.floor((performance.now() + b.index * 170) / 380) % 2;
@@ -565,6 +710,16 @@ export class RoomScene {
     }
     if (this.hinting) this.ring.visible = Math.floor(this.idleMs / 450) % 2 === 0;
     if (this.idleMs > HELP_AFTER_MS && !this.helpShown) { this.helpShown = true; this.hooks.helpReady(true); }
+    if (this.idleMs > NAP_AFTER_MS && !this.napping) {
+      // Puff curls up for a nap in the quiet: never a sulk, just cosy.
+      this.napping = true;
+      this.puff.play('sleepy', 999);
+      this.say('nap');
+    }
+    if (this.napping) {
+      if (Math.random() < dtMs / 900) this.particles.burst('dot', this.puff.position.x + 10, this.puff.position.y - 40, 1, [P.white], 6, -20);
+      return;
+    }
     this.wanderMs -= dtMs;
     if (this.wanderMs <= 0 && !this.hinting && !this.puff.busy) {
       this.wanderMs = 5000 + Math.random() * 4000;
@@ -573,12 +728,19 @@ export class RoomScene {
     }
   }
 
+  private wake() {
+    this.napping = false;
+    this.puff.play('hop', 1);
+    this.say('start');
+  }
+
   private hintTarget(): Point | null {
     const index = this.session.nextTask();
     if (index < 0) return null;
     const task = this.room.tasks[index];
     if (task.type === 'scrub' || task.type === 'wipe') return this.session.dirt.hintPoint(index);
     if (task.type === 'pop') return this.bunnies.find((b) => b.task === index)?.sprite.position ?? null;
+    if (task.type === 'vacuum') return this.crumbs.find((c) => c.task === index)?.sprite.position ?? null;
     return this.items.find((it) => it.task === index)?.sprite.position ?? null;
   }
 }

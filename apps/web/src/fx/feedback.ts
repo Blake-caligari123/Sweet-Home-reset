@@ -3,13 +3,15 @@ import type { SoundId } from './sound';
 
 // One hook for every satisfying cue (FRONTEND-PLAN §5): each game event maps to a sound,
 // a haptic and a caption, so the game reads the same with sound off.
-export type FeedbackEvent = 'scrub' | 'wipe' | 'taskDone' | 'stage' | 'roomClean' | 'pop' | 'placed' | 'bounce' | 'chore' | 'purchase' | 'tap';
+export type FeedbackEvent = 'scrub' | 'wipe' | 'crumb' | 'combo' | 'taskDone' | 'stage' | 'roomClean' | 'pop' | 'placed' | 'bounce' | 'chore' | 'purchase' | 'tap';
 
 interface Cue { sound: SoundId | null; haptic: HapticKind | null; vibrate: number[] | null; caption: string | null }
 
 export const CUES: Record<FeedbackEvent, Cue> = {
   scrub: { sound: 'scrub', haptic: 'light', vibrate: [8], caption: null },
   wipe: { sound: 'wipe', haptic: 'light', vibrate: [6], caption: null },
+  crumb: { sound: 'fwip', haptic: 'light', vibrate: [4], caption: null },
+  combo: { sound: 'combo', haptic: 'medium', vibrate: [10, 30, 10], caption: '[combo jingle]' },
   taskDone: { sound: 'sparkle', haptic: 'medium', vibrate: [20], caption: '[sparkle]' },
   stage: { sound: 'chime', haptic: 'medium', vibrate: [20, 50, 20], caption: '[bright chime]' },
   roomClean: { sound: 'fanfare', haptic: 'success', vibrate: [30, 60, 30, 60, 80], caption: '[happy fanfare]' },
@@ -21,7 +23,7 @@ export const CUES: Record<FeedbackEvent, Cue> = {
   tap: { sound: 'tap', haptic: null, vibrate: null, caption: null }
 };
 
-const STROKE_EVENTS = new Set<FeedbackEvent>(['scrub', 'wipe']);
+const STROKE_EVENTS = new Set<FeedbackEvent>(['scrub', 'wipe', 'crumb']);
 const STROKE_HAPTIC_MS = 60;
 const STROKE_SOUND_MS = 70;
 
