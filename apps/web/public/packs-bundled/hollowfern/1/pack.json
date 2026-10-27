@@ -80,6 +80,17 @@
   "biscuit": {
    "name": "Oat biscuit",
    "snack": 25
+  },
+  "list": {
+   "name": "Crumpled list",
+   "home": "desk"
+  },
+  "toy": {
+   "name": "Half-made toy",
+   "home": "toy box"
+  },
+  "toy_boat": {
+   "name": "Toy boat"
   }
  },
  "areas": [
@@ -918,17 +929,15 @@
      "x": 29,
      "y": 11,
      "to": "lane",
-     "toX": 0,
-     "toY": 0,
-     "closedText": "Neighbour Lane's gate opens soon."
+     "toX": 1,
+     "toY": 8
     },
     {
      "x": 29,
      "y": 12,
      "to": "lane",
-     "toX": 0,
-     "toY": 0,
-     "closedText": "Neighbour Lane's gate opens soon."
+     "toX": 1,
+     "toY": 9
     }
    ],
    "mess": [
@@ -1458,6 +1467,672 @@
     "x": 7,
     "y": 8
    }
+  },
+  {
+   "id": "lane",
+   "name": "Neighbour Lane",
+   "kind": "outdoor",
+   "drained": true,
+   "edge": "#79B176",
+   "theme": {
+    "wall": "#F7D2BF",
+    "wallAccent": "#F4C2A8",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#A9CDA0",
+    "rugShade": "#79B176"
+   },
+   "legend": {
+    "h": "hedge",
+    "g": "grass",
+    "p": "path",
+    "c": "cobble",
+    "s": "soil",
+    "f": "flowers",
+    "w": "water",
+    "x": "fence",
+    " ": "void"
+   },
+   "map": [
+    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+    "hggggggggggggggggggggggggggggh",
+    "hgfggggggggggggggggggggggggggh",
+    "hgggggggggggfgggggggggggggggfh",
+    "hggggggggggggggggggggggggggggh",
+    "hgggggpgggggggggpggggggggpgggh",
+    "hcccccccccccccccccccccccccccch",
+    "hcccccccccccccccccccccccccccch",
+    "pcccccccccccccccccccccccccccch",
+    "pcccccccccccccccccccccccccccch",
+    "hcccccccccccccccccccccccccccch",
+    "hgggggggggggggpggggggggggggggh",
+    "hggfggggggggggpggggfgggggggggh",
+    "hggggfggggggggpggggggggfgggggh",
+    "hgggggggggfgggpggggggfgggggggh",
+    "hhhhhhhhhhhhhhphhhhhhhhhhhhhhh"
+   ],
+   "props": [
+    {
+     "type": "shopfront",
+     "x": 3,
+     "y": 1,
+     "w": 8,
+     "h": 4,
+     "colour": "#F4C2A8",
+     "doorX": 6
+    },
+    {
+     "type": "shopfront",
+     "x": 13,
+     "y": 1,
+     "w": 8,
+     "h": 4,
+     "colour": "#A9BFD6",
+     "doorX": 16
+    },
+    {
+     "type": "shopfront",
+     "x": 22,
+     "y": 1,
+     "w": 7,
+     "h": 4,
+     "colour": "#A9CDA0",
+     "doorX": 25
+    },
+    {
+     "type": "lamppost",
+     "x": 2,
+     "y": 11
+    },
+    {
+     "type": "lamppost",
+     "x": 27,
+     "y": 11
+    },
+    {
+     "type": "bench",
+     "x": 8,
+     "y": 12,
+     "w": 2
+    },
+    {
+     "type": "bench",
+     "x": 18,
+     "y": 12,
+     "w": 2
+    },
+    {
+     "type": "tree",
+     "x": 25,
+     "y": 12,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 1,
+     "y": 13,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "sign",
+     "x": 15,
+     "y": 14,
+     "action": "sign"
+    }
+   ],
+   "signs": [
+    {
+     "x": 15,
+     "y": 14,
+     "text": "Riverside this way. The river path opens soon."
+    }
+   ],
+   "doors": [
+    {
+     "x": 0,
+     "y": 8,
+     "to": "square",
+     "toX": 28,
+     "toY": 11
+    },
+    {
+     "x": 0,
+     "y": 9,
+     "to": "square",
+     "toX": 28,
+     "toY": 12
+    },
+    {
+     "x": 6,
+     "y": 5,
+     "to": "bea_shop",
+     "toX": 7,
+     "toY": 9
+    },
+    {
+     "x": 16,
+     "y": 5,
+     "to": "pip_workshop",
+     "toX": 7,
+     "toY": 9
+    },
+    {
+     "x": 25,
+     "y": 5,
+     "to": "library",
+     "toX": 7,
+     "toY": 9
+    },
+    {
+     "x": 14,
+     "y": 15,
+     "to": "riverside",
+     "toX": 0,
+     "toY": 0,
+     "closedText": "The river path opens soon."
+    }
+   ],
+   "mess": [
+    {
+     "type": "weeds",
+     "rect": [
+      1,
+      11,
+      28,
+      4
+     ],
+     "density": 0.07,
+     "seed": 41
+    },
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      6,
+      28,
+      5
+     ],
+     "density": 0.04,
+     "seed": 43
+    }
+   ],
+   "spawn": {
+    "x": 2,
+    "y": 8
+   }
+  },
+  {
+   "id": "bea_shop",
+   "name": "Bea's flower shop",
+   "kind": "home",
+   "drained": true,
+   "edge": "#534239",
+   "theme": {
+    "wall": "#F9EDC2",
+    "wallAccent": "#F6E3A1",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#F4C2A8",
+    "rugShade": "#DCA88D"
+   },
+   "legend": {
+    "#": "wall",
+    ".": "wood",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "################",
+    "################",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#######..#######",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#######m########"
+   ],
+   "props": [
+    {
+     "type": "table",
+     "x": 2,
+     "y": 2,
+     "w": 2,
+     "action": "putaway",
+     "accepts": [
+      "list"
+     ],
+     "label": "desk"
+    },
+    {
+     "type": "crate",
+     "x": 12,
+     "y": 2
+    },
+    {
+     "type": "crate",
+     "x": 13,
+     "y": 3
+    },
+    {
+     "type": "shelf",
+     "x": 8,
+     "y": 2,
+     "w": 2
+    },
+    {
+     "type": "counter",
+     "x": 10,
+     "y": 6,
+     "w": 4,
+     "colour": "#F4C2A8"
+    },
+    {
+     "type": "plant",
+     "x": 1,
+     "y": 6
+    },
+    {
+     "type": "plant",
+     "x": 14,
+     "y": 6
+    },
+    {
+     "type": "plant",
+     "x": 1,
+     "y": 9
+    },
+    {
+     "type": "plant",
+     "x": 14,
+     "y": 9,
+     "colour": "#A9BFD6"
+    }
+   ],
+   "doors": [
+    {
+     "x": 7,
+     "y": 10,
+     "to": "lane",
+     "toX": 6,
+     "toY": 6
+    }
+   ],
+   "mess": [
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      2,
+      14,
+      3
+     ],
+     "density": 0.45,
+     "seed": 51
+    },
+    {
+     "type": "crumbs",
+     "rect": [
+      1,
+      2,
+      14,
+      3
+     ],
+     "density": 0.2,
+     "seed": 53
+    },
+    {
+     "type": "clutter",
+     "x": 5,
+     "y": 3,
+     "item": "list"
+    },
+    {
+     "type": "clutter",
+     "x": 10,
+     "y": 4,
+     "item": "list"
+    },
+    {
+     "type": "clutter",
+     "x": 3,
+     "y": 4,
+     "item": "list"
+    },
+    {
+     "type": "dust",
+     "x": 11,
+     "y": 8
+    }
+   ],
+   "spawn": {
+    "x": 7,
+    "y": 9
+   },
+   "restoreReward": 100
+  },
+  {
+   "id": "pip_workshop",
+   "name": "Pip's toy workshop",
+   "kind": "home",
+   "drained": true,
+   "edge": "#534239",
+   "theme": {
+    "wall": "#F9EDC2",
+    "wallAccent": "#F6E3A1",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#F4C2A8",
+    "rugShade": "#DCA88D"
+   },
+   "legend": {
+    "#": "wall",
+    ".": "wood",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "################",
+    "################",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#######m########"
+   ],
+   "props": [
+    {
+     "type": "table",
+     "x": 5,
+     "y": 3,
+     "w": 3,
+     "label": "workbench"
+    },
+    {
+     "type": "shelf",
+     "x": 1,
+     "y": 2,
+     "w": 2
+    },
+    {
+     "type": "basket",
+     "x": 10,
+     "y": 2,
+     "w": 2,
+     "action": "putaway",
+     "accepts": [
+      "toy"
+     ],
+     "label": "toy box"
+    },
+    {
+     "type": "bed",
+     "x": 12,
+     "y": 2,
+     "w": 3,
+     "h": 3,
+     "colour": "#A9BFD6"
+    },
+    {
+     "type": "chair",
+     "x": 6,
+     "y": 5,
+     "colour": "#F4C2A8"
+    },
+    {
+     "type": "plant",
+     "x": 1,
+     "y": 8
+    },
+    {
+     "type": "crate",
+     "x": 14,
+     "y": 8
+    }
+   ],
+   "doors": [
+    {
+     "x": 7,
+     "y": 10,
+     "to": "lane",
+     "toX": 16,
+     "toY": 6
+    }
+   ],
+   "mess": [
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      2,
+      14,
+      8
+     ],
+     "density": 0.2,
+     "seed": 61
+    },
+    {
+     "type": "crumbs",
+     "rect": [
+      1,
+      5,
+      14,
+      4
+     ],
+     "density": 0.15,
+     "seed": 63
+    },
+    {
+     "type": "stain",
+     "x": 4,
+     "y": 6
+    },
+    {
+     "type": "stain",
+     "x": 9,
+     "y": 7
+    },
+    {
+     "type": "clutter",
+     "x": 3,
+     "y": 5,
+     "item": "toy"
+    },
+    {
+     "type": "clutter",
+     "x": 8,
+     "y": 8,
+     "item": "toy"
+    },
+    {
+     "type": "clutter",
+     "x": 11,
+     "y": 6,
+     "item": "toy"
+    },
+    {
+     "type": "clutter",
+     "x": 13,
+     "y": 8,
+     "item": "toy"
+    },
+    {
+     "type": "clutter",
+     "x": 2,
+     "y": 8,
+     "item": "toy"
+    }
+   ],
+   "spawn": {
+    "x": 7,
+    "y": 9
+   },
+   "restoreReward": 100
+  },
+  {
+   "id": "library",
+   "name": "Moss's library",
+   "kind": "home",
+   "drained": true,
+   "edge": "#534239",
+   "theme": {
+    "wall": "#F9EDC2",
+    "wallAccent": "#F6E3A1",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#F4C2A8",
+    "rugShade": "#DCA88D"
+   },
+   "legend": {
+    "#": "wall",
+    ".": "wood",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "################",
+    "################",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#..............#",
+    "#######m########"
+   ],
+   "props": [
+    {
+     "type": "shelf",
+     "x": 1,
+     "y": 2,
+     "w": 3,
+     "action": "putaway",
+     "accepts": [
+      "book"
+     ]
+    },
+    {
+     "type": "shelf",
+     "x": 5,
+     "y": 2,
+     "w": 3
+    },
+    {
+     "type": "shelf",
+     "x": 9,
+     "y": 2,
+     "w": 3
+    },
+    {
+     "type": "shelf",
+     "x": 12,
+     "y": 2,
+     "w": 3,
+     "action": "putaway",
+     "accepts": [
+      "book"
+     ]
+    },
+    {
+     "type": "table",
+     "x": 6,
+     "y": 6,
+     "w": 3
+    },
+    {
+     "type": "chair",
+     "x": 5,
+     "y": 6,
+     "colour": "#A9CDA0"
+    },
+    {
+     "type": "armchair",
+     "x": 12,
+     "y": 7,
+     "w": 2
+    },
+    {
+     "type": "lamp",
+     "x": 14,
+     "y": 6
+    }
+   ],
+   "doors": [
+    {
+     "x": 7,
+     "y": 10,
+     "to": "lane",
+     "toX": 25,
+     "toY": 6
+    }
+   ],
+   "mess": [
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      3,
+      14,
+      7
+     ],
+     "density": 0.35,
+     "seed": 71
+    },
+    {
+     "type": "cobweb",
+     "x": 1,
+     "y": 3
+    },
+    {
+     "type": "cobweb",
+     "x": 14,
+     "y": 3
+    },
+    {
+     "type": "cobweb",
+     "x": 4,
+     "y": 3
+    },
+    {
+     "type": "clutter",
+     "x": 3,
+     "y": 6,
+     "item": "book"
+    },
+    {
+     "type": "clutter",
+     "x": 10,
+     "y": 5,
+     "item": "book"
+    },
+    {
+     "type": "clutter",
+     "x": 9,
+     "y": 8,
+     "item": "book"
+    },
+    {
+     "type": "clutter",
+     "x": 2,
+     "y": 9,
+     "item": "book"
+    }
+   ],
+   "spawn": {
+    "x": 7,
+    "y": 9
+   },
+   "restoreReward": 100
   }
  ],
  "neighbours": [
@@ -1540,9 +2215,10 @@
    "schedule": [
     {
      "at": 360,
-     "area": "lane",
-     "x": 0,
-     "y": 0
+     "area": "bea_shop",
+     "x": 4,
+     "y": 3,
+     "dir": "up"
     },
     {
      "at": 440,
@@ -1552,17 +2228,39 @@
      "dir": "up"
     },
     {
-     "at": 470,
-     "area": "square",
+     "at": 475,
+     "area": "bea_shop",
      "x": 12,
-     "y": 10,
-     "dir": "right"
+     "y": 8,
+     "dir": "up"
     },
     {
-     "at": 720,
-     "area": "lane",
+     "at": 780,
+     "area": "bea_shop",
+     "x": 4,
+     "y": 3,
+     "dir": "left"
+    },
+    {
+     "at": 840,
+     "area": "bea_shop",
+     "x": 12,
+     "y": 8,
+     "dir": "up"
+    },
+    {
+     "at": 1080,
+     "area": "riverside",
      "x": 0,
      "y": 0
+    },
+    {
+     "at": 1200,
+     "area": "bea_shop",
+     "x": 3,
+     "y": 4,
+     "dir": "down",
+     "sleep": true
     }
    ]
   },
@@ -1591,9 +2289,18 @@
    "schedule": [
     {
      "at": 360,
-     "area": "lane",
-     "x": 0,
-     "y": 0
+     "area": "pip_workshop",
+     "x": 11,
+     "y": 5,
+     "dir": "down",
+     "sleep": true
+    },
+    {
+     "at": 600,
+     "area": "pip_workshop",
+     "x": 6,
+     "y": 5,
+     "dir": "up"
     },
     {
      "at": 900,
@@ -1604,16 +2311,18 @@
     },
     {
      "at": 960,
-     "area": "square",
-     "x": 10,
-     "y": 14,
-     "dir": "down"
+     "area": "pip_workshop",
+     "x": 6,
+     "y": 5,
+     "dir": "up"
     },
     {
-     "at": 1080,
-     "area": "lane",
-     "x": 0,
-     "y": 0
+     "at": 1500,
+     "area": "pip_workshop",
+     "x": 11,
+     "y": 5,
+     "dir": "down",
+     "sleep": true
     }
    ]
   }
@@ -3062,7 +3771,7 @@
    "name": "Bea's flowers",
    "keeper": "bea",
    "opens": 480,
-   "closes": 720,
+   "closes": 1080,
    "stock": [
     {
      "item": "radish_seeds",
@@ -3072,6 +3781,23 @@
     {
      "item": "flowers",
      "price": 40
+    }
+   ]
+  },
+  {
+   "id": "toys",
+   "name": "Pip's toys",
+   "keeper": "pip",
+   "opens": 600,
+   "closes": 900,
+   "stock": [
+    {
+     "item": "string",
+     "price": 15
+    },
+    {
+     "item": "toy_boat",
+     "price": 50
     }
    ]
   }

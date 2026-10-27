@@ -63,14 +63,17 @@ export class Area {
   signAt(x: number, y: number) { return this.pack.signs?.find((s) => s.x === x && s.y === y); }
 }
 
+/** Placed spots first, then scattered ones on whatever tiles are left: a placed item is never lost. */
 export function expandMess(defs: MessDef[]): MessSpot[] {
-  const out: MessSpot[] = [];
+  const out: MessSpot[] = defs.filter((d): d is MessSpot => !('rect' in d));
+  const taken = new Set(out.map((m) => `${m.x},${m.y}`));
   for (const d of defs) {
-    if ('rect' in d) {
-      const rand = seeded(d.seed);
-      const [x0, y0, w, h] = d.rect;
-      for (let y = y0; y < y0 + h; y += 1) for (let x = x0; x < x0 + w; x += 1) if (rand() < d.density) out.push({ type: d.type, x, y });
-    } else out.push(d);
+    if (!('rect' in d)) continue;
+    const rand = seeded(d.seed);
+    const [x0, y0, w, h] = d.rect;
+    for (let y = y0; y < y0 + h; y += 1) for (let x = x0; x < x0 + w; x += 1) {
+      if (rand() < d.density && !taken.has(`${x},${y}`)) { out.push({ type: d.type, x, y }); taken.add(`${x},${y}`); }
+    }
   }
   return out;
 }

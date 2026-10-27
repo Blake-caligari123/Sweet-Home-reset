@@ -255,6 +255,9 @@ export class TownGame {
 
   private targetAt(x: number, y: number): Target {
     const area = this.area;
+    // Carrying something that lives here? Put it away before dusting the furniture.
+    const home = area.tapPropAt(x, y);
+    if (home?.action === 'putaway' && home.accepts?.some((id) => this.state.bag.count(id) > 0)) return { kind: 'prop', x, y, action: home.action, accepts: home.accepts };
     if (this.mess.typeAt(x, y) !== 'none') return { kind: 'mess', x, y };
     if (area.groundAt(x, y) === 'soil') return { kind: 'soil', x, y };
     if (area.doorAt(x, y)) return { kind: 'door', x, y };
