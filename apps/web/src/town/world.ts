@@ -118,6 +118,7 @@ export class World {
     this.drainTexture?.destroy(true);
     this.drainTexture = Texture.from(this.drainCanvas);
     this.drained.texture = this.drainTexture;
+    this.syncDrainedVisible();
     this.messLayer.removeChildren().forEach((c) => c.destroy());
     this.messSprites.clear();
     for (let i = 0; i < mess.type.length; i += 1) this.syncMess(i);
@@ -170,6 +171,12 @@ export class World {
     for (const i of tiles) this.paintDrainTile(i, this.shownColour[i]);
     this.drainCtx.putImageData(this.drainImage, 0, 0);
     this.drainTexture?.source.update();
+    this.syncDrainedVisible();
+  }
+
+  /** A fully coloured area needs no grey overlay: skip drawing that full-screen layer. */
+  private syncDrainedVisible() {
+    this.drained.visible = this.shownColour.some((v) => v < FULL_COLOUR);
   }
 
   setCrops(crops: { x: number; y: number; stage: number; watered: boolean }[]) {
