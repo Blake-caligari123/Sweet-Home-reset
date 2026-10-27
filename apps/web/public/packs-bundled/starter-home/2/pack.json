@@ -1,0 +1,987 @@
+{
+  "schemaVersion": 1,
+  "id": "starter-home",
+  "version": 2,
+  "title": "First Little Resets",
+  "tier": "free",
+  "outfits": [
+    {
+      "itemId": "scarf",
+      "name": "Cosy scarf",
+      "price": 90
+    },
+    {
+      "itemId": "apron",
+      "name": "Tiny apron",
+      "price": 120
+    },
+    {
+      "itemId": "beanie",
+      "name": "Blue beanie",
+      "price": 150
+    }
+  ],
+  "rooms": [
+    {
+      "id": "kitchen-nook",
+      "title": "Kitchen Nook",
+      "blurb": "A dusty little kitchen with a sleepy sunny window.",
+      "theme": {
+        "wall": "#F9EDC2",
+        "wallAccent": "#F6E3A1",
+        "wallPattern": "stripes",
+        "wallHeight": 112,
+        "floor": "tiles",
+        "floorA": "#FFF8EC",
+        "floorB": "#F7D2BF"
+      },
+      "layers": [
+        {
+          "id": "window",
+          "prop": "window",
+          "x": 18,
+          "y": 52,
+          "w": 50,
+          "h": 40,
+          "variant": "open"
+        },
+        {
+          "prop": "clock",
+          "x": 160,
+          "y": 60
+        },
+        {
+          "prop": "wallShelf",
+          "x": 98,
+          "y": 78,
+          "w": 64
+        },
+        {
+          "prop": "counter",
+          "x": 0,
+          "y": 108,
+          "w": 180,
+          "h": 54,
+          "colour": "#A9CDA0"
+        },
+        {
+          "prop": "sink",
+          "x": 28,
+          "y": 111,
+          "w": 36,
+          "h": 14
+        },
+        {
+          "prop": "stove",
+          "x": 118,
+          "y": 111,
+          "w": 40,
+          "h": 15
+        },
+        {
+          "prop": "chair",
+          "x": 82,
+          "y": 210,
+          "colour": "#F4C2A8"
+        },
+        {
+          "prop": "chair",
+          "x": 36,
+          "y": 232,
+          "colour": "#A9BFD6"
+        },
+        {
+          "prop": "chair",
+          "x": 128,
+          "y": 232,
+          "colour": "#A9BFD6"
+        },
+        {
+          "prop": "floorTable",
+          "x": 52,
+          "y": 224,
+          "w": 76,
+          "h": 38
+        },
+        {
+          "prop": "fruitBowl",
+          "x": 96,
+          "y": 234
+        },
+        {
+          "prop": "mug",
+          "x": 72,
+          "y": 236,
+          "colour": "#A9BFD6"
+        }
+      ],
+      "stageArt": {
+        "25": [
+          {
+            "effect": "sunbeam",
+            "x": 22,
+            "y": 112,
+            "w": 40,
+            "h": 110
+          }
+        ],
+        "50": [
+          {
+            "effect": "glow",
+            "x": 138,
+            "y": 118,
+            "r": 26
+          }
+        ],
+        "75": [
+          {
+            "effect": "steam",
+            "x": 75,
+            "y": 232
+          }
+        ],
+        "100": [
+          {
+            "effect": "twinkle",
+            "points": [
+              {
+                "x": 40,
+                "y": 116
+              },
+              {
+                "x": 150,
+                "y": 120
+              },
+              {
+                "x": 90,
+                "y": 240
+              },
+              {
+                "x": 30,
+                "y": 300
+              },
+              {
+                "x": 140,
+                "y": 320
+              },
+              {
+                "x": 44,
+                "y": 60
+              }
+            ]
+          }
+        ]
+      },
+      "decor": [
+        {
+          "itemId": "plant",
+          "name": "Happy plant",
+          "prop": "plant",
+          "x": 152,
+          "y": 290,
+          "price": 60
+        },
+        {
+          "itemId": "kitchen_art",
+          "name": "Hill print",
+          "prop": "wallArt",
+          "x": 76,
+          "y": 50,
+          "price": 100
+        }
+      ],
+      "tasks": [
+        {
+          "type": "scrub",
+          "id": "counter",
+          "label": "Scrub the counter",
+          "areas": [
+            {
+              "x": 1,
+              "y": 109,
+              "w": 178,
+              "h": 18
+            },
+            {
+              "x": 14,
+              "y": 168,
+              "w": 150,
+              "h": 30
+            }
+          ],
+          "coverage": 0.6,
+          "seed": 11
+        },
+        {
+          "type": "wipe",
+          "id": "window",
+          "label": "Wipe the window",
+          "surface": "glass",
+          "areas": [
+            {
+              "x": 28,
+              "y": 53,
+              "w": 30,
+              "h": 38
+            }
+          ]
+        },
+        {
+          "type": "pop",
+          "id": "bunnies",
+          "label": "Pop dust bunnies",
+          "bunnies": [
+            {
+              "x": 26,
+              "y": 208
+            },
+            {
+              "x": 160,
+              "y": 196
+            },
+            {
+              "x": 40,
+              "y": 318
+            },
+            {
+              "x": 148,
+              "y": 316
+            }
+          ]
+        },
+        {
+          "type": "sort",
+          "id": "putaway",
+          "label": "Put things away",
+          "bins": [
+            {
+              "id": "sink",
+              "label": "Sink",
+              "x": 26,
+              "y": 106,
+              "w": 40,
+              "h": 22,
+              "accepts": [
+                "mug",
+                "plate"
+              ]
+            },
+            {
+              "id": "bowl",
+              "label": "Fruit bowl",
+              "x": 92,
+              "y": 228,
+              "w": 26,
+              "h": 16,
+              "accepts": [
+                "apple",
+                "bread"
+              ]
+            }
+          ],
+          "items": [
+            {
+              "kind": "plate",
+              "x": 30,
+              "y": 276
+            },
+            {
+              "kind": "apple",
+              "x": 74,
+              "y": 306
+            },
+            {
+              "kind": "mug",
+              "x": 116,
+              "y": 284
+            },
+            {
+              "kind": "bread",
+              "x": 100,
+              "y": 318
+            }
+          ]
+        }
+      ],
+      "chores": [
+        {
+          "choreKey": "rinse_mugs",
+          "label": "Rinse 3 mugs",
+          "size": "tiny"
+        },
+        {
+          "choreKey": "wipe_counter",
+          "label": "Wipe one counter",
+          "size": "quick"
+        },
+        {
+          "choreKey": "put_five",
+          "label": "Put 5 things where they belong",
+          "size": "quick"
+        }
+      ],
+      "puffLines": [
+        "Ooh, we found the counter!",
+        "Sunshine coming in!",
+        "Squeaky clean!",
+        "Smells like toast."
+      ],
+      "puff": {
+        "x": 90,
+        "y": 300
+      },
+      "walk": {
+        "x": 4,
+        "y": 170,
+        "w": 172,
+        "h": 150
+      }
+    },
+    {
+      "id": "living-room",
+      "title": "Living Room",
+      "blurb": "Books everywhere and a rug that remembers snacks.",
+      "unlock": {
+        "afterRoom": "kitchen-nook",
+        "chores": 2
+      },
+      "theme": {
+        "wall": "#C1D1E2",
+        "wallAccent": "#A9BFD6",
+        "wallPattern": "dots",
+        "wallHeight": 112,
+        "floor": "planks",
+        "floorA": "#C5A691",
+        "floorB": "#B9937A"
+      },
+      "layers": [
+        {
+          "id": "window",
+          "prop": "window",
+          "x": 116,
+          "y": 50,
+          "w": 46,
+          "h": 38,
+          "variant": "closed"
+        },
+        {
+          "prop": "wallArt",
+          "x": 66,
+          "y": 58,
+          "w": 32,
+          "h": 24,
+          "colour": "#79B176"
+        },
+        {
+          "prop": "bookshelf",
+          "x": 8,
+          "y": 48,
+          "w": 44,
+          "h": 72
+        },
+        {
+          "prop": "sofa",
+          "x": 56,
+          "y": 98,
+          "w": 100,
+          "colour": "#A9CDA0"
+        },
+        {
+          "prop": "floorLamp",
+          "x": 160,
+          "y": 96
+        },
+        {
+          "prop": "rug",
+          "x": 26,
+          "y": 176,
+          "w": 128,
+          "h": 84,
+          "colour": "#F4C2A8"
+        },
+        {
+          "prop": "coffeeTable",
+          "x": 64,
+          "y": 198,
+          "w": 52,
+          "h": 26
+        },
+        {
+          "prop": "toyBox",
+          "x": 10,
+          "y": 286,
+          "w": 32,
+          "h": 22
+        },
+        {
+          "prop": "plant",
+          "x": 152,
+          "y": 290
+        }
+      ],
+      "stageArt": {
+        "25": [
+          {
+            "effect": "swap",
+            "layer": "window",
+            "variant": "open"
+          },
+          {
+            "effect": "sunbeam",
+            "x": 118,
+            "y": 116,
+            "w": 36,
+            "h": 120
+          }
+        ],
+        "50": [
+          {
+            "effect": "glow",
+            "x": 167,
+            "y": 104,
+            "r": 24
+          }
+        ],
+        "75": [
+          {
+            "effect": "steam",
+            "x": 100,
+            "y": 200
+          }
+        ],
+        "100": [
+          {
+            "effect": "twinkle",
+            "points": [
+              {
+                "x": 30,
+                "y": 70
+              },
+              {
+                "x": 100,
+                "y": 120
+              },
+              {
+                "x": 90,
+                "y": 210
+              },
+              {
+                "x": 40,
+                "y": 260
+              },
+              {
+                "x": 150,
+                "y": 250
+              },
+              {
+                "x": 138,
+                "y": 60
+              }
+            ]
+          }
+        ]
+      },
+      "decor": [
+        {
+          "itemId": "fairy_lights",
+          "name": "Fairy lights",
+          "prop": "fairyLights",
+          "x": 10,
+          "y": 36,
+          "w": 160,
+          "price": 120
+        },
+        {
+          "itemId": "living_cushion",
+          "name": "Butter cushion",
+          "prop": "cushion",
+          "x": 120,
+          "y": 112,
+          "price": 80
+        }
+      ],
+      "tasks": [
+        {
+          "type": "scrub",
+          "id": "rug",
+          "label": "Scrub the rug and table",
+          "areas": [
+            {
+              "x": 65,
+              "y": 199,
+              "w": 50,
+              "h": 18
+            },
+            {
+              "x": 30,
+              "y": 180,
+              "w": 120,
+              "h": 76
+            }
+          ],
+          "coverage": 0.42,
+          "seed": 23
+        },
+        {
+          "type": "wipe",
+          "id": "shelves",
+          "label": "Dust the shelves",
+          "surface": "dust",
+          "areas": [
+            {
+              "x": 9,
+              "y": 48,
+              "w": 42,
+              "h": 70
+            },
+            {
+              "x": 67,
+              "y": 59,
+              "w": 30,
+              "h": 22
+            }
+          ]
+        },
+        {
+          "type": "pop",
+          "id": "bunnies",
+          "label": "Pop dust bunnies",
+          "bunnies": [
+            {
+              "x": 70,
+              "y": 156
+            },
+            {
+              "x": 124,
+              "y": 158
+            },
+            {
+              "x": 30,
+              "y": 140
+            },
+            {
+              "x": 100,
+              "y": 284
+            },
+            {
+              "x": 160,
+              "y": 316
+            }
+          ]
+        },
+        {
+          "type": "sort",
+          "id": "tidy",
+          "label": "Tidy books and toys",
+          "bins": [
+            {
+              "id": "shelf",
+              "label": "Bookshelf",
+              "x": 6,
+              "y": 46,
+              "w": 48,
+              "h": 76,
+              "accepts": [
+                "book"
+              ]
+            },
+            {
+              "id": "toys",
+              "label": "Toy box",
+              "x": 8,
+              "y": 282,
+              "w": 36,
+              "h": 28,
+              "accepts": [
+                "teddy",
+                "blocks"
+              ]
+            }
+          ],
+          "items": [
+            {
+              "kind": "book",
+              "x": 60,
+              "y": 272
+            },
+            {
+              "kind": "book",
+              "x": 130,
+              "y": 278
+            },
+            {
+              "kind": "teddy",
+              "x": 96,
+              "y": 312
+            },
+            {
+              "kind": "blocks",
+              "x": 140,
+              "y": 196
+            }
+          ]
+        }
+      ],
+      "chores": [
+        {
+          "choreKey": "fluff_cushions",
+          "label": "Fluff the sofa cushions",
+          "size": "tiny"
+        },
+        {
+          "choreKey": "books_back",
+          "label": "Put 3 books back",
+          "size": "tiny"
+        },
+        {
+          "choreKey": "clear_table",
+          "label": "Clear the coffee table",
+          "size": "quick"
+        }
+      ],
+      "puffLines": [
+        "So many books!",
+        "The rug is pink?!",
+        "Cosy corner unlocked.",
+        "Ahh, sunshine."
+      ],
+      "puff": {
+        "x": 120,
+        "y": 300
+      },
+      "walk": {
+        "x": 4,
+        "y": 150,
+        "w": 172,
+        "h": 170
+      }
+    },
+    {
+      "id": "bedroom",
+      "title": "Bedroom",
+      "blurb": "Clothes on the floor and a mirror full of fog.",
+      "unlock": {
+        "afterRoom": "living-room",
+        "chores": 4
+      },
+      "theme": {
+        "wall": "#F7D2BF",
+        "wallAccent": "#F4C2A8",
+        "wallPattern": "stripes",
+        "wallHeight": 112,
+        "floor": "planks",
+        "floorA": "#F6E3A1",
+        "floorB": "#E7CB69"
+      },
+      "layers": [
+        {
+          "id": "window",
+          "prop": "window",
+          "x": 14,
+          "y": 50,
+          "w": 40,
+          "h": 36,
+          "variant": "closed",
+          "colour": "#A9BFD6"
+        },
+        {
+          "prop": "wallArt",
+          "x": 132,
+          "y": 58,
+          "w": 28,
+          "h": 22,
+          "colour": "#F4C2A8"
+        },
+        {
+          "prop": "nightstand",
+          "x": 30,
+          "y": 112
+        },
+        {
+          "prop": "tableLamp",
+          "x": 35,
+          "y": 102
+        },
+        {
+          "prop": "nightstand",
+          "x": 130,
+          "y": 112
+        },
+        {
+          "prop": "bed",
+          "x": 56,
+          "y": 112,
+          "w": 70,
+          "h": 104,
+          "colour": "#A9BFD6"
+        },
+        {
+          "prop": "rug",
+          "x": 34,
+          "y": 238,
+          "w": 112,
+          "h": 52,
+          "colour": "#A9CDA0"
+        },
+        {
+          "prop": "mirror",
+          "x": 150,
+          "y": 196,
+          "w": 24,
+          "h": 52
+        },
+        {
+          "prop": "laundryBasket",
+          "x": 10,
+          "y": 294,
+          "w": 28,
+          "h": 22
+        },
+        {
+          "prop": "dresser",
+          "x": 4,
+          "y": 150,
+          "w": 28,
+          "h": 40
+        }
+      ],
+      "stageArt": {
+        "25": [
+          {
+            "effect": "swap",
+            "layer": "window",
+            "variant": "open"
+          },
+          {
+            "effect": "sunbeam",
+            "x": 18,
+            "y": 116,
+            "w": 30,
+            "h": 120
+          }
+        ],
+        "50": [
+          {
+            "effect": "glow",
+            "x": 40,
+            "y": 106,
+            "r": 22
+          }
+        ],
+        "75": [
+          {
+            "effect": "steam",
+            "x": 140,
+            "y": 106
+          }
+        ],
+        "100": [
+          {
+            "effect": "twinkle",
+            "points": [
+              {
+                "x": 90,
+                "y": 130
+              },
+              {
+                "x": 60,
+                "y": 200
+              },
+              {
+                "x": 160,
+                "y": 214
+              },
+              {
+                "x": 90,
+                "y": 260
+              },
+              {
+                "x": 30,
+                "y": 60
+              },
+              {
+                "x": 146,
+                "y": 60
+              }
+            ]
+          }
+        ]
+      },
+      "decor": [
+        {
+          "itemId": "bed_cushion",
+          "name": "Bed cushion",
+          "prop": "cushion",
+          "x": 82,
+          "y": 118,
+          "price": 80,
+          "colour": "#CADDC4"
+        },
+        {
+          "itemId": "bed_plant",
+          "name": "Window plant",
+          "prop": "plant",
+          "x": 152,
+          "y": 296,
+          "price": 60,
+          "colour": "#A9BFD6"
+        }
+      ],
+      "tasks": [
+        {
+          "type": "scrub",
+          "id": "floor",
+          "label": "Scrub floor smudges",
+          "areas": [
+            {
+              "x": 36,
+              "y": 240,
+              "w": 108,
+              "h": 48
+            },
+            {
+              "x": 4,
+              "y": 196,
+              "w": 50,
+              "h": 40
+            },
+            {
+              "x": 60,
+              "y": 292,
+              "w": 80,
+              "h": 30
+            }
+          ],
+          "coverage": 0.45,
+          "seed": 37
+        },
+        {
+          "type": "wipe",
+          "id": "mirror",
+          "label": "Wipe the mirror",
+          "surface": "glass",
+          "areas": [
+            {
+              "x": 153,
+              "y": 199,
+              "w": 18,
+              "h": 46
+            }
+          ]
+        },
+        {
+          "type": "pop",
+          "id": "bunnies",
+          "label": "Pop dust bunnies",
+          "bunnies": [
+            {
+              "x": 48,
+              "y": 226
+            },
+            {
+              "x": 134,
+              "y": 228
+            },
+            {
+              "x": 100,
+              "y": 306
+            },
+            {
+              "x": 62,
+              "y": 318
+            },
+            {
+              "x": 160,
+              "y": 270
+            }
+          ]
+        },
+        {
+          "type": "sort",
+          "id": "laundry",
+          "label": "Pick up clothes",
+          "bins": [
+            {
+              "id": "basket",
+              "label": "Laundry basket",
+              "x": 6,
+              "y": 288,
+              "w": 36,
+              "h": 32,
+              "accepts": [
+                "sock",
+                "shirt"
+              ]
+            },
+            {
+              "id": "stand",
+              "label": "Nightstand",
+              "x": 128,
+              "y": 104,
+              "w": 26,
+              "h": 30,
+              "accepts": [
+                "book"
+              ]
+            }
+          ],
+          "items": [
+            {
+              "kind": "sock",
+              "x": 70,
+              "y": 300
+            },
+            {
+              "kind": "shirt",
+              "x": 122,
+              "y": 312
+            },
+            {
+              "kind": "sock",
+              "x": 150,
+              "y": 318
+            },
+            {
+              "kind": "book",
+              "x": 100,
+              "y": 228
+            }
+          ]
+        }
+      ],
+      "chores": [
+        {
+          "choreKey": "make_bed",
+          "label": "Pull the covers up on your bed",
+          "size": "tiny"
+        },
+        {
+          "choreKey": "clothes_basket",
+          "label": "Put clothes in the basket",
+          "size": "tiny"
+        },
+        {
+          "choreKey": "open_window",
+          "label": "Open a window for 5 minutes",
+          "size": "tiny"
+        }
+      ],
+      "puffLines": [
+        "Is that a sock mountain?",
+        "Mirror, mirror!",
+        "So comfy in here.",
+        "Nap time soon?"
+      ],
+      "puff": {
+        "x": 100,
+        "y": 330
+      },
+      "walk": {
+        "x": 4,
+        "y": 220,
+        "w": 172,
+        "h": 100
+      }
+    }
+  ]
+}

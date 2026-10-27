@@ -1,0 +1,72 @@
+import { describe, expect, it } from 'vitest';
+import { DirtMap, HP } from './dirt';
+import type { TaskDef } from './pack';
+
+const tasks: TaskDef[] = [
+  { type: 'scrub', id: 's', label: 'Scrub', areas: [{ x: 10, y: 10, w: 40, h: 20 }], coverage: 0.6, seed: 1 },
+  { type: 'wipe', id: 'w', label: 'Wipe', surface: 'glass', areas: [{ x: 100, y: 100, w: 10, h: 10 }] },
+  { type: 'pop', id: 'p', label: 'Pop', bunnies: [{ x: 1, y: 1 }] }
+];
+
+describe('dirt map', () => {
+  it('generates the same mess from the same seed, and a different one from another', () => {
+    const a = new DirtMap(tasks, 1); const b = new DirtMap(tasks, 1); const c = new DirtMap(tasks, 2);
+    expect(Buffer.from(a.hp).equals(Buffer.from(b.hp))).toBe(true);
+    expect(Buffer.from(a.hp).equals(Buffer.from(c.hp))).toBe(false);
+  });
+
+  it('keeps grime inside its areas and covers about the requested share', () => {
+    const map = new DirtMap(tasks, 1);
+    for (let i = 0; i < map.hp.length; i += 1) {
+      if (map.owner[i] !== 0) continue;
+      const x = i % 180; const y = Math.floor(i / 180);
+      expect(x >= 10 && x < 50 && y >= 10 && y < 30).toBe(true);
+    }
+    expect(map.total[0]).toBeGreaterThanOrEqual(800 * 0.6);
+    expect(map.total[1]).toBe(100);
+    expect(map.total[2]).toBe(0);
+  });
+
+  it('wipes glass in one pass but needs repeat passes for grime', () => {
+    const map = new DirtMap(tasks, 1);
+    map.stroke(95, 105, 115, 105, 8);
+    expect(map.progress(1)).toBeGreaterThan(0.5);
+    const once = map.stroke(10, 20, 50, 20, 8);
+    expect(once.changed).toBe(true);
+    expect(map.progress(0)).toBeLessThan(0.5);
+    for (let pass = 0; pass < 6; pass += 1) { map.stroke(10, 14, 50, 14, 8); map.stroke(50, 24, 10, 24, 8); }
+    expect(map.progress(0)).toBeGreaterThan(0.9);
+  });
+
+  it('reports a box that covers every pixel it changed, on the 1x grid', () => {
+    const map = new DirtMap(tasks, 1);
+    const result = map.stamp(105.4, 104.7, 3);
+    expect(result.box).not.toBeNull();
+    const { x, y, w, h } = result.box!;
+    expect([x, y, w, h].every(Number.isInteger)).toBe(true);
+    expect(x).toBeGreaterThanOrEqual(100); expect(x + w).toBeLessThanOrEqual(110);
+  });
+
+  it('clears a whole task at once and survives a save round trip', () => {
+    const map = new DirtMap(tasks, 1);
+    map.stroke(10, 20, 50, 20, 8);
+    const saved = map.snapshot();
+    const copy = new DirtMap(tasks, 1);
+    copy.restore(saved);
+    expect(copy.progress(0)).toBeCloseTo(map.progress(0));
+    copy.clearTask(0);
+    expect(copy.progress(0)).toBe(1);
+    expect(copy.hintPoint(0)).toBeNull();
+  });
+
+  it('paints nothing where the dirt is gone', () => {
+    const map = new DirtMap(tasks, 1);
+    const rgba = new Uint8ClampedArray(180 * 390 * 4);
+    map.paint(rgba);
+    expect(rgba[(105 * 180 + 105) * 4 + 3]).toBeGreaterThan(0);
+    map.clearTask(1);
+    map.paint(rgba);
+    expect(rgba[(105 * 180 + 105) * 4 + 3]).toBe(0);
+    expect(HP.grime).toBeGreaterThan(HP.glass);
+  });
+});
