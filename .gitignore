@@ -13,3 +13,7 @@ coverage/
 Thumbs.db
 ios/
 android/
+
+# Asset tools
+tools/.venv/
+__pycache__/

@@ -16,6 +16,7 @@ import { Onboarding, type OnboardEvent } from './onboarding';
 import { retarget, standTiles, type Route, type Tile } from './pathfind';
 import { eraseTown, stamp, writeTown, type TownSave } from './save';
 import { cropDays, PUTAWAY_SPARKLES, SWING_MS, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './tuning';
+import type { SpriteBank } from './sprites';
 import { World } from './world';
 
 const BED_TILE = { area: 'burrow', x: 3, y: 4 };
@@ -111,6 +112,9 @@ export class TownGame {
       };
     }
   }
+
+  /** Character sprite sheets loaded after start; Puff stays code-drawn until they arrive. */
+  setSprites(bank: SpriteBank) { this.world.setSprites(bank); }
 
   // ---- areas -------------------------------------------------------------------------------
 
@@ -644,7 +648,8 @@ export class TownGame {
   }
 
   private placeBubble(x: number, y: number) {
-    const s = this.world.toScreen((x + 0.5) * T, y * T - 10);
+    // Just above Puff's ears, whatever art Puff is drawn with.
+    const s = this.world.toScreen((x + 0.5) * T, (y + 1) * T - 1 - this.world.puffHeight - 2);
     this.hud.fadeNear(s.y + 20);
     if (!this.hud.bubble.classList.contains('show')) return;
     const half = Math.min(120, this.hud.bubble.offsetWidth / 2 + 8);

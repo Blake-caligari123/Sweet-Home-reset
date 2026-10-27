@@ -1,0 +1,102 @@
+{
+ "note": "8 base + shade + light = 24; v2: sage/grey separated, peach shade desaturated",
+ "colours": [
+  {
+   "name": "butter",
+   "hex": "#F6E3A1"
+  },
+  {
+   "name": "butter_shade",
+   "hex": "#E7CB69"
+  },
+  {
+   "name": "butter_light",
+   "hex": "#F9EDC2"
+  },
+  {
+   "name": "sage",
+   "hex": "#A9CDA0",
+   "note": "sage pushed greener (was #B7CDB0) to separate from warm grey"
+  },
+  {
+   "name": "sage_shade",
+   "hex": "#79B176"
+  },
+  {
+   "name": "sage_light",
+   "hex": "#CADDC4"
+  },
+  {
+   "name": "peach",
+   "hex": "#F4C2A8"
+  },
+  {
+   "name": "peach_shade",
+   "hex": "#DCA88D"
+  },
+  {
+   "name": "peach_light",
+   "hex": "#F7D2BF"
+  },
+  {
+   "name": "dusty_blue",
+   "hex": "#A9BFD6"
+  },
+  {
+   "name": "dusty_blue_shade",
+   "hex": "#7296BC"
+  },
+  {
+   "name": "dusty_blue_light",
+   "hex": "#C1D1E2"
+  },
+  {
+   "name": "cream",
+   "hex": "#FFF8EC"
+  },
+  {
+   "name": "cream_shade",
+   "hex": "#FAEBD2"
+  },
+  {
+   "name": "cream_light",
+   "hex": "#FFFFFF"
+  },
+  {
+   "name": "warm_grey",
+   "hex": "#CFC6BD"
+  },
+  {
+   "name": "warm_grey_shade",
+   "hex": "#A6A29F"
+  },
+  {
+   "name": "warm_grey_light",
+   "hex": "#DAD5D1"
+  },
+  {
+   "name": "soft_brown",
+   "hex": "#B9937A"
+  },
+  {
+   "name": "soft_brown_shade",
+   "hex": "#946F57"
+  },
+  {
+   "name": "soft_brown_light",
+   "hex": "#C5A691"
+  },
+  {
+   "name": "outline",
+   "hex": "#8A6E5E"
+  },
+  {
+   "name": "outline_shade",
+   "hex": "#534239"
+  },
+  {
+   "name": "outline_light",
+   "hex": "#9F8272"
+  }
+ ]
+}

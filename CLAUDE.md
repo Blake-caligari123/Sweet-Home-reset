@@ -19,19 +19,21 @@ A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the 
 - Plus = seasons 2–4 + neighbours 4–6. Offered first at the day-14 Spring Clean Fair (postcard at home after the fair), then at most once per in-game week; never mid-task. Lapse keeps all progress.
 - Analytics: first-party, anonymous gameplay counts only. No third-party tracking.
 
-## Art (parked)
-- Art is parked: tiles and mess drawn in code, code-drawn placeholders at 16 px tiles, 24 px Puff in the world, 48 px Puff in menus (`claude/PIXEL-ART-SPEC.md`, `tools/palette24.json`). No new asset prompts until Claude Code asks for a specific asset. Old room paintings / 01–99 prompts are retired unless re-requested.
+## Art (unparked 27 Oct 2026, hybrid)
+- Character sprite sheets come from Blake (Grok Imagine + cleanup), processed by `tools/process_asset.py --sheet` into `apps/web/public/sprites/` and wired in as they arrive: `claude/SPRITE-SHEETS.md` (order: Puff walk, idle+blink, clean swing, hop+doze; then neighbours). Code-drawn placeholders stay until each sheet lands.
+- Claude Code keeps tiles, props, mess, effects and ambient animation in code (16 px tiles, 24 px Puff in the world; 48 px menu Puff later).
+- Character sprites use Blake's Grok art at high resolution (`--hires 6`: the art's own colours and outline, 6 texture px per world px, Puff in a 24×28 world-px cell), decided 27 Oct 2026. Blake also proposed Grok-painted areas and props for one consistent look (not started; trial on the burrow first). Soft shadows and lamp glow are code overlays. `PUFF-ANIMATION-TASKS.md` (48 px room game) is retired. Old room paintings / 01–99 prompts are retired unless re-requested.
 - Credit "Some art created with Grok Imagine" in Settings > About and the store listing; log assets in `claude/LICENCES.md`.
 
 ## Commands
 - `npm test` (Vitest, incl. `@cloudflare/vitest-pool-workers`), `npm run build`, `npx playwright test`
 - `npm run pack:build {id}`, `npm run pack:preview {id}`
 - `npx cap sync`, then build in Xcode / Android Studio
-- Art: `tools/.venv/bin/python tools/process_asset.py <asset> --pixel room|puff|prop [--log]` (see `tools/README.md`)
+- Art: `tools/.venv/bin/python tools/process_asset.py <name> --sheet N --hires 6 --frame 24x28 [--rows a,b,c] --log` for character sheets; `--pixel room|puff|prop` for the older modes (see `tools/README.md`). Tool tests: `tools/.venv/bin/python -m unittest discover tools`
 
 ## Folder map
-- `claude/`: design and build docs: GAME-DESIGN, FRONTEND-PLAN, BACKEND-PLAN, ASSET-PROMPTS (+ `asset-prompts/01–99`), PIXEL-ART-SPEC, PUFF-ANIMATION-TASKS, LICENCES, STORE-PRICES, IARC-ANSWERS, BUSINESS-IDEAS, STORY.md, `config/` (app.json, pricing.json, tuning.json), `gdd-v3/` (section sources; rebuild A11 with `python3 ../tools/merge_gdd_v3.py` from `claude/`), `prompts/` (build steps)
-- `art/`: source images and processed output (`MANIFEST.md`, `_drafts/`, `puff/`, `rooms/`)
+- `claude/`: design and build docs: SPRITE-SHEETS, GAME-DESIGN, FRONTEND-PLAN, BACKEND-PLAN, ASSET-PROMPTS (+ `asset-prompts/01–99`), PIXEL-ART-SPEC, PUFF-ANIMATION-TASKS, LICENCES, STORE-PRICES, IARC-ANSWERS, BUSINESS-IDEAS, STORY.md, `config/` (app.json, pricing.json, tuning.json), `gdd-v3/` (section sources; rebuild A11 with `python3 ../tools/merge_gdd_v3.py` from `claude/`), `prompts/` (build steps)
+- `art/`: source images and previews (`sprites/raw/` Blake's original sheets, `sprites/*_x4.png` pixel-art previews, `_drafts/`); engine sprite strips in `apps/web/public/sprites/`
 - `tools/`: `process_asset.py`, `palette24.json`, `README.md`
 - Root `GAME-DESIGN.md`, `BUILD-SPEC.md`: early concept docs; `claude/` wins where they differ.
 - **Game: GDD v3** (`claude/GAME-DESIGN.md`): a full top-down town life sim (tap to walk and clean, 16 px tiles, 24 px Puff, Fluff stamina, seasons, 6 neighbours). Build the full game; the 5 milestones in its A9 are test checkpoints. Part A overrides Part B and the older room-game docs. Tuning lives in `claude/config/tuning.json`. Never name other games in prompts, store or in-game copy.
