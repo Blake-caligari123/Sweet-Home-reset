@@ -3,11 +3,13 @@ import { isBlockedGround, type Ground, type PropDef, type Theme } from '../world
 import type { MessSpot } from '../play/mess';
 import type { NeighbourDef } from '../neighbours/neighbours';
 import type { RequestTemplate } from '../requests/requests';
+import type { ShopDef } from '../shops/shops';
 import type { HeartEvent } from '../neighbours/heart-events';
 import type { Line } from '../neighbours/talk';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
-export interface Door { x: number; y: number; to: string; toX: number; toY: number; closedText?: string }
+/** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
+export interface Door { x: number; y: number; to: string; toX: number; toY: number; closedText?: string; opensDay?: number }
 export type MessDef = MessSpot | { type: MessSpot['type']; rect: [number, number, number, number]; density: number; seed: number };
 
 export interface AreaPack {
@@ -20,10 +22,10 @@ export interface AreaPack {
   nav?: { floor: number[][]; blockers: number[][] };
 }
 
-export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string }>; neighbours?: NeighbourDef[];
+export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string; sell?: number }>; neighbours?: NeighbourDef[];
   /** Talk pools per neighbour id; the text is in `strings`, by language. */
   dialogue?: Record<string, Line[]>; strings?: Record<string, Record<string, string>>;
-  heartEvents?: HeartEvent[]; requests?: RequestTemplate[] }
+  heartEvents?: HeartEvent[]; requests?: RequestTemplate[]; shops?: ShopDef[] }
 
 export class Area {
   readonly w: number;
@@ -110,6 +112,14 @@ export function validateTownPack(input: unknown): TownPack {
   for (const [id, lines] of Object.entries(p.dialogue ?? {})) {
     if (!who.has(id)) throw new Error(`dialogue for unknown neighbour ${id}`);
     for (const l of lines) if (!l.id || typeof text[l.id] !== 'string') throw new Error(`dialogue ${id}: no text for ${l.id}`);
+  }
+  for (const sh of p.shops ?? []) {
+    if (!sh.id || ![sh.opens, sh.closes].every(isNum) || !Array.isArray(sh.stock)) throw new Error(`shop ${sh.id}: shape`);
+    if (sh.keeper && !who.has(sh.keeper)) throw new Error(`shop ${sh.id}: unknown keeper ${sh.keeper}`);
+    for (const e of sh.stock) {
+      if (!isNum(e.price) || e.price <= 0) throw new Error(`shop ${sh.id}: price for ${e.item}`);
+      if ((e.kind ?? 'item') === 'item' && !p.items[e.item]) throw new Error(`shop ${sh.id}: unknown item ${e.item}`);
+    }
   }
   for (const e of p.heartEvents ?? []) {
     if (!who.has(e.neighbourId) || !isNum(e.hearts) || !Array.isArray(e.scene) || !e.scene.length) throw new Error(`heart event ${e.id}: shape`);

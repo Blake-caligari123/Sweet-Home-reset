@@ -28,7 +28,8 @@
   },
   "radish": {
    "name": "Radish",
-   "snack": 20
+   "snack": 20,
+   "sell": 15
   },
   "tart": {
    "name": "Berry tart",
@@ -75,6 +76,10 @@
   },
   "soap": {
    "name": "Soap"
+  },
+  "biscuit": {
+   "name": "Oat biscuit",
+   "snack": 25
   }
  },
  "areas": [
@@ -904,9 +909,10 @@
      "x": 5,
      "y": 5,
      "to": "store",
-     "toX": 0,
-     "toY": 0,
-     "closedText": "The General Store opens soon."
+     "toX": 7,
+     "toY": 8,
+     "closedText": "The General Store opens tomorrow.",
+     "opensDay": 2
     },
     {
      "x": 29,
@@ -1366,6 +1372,91 @@
       202.5
      ]
     ]
+   }
+  },
+  {
+   "id": "store",
+   "name": "General Store",
+   "kind": "home",
+   "drained": false,
+   "edge": "#534239",
+   "theme": {
+    "wall": "#F9EDC2",
+    "wallAccent": "#F6E3A1",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#F4C2A8",
+    "rugShade": "#DCA88D"
+   },
+   "legend": {
+    "#": "wall",
+    ".": "wood",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "##############",
+    "##############",
+    "#............#",
+    "#............#",
+    "#............#",
+    "#............#",
+    "#............#",
+    "#............#",
+    "#............#",
+    "#######m######"
+   ],
+   "props": [
+    {
+     "type": "shelf",
+     "x": 1,
+     "y": 2,
+     "w": 2
+    },
+    {
+     "type": "counter",
+     "x": 5,
+     "y": 2,
+     "w": 4,
+     "action": "shop",
+     "shop": "general",
+     "colour": "#A9CDA0"
+    },
+    {
+     "type": "shelf",
+     "x": 11,
+     "y": 2,
+     "w": 2
+    },
+    {
+     "type": "crate",
+     "x": 1,
+     "y": 7
+    },
+    {
+     "type": "crate",
+     "x": 12,
+     "y": 7
+    },
+    {
+     "type": "plant",
+     "x": 12,
+     "y": 5
+    }
+   ],
+   "doors": [
+    {
+     "x": 7,
+     "y": 9,
+     "to": "square",
+     "toX": 5,
+     "toY": 6
+    }
+   ],
+   "mess": [],
+   "spawn": {
+    "x": 7,
+    "y": 8
    }
   }
  ],
@@ -2145,7 +2236,10 @@
    "req.pip_tart": "Bring Pip a berry tart. Crumbs welcome!",
    "hazel.request.done": "You're a treasure, petal. Thank you!",
    "bea.request.done": "Three things! Thank you, thank you, thank you!",
-   "pip.request.done": "You did it! Best helper ever, right?"
+   "pip.request.done": "You did it! Best helper ever, right?",
+   "stock.bag_small": "Bigger bag (+6 slots)",
+   "stock.bag_big": "Biggest bag (+6 more)",
+   "stock.copper_sponge": "Copper sponge recipe"
   }
  },
  "heartEvents": [
@@ -2920,6 +3014,66 @@
    "text": "req.pip_tart",
    "sparkles": 60,
    "item": "tart"
+  }
+ ],
+ "shops": [
+  {
+   "id": "general",
+   "name": "General Store",
+   "opens": 480,
+   "closes": 1080,
+   "openFromDay": 2,
+   "stock": [
+    {
+     "item": "radish_seeds",
+     "price": 20,
+     "qty": 3
+    },
+    {
+     "item": "biscuit",
+     "price": 15
+    },
+    {
+     "item": "bag_small",
+     "kind": "bag",
+     "slots": 6,
+     "price": 300
+    },
+    {
+     "item": "bag_big",
+     "kind": "bag",
+     "slots": 6,
+     "price": 800,
+     "requires": "bought_general_bag_small"
+    },
+    {
+     "item": "copper_sponge",
+     "kind": "recipe",
+     "price": 150,
+     "fromDay": 5
+    }
+   ],
+   "buys": [
+    "radish"
+   ]
+  },
+  {
+   "id": "flowers",
+   "name": "Bea's flowers",
+   "keeper": "bea",
+   "opens": 480,
+   "closes": 720,
+   "stock": [
+    {
+     "item": "radish_seeds",
+     "price": 20,
+     "qty": 3
+    },
+    {
+     "item": "flowers",
+     "price": 40
+    }
+   ]
   }
  ]
 }
