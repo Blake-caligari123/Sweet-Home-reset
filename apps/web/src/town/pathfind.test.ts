@@ -42,6 +42,8 @@ describe('pathfinder', () => {
   it('plans a path on a 40x30 area in well under 2 ms', () => {
     const rows = Array.from({ length: 30 }, (_, y) => Array.from({ length: 40 }, (_, x) => (x % 6 === 3 && y % 10 !== 5 ? '#' : '.')).join(''));
     const g = grid(rows);
+    // Warm up first so the timing measures planning, not the JIT on a cold shared CI runner.
+    for (let i = 0; i < 20; i += 1) findPath(g, { x: 0, y: 0 }, { x: 39, y: 29 });
     const t0 = performance.now();
     for (let i = 0; i < 50; i += 1) findPath(g, { x: 0, y: 0 }, { x: 39, y: 29 });
     expect((performance.now() - t0) / 50).toBeLessThan(2);
