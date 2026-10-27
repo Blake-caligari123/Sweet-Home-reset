@@ -33,6 +33,48 @@
   "tart": {
    "name": "Berry tart",
    "snack": 40
+  },
+  "bread": {
+   "name": "Fresh bread"
+  },
+  "flowers": {
+   "name": "Flowers"
+  },
+  "berries": {
+   "name": "Berries"
+  },
+  "honey": {
+   "name": "Honey"
+  },
+  "rare_seeds": {
+   "name": "Rare seeds"
+  },
+  "string": {
+   "name": "String"
+  },
+  "button": {
+   "name": "Button"
+  },
+  "silk_thread": {
+   "name": "Silk thread"
+  },
+  "shell": {
+   "name": "Shell"
+  },
+  "clay": {
+   "name": "Clay"
+  },
+  "mud": {
+   "name": "Mud"
+  },
+  "weeds": {
+   "name": "Weeds"
+  },
+  "crumbs": {
+   "name": "Crumbs"
+  },
+  "soap": {
+   "name": "Soap"
   }
  },
  "areas": [
@@ -1307,7 +1349,8 @@
    ],
    "likes": [
     "berries",
-    "honey"
+    "honey",
+    "radish"
    ],
    "dislikes": [
     "clay",
@@ -1360,7 +1403,8 @@
    ],
    "likes": [
     "flowers",
-    "string"
+    "string",
+    "radish_seeds"
    ],
    "dislikes": [
     "weeds",
@@ -1404,7 +1448,8 @@
    "likes": [
     "silk_thread",
     "shell",
-    "clay"
+    "clay",
+    "tart"
    ],
    "dislikes": [
     "soap"
@@ -1930,7 +1975,19 @@
    "pip.h9.1": "Everyone can come in now. Even messy days.",
    "pip.h9.2": "There's a Puff toy on my shelf. It's you!",
    "pip.h9.3": "Best bunny-friend. Forever-ish. Forever.",
-   "pip.restored.1": "Hazel's kitchen is so shiny! More crumbs for me!"
+   "pip.restored.1": "Hazel's kitchen is so shiny! More crumbs for me!",
+   "hazel.gift.loved": "Oh, petal! My favourite! How did you know?",
+   "hazel.gift.liked": "How lovely! Thank you, petal.",
+   "hazel.gift.neutral": "For me? Aw, thank you, petal.",
+   "hazel.gift.disliked": "Not near the dough, petal! Kind thought, though.",
+   "bea.gift.loved": "Three things! One: WOW. Two: thank you. Three: WOW!",
+   "bea.gift.liked": "Two things! One: lovely. Two: thank you!",
+   "bea.gift.neutral": "A present! It's going on my thank-you list.",
+   "bea.gift.disliked": "One thing: not really my thing. But thank you!",
+   "pip.gift.loved": "For me?! This is the best-est thing! Right?!",
+   "pip.gift.liked": "Ooh! I can make something with this, right?",
+   "pip.gift.neutral": "A present! I'll find it a job. Thanks!",
+   "pip.gift.disliked": "Hmm, that's for later. Much later! Thanks though."
   }
  }
 }

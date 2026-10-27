@@ -15,6 +15,7 @@ import { AreaMess, FULL_COLOUR, TOOL_FOR, type MessType, type ToolId } from './m
 import { Onboarding, type OnboardEvent } from './onboarding';
 import { FEET, navFor, REACH, type NavGrid, type Pt } from './nav';
 import { Neighbours, type NeighbourDef } from './neighbours';
+import { canGift, chat, give } from './friends';
 import { heartsOf, pickLine, RECENT } from './talk';
 import { standTiles, type Tile } from './pathfind';
 import { eraseTown, stamp, writeTown, type Friend, type TownSave } from './save';
@@ -337,21 +338,88 @@ export class TownGame {
       minutes: this.clock.state.minutes, season: this.clock.season.toLowerCase(), weather: 'sunny', hearts: heartsOf(f.points),
       area: this.areaId, flags: this.flags, met: f.met, talkedToday: f.talkedDay === day, recent: f.recent ?? []
     });
-    const text = (line && this.pack.strings?.['en-AU']?.[line.id]) ?? '...';
+    const text = this.line(line?.id) ?? '...';
     // The first chat of the day counts toward friendship (hearts never go down).
-    const gained = f.talkedDay !== day ? TUNING.friendship.talk : 0;
-    f.points += gained; f.talkedDay = day;
+    const hearts = heartsOf(f.points);
+    const gained = chat(f, day);
     if (!f.met) { f.met = true; this.flags.push(`met_${id}`); }
     if (line) {
       f.recent = [...(f.recent ?? []), line.id].slice(-RECENT);
       if (line.once) this.flags.push(`said_${line.id}`);
     }
+    const gifts = canGift(f, day) && this.bag.slots.some(Boolean);
+    this.neighbourSays(def, text, gained, heartsOf(f.points) > hearts, gifts ? [{ label: 'Give a gift', onClick: () => this.openGifts(def) }] : []);
+  }
+
+  private line(id: string | undefined) { return id ? this.pack.strings?.['en-AU']?.[id] : undefined; }
+
+  /** A neighbour's speech box; Bye lets them get on with their day. */
+  private neighbourSays(def: NeighbourDef, text: string, gained: number, heartUp: boolean, extra: { label: string; onClick: () => void }[] = []) {
     this.modal += 1;
+    const done = () => { this.modal = Math.max(0, this.modal - 1); };
     dialogue(this.ui, text, {
       reducedMotion: this.settings.reducedMotion,
       speaker: { name: gained ? `${def.name} · friendship +${gained}` : def.name, portrait: this.portraitOf(def) },
-      buttons: [{ label: 'Bye!', primary: true, onClick: () => { this.modal = Math.max(0, this.modal - 1); this.neighbours.releaseAll(); } }]
+      buttons: [
+        ...extra.map((b) => ({ label: b.label, onClick: () => { done(); b.onClick(); } })),
+        { label: 'Bye!', primary: true, onClick: () => { done(); this.neighbours.releaseAll(); } }
+      ]
     });
+    if (heartUp) this.heartUp(def);
+  }
+
+  private heartUp(def: NeighbourDef) {
+    const hearts = heartsOf(this.friendOf(def.id).points);
+    this.banner(`♥ ${def.name}: ${hearts} heart${hearts === 1 ? '' : 's'}!`);
+    this.feedback('fanfare', 'success');
+    this.puff.pose = 'hop'; this.puff.hopMs = 900;
+  }
+
+  /** Pick something from the bag for them; one gift a day each. */
+  private openGifts(def: NeighbourDef) {
+    const grid = h('div', { class: 'bag-grid' });
+    let close = () => {};
+    this.bag.slots.forEach((s) => {
+      if (!s) return;
+      const cell = h('button', { class: 'bag-slot', type: 'button', 'aria-label': `Give the ${this.itemName(s.id).toLowerCase()}` }, itemIcon(s.id), s.count > 1 ? h('b', {}, String(s.count)) : '');
+      cell.addEventListener('click', () => { this.uiTap(); close(); this.giveGift(def, s.id); });
+      grid.append(cell);
+    });
+    close = this.sheet(`A gift for ${def.name}`, [grid, h('p', { class: 'muted' }, 'One gift a day. Everyone likes being thought of.')], () => this.neighbours.releaseAll());
+  }
+
+  private giveGift(def: NeighbourDef, item: string) {
+    const f = this.friendOf(def.id);
+    if (!this.bag.remove(item)) return;
+    const { taste, gained, heartUp } = give(def, f, item, this.clock.state.day);
+    if (taste !== 'disliked') this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), taste === 'loved' ? 12 : 6);
+    this.feedback(taste === 'loved' ? 'coin' : 'tap', taste === 'loved' ? 'medium' : 'light');
+    this.neighbourSays(def, this.line(`${def.id}.gift.${taste}`) ?? 'Thank you!', gained, heartUp > 0);
+    this.refreshHud();
+  }
+
+  /** Everyone Puff has met: hearts, progress to the next one, today's chat and gift, gifts they like. */
+  private openFriends() {
+    const per = TUNING.friendship.pointsPerHeart;
+    const list = h('div', { class: 'friends' });
+    const met = [...this.neighbourDefs.values()].filter((d) => this.friends[d.id]?.met);
+    for (const d of met) {
+      const f = this.friends[d.id]; const hearts = heartsOf(f.points);
+      const day = this.clock.state.day;
+      const row = h('div', { class: 'friend' },
+        h('div', { class: 'portrait' }, this.portraitOf(d)),
+        h('div', { class: 'friend-body' },
+          h('p', { class: 'friend-name' }, d.name),
+          h('p', { class: 'hearts', 'aria-label': `${hearts} of 10 hearts` }, '♥'.repeat(hearts) + '♡'.repeat(10 - hearts)),
+          hearts < 10 ? h('div', { class: 'heart-bar', 'aria-hidden': 'true' }, h('span', { style: { width: `${((f.points % per) / per) * 100}%` } })) : '',
+          h('p', { class: 'muted' }, `${f.talkedDay === day ? 'Chatted today ✓' : 'Say hello today'} · ${f.giftDay === day ? 'Gift given ✓' : 'Gift: any time today'}`),
+          (f.known ?? []).length ? h('p', { class: 'muted' }, `Likes: ${(f.known ?? []).map((i) => this.itemName(i)).join(', ')}`) : ''));
+      list.append(row);
+    }
+    const more = this.neighbourDefs.size - met.length;
+    const body: Node[] = met.length ? [list] : [h('p', {}, 'Puff hasn\'t met anyone yet. Say hello around town!')];
+    if (more > 0 && met.length) body.push(h('p', { class: 'muted' }, `${more} more neighbour${more === 1 ? '' : 's'} to meet.`));
+    this.sheet('Friends', body);
   }
 
   /** Their sprite art if it has landed, else the code-drawn placeholder, 2x. */
@@ -765,12 +833,12 @@ export class TownGame {
     ] });
   }
 
-  private sheet(title: string, body: Node[]) {
+  private sheet(title: string, body: Node[], onClose?: () => void) {
     this.modal += 1;
     const closeBtn = h('button', { class: 'btn', type: 'button', 'data-close': '' }, 'Close');
     const el = h('div', { class: 'scrim center', 'data-sheet': '', role: 'dialog', 'aria-modal': 'true' }, h('div', { class: 'panel sheet' }, h('h2', {}, title), ...body, closeBtn));
     const close = () => { el.remove(); this.modal = Math.max(0, this.modal - 1); };
-    closeBtn.addEventListener('click', () => { this.uiTap(); close(); });
+    closeBtn.addEventListener('click', () => { this.uiTap(); close(); onClose?.(); });
     this.ui.append(el);
     window.setTimeout(() => closeBtn.focus(), 30);
     return close;
@@ -812,7 +880,10 @@ export class TownGame {
       });
       return h('div', { class: 'row' }, h('span', { class: 'label' }, label), b);
     };
+    const friends = h('button', { class: 'btn', type: 'button' }, '♥ Friends');
+    friends.addEventListener('click', () => { this.uiTap(); (this.ui.querySelector('[data-sheet] [data-close]') as HTMLElement | null)?.click(); this.openFriends(); });
     const body: Node[] = [
+      friends,
       h('div', { class: 'list' },
         toggle('sound', 'Sound'), toggle('music', 'Music'), toggle('haptics', 'Haptics'),
         toggle('reducedMotion', 'Reduce motion'), toggle('relaxed', 'Relaxed mode (half Fluff costs, no dozing off)'), toggle('autoTool', 'Pick the right tool for me'))

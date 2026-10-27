@@ -32,7 +32,8 @@ export interface TownSave {
   [extra: string]: unknown;
 }
 
-export interface Friend { points: number; talkedDay: number; met: boolean; recent?: string[] }
+/** `giftDay`: the last day they were given a gift; `known`: gifts found to be loved or liked. */
+export interface Friend { points: number; talkedDay: number; met: boolean; recent?: string[]; giftDay?: number; known?: string[] }
 
 export type Migration = (save: Record<string, unknown>) => Record<string, unknown>;
 
