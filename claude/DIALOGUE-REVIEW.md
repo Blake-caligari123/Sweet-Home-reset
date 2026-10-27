@@ -202,3 +202,127 @@ How a line is chosen: the most specific one that fits wins (a story moment, then
 
 **Tastes**: loves Button, String; likes Silk thread, Shell, Clay, Berry tart; would rather not have Soap.
 
+
+# Heart events (M2 step 4)
+
+One short scene at 2, 4, 6, 8 and 10 hearts, played the next time Puff talks to them after reaching it. Every scene can be skipped (Skip still gives the rewards and takes the first choice). Lines marked *(if ...)* only play when Puff did that thing.
+
+## Hazel: 2 hearts
+- **Hazel:** Puff, petal! The morning rush has doubled lately.
+- **Hazel:** And the oven... well. It's seen busier days.
+- **Hazel:** You dusted my counter on your very first day. *(if Puff dusted her counter on day 1)*
+- **Hazel:** You've been such a help around here, petal. *(if not: Puff dusted her counter on day 1)*
+- **Puff:** I love an oven. Ovens are cosy.
+- **Hazel:** Ha! Then you're the bunny for the job.
+
+## Hazel: 4 hearts
+- **Hazel:** Mm? Oh! Petal! I wasn't asleep. Standing up.
+- **Puff:** You could sit down, you know.
+- **Hazel:** Sit? Me? Who'd mind the buns?
+- **Hazel:** I bake for everyone, petal. I never sit down.
+- **Hazel:** If I stop... would anyone still need me?
+- **Puff:** We'd still need you. Sitting or not.
+- **Hazel:** ...Oh, petal. Maybe just one tick, then.
+
+## Hazel: 6 hearts
+- **Hazel:** Petal, I've decided. Sundays, I'm closed!
+- **Hazel:** Help me paint the sign? You pick the colour.
+- *Choice:* Which colour for the Closed Sundays sign? → Peach / Sage / Butter
+- **Hazel:** Perfect. And here, a little recipe for you.
+- **Hazel:** Snacks for busy days. Cook them when you like.
+- *Gives:* snack cooking recipe (used in M3), Closed Sundays sign
+
+## Hazel: 8 hearts
+- **Hazel:** Puff, petal! Gran's tart. Help me get it right?
+- **Puff:** Ooh. Yes please!
+- **Hazel:** You dusted my counter on your very first day. *(if Puff dusted her counter on day 1)*
+- **Hazel:** You've helped so much this spring, petal. *(if not: Puff dusted her counter on day 1)*
+- **Hazel:** I've never got it quite right. One step's missing.
+- **Puff:** Maybe it isn't in the bowl. Maybe it's after?
+- *Choice:* The missing step: share it while it's warm. Who first? → Bea / Pip / You, Hazel!
+- **Hazel:** Warm and shared. Gran would be proud.
+- *Gives:* Gran's tart recipe (M3)
+
+## Hazel: 10 hearts
+- **Hazel:** Puff! Shop's tidy, feet are up, tea's poured.
+- **Bea:** Three things! Tea, tart, and Hazel SITTING. *(if Bea got the first tart)*
+- **Pip:** I got the first tart! I'm keeping the crumbs! *(if Pip got the first tart)*
+- **Hazel:** Just us two, petal. Gran's tart and good company. *(if Hazel got the first tart)*
+- **Puff:** This is the cosiest kitchen in Hollowfern.
+- **Hazel:** Because of you, petal. Thank you. Truly.
+- *Gives:* +100 Sparkles
+
+## Bea: 2 hearts
+- **Bea:** Three things! One: the front shop is perfect.
+- **Bea:** Two: please don't open that back door.
+- **Puff:** ...What's behind the back door?
+- **Bea:** Three: chaos. Total chaos. Lists everywhere.
+- **Puff:** I could help? I like chaos. Gently.
+- **Bea:** You'd do that? I'll... add it to a list!
+
+## Bea: 4 hearts
+- **Bea:** I've got a list of lists, Puff.
+- **Bea:** If I forget one thing, someone's let down.
+- **Puff:** What if we threw one list away? Just one.
+- *Choice:* Which list goes? → Things to worry about / Weeds by Tuesday / Perfect petals only
+- **Bea:** Gone! Three things: light. Light. Light!
+
+## Bea: 6 hearts
+- **Bea:** Two things! One: I have a greenhouse.
+- **Bea:** Two: it's yours to use. Grow anything!
+- **Puff:** Anything? Even wobbly flowers?
+- **Bea:** Especially wobbly ones. That's new for me.
+- *Gives:* greenhouse (M3)
+
+## Bea: 8 hearts
+- **Bea:** Puff, you choose the window this week.
+- **Bea:** No list! Just... whatever feels nice.
+- *Choice:* What goes in the window? → Teacups and tulips / Seed packets in a row / A big jumble of daisies
+- **Bea:** Oh! It's not perfect. It's lovely.
+
+## Bea: 10 hearts
+- **Bea:** One thing. Come and look. No list.
+- **Bea:** A flower bed for you. I didn't plan a thing!
+- **Bea:** Every seed you ever gave me is in there.
+- **Puff:** It's wild. It's perfect. Wait, not perfect...
+- **Bea:** Wild is better. You taught me that.
+- *Gives:* +100 Sparkles
+
+## Pip: 2 hearts
+- **Pip:** Mind the toys! They're everywhere. Right?
+- **Pip:** A bunny-copter, a sock-snake, a wobble-dog...
+- **Puff:** None of them are finished?
+- **Pip:** Finishing is the scary bit. Starting's fun!
+- **Puff:** Want help finishing one? Just one?
+- **Pip:** ...Maybe. One day-ish. Right?
+
+## Pip: 4 hearts
+- **Pip:** Can I tell you something? Promise, right?
+- **Pip:** Every toy is for Wren. My best friend.
+- **Pip:** Wren moved away. Far, far away.
+- **Puff:** Oh, Pip. That sounds hard.
+- **Pip:** If I finish one... it's goodbye, right?
+- **Puff:** Or hello. Toys can say hello too.
+
+## Pip: 6 hearts
+- **Pip:** We're finishing one! Today! Right now!
+- **Pip:** It needs a button for a nose. Pick one?
+- *Choice:* Which button? → Blue / Peach / Sage
+- **Pip:** Done! A whole toy! It's a real toy!
+- **Pip:** And I stitched you a bigger bag. Thank you!
+- *Gives:* bag +4 slots
+
+## Pip: 8 hearts
+- **Pip:** I'm mailing the toy to Wren. Right?
+- **Pip:** And... there's a letter. I never opened it.
+- **Puff:** We can open it together.
+- **Pip:** 'Dear Pip, I miss you. Write soon. Wren.'
+- **Pip:** It wasn't goodbye. It was never goodbye.
+
+## Pip: 10 hearts
+- **Pip:** Wren wrote back! With a drawing of the toy!
+- **Pip:** So I'm opening the workshop. To everyone!
+- **Pip:** And look on the shelf. Recognise someone?
+- **Puff:** That's... me! A tiny Puff!
+- **Pip:** Best bunny-friend. Forever. No -ish. Right?
+- *Gives:* +100 Sparkles

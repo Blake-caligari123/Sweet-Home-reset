@@ -2,6 +2,7 @@ import { seeded } from '../art/pixel-canvas';
 import { isBlockedGround, type Ground, type PropDef, type Theme } from './art';
 import type { MessSpot } from './mess';
 import type { NeighbourDef } from './neighbours';
+import type { HeartEvent } from './scenes';
 import type { Line } from './talk';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
@@ -20,7 +21,8 @@ export interface AreaPack {
 
 export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string }>; neighbours?: NeighbourDef[];
   /** Talk pools per neighbour id; the text is in `strings`, by language. */
-  dialogue?: Record<string, Line[]>; strings?: Record<string, Record<string, string>> }
+  dialogue?: Record<string, Line[]>; strings?: Record<string, Record<string, string>>;
+  heartEvents?: HeartEvent[] }
 
 export class Area {
   readonly w: number;
@@ -102,6 +104,13 @@ export function validateTownPack(input: unknown): TownPack {
   for (const [id, lines] of Object.entries(p.dialogue ?? {})) {
     if (!who.has(id)) throw new Error(`dialogue for unknown neighbour ${id}`);
     for (const l of lines) if (!l.id || typeof text[l.id] !== 'string') throw new Error(`dialogue ${id}: no text for ${l.id}`);
+  }
+  for (const e of p.heartEvents ?? []) {
+    if (!who.has(e.neighbourId) || !isNum(e.hearts) || !Array.isArray(e.scene) || !e.scene.length) throw new Error(`heart event ${e.id}: shape`);
+    for (const s of e.scene) {
+      const ids = 'line' in s ? [s.line] : [s.choice, ...s.options.map((o) => o.label)];
+      for (const t of ids) if (typeof text[t] !== 'string') throw new Error(`heart event ${e.id}: no text for ${t}`);
+    }
   }
   return p;
 }

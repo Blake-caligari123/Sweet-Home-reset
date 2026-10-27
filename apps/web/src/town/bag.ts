@@ -22,6 +22,9 @@ export class Bag {
     return true;
   }
 
+  /** A bigger bag (Pip's 6-heart gift): new empty slots on the end. */
+  grow(n: number) { for (let i = 0; i < n; i += 1) this.slots.push(null); }
+
   remove(id: string, n = 1) {
     if (this.count(id) < n) return false;
     for (let i = this.slots.length - 1; i >= 0 && n > 0; i -= 1) {

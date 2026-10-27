@@ -1987,7 +1987,798 @@
    "pip.gift.loved": "For me?! This is the best-est thing! Right?!",
    "pip.gift.liked": "Ooh! I can make something with this, right?",
    "pip.gift.neutral": "A present! I'll find it a job. Thanks!",
-   "pip.gift.disliked": "Hmm, that's for later. Much later! Thanks though."
+   "pip.gift.disliked": "Hmm, that's for later. Much later! Thanks though.",
+   "he_hazel_02.l01": "Puff, petal! The morning rush has doubled lately.",
+   "he_hazel_02.l02": "And the oven... well. It's seen busier days.",
+   "he_hazel_02.l03": "You dusted my counter on your very first day.",
+   "he_hazel_02.l04": "You've been such a help around here, petal.",
+   "he_hazel_02.l05": "I love an oven. Ovens are cosy.",
+   "he_hazel_02.l06": "Ha! Then you're the bunny for the job.",
+   "he_hazel_04.l01": "Mm? Oh! Petal! I wasn't asleep. Standing up.",
+   "he_hazel_04.l02": "You could sit down, you know.",
+   "he_hazel_04.l03": "Sit? Me? Who'd mind the buns?",
+   "he_hazel_04.l04": "I bake for everyone, petal. I never sit down.",
+   "he_hazel_04.l05": "If I stop... would anyone still need me?",
+   "he_hazel_04.l06": "We'd still need you. Sitting or not.",
+   "he_hazel_04.l07": "...Oh, petal. Maybe just one tick, then.",
+   "he_hazel_06.l01": "Petal, I've decided. Sundays, I'm closed!",
+   "he_hazel_06.l02": "Help me paint the sign? You pick the colour.",
+   "he_hazel_06.c03": "Which colour for the Closed Sundays sign?",
+   "he_hazel_06.c03.o1": "Peach",
+   "he_hazel_06.c03.o2": "Sage",
+   "he_hazel_06.c03.o3": "Butter",
+   "he_hazel_06.l04": "Perfect. And here, a little recipe for you.",
+   "he_hazel_06.l05": "Snacks for busy days. Cook them when you like.",
+   "he_hazel_08.l01": "Puff, petal! Gran's tart. Help me get it right?",
+   "he_hazel_08.l02": "Ooh. Yes please!",
+   "he_hazel_08.l03": "You dusted my counter on your very first day.",
+   "he_hazel_08.l04": "You've helped so much this spring, petal.",
+   "he_hazel_08.l05": "I've never got it quite right. One step's missing.",
+   "he_hazel_08.l06": "Maybe it isn't in the bowl. Maybe it's after?",
+   "he_hazel_08.c07": "The missing step: share it while it's warm. Who first?",
+   "he_hazel_08.c07.o1": "Bea",
+   "he_hazel_08.c07.o2": "Pip",
+   "he_hazel_08.c07.o3": "You, Hazel!",
+   "he_hazel_08.l08": "Warm and shared. Gran would be proud.",
+   "he_hazel_10.l01": "Puff! Shop's tidy, feet are up, tea's poured.",
+   "he_hazel_10.l02": "Three things! Tea, tart, and Hazel SITTING.",
+   "he_hazel_10.l03": "I got the first tart! I'm keeping the crumbs!",
+   "he_hazel_10.l04": "Just us two, petal. Gran's tart and good company.",
+   "he_hazel_10.l05": "This is the cosiest kitchen in Hollowfern.",
+   "he_hazel_10.l06": "Because of you, petal. Thank you. Truly.",
+   "he_bea_02.l01": "Three things! One: the front shop is perfect.",
+   "he_bea_02.l02": "Two: please don't open that back door.",
+   "he_bea_02.l03": "...What's behind the back door?",
+   "he_bea_02.l04": "Three: chaos. Total chaos. Lists everywhere.",
+   "he_bea_02.l05": "I could help? I like chaos. Gently.",
+   "he_bea_02.l06": "You'd do that? I'll... add it to a list!",
+   "he_bea_04.l01": "I've got a list of lists, Puff.",
+   "he_bea_04.l02": "If I forget one thing, someone's let down.",
+   "he_bea_04.l03": "What if we threw one list away? Just one.",
+   "he_bea_04.c04": "Which list goes?",
+   "he_bea_04.c04.o1": "Things to worry about",
+   "he_bea_04.c04.o2": "Weeds by Tuesday",
+   "he_bea_04.c04.o3": "Perfect petals only",
+   "he_bea_04.l05": "Gone! Three things: light. Light. Light!",
+   "he_bea_06.l01": "Two things! One: I have a greenhouse.",
+   "he_bea_06.l02": "Two: it's yours to use. Grow anything!",
+   "he_bea_06.l03": "Anything? Even wobbly flowers?",
+   "he_bea_06.l04": "Especially wobbly ones. That's new for me.",
+   "he_bea_08.l01": "Puff, you choose the window this week.",
+   "he_bea_08.l02": "No list! Just... whatever feels nice.",
+   "he_bea_08.c03": "What goes in the window?",
+   "he_bea_08.c03.o1": "Teacups and tulips",
+   "he_bea_08.c03.o2": "Seed packets in a row",
+   "he_bea_08.c03.o3": "A big jumble of daisies",
+   "he_bea_08.l04": "Oh! It's not perfect. It's lovely.",
+   "he_bea_10.l01": "One thing. Come and look. No list.",
+   "he_bea_10.l02": "A flower bed for you. I didn't plan a thing!",
+   "he_bea_10.l03": "Every seed you ever gave me is in there.",
+   "he_bea_10.l04": "It's wild. It's perfect. Wait, not perfect...",
+   "he_bea_10.l05": "Wild is better. You taught me that.",
+   "he_pip_02.l01": "Mind the toys! They're everywhere. Right?",
+   "he_pip_02.l02": "A bunny-copter, a sock-snake, a wobble-dog...",
+   "he_pip_02.l03": "None of them are finished?",
+   "he_pip_02.l04": "Finishing is the scary bit. Starting's fun!",
+   "he_pip_02.l05": "Want help finishing one? Just one?",
+   "he_pip_02.l06": "...Maybe. One day-ish. Right?",
+   "he_pip_04.l01": "Can I tell you something? Promise, right?",
+   "he_pip_04.l02": "Every toy is for Wren. My best friend.",
+   "he_pip_04.l03": "Wren moved away. Far, far away.",
+   "he_pip_04.l04": "Oh, Pip. That sounds hard.",
+   "he_pip_04.l05": "If I finish one... it's goodbye, right?",
+   "he_pip_04.l06": "Or hello. Toys can say hello too.",
+   "he_pip_06.l01": "We're finishing one! Today! Right now!",
+   "he_pip_06.l02": "It needs a button for a nose. Pick one?",
+   "he_pip_06.c03": "Which button?",
+   "he_pip_06.c03.o1": "Blue",
+   "he_pip_06.c03.o2": "Peach",
+   "he_pip_06.c03.o3": "Sage",
+   "he_pip_06.l04": "Done! A whole toy! It's a real toy!",
+   "he_pip_06.l05": "And I stitched you a bigger bag. Thank you!",
+   "he_pip_08.l01": "I'm mailing the toy to Wren. Right?",
+   "he_pip_08.l02": "And... there's a letter. I never opened it.",
+   "he_pip_08.l03": "We can open it together.",
+   "he_pip_08.l04": "'Dear Pip, I miss you. Write soon. Wren.'",
+   "he_pip_08.l05": "It wasn't goodbye. It was never goodbye.",
+   "he_pip_10.l01": "Wren wrote back! With a drawing of the toy!",
+   "he_pip_10.l02": "So I'm opening the workshop. To everyone!",
+   "he_pip_10.l03": "And look on the shelf. Recognise someone?",
+   "he_pip_10.l04": "That's... me! A tiny Puff!",
+   "he_pip_10.l05": "Best bunny-friend. Forever. No -ish. Right?"
   }
- }
+ },
+ "heartEvents": [
+  {
+   "id": "he_hazel_02",
+   "neighbourId": "hazel",
+   "hearts": 2,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_02.l01"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_02.l02"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_02.l03",
+     "if": {
+      "flag": "onboard_counter_done"
+     }
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_02.l04",
+     "if": {
+      "notFlag": "onboard_counter_done"
+     }
+    },
+    {
+     "speaker": "puff",
+     "line": "he_hazel_02.l05"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_02.l06"
+    }
+   ],
+   "skippable": true,
+   "rewards": {
+    "flags": [
+     "hazel_oven_job"
+    ]
+   }
+  },
+  {
+   "id": "he_hazel_04",
+   "neighbourId": "hazel",
+   "hearts": 4,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_04.l01"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_hazel_04.l02"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_04.l03"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_04.l04"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_04.l05"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_hazel_04.l06"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_04.l07"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_hazel_02"
+    ]
+   }
+  },
+  {
+   "id": "he_hazel_06",
+   "neighbourId": "hazel",
+   "hearts": 6,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_06.l01"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_06.l02"
+    },
+    {
+     "choice": "he_hazel_06.c03",
+     "options": [
+      {
+       "label": "he_hazel_06.c03.o1",
+       "setFlag": "sign_peach"
+      },
+      {
+       "label": "he_hazel_06.c03.o2",
+       "setFlag": "sign_sage"
+      },
+      {
+       "label": "he_hazel_06.c03.o3",
+       "setFlag": "sign_butter"
+      }
+     ]
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_06.l04"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_06.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_hazel_04"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "recipe_snack",
+     "hazel_closed_sundays"
+    ]
+   }
+  },
+  {
+   "id": "he_hazel_08",
+   "neighbourId": "hazel",
+   "hearts": 8,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_08.l01"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_hazel_08.l02"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_08.l03",
+     "if": {
+      "flag": "onboard_counter_done"
+     }
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_08.l04",
+     "if": {
+      "notFlag": "onboard_counter_done"
+     }
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_08.l05"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_hazel_08.l06"
+    },
+    {
+     "choice": "he_hazel_08.c07",
+     "options": [
+      {
+       "label": "he_hazel_08.c07.o1",
+       "setFlag": "first_tart_bea"
+      },
+      {
+       "label": "he_hazel_08.c07.o2",
+       "setFlag": "first_tart_pip"
+      },
+      {
+       "label": "he_hazel_08.c07.o3",
+       "setFlag": "first_tart_hazel"
+      }
+     ]
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_08.l08"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_hazel_06"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "recipe_gran_tart"
+    ]
+   }
+  },
+  {
+   "id": "he_hazel_10",
+   "neighbourId": "hazel",
+   "hearts": 10,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_10.l01"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_hazel_10.l02",
+     "if": {
+      "flag": "first_tart_bea"
+     }
+    },
+    {
+     "speaker": "pip",
+     "line": "he_hazel_10.l03",
+     "if": {
+      "flag": "first_tart_pip"
+     }
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_10.l04",
+     "if": {
+      "flag": "first_tart_hazel"
+     }
+    },
+    {
+     "speaker": "puff",
+     "line": "he_hazel_10.l05"
+    },
+    {
+     "speaker": "hazel",
+     "line": "he_hazel_10.l06"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_hazel_08"
+    ]
+   },
+   "rewards": {
+    "sparkles": 100
+   }
+  },
+  {
+   "id": "he_bea_02",
+   "neighbourId": "bea",
+   "hearts": 2,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "bea",
+     "line": "he_bea_02.l01"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_02.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_bea_02.l03"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_02.l04"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_bea_02.l05"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_02.l06"
+    }
+   ],
+   "skippable": true,
+   "rewards": {
+    "flags": [
+     "bea_backroom_job"
+    ]
+   }
+  },
+  {
+   "id": "he_bea_04",
+   "neighbourId": "bea",
+   "hearts": 4,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "bea",
+     "line": "he_bea_04.l01"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_04.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_bea_04.l03"
+    },
+    {
+     "choice": "he_bea_04.c04",
+     "options": [
+      {
+       "label": "he_bea_04.c04.o1",
+       "setFlag": "bea_list_worry"
+      },
+      {
+       "label": "he_bea_04.c04.o2",
+       "setFlag": "bea_list_weeds"
+      },
+      {
+       "label": "he_bea_04.c04.o3",
+       "setFlag": "bea_list_petals"
+      }
+     ]
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_04.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_bea_02"
+    ]
+   }
+  },
+  {
+   "id": "he_bea_06",
+   "neighbourId": "bea",
+   "hearts": 6,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "bea",
+     "line": "he_bea_06.l01"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_06.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_bea_06.l03"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_06.l04"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_bea_04"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "greenhouse_unlocked"
+    ]
+   }
+  },
+  {
+   "id": "he_bea_08",
+   "neighbourId": "bea",
+   "hearts": 8,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "bea",
+     "line": "he_bea_08.l01"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_08.l02"
+    },
+    {
+     "choice": "he_bea_08.c03",
+     "options": [
+      {
+       "label": "he_bea_08.c03.o1",
+       "setFlag": "window_tulips"
+      },
+      {
+       "label": "he_bea_08.c03.o2",
+       "setFlag": "window_seeds"
+      },
+      {
+       "label": "he_bea_08.c03.o3",
+       "setFlag": "window_daisies"
+      }
+     ]
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_08.l04"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_bea_06"
+    ]
+   }
+  },
+  {
+   "id": "he_bea_10",
+   "neighbourId": "bea",
+   "hearts": 10,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "bea",
+     "line": "he_bea_10.l01"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_10.l02"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_10.l03"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_bea_10.l04"
+    },
+    {
+     "speaker": "bea",
+     "line": "he_bea_10.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_bea_08"
+    ]
+   },
+   "rewards": {
+    "sparkles": 100
+   }
+  },
+  {
+   "id": "he_pip_02",
+   "neighbourId": "pip",
+   "hearts": 2,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "pip",
+     "line": "he_pip_02.l01"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_02.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_pip_02.l03"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_02.l04"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_pip_02.l05"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_02.l06"
+    }
+   ],
+   "skippable": true,
+   "rewards": {
+    "flags": [
+     "pip_toys_job"
+    ]
+   }
+  },
+  {
+   "id": "he_pip_04",
+   "neighbourId": "pip",
+   "hearts": 4,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "pip",
+     "line": "he_pip_04.l01"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_04.l02"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_04.l03"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_pip_04.l04"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_04.l05"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_pip_04.l06"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_pip_02"
+    ]
+   }
+  },
+  {
+   "id": "he_pip_06",
+   "neighbourId": "pip",
+   "hearts": 6,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "pip",
+     "line": "he_pip_06.l01"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_06.l02"
+    },
+    {
+     "choice": "he_pip_06.c03",
+     "options": [
+      {
+       "label": "he_pip_06.c03.o1",
+       "setFlag": "toy_blue"
+      },
+      {
+       "label": "he_pip_06.c03.o2",
+       "setFlag": "toy_peach"
+      },
+      {
+       "label": "he_pip_06.c03.o3",
+       "setFlag": "toy_sage"
+      }
+     ]
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_06.l04"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_06.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_pip_04"
+    ]
+   },
+   "rewards": {
+    "bagSlots": 4
+   }
+  },
+  {
+   "id": "he_pip_08",
+   "neighbourId": "pip",
+   "hearts": 8,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "pip",
+     "line": "he_pip_08.l01"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_08.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_pip_08.l03"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_08.l04"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_08.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_pip_06"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "wren_letter_open"
+    ]
+   }
+  },
+  {
+   "id": "he_pip_10",
+   "neighbourId": "pip",
+   "hearts": 10,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "pip",
+     "line": "he_pip_10.l01"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_10.l02"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_10.l03"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_pip_10.l04"
+    },
+    {
+     "speaker": "pip",
+     "line": "he_pip_10.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_pip_08"
+    ]
+   },
+   "rewards": {
+    "sparkles": 100
+   }
+  }
+ ]
 }
