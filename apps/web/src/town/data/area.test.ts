@@ -9,8 +9,8 @@ const T = 16;
 
 
 describe('Hollowfern spring pack', () => {
-  it('has the four M1 areas', () => {
-    expect(pack.areas.map((a) => a.id)).toEqual(['burrow', 'yard', 'square', 'bakery']);
+  it('has the M1 areas and the M2 General Store', () => {
+    expect(pack.areas.map((a) => a.id)).toEqual(['burrow', 'yard', 'square', 'bakery', 'store']);
   });
 
   it('can reach every open door and every mess tile from the spawn', () => {

@@ -52,13 +52,14 @@ town/
                 gifts), heart-events.ts (scene rules), conversations.ts (the talk/gift/scene/
                 Friends UI)
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
+  shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), bag-sheet.ts,
                 pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css
 ```
 
 ### How the pieces talk
 
-- **Rules are pure modules.** `talk.ts`, `friends.ts`, `heart-events.ts`, `requests.ts`, `mess.ts`, `nav.ts` and the like take data in and give results back. They have no DOM and no Pixi, and each has a `*.test.ts` beside it. Test new rules here first.
+- **Rules are pure modules.** `talk.ts`, `friends.ts`, `heart-events.ts`, `requests.ts`, `shops.ts`, `mess.ts`, `nav.ts` and the like take data in and give results back. They have no DOM and no Pixi, and each has a `*.test.ts` beside it. Test new rules here first.
 - **Each feature's UI is one class or function** (`Conversations`, `Jobs`, `openBag`, `openPause`). It receives a small *host* interface listing exactly what it needs from the game, for example `ConversationHost` and `JobsHost`. That keeps features from reaching into `TownGame`'s internals, and the host interface is the list of what a feature depends on.
 - **`TownState`** is one shared object for saved progress. Loading a save replaces its fields, never the object, so features can keep a reference. To add something saved:
   1. Add it to `TownState`.
@@ -70,7 +71,7 @@ town/
 
 ### Content is data
 
-Areas, mess, neighbours, routines, dialogue, gift reactions, heart events, requests and items all live in the pack: `public/packs-bundled/hollowfern/1/pack.json`.
+Areas, mess, neighbours, routines, dialogue, gift reactions, heart events, requests, shops and items all live in the pack: `public/packs-bundled/hollowfern/1/pack.json`.
 - **Text** goes in the `strings['en-AU']` table and logic uses ids, never names.
 - **Numbers** go in `claude/config/tuning.json`.
 - **Validation:** `validateTownPack` checks the pack at load, and the pack tests check that every door, mess spot, prop, stop and tidy job is reachable.

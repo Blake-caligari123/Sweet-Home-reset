@@ -15,6 +15,8 @@ import { morningLetter } from './play/letter';
 import { AreaMess, FULL_COLOUR, TOOL_FOR, type MessType, type ToolId } from './play/mess';
 import { Onboarding, type OnboardEvent } from './play/onboarding';
 import { Jobs } from './requests/jobs';
+import { openShop } from './shops/shop-sheet';
+import { isOpen } from './shops/shops';
 import type { RequestState } from './requests/requests';
 import { TownState } from './state';
 import { openBag } from './ui/bag-sheet';
@@ -33,7 +35,7 @@ type Target =
   | { kind: 'mess'; x: number; y: number }
   | { kind: 'soil'; x: number; y: number }
   | { kind: 'door'; x: number; y: number }
-  | { kind: 'prop'; x: number; y: number; action: string; accepts?: string[]; text?: string }
+  | { kind: 'prop'; x: number; y: number; action: string; accepts?: string[]; text?: string; shop?: string }
   | { kind: 'neighbour'; x: number; y: number; id: string };
 
 /** The sprite's bottom edge is drawn this far below the feet point. */
@@ -96,7 +98,7 @@ export class TownGame {
       facePuff: (x, y) => { this.faceAlong(x - this.puff.fx, y - this.puff.fy); return this.puff.dir; },
       hopPuff: () => { this.puff.pose = 'hop'; this.puff.hopMs = 900; },
       sparkleAtPuff: (n) => this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), n),
-      extraButtons: (id) => this.jobs.deliveriesFor(id),
+      extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.shopButtonsFor(id)],
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
     });
@@ -257,7 +259,7 @@ export class TownGame {
     if (area.groundAt(x, y) === 'soil') return { kind: 'soil', x, y };
     if (area.doorAt(x, y)) return { kind: 'door', x, y };
     const prop = area.tapPropAt(x, y);
-    if (prop?.action) return { kind: 'prop', x, y, action: prop.action, accepts: prop.accepts, text: area.signAt(prop.x, prop.y)?.text };
+    if (prop?.action) return { kind: 'prop', x, y, action: prop.action, accepts: prop.accepts, text: area.signAt(prop.x, prop.y)?.text, shop: prop.shop };
     return { kind: 'walk', x, y };
   }
 
@@ -409,6 +411,11 @@ export class TownGame {
       case 'board':
         this.jobs.openBoard();
         return;
+      case 'shop': {
+        const shop = this.content.pack.shops?.find((s) => s.id === t.shop);
+        if (shop) this.openShop(shop);
+        return;
+      }
       case 'mailbox':
         view.showDialogue(this.clock.state.day > 1 ? 'Today\'s letter is on the kitchen table. (Puff already read it.)' : 'No post yet. Maybe tomorrow!');
         return;
@@ -443,7 +450,7 @@ export class TownGame {
   private useDoor(x: number, y: number) {
     const door = this.area.doorAt(x, y);
     if (!door) return;
-    if (door.closedText) { this.view.say(door.closedText); this.stepOff(x, y); return; }
+    if (door.closedText && (!door.opensDay || this.clock.state.day < door.opensDay)) { this.view.say(door.closedText); this.stepOff(x, y); return; }
     void this.travel(door.to, door.toX, door.toY);
   }
 
@@ -552,6 +559,16 @@ export class TownGame {
 
   // ---- sheets ------------------------------------------------------------------------------
 
+  private openShop(shop: NonNullable<TownPack['shops']>[number]) {
+    openShop({ state: this.state, view: this.view, content: this.content, clock: this.clock, refreshHud: () => this.refreshHud(), save: () => void this.save(false) }, shop);
+  }
+
+  /** "Browse" in a shopkeeper's chat box while their shop is open. */
+  private shopButtonsFor(id: string) {
+    return (this.content.pack.shops ?? []).filter((s) => s.keeper === id && isOpen(s, this.clock.state.minutes, this.clock.state.day))
+      .map((s) => ({ label: `Browse ${s.name.replace(/^.*'s /, '')}`, onClick: () => this.openShop(s) }));
+  }
+
   private openBag() { openBag({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud() }); }
 
   private openPause() {
@@ -656,7 +673,7 @@ export class TownGame {
     if (t.kind === 'soil') return this.state.crops.some((c) => c.area === this.areaId && c.x === t.x && c.y === t.y) ? 'Tend the crop' : 'Plant seeds';
     if (t.kind === 'door') return 'Go through';
     if (t.kind === 'neighbour') return `Say hello to ${this.content.neighbour(t.id)?.name ?? 'them'}`;
-    if (t.kind === 'prop') return ({ putaway: 'Put things away', sleep: 'Go to bed', sign: 'Read the sign', board: 'Read the notice board', mailbox: 'Check the mail' } as Record<string, string>)[t.action] ?? '';
+    if (t.kind === 'prop') return ({ putaway: 'Put things away', sleep: 'Go to bed', sign: 'Read the sign', board: 'Read the notice board', mailbox: 'Check the mail', shop: 'Browse the shop' } as Record<string, string>)[t.action] ?? '';
     return '';
   }
 

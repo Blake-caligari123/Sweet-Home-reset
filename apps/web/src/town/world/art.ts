@@ -292,7 +292,7 @@ export function occlude(pc: PixelCanvas, px: number, py: number, here: Ground, a
 // ---- props: drawn into the baked area canvas at their tile footprint -------------------------
 
 /** `tap`: tiles (x, y, w, h) that select the prop when tapped, for painted furniture taller than its footprint. */
-export interface PropDef { type: string; x: number; y: number; w?: number; h?: number; colour?: string; label?: string; action?: string; accepts?: string[]; walkable?: boolean; doorX?: number; tap?: [number, number, number, number] }
+export interface PropDef { type: string; x: number; y: number; w?: number; h?: number; colour?: string; label?: string; action?: string; accepts?: string[]; walkable?: boolean; doorX?: number; tap?: [number, number, number, number]; shop?: string }
 
 /** Ground shadow under a prop's footprint, drawn before any prop so props never shade each other. */
 export function propShadow(pc: PixelCanvas, p: PropDef) {
@@ -667,6 +667,12 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'radish_seeds': b(3, 1, 8, 12, P.butterLight, 1); pc.ellipseBox(ox + 7, oy + 6, 2, 2, P.peach, P.outline); pc.vline(ox + 7, oy + 2, 2, P.sage); break;
     case 'radish': pc.ellipseBox(ox + 7, oy + 9, 4, 4, P.peach, P.outline); pc.set(ox + 6, oy + 8, P.white); pc.line(ox + 7, oy + 5, ox + 4, oy + 1, P.sageShade); pc.line(ox + 7, oy + 5, ox + 10, oy + 1, P.sageShade); break;
     case 'tart': pc.ellipseBox(ox + 7, oy + 8, 6, 4, P.butterShade, P.outline); pc.ellipse(ox + 7, oy + 7, 4, 2, P.peach); pc.set(ox + 5, oy + 6, P.white); break;
+    case 'biscuit': pc.ellipseBox(ox + 7, oy + 7, 5, 5, P.butterShade, P.outline); for (const [x, y] of [[5, 5], [9, 6], [6, 9], [9, 9]]) pc.set(ox + x, oy + y, P.brownShade); pc.set(ox + 5, oy + 4, P.butterLight); break;
+    case 'flowers':
+      pc.line(ox + 7, oy + 13, ox + 4, oy + 6, P.sageShade); pc.line(ox + 7, oy + 13, ox + 7, oy + 5, P.sageShade); pc.line(ox + 7, oy + 13, ox + 10, oy + 6, P.sageShade);
+      pc.ellipseBox(ox + 4, oy + 4, 2, 2, P.peach, P.outline); pc.ellipseBox(ox + 10, oy + 4, 2, 2, P.butter, P.outline); pc.ellipseBox(ox + 7, oy + 3, 2, 2, P.blue, P.outline); break;
+    case 'bag': b(2, 4, 10, 9, P.brownLight, 2); pc.line(ox + 4, oy + 4, ox + 6, oy + 1, P.outline); pc.line(ox + 10, oy + 4, ox + 8, oy + 1, P.outline); pc.hline(ox + 4, oy + 7, 6, P.brown); break;
+    case 'copper_sponge': b(1, 2, 12, 10, P.cream, 1); pc.hline(ox + 3, oy + 5, 8, P.greyShade); pc.hline(ox + 3, oy + 8, 6, P.greyShade); pc.ellipseBox(ox + 10, oy + 10, 2, 2, P.peachShade, P.outline); break;
     default: b(3, 3, 8, 8, P.butter, 1);
   }
 }
