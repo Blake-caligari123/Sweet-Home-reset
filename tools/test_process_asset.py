@@ -160,6 +160,17 @@ class SheetTest(unittest.TestCase):
         a = np.asarray(out).astype(int)
         self.assertTrue((a[150:180, 355:365] == [120, 80, 60]).all(), "wall untouched")
 
+    def test_painting_mark_joined_to_the_outline_is_removed(self):
+        img = Image.new("RGB", (800, 400), (253, 231, 171)); d = ImageDraw.Draw(img)
+        d.rectangle((0, 0, 800, 375), fill=(120, 80, 60))  # the painting's outline, into the corner
+        d.ellipse((735, 370, 758, 396), outline=(140, 130, 100), width=3)  # the logo's circle, touching it
+        d.rectangle((766, 382, 792, 396), fill=(140, 130, 100))  # the free-floating letters
+        ring = lambda im: (np.asarray(im)[380:398, 730:762] == [140, 130, 100]).all(axis=-1).sum()
+        out, _ = pa.remove_watermark(img, painting=True)
+        self.assertEqual(ring(out), 0, "circle removed")
+        a = np.asarray(out).astype(int)
+        self.assertTrue((a[373, 760:800] == [120, 80, 60]).all(), "outline untouched")
+
     def test_wrong_frame_count_is_a_clear_error(self):
         src = os.path.join(tempfile.mkdtemp(), "sheet.png"); bunny_sheet(n=5).save(src)
         _, out = self.run_cli(src)

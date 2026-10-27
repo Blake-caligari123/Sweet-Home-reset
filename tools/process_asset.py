@@ -32,8 +32,9 @@ def find_spec(asset):
     sys.exit(f"No spec found for asset '{asset}'")
 
 
-def remove_watermark(img):
-    """Inpaint the Grok mark in the bottom-right corner (RGB). Returns (img, pixels_changed)."""
+def remove_watermark(img, painting=False):
+    """Inpaint the Grok mark in the bottom-right corner (RGB). Returns (img, pixels_changed).
+    painting: the mark may touch the painting's outline; only art above the logo's letters is kept."""
     import cv2
     rgb = np.asarray(img.convert("RGB")).copy()
     h, w = rgb.shape[:2]
@@ -50,6 +51,12 @@ def remove_watermark(img):
     lab, _ = ndimage.label(m)
     art_ids = np.unique(np.concatenate([lab[0], lab[:, 0]])); art_ids = art_ids[art_ids > 0]
     art = np.isin(lab, art_ids)
+    sizes = ndimage.sum(m, lab, range(1, lab.max() + 1))
+    letters = [i + 1 for i, n in enumerate(sizes) if n > 100 and i + 1 not in art_ids]
+    if painting and letters:
+        # The letters ("rok") float free; the logo's circle and G may join the outline above them.
+        top = np.where(np.isin(lab, letters).any(axis=1))[0][0]
+        art[top - 3:] = False
     m = (m & ~art).astype(np.uint8)
     m = cv2.dilate(m, np.ones((5, 5), np.uint8), iterations=2)
     m[ndimage.binary_dilation(art, iterations=2)] = 0
@@ -677,7 +684,7 @@ def run_background(a):
     img = Image.open(raw).convert("RGB")
     edge = np.median(np.asarray(img)[:8, :8].reshape(-1, 3), axis=0)
     if not a.keep_watermark:
-        img, n = remove_watermark(img); print(f"watermark removed (inpainted {n} px, per Blake overrule)")
+        img, n = remove_watermark(img, painting=True); print(f"watermark removed (inpainted {n} px, per Blake overrule)")
     out = fit_background(img, cols, rows, a.tile_px, edge)
     os.makedirs(a.areas_dir, exist_ok=True)
     dst = os.path.join(a.areas_dir, name + ".webp")
