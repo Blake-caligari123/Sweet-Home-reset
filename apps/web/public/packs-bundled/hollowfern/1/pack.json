@@ -2085,7 +2085,17 @@
    "he_pip_10.l02": "So I'm opening the workshop. To everyone!",
    "he_pip_10.l03": "And look on the shelf. Recognise someone?",
    "he_pip_10.l04": "That's... me! A tiny Puff!",
-   "he_pip_10.l05": "Best bunny-friend. Forever. No -ish. Right?"
+   "he_pip_10.l05": "Best bunny-friend. Forever. No -ish. Right?",
+   "req.hazel_counter": "Dust Hazel's shop counter.",
+   "req.hazel_tables": "Sweep the crumbs by Hazel's café tables.",
+   "req.hazel_radish": "Bring Hazel a fresh radish for her soup.",
+   "req.bea_weeds": "Rake the weeds by the notice board for Bea.",
+   "req.bea_seeds": "Bea would love a packet of radish seeds.",
+   "req.pip_cup": "Pip needs a cup for paint water.",
+   "req.pip_tart": "Bring Pip a berry tart. Crumbs welcome!",
+   "hazel.request.done": "You're a treasure, petal. Thank you!",
+   "bea.request.done": "Three things! Thank you, thank you, thank you!",
+   "pip.request.done": "You did it! Best helper ever, right?"
   }
  },
  "heartEvents": [
@@ -2779,6 +2789,87 @@
    "rewards": {
     "sparkles": 100
    }
+  }
+ ],
+ "requests": [
+  {
+   "id": "hazel_counter",
+   "neighbourId": "hazel",
+   "kind": "clean",
+   "text": "req.hazel_counter",
+   "sparkles": 40,
+   "area": "bakery",
+   "rect": [
+    14,
+    10,
+    5,
+    1
+   ],
+   "mess": "crumbs",
+   "first": true,
+   "setFlag": "onboard_counter_done"
+  },
+  {
+   "id": "hazel_tables",
+   "neighbourId": "hazel",
+   "kind": "clean",
+   "text": "req.hazel_tables",
+   "sparkles": 50,
+   "area": "bakery",
+   "rect": [
+    4,
+    10,
+    7,
+    1
+   ],
+   "mess": "crumbs"
+  },
+  {
+   "id": "hazel_radish",
+   "neighbourId": "hazel",
+   "kind": "bring",
+   "text": "req.hazel_radish",
+   "sparkles": 60,
+   "item": "radish"
+  },
+  {
+   "id": "bea_weeds",
+   "neighbourId": "bea",
+   "kind": "clean",
+   "text": "req.bea_weeds",
+   "sparkles": 50,
+   "area": "square",
+   "rect": [
+    6,
+    8,
+    6,
+    2
+   ],
+   "mess": "weeds"
+  },
+  {
+   "id": "bea_seeds",
+   "neighbourId": "bea",
+   "kind": "bring",
+   "text": "req.bea_seeds",
+   "sparkles": 40,
+   "item": "radish_seeds"
+  },
+  {
+   "id": "pip_cup",
+   "neighbourId": "pip",
+   "kind": "bring",
+   "text": "req.pip_cup",
+   "sparkles": 40,
+   "item": "cup"
+  },
+  {
+   "id": "pip_tart",
+   "neighbourId": "pip",
+   "kind": "bring",
+   "text": "req.pip_tart",
+   "sparkles": 60,
+   "item": "tart"
   }
  ]
 }
