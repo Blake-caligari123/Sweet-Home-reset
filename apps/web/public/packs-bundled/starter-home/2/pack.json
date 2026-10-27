@@ -209,7 +209,7 @@
               "h": 30
             }
           ],
-          "coverage": 0.6,
+          "coverage": 0.4,
           "seed": 11
         },
         {
@@ -225,6 +225,27 @@
               "h": 38
             }
           ]
+        },
+        {
+          "type": "vacuum",
+          "id": "crumbs",
+          "label": "Vacuum the crumbs",
+          "areas": [
+            {
+              "x": 40,
+              "y": 266,
+              "w": 100,
+              "h": 26
+            },
+            {
+              "x": 20,
+              "y": 196,
+              "w": 40,
+              "h": 14
+            }
+          ],
+          "count": 24,
+          "seed": 5
         },
         {
           "type": "pop",
@@ -519,7 +540,7 @@
               "h": 76
             }
           ],
-          "coverage": 0.42,
+          "coverage": 0.35,
           "seed": 23
         },
         {
@@ -541,6 +562,27 @@
               "h": 22
             }
           ]
+        },
+        {
+          "type": "vacuum",
+          "id": "crumbs",
+          "label": "Vacuum the crumbs",
+          "areas": [
+            {
+              "x": 64,
+              "y": 134,
+              "w": 80,
+              "h": 10
+            },
+            {
+              "x": 40,
+              "y": 262,
+              "w": 100,
+              "h": 14
+            }
+          ],
+          "count": 22,
+          "seed": 9
         },
         {
           "type": "pop",
@@ -852,7 +894,7 @@
               "h": 30
             }
           ],
-          "coverage": 0.45,
+          "coverage": 0.35,
           "seed": 37
         },
         {
@@ -868,6 +910,27 @@
               "h": 46
             }
           ]
+        },
+        {
+          "type": "vacuum",
+          "id": "crumbs",
+          "label": "Vacuum the crumbs",
+          "areas": [
+            {
+              "x": 60,
+              "y": 218,
+              "w": 66,
+              "h": 12
+            },
+            {
+              "x": 44,
+              "y": 296,
+              "w": 90,
+              "h": 24
+            }
+          ],
+          "count": 20,
+          "seed": 13
         },
         {
           "type": "pop",

@@ -3,11 +3,12 @@ import { seeded } from '../art/pixel-canvas';
 import { ROOM_H, ROOM_W, type Rect, type TaskDef } from './pack';
 
 // Dirt lives on the room's 1x pixel grid (180×390) so the reveal always snaps to whole pixels.
-// Each dirty pixel has hit points; a brush stamp takes one off every pixel it covers, so grime
-// needs a couple of passes while fog and dust come off in one.
+// Each dirty pixel has hit points; a brush stamp takes one off every pixel it covers. A scrub
+// area is dull all over (one pass brings the colour back) with stains that need a few passes;
+// fog and dust come off in one.
 
-export const HP = { grime: 10, glass: 3, dust: 3 } as const;
-const STYLE = { none: 0, grime: 1, speck: 2, glass: 3, dust: 4 } as const;
+export const HP = { dull: 3, grime: 10, glass: 3, dust: 3 } as const;
+const STYLE = { none: 0, grime: 1, speck: 2, glass: 3, dust: 4, dull: 5, rim: 6 } as const;
 
 export interface StampResult { changed: boolean; cleared: number[]; box: Rect | null }
 
@@ -38,10 +39,15 @@ export class DirtMap {
 
   private grime(areas: Rect[], coverage: number, seed: number, task: number) {
     const rand = seeded(seed);
+    // The whole area is dull first, then stains are splashed over a share of it.
+    for (const a of areas) {
+      for (let y = a.y; y < a.y + a.h; y += 1) for (let x = a.x; x < a.x + a.w; x += 1) this.mark(x, y, task, HP.dull, STYLE.dull);
+    }
     const inArea = (x: number, y: number) => areas.some((a) => x >= a.x && y >= a.y && x < a.x + a.w && y < a.y + a.h);
     const areaPixels = areas.reduce((sum, a) => sum + a.w * a.h, 0);
+    let stained = 0;
     let guard = 0;
-    while (this.total[task] < areaPixels * coverage && guard < 4000) {
+    while (stained < areaPixels * coverage && guard < 4000) {
       guard += 1;
       const a = areas[Math.floor(rand() * areas.length)];
       const cx = a.x + rand() * a.w; const cy = a.y + rand() * a.h;
@@ -49,7 +55,14 @@ export class DirtMap {
       for (let y = Math.floor(cy - ry); y <= cy + ry; y += 1) {
         for (let x = Math.floor(cx - r); x <= cx + r; x += 1) {
           const dx = (x - cx) / r; const dy = (y - cy) / ry;
-          if (dx * dx + dy * dy <= 1 && inArea(x, y)) this.mark(x, y, task, HP.grime, rand() < 0.06 ? STYLE.speck : STYLE.grime);
+          if (dx * dx + dy * dy > 1 || !inArea(x, y)) continue;
+          const i = y * ROOM_W + x;
+          if (this.owner[i] !== task || this.style[i] !== STYLE.dull) continue;
+          // Darker rim, softer middle: stains read as rings, not paint.
+          const rim = dx * dx + dy * dy > 0.6;
+          this.hp[i] = HP.grime; this.maxHp[i] = HP.grime;
+          this.style[i] = rand() < 0.06 ? STYLE.speck : rim ? STYLE.rim : STYLE.grime;
+          stained += 1;
         }
       }
     }
@@ -119,15 +132,29 @@ export class DirtMap {
     return n ? { x: sx / n, y: sy / n } : null;
   }
 
-  /** Write the visible dirt into an RGBA buffer (180×390) for the given box. */
-  paint(target: Uint8ClampedArray, box: Rect = { x: 0, y: 0, w: ROOM_W, h: ROOM_H }) {
+  /**
+   * Write the visible dirt into an RGBA buffer (180×390) for the given box. `dull` is the drained
+   * room (same size); dull and stained pixels are drawn from it so cleaning brings colour back.
+   */
+  paint(target: Uint8ClampedArray, box: Rect = { x: 0, y: 0, w: ROOM_W, h: ROOM_H }, dull?: Uint8ClampedArray) {
     for (let y = box.y; y < box.y + box.h; y += 1) {
       for (let x = box.x; x < box.x + box.w; x += 1) {
         const i = y * ROOM_W + x; const k = i * 4;
         const hp = this.hp[i];
         if (hp === 0) { target[k + 3] = 0; continue; }
+        const style = this.style[i];
         const heavy = hp * 2 > this.maxHp[i];
-        const [colour, alpha] = dirtColour(this.style[i], heavy);
+        if (dull && (style === STYLE.dull || style === STYLE.grime || style === STYLE.rim || style === STYLE.speck)) {
+          // Stains fade to plain dull as they are scrubbed, then the colour returns.
+          const stain = style === STYLE.dull || !heavy ? 0 : style === STYLE.rim ? 0.55 : style === STYLE.speck ? 0.7 : 0.38;
+          const [sr, sg, sb] = rgb(style === STYLE.speck ? P.outline : P.brownShade);
+          target[k] = Math.round(dull[k] * (1 - stain) + sr * stain);
+          target[k + 1] = Math.round(dull[k + 1] * (1 - stain) + sg * stain);
+          target[k + 2] = Math.round(dull[k + 2] * (1 - stain) + sb * stain);
+          target[k + 3] = 255;
+          continue;
+        }
+        const [colour, alpha] = dirtColour(style, heavy);
         const [r, g, b] = rgb(colour);
         target[k] = r; target[k + 1] = g; target[k + 2] = b; target[k + 3] = alpha;
       }
@@ -160,6 +187,6 @@ function dirtColour(style: number, heavy: boolean): [string, number] {
     case STYLE.speck: return [heavy ? P.outlineLight : P.greyShade, 255];
     case STYLE.glass: return [P.white, heavy ? 200 : 120];
     case STYLE.dust: return [P.greyLight, heavy ? 190 : 120];
-    default: return [heavy ? P.greyShade : P.grey, heavy ? 215 : 150];
+    default: return [heavy ? P.greyShade : P.grey, heavy ? 215 : 150]; // grime with no dull room given
   }
 }

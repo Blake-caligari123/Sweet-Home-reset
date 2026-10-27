@@ -15,14 +15,17 @@ describe('dirt map', () => {
     expect(Buffer.from(a.hp).equals(Buffer.from(c.hp))).toBe(false);
   });
 
-  it('keeps grime inside its areas and covers about the requested share', () => {
+  it('dulls the whole scrub area and stains about the requested share of it', () => {
     const map = new DirtMap(tasks, 1);
+    let stained = 0;
     for (let i = 0; i < map.hp.length; i += 1) {
       if (map.owner[i] !== 0) continue;
       const x = i % 180; const y = Math.floor(i / 180);
       expect(x >= 10 && x < 50 && y >= 10 && y < 30).toBe(true);
+      if (map.maxHp[i] === HP.grime) stained += 1;
     }
-    expect(map.total[0]).toBeGreaterThanOrEqual(800 * 0.6);
+    expect(map.total[0]).toBe(800);
+    expect(stained).toBeGreaterThanOrEqual(800 * 0.6);
     expect(map.total[1]).toBe(100);
     expect(map.total[2]).toBe(0);
   });
@@ -57,6 +60,22 @@ describe('dirt map', () => {
     copy.clearTask(0);
     expect(copy.progress(0)).toBe(1);
     expect(copy.hintPoint(0)).toBeNull();
+  });
+
+  it('draws dull pixels from the drained room and stains darker', () => {
+    const map = new DirtMap(tasks, 1);
+    const dull = new Uint8ClampedArray(180 * 390 * 4).fill(200);
+    const rgba = new Uint8ClampedArray(180 * 390 * 4);
+    map.paint(rgba, undefined, dull);
+    let plain = -1; let stain = -1;
+    for (let i = 0; i < map.hp.length; i += 1) {
+      if (map.owner[i] !== 0) continue;
+      if (map.maxHp[i] === HP.dull && plain < 0) plain = i;
+      if (map.maxHp[i] === HP.grime && stain < 0) stain = i;
+    }
+    expect(rgba[plain * 4]).toBe(200);
+    expect(rgba[stain * 4 + 3]).toBe(255);
+    expect(rgba[stain * 4 + 1]).toBeLessThan(200);
   });
 
   it('paints nothing where the dirt is gone', () => {

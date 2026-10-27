@@ -21,6 +21,7 @@ export type TaskDef =
   | { type: 'scrub'; id: string; label: string; areas: Rect[]; coverage: number; seed: number }
   | { type: 'wipe'; id: string; label: string; areas: Rect[]; surface: 'glass' | 'dust' }
   | { type: 'pop'; id: string; label: string; bunnies: Point[] }
+  | { type: 'vacuum'; id: string; label: string; areas: Rect[]; count: number; seed: number }
   | { type: 'sort'; id: string; label: string; bins: (Rect & { id: string; label: string; accepts: string[] })[]; items: (Point & { kind: string })[] };
 
 export interface DecorDef { itemId: string; name: string; prop: string; x: number; y: number; price: number; colour?: string }
@@ -64,6 +65,9 @@ function validateTask(t: any, where: string) {
     check(Array.isArray(t.areas) && t.areas.length > 0 && t.areas.length <= 12 && t.areas.every(isRect), `${where}: bad areas`);
     if (t.type === 'scrub') check(isNum(t.coverage) && t.coverage > 0 && t.coverage <= 1 && isNum(t.seed), `${where}: bad coverage`);
     else check(t.surface === 'glass' || t.surface === 'dust', `${where}: bad surface`);
+  } else if (t.type === 'vacuum') {
+    check(Array.isArray(t.areas) && t.areas.length > 0 && t.areas.length <= 6 && t.areas.every(isRect), `${where}: bad crumb areas`);
+    check(isNum(t.count) && t.count >= 4 && t.count <= 60 && isNum(t.seed), `${where}: bad crumb count`);
   } else if (t.type === 'pop') {
     check(Array.isArray(t.bunnies) && t.bunnies.length >= 1 && t.bunnies.length <= 12 && t.bunnies.every(isPoint), `${where}: bad bunnies`);
   } else if (t.type === 'sort') {
@@ -91,7 +95,7 @@ export function validatePack(input: unknown): Pack {
     check(r && isStr(r.id) && isStr(r.title) && isStr(r.blurb) && r.theme && isNum(r.theme.wallHeight), `${where}: header`);
     check(Array.isArray(r.layers) && r.layers.length <= 40, `${where}: layers`);
     r.layers.forEach((l: any) => check(l && l.prop in PROPS && isPoint(l) && inRoom(l), `${where}: bad layer ${l?.prop}`));
-    check(Array.isArray(r.tasks) && r.tasks.length >= 1 && r.tasks.length <= 6, `${where}: tasks`);
+    check(Array.isArray(r.tasks) && r.tasks.length >= 1 && r.tasks.length <= 5, `${where}: tasks`);
     r.tasks.forEach((t: any) => validateTask(t, where));
     check(Array.isArray(r.chores) && r.chores.every((c: any) => isStr(c.choreKey) && isStr(c.label) && (c.size === 'tiny' || c.size === 'quick')), `${where}: chores`);
     check(Array.isArray(r.decor) && r.decor.every((d: any) => isStr(d.itemId) && isStr(d.name) && d.prop in PROPS && isPoint(d) && isNum(d.price) && d.price > 0), `${where}: decor`);

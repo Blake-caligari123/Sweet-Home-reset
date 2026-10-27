@@ -1,12 +1,12 @@
 import type { Application } from 'pixi.js';
+import { composeAfter, composeBefore, composeProgress } from './art/before-after';
 import { PixelCanvas } from './art/pixel-canvas';
 import { PROPS } from './art/props';
 import { drawPuff, type Outfit } from './art/puff';
-import { drawDecor, drawRoom } from './art/room-art';
 import { createFeedback, type FeedbackEvent } from './fx/feedback';
 import type { Sound } from './fx/sound';
 import { line, type LineKey } from './game/lines';
-import { ROOM_H, ROOM_W, type DecorDef, type Pack, type RoomDef } from './game/pack';
+import type { DecorDef, Pack, RoomDef } from './game/pack';
 import {
   BOOST_COST, buy, choresDoneToday, isUnlocked, localDate, REWARD, rewardRoom, rewardTask, roomState,
   showUp, spendEnergy, tickChore, type Profile
@@ -18,8 +18,10 @@ import { backAction, type Overlay, type Screen } from './nav';
 import { BRUSH_RADIUS, RoomScene } from './scenes/room-scene';
 import { clear, ENERGY, h, SPARKLE } from './ui/dom';
 import { pixelImage, puffPortrait } from './ui/pixel-image';
+import { makeClip, shareFile } from './share/clip';
 
-const TASK_ICON: Record<string, string> = { scrub: '🧽', glass: '🪟', dust: '🪶', pop: '🐰', sort: '🧺' };
+const TASK_ICON: Record<string, string> = { scrub: '🧽', glass: '🪟', dust: '🪶', vacuum: '🌀', pop: '🐰', sort: '🧺' };
+const STAGE_BANNER: Record<number, string> = { 25: 'Colour\'s coming back!', 50: 'Halfway sparkly!', 75: 'Almost there!' };
 
 export class GameApp {
   private screen: Screen = 'title';
@@ -62,7 +64,9 @@ export class GameApp {
       say: (text) => this.say(text),
       progress: () => this.updateHud(),
       taskDone: () => { this.earned += rewardTask(this.profile); this.bumpSparkles(`+${REWARD.task} ${SPARKLE}`); },
-      stage: (stage) => this.announce(`${this.room?.title} ${stage}% clean.`),
+      stage: (stage) => { this.announce(`${this.room?.title} ${stage}% clean.`); if (STAGE_BANNER[stage]) this.banner(`${stage}% · ${STAGE_BANNER[stage]}`); },
+      combo: (count) => { this.feedback.emit('combo'); this.banner(`Combo ×${count}!`, 'combo'); if (count % 10 === 0) this.say(line('combo')); },
+      tool: () => {},
       helpReady: (ready) => { if (this.hud) this.hud.help.hidden = !ready; },
       save: () => this.saveSoon(),
       finished: () => this.showRestored()
@@ -109,6 +113,15 @@ export class GameApp {
     const el = h('div', { class: 'toast', role: 'status' }, text);
     this.ui.append(el);
     window.setTimeout(() => el.remove(), 1700);
+  }
+
+  /** A big pill across the middle for stage-ups and combos. */
+  private banner(text: string, kind: 'stage' | 'combo' = 'stage') {
+    if (!this.hud) return;
+    this.hud.root.querySelector('.banner')?.remove();
+    const el = h('div', { class: `banner ${kind}`, 'aria-hidden': 'true' }, text);
+    this.hud.root.append(el);
+    window.setTimeout(() => el.remove(), kind === 'combo' ? 1000 : 1800);
   }
 
   private caption(text: string) {
@@ -172,6 +185,7 @@ export class GameApp {
   }
 
   background() {
+    this.sound.stopMusic();
     this.saveNow();
     if (this.screen === 'room' && this.overlay === null) this.pause();
   }
@@ -234,18 +248,9 @@ export class GameApp {
 
   private roomThumb(room: RoomDef) {
     const state = this.profile.rooms[room.id];
-    const pc = drawRoom(room);
-    pc.draw(drawDecor(this.decorFor(room)), 0, 0);
+    const decor = this.decorFor(room);
     const fresh = !state?.restored || state.session;
-    if (fresh) {
-      const session = new RoomSession(room, state?.seed ?? 1, state?.session);
-      const rgba = new Uint8ClampedArray(ROOM_W * ROOM_H * 4);
-      session.dirt.paint(rgba);
-      for (let i = 0; i < rgba.length; i += 4) {
-        const a = rgba[i + 3] / 255;
-        for (let c = 0; c < 3 && a; c += 1) pc.data[i + c] = Math.round(rgba[i + c] * a + pc.data[i + c] * (1 - a));
-      }
-    }
+    const pc = fresh ? composeProgress(room, new RoomSession(room, state?.seed ?? 1, state?.session), decor) : composeAfter(room, decor);
     return pixelImage(pc, 1, `${room.title} preview`);
   }
 
@@ -406,9 +411,12 @@ export class GameApp {
   private showRestored() {
     if (!this.room) return;
     const room = this.room;
+    const messSeed = this.session?.seed ?? 1;
     const before = this.pack.rooms.filter((r) => isUnlocked(this.profile, r)).map((r) => r.id);
     const roomReward = rewardRoom(this.profile, room.id);
-    this.earned += roomReward;
+    const comboBonus = this.scene.comboBonus;
+    this.profile.sparkles += comboBonus;
+    this.earned += roomReward + comboBonus;
     this.saveNow();
     const opened = this.pack.rooms.find((r) => !before.includes(r.id) && isUnlocked(this.profile, r));
     this.overlay = 'restored';
@@ -423,9 +431,10 @@ export class GameApp {
       h('h2', { id: 'restored-title' }, `${room.title} restored!`),
       h('div', { class: 'reward' },
         h('span', { class: 'total' }, `+${this.earned} ${SPARKLE}`),
-        h('span', { class: 'muted' }, `${this.earned - roomReward} from tasks · ${roomReward} for the room`)
+        h('span', { class: 'muted' }, `${this.earned - roomReward - comboBonus} from tasks · ${roomReward} for the room${comboBonus ? ` · ${comboBonus} combo bonus` : ''}`)
       ),
       opened ? h('p', { class: 'badge warm' }, `${opened.title} is ready when you are!`) : null,
+      this.shareButton(room, messSeed),
       body
     );
     const scrim = h('div', { class: 'scrim', 'data-overlay': 'restored' }, sheet);
@@ -465,6 +474,32 @@ export class GameApp {
     }
     this.ui.append(scrim);
     this.announce(`${room.title} restored. You earned ${this.earned} Sparkles.`);
+  }
+
+  /** Make the before/after clip, then share it on a second tap (iOS needs a fresh tap to share). */
+  private shareButton(room: RoomDef, seed: number) {
+    const button = h('button', { class: 'btn warm', style: { width: '100%' } }, '🎬 Make my before/after clip');
+    let file: File | null = null;
+    button.addEventListener('click', async () => {
+      this.tap();
+      if (file) {
+        const result = await shareFile(file, `I restored the ${room.title} with Puff ✨ #SweetHomeReset`);
+        if (result === 'downloaded') this.toast('Saved your clip');
+        return;
+      }
+      button.disabled = true;
+      button.textContent = 'Making your clip…';
+      try {
+        const decor = this.decorFor(room);
+        file = await makeClip({ before: composeBefore(room, seed, decor), after: composeAfter(room, decor), title: room.title, outfit: this.profile.outfit });
+        button.textContent = file.type.startsWith('video') ? '📤 Share my clip' : '📤 Share my before/after';
+      } catch {
+        button.textContent = 'Clip didn\'t work this time';
+      } finally {
+        button.disabled = false;
+      }
+    });
+    return button;
   }
 
   // ---- chores --------------------------------------------------------------------------------
@@ -575,6 +610,8 @@ export class GameApp {
         button.setAttribute('aria-checked', String(s[key]));
         if (key === 'sound' && s.sound) this.sound.unlock();
         this.sound.enabled = s.sound;
+        this.sound.musicOn = s.music;
+        if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
         this.applyMotion();
         this.tap();
         this.saveSoon();
@@ -589,6 +626,7 @@ export class GameApp {
         ),
         h('div', { class: 'list' },
           toggle('sound', 'Sound', 'Scrubs, pops and chimes. Captions show when it\'s off.'),
+          toggle('music', 'Music', 'A calm little background tune.'),
           toggle('haptics', 'Haptics', 'Little buzzes on phones that support them.'),
           toggle('reducedMotion', 'Reduce motion', 'Fewer particles, fades instead of wipes.'),
           toggle('bigBrush', 'Big brush', 'A wider sponge for easier cleaning.')

@@ -63,7 +63,10 @@ The **Mobile builds** workflow tests and builds an unsigned debug APK on every c
 The game loop is playable on web, iOS and Android builds, fully offline and signed out:
 
 - **Three starter rooms** (Kitchen Nook, Living Room, Bedroom) as pack data in `apps/web/public/packs-bundled/starter-home/2/pack.json`. The next room opens after the one before it, or early through real chores.
-- **Four mini-tasks per room:** scrub grime (needs a couple of passes), wipe fog or dust, pop shy dust bunnies, and drag clutter to the right bin (wrong bins bounce back, no penalty). Help Puff finishes a task after 20 s without progress, and Puff points at the next spot after 6 s.
+- **Cleaning brings the colour back:** a messy room starts drained and dull, with stains, cobwebs and dust. Scrubbing reveals the bright room underneath, and the whole room brightens a step at each stage.
+- **Five mini-tasks per room, each with its own tool** (picked automatically for whatever you touch): sponge for grime (stains need a few passes), squeegee for foggy glass, duster for dusty shelves, vacuum for crumbs, plus popping shy dust bunnies and dragging clutter to the right bin (wrong bins bounce back, no penalty). Help Puff finishes a task after 20 s without progress, Puff points at the next spot after 6 s, and Puff naps if left alone.
+- **Juice:** foam trails, combos (×5, ×10… with a small capped Sparkle bonus), stage banners with a light wave, a calm synthesised music loop and sound effects whose pitch climbs as the room gets cleaner.
+- **Share clip:** after a room is restored, one tap makes a 5.6 s 1080×1920 before/after video on the device (a still image where video recording isn't available) and a second tap opens the share sheet.
 - **Stages at 25/50/75/100** reveal light, glow, steam and twinkles; at 95% the room finishes itself with a sparkle sweep and a before/after wipe.
 - **Real-chore loop:** a matching chore after each room (Do it for real / Not now), honour ticks, 10 Sparkles + 1 Energy each, 5 rewarded a day. Energy buys the optional Big sponge; scrubbing never needs it.
 - **Puff:** frame-based 48 px pixel sprite (idle, blink, hop, sneeze, spin, walk in 4 directions) who follows your brush and wanders the floor.

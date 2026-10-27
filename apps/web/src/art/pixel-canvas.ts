@@ -100,6 +100,22 @@ export class PixelCanvas {
     }
   }
 
+  /** Alpha-composite another canvas on top (for overlays such as light, glow and dinge). */
+  blend(src: PixelCanvas, x = 0, y = 0, opacity = 1) {
+    for (let j = 0; j < src.height; j += 1) {
+      for (let i = 0; i < src.width; i += 1) {
+        const si = (j * src.width + i) * 4;
+        const a = (src.data[si + 3] / 255) * opacity;
+        if (a <= 0) continue;
+        const tx = x + i; const ty = y + j;
+        if (!this.inside(tx, ty)) continue;
+        const di = (ty * this.width + tx) * 4;
+        for (let c = 0; c < 3; c += 1) this.data[di + c] = Math.round(src.data[si + c] * a + this.data[di + c] * (1 - a));
+        this.data[di + 3] = Math.max(this.data[di + 3], Math.round(a * 255));
+      }
+    }
+  }
+
   /** Add a 1 px outline around every opaque shape (cutout rule from the pixel-art spec). */
   outlineShapes(colour: string) {
     const marks: number[] = [];

@@ -23,6 +23,7 @@ describe('room session', () => {
     const events: SessionEvent[] = [];
     kitchen.tasks.forEach((t, i) => {
       if (t.type === 'pop') t.bunnies.forEach((_, b) => events.push(...session.pop(i, b)));
+      if (t.type === 'vacuum') session.crumbs[i].forEach((_, c) => events.push(...session.vacuum(i, c)));
       if (t.type === 'sort') t.items.forEach((item, k) => {
         const bin = t.bins.find((b) => b.accepts.includes(item.kind))!;
         events.push(...session.drop(i, k, bin.x + 2, bin.y + 2));
@@ -39,7 +40,7 @@ describe('room session', () => {
   it('auto-finishes the last 5% so a near-clean room never stalls', () => {
     const session = new RoomSession(kitchen, 1);
     // Finish three tasks fully, then most of the last one.
-    session.help(1); session.help(2); session.help(3);
+    for (let i = 1; i < kitchen.tasks.length; i += 1) session.help(i);
     expect(session.complete).toBe(false);
     const events = scrubAll(session, 0);
     expect(events.some((e) => e.type === 'roomClean')).toBe(true);
@@ -64,8 +65,8 @@ describe('room session', () => {
     const session = new RoomSession(kitchen, 1);
     const events = session.help(0);
     expect(events).toContainEqual({ type: 'taskDone', task: 0 });
-    expect(session.meter()).toBe(25);
-    expect(stagesOf(events)).toEqual([25]);
+    expect(session.meter()).toBe(100 / kitchen.tasks.length);
+    expect(stagesOf(events)).toEqual(100 / kitchen.tasks.length >= 25 ? [25] : []);
     expect(session.nextTask()).toBe(1);
   });
 
@@ -87,11 +88,29 @@ describe('room session', () => {
     expect(again.done[2]).toBe(true);
   });
 
+  it('scatters the same crumbs for the same mess and vacuums each once', () => {
+    const vac = kitchen.tasks.findIndex((t) => t.type === 'vacuum');
+    const a = new RoomSession(kitchen, 5); const b = new RoomSession(kitchen, 5);
+    expect(a.crumbs[vac]).toEqual(b.crumbs[vac]);
+    expect(a.crumbs[vac].length).toBe((kitchen.tasks[vac] as { count: number }).count);
+    expect(a.vacuum(vac, 0)[0]).toEqual({ type: 'crumb', task: vac, crumb: 0 });
+    expect(a.vacuum(vac, 0)).toEqual([]);
+    const restored = new RoomSession(kitchen, 5, JSON.parse(JSON.stringify(a.save())));
+    expect(restored.vacuumed[vac][0]).toBe(true);
+  });
+
   it('stores dirt compactly as runs', () => {
     const session = new RoomSession(kitchen, 3);
     const saved = session.save();
     expect(saved.hp.length).toBeLessThan(session.dirt.hp.length / 4);
     expect(Array.from(decodeRuns(encodeRuns(session.dirt.hp), session.dirt.hp.length))).toEqual(Array.from(session.dirt.hp));
+  });
+
+  it('starts fresh from a save made when the room had different tasks', () => {
+    const saved = new RoomSession(kitchen, 3).save();
+    saved.stage = 50;
+    saved.popped = saved.popped.slice(1);
+    expect(new RoomSession(kitchen, 3, saved).stage).toBe(0);
   });
 
   it('ignores a save made for a different mess', () => {

@@ -44,6 +44,22 @@ export class Particles {
     }
   }
 
+  /** Foam left behind by the sponge: still bubbles that linger, then pop. */
+  trail(x: number, y: number, radius: number) {
+    if (this.reducedMotion && Math.random() < 0.75) return;
+    for (let i = 0; i < 2; i += 1) {
+      if (this.live.length >= MAX_PARTICLES) return;
+      const sprite = this.pool.pop() ?? new Sprite();
+      sprite.texture = textures()[Math.random() < 0.7 ? 'suds' : 'dot'];
+      sprite.anchor.set(0.5);
+      sprite.tint = Math.random() < 0.7 ? P.white : P.blueLight;
+      sprite.alpha = 1;
+      this.container.addChild(sprite);
+      const a = Math.random() * Math.PI * 2; const r = Math.random() * radius;
+      this.live.push({ sprite, x: x + Math.cos(a) * r, y: y + Math.sin(a) * r, vx: 0, vy: -2, g: 0, life: 700 + Math.random() * 600, age: 0 });
+    }
+  }
+
   get count() { return this.live.length; }
 
   update(dtMs: number) {

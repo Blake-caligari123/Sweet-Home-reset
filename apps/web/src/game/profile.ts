@@ -9,7 +9,7 @@ import type { SessionSave } from './session';
 export const REWARD = { task: 5, room: 25, chore: 10, choreEnergy: 1 } as const;
 export const BOOST_COST = 1;
 
-export interface Settings { sound: boolean; haptics: boolean; reducedMotion: boolean; bigBrush: boolean }
+export interface Settings { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; bigBrush: boolean }
 
 export interface RoomState { restored: number; seed: number; session?: SessionSave }
 
@@ -31,7 +31,7 @@ export function newProfile(reducedMotion = false): Profile {
   return {
     schemaVersion: 1, sparkles: 0, energy: 0, owned: [], outfit: null, rooms: {},
     chores: { total: 0, day: '', today: 0, keys: [] }, cosyDays: 0, lastDay: null, onboarded: false,
-    settings: { sound: true, haptics: true, reducedMotion, bigBrush: false }
+    settings: { sound: true, music: true, haptics: true, reducedMotion, bigBrush: false }
   };
 }
 

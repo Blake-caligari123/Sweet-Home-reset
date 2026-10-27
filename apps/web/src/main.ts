@@ -55,11 +55,13 @@ host.append(app.canvas);
 
 const sound = new Sound();
 sound.enabled = profile.settings.sound;
+sound.musicOn = profile.settings.music;
 document.addEventListener('pointerdown', () => sound.unlock(), { capture: true });
 document.addEventListener('keydown', () => sound.unlock(), { capture: true });
 
 const game = new GameApp(app, ui, pack, profile, native, sound);
 void native.onBack(() => game.back());
-void native.onActiveChange((active) => { if (!active) game.background(); });
+void native.onActiveChange((active) => { if (!active) game.background(); else sound.startMusic(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) sound.startMusic(); });
 window.addEventListener('pagehide', () => game.saveNow());
 game.start();

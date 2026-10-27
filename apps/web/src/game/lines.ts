@@ -15,7 +15,9 @@ export const LINES = {
   choreNo: ['Totally fine!', 'Maybe later. No rush.'],
   choreCap: ['That\'s loads today. Rest counts too.'],
   welcomeBack: ['You\'re back! Party!', 'Missed you! Yay!'],
-  shop: ['Ooh, shiny!', 'So cosy!']
+  shop: ['Ooh, shiny!', 'So cosy!'],
+  nap: ['Zzz... so cosy...', 'Just a tiny nap...'],
+  combo: ['Whoa, speedy!', 'You\'re on a roll!', 'Sparkle streak!']
 } as const;
 
 export type LineKey = keyof typeof LINES;
