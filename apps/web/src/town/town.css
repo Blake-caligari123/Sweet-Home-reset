@@ -56,6 +56,7 @@
 .dialogue .portrait { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border: 2px solid var(--line); border-radius: 12px; background: var(--butter-3); }
 .dialogue-body { flex: 1; display: flex; flex-direction: column; gap: 10px; }
 .dialogue-body p { font-weight: 700; line-height: 1.35; }
+.dialogue-body .speaker { font-size: 0.85rem; font-weight: 800; color: var(--line); margin-bottom: -6px; }
 .dialogue .btn-row { justify-content: flex-end; }
 .dialogue .btn-row .btn { flex: 0 1 auto; }
 .bag-grid { display: grid; grid-template-columns: repeat(4, 56px); gap: 8px; justify-content: center; }

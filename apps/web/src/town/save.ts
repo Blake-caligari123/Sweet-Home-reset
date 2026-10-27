@@ -3,7 +3,7 @@ import type { AreaMess } from './mess';
 
 // One versioned save (BACKEND-PLAN "Saves"): `shr` IndexedDB, `saves` store, slots main + backup.
 // Backup is written first, then main; a corrupt main loads the backup. Unknown fields are kept.
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
 export const CATALOGUE_VERSION = 1;
 
 export interface TownSave {
@@ -24,16 +24,23 @@ export interface TownSave {
   areas: Record<string, ReturnType<AreaMess['snapshot']>>;
   crops: { area: string; x: number; y: number; crop: string; days: number; watered: boolean }[];
   flags: string[];
+  /** Per neighbour: friendship points (10 a heart, never lower), the last day they were talked to, met yet. */
+  friends: Record<string, Friend>;
   onboarding: number;
   chores: { day: string; keys: string[]; total: number };
   settings: { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; relaxed: boolean; autoTool: boolean };
   [extra: string]: unknown;
 }
 
+export interface Friend { points: number; talkedDay: number; met: boolean }
+
 export type Migration = (save: Record<string, unknown>) => Record<string, unknown>;
 
 /** migrations[n] upgrades a save at version n to n + 1. */
-export const MIGRATIONS: Record<number, Migration> = {};
+export const MIGRATIONS: Record<number, Migration> = {
+  // M2: neighbours arrive.
+  1: (s) => ({ ...s, friends: {} })
+};
 
 export function migrate(raw: unknown, migrations: Record<number, Migration> = MIGRATIONS, target = SCHEMA_VERSION): TownSave | null {
   if (!raw || typeof raw !== 'object') return null;

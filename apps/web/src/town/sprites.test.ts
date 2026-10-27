@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { blinkClip, BREATH_MS, BREATH_RISE, breathScale, HOP_LIFT, messSprite, puffClip } from './sprites';
+import { blinkClip, BREATH_MS, BREATH_RISE, breathScale, HOP_LIFT, messSprite, neighbourClip, puffClip } from './sprites';
 
 const have = (...names: string[]) => (n: string) => names.includes(n);
 
@@ -52,5 +52,19 @@ describe('Puff sprite clips', () => {
     expect(messSprite('stain', 5, undefined, has, frames)).toBeNull();
     const seen = new Set(Array.from({ length: 40 }, (_, i) => messSprite('dust', i, undefined, has, frames)!.frame));
     expect(seen.size).toBe(8);
+  });
+});
+
+describe('neighbour sprite clips', () => {
+  it('stays code-drawn until their sheets arrive, then walks and idles like Puff', () => {
+    expect(neighbourClip('hazel', 'down', 'walk', have())).toBeNull();
+    expect(neighbourClip('hazel', 'left', 'walk', have('hazel_walk_right'))).toEqual({ name: 'hazel_walk_right', mirror: true });
+    expect(neighbourClip('hazel', 'down', 'idle', have('hazel_walk_down'))).toEqual({ name: 'hazel_walk_down', mirror: false, hold: 0 });
+    expect(neighbourClip('hazel', 'down', 'idle', have('hazel_walk_down', 'hazel_idle_down'))).toEqual({ name: 'hazel_idle_down', mirror: false });
+  });
+
+  it('dozes on their own sheet, else stands idle', () => {
+    expect(neighbourClip('hazel', 'right', 'sleep', have('hazel_sleep', 'hazel_walk_right'))).toEqual({ name: 'hazel_sleep', mirror: false });
+    expect(neighbourClip('hazel', 'right', 'sleep', have('hazel_walk_right'))).toEqual({ name: 'hazel_walk_right', mirror: false, hold: 0 });
   });
 });

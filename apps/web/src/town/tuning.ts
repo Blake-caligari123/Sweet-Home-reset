@@ -21,6 +21,7 @@ export interface Tuning {
   fountainName: string;
   walkTilesPerSecond?: number;
   walkTilesPerSecondTired?: number;
+  neighbourWalkTilesPerSecond?: number;
   colourRippleMs?: number;
   toolSwingMs?: number;
   putAwaySparkles?: number;
@@ -32,6 +33,7 @@ export const TUNING: Tuning = raw as unknown as Tuning;
 /** Values the frontend plan lists in its tuning table but tuning.json doesn't carry yet. */
 export const WALK_SPEED = TUNING.walkTilesPerSecond ?? 4;
 export const WALK_SPEED_TIRED = TUNING.walkTilesPerSecondTired ?? 3;
+export const NEIGHBOUR_WALK_SPEED = TUNING.neighbourWalkTilesPerSecond ?? 2.5;
 export const RIPPLE_MS = TUNING.colourRippleMs ?? 300;
 export const SWING_MS = TUNING.toolSwingMs ?? 260;
 export const PUTAWAY_SPARKLES = TUNING.putAwaySparkles ?? 5;

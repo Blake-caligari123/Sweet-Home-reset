@@ -1290,5 +1290,149 @@
     ]
    }
   }
+ ],
+ "neighbours": [
+  {
+   "id": "hazel",
+   "name": "Hazel",
+   "species": "hedgehog",
+   "colours": {
+    "fur": "#946F57",
+    "belly": "#FAEBD2",
+    "accent": "#FFFFFF"
+   },
+   "loves": [
+    "bread",
+    "flowers"
+   ],
+   "likes": [
+    "berries",
+    "honey"
+   ],
+   "dislikes": [
+    "clay",
+    "mud"
+   ],
+   "hello": "Puff, petal! Mind the buns, they're hot.",
+   "schedule": [
+    {
+     "at": 360,
+     "area": "bakery",
+     "x": 5,
+     "y": 6,
+     "dir": "up"
+    },
+    {
+     "at": 660,
+     "area": "bakery",
+     "x": 16,
+     "y": 7,
+     "dir": "down"
+    },
+    {
+     "at": 1020,
+     "area": "bakery",
+     "x": 12,
+     "y": 11,
+     "dir": "down"
+    },
+    {
+     "at": 1260,
+     "area": "bakery",
+     "x": 16,
+     "y": 12,
+     "dir": "right",
+     "sleep": true
+    }
+   ]
+  },
+  {
+   "id": "bea",
+   "name": "Bea",
+   "species": "bee",
+   "colours": {
+    "fur": "#E7CB69",
+    "belly": "#F6E3A1",
+    "accent": "#534239"
+   },
+   "loves": [
+    "honey",
+    "rare_seeds"
+   ],
+   "likes": [
+    "flowers",
+    "string"
+   ],
+   "dislikes": [
+    "weeds",
+    "crumbs"
+   ],
+   "hello": "Three things! One: hello. Two: hello. Three: hi!",
+   "schedule": [
+    {
+     "at": 360,
+     "area": "lane",
+     "x": 0,
+     "y": 0
+    },
+    {
+     "at": 440,
+     "area": "bakery",
+     "x": 13,
+     "y": 7,
+     "dir": "up"
+    },
+    {
+     "at": 470,
+     "area": "lane",
+     "x": 0,
+     "y": 0
+    }
+   ]
+  },
+  {
+   "id": "pip",
+   "name": "Pip",
+   "species": "mouse",
+   "colours": {
+    "fur": "#CFC6BD",
+    "belly": "#FFF8EC",
+    "accent": "#F4C2A8"
+   },
+   "loves": [
+    "button",
+    "string"
+   ],
+   "likes": [
+    "silk_thread",
+    "shell",
+    "clay"
+   ],
+   "dislikes": [
+    "soap"
+   ],
+   "hello": "Is that a real bunny? Can I draw you? Right?",
+   "schedule": [
+    {
+     "at": 360,
+     "area": "lane",
+     "x": 0,
+     "y": 0
+    },
+    {
+     "at": 900,
+     "area": "bakery",
+     "x": 14,
+     "y": 11,
+     "dir": "up"
+    },
+    {
+     "at": 960,
+     "area": "lane",
+     "x": 0,
+     "y": 0
+    }
+   ]
+  }
  ]
 }

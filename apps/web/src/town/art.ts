@@ -757,3 +757,68 @@ export function drawToolMini(tool: string) {
   }
   return pc;
 }
+
+/** Placeholder neighbours (M2) until their sprite sheets land: Puff's round build in their own colours, with each species' look. */
+export function drawNeighbour24(species: string, c: { fur: string; belly: string; accent: string }, dir: Dir, frame: number, pose: 'walk' | 'idle' | 'sleep' = 'idle') {
+  const pc = new PixelCanvas(PUFF_PX, PUFF_PX);
+  const side = dir === 'right' || dir === 'left';
+  const front = dir === 'down';
+  const bob = pose === 'walk' ? [0, -1, 0, 0, -1, 0][frame % 6] : pose === 'idle' ? [0, 0, 1, 1][frame % 4] : 0;
+  const cy = 14 + bob;
+  // Behind the body: ears, wings, tufts.
+  if (species === 'mouse') for (const ex of side ? [9] : [6, 18]) { pc.ellipse(ex, cy - 6, 3, 3, c.fur); if (!(dir === 'up')) pc.ellipse(ex, cy - 6, 2, 2, c.accent); }
+  if (species === 'bee') {
+    for (const wx of side ? [8] : [7, 17]) pc.ellipse(wx, cy - 6, 3, 2, P.blueLight);
+    for (const ax of side ? [13] : [10, 14]) { pc.vline(ax, cy - 10, 4, c.accent); pc.set(ax, cy - 11, c.accent); }
+  }
+  if (species === 'owl') for (const ex of side ? [10] : [7, 17]) { pc.set(ex, cy - 8, c.fur); pc.rect(ex - 1, cy - 7, 3, 2, c.fur); }
+  if (species === 'otter' || species === 'hedgehog') for (const ex of side ? [11] : [8, 16]) pc.ellipse(ex, cy - 5, 2, 2, c.fur);
+  pc.ellipse(12, cy, species === 'mole' ? 8 : 7, 6, c.fur);
+  if (species === 'hedgehog') {
+    // Spines round the top and back, darker than the face.
+    for (let a = 0; a < 13; a += 1) {
+      const t = Math.PI * (1.05 + (a / 12) * (side ? 1.0 : 0.9)) + (side ? -0.35 : 0);
+      pc.line(12 + Math.round(Math.cos(t) * 5), cy + Math.round(Math.sin(t) * 4), 12 + Math.round(Math.cos(t) * 9), cy + Math.round(Math.sin(t) * 8), c.fur);
+    }
+    for (let y = cy - 9; y <= cy + 6; y += 1) for (let x = 2; x < 22; x += 1) if (((x + y) % 3 === 0 || dir === 'up') && pc.hex(x, y) === c.fur.toUpperCase() && Math.hypot(x - 12, (y - cy) * 1.2) > (dir === 'up' ? 0 : 5)) pc.mul(x, y, 0.82);
+  }
+  if (species === 'bee') for (const y of [cy - 1, cy + 2]) for (let x = 5; x < 20; x += 1) if (pc.hex(x, y) === c.fur.toUpperCase()) pc.set(x, y, c.accent);
+  if (front || side) {
+    // The face and tummy in the lighter colour (an owl's face disc, an apron for the baker).
+    const bx = side ? 15 : 12;
+    pc.ellipse(bx, cy + 1, side ? 3 : 4, 3, c.belly);
+    if (species === 'hedgehog' && front) { pc.rect(9, cy + 2, 7, 4, c.accent); pc.hline(10, cy + 1, 5, c.accent); }
+  }
+  if (species === 'otter' || species === 'mouse') { if (dir !== 'down') pc.line(side ? 5 : 12, cy + 4, side ? 2 : 12, cy + (side ? 1 : 7), c.fur); }
+  // Light from the top-left.
+  for (let y = cy - 7; y <= cy + 7; y += 1) for (let x = 3; x < 21; x += 1) {
+    if (!pc.alpha(x, y)) continue;
+    const l = -((x - 12) / 8) * 0.55 - ((y - cy) / 7) * 0.85;
+    if (l > 0.7) pc.mul(x, y, 1.06); else if (l < -0.55) pc.mul(x, y, 0.9);
+  }
+  const step = pose === 'walk' ? (frame % 6 < 3 ? 0 : 1) : -1;
+  [[8, 0], [16, 1]].forEach(([fx, k]) => pc.ellipse(fx, 20 - (step === k ? 1 : 0) + Math.min(0, bob), 2, 1, P.brownShade));
+  pc.outlineShapes(P.outline);
+  const eye = (x: number, y: number) => { pc.rect(x, y, 2, 2, P.ink); pc.set(x, y, P.white); };
+  const small = species === 'mole';
+  if (pose === 'sleep' && (front || side)) {
+    if (front) { pc.hline(8, cy - 1, 2, P.ink); pc.hline(14, cy - 1, 2, P.ink); } else pc.hline(16, cy - 1, 2, P.ink);
+  } else if (front) {
+    if (small) { pc.set(9, cy - 1, P.ink); pc.set(15, cy - 1, P.ink); } else { eye(8, cy - 2); eye(14, cy - 2); }
+    pc.rect(6, cy + 1, 2, 1, P.peach); pc.rect(16, cy + 1, 2, 1, P.peach);
+    if (species === 'owl') { pc.set(12, cy, P.butterShade); pc.set(12, cy + 1, P.butterShade); }
+    else if (species === 'mole' || species === 'hedgehog' || species === 'mouse') pc.rect(11, cy, 2, 1, P.peachShade);
+    else { pc.set(11, cy + 1, P.outline); pc.set(12, cy + 2, P.outline); pc.set(13, cy + 1, P.outline); }
+  } else if (side) {
+    if (small) pc.set(17, cy - 1, P.ink); else eye(16, cy - 2);
+    pc.rect(17, cy + 1, 2, 1, P.peach);
+    pc.set(20, cy, species === 'owl' ? P.butterShade : P.peachShade);
+  }
+  if (pose === 'sleep') { pc.set(19, cy - 9, P.blue); pc.set(20, cy - 10, P.blue); pc.set(21, cy - 10, P.blue); }
+  if (dir === 'left') {
+    const flipped = new PixelCanvas(PUFF_PX, PUFF_PX);
+    flipped.draw(pc, 0, 0, true);
+    return flipped;
+  }
+  return pc;
+}

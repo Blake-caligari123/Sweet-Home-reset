@@ -2,13 +2,13 @@ import { Application, Container, Graphics, Rectangle, Sprite, Texture } from 'pi
 import { P } from '../art/palette';
 import { Particles } from '../scenes/particles';
 import { toTexture } from '../scenes/textures';
-import { drawCrop, drawMess, drawPuff24, drawToolMini, T, type Dir } from './art';
+import { drawCrop, drawMess, drawNeighbour24, drawPuff24, drawToolMini, T, type Dir } from './art';
 import { Ambience, drawTapRing, vignetteTexture } from './ambience';
 import type { Area } from './area';
 import { bakeArea } from './bake';
 import { paintedArea } from './backgrounds';
 import { FULL_COLOUR, type AreaMess } from './mess';
-import { blinkClip, breathScale, CLIP_FPS, messSprite, puffClip, type SpriteBank } from './sprites';
+import { blinkClip, breathScale, CLIP_FPS, messSprite, neighbourClip, puffClip, type SpriteBank } from './sprites';
 import { RIPPLE_MS } from './tuning';
 
 // The world layer (FRONTEND-PLAN §3): baked ground, a drained overlay whose per-tile alpha
@@ -36,6 +36,14 @@ function puffTexture(dir: Dir, frame: number, pose: Parameters<typeof drawPuff24
   return t;
 }
 
+const npcFrames = new Map<string, Texture>();
+function npcTexture(v: NeighbourView, frame: number) {
+  const key = `${v.species}:${v.colours.fur}:${v.dir}:${frame}:${v.pose}`;
+  let t = npcFrames.get(key);
+  if (!t) { t = toTexture(drawNeighbour24(v.species, v.colours, v.dir, frame, v.pose)); npcFrames.set(key, t); }
+  return t;
+}
+
 const toolMinis = new Map<string, Texture>();
 function toolTexture(tool: string) {
   let t = toolMinis.get(tool);
@@ -53,6 +61,9 @@ function cropTexture(stage: number, watered: boolean) {
 
 /** x, y: the bottom-centre of Puff's sprite in world px. */
 export interface PuffView { x: number; y: number; dir: Dir; pose: 'walk' | 'idle' | 'swing' | 'sleep' | 'hop'; tool: string | null }
+
+/** A neighbour to draw: x, y is the bottom-centre of their sprite in world px. */
+export interface NeighbourView { id: string; species: string; colours: { fur: string; belly: string; accent: string }; x: number; y: number; dir: Dir; pose: 'walk' | 'idle' | 'sleep' }
 
 export class World {
   readonly root = new Container();
@@ -78,6 +89,7 @@ export class World {
   private puff = new Sprite();
   private puffShadow = new Graphics();
   private toolSprite = new Sprite();
+  private npcs = new Map<string, { sprite: Sprite; shadow: Graphics }>();
   private messSprites = new Map<number, Sprite>();
   private cropSprites = new Map<number, Sprite>();
   private shownColour: Float32Array = new Float32Array(0);
@@ -118,7 +130,8 @@ export class World {
     }
     this.base.texture = colourTex;
     this.base.scale.set(1 / k);
-    this.drained.removeChildren().forEach((c) => c.destroy());
+    // Each tile sprite owns its frame texture (the source is shared with the painting, so it stays).
+    this.drained.removeChildren().forEach((c) => c.destroy({ texture: true, textureSource: false }));
     this.drainSprites = [];
     for (let i = 0; i < area.w * area.h; i += 1) {
       const x = i % area.w; const y = Math.floor(i / area.w);
@@ -308,6 +321,40 @@ export class World {
       this.toolSprite.position.set(px + off[0] + wiggle, py + off[1] - 4);
       this.toolSprite.zIndex = py + (v.dir === 'up' ? -1 : 1);
     } else this.toolSprite.visible = false;
+  }
+
+  /** The neighbours Puff can see this frame; anyone not listed is taken off the stage. */
+  drawNeighbours(views: NeighbourView[]) {
+    const seen = new Set<string>();
+    for (const v of views) {
+      seen.add(v.id);
+      let n = this.npcs.get(v.id);
+      if (!n) {
+        const sprite = new Sprite(); sprite.anchor.set(0.5, 1);
+        const shadow = new Graphics().ellipse(0, 0, 7, 2.5).fill({ color: P.ink, alpha: 0.28 });
+        this.actors.addChild(shadow, sprite);
+        n = { sprite, shadow }; this.npcs.set(v.id, n);
+      }
+      const clip = this.sprites ? neighbourClip(v.id, v.dir, v.pose, this.sprites.has) : null;
+      const still = this.reducedMotion && v.pose !== 'walk';
+      if (clip && this.sprites) {
+        const frames = this.sprites.frames(clip.name)!;
+        const i = clip.hold ?? (still ? 0 : Math.floor((this.animClock / 1000) * CLIP_FPS[v.pose === 'walk' ? 'walk' : 'idle']) % frames.length);
+        n.sprite.texture = frames[i];
+        const k = 1 / this.sprites.scale(clip.name);
+        const [bx, by] = v.pose !== 'walk' && !this.reducedMotion ? breathScale(this.animClock + v.id.length * 300) : [1, 1];
+        n.sprite.scale.set((clip.mirror ? -k : k) * bx, k * by);
+      } else {
+        const fps = v.pose === 'walk' ? 8 : 3;
+        const count = v.pose === 'walk' ? 6 : v.pose === 'sleep' ? 1 : 4;
+        n.sprite.texture = npcTexture(v, still ? 0 : Math.floor((this.animClock / 1000) * fps) % count);
+        n.sprite.scale.set(1, 1);
+      }
+      const px = Math.round(v.x); const py = Math.round(v.y);
+      n.sprite.position.set(px, py); n.sprite.zIndex = py;
+      n.shadow.position.set(px, py - 1); n.shadow.zIndex = py - 1;
+    }
+    for (const [id, n] of this.npcs) if (!seen.has(id)) { n.sprite.destroy(); n.shadow.destroy(); this.npcs.delete(id); }
   }
 
   /** Blinks over idle every 2.5–6 s, sometimes twice; they still play with reduced motion. */
