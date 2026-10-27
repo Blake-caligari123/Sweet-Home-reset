@@ -57,8 +57,11 @@ export class TownGame {
   private talk: Conversations;
   private jobs: Jobs;
   private selected: ToolId = 'duster';
-  /** x, y: the tile under Puff's feet (mess, doors, saves). fx, fy: the feet in world px; path: waypoints in world px. */
-  private puff = { x: 3, y: 4, fx: 3 * T + T / 2, fy: 4 * T + FEET, dir: 'down' as Dir, pose: 'idle' as 'walk' | 'idle' | 'swing' | 'sleep' | 'hop', path: [] as Pt[], action: null as Target | null, repeat: 0, swingMs: 0, hopMs: 0 };
+  /**
+   * x, y: the tile under Puff's feet (mess, doors, saves). fx, fy: the feet in world px; path: waypoints in world px.
+   * action: what to do on arriving; swing: the mess being cleaned right now (kept apart so a new tap mid-swing can't lose it).
+   */
+  private puff = { x: 3, y: 4, fx: 3 * T + T / 2, fy: 4 * T + FEET, dir: 'down' as Dir, pose: 'idle' as 'walk' | 'idle' | 'swing' | 'sleep' | 'hop', path: [] as Pt[], action: null as Target | null, swing: null as Target | null, repeat: 0, swingMs: 0, hopMs: 0 };
   private fading = false;
   private autosaveMs = 0;
   private sharePromptDay = 0;
@@ -137,6 +140,7 @@ export class TownGame {
       feet: () => ({ x: this.puff.fx, y: this.puff.fy }),
       openAt: (x: number, y: number) => this.nav.openAt(x, y),
       busy: () => this.puff.path.length > 0 || this.puff.swingMs > 0 || this.view.busy || this.fading,
+      busyWhy: () => ({ path: this.puff.path.length, swingMs: this.puff.swingMs, view: this.view.busy, fading: this.fading }),
       /** Jump to an area in full colour, for screenshots. */
       visit: (id: string, x: number, y: number, colour = true) => { if (colour) this.messFor(id).colour.fill(FULL_COLOUR); this.enterArea(id, x, y, false); },
       puffSprite: () => ({ ...this.world.puffDebug, pose: this.puff.pose, dir: this.puff.dir }),
@@ -179,7 +183,7 @@ export class TownGame {
     this.areaId = id;
     // Stand at the tile's usual spot (or a saved exact spot), nudged onto open floor if needed.
     const spot = this.nav.nearestOpen(feet && this.nav.openAt(feet.x, feet.y) ? feet : { x: x * T + T / 2, y: y * T + FEET }) ?? { x: x * T + T / 2, y: y * T + FEET };
-    Object.assign(this.puff, { fx: spot.x, fy: spot.y, x: Math.floor(spot.x / T), y: Math.floor(spot.y / T), path: [], action: null, pose: 'idle' });
+    Object.assign(this.puff, { fx: spot.x, fy: spot.y, x: Math.floor(spot.x / T), y: Math.floor(spot.y / T), path: [], action: null, swing: null, swingMs: 0, repeat: 0, pose: 'idle' });
     this.world.load(this.area, this.mess);
     this.neighbours.place(this.clock.state.minutes);
     this.world.setCrops(this.cropsHere());
@@ -252,7 +256,7 @@ export class TownGame {
     if (this.mess.typeAt(x, y) !== 'none') return { kind: 'mess', x, y };
     if (area.groundAt(x, y) === 'soil') return { kind: 'soil', x, y };
     if (area.doorAt(x, y)) return { kind: 'door', x, y };
-    const prop = area.propAt(x, y);
+    const prop = area.tapPropAt(x, y);
     if (prop?.action) return { kind: 'prop', x, y, action: prop.action, accepts: prop.accepts, text: area.signAt(prop.x, prop.y)?.text };
     return { kind: 'walk', x, y };
   }
@@ -267,7 +271,7 @@ export class TownGame {
     this.world.showMarker(px, py);
     const p = this.puff; const feet = { x: p.fx, y: p.fy };
     // Tapping the thing Puff is already working on queues another go.
-    if (p.swingMs > 0 && p.action && target.kind === p.action.kind && target.x === p.action.x && target.y === p.action.y) {
+    if (p.swingMs > 0 && p.swing && target.kind === p.swing.kind && target.x === p.swing.x && target.y === p.swing.y) {
       p.repeat = Math.min(3, p.repeat + 1);
       return;
     }
@@ -298,7 +302,7 @@ export class TownGame {
   /** The world-px rect of a target: its tile, the whole prop, or the space a neighbour stands in. */
   private rectOf(t: Target) {
     if (t.kind === 'neighbour') { const n = this.neighbours.states.get(t.id)!; return { x0: n.fx - 6, y0: n.fy - 4, x1: n.fx + 6, y1: n.fy + 2 }; }
-    const prop = t.kind === 'prop' ? this.area.propAt(t.x, t.y) : null;
+    const prop = t.kind === 'prop' ? this.area.tapPropAt(t.x, t.y) : null;
     const x = prop ? prop.x : t.x; const y = prop ? prop.y : t.y;
     return { x0: x * T, y0: y * T, x1: (x + (prop?.w ?? 1)) * T, y1: (y + (prop?.h ?? 1)) * T };
   }
@@ -342,7 +346,7 @@ export class TownGame {
     else if (this.selected !== need.tool) { view.say(`Try the ${TOOL_NAMES[need.tool].toLowerCase()}.`); return; }
     if (type === 'clutter' && !state.bag.canAdd(this.mess.item[t.y * this.area.w + t.x] ?? '')) { view.say('Bag\'s full! Put things away first.'); return; }
     if (need.tool !== 'hands' && !state.fluff.spend(false, this.settings.relaxed ? 0.5 : 1)) { view.say('Getting fluffy-sleepy... snack time?'); this.hud.pulseFluff(); return; }
-    this.puff.action = t;
+    this.puff.swing = t;
     this.puff.pose = 'swing';
     this.puff.swingMs = SWING_MS;
     view.feedback(need.tool === 'hands' ? 'tap' : 'scrub', 'light');
@@ -351,14 +355,16 @@ export class TownGame {
 
   private finishSwing() {
     const { state, view } = this;
-    const t = this.puff.action!;
+    const t = this.puff.swing;
+    this.puff.swing = null;
+    if (!t) { this.puff.pose = 'idle'; this.puff.repeat = 0; return; }
     const i = t.y * this.area.w + t.x;
     const type = this.mess.typeAt(t.x, t.y);
     const tool = TOOL_FOR[type as Exclude<MessType, 'none'>]?.tool ?? this.selected;
     const wasRestored = this.mess.restored;
     const result = this.mess.hit(t.x, t.y, tool, state.tools[tool] ?? 1);
     this.puff.pose = 'idle';
-    if (!result.ok) { this.puff.action = null; return; }
+    if (!result.ok) { this.puff.repeat = 0; return; }
     this.world.syncMess(i);
     this.world.colourChanged(result.changed);
     for (const c of result.changed) this.world.syncMess(c);
@@ -376,7 +382,6 @@ export class TownGame {
     this.refreshHud();
     if (!result.cleared && this.puff.repeat > 0) { this.puff.repeat -= 1; this.startSwing(t); return; }
     this.puff.repeat = 0;
-    this.puff.action = null;
   }
 
   private useProp(t: Extract<Target, { kind: 'prop' }>) {
@@ -522,6 +527,13 @@ export class TownGame {
     }
   }
 
+  /** The sock tip can't be done if the sock is gone another way (given as a gift): count it done. */
+  private unstickOnboarding() {
+    if (this.state.onboarding.current?.id !== 'sock' || this.state.bag.count('sock') > 0) return;
+    const burrow = this.messFor('burrow');
+    if (!burrow.item.includes('sock')) this.onboard({ type: 'putaway', item: 'sock' });
+  }
+
   private grantTool(t: ToolId) {
     if (this.state.tools[t]) return;
     this.state.tools[t] = 1;
@@ -629,7 +641,7 @@ export class TownGame {
   /** The context line above the tool bar: what Puff is facing or about to do. */
   private promptText() {
     const p = this.puff;
-    const t = p.action ?? (() => {
+    const t = p.action ?? p.swing ?? (() => {
       const d = { down: [0, 1], up: [0, -1], left: [-1, 0], right: [1, 0] }[p.dir];
       const target = this.targetAt(p.x + d[0], p.y + d[1]);
       return target.kind === 'walk' ? null : target;
@@ -653,6 +665,7 @@ export class TownGame {
     if (!owned.includes(this.selected)) this.selected = owned[0];
     this.hud.setTools(owned, this.selected);
     this.hud.setSparkles(this.state.sparkles);
+    this.unstickOnboarding();
     const step = this.state.onboarding.current;
     this.hud.setTracker(step ? step.hint : this.jobs.tracker() ?? 'Explore Hollowfern and tidy what you find.');
   }
@@ -678,7 +691,7 @@ export class TownGame {
       deviceId: this.deviceId, day: this.clock.state.day, minutes: this.clock.state.minutes,
       fluff: { value: s.fluff.value, max: s.fluff.max, boost: s.fluff.boost }, sparkles: s.sparkles,
       bag: s.bag.slots, tools: s.tools, area: this.areaId, puff: { x: this.puff.x, y: this.puff.y, fx: this.puff.fx, fy: this.puff.fy, facing: this.puff.dir },
-      areas, crops: s.crops, flags: s.flags, friends: s.friends, onboarding: s.onboarding.step, chores: s.chores, requests: s.requests, settings: this.settings,
+      areas, crops: s.crops, flags: s.flags, friends: s.friends, onboarding: s.onboarding.step, onboardingAhead: s.onboarding.ahead, chores: s.chores, requests: s.requests, settings: this.settings,
       selected: this.selected, lastClean: s.lastClean
     });
   }
@@ -696,7 +709,7 @@ export class TownGame {
     s.crops = save.crops ?? [];
     s.flags = save.flags ?? [];
     s.friends = save.friends ?? {};
-    s.onboarding = new Onboarding(save.onboarding ?? 0, 0);
+    s.onboarding = new Onboarding(save.onboarding ?? 0, save.onboardingAhead ?? {});
     s.chores = save.chores ?? s.chores;
     if (save.requests && typeof save.requests === 'object') s.requests = save.requests as RequestState;
     s.lastClean = typeof save.lastClean === 'string' ? save.lastClean : 'none';

@@ -56,6 +56,11 @@ export class AreaMess {
     return MESS_TYPES[this.type[y * this.w + x]];
   }
 
+  /** Take away request mess that's still lying there (its job was missed); other mess stays. */
+  clearFresh(tiles: number[]) {
+    for (const i of tiles) if (this.fresh[i]) { this.type[i] = 0; this.hp[i] = 0; this.fresh[i] = 0; }
+  }
+
   get remaining() { let r = 0; for (let i = 0; i < this.type.length; i += 1) if (this.type[i] && !this.fresh[i]) r += 1; return r; }
 
   /** New mess after the area was set up (a request), outside restore progress. Returns the tiles. */

@@ -27,6 +27,8 @@ export interface TownSave {
   /** Per neighbour: friendship points (10 a heart, never lower), the last day they were talked to, met yet, lines heard lately. */
   friends: Record<string, Friend>;
   onboarding: number;
+  /** Onboarding progress already made on later steps (done out of order). */
+  onboardingAhead?: Record<string, number>;
   chores: { day: string; keys: string[]; total: number };
   settings: { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; relaxed: boolean; autoTool: boolean };
   [extra: string]: unknown;

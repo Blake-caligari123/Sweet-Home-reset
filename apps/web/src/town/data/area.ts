@@ -53,6 +53,10 @@ export class Area {
   walkable = (x: number, y: number) => this.inside(x, y) && !this.blocked[y * this.w + x];
   groundAt(x: number, y: number): Ground { return this.inside(x, y) ? this.ground[y * this.w + x] : 'void'; }
   propAt(x: number, y: number) { return this.pack.props.find((p) => x >= p.x && y >= p.y && x < p.x + (p.w ?? 1) && y < p.y + (p.h ?? 1)); }
+  /** The prop a tap on this tile means: one whose painted tap area covers it, else the one standing here. */
+  tapPropAt(x: number, y: number) {
+    return this.pack.props.find((p) => p.tap && p.action && x >= p.tap[0] && y >= p.tap[1] && x < p.tap[0] + p.tap[2] && y < p.tap[1] + p.tap[3]) ?? this.propAt(x, y);
+  }
   doorAt(x: number, y: number) { return this.pack.doors.find((d) => d.x === x && d.y === y); }
   signAt(x: number, y: number) { return this.pack.signs?.find((s) => s.x === x && s.y === y); }
 }
@@ -83,6 +87,7 @@ export function validateTownPack(input: unknown): TownPack {
       if (!ids.has(d.to) && !d.closedText) throw new Error(`area ${a.id}: door to unknown area ${d.to}`);
       if (![d.x, d.y, d.toX, d.toY].every(isNum)) throw new Error(`area ${a.id}: door coords`);
     }
+    for (const pr of a.props) if (pr.tap && !(pr.tap.length === 4 && pr.tap.every(isNum))) throw new Error(`area ${a.id}: ${pr.type} tap area`);
     if (a.background && (typeof a.background.src !== 'string' || !isNum(a.background.scale) || a.background.scale <= 0)) throw new Error(`area ${a.id}: background`);
     const area = new Area(a);
     if (!area.walkable(a.spawn.x, a.spawn.y)) throw new Error(`area ${a.id}: spawn is blocked`);

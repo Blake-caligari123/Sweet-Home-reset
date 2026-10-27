@@ -77,6 +77,18 @@ describe('tidy requests', () => {
     expect(copy.typeAt(spots[0].x, spots[0].y)).toBe('crumbs');
   });
 
+  it('takes a missed tidy job\'s leftover mess away with it, leaving older mess alone', () => {
+    const t = tpl('counter', { kind: 'clean', area: 'bakery', rect: [14, 10, 5, 1], mess: 'crumbs' });
+    const area = new Area(pack.areas.find((a) => a.id === 'bakery')!);
+    const m = new AreaMess(area.w, area.h, [{ type: 'stain', x: 15, y: 10 }], true);
+    const tiles = m.scatter(freshMess(t, area, m));
+    m.clearFresh(tiles);
+    for (const i of tiles) expect(m.type[i]).toBe(0);
+    expect(m.typeAt(15, 10)).toBe('stain');
+    m.clearFresh([15 + 10 * m.w]);
+    expect(m.typeAt(15, 10)).toBe('stain');
+  });
+
   it('only needs the mess it put down, not whatever was already in its spot', () => {
     const t = tpl('counter', { kind: 'clean', area: 'bakery', rect: [14, 10, 5, 1], mess: 'crumbs' });
     const area = new Area(pack.areas.find((a) => a.id === 'bakery')!);

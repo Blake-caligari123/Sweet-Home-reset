@@ -131,6 +131,15 @@ describe('Hollowfern neighbours', () => {
     }
   });
 
+  it('Bea and Pip can be found in town for a good while each day until the Lane is built', () => {
+    for (const id of ['bea', 'pip']) {
+      const d = pack.neighbours!.find((n) => n.id === id)!;
+      let minutes = 0;
+      d.schedule.forEach((s, i) => { if (pack.areas.some((a) => a.id === s.area)) minutes += (d.schedule[i + 1]?.at ?? 26 * 60) - s.at; });
+      expect(minutes, id).toBeGreaterThanOrEqual(150);
+    }
+  });
+
   it('Hazel keeps her routine: bakes from 6, shop from 11, asleep in a chair by 21', () => {
     const hazel = pack.neighbours!.find((d) => d.id === 'hazel')!;
     const at = (m: number) => hazel.schedule[stopAt(hazel.schedule, m)];

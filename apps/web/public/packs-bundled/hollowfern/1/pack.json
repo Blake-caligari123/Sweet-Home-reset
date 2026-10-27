@@ -127,7 +127,13 @@
      "w": 3,
      "h": 3,
      "action": "sleep",
-     "colour": "#A9BFD6"
+     "colour": "#A9BFD6",
+     "tap": [
+      3,
+      4,
+      3,
+      4
+     ]
     },
     {
      "type": "lamp",
@@ -142,6 +148,12 @@
      "action": "putaway",
      "accepts": [
       "sock"
+     ],
+     "tap": [
+      7,
+      4,
+      2,
+      2
      ]
     },
     {
@@ -163,6 +175,12 @@
      "action": "putaway",
      "accepts": [
       "book"
+     ],
+     "tap": [
+      15,
+      3,
+      2,
+      3
      ]
     },
     {
@@ -210,7 +228,13 @@
      "accepts": [
       "cup"
      ],
-     "colour": "#A9CDA0"
+     "colour": "#A9CDA0",
+     "tap": [
+      22,
+      3,
+      2,
+      3
+     ]
     },
     {
      "type": "counter",
@@ -882,7 +906,7 @@
      "to": "store",
      "toX": 0,
      "toY": 0,
-     "closedText": "The General Store opens tomorrow."
+     "closedText": "The General Store opens soon."
     },
     {
      "x": 29,
@@ -986,7 +1010,13 @@
       "cup"
      ],
      "colour": "#A9CDA0",
-     "h": 2
+     "h": 2,
+     "tap": [
+      9,
+      3,
+      2,
+      3
+     ]
     },
     {
      "type": "shelf",
@@ -997,6 +1027,12 @@
      "accepts": [
       "pin",
       "tray"
+     ],
+     "tap": [
+      13,
+      2,
+      3,
+      3
      ]
     },
     {
@@ -1426,6 +1462,13 @@
     },
     {
      "at": 470,
+     "area": "square",
+     "x": 12,
+     "y": 10,
+     "dir": "right"
+    },
+    {
+     "at": 720,
      "area": "lane",
      "x": 0,
      "y": 0
@@ -1470,6 +1513,13 @@
     },
     {
      "at": 960,
+     "area": "square",
+     "x": 10,
+     "y": 14,
+     "dir": "down"
+    },
+    {
+     "at": 1080,
      "area": "lane",
      "x": 0,
      "y": 0

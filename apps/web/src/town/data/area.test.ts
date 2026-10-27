@@ -36,6 +36,19 @@ describe('Hollowfern spring pack', () => {
     }
   });
 
+  it('lets every painted object Puff can use be tapped anywhere on its painting', () => {
+    for (const a of pack.areas.filter((x) => x.background)) {
+      const area = new Area(a);
+      for (const p of a.props.filter((x) => x.action)) {
+        expect(p.tap, `${a.id} ${p.type} needs a tap area over its painting`).toBeDefined();
+        const [x, y, w, h] = p.tap!;
+        for (let ty = y; ty < y + h; ty += 1) for (let tx = x; tx < x + w; tx += 1) expect(area.tapPropAt(tx, ty), `${a.id} ${p.type} at ${tx},${ty}`).toBe(p);
+      }
+    }
+    const burrow = new Area(pack.areas.find((x) => x.id === 'burrow')!);
+    expect(burrow.tapPropAt(15, 3)?.accepts).toContain('book'); // the books on the shelf, not the floor in front
+  });
+
   it('gives every clutter item a home that exists in its area', () => {
     for (const a of pack.areas) {
       for (const m of new Area(a).spots.filter((s) => s.type === 'clutter')) {
