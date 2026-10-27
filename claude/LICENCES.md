@@ -29,4 +29,5 @@ Allowed instead:
 | puff_walk_down, first try (superseded by puff_walk.jpg; not used) | `art/sprites/raw/puff_walk_down.jpg` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
 | puff_walk_down (row of `art/sprites/raw/puff_walk.jpg`) | `apps/web/public/sprites/puff_walk_down.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
 | puff_walk_up (row of `art/sprites/raw/puff_walk.jpg`) | `apps/web/public/sprites/puff_walk_up.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
-| puff_walk_right (row of `art/sprites/raw/puff_walk.jpg`) | `apps/web/public/sprites/puff_walk_right.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+| puff_walk_right, first version (row 3 of `art/sprites/raw/puff_walk.jpg`; superseded, legs did not move) | `apps/web/public/sprites/puff_walk_right.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+| puff_walk_right (from `art/sprites/raw/puff_walk_right.jpg`) | `apps/web/public/sprites/puff_walk_right.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
