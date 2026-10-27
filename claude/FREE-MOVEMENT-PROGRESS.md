@@ -18,7 +18,7 @@ If a session ends mid-way: read this, check `git log`, carry on from the first u
 
 ## Steps
 - [x] 1. nav.ts with tests (grid from tiles and polygons, A*, smoothing, nearest point, multi-goal)
-- [ ] 2. Free movement in the game (all areas, nav from tiles); saves keep working; browser check
+- [x] 2. Free movement in the game (all areas, nav from tiles); saves keep working; browser check
 - [ ] 3. Burrow nav polygons traced over the painting; reachability tests
 - [ ] 4. Front layer: tool cut-outs, pack occluders, rendering + grey; browser check
 - [ ] 5. Docs, full test/build/size, PR, deploy (Blake approved going ahead)

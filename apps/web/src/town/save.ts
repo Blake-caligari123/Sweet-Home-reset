@@ -19,7 +19,8 @@ export interface TownSave {
   bag: ({ id: string; count: number } | null)[];
   tools: Record<string, number>;
   area: string;
-  puff: { x: number; y: number; facing: 'down' | 'up' | 'left' | 'right' };
+  /** x, y: tile; fx, fy: exact feet position in world px (optional; older saves have only the tile). */
+  puff: { x: number; y: number; fx?: number; fy?: number; facing: 'down' | 'up' | 'left' | 'right' };
   areas: Record<string, ReturnType<AreaMess['snapshot']>>;
   crops: { area: string; x: number; y: number; crop: string; days: number; watered: boolean }[];
   flags: string[];
