@@ -24,12 +24,14 @@ function fakePlugins() {
 }
 
 describe('native bridge on a phone', () => {
-  it('fires a light impact for each clean stage and a success buzz when the room is done', async () => {
+  it('maps light and medium taps to impacts, and success to a notification buzz', async () => {
     const { plugins } = fakePlugins();
     const bridge = createNativeBridge('android', plugins);
-    await bridge.haptic('stage');
-    await bridge.haptic('complete');
-    expect(plugins.haptics.impact).toHaveBeenCalledWith({ style: 'LIGHT' });
+    await bridge.haptic('light');
+    await bridge.haptic('medium');
+    await bridge.haptic('success');
+    expect(plugins.haptics.impact).toHaveBeenNthCalledWith(1, { style: 'LIGHT' });
+    expect(plugins.haptics.impact).toHaveBeenNthCalledWith(2, { style: 'MEDIUM' });
     expect(plugins.haptics.notification).toHaveBeenCalledWith({ type: 'SUCCESS' });
   });
 
@@ -62,7 +64,7 @@ describe('native bridge on a phone', () => {
   it('keeps playing when a plugin call throws', async () => {
     const { plugins } = fakePlugins();
     plugins.haptics.impact = vi.fn(async () => { throw new Error('no vibrator'); });
-    await expect(createNativeBridge('android', plugins).haptic('stage')).resolves.toBeUndefined();
+    await expect(createNativeBridge('android', plugins).haptic('light')).resolves.toBeUndefined();
   });
 });
 
@@ -71,7 +73,7 @@ describe('native bridge on the web', () => {
     const { plugins } = fakePlugins();
     const bridge = createNativeBridge('web', plugins);
     await bridge.setup();
-    await bridge.haptic('complete');
+    await bridge.haptic('success');
     await bridge.onBack(() => {});
     await bridge.minimize();
     expect(bridge.isNative).toBe(false);

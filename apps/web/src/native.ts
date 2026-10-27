@@ -1,7 +1,7 @@
 // Thin wrapper over the Capacitor plugins the game uses. On the web every call is a no-op,
 // and a plugin error never interrupts play.
 export type Platform = 'web' | 'ios' | 'android';
-export type HapticKind = 'stage' | 'complete';
+export type HapticKind = 'light' | 'medium' | 'success';
 
 interface ListenerHandle { remove(): Promise<void> }
 
@@ -12,7 +12,7 @@ export interface NativePlugins {
     minimizeApp(): Promise<void>;
   };
   haptics: {
-    impact(options: { style: 'LIGHT' }): Promise<void>;
+    impact(options: { style: 'LIGHT' | 'MEDIUM' }): Promise<void>;
     notification(options: { type: 'SUCCESS' }): Promise<void>;
   };
   statusBar: {
@@ -33,11 +33,6 @@ async function quietly(call: () => Promise<unknown>) {
   }
 }
 
-/** Reached stage 1–3 is 25/50/75% clean; stage 4 is the finished room. */
-export function hapticForStage(stage: number): HapticKind {
-  return stage >= 4 ? 'complete' : 'stage';
-}
-
 export function createNativeBridge(platform: Platform, plugins: NativePlugins) {
   const isNative = platform !== 'web';
 
@@ -52,9 +47,9 @@ export function createNativeBridge(platform: Platform, plugins: NativePlugins) {
     },
     async haptic(kind: HapticKind) {
       if (!isNative) return;
-      await quietly(() => kind === 'complete'
+      await quietly(() => kind === 'success'
         ? plugins.haptics.notification({ type: 'SUCCESS' })
-        : plugins.haptics.impact({ style: 'LIGHT' }));
+        : plugins.haptics.impact({ style: kind === 'medium' ? 'MEDIUM' : 'LIGHT' }));
     },
     async onBack(handler: () => void) {
       if (!isNative) return;
