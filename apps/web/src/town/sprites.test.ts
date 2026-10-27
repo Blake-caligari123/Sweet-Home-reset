@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { blinkClip, HOP_LIFT, puffClip } from './sprites';
+import { blinkClip, BREATH_MS, BREATH_RISE, breathScale, HOP_LIFT, puffClip } from './sprites';
 
 const have = (...names: string[]) => (n: string) => names.includes(n);
 
@@ -33,5 +33,15 @@ describe('Puff sprite clips', () => {
     expect(puffClip('down', 'sleep', have('puff_doze'))?.name).toBe('puff_doze');
     expect(blinkClip('left', have('puff_blink_right'))).toEqual({ name: 'puff_blink_right', mirror: true });
     expect(blinkClip('up', have('puff_blink_down'))).toBeNull();
+  });
+
+  it('breathes visibly but gently: up to 3.5% taller mid-breath, back to rest each cycle', () => {
+    expect(breathScale(0)).toEqual([1, 1]);
+    const [x, y] = breathScale(BREATH_MS / 2);
+    expect(y).toBeCloseTo(1 + BREATH_RISE);
+    expect(x).toBeLessThan(1);
+    expect(breathScale(BREATH_MS)[1]).toBeCloseTo(1);
+    // 3.5% of a 28 px Puff is about 1 world pixel: enough to read as breathing on a phone.
+    expect(28 * BREATH_RISE).toBeGreaterThanOrEqual(0.95);
   });
 });
