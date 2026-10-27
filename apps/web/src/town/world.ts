@@ -8,6 +8,7 @@ import { Ambience, drawTapRing, vignetteTexture } from './ambience';
 import type { Area } from './area';
 import { bakeArea } from './bake';
 import { FULL_COLOUR, type AreaMess } from './mess';
+import { blinkClip, CLIP_FPS, puffClip, type SpriteBank } from './sprites';
 import { RIPPLE_MS } from './tuning';
 
 // The world layer (FRONTEND-PLAN §3): baked ground, a drained overlay whose per-tile alpha
@@ -15,6 +16,9 @@ import { RIPPLE_MS } from './tuning';
 // The logical view is about 11 tiles wide, scaled by whole device pixels.
 export const VIEW_TILES = 11;
 const MARKER_MS = 450;
+/** Blink sequence over idle: half-closed, closed, half-closed. */
+const BLINK_SEQ = [0, 1, 0];
+const BLINK_MS = (BLINK_SEQ.length * 1000) / CLIP_FPS.blink;
 
 const messTextures = new Map<string, Texture>();
 function messTexture(type: string, variant: number, item?: string) {
@@ -65,6 +69,8 @@ export class World {
   private vignette = new Sprite(vignetteTexture());
   readonly ambience = new Ambience();
   private markerAt = { x: 0, y: 0 };
+  private sprites: SpriteBank | null = null;
+  private blink = { nextMs: 3000, playMs: 0, again: false };
   private puff = new Sprite();
   private puffShadow = new Graphics();
   private toolSprite = new Sprite();
@@ -242,18 +248,33 @@ export class World {
   /** World pixel → screen point, for the speech bubble. */
   toScreen(px: number, py: number) { return this.stage.toGlobal({ x: px, y: py }); }
 
+  /** Character sprite sheets as they arrive; until then Puff is code-drawn. */
+  setSprites(bank: SpriteBank) { this.sprites = bank; }
+
   drawPuff(v: PuffView, dt: number) {
     this.animClock += dt;
-    const fps = v.pose === 'walk' ? 10 : v.pose === 'swing' || v.pose === 'hop' ? 14 : 4;
-    const frames = v.pose === 'idle' ? 4 : v.pose === 'sleep' ? 1 : 6;
-    const frame = this.reducedMotion && v.pose === 'idle' ? 0 : Math.floor((this.animClock / 1000) * fps) % frames;
-    this.puff.texture = puffTexture(v.dir, frame, v.pose === 'swing' ? 'idle' : v.pose);
+    const clip = this.sprites ? puffClip(v.dir, v.pose, this.sprites.has, v.tool) : null;
+    let lift = 0;
+    if (clip && this.sprites) {
+      const frames = this.sprites.frames(clip.name)!;
+      const still = this.reducedMotion && v.pose === 'idle';
+      const i = clip.hold ?? (still ? 0 : Math.floor((this.animClock / 1000) * CLIP_FPS[v.pose]) % frames.length);
+      this.puff.texture = (v.pose === 'idle' && this.blinkFrame(v.dir, dt)) || frames[i];
+      this.puff.scale.x = clip.mirror ? -1 : 1;
+      if (clip.lift && !this.reducedMotion) lift = clip.lift[i % clip.lift.length];
+    } else {
+      const fps = v.pose === 'walk' ? 10 : v.pose === 'swing' || v.pose === 'hop' ? 14 : 4;
+      const frames = v.pose === 'idle' ? 4 : v.pose === 'sleep' ? 1 : 6;
+      const frame = this.reducedMotion && v.pose === 'idle' ? 0 : Math.floor((this.animClock / 1000) * fps) % frames;
+      this.puff.texture = puffTexture(v.dir, frame, v.pose === 'swing' ? 'idle' : v.pose);
+      this.puff.scale.x = 1;
+    }
     const px = Math.round(v.x * T + T / 2); const py = Math.round(v.y * T + T - 1);
-    this.puff.position.set(px, py);
+    this.puff.position.set(px, py - lift);
     this.puff.zIndex = py;
     this.puffShadow.position.set(px, py - 1);
     this.puffShadow.zIndex = py - 1;
-    if (v.pose === 'swing' && v.tool && v.tool !== 'hands') {
+    if (v.pose === 'swing' && v.tool && v.tool !== 'hands' && !clip?.withTool) {
       const off = { down: [0, 4], up: [0, -14], right: [10, -6], left: [-10, -6] }[v.dir];
       const wiggle = Math.floor(this.animClock / 70) % 2 ? 1 : -1;
       this.toolSprite.texture = toolTexture(v.tool);
@@ -261,6 +282,22 @@ export class World {
       this.toolSprite.position.set(px + off[0] + wiggle, py + off[1] - 4);
       this.toolSprite.zIndex = py + (v.dir === 'up' ? -1 : 1);
     } else this.toolSprite.visible = false;
+  }
+
+  /** Blinks over idle every 2.5–6 s, sometimes twice; they still play with reduced motion. */
+  private blinkFrame(dir: Dir, dt: number): Texture | null {
+    const clip = this.sprites && blinkClip(dir, this.sprites.has);
+    if (!clip || !this.sprites) return null;
+    const b = this.blink;
+    if (b.playMs <= 0) {
+      b.nextMs -= dt;
+      if (b.nextMs > 0) return null;
+      b.nextMs = 2500 + Math.random() * 3500; b.playMs = BLINK_MS; b.again = Math.random() < 0.15;
+    }
+    b.playMs -= dt;
+    const step = Math.min(BLINK_SEQ.length - 1, Math.floor(((BLINK_MS - Math.max(0, b.playMs)) / BLINK_MS) * BLINK_SEQ.length));
+    if (b.playMs <= 0 && b.again) { b.again = false; b.playMs = BLINK_MS; }
+    return this.sprites.frames(clip.name)![BLINK_SEQ[step]] ?? null;
   }
 
   update(dt: number) {

@@ -7,6 +7,7 @@ import { puffPortrait } from '../ui/pixel-image';
 import { validateTownPack, type TownPack } from './area';
 import { TownGame } from './game';
 import { loadTown } from './save';
+import { SpriteBank } from './sprites';
 import { TUNING } from './tuning';
 import '../style.css';
 import './town.css';
@@ -17,6 +18,8 @@ const host = document.querySelector<HTMLElement>('#app')!;
 const ui = document.querySelector<HTMLElement>('#ui')!;
 
 const native = await loadNativeBridge();
+// Start fetching character sprite sheets now; the game swaps them in when they land.
+const sprites = SpriteBank.load(import.meta.env.BASE_URL);
 void native.setup();
 // Native builds load files from the app bundle, so only the web build needs a service worker.
 if (!native.isNative && import.meta.env.PROD) keepUpdated();
@@ -56,6 +59,7 @@ host.append(app.canvas);
 
 function start() {
   const game = new TownGame(app, ui, pack!, native, sound, settings, saved);
+  void sprites.then((bank) => game.setSprites(bank));
   void native.onBack(() => game.back());
   const flush = () => void game.save(false);
   document.addEventListener('visibilitychange', () => { if (document.hidden) { flush(); sound.stopMusic(); } else sound.startMusic(); });
