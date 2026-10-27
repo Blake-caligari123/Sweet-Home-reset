@@ -2,7 +2,7 @@
 
 Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Progress is ticked in the Steps table as each step lands.
 
-**Step 1 notes:** Hazel, Bea and Pip are in the pack with routines. Until Neighbour Lane is built (step 7), Bea and Pip live on `lane` (offstage behind the gate) and only visit the bakery: Bea 7:20–7:50, Pip 15:00–16:00. Fixed on the way: a memory leak on every area change (about 70 KB each, from M1), which may have fed the freezing reports in long sessions.
+**Step 1 notes:** Hazel, Bea and Pip are in the pack with routines. Until Neighbour Lane is built (step 7), Bea and Pip live on `lane` (offstage behind the gate) and visit: Bea the bakery 7:20–7:50 then the fountain until 12:00, Pip the bakery 15:00–16:00 then the bench in the square until 18:00 (stand-ins so their jobs can be done; step 7 gives them their real homes). Fixed on the way: a memory leak on every area change (about 70 KB each, from M1), which may have fed the freezing reports in long sessions.
 
 **Step 2 notes:** 90 spring lines for Hazel, Bea and Pip (`claude/DIALOGUE-REVIEW.md` for Blake's review). Weather is always sunny until M4, so the rainy lines wait for it. Summer–winter lines come with M4; Otto, Moss and Mabel's lines with their areas.
 

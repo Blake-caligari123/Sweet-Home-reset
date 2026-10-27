@@ -291,7 +291,8 @@ export function occlude(pc: PixelCanvas, px: number, py: number, here: Ground, a
 
 // ---- props: drawn into the baked area canvas at their tile footprint -------------------------
 
-export interface PropDef { type: string; x: number; y: number; w?: number; h?: number; colour?: string; label?: string; action?: string; accepts?: string[]; walkable?: boolean; doorX?: number }
+/** `tap`: tiles (x, y, w, h) that select the prop when tapped, for painted furniture taller than its footprint. */
+export interface PropDef { type: string; x: number; y: number; w?: number; h?: number; colour?: string; label?: string; action?: string; accepts?: string[]; walkable?: boolean; doorX?: number; tap?: [number, number, number, number] }
 
 /** Ground shadow under a prop's footprint, drawn before any prop so props never shade each other. */
 export function propShadow(pc: PixelCanvas, p: PropDef) {

@@ -16,6 +16,37 @@ describe('onboarding', () => {
     expect(done[1].grant).toEqual(['sponge']);
   });
 
+  it('counts a step done early, so doing things out of order never gets stuck', () => {
+    const o = new Onboarding();
+    o.handle({ type: 'stood', ground: 'rug', area: 'burrow' });
+    // The sock goes away while the hint still asks for dust.
+    expect(o.handle({ type: 'putaway', item: 'sock' })).toEqual([]);
+    expect(o.current?.id).toBe('dust');
+    for (let i = 0; i < 3; i += 1) o.handle({ type: 'cleared', mess: 'dust', area: 'burrow' });
+    expect(o.current?.id).toBe('stain');
+  });
+
+  it('remembers early steps across a save', () => {
+    const o = new Onboarding();
+    o.handle({ type: 'putaway', item: 'sock' });
+    const copy = new Onboarding(o.step, JSON.parse(JSON.stringify(o.ahead)));
+    copy.handle({ type: 'stood', ground: 'rug', area: 'burrow' });
+    for (let i = 0; i < 3; i += 1) copy.handle({ type: 'cleared', mess: 'dust', area: 'burrow' });
+    expect(copy.current?.id).toBe('stain');
+  });
+
+  it('lets restoring the burrow finish its tidying tips (the last bits sparkle away)', () => {
+    const o = new Onboarding(1);
+    o.handle({ type: 'cleared', mess: 'dust', area: 'burrow' });
+    const done = o.handle({ type: 'restored', area: 'burrow' });
+    expect(done.map((s) => s.id)).toEqual(['dust']);
+    expect(o.current?.id).toBe('sock');
+    o.handle({ type: 'putaway', item: 'sock' });
+    expect(o.current?.id).toBe('fluff');
+    o.handle({ type: 'timer' });
+    expect(o.current?.id).toBe('yard');
+  });
+
   it('can be skipped only after the first clean, handing over what it would have given', () => {
     const o = new Onboarding();
     expect(o.skippable).toBe(false);

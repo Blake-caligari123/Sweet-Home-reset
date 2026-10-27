@@ -35,7 +35,14 @@ export class Jobs {
   post() {
     const { state, content, clock, settings } = this.host;
     const expire = !(settings.relaxed && !TUNING.relaxedMode.requestExpiry);
-    state.requests = newDay(state.requests, content.pack.requests ?? [], clock.state.day, { expire }).state;
+    const before = state.requests.list;
+    const { state: next, expired } = newDay(state.requests, content.pack.requests ?? [], clock.state.day, { expire });
+    state.requests = next;
+    // A missed tidy job takes its leftover mess with it.
+    for (const r of before.filter((x) => expired.includes(x.id) && x.tiles?.length)) {
+      const t = content.request(r.id);
+      if (t?.area && this.host.areas.has(t.area)) this.host.messFor(t.area).clearFresh(r.tiles!);
+    }
   }
 
   /** The tracker line: Puff's first job, if any. */
