@@ -16,6 +16,9 @@ export interface Tuning {
   gardenPlotStart: [number, number];
   realChoreReward: { sparkles: number; maxFluffBonus: number };
   realChoreCapPerDay: number;
+  requestsPerDay: [number, number];
+  requestExpiryDays: [number, number];
+  relaxedMode: { fluffCostMultiplier: number; doze: boolean; requestExpiry: boolean };
   friendship: { talk: number; liked: number; loved: number; request: number; pointsPerHeart: number };
   autosaveSeconds: number;
   townName: string;

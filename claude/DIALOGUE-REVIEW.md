@@ -326,3 +326,20 @@ One short scene at 2, 4, 6, 8 and 10 hearts, played the next time Puff talks to 
 - **Puff:** That's... me! A tiny Puff!
 - **Pip:** Best bunny-friend. Forever. No -ish. Right?
 - *Gives:* +100 Sparkles
+
+# Requests (M2 step 5)
+
+The notice board in the square posts 1–3 a day; each is up for 2–3 days, then quietly goes (never in relaxed mode). Done = +10 friendship and the Sparkles shown. Tidy jobs put fresh mess down when Puff takes them on; it never counts against a home's restore progress.
+
+- **Hazel:** Dust Hazel's shop counter. *(tidy (crumbs in the bakery), 40 Sparkles, always on day 1)*
+- **Hazel:** Sweep the crumbs by Hazel's café tables. *(tidy (crumbs in the bakery), 50 Sparkles)*
+- **Hazel:** Bring Hazel a fresh radish for her soup. *(bring: Radish, 60 Sparkles)*
+- **Bea:** Rake the weeds by the notice board for Bea. *(tidy (weeds in the square), 50 Sparkles)*
+- **Bea:** Bea would love a packet of radish seeds. *(bring: Radish seeds, 40 Sparkles)*
+- **Pip:** Pip needs a cup for paint water. *(bring: Cup, 40 Sparkles)*
+- **Pip:** Bring Pip a berry tart. Crumbs welcome! *(bring: Berry tart, 60 Sparkles)*
+
+**Thank-you when handed over in person**
+- Hazel: You're a treasure, petal. Thank you!
+- Bea: Three things! Thank you, thank you, thank you!
+- Pip: You did it! Best helper ever, right?

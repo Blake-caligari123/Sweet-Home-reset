@@ -75,3 +75,10 @@
 .heart-bar { height: 6px; border-radius: 3px; background: var(--butter-3); border: 1px solid var(--line); overflow: hidden; }
 .heart-bar span { display: block; height: 100%; background: #F4C2A8; }
 .friend .muted { font-size: 0.8rem; }
+
+/* Notice board (M2): one pinned note per request. */
+.board { display: flex; flex-direction: column; gap: 10px; width: 100%; max-height: 56vh; overflow-y: auto; }
+.note { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border: 2px solid var(--line); border-radius: 12px; background: var(--cream); }
+.note p { margin: 0; }
+.note .muted { font-size: 0.8rem; }
+.note .btn { align-self: flex-end; }

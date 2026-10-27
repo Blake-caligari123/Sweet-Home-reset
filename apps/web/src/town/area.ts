@@ -2,6 +2,7 @@ import { seeded } from '../art/pixel-canvas';
 import { isBlockedGround, type Ground, type PropDef, type Theme } from './art';
 import type { MessSpot } from './mess';
 import type { NeighbourDef } from './neighbours';
+import type { RequestTemplate } from './requests';
 import type { HeartEvent } from './scenes';
 import type { Line } from './talk';
 
@@ -22,7 +23,7 @@ export interface AreaPack {
 export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string }>; neighbours?: NeighbourDef[];
   /** Talk pools per neighbour id; the text is in `strings`, by language. */
   dialogue?: Record<string, Line[]>; strings?: Record<string, Record<string, string>>;
-  heartEvents?: HeartEvent[] }
+  heartEvents?: HeartEvent[]; requests?: RequestTemplate[] }
 
 export class Area {
   readonly w: number;

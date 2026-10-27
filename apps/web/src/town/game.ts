@@ -16,6 +16,7 @@ import { Onboarding, type OnboardEvent } from './onboarding';
 import { FEET, navFor, REACH, type NavGrid, type Pt } from './nav';
 import { Neighbours, type NeighbourDef } from './neighbours';
 import { canGift, chat, give } from './friends';
+import { accept, cleanDone, finish, freshMess, MAX_ACCEPTED, newDay, withTiles, type RequestState, type RequestTemplate } from './requests';
 import { doneFlag, eventDue, stepsOf, type HeartEvent } from './scenes';
 import { heartsOf, pickLine, RECENT } from './talk';
 import { standTiles, type Tile } from './pathfind';
@@ -64,6 +65,7 @@ export class TownGame {
   private crops: Crop[] = [];
   private flags: string[] = [];
   private friends: Record<string, Friend> = {};
+  private requests: RequestState = { day: 0, list: [] };
   private neighbours: Neighbours;
   private neighbourDefs = new Map<string, NeighbourDef>();
   private onboarding = new Onboarding();
@@ -108,6 +110,7 @@ export class TownGame {
     if (saved) feet = this.restore(saved);
     else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
     this.world.reducedMotion = settings.reducedMotion;
+    if (this.requests.day !== this.clock.state.day) this.postRequests();
     this.enterArea(this.areaId, this.puff.x, this.puff.y, false, feet);
     this.bindInput();
     app.ticker.add((t) => this.update(t.deltaMS));
@@ -137,6 +140,8 @@ export class TownGame {
         tapNeighbour: (id: string) => { const n = this.neighbours.states.get(id); if (n) this.tap(n.fx, n.fy - 6); },
         friends: () => this.friends,
         flags: () => this.flags,
+        requests: () => this.requests,
+        addItem: (id: string, n = 1) => { this.bag.add(id, n); this.refreshHud(); },
         /** Friendship points straight in, to reach heart events in tests. */
         addPoints: (id: string, n: number) => { this.friendOf(id).points += Math.max(0, n); }
       };
@@ -359,7 +364,12 @@ export class TownGame {
       if (line.once) this.flags.push(`said_${line.id}`);
     }
     const gifts = canGift(f, day) && this.bag.slots.some(Boolean);
-    this.neighbourSays(def, text, gained, heartsOf(f.points) > hearts, gifts ? [{ label: 'Give a gift', onClick: () => this.openGifts(def) }] : []);
+    // Requests for this neighbour that Puff can hand over right now.
+    const deliveries = this.requests.list.filter((r) => r.accepted).map((r) => this.requestDef(r.id)).filter((t): t is RequestTemplate => !!t && t.neighbourId === id && t.kind === 'bring' && this.bag.count(t.item!) > 0);
+    this.neighbourSays(def, text, gained, heartsOf(f.points) > hearts, [
+      ...deliveries.map((t) => ({ label: `Give the ${this.itemName(t.item!).toLowerCase()}`, onClick: () => { this.bag.remove(t.item!); this.completeRequest(t, true); } })),
+      ...(gifts ? [{ label: 'Give a gift', onClick: () => this.openGifts(def) }] : [])
+    ]);
   }
 
   private line(id: string | undefined) { return id ? this.pack.strings?.['en-AU']?.[id] : undefined; }
@@ -425,6 +435,79 @@ export class TownGame {
       });
     };
     next();
+  }
+
+  // ---- requests -----------------------------------------------------------------------------
+
+  private requestDef(id: string) { return this.pack.requests?.find((t) => t.id === id); }
+
+  /** Each morning: missed jobs quietly go (never in relaxed mode), and the board gets new ones. */
+  private postRequests() {
+    const expire = !(this.settings.relaxed && !TUNING.relaxedMode.requestExpiry);
+    this.requests = newDay(this.requests, this.pack.requests ?? [], this.clock.state.day, { expire }).state;
+  }
+
+  private openBoard() {
+    const posted = this.requests.list;
+    const list = h('div', { class: 'board' });
+    let close = () => {};
+    for (const r of posted) {
+      const t = this.requestDef(r.id); if (!t) continue;
+      const who = this.neighbourDefs.get(t.neighbourId);
+      const days = r.until - this.clock.state.day + 1;
+      const when = days <= 1 ? 'Any time today' : `Any time in the next ${days} days`;
+      const take = h('button', { class: `btn small ${r.accepted ? '' : 'primary'}`, type: 'button' }, r.accepted ? 'On it ✓' : 'I\'ll do it');
+      if (r.accepted) take.setAttribute('disabled', '');
+      take.addEventListener('click', () => {
+        this.uiTap();
+        const next = accept(this.requests, r.id);
+        if (!next) { this.say(`Puff can take ${MAX_ACCEPTED} jobs at a time.`); return; }
+        this.requests = next;
+        this.startJob(t);
+        close(); this.refreshHud();
+        this.say('On it!');
+      });
+      list.append(h('div', { class: 'note' },
+        h('p', { class: 'friend-name' }, `${who?.name ?? 'A neighbour'}`),
+        h('p', {}, this.line(t.text) ?? ''),
+        h('p', { class: 'muted' }, `${when} · ${t.sparkles} ✨ · friendship`),
+        take));
+    }
+    close = this.sheet('Notice board', posted.length ? [list] : [h('p', {}, 'Nothing pinned up today. Tomorrow, maybe!')]);
+  }
+
+  /** A tidy job puts its mess down when Puff takes it on. */
+  private startJob(t: RequestTemplate) {
+    if (t.kind !== 'clean' || !t.area || !this.areas.has(t.area)) return;
+    const m = this.messFor(t.area);
+    const tiles = m.scatter(freshMess(t, this.areas.get(t.area)!, m));
+    this.requests = withTiles(this.requests, t.id, tiles);
+    if (t.area === this.areaId) for (const i of tiles) this.world.syncMess(i);
+  }
+
+  /** After a clean: any tidy job in this area with nothing left in its spot is done. */
+  private checkTidyJobs() {
+    for (const r of this.requests.list.filter((x) => x.accepted)) {
+      const t = this.requestDef(r.id);
+      if (t?.kind === 'clean' && t.area === this.areaId && cleanDone(t, this.mess, r.tiles)) this.completeRequest(t, false);
+    }
+  }
+
+  private completeRequest(t: RequestTemplate, inPerson: boolean) {
+    this.requests = finish(this.requests, t.id);
+    const def = this.neighbourDefs.get(t.neighbourId);
+    const f = this.friendOf(t.neighbourId);
+    const hearts = heartsOf(f.points);
+    f.points += TUNING.friendship.request;
+    this.sparkles += t.sparkles;
+    if (t.setFlag && !this.flags.includes(t.setFlag)) this.flags.push(t.setFlag);
+    this.feedback('coin', 'success');
+    this.banner(`Job done! +${t.sparkles} ✨`);
+    const up = heartsOf(f.points) > hearts;
+    if (def && inPerson) this.neighbourSays(def, this.line(`${def.id}.request.done`) ?? 'Thank you!', TUNING.friendship.request, up);
+    else if (def && up) window.setTimeout(() => this.heartUp(def), 1900);
+    this.refreshHud();
+    void this.save(false);
   }
 
   /** Pick something from the bag for them; one gift a day each. */
@@ -524,6 +607,7 @@ export class TownGame {
       this.onboard({ type: 'cleared', mess: type, area: this.areaId });
     }
     if (!wasRestored && this.mess.restored) this.onRestored();
+    if (result.cleared) this.checkTidyJobs();
     this.refreshHud();
     if (!result.cleared && this.puff.repeat > 0) { this.puff.repeat -= 1; this.startSwing(t); return; }
     this.puff.repeat = 0;
@@ -552,7 +636,7 @@ export class TownGame {
         this.showDialogue(t.text ?? 'A sign.');
         return;
       case 'board':
-        this.showDialogue('The notice board is empty for now. Neighbours will post jobs here soon.');
+        this.openBoard();
         return;
       case 'mailbox':
         this.showDialogue(this.clock.state.day > 1 ? 'Today\'s letter is on the kitchen table. (Puff already read it.)' : 'No post yet. Maybe tomorrow!');
@@ -667,6 +751,7 @@ export class TownGame {
     this.fade.classList.add('on', 'night');
     await wait(this.settings.reducedMotion ? 200 : 900);
     this.clock.nextDay();
+    this.postRequests();
     if (dozed) this.fluff.doze(); else this.fluff.sleep();
     for (const c of this.crops) { if (c.watered) c.days += 1; c.watered = false; }
     this.hud.setLate(false);
@@ -827,7 +912,9 @@ export class TownGame {
     this.hud.setTools(owned, this.selected);
     this.hud.setSparkles(this.sparkles);
     const step = this.onboarding.current;
-    this.hud.setTracker(step ? step.hint : `Explore Hollowfern and tidy what you find.`);
+    const job = this.requests.list.find((r) => r.accepted);
+    const jobText = job && this.line(this.requestDef(job.id)?.text);
+    this.hud.setTracker(step ? step.hint : jobText ?? 'Explore Hollowfern and tidy what you find.');
   }
 
   // ---- speech, banners, feedback -----------------------------------------------------------
@@ -966,7 +1053,7 @@ export class TownGame {
       deviceId: this.deviceId, day: this.clock.state.day, minutes: this.clock.state.minutes,
       fluff: { value: this.fluff.value, max: this.fluff.max, boost: this.fluff.boost }, sparkles: this.sparkles,
       bag: this.bag.slots, tools: this.tools, area: this.areaId, puff: { x: this.puff.x, y: this.puff.y, fx: this.puff.fx, fy: this.puff.fy, facing: this.puff.dir },
-      areas, crops: this.crops, flags: this.flags, friends: this.friends, onboarding: this.onboarding.step, chores: this.chores, settings: this.settings,
+      areas, crops: this.crops, flags: this.flags, friends: this.friends, onboarding: this.onboarding.step, chores: this.chores, requests: this.requests, settings: this.settings,
       selected: this.selected, lastClean: this.lastClean
     });
   }
@@ -985,6 +1072,7 @@ export class TownGame {
     this.friends = s.friends ?? {};
     this.onboarding = new Onboarding(s.onboarding ?? 0, 0);
     this.chores = s.chores ?? this.chores;
+    if (s.requests && typeof s.requests === 'object') this.requests = s.requests as RequestState;
     this.lastClean = typeof s.lastClean === 'string' ? s.lastClean : 'none';
     if (typeof s.selected === 'string') this.selected = s.selected as ToolId;
     for (const [id, snap] of Object.entries(s.areas ?? {})) {
