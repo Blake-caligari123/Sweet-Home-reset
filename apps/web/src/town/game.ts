@@ -103,6 +103,7 @@ export class TownGame {
         mess: () => { const m = this.mess; const out: { x: number; y: number; type: string; hp: number; item?: string }[] = []; for (let i = 0; i < m.type.length; i += 1) if (m.type[i]) out.push({ x: i % m.w, y: Math.floor(i / m.w), type: m.typeAt(i % m.w, Math.floor(i / m.w)), hp: m.hp[i], item: m.item[i] }); return out; },
         props: () => this.area.pack.props.filter((p) => p.action).map((p) => ({ type: p.type, x: p.x, y: p.y, action: p.action, accepts: p.accepts })),
         doors: () => this.area.pack.doors.filter((d) => !d.closedText),
+        tapTile: (x: number, y: number) => this.tap({ x, y }),
         busy: () => this.puff.path.length > 0 || this.puff.swingMs > 0 || this.modal > 0 || this.fading
       };
     }
