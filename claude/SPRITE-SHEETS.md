@@ -34,8 +34,8 @@ Left is always the right sheet mirrored, so there are no `_left` sheets. In orde
 | 1 ✅ in | `puff_walk_down` | 6 | Walking toward the camera. Feet alternate; a small body bob is welcome. |
 | 1 ✅ in | `puff_walk_up` | 6 | Walking away (back view, round white tail). |
 | 1 ✅ in | `puff_walk_right` | 6 | Side view facing right. |
-| 2 | `puff_idle_down` | 4 | Gentle breathing loop, front view, eyes open. (Optional `puff_idle_up`, `puff_idle_right`; otherwise walk frame 1 is held.) |
-| 2 | `puff_blink_down` | 2 | Frame 1 eyes half-closed, frame 2 closed; same pose as idle frame 1. Played over idle every 2.5–6 s. (Optional `_up` is unnecessary; `_right` if wanted.) |
+| 2 ✅ in | `puff_idle_down` | 4 | Gentle breathing loop, front view, eyes open. (Optional `puff_idle_up`, `puff_idle_right`; otherwise walk frame 1 is held.) |
+| 2 ✅ in | `puff_blink_down` | 2 | Frame 1 eyes half-closed, frame 2 closed; same pose as idle frame 1. Played over idle every 2.5–6 s. (Optional `_up` is unnecessary; `_right` if wanted.) |
 | 3 | `puff_swing_down`, `puff_swing_up`, `puff_swing_right` | 4 each | Cleaning swing, **paws empty**: the game draws the current tool. Later, per-tool sheets (`puff_swing_<duster|sponge|rake|can>_<dir>`, tool in paw) override these one by one. |
 | 4 | `puff_hop` | 6 | Happy hop, front view, **drawn on the ground** (crouch, stretch, tuck, land): the game lifts Puff in the air itself. |
 | 4 | `puff_doze` | 2 | Asleep, eyes closed, slow breathing; front view. |

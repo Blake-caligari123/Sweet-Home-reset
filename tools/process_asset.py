@@ -592,7 +592,9 @@ def run_sheet(a):
         bands = split_rows(img) if a.rows else [img]
         if a.rows and len(bands) != len(names):
             sys.exit(f"Found {len(bands)} rows, expected {len(names)} ({a.rows})")
-        for band in bands:
+        for k, band in enumerate(bands):
+            if a.rows and names[k] == "-":  # skipped rows may hold a different number of frames
+                rows.append([]); continue
             got = sheet_subjects(band, None if len(raws) > 1 else a.sheet, a.grid)
             if len(raws) > 1 and len(got) != 1:
                 sys.exit(f"{r}: expected one frame per file, found {len(got)}")
@@ -661,7 +663,7 @@ def main():
                    help="sprite sheet mode: N frames -> one-row strip at --frame size in apps/web/public/sprites/ (see claude/SPRITE-SHEETS.md)")
     p.add_argument("--frame", default="24x24", help="sheet cell size WxH (default 24x24, the world Puff)")
     p.add_argument("--grid", help="sheet: split the source into even COLSxROWS cells instead of finding subjects")
-    p.add_argument("--rows", help="sheet: the source has one sheet per row; comma list of their names, top to bottom ('-' skips a row)")
+    p.add_argument("--rows", help="sheet: the source has one sheet per row; comma list of their names, top to bottom ('-' skips a row; write --rows=-,name when the first row is skipped)")
     p.add_argument("--order", help="sheet: which source frames to keep and in what order, 1-based, e.g. 1,3,5,6 (repeats allowed)")
     p.add_argument("--hires", type=int, metavar="S", help="sheet: keep the art's own colours at S texture px per world px (no palette or pixel shrink)")
     p.add_argument("--sprites-dir", default=SPRITES_PUBLIC, help="sheet: engine output dir (default apps/web/public/sprites)")
