@@ -1,6 +1,6 @@
 # Dialogue review: spring, Hazel, Bea and Pip
 
-Drafted from `claude/STORY.md` for Blake to review (M2 step 2). Edit any line here or tell Claude Code what to change; the game reads them from the Hollowfern pack (`strings.en-AU`). Rules: 60 characters max, kind, no guilt words, no body or appearance talk.
+Drafted from `claude/STORY.md` for Blake to review (M2 step 2). Edit any line here or tell Claude Code what to change; the game reads them from the Hollowfern pack (`strings.en-AU`). New in step 3 (proposed, so the free spring has gifts each of them likes): Hazel likes a radish, Bea likes radish seeds, Pip likes the berry tart. Rules: 60 characters max, kind, no guilt words, no body or appearance talk.
 
 How a line is chosen: the most specific one that fits wins (a story moment, then hearts, weather, season, time of day), skipping the last 5 heard. The first chat each day gives +1 friendship; later chats that day use the short "second chat" lines.
 
@@ -62,6 +62,14 @@ How a line is chosen: the most specific one that fits wins (a story moment, then
 **After the bakery is restored (once)**
 - My kitchen! It sparkles! Oh, petal, thank you.
 
+**Gift reactions** (one gift a day: loved +8, liked +3, anything else +1, disliked +0)
+- Loved: Oh, petal! My favourite! How did you know?
+- Liked: How lovely! Thank you, petal.
+- Neutral: For me? Aw, thank you, petal.
+- Disliked: Not near the dough, petal! Kind thought, though.
+
+**Tastes**: loves Fresh bread, Flowers; likes Berries, Honey, Radish; would rather not have Clay, Mud.
+
 ## Bea
 
 **First hello**
@@ -120,6 +128,14 @@ How a line is chosen: the most specific one that fits wins (a story moment, then
 **After the bakery is restored (once)**
 - Hazel's kitchen shines! My window's next. Kidding!
 
+**Gift reactions** (one gift a day: loved +8, liked +3, anything else +1, disliked +0)
+- Loved: Three things! One: WOW. Two: thank you. Three: WOW!
+- Liked: Two things! One: lovely. Two: thank you!
+- Neutral: A present! It's going on my thank-you list.
+- Disliked: One thing: not really my thing. But thank you!
+
+**Tastes**: loves Honey, Rare seeds; likes Flowers, String, Radish seeds; would rather not have Weeds, Crumbs.
+
 ## Pip
 
 **First hello**
@@ -177,3 +193,12 @@ How a line is chosen: the most specific one that fits wins (a story moment, then
 
 **After the bakery is restored (once)**
 - Hazel's kitchen is so shiny! More crumbs for me!
+
+**Gift reactions** (one gift a day: loved +8, liked +3, anything else +1, disliked +0)
+- Loved: For me?! This is the best-est thing! Right?!
+- Liked: Ooh! I can make something with this, right?
+- Neutral: A present! I'll find it a job. Thanks!
+- Disliked: Hmm, that's for later. Much later! Thanks though.
+
+**Tastes**: loves Button, String; likes Silk thread, Shell, Clay, Berry tart; would rather not have Soap.
+
