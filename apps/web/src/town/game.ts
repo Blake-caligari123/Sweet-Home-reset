@@ -16,6 +16,7 @@ import { Onboarding, type OnboardEvent } from './onboarding';
 import { FEET, navFor, REACH, type NavGrid, type Pt } from './nav';
 import { Neighbours, type NeighbourDef } from './neighbours';
 import { canGift, chat, give } from './friends';
+import { doneFlag, eventDue, stepsOf, type HeartEvent } from './scenes';
 import { heartsOf, pickLine, RECENT } from './talk';
 import { standTiles, type Tile } from './pathfind';
 import { eraseTown, stamp, writeTown, type Friend, type TownSave } from './save';
@@ -134,7 +135,10 @@ export class TownGame {
         drawn: () => ({ x: this.puff.fx / T - 0.5, y: (this.puff.fy + FEET_TO_BASE + 1) / T - 1 }),
         neighbours: () => this.neighbours.visible(this.areaId).map((n) => ({ id: n.id, x: Math.floor(n.fx / T), y: Math.floor(n.fy / T), fx: n.fx, fy: n.fy, pose: n.pose, dir: n.dir })),
         tapNeighbour: (id: string) => { const n = this.neighbours.states.get(id); if (n) this.tap(n.fx, n.fy - 6); },
-        friends: () => this.friends
+        friends: () => this.friends,
+        flags: () => this.flags,
+        /** Friendship points straight in, to reach heart events in tests. */
+        addPoints: (id: string, n: number) => { this.friendOf(id).points += Math.max(0, n); }
       };
     }
   }
@@ -334,6 +338,13 @@ export class TownGame {
     n.dir = OPPOSITE[this.puff.dir];
     const f = this.friendOf(id);
     const day = this.clock.state.day;
+    const scene = eventDue(this.pack.heartEvents ?? [], id, { hearts: heartsOf(f.points), flags: this.flags, minutes: this.clock.state.minutes, area: this.areaId });
+    if (scene) {
+      chat(f, day);
+      if (!f.met) { f.met = true; this.flags.push(`met_${id}`); }
+      this.playScene(def, scene);
+      return;
+    }
     const line = pickLine(this.pack.dialogue?.[id] ?? [], {
       minutes: this.clock.state.minutes, season: this.clock.season.toLowerCase(), weather: 'sunny', hearts: heartsOf(f.points),
       area: this.areaId, flags: this.flags, met: f.met, talkedToday: f.talkedDay === day, recent: f.recent ?? []
@@ -373,6 +384,47 @@ export class TownGame {
     this.banner(`♥ ${def.name}: ${hearts} heart${hearts === 1 ? '' : 's'}!`);
     this.feedback('fanfare', 'success');
     this.puff.pose = 'hop'; this.puff.hopMs = 900;
+  }
+
+  /** A heart event: one box per line, choices as buttons. Skip jumps to the end (first choices, same rewards). */
+  private playScene(def: NeighbourDef, e: HeartEvent) {
+    const steps = stepsOf(e, this.flags);
+    let i = 0;
+    let close: () => void = () => {};
+    this.modal += 1;
+    const finish = () => {
+      close();
+      for (const s of steps.slice(i)) if ('choice' in s && s.options[0]) this.flags.push(s.options[0].setFlag);
+      const r = e.rewards ?? {};
+      for (const f of [...(r.flags ?? []), doneFlag(e)]) if (!this.flags.includes(f)) this.flags.push(f);
+      if (r.sparkles) this.sparkles += r.sparkles;
+      if (r.bagSlots) { this.bag.grow(r.bagSlots); window.setTimeout(() => this.banner(`A bigger bag! +${r.bagSlots} slots`), 1900); }
+      this.banner(`♥ A moment with ${def.name}${r.sparkles ? ` · +${r.sparkles} ✨` : ''}`);
+      this.feedback('fanfare', 'success');
+      this.modal = Math.max(0, this.modal - 1);
+      this.neighbours.releaseAll();
+      this.refreshHud();
+      void this.save(false);
+    };
+    const next = () => {
+      if (i >= steps.length) { finish(); return; }
+      const s = steps[i]; i += 1;
+      const skip = e.skippable ? [{ label: 'Skip', onClick: () => { i -= 1; finish(); } }] : [];
+      if ('choice' in s) {
+        close = dialogue(this.ui, this.line(s.choice) ?? '', {
+          reducedMotion: this.settings.reducedMotion,
+          buttons: s.options.map((o, k) => ({ label: this.line(o.label) ?? '', primary: k === 0, onClick: () => { this.flags.push(o.setFlag); next(); } }))
+        });
+        return;
+      }
+      const who = s.speaker === 'puff' ? null : this.neighbourDefs.get(s.speaker) ?? def;
+      close = dialogue(this.ui, this.line(s.line) ?? '...', {
+        reducedMotion: this.settings.reducedMotion,
+        speaker: who ? { name: who.name, portrait: this.portraitOf(who) } : undefined,
+        buttons: [...skip, { label: i >= steps.length ? 'Lovely' : 'Next', primary: true, onClick: next }]
+      });
+    };
+    next();
   }
 
   /** Pick something from the bag for them; one gift a day each. */
