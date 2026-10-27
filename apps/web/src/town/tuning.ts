@@ -16,6 +16,7 @@ export interface Tuning {
   gardenPlotStart: [number, number];
   realChoreReward: { sparkles: number; maxFluffBonus: number };
   realChoreCapPerDay: number;
+  friendship: { talk: number; liked: number; loved: number; request: number; pointsPerHeart: number };
   autosaveSeconds: number;
   townName: string;
   fountainName: string;

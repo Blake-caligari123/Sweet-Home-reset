@@ -15,6 +15,7 @@ import { AreaMess, FULL_COLOUR, TOOL_FOR, type MessType, type ToolId } from './m
 import { Onboarding, type OnboardEvent } from './onboarding';
 import { FEET, navFor, REACH, type NavGrid, type Pt } from './nav';
 import { Neighbours, type NeighbourDef } from './neighbours';
+import { heartsOf, pickLine, RECENT } from './talk';
 import { standTiles, type Tile } from './pathfind';
 import { eraseTown, stamp, writeTown, type Friend, type TownSave } from './save';
 import { cropDays, NEIGHBOUR_WALK_SPEED, PUTAWAY_SPARKLES, SWING_MS, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './tuning';
@@ -331,11 +332,24 @@ export class TownGame {
     if (n.pose === 'sleep') { this.say(`Shh... ${def.name}'s having a doze.`); this.neighbours.releaseAll(); return; }
     n.dir = OPPOSITE[this.puff.dir];
     const f = this.friendOf(id);
+    const day = this.clock.state.day;
+    const line = pickLine(this.pack.dialogue?.[id] ?? [], {
+      minutes: this.clock.state.minutes, season: this.clock.season.toLowerCase(), weather: 'sunny', hearts: heartsOf(f.points),
+      area: this.areaId, flags: this.flags, met: f.met, talkedToday: f.talkedDay === day, recent: f.recent ?? []
+    });
+    const text = (line && this.pack.strings?.['en-AU']?.[line.id]) ?? '...';
+    // The first chat of the day counts toward friendship (hearts never go down).
+    const gained = f.talkedDay !== day ? TUNING.friendship.talk : 0;
+    f.points += gained; f.talkedDay = day;
     if (!f.met) { f.met = true; this.flags.push(`met_${id}`); }
+    if (line) {
+      f.recent = [...(f.recent ?? []), line.id].slice(-RECENT);
+      if (line.once) this.flags.push(`said_${line.id}`);
+    }
     this.modal += 1;
-    dialogue(this.ui, def.hello, {
+    dialogue(this.ui, text, {
       reducedMotion: this.settings.reducedMotion,
-      speaker: { name: def.name, portrait: this.portraitOf(def) },
+      speaker: { name: gained ? `${def.name} · friendship +${gained}` : def.name, portrait: this.portraitOf(def) },
       buttons: [{ label: 'Bye!', primary: true, onClick: () => { this.modal = Math.max(0, this.modal - 1); this.neighbours.releaseAll(); } }]
     });
   }

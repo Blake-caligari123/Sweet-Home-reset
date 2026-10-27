@@ -4,6 +4,8 @@ Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Progress is ticked in the Steps tab
 
 **Step 1 notes:** Hazel, Bea and Pip are in the pack with routines. Until Neighbour Lane is built (step 7), Bea and Pip live on `lane` (offstage behind the gate) and only visit the bakery: Bea 7:20–7:50, Pip 15:00–16:00. Fixed on the way: a memory leak on every area change (about 70 KB each, from M1), which may have fed the freezing reports in long sessions.
 
+**Step 2 notes:** 90 spring lines for Hazel, Bea and Pip (`claude/DIALOGUE-REVIEW.md` for Blake's review). Weather is always sunny until M4, so the rainy lines wait for it. Summer–winter lines come with M4; Otto, Moss and Mabel's lines with their areas.
+
 **Pass test (A9):** onboarding to 30:00 completes; playtesters befriend neighbours and restore 3 homes within 14 days; a home restores at 95% and triggers the reveal; hearts never drop. FRONTEND-PLAN adds: onboarding to 30:00 by script, and 30 area changes without a memory leak.
 
 **Before M2 starts:** M1 passes on Blake's iPhone (a full day from waking to bed, Hazel's bakery restored, `?fps` holding 60, save survives a reload). The yard and square paintings can land during M2.
@@ -18,7 +20,7 @@ Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Progress is ticked in the Steps tab
 | # | Step | What it does | Done when (tests) |
 |---|---|---|---|
 | 1 ✅ | **Neighbours walk the town** | Neighbour pack schema (id, home, species, loves/likes/dislikes, daily schedule of places by time). Neighbours appear as placeholder sprites, walk their routes with the free-movement nav, and are depth-sorted with Puff. Tap one: Puff walks over and faces them. Save schema bump with migration. | Schedule tests (Hazel bakes 6–11, shop 11–17, asleep by 21); old saves migrate; neighbours never stand in a wall; 30 area changes don't grow memory. |
-| 2 | **Talking** | Dialogue box with a name and portrait slot. Line pools picked by GDD §6.1 (flag > hearts > weather > season > time > generic, no repeats in the last 5). Talk once a day = +1, then short "busy" lines. | Pool selection tests; copy-rule test over every line. |
+| 2 ✅ | **Talking** | Dialogue box with a name and portrait slot. Line pools picked by GDD §6.1 (flag > hearts > weather > season > time > generic, no repeats in the last 5). Talk once a day = +1, then short "busy" lines. | Pool selection tests; copy-rule test over every line. |
 | 3 | **Gifts and hearts** | Give the held bag item: loved +8, liked +3, others +1 thanks; disliked gets a kind "not for me" with no loss. 10 points a heart. A Friends page in the menu shows each neighbour's hearts. | Points from tuning; **hearts never drop** across gifts, days and save/load. |
 | 4 | **Heart events** | A scene runner for the pack format in GDD §7: lines, choices, flags, rewards, triggers (area, time band) and conditions. Events at 2, 4, 6, 8 and 10 for all six (30 scenes), drafted from STORY.md for Blake to review. Skippable. | Each event fires once, at the right hearts, and remembers flags (e.g. Hazel 2 remembers the counter request). |
 | 5 | **Notice board and requests** | 1–3 requests a day (clean a spot, find an item, deliver a snack), soft deadline 2–3 days, an expired one just goes ("no worries"). The one-line request tracker at the top of the HUD. Request done = +10 points and Sparkles. | Request generation is deterministic per day; expiry never costs anything; tracker updates. |
