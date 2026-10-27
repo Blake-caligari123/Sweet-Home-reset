@@ -1,0 +1,81 @@
+{
+  "dayRealMinutes": 10,
+  "dayRealMinutesTest": [
+    8,
+    10
+  ],
+  "gameMinutesPerTick": 10,
+  "fluffStart": 100,
+  "fluffMaxStep": 10,
+  "fluffToolUse": 2,
+  "fluffCharged": [
+    5,
+    8
+  ],
+  "fluffLowThreshold": 20,
+  "dozeWakeFluffFraction": 0.5,
+  "restoreThreshold": 0.95,
+  "messHitsTier1": {
+    "dust": 1,
+    "cobweb": 2,
+    "stain": 3,
+    "weeds": 2,
+    "mud": 3,
+    "grime": 6,
+    "crumbs": 1,
+    "fog": 1,
+    "clutter": 1
+  },
+  "bagSlotsStart": 12,
+  "gardenPlotStart": [
+    6,
+    4
+  ],
+  "gardenPlotMax": [
+    12,
+    8
+  ],
+  "friendship": {
+    "talk": 1,
+    "liked": 3,
+    "loved": 8,
+    "request": 10,
+    "pointsPerHeart": 10
+  },
+  "requestsPerDay": [
+    1,
+    3
+  ],
+  "requestExpiryDays": [
+    2,
+    3
+  ],
+  "realChoreReward": {
+    "sparkles": 25,
+    "maxFluffBonus": 30
+  },
+  "realChoreCapPerDay": 5,
+  "plusOfferDay": 14,
+  "relaxedMode": {
+    "fluffCostMultiplier": 0.5,
+    "doze": false,
+    "requestExpiry": false
+  },
+  "autosaveSeconds": 60,
+  "targetFps": 60,
+  "firstLoadKB": 300,
+  "_note": "Starting values for playtests, not measured data. GDD v3 A8.",
+  "plusOfferRepeatDays": 7,
+  "beachUnlockDay": 43,
+  "copperRecipeShopDay": 5,
+  "townName": "Hollowfern",
+  "fountainName": "Glimmerwell",
+  "walkTilesPerSecond": 4,
+  "walkTilesPerSecondTired": 3,
+  "colourRippleMs": 300,
+  "toolSwingMs": 260,
+  "putAwaySparkles": 5,
+  "cropDays": {
+    "radish": 3
+  }
+}

@@ -7,7 +7,12 @@ import { pwaManifest, workboxOptions } from './src/pwa-config';
 export default defineConfig(({ mode }) => ({
   base: mode === 'native' ? '/' : '/Sweet-Home-reset/',
   server: { port: 5173 },
-  build: { sourcemap: true, target: 'esnext' },
+  build: {
+    sourcemap: true,
+    target: 'esnext',
+    // The room game stays on the main link; the GDD v3 town game is the /test/ build (GDD v3 A1).
+    rollupOptions: { input: { main: 'index.html', test: 'test/index.html' } }
+  },
   plugins: [
     VitePWA({
       injectRegister: false,

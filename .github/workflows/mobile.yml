@@ -41,6 +41,11 @@ jobs:
       - name: Test
         run: npm test --workspace @sweet-home-reset/web
 
+      - name: Check initial JS size (300 KB gzipped per page)
+        run: |
+          npm run build --workspace @sweet-home-reset/web
+          npm run size --workspace @sweet-home-reset/web
+
       - name: Build web bundle and Android project
         working-directory: apps/web
         run: |

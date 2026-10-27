@@ -1,0 +1,62 @@
+# CLAUDE.md: Sweet Home Reset (PixelVortex Games)
+
+## Project
+A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the town of Hollowfern, befriends 6 neighbours and restores the Glimmerwell fountain, with an optional tiny real chore each day. v1 ships on **web/PWA, iOS App Store and Google Play together, with no phases**. Bundle ID `com.pixelvortexgames.sweethomereset` (web Services ID `com.pixelvortexgames.sweethomereset.web`). Repo: github.com/Blake-caligari123/Sweet-Home-reset.
+
+## Stack
+- Client: TypeScript + Vite + PixiJS v8, DOM overlay UI, Capacitor for iOS/Android, vite-plugin-pwa.
+- Server: Cloudflare Pages (static, packs) + Workers (Hono, `/api/*`) + D1; Cron Triggers; Resend free tier for email.
+- Payments: one RevenueCat `plus` entitlement. Stripe Checkout on web, Apple IAP on iOS, Play Billing on Android.
+- Sign-in: email magic link + Sign in with Apple. Optional; the game is fully playable offline and signed out.
+- Prices (only in `config/pricing.json`): A$7.99/mo, A$44.99/yr (yearly default), 7-day trial; founding A$34.99 first year on **web only**.
+
+## Source of truth (GDD v3, 27 Oct 2026)
+- `claude/GAME-DESIGN.md` (GDD v3): Part A wins over Part B (v2 text) and all older room-game docs. A11 holds specialist sections; A11.7 is the story.
+- `claude/STORY.md`: story bible (world, Puff, neighbours, heart events, dialogue, pack JSON example).
+- `claude/FRONTEND-PLAN.md` (client, F1–F15) and `claude/BACKEND-PLAN.md` (server: opt-in sync, Plus, Mess of the Day, claims, packs, analytics, privacy).
+- `claude/config/tuning.json`: every gameplay number (`dayRealMinutes` default 10, test 8). Never hard-code.
+- Milestone order (A9, v2 p.12): M1 walking world → M2 all 6 neighbours (Plus gate stubbed) → M3 grow and craft → M4 seasons + sharing (reveal clip, photo mode, Mess of the Day) → M5 launch (accounts, sync, Plus, store builds, TestFlight/Play testing, IARC). Milestones are test checkpoints, not scope cuts.
+- Plus = seasons 2–4 + neighbours 4–6. Offered first at the day-14 Spring Clean Fair (postcard at home after the fair), then at most once per in-game week; never mid-task. Lapse keeps all progress.
+- Analytics: first-party, anonymous gameplay counts only. No third-party tracking.
+
+## Art (parked)
+- Art is parked: tiles and mess drawn in code, code-drawn placeholders at 16 px tiles, 24 px Puff in the world, 48 px Puff in menus (`claude/PIXEL-ART-SPEC.md`, `tools/palette24.json`). No new asset prompts until Claude Code asks for a specific asset. Old room paintings / 01–99 prompts are retired unless re-requested.
+- Credit "Some art created with Grok Imagine" in Settings > About and the store listing; log assets in `claude/LICENCES.md`.
+
+## Commands
+- `npm test` (Vitest, incl. `@cloudflare/vitest-pool-workers`), `npm run build`, `npx playwright test`
+- `npm run pack:build {id}`, `npm run pack:preview {id}`
+- `npx cap sync`, then build in Xcode / Android Studio
+- Art: `tools/.venv/bin/python tools/process_asset.py <asset> --pixel room|puff|prop [--log]` (see `tools/README.md`)
+
+## Folder map
+- `claude/`: design and build docs: GAME-DESIGN, FRONTEND-PLAN, BACKEND-PLAN, ASSET-PROMPTS (+ `asset-prompts/01–99`), PIXEL-ART-SPEC, PUFF-ANIMATION-TASKS, LICENCES, STORE-PRICES, IARC-ANSWERS, BUSINESS-IDEAS, STORY.md, `config/` (app.json, pricing.json, tuning.json), `gdd-v3/` (section sources; rebuild A11 with `python3 ../tools/merge_gdd_v3.py` from `claude/`), `prompts/` (build steps)
+- `art/`: source images and processed output (`MANIFEST.md`, `_drafts/`, `puff/`, `rooms/`)
+- `tools/`: `process_asset.py`, `palette24.json`, `README.md`
+- Root `GAME-DESIGN.md`, `BUILD-SPEC.md`: early concept docs; `claude/` wins where they differ.
+- **Game: GDD v3** (`claude/GAME-DESIGN.md`): a full top-down town life sim (tap to walk and clean, 16 px tiles, 24 px Puff, Fluff stamina, seasons, 6 neighbours). Build the full game; the 5 milestones in its A9 are test checkpoints. Part A overrides Part B and the older room-game docs. Tuning lives in `claude/config/tuning.json`. Never name other games in prompts, store or in-game copy.
+- Precedence: BACKEND-PLAN wins on API/data; FRONTEND-PLAN on client; GAME-DESIGN on rules and feel.
+
+## Conventions
+- Tests first; each step ends with `npm test` green. Lowercase snake_case asset names; pack room ids use `-`.
+- Copy is a kind friend: never "failed", "lost", "overdue"; no body, weight or appearance talk. Puff is never sad because of the player.
+- Secrets only in Worker secrets / `.dev.vars` / `.env` (gitignored, chmod 600). Never in code or chat.
+
+## Hard rules
+- Accounts are 16+ (age checkbox). No ads, ad SDKs, IDFA, loot boxes, random paid rewards, paid timers or resetting streaks. Cleaning uses Fluff (stamina), never a paid resource; dozing off is free.
+- iOS build never shows or links to web prices.
+- Free tiers only. No deploys to production, public releases, account creation or spending without Blake's yes. Stripe test mode only.
+- Every change goes through QA Group before it's called done.
+
+## Build prompts
+Build by the A9 milestones and FRONTEND-PLAN F1–F15. The older room-game prompts (pre-v3) are reference only: `claude/prompts/01-scaffold.md` … `14-performance-and-store-readiness.md`. Each has a goal, files to touch and acceptance tests.
+
+## Open questions (conflicts not settled by current decisions)
+1. Room outlines: PIXEL-ART-SPEC says no outline on room backgrounds; `tools/process_asset.py` outlines rooms (strong edges).
+2. Sage hex: spec style block had #B7CDB0; `palette24.json` uses #A9CDA0. Prompts now use the palette24 value; confirm.
+3. Prop grid: spec says multiples of 16 px; the tool fits all props to 64×64.
+4. Paywall cancel line: STORE-PRICES says "Cancel anytime in your App Store / Google Play settings"; FRONTEND-PLAN and BUILD-SPEC say "Cancel anytime in the app".
+5. (Resolved in GDD v3 A2: reveal clip and Mess of the Day card are on-device only; IARC 'Shares user content' = No.) Sharing: IARC-ANSWERS says "shares user content: yes, limited" and mentions a home-tour link; FRONTEND/GAME-DESIGN say no publicly shared user content. Is the home-tour link in v1?
+6. Idle 4 / blink 2 / hop 6 sheets have no asset numbers (01–99 is full; only #97–99 are walk sheets).
+7. Root BUILD-SPEC still has a streak badge, household sharing and a "1 room free" tier vs claude/ docs (no streaks, 3 free rooms); household sharing in v1 is still open.
+8. Store price points A$7.99/A$44.99 are unconfirmed until Blake checks App Store Connect.
