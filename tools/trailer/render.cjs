@@ -29,6 +29,7 @@ const VP = fmt === 'v' ? { width: 1080, height: 1920 } : { width: 1920, height: 
   await p.addScriptTag({ path: 'director.js' });
   await p.addScriptTag({ path: 'shots.js' });
   await p.addScriptTag({ path: 'shots3.js' });
+  await p.addScriptTag({ path: 'shots4.js' });
   const info = await p.evaluate(([shot, variant]) => { const s = window.SHOTS[shot]; D.variant = variant; D.shot = s.f; s.setup?.(D); for (let i = 0; i < (s.pre ?? 30); i++) { D.run(-1); window.__step(16.667); } D.stepMs = 1000 / 60; return { dur: s.dur }; }, [shot, variant]);
   // preload DOM images
   await p.evaluate(() => Promise.all(['puff_idle_down', 'puff_blink_down', 'item_sock', 'item_book', 'item_cup'].map((n) => new Promise((r) => { const i = new Image(); i.onload = i.onerror = r; i.src = `/Sweet-Home-reset/sprites/${n}.png`; }))));

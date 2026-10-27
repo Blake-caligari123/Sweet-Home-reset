@@ -59,7 +59,13 @@
     this.puffShadow.scale.set(1 - Math.min(0.5, f.lift / 30));
   };
   const P = (D.puff = G.puff);
-  D.place = (tx, ty, dir = 'down') => { Object.assign(P, { fx: tx * T + T / 2, fy: ty * T + 12, x: tx, y: ty, path: [], action: null, pose: 'idle', dir }); };
+  // Stand on open floor only (the game's own nav grid), like the game does when entering an area.
+  D.place = (tx, ty, dir = 'down') => {
+    let p = { x: tx * T + T / 2, y: ty * T + 10 };
+    const nav = G.nav; if (nav && !nav.openAt(p.x, p.y)) p = nav.nearestOpen(p) ?? p;
+    Object.assign(P, { fx: p.x, fy: p.y, x: Math.floor(p.x / T), y: Math.floor(p.y / T), path: [], action: null, pose: 'idle', dir });
+  };
+  D.isOpen = (x, y) => G.nav.openAt(x, y);
   D.walkTo = (tx, ty) => window.__town.tapTile(tx, ty);
   D.puffScreen = (up = 14) => W.toScreen(P.fx, P.fy - up);
   D.tileScreen = (x, y) => W.toScreen(x * T + T / 2, y * T + T / 2);

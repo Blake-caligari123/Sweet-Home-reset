@@ -168,7 +168,17 @@ ARR = {
     'B': [(0, 3, 'cute'), (3, 8, 'tension'), (8, 9, 'silence'), (9, 13, 'groove'), (13, 15, 'groove2'), (15, 17, 'build'), (17, 18, 'silence'), (18, 22, 'drop'), (22, 24.5, 'cute'), (24.5, 25, 'silence')],
     'C': [(0, 2, 'groove'), (2, 5.5, 'build'), (5.5, 6, 'silence'), (6, 8, 'drop'), (8, 9, 'build'), (9, 11, 'drop', True), (11, 12, 'build'), (12, 14, 'drop'), (14, 15, 'build'), (15, 17, 'drop', True), (17, 22, 'outro')],
 }
-BEATS = {'A': 35, 'H': 37, 'B': 25, 'C': 22}
+ARR['A4'] = [(0, 2, 'hook'), (2, 10, 'groove'), (10, 14, 'groove2'), (14, 16, 'build'), (16, 17, 'silence'), (17, 21, 'drop'), (21, 23, 'drop', True),
+             (23, 25, 'groove'), (25, 31, 'groove'), (31, 34, 'groove2'), (34, 35, 'build'), (35, 36, 'silence'), (36, 44, 'drop'), (44, 48, 'drop', True),
+             (48, 52, 'groove'), (52, 56, 'cute'), (56, 58, 'groove'), (58, 66, 'outro'), (66, 70, 'cute')]
+ARR['H4'] = ARR['A4'][:-2] + [(58, 70, 'outro')]
+ARR['B4'] = [(0, 3, 'cute'), (3, 8, 'tension'), (8, 9, 'silence'), (9, 13, 'groove'), (13, 15, 'groove2'), (15, 17, 'build'), (17, 18, 'silence'),
+             (18, 22, 'drop'), (22, 25, 'drop', True), (25, 27, 'groove'), (27, 31, 'tension'), (31, 32, 'silence'), (32, 36, 'groove'), (36, 39, 'groove2'),
+             (39, 41, 'build'), (41, 42, 'silence'), (42, 50, 'drop'), (50, 55, 'cute'), (55, 62, 'groove'), (62, 69.5, 'cute'), (69.5, 70, 'silence')]
+ARR['C4'] = [(0, 2, 'groove'), (2, 5.5, 'build'), (5.5, 6, 'silence'), (6, 10, 'drop'), (10, 13.5, 'build'), (13.5, 14, 'silence'), (14, 18, 'drop', True),
+             (18, 21.5, 'build'), (21.5, 22, 'silence'), (22, 26, 'drop'), (26, 29.5, 'build'), (29.5, 30, 'silence'), (30, 34, 'drop', True),
+             (34, 35, 'build'), (35, 45, 'drop'), (45, 53, 'cute'), (53, 57, 'groove'), (57, 61, 'drop', True), (61, 70, 'outro')]
+BEATS = {'A': 35, 'H': 37, 'B': 25, 'C': 22, 'A4': 70, 'H4': 70, 'B4': 70, 'C4': 70}
 
 
 def render(fmt, sfx_path=None):

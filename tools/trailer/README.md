@@ -23,3 +23,9 @@ Run from this folder with the dev server up (`npm run dev` → port 5173):
     node render.cjs v v3A        # → out/v_v3A.mp4 (+ .sfx.json)
     node render.cjs h v3H
     ./assemble3.sh A             # music + sfx → final/sweet_home_reset_v3_vertical_A.mp4
+
+## v4 (30-second cuts)
+
+`shots4.js`: `v4A`, `v4B`, `v4C` (9:16) and `v4H` (16:9), 70 beats each. Puff walks the game's own nav paths (`findPathNear`), so they only stand on open floor.
+
+    node render.cjs v v4A && ./assemble4.sh A
