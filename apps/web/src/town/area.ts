@@ -2,6 +2,7 @@ import { seeded } from '../art/pixel-canvas';
 import { isBlockedGround, type Ground, type PropDef, type Theme } from './art';
 import type { MessSpot } from './mess';
 import type { NeighbourDef } from './neighbours';
+import type { Line } from './talk';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 export interface Door { x: number; y: number; to: string; toX: number; toY: number; closedText?: string }
@@ -17,7 +18,9 @@ export interface AreaPack {
   nav?: { floor: number[][]; blockers: number[][] };
 }
 
-export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string }>; neighbours?: NeighbourDef[] }
+export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string }>; neighbours?: NeighbourDef[];
+  /** Talk pools per neighbour id; the text is in `strings`, by language. */
+  dialogue?: Record<string, Line[]>; strings?: Record<string, Record<string, string>> }
 
 export class Area {
   readonly w: number;
@@ -94,6 +97,11 @@ export function validateTownPack(input: unknown): TownPack {
       if (![s.at, s.x, s.y].every(isNum) || (i && s.at < n.schedule[i - 1].at)) throw new Error(`neighbour ${n.id}: schedule`);
       if (!places.has(s.area)) throw new Error(`neighbour ${n.id}: unknown place ${s.area}`);
     });
+  }
+  const text = p.strings?.['en-AU'] ?? {};
+  for (const [id, lines] of Object.entries(p.dialogue ?? {})) {
+    if (!who.has(id)) throw new Error(`dialogue for unknown neighbour ${id}`);
+    for (const l of lines) if (!l.id || typeof text[l.id] !== 'string') throw new Error(`dialogue ${id}: no text for ${l.id}`);
   }
   return p;
 }

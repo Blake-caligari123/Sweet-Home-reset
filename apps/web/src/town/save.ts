@@ -24,7 +24,7 @@ export interface TownSave {
   areas: Record<string, ReturnType<AreaMess['snapshot']>>;
   crops: { area: string; x: number; y: number; crop: string; days: number; watered: boolean }[];
   flags: string[];
-  /** Per neighbour: friendship points (10 a heart, never lower), the last day they were talked to, met yet. */
+  /** Per neighbour: friendship points (10 a heart, never lower), the last day they were talked to, met yet, lines heard lately. */
   friends: Record<string, Friend>;
   onboarding: number;
   chores: { day: string; keys: string[]; total: number };
@@ -32,7 +32,7 @@ export interface TownSave {
   [extra: string]: unknown;
 }
 
-export interface Friend { points: number; talkedDay: number; met: boolean }
+export interface Friend { points: number; talkedDay: number; met: boolean; recent?: string[] }
 
 export type Migration = (save: Record<string, unknown>) => Record<string, unknown>;
 

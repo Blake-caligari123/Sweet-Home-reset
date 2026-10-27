@@ -13,8 +13,6 @@ export interface NeighbourDef {
   id: string; name: string; species: Species; plus?: boolean;
   colours: { fur: string; belly: string; accent: string };
   loves: string[]; likes: string[]; dislikes: string[];
-  /** Until talking lands (M2 step 2): what they say when Puff says hello. */
-  hello: string;
   schedule: Stop[];
 }
 

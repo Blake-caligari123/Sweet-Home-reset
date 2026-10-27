@@ -1313,7 +1313,6 @@
     "clay",
     "mud"
    ],
-   "hello": "Puff, petal! Mind the buns, they're hot.",
    "schedule": [
     {
      "at": 360,
@@ -1367,7 +1366,6 @@
     "weeds",
     "crumbs"
    ],
-   "hello": "Three things! One: hello. Two: hello. Three: hi!",
    "schedule": [
     {
      "at": 360,
@@ -1411,7 +1409,6 @@
    "dislikes": [
     "soap"
    ],
-   "hello": "Is that a real bunny? Can I draw you? Right?",
    "schedule": [
     {
      "at": 360,
@@ -1434,5 +1431,506 @@
     }
    ]
   }
- ]
+ ],
+ "dialogue": {
+  "hazel": [
+   {
+    "id": "hazel.meet.1",
+    "meet": true
+   },
+   {
+    "id": "hazel.busy.1",
+    "busy": true
+   },
+   {
+    "id": "hazel.busy.2",
+    "busy": true
+   },
+   {
+    "id": "hazel.busy.3",
+    "busy": true
+   },
+   {
+    "id": "hazel.morning.1",
+    "time": "morning"
+   },
+   {
+    "id": "hazel.morning.2",
+    "time": "morning"
+   },
+   {
+    "id": "hazel.day.1",
+    "time": "day"
+   },
+   {
+    "id": "hazel.day.2",
+    "time": "day"
+   },
+   {
+    "id": "hazel.evening.1",
+    "time": "evening"
+   },
+   {
+    "id": "hazel.evening.2",
+    "time": "evening"
+   },
+   {
+    "id": "hazel.night.1",
+    "time": "night"
+   },
+   {
+    "id": "hazel.night.2",
+    "time": "night"
+   },
+   {
+    "id": "hazel.spring.1",
+    "season": "spring"
+   },
+   {
+    "id": "hazel.spring.2",
+    "season": "spring"
+   },
+   {
+    "id": "hazel.spring.3",
+    "season": "spring"
+   },
+   {
+    "id": "hazel.rainy.1",
+    "weather": "rainy"
+   },
+   {
+    "id": "hazel.rainy.2",
+    "weather": "rainy"
+   },
+   {
+    "id": "hazel.h0.1",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "hazel.h0.2",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "hazel.h0.3",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "hazel.h3.1",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "hazel.h3.2",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "hazel.h3.3",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "hazel.h6.1",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "hazel.h6.2",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "hazel.h6.3",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "hazel.h9.1",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "hazel.h9.2",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "hazel.h9.3",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "hazel.restored.1",
+    "flag": "restored_bakery",
+    "once": true
+   }
+  ],
+  "bea": [
+   {
+    "id": "bea.meet.1",
+    "meet": true
+   },
+   {
+    "id": "bea.busy.1",
+    "busy": true
+   },
+   {
+    "id": "bea.busy.2",
+    "busy": true
+   },
+   {
+    "id": "bea.busy.3",
+    "busy": true
+   },
+   {
+    "id": "bea.morning.1",
+    "time": "morning"
+   },
+   {
+    "id": "bea.morning.2",
+    "time": "morning"
+   },
+   {
+    "id": "bea.day.1",
+    "time": "day"
+   },
+   {
+    "id": "bea.day.2",
+    "time": "day"
+   },
+   {
+    "id": "bea.evening.1",
+    "time": "evening"
+   },
+   {
+    "id": "bea.evening.2",
+    "time": "evening"
+   },
+   {
+    "id": "bea.night.1",
+    "time": "night"
+   },
+   {
+    "id": "bea.night.2",
+    "time": "night"
+   },
+   {
+    "id": "bea.spring.1",
+    "season": "spring"
+   },
+   {
+    "id": "bea.spring.2",
+    "season": "spring"
+   },
+   {
+    "id": "bea.spring.3",
+    "season": "spring"
+   },
+   {
+    "id": "bea.rainy.1",
+    "weather": "rainy"
+   },
+   {
+    "id": "bea.rainy.2",
+    "weather": "rainy"
+   },
+   {
+    "id": "bea.h0.1",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "bea.h0.2",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "bea.h0.3",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "bea.h3.1",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "bea.h3.2",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "bea.h3.3",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "bea.h6.1",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "bea.h6.2",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "bea.h6.3",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "bea.h9.1",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "bea.h9.2",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "bea.h9.3",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "bea.restored.1",
+    "flag": "restored_bakery",
+    "once": true
+   }
+  ],
+  "pip": [
+   {
+    "id": "pip.meet.1",
+    "meet": true
+   },
+   {
+    "id": "pip.busy.1",
+    "busy": true
+   },
+   {
+    "id": "pip.busy.2",
+    "busy": true
+   },
+   {
+    "id": "pip.busy.3",
+    "busy": true
+   },
+   {
+    "id": "pip.morning.1",
+    "time": "morning"
+   },
+   {
+    "id": "pip.morning.2",
+    "time": "morning"
+   },
+   {
+    "id": "pip.day.1",
+    "time": "day"
+   },
+   {
+    "id": "pip.day.2",
+    "time": "day"
+   },
+   {
+    "id": "pip.evening.1",
+    "time": "evening"
+   },
+   {
+    "id": "pip.evening.2",
+    "time": "evening"
+   },
+   {
+    "id": "pip.night.1",
+    "time": "night"
+   },
+   {
+    "id": "pip.night.2",
+    "time": "night"
+   },
+   {
+    "id": "pip.spring.1",
+    "season": "spring"
+   },
+   {
+    "id": "pip.spring.2",
+    "season": "spring"
+   },
+   {
+    "id": "pip.spring.3",
+    "season": "spring"
+   },
+   {
+    "id": "pip.rainy.1",
+    "weather": "rainy"
+   },
+   {
+    "id": "pip.rainy.2",
+    "weather": "rainy"
+   },
+   {
+    "id": "pip.h0.1",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "pip.h0.2",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "pip.h0.3",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "pip.h3.1",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "pip.h3.2",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "pip.h3.3",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "pip.h6.1",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "pip.h6.2",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "pip.h6.3",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "pip.h9.1",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "pip.h9.2",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "pip.h9.3",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "pip.restored.1",
+    "flag": "restored_bakery",
+    "once": true
+   }
+  ]
+ },
+ "strings": {
+  "en-AU": {
+   "hazel.meet.1": "Oh! A dust bunny! I mean... hello, petal!",
+   "hazel.busy.1": "Busy, busy, petal! Pop back tomorrow?",
+   "hazel.busy.2": "Oh, the buns! Sorry petal, back to it.",
+   "hazel.busy.3": "Lovely to see you again, petal!",
+   "hazel.morning.1": "Up with the buns, petal! Six o'clock sharp.",
+   "hazel.morning.2": "Smell that? First batch of the day.",
+   "hazel.day.1": "Shop's open! Mind the queue, petal.",
+   "hazel.day.2": "Bread, buns, tarts... and a bit of chaos.",
+   "hazel.evening.1": "Nearly done for the day. Nearly.",
+   "hazel.evening.2": "Feet up soon, petal. Maybe.",
+   "hazel.night.1": "Still up, petal? The dough's resting. Me too.",
+   "hazel.night.2": "Shh... the bread's asleep. So should we be.",
+   "hazel.spring.1": "Spring! Everyone wants hot cross buns.",
+   "hazel.spring.2": "The blossom's out. Flour's out too. Everywhere.",
+   "hazel.spring.3": "Spring cleaning, petal? I'd love a hand.",
+   "hazel.rainy.1": "Rain on the roof, bread in the oven. Bliss.",
+   "hazel.rainy.2": "Wipe your paws, petal! Oh, you're fine.",
+   "hazel.h0.1": "Puff, petal, could you just... oh, the buns!",
+   "hazel.h0.2": "You're the bunny who tidies? How kind.",
+   "hazel.h0.3": "Have a crumb, petal. Go on.",
+   "hazel.h3.1": "There's my favourite little helper!",
+   "hazel.h3.2": "Sit with me a tick? Just a tick.",
+   "hazel.h3.3": "You make the kitchen feel lighter, petal.",
+   "hazel.h6.1": "I sat down today, petal. A whole minute!",
+   "hazel.h6.2": "Gran would have liked you.",
+   "hazel.h6.3": "Saved you the crispy corner piece.",
+   "hazel.h9.1": "My dearest petal! Tea's already poured.",
+   "hazel.h9.2": "Feet up, oven off. Who knew?",
+   "hazel.h9.3": "Hollowfern's brighter with you in it.",
+   "hazel.restored.1": "My kitchen! It sparkles! Oh, petal, thank you.",
+   "bea.meet.1": "Three things! One: hello! Two: a bunny! Three: hello!",
+   "bea.busy.1": "Two things! One: lovely. Two: busy! Bye!",
+   "bea.busy.2": "Back tomorrow? I'll write it on a list.",
+   "bea.busy.3": "One thing: you're nice. That's the list.",
+   "bea.morning.1": "Three things! Dew, daisies, and you. Morning!",
+   "bea.morning.2": "Watering list: done. Hello list: now!",
+   "bea.day.1": "Lists from one till two. Don't tell anyone.",
+   "bea.day.2": "Two things! One: seeds. Two: more seeds.",
+   "bea.evening.1": "River walk soon. It's on the list. Lovely.",
+   "bea.evening.2": "One thing: the sunset. That's it. Wow.",
+   "bea.night.1": "Still up? Me too. Re-reading my lists.",
+   "bea.night.2": "Three things: moon, stars, a sleepy bee.",
+   "bea.spring.1": "Spring! Seeds! Everything! All at once!",
+   "bea.spring.2": "Tulips first, then peas. It's on the list.",
+   "bea.spring.3": "Three things! Blossom, bees, and... me!",
+   "bea.rainy.1": "Rain! Free watering! Best kind of day.",
+   "bea.rainy.2": "Two things! One: wet. Two: worth it.",
+   "bea.h0.1": "Have we met? Yes! Twice. It's on my list.",
+   "bea.h0.2": "One thing: do you like flowers? Good.",
+   "bea.h0.3": "Three things! Hello, hello, and hello.",
+   "bea.h3.1": "You're on my favourite-people list now.",
+   "bea.h3.2": "Two things! One: thank you. Two: really.",
+   "bea.h3.3": "I made you a list. It just says 'Puff'.",
+   "bea.h6.1": "I let a daisy grow wherever it liked. Eek!",
+   "bea.h6.2": "One thing: lists aren't everything. Shh.",
+   "bea.h6.3": "Pick a flower. Any flower. No plan!",
+   "bea.h9.1": "No list today. Just you and me. Lovely.",
+   "bea.h9.2": "Three things! You, me, and a wild flower bed.",
+   "bea.h9.3": "Best friend. That's the whole list.",
+   "bea.restored.1": "Hazel's kitchen shines! My window's next. Kidding!",
+   "pip.meet.1": "Is that a real bunny? Can I draw you? Right?",
+   "pip.busy.1": "Busy-busy! Toy-making! Come back, right?",
+   "pip.busy.2": "Oops, glue on my paw. Tomorrow, right?",
+   "pip.busy.3": "Bunny-friend! Still here! Yay!",
+   "pip.morning.1": "Mmf... it's not ten yet. Is it? Right?",
+   "pip.morning.2": "Morning-ish! My whiskers aren't awake.",
+   "pip.day.1": "I'm making a whirly-bob. Kind of. Right?",
+   "pip.day.2": "Buttons, string, more buttons. Perfect!",
+   "pip.evening.1": "The workshop's at its glowiest now. Right?",
+   "pip.evening.2": "Evening! Best time for tinkering.",
+   "pip.night.1": "Night-time ideas are the best ideas, right?",
+   "pip.night.2": "Shh, the toys are sleeping. Not really.",
+   "pip.spring.1": "Spring! I'm making a bunny-copter. For you!",
+   "pip.spring.2": "Found a button in the blossom. Lucky, right?",
+   "pip.spring.3": "Spring smells like glue and flowers.",
+   "pip.rainy.1": "Rain! Puddle-boats today, right?",
+   "pip.rainy.2": "Drip-drop toy! I just made that up.",
+   "pip.h0.1": "You tidy things? Wow. I just... make things.",
+   "pip.h0.2": "Want a half-made toy? It's mostly a toy.",
+   "pip.h0.3": "Hi! Hello! Hi again! Right?",
+   "pip.h3.1": "You're my favourite visitor. Shh, don't tell.",
+   "pip.h3.2": "I made a tiny broom. It's for you. Kind of.",
+   "pip.h3.3": "Hazel says you're good luck. I say yes.",
+   "pip.h6.1": "We finished one! A whole toy! Right?!",
+   "pip.h6.2": "Some toys are for friends far away.",
+   "pip.h6.3": "You make the workshop feel less quiet.",
+   "pip.h9.1": "Everyone can come in now. Even messy days.",
+   "pip.h9.2": "There's a Puff toy on my shelf. It's you!",
+   "pip.h9.3": "Best bunny-friend. Forever-ish. Forever.",
+   "pip.restored.1": "Hazel's kitchen is so shiny! More crumbs for me!"
+  }
+ }
 }

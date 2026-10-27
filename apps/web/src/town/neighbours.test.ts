@@ -17,7 +17,7 @@ const navOf = (id: string) => {
 /** A visitor who lives offstage, pops into the bakery 15:00–16:00, and walks round inside it. */
 const pip: NeighbourDef = {
   id: 'pip', name: 'Pip', species: 'mouse', colours: { fur: '#C9C2BD', belly: '#F6E8DA', accent: '#F4C2A8' },
-  loves: ['button'], likes: [], dislikes: [], hello: 'Hi!',
+  loves: ['button'], likes: [], dislikes: [],
   schedule: [
     { at: 360, area: 'lane', x: 0, y: 0 },
     { at: 900, area: 'bakery', x: 14, y: 11 },
