@@ -1,6 +1,18 @@
 {
  "version": 1,
  "sheets": {
+  "puff_blink_down": {
+   "frames": 2,
+   "w": 144,
+   "h": 168,
+   "scale": 6
+  },
+  "puff_idle_down": {
+   "frames": 6,
+   "w": 144,
+   "h": 168,
+   "scale": 6
+  },
   "puff_walk_down": {
    "frames": 6,
    "w": 144,

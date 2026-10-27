@@ -122,6 +122,20 @@ class SheetTest(unittest.TestCase):
         self.assertTrue((out[26:39, 16:20, 3] == 0).all())
         self.assertTrue((out[5:20, 5:30, 3] == 255).all())
 
+    def test_rows_with_different_frame_counts_are_taken_one_at_a_time(self):
+        top = bunny_sheet(n=4); bottom = bunny_sheet(n=2)
+        img = Image.new("RGB", (top.width, top.height * 2 + 20), (255, 0, 255))
+        img.paste(top, (0, 0)); img.paste(bottom, (0, top.height + 20))
+        src = os.path.join(tempfile.mkdtemp(), "two.png"); img.save(src)
+        tmp = tempfile.mkdtemp(); spr = os.path.join(tmp, "sprites")
+        def run(rows, n):
+            return subprocess.run([sys.executable, SCRIPT, "two", "--raw", src, "--sheet", n, "--keep-watermark", f"--rows={rows}",
+                                   "--hires", "6", "--frame", "24x28", "--sprites-dir", spr, "--out", tmp], capture_output=True, text=True)
+        for rows, n in (("t_idle,-", "4"), ("-,t_blink", "2")):
+            out = run(rows, n); self.assertEqual(out.returncode, 0, out.stderr)
+        manifest = json.load(open(os.path.join(spr, "manifest.json")))
+        self.assertEqual((manifest["sheets"]["t_idle"]["frames"], manifest["sheets"]["t_blink"]["frames"]), (4, 2))
+
     def test_wrong_frame_count_is_a_clear_error(self):
         src = os.path.join(tempfile.mkdtemp(), "sheet.png"); bunny_sheet(n=5).save(src)
         _, out = self.run_cli(src)
