@@ -1,4 +1,5 @@
 import { T } from './art';
+import type { Area } from './area';
 
 // Free movement: a fine walkability grid of 4 world-px cells under every area. Code-drawn areas
 // build it from their tiles; painted areas from floor and blocker polygons traced over the
@@ -6,6 +7,10 @@ import { T } from './art';
 // A* over the cells (8 directions, no corner cutting), then pulled straight wherever Puff can see
 // ahead, so Puff walks in lines and diagonals rather than tile by tile.
 export const CELL = 4;
+/** How close (world px) Puff's feet must get to a mess tile or prop to act on it. */
+export const REACH = 10;
+/** Puff's feet sit this far into their tile (world px), clear of a wall along the tile's bottom edge. */
+export const FEET = 10;
 export interface Pt { x: number; y: number }
 /** A polygon as a flat list of x, y pairs in world px. */
 export type Poly = number[];
@@ -183,4 +188,10 @@ function erode(open: Uint8Array, w: number, h: number, r: number) {
     }
   }
   return out;
+}
+
+/** The walking grid for an area: traced outlines for painted areas, else its tiles. */
+export function navFor(area: Area) {
+  const n = area.pack.nav;
+  return n ? NavGrid.fromPolygons(area.w * T, area.h * T, n.floor, n.blockers, 1) : NavGrid.fromTiles(area.w, area.h, area.walkable, 1);
 }

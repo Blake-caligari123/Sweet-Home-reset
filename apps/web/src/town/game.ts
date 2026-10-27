@@ -13,7 +13,7 @@ import { Fluff } from './fluff';
 import { dialogue, Hud, itemIcon, TOOL_NAMES } from './hud';
 import { AreaMess, FULL_COLOUR, TOOL_FOR, type MessType, type ToolId } from './mess';
 import { Onboarding, type OnboardEvent } from './onboarding';
-import { NavGrid, type Pt } from './nav';
+import { FEET, navFor, REACH, type NavGrid, type Pt } from './nav';
 import { standTiles, type Tile } from './pathfind';
 import { eraseTown, stamp, writeTown, type TownSave } from './save';
 import { cropDays, PUTAWAY_SPARKLES, SWING_MS, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './tuning';
@@ -28,12 +28,8 @@ type Target =
   | { kind: 'door'; x: number; y: number }
   | { kind: 'prop'; x: number; y: number; action: string; accepts?: string[]; text?: string };
 
-/** Puff's feet sit this far into their tile (world px), clear of a wall along the tile's bottom edge. */
-const FEET = 10;
 /** The sprite's bottom edge is drawn this far below the feet point. */
 const FEET_TO_BASE = 5;
-/** How close (world px) Puff's feet must get to a mess tile or prop to act on it. */
-const REACH = 10;
 
 interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
 type Settings = TownSave['settings'];
@@ -148,11 +144,7 @@ export class TownGame {
   /** The fine walking grid for the current area: traced polygons for painted areas, else tiles. */
   private get nav() {
     let g = this.navs.get(this.areaId);
-    if (!g) {
-      const a = this.area; const n = a.pack.nav;
-      g = n ? NavGrid.fromPolygons(a.w * T, a.h * T, n.floor, n.blockers, 1) : NavGrid.fromTiles(a.w, a.h, a.walkable, 1);
-      this.navs.set(this.areaId, g);
-    }
+    if (!g) { g = navFor(this.area); this.navs.set(this.areaId, g); }
     return g;
   }
   private get mess() { return this.messFor(this.areaId); }

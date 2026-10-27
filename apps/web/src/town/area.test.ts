@@ -3,6 +3,9 @@ import { describe, expect, it } from 'vitest';
 import { Area, validateTownPack } from './area';
 import { findPath } from './pathfind';
 import { MESS_TYPES } from './mess';
+import { FEET, navFor, REACH } from './nav';
+
+const T = 16;
 
 const pack = validateTownPack(JSON.parse(readFileSync(new URL('../../public/packs-bundled/hollowfern/1/pack.json', import.meta.url), 'utf8')));
 
@@ -19,6 +22,18 @@ describe('Hollowfern spring pack', () => {
         const beside = [[0, 1], [0, -1], [1, 0], [-1, 0]].some(([dx, dy]) => area.walkable(m.x + dx, m.y + dy) && findPath(area, a.spawn, { x: m.x + dx, y: m.y + dy }));
         expect(beside, `${a.id} ${m.type} at ${m.x},${m.y}`).toBe(true);
       }
+    }
+  });
+
+  it('lets Puff walk freely from the spawn to every door, mess spot and usable prop', () => {
+    for (const a of pack.areas) {
+      const area = new Area(a); const nav = navFor(area);
+      const spawn = nav.nearestOpen({ x: a.spawn.x * T + T / 2, y: a.spawn.y * T + FEET })!;
+      expect(spawn, `${a.id} spawn`).not.toBeNull();
+      const tile = (x: number, y: number, w = 1, h = 1) => ({ x0: x * T, y0: y * T, x1: (x + w) * T, y1: (y + h) * T });
+      for (const d of a.doors.filter((d) => !d.closedText)) expect(nav.findPathNear(spawn, tile(d.x, d.y), 0), `${a.id} → ${d.to}`).not.toBeNull();
+      for (const m of area.spots) expect(nav.findPathNear(spawn, tile(m.x, m.y), REACH), `${a.id} ${m.type} at ${m.x},${m.y}`).not.toBeNull();
+      for (const p of a.props.filter((p) => p.action)) expect(nav.findPathNear(spawn, tile(p.x, p.y, p.w, p.h), REACH), `${a.id} ${p.type}`).not.toBeNull();
     }
   });
 

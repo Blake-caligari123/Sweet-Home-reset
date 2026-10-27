@@ -19,6 +19,8 @@ If a session ends mid-way: read this, check `git log`, carry on from the first u
 ## Steps
 - [x] 1. nav.ts with tests (grid from tiles and polygons, A*, smoothing, nearest point, multi-goal)
 - [x] 2. Free movement in the game (all areas, nav from tiles); saves keep working; browser check
-- [ ] 3. Burrow nav polygons traced over the painting; reachability tests
-- [ ] 4. Front layer: tool cut-outs, pack occluders, rendering + grey; browser check
+- [x] 3. Burrow nav polygons traced over the painting; reachability tests
+- [~] 4. Front layer: **deferred to the outdoor areas.** In the burrow every object sits against a wall or is low, and
+  its blocker covers its whole painted shape, so Puff can never overlap furniture from behind: no front layer
+  needed there. It is needed for tree canopies and shop roofs; build it with the yard/square paintings.
 - [ ] 5. Docs, full test/build/size, PR, deploy (Blake approved going ahead)
