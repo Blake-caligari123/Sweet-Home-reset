@@ -42,7 +42,11 @@ function label(value: string, x: number, y: number, size: number, weight: '400' 
   return item;
 }
 
-export function createRoomScene(app: Application, announce: (message: string) => void = () => {}) {
+export function createRoomScene(
+  app: Application,
+  announce: (message: string) => void = () => {},
+  onStage: (stage: number) => void = () => {}
+) {
   const container = new Container();
   const roomArt = new Container();
   const dirtLayer = new Container();
@@ -146,6 +150,7 @@ export function createRoomScene(app: Application, announce: (message: string) =>
   let lastPoint: { x: number; y: number } | undefined;
   let announcedStage = 0;
   let cursorIndex = 0;
+  let loaded = false;
 
   function percentClean() {
     return (cleaned.size / DIRT_TOTAL) * 100;
@@ -179,6 +184,8 @@ export function createRoomScene(app: Application, announce: (message: string) =>
     const reachedStage = [25, 50, 75, 100].filter((stage) => percent >= stage).length;
     if (reachedStage > announcedStage) {
       announcedStage = reachedStage;
+      // Restoring a saved room is not a new milestone, so only live scrubbing reports stages.
+      if (loaded) onStage(reachedStage);
       announce(reachedStage === 4 ? 'Kitchen nook restored. 100% clean.' : `Kitchen nook ${[25, 50, 75, 100][reachedStage - 1]}% clean.`);
     }
   }
@@ -247,6 +254,7 @@ export function createRoomScene(app: Application, announce: (message: string) =>
       cleaned.clear();
       spots.forEach((spot) => { spot.graphics.visible = true; });
       completed = false;
+      announcedStage = 0;
       completionText.visible = false;
       resetLabel.visible = false;
       completionPanel.clear();
@@ -287,6 +295,7 @@ export function createRoomScene(app: Application, announce: (message: string) =>
       }
     });
     updateHud();
+    loaded = true;
   });
 
   return {

@@ -11,4 +11,4 @@ The local save is authoritative while offline. After sign-in it is merged with t
 1. Room scene, procedural Puff, scrub-reveal mask, bundled starter pack, and local save.
 2. D1 migration harness and `GET /api/health`.
 3. Optional magic-link sync, then the chore ledger and pack catalogue.
-4. Add Capacitor and billing only after product-account approval.
+4. Capacitor iOS/Android shell and the PWA (done; unsigned test builds only). Billing, signing and store uploads only after product-account approval.
