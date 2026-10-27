@@ -1,0 +1,112 @@
+{
+  "source": "Starting playtest values from docs/GAME-DESIGN.md (Mini-task tuning values). Not measured results.",
+  "roomCleanPercent": 95,
+  "stages": [25, 50, 75, 100],
+  "strokeHapticMinIntervalMs": 60,
+  "idleHintMs": 6000,
+  "helpPuffDelayMs": 20000,
+  "liveParticleCap": 400,
+  "reducedMotionParticleScale": 0.25,
+  "soundSemitonePer10Percent": 1,
+  "scrubbingCostsEnergy": false,
+  "miniTasksCostEnergy": false,
+  "tasks": {
+    "scrub": {
+      "strokeRadius": 28,
+      "boostRadius": 40,
+      "passes": 2,
+      "patchClearPercent": 90,
+      "comboWindowMs": 1200,
+      "hapticWeb": { "stroke": [8], "patch": [20] },
+      "hapticCapacitor": { "stroke": "impactLight", "patch": "impactMedium" },
+      "particlesPerStroke": 3,
+      "particlesOnClear": 25
+    },
+    "fogWipe": {
+      "strokeRadius": 36,
+      "minStrokeLength": 60,
+      "passes": 1,
+      "regrow": 0,
+      "comboWindowMs": 1500,
+      "hapticWeb": { "stroke": [], "squeak": [6, 30, 6] },
+      "hapticCapacitor": { "squeak": "selectionChanged" },
+      "particlesPerStroke": 2,
+      "particlesOnClear": 15
+    },
+    "sweep": {
+      "strokeRadius": 44,
+      "pilePercent": 85,
+      "pileRadius": 60,
+      "comboWindowMs": 2000,
+      "hapticWeb": { "pile": [15, 40, 15] },
+      "hapticCapacitor": { "pile": "impactLight" },
+      "particlesPerStroke": 4,
+      "particlesOnClear": 20
+    },
+    "pop": {
+      "tapTarget": 48,
+      "comboWindowMs": 800,
+      "hapticWeb": { "pop": [12] },
+      "hapticCapacitor": { "pop": "impactMedium" },
+      "particlesPerStroke": 0,
+      "particlesOnClear": 12
+    },
+    "polish": {
+      "strokeRadius": 32,
+      "passes": 2,
+      "comboWindowMs": 1200,
+      "hapticWeb": { "polish": [5] },
+      "hapticCapacitor": { "polish": "selectionChanged" },
+      "particlesPerStroke": 2,
+      "particlesOnClear": 30
+    },
+    "vacuum": {
+      "strokeRadius": 30,
+      "suctionRadius": 60,
+      "clearPercent": 95,
+      "comboWindowMs": 1000,
+      "hapticWeb": { "hum": [4] },
+      "hapticEveryMs": 120,
+      "hapticCapacitor": { "hum": "impactLight" },
+      "particlesPerStroke": 1,
+      "particlesOnClear": 10
+    },
+    "powerSpray": {
+      "strokeRadius": 22,
+      "passes": 1,
+      "cellClearPercent": 100,
+      "comboWindowMs": 1000,
+      "hapticWeb": { "spray": [6] },
+      "hapticCapacitor": { "spray": "impactLight" },
+      "particlesPerStroke": 6,
+      "particlesOnClear": 30
+    },
+    "waterPlant": {
+      "holdMs": 1200,
+      "hapticWeb": { "done": [10, 60, 20] },
+      "hapticCapacitor": { "done": "notificationSuccess" },
+      "particlesPerStroke": 8,
+      "particlesOnClear": 20
+    },
+    "dragToTarget": {
+      "snapRadius": 40,
+      "comboWindowMs": 1500,
+      "hapticWeb": { "snap": [10] },
+      "hapticCapacitor": { "snap": "impactLight" },
+      "wrongSlotHaptic": false,
+      "particlesPerStroke": 0,
+      "particlesOnClear": 10
+    }
+  },
+  "stageHapticWeb": [20, 50, 20],
+  "stageHapticCapacitor": "impactMedium",
+  "stageParticles": 40,
+  "roomCleanSweepMs": 800,
+  "roomCleanHapticWeb": [30, 60, 30, 60, 80],
+  "roomCleanHapticCapacitor": "notificationSuccess",
+  "roomCleanParticles": 150,
+  "roomCleanSlowMoMs": 600,
+  "choreHapticWeb": [15, 40, 15],
+  "choreHapticCapacitor": "notificationSuccess",
+  "choreParticles": 30
+}

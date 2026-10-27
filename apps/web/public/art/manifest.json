@@ -1,0 +1,677 @@
+{
+  "note": "Target sizes come from docs/ASSET-PROMPTS.md. Every PNG on disk is an 8x8 stand-in with a PLACEHOLDER text chunk. status \"missing\" means the real art is not here yet. Replace the file by path, then set status to \"ready\" and placeholder to false.",
+  "assets": [
+    {
+      "path": "puff/puff_model_sheet.png",
+      "size": "2048x1024",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_idle.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_sleepy.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_nap.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_peek.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_bounce.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_wiggle.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_dance.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_proud_spin.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_hop_in_pile.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_sneeze.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_tidy_helper.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_party.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "puff/puff_cosy.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "rooms/kitchen_nook_clean.png",
+      "size": "2048x2048",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "rooms/kitchen_nook_dirty.png",
+      "size": "2048x2048",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "rooms/living_room_clean.png",
+      "size": "2048x2048",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "rooms/living_room_dirty.png",
+      "size": "2048x2048",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "rooms/bedroom_clean.png",
+      "size": "2048x2048",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "rooms/bedroom_dirty.png",
+      "size": "2048x2048",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "overlays/dirt_dust.png",
+      "size": "2048x2048",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "overlays/dirt_grime.png",
+      "size": "2048x2048",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "overlays/dirt_clutter.png",
+      "size": "2048x2048",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "overlays/dirt_cobwebs.png",
+      "size": "2048x2048",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "overlays/dirt_fog.png",
+      "size": "2048x2048",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "overlays/dirt_crumbs.png",
+      "size": "2048x2048",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/sponge.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/foam_bubbles.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/squeegee.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/broom.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/dust_pile_marker.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/dust_bunny_cousin.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/polish_cloth.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/laundry_basket.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/sort_bin.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/folded_shirt.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/watering_can.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/plant_droopy.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/plant_perky.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/vacuum_nozzle.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/spray_bottle.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/tangled_cord.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/sticker.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/friendly_bug.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "props/tool_tray.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "decor/decor_lamp_pastel.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "decor/decor_plant.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "decor/decor_rug.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "decor/decor_cushion.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "decor/decor_wall_art.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "decor/decor_fairy_lights.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "decor/decor_bookshelf_mini.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "decor/decor_mug_steam.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "outfits/outfit_apron_worn.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "outfits/outfit_apron_icon.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "outfits/outfit_scarf_worn.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "outfits/outfit_scarf_icon.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "outfits/outfit_bandana_worn.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "outfits/outfit_bandana_icon.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "outfits/outfit_beanie_worn.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "outfits/outfit_beanie_icon.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "outfits/outfit_party_hat_worn.png",
+      "size": "1024x1024",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "outfits/outfit_party_hat_icon.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "tools/tool_spray_gun_pastel.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "tools/tool_big_sponge.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "tools/tool_sparkle_duster.png",
+      "size": "512x512",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_sparkles.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_energy.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_home.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_shop.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_wardrobe.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_decor.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_share.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_settings.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_help_puff.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_chore_tick.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_plus_badge.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_mess_of_day.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_restore.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_rest_day.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/icon_meter.png",
+      "size": "256x256",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "ui/particle_sparkle.png",
+      "size": "64x64",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "brand/app_icon_1024.png",
+      "size": "1024x1024",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "brand/app_icon_fg_432.png",
+      "size": "432x432",
+      "transparency": true,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "brand/app_icon_bg_432.png",
+      "size": "432x432",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "brand/splash_2732.png",
+      "size": "2732x2732",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "store/screenshot_bg_1.png",
+      "size": "1320x2868",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "store/screenshot_bg_2.png",
+      "size": "1320x2868",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "store/screenshot_bg_3.png",
+      "size": "1320x2868",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "store/screenshot_bg_4.png",
+      "size": "1320x2868",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "store/screenshot_bg_5.png",
+      "size": "1320x2868",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "store/screenshot_bg_6.png",
+      "size": "1320x2868",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "store/screenshot_bg_7.png",
+      "size": "1320x2868",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "share/share_bg_before_after.png",
+      "size": "1080x1920",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "share/share_bg_mess_of_day.png",
+      "size": "1080x1920",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    },
+    {
+      "path": "share/share_bg_photo_mode.png",
+      "size": "1080x1920",
+      "transparency": false,
+      "status": "missing",
+      "placeholder": true
+    }
+  ]
+}
