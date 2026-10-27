@@ -1,30 +1,32 @@
 import type { Application, FederatedPointerEvent } from 'pixi.js';
-import type { Sound, SoundId } from '../fx/sound';
-import { localDate } from '../game/profile';
-import type { HapticKind, NativeBridge } from '../native';
-import { makeClip, shareFile } from '../share/clip';
-import { clear, h } from '../ui/dom';
-import { drawMess, drawNeighbour24, T, type Dir } from './world/art';
+import type { Sound } from '../fx/sound';
+import type { NativeBridge } from '../native';
+import { h } from '../ui/dom';
 import { Area, type TownPack } from './data/area';
-import { bakeArea } from './world/bake';
+import { Content } from './data/content';
+import { stamp, writeTown, type TownSave } from './data/save';
+import { cropDays, NEIGHBOUR_WALK_SPEED, PUTAWAY_SPARKLES, SWING_MS, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
+import { Conversations } from './neighbours/conversations';
+import { Neighbours } from './neighbours/neighbours';
 import { Bag } from './play/bag';
 import { Clock, DAY_END, DAY_START, formatTime, LATE_AT } from './play/clock';
 import { Fluff } from './play/fluff';
-import { dialogue, Hud, itemIcon, TOOL_NAMES } from './ui/hud';
+import { morningLetter } from './play/letter';
 import { AreaMess, FULL_COLOUR, TOOL_FOR, type MessType, type ToolId } from './play/mess';
 import { Onboarding, type OnboardEvent } from './play/onboarding';
+import { Jobs } from './requests/jobs';
+import type { RequestState } from './requests/requests';
+import { TownState } from './state';
+import { openBag } from './ui/bag-sheet';
+import { Hud, TOOL_NAMES } from './ui/hud';
+import { openPause } from './ui/pause-menu';
+import { offerClip } from './ui/reveal';
+import { View, type Settings } from './ui/view';
+import { T, type Dir } from './world/art';
 import { FEET, navFor, REACH, type NavGrid, type Pt } from './world/nav';
-import { Neighbours, type NeighbourDef } from './neighbours/neighbours';
-import { canGift, chat, give } from './neighbours/friends';
-import { accept, cleanDone, finish, freshMess, MAX_ACCEPTED, newDay, withTiles, type RequestState, type RequestTemplate } from './requests/requests';
-import { doneFlag, eventDue, stepsOf, type HeartEvent } from './neighbours/heart-events';
-import { heartsOf, pickLine, RECENT } from './neighbours/talk';
 import { standTiles, type Tile } from './world/pathfind';
-import { eraseTown, stamp, writeTown, type Friend, type TownSave } from './data/save';
-import { cropDays, NEIGHBOUR_WALK_SPEED, PUTAWAY_SPARKLES, SWING_MS, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
-import { setIconBank, spriteIcon, type SpriteBank } from './world/sprites';
+import { setIconBank, type SpriteBank } from './world/sprites';
 import { World } from './world/world';
-
 
 type Target =
   | { kind: 'walk'; x: number; y: number }
@@ -37,47 +39,28 @@ type Target =
 /** The sprite's bottom edge is drawn this far below the feet point. */
 const FEET_TO_BASE = 5;
 
-interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
-type Settings = TownSave['settings'];
-
-const OPPOSITE: Record<Dir, Dir> = { down: 'up', up: 'down', left: 'right', right: 'left' };
-
-const LETTER_CHORES: Record<string, [string, string]> = {
-  dust: ['dusted a whole room', 'dust one shelf of yours'],
-  stain: ['scrubbed a stain away', 'wipe one counter of yours'],
-  weeds: ['raked the weeds', 'water a plant, or pull one weed'],
-  clutter: ['put things where they live', 'put 3 things back where they belong'],
-  none: ['had a cosy day', 'open a window for some fresh air']
-};
-
+// The town game (GDD v3): it owns the areas, Puff, input, the day and the save, and hands the rest
+// to feature modules: neighbours/conversations (talk, gifts, heart events, Friends), requests/jobs
+// (notice board), ui/* (sheets) and play/letter. Saved progress lives in one shared TownState.
 export class TownGame {
   private areas = new Map<string, Area>();
   private messes = new Map<string, AreaMess>();
+  private navs = new Map<string, NavGrid>();
   private areaId = 'burrow';
   private world: World;
   private hud: Hud;
+  private view: View;
+  private content: Content;
   private clock = new Clock();
-  private fluff = new Fluff();
-  private bag = new Bag();
-  private tools: Record<string, number> = { hands: 1, duster: 1 };
-  private selected: ToolId = 'duster';
-  private sparkles = 0;
-  private crops: Crop[] = [];
-  private flags: string[] = [];
-  private friends: Record<string, Friend> = {};
-  private requests: RequestState = { day: 0, list: [] };
+  private state = new TownState();
   private neighbours: Neighbours;
-  private neighbourDefs = new Map<string, NeighbourDef>();
-  private onboarding = new Onboarding();
-  private chores = { day: '', keys: [] as string[], total: 0 };
+  private talk: Conversations;
+  private jobs: Jobs;
+  private selected: ToolId = 'duster';
   /** x, y: the tile under Puff's feet (mess, doors, saves). fx, fy: the feet in world px; path: waypoints in world px. */
   private puff = { x: 3, y: 4, fx: 3 * T + T / 2, fy: 4 * T + FEET, dir: 'down' as Dir, pose: 'idle' as 'walk' | 'idle' | 'swing' | 'sleep' | 'hop', path: [] as Pt[], action: null as Target | null, repeat: 0, swingMs: 0, hopMs: 0 };
-  private navs = new Map<string, NavGrid>();
-  private modal = 0;
   private fading = false;
-  private bubbleMs = 0;
   private autosaveMs = 0;
-  private lastClean: string = 'none';
   private sharePromptDay = 0;
   private down: { x: number; y: number; t: number } | null = null;
   private fade: HTMLElement;
@@ -85,23 +68,39 @@ export class TownGame {
 
   constructor(
     private app: Application,
-    private ui: HTMLElement,
-    private pack: TownPack,
-    private native: NativeBridge,
+    ui: HTMLElement,
+    pack: TownPack,
+    native: NativeBridge,
     private sound: Sound,
     public settings: Settings,
     saved: TownSave | null
   ) {
     for (const a of pack.areas) this.areas.set(a.id, new Area(a));
-    for (const d of pack.neighbours ?? []) this.neighbourDefs.set(d.id, d);
+    this.content = new Content(pack);
     this.neighbours = new Neighbours(pack.neighbours ?? [], pack.areas, (id) => (this.areas.has(id) ? this.navAt(id) : null), NEIGHBOUR_WALK_SPEED);
     this.world = new World(app);
     app.stage.addChild(this.world.root);
     this.hud = new Hud(ui, {
-      tool: (t) => { this.uiTap(); this.selected = t; this.refreshHud(); },
-      bag: () => { this.uiTap(); this.openBag(); },
-      pause: () => { this.uiTap(); this.openPause(); },
-      tracker: () => this.uiTap()
+      tool: (t) => { this.view.uiTap(); this.selected = t; this.refreshHud(); },
+      bag: () => { this.view.uiTap(); this.openBag(); },
+      pause: () => { this.view.uiTap(); this.openPause(); },
+      tracker: () => this.view.uiTap()
+    });
+    this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress);
+    this.talk = new Conversations({
+      state: this.state, view: this.view, content: this.content, clock: this.clock, neighbours: this.neighbours,
+      area: () => this.areaId,
+      facePuff: (x, y) => { this.faceAlong(x - this.puff.fx, y - this.puff.fy); return this.puff.dir; },
+      hopPuff: () => { this.puff.pose = 'hop'; this.puff.hopMs = 900; },
+      sparkleAtPuff: (n) => this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), n),
+      extraButtons: (id) => this.jobs.deliveriesFor(id),
+      refreshHud: () => this.refreshHud(),
+      save: () => void this.save(false)
+    });
+    this.jobs = new Jobs({
+      state: this.state, view: this.view, content: this.content, clock: this.clock, settings, talk: this.talk, areas: this.areas,
+      messFor: (id) => this.messFor(id), area: () => this.areaId, syncMess: (i) => this.world.syncMess(i),
+      refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.fade = h('div', { class: 'fade', 'aria-hidden': 'true' });
     ui.append(this.fade);
@@ -110,46 +109,49 @@ export class TownGame {
     if (saved) feet = this.restore(saved);
     else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
     this.world.reducedMotion = settings.reducedMotion;
-    if (this.requests.day !== this.clock.state.day) this.postRequests();
+    if (this.state.requests.day !== this.clock.state.day) this.jobs.post();
     this.enterArea(this.areaId, this.puff.x, this.puff.y, false, feet);
     this.bindInput();
     app.ticker.add((t) => this.update(t.deltaMS));
     window.addEventListener('resize', () => { app.resize(); this.world.resize(); });
     this.refreshHud();
-    if (!saved) window.setTimeout(() => this.say('Ooh. Grey. Let\'s fix that.'), 600);
-    // Test hook for automated playthroughs, only with ?debug in the URL.
-    if (new URLSearchParams(location.search).has('debug')) {
-      (window as unknown as { __town: unknown }).__town = {
-        tileToScreen: (x: number, y: number) => this.world.toScreen((x + 0.5) * T, (y + 0.5) * T),
-        debug: () => ({ area: this.areaId, puff: { x: this.puff.x, y: this.puff.y }, fluff: this.fluff.value, sparkles: this.sparkles, bag: this.bag.slots.filter(Boolean), tools: this.tools, step: this.onboarding.current?.id ?? 'done', progress: this.mess.progress, day: this.clock.state.day, minutes: this.clock.state.minutes, crops: this.crops }),
-        setMinutes: (m: number) => { this.clock.state.minutes = m; },
-        mess: () => { const m = this.mess; const out: { x: number; y: number; type: string; hp: number; item?: string }[] = []; for (let i = 0; i < m.type.length; i += 1) if (m.type[i]) out.push({ x: i % m.w, y: Math.floor(i / m.w), type: m.typeAt(i % m.w, Math.floor(i / m.w)), hp: m.hp[i], item: m.item[i] }); return out; },
-        props: () => this.area.pack.props.filter((p) => p.action).map((p) => ({ type: p.type, x: p.x, y: p.y, action: p.action, accepts: p.accepts })),
-        doors: () => this.area.pack.doors.filter((d) => !d.closedText),
-        tapTile: (x: number, y: number) => this.tap((x + 0.5) * T, (y + 0.5) * T),
-        tapPoint: (x: number, y: number) => this.tap(x, y),
-        feet: () => ({ x: this.puff.fx, y: this.puff.fy }),
-        openAt: (x: number, y: number) => this.nav.openAt(x, y),
-        busy: () => this.puff.path.length > 0 || this.puff.swingMs > 0 || this.modal > 0 || this.fading,
-        /** Jump to an area in full colour, for screenshots. */
-        visit: (id: string, x: number, y: number, colour = true) => { if (colour) this.messFor(id).colour.fill(FULL_COLOUR); this.enterArea(id, x, y, false); },
-        puffSprite: () => ({ ...this.world.puffDebug, pose: this.puff.pose, dir: this.puff.dir }),
-        /** Where Puff is drawn, in tile units (the tile's own coords when standing at its usual spot). */
-        drawn: () => ({ x: this.puff.fx / T - 0.5, y: (this.puff.fy + FEET_TO_BASE + 1) / T - 1 }),
-        neighbours: () => this.neighbours.visible(this.areaId).map((n) => ({ id: n.id, x: Math.floor(n.fx / T), y: Math.floor(n.fy / T), fx: n.fx, fy: n.fy, pose: n.pose, dir: n.dir })),
-        tapNeighbour: (id: string) => { const n = this.neighbours.states.get(id); if (n) this.tap(n.fx, n.fy - 6); },
-        friends: () => this.friends,
-        flags: () => this.flags,
-        requests: () => this.requests,
-        addItem: (id: string, n = 1) => { this.bag.add(id, n); this.refreshHud(); },
-        /** Friendship points straight in, to reach heart events in tests. */
-        addPoints: (id: string, n: number) => { this.friendOf(id).points += Math.max(0, n); }
-      };
-    }
+    if (!saved) window.setTimeout(() => this.view.say('Ooh. Grey. Let\'s fix that.'), 600);
+    if (new URLSearchParams(location.search).has('debug')) this.installDebugHooks();
   }
 
   /** Character sprite sheets loaded after start; Puff stays code-drawn until they arrive. */
   setSprites(bank: SpriteBank) { setIconBank(bank); this.world.setSprites(bank); this.hud.refreshIcons(); }
+
+  /** Test hook for automated playthroughs, only with ?debug in the URL. */
+  private installDebugHooks() {
+    const s = this.state;
+    (window as unknown as { __town: unknown }).__town = {
+      tileToScreen: (x: number, y: number) => this.world.toScreen((x + 0.5) * T, (y + 0.5) * T),
+      debug: () => ({ area: this.areaId, puff: { x: this.puff.x, y: this.puff.y }, fluff: s.fluff.value, sparkles: s.sparkles, bag: s.bag.slots.filter(Boolean), tools: s.tools, step: s.onboarding.current?.id ?? 'done', progress: this.mess.progress, day: this.clock.state.day, minutes: this.clock.state.minutes, crops: s.crops }),
+      setMinutes: (m: number) => { this.clock.state.minutes = m; },
+      mess: () => { const m = this.mess; const out: { x: number; y: number; type: string; hp: number; item?: string }[] = []; for (let i = 0; i < m.type.length; i += 1) if (m.type[i]) out.push({ x: i % m.w, y: Math.floor(i / m.w), type: m.typeAt(i % m.w, Math.floor(i / m.w)), hp: m.hp[i], item: m.item[i] }); return out; },
+      props: () => this.area.pack.props.filter((p) => p.action).map((p) => ({ type: p.type, x: p.x, y: p.y, action: p.action, accepts: p.accepts })),
+      doors: () => this.area.pack.doors.filter((d) => !d.closedText),
+      tapTile: (x: number, y: number) => this.tap((x + 0.5) * T, (y + 0.5) * T),
+      tapPoint: (x: number, y: number) => this.tap(x, y),
+      feet: () => ({ x: this.puff.fx, y: this.puff.fy }),
+      openAt: (x: number, y: number) => this.nav.openAt(x, y),
+      busy: () => this.puff.path.length > 0 || this.puff.swingMs > 0 || this.view.busy || this.fading,
+      /** Jump to an area in full colour, for screenshots. */
+      visit: (id: string, x: number, y: number, colour = true) => { if (colour) this.messFor(id).colour.fill(FULL_COLOUR); this.enterArea(id, x, y, false); },
+      puffSprite: () => ({ ...this.world.puffDebug, pose: this.puff.pose, dir: this.puff.dir }),
+      /** Where Puff is drawn, in tile units (the tile's own coords when standing at its usual spot). */
+      drawn: () => ({ x: this.puff.fx / T - 0.5, y: (this.puff.fy + FEET_TO_BASE + 1) / T - 1 }),
+      neighbours: () => this.neighbours.visible(this.areaId).map((n) => ({ id: n.id, x: Math.floor(n.fx / T), y: Math.floor(n.fy / T), fx: n.fx, fy: n.fy, pose: n.pose, dir: n.dir })),
+      tapNeighbour: (id: string) => { const n = this.neighbours.states.get(id); if (n) this.tap(n.fx, n.fy - 6); },
+      friends: () => s.friends,
+      flags: () => s.flags,
+      requests: () => s.requests,
+      addItem: (id: string, n = 1) => { s.bag.add(id, n); this.refreshHud(); },
+      /** Friendship points straight in, to reach heart events in tests. */
+      addPoints: (id: string, n: number) => { s.friendOf(id).points += Math.max(0, n); }
+    };
+  }
 
   // ---- areas -------------------------------------------------------------------------------
 
@@ -216,7 +218,7 @@ export class TownGame {
   private key(e: KeyboardEvent) {
     if (e.target instanceof HTMLElement && e.target.closest('input, textarea')) return;
     if (e.key === 'Escape') { e.preventDefault(); this.back(); return; }
-    if (this.modal) return;
+    if (this.view.busy) return;
     const moves: Record<string, [number, number, Dir]> = { ArrowUp: [0, -1, 'up'], w: [0, -1, 'up'], ArrowDown: [0, 1, 'down'], s: [0, 1, 'down'], ArrowLeft: [-1, 0, 'left'], a: [-1, 0, 'left'], ArrowRight: [1, 0, 'right'], d: [1, 0, 'right'] };
     const m = moves[e.key.length === 1 ? e.key.toLowerCase() : e.key];
     if (m) {
@@ -234,16 +236,14 @@ export class TownGame {
       return;
     }
     const n = Number(e.key);
-    if (n >= 1 && n <= 5) { const t = (['hands', 'duster', 'sponge', 'rake', 'can'] as ToolId[])[n - 1]; if (this.tools[t]) { this.selected = t; this.refreshHud(); } }
+    if (n >= 1 && n <= 5) { const t = (['hands', 'duster', 'sponge', 'rake', 'can'] as ToolId[])[n - 1]; if (this.state.tools[t]) { this.selected = t; this.refreshHud(); } }
     if (e.key.toLowerCase() === 'b') this.openBag();
   }
 
   /** Android back / Escape: close the top sheet, else open pause. */
   back() {
-    const sheets = this.ui.querySelectorAll('[data-sheet]');
-    const top = sheets[sheets.length - 1];
-    if (top) { (top.querySelector('[data-close]') as HTMLElement | null)?.click(); return; }
-    if (this.ui.querySelector('.dialogue') || this.fading) return;
+    if (this.view.closeTopSheet()) return;
+    if (this.view.root.querySelector('.dialogue') || this.fading) return;
     this.openPause();
   }
 
@@ -260,7 +260,7 @@ export class TownGame {
   /** A tap at a world point: walk there, or walk within reach of what's there and use it. */
   private tap(px: number, py: number) {
     const tile = { x: Math.floor(px / T), y: Math.floor(py / T) };
-    if (this.modal || this.fading || !this.area.inside(tile.x, tile.y)) return;
+    if (this.view.busy || this.fading || !this.area.inside(tile.x, tile.y)) return;
     this.neighbours.releaseAll();
     const target = this.neighbourAt(px, py) ?? this.targetAt(tile.x, tile.y);
     if (target.kind === 'neighbour') this.neighbours.hold(target.id);
@@ -277,7 +277,7 @@ export class TownGame {
     const r = this.rectOf(target);
     if (!p.path.length && this.distTo(r) <= REACH) { this.act(target); return; }
     const path = this.nav.findPathNear(feet, r, REACH);
-    if (!path) { this.say('Hmm, can\'t reach that.'); return; }
+    if (!path) { this.view.say('Hmm, can\'t reach that.'); return; }
     this.go(path, target);
   }
 
@@ -308,7 +308,7 @@ export class TownGame {
     return Math.hypot(Math.max(r.x0 - fx, 0, fx - r.x1), Math.max(r.y0 - fy, 0, fy - r.y1));
   }
 
-  // ---- actions -----------------------------------------------------------------------------
+  // ---- Puff's actions ----------------------------------------------------------------------
 
   /** Turn toward a tile. */
   private face(x: number, y: number) { this.faceAlong((x + 0.5) * T - this.puff.fx, (y + 0.5) * T - this.puff.fy); }
@@ -323,7 +323,7 @@ export class TownGame {
   }
 
   private act(t: Target) {
-    if (t.kind === 'neighbour') { this.talkTo(t.id); return; }
+    if (t.kind === 'neighbour') { this.talk.talkTo(t.id); return; }
     this.face(t.x, t.y);
     if (t.kind === 'door') { this.useDoor(t.x, t.y); return; }
     if (t.kind === 'mess') { this.startSwing(t); return; }
@@ -331,267 +331,32 @@ export class TownGame {
     if (t.kind === 'prop') this.useProp(t);
   }
 
-  // ---- neighbours ---------------------------------------------------------------------------
-
-  private friendOf(id: string) { return (this.friends[id] ??= { points: 0, talkedDay: 0, met: false }); }
-
-  private talkTo(id: string) {
-    const def = this.neighbourDefs.get(id); const n = this.neighbours.states.get(id);
-    if (!def || !n || n.area !== this.areaId) { this.neighbours.releaseAll(); return; }
-    this.faceAlong(n.fx - this.puff.fx, n.fy - this.puff.fy);
-    if (n.pose === 'sleep') { this.say(`Shh... ${def.name}'s having a doze.`); this.neighbours.releaseAll(); return; }
-    n.dir = OPPOSITE[this.puff.dir];
-    const f = this.friendOf(id);
-    const day = this.clock.state.day;
-    const scene = eventDue(this.pack.heartEvents ?? [], id, { hearts: heartsOf(f.points), flags: this.flags, minutes: this.clock.state.minutes, area: this.areaId });
-    if (scene) {
-      chat(f, day);
-      if (!f.met) { f.met = true; this.flags.push(`met_${id}`); }
-      this.playScene(def, scene);
-      return;
-    }
-    const line = pickLine(this.pack.dialogue?.[id] ?? [], {
-      minutes: this.clock.state.minutes, season: this.clock.season.toLowerCase(), weather: 'sunny', hearts: heartsOf(f.points),
-      area: this.areaId, flags: this.flags, met: f.met, talkedToday: f.talkedDay === day, recent: f.recent ?? []
-    });
-    const text = this.line(line?.id) ?? '...';
-    // The first chat of the day counts toward friendship (hearts never go down).
-    const hearts = heartsOf(f.points);
-    const gained = chat(f, day);
-    if (!f.met) { f.met = true; this.flags.push(`met_${id}`); }
-    if (line) {
-      f.recent = [...(f.recent ?? []), line.id].slice(-RECENT);
-      if (line.once) this.flags.push(`said_${line.id}`);
-    }
-    const gifts = canGift(f, day) && this.bag.slots.some(Boolean);
-    // Requests for this neighbour that Puff can hand over right now.
-    const deliveries = this.requests.list.filter((r) => r.accepted).map((r) => this.requestDef(r.id)).filter((t): t is RequestTemplate => !!t && t.neighbourId === id && t.kind === 'bring' && this.bag.count(t.item!) > 0);
-    this.neighbourSays(def, text, gained, heartsOf(f.points) > hearts, [
-      ...deliveries.map((t) => ({ label: `Give the ${this.itemName(t.item!).toLowerCase()}`, onClick: () => { this.bag.remove(t.item!); this.completeRequest(t, true); } })),
-      ...(gifts ? [{ label: 'Give a gift', onClick: () => this.openGifts(def) }] : [])
-    ]);
-  }
-
-  private line(id: string | undefined) { return id ? this.pack.strings?.['en-AU']?.[id] : undefined; }
-
-  /** A neighbour's speech box; Bye lets them get on with their day. */
-  private neighbourSays(def: NeighbourDef, text: string, gained: number, heartUp: boolean, extra: { label: string; onClick: () => void }[] = []) {
-    this.modal += 1;
-    const done = () => { this.modal = Math.max(0, this.modal - 1); };
-    dialogue(this.ui, text, {
-      reducedMotion: this.settings.reducedMotion,
-      speaker: { name: gained ? `${def.name} · friendship +${gained}` : def.name, portrait: this.portraitOf(def) },
-      buttons: [
-        ...extra.map((b) => ({ label: b.label, onClick: () => { done(); b.onClick(); } })),
-        { label: 'Bye!', primary: true, onClick: () => { done(); this.neighbours.releaseAll(); } }
-      ]
-    });
-    if (heartUp) this.heartUp(def);
-  }
-
-  private heartUp(def: NeighbourDef) {
-    const hearts = heartsOf(this.friendOf(def.id).points);
-    this.banner(`♥ ${def.name}: ${hearts} heart${hearts === 1 ? '' : 's'}!`);
-    this.feedback('fanfare', 'success');
-    this.puff.pose = 'hop'; this.puff.hopMs = 900;
-  }
-
-  /** A heart event: one box per line, choices as buttons. Skip jumps to the end (first choices, same rewards). */
-  private playScene(def: NeighbourDef, e: HeartEvent) {
-    const steps = stepsOf(e, this.flags);
-    let i = 0;
-    let close: () => void = () => {};
-    this.modal += 1;
-    const finish = () => {
-      close();
-      for (const s of steps.slice(i)) if ('choice' in s && s.options[0]) this.flags.push(s.options[0].setFlag);
-      const r = e.rewards ?? {};
-      for (const f of [...(r.flags ?? []), doneFlag(e)]) if (!this.flags.includes(f)) this.flags.push(f);
-      if (r.sparkles) this.sparkles += r.sparkles;
-      if (r.bagSlots) { this.bag.grow(r.bagSlots); window.setTimeout(() => this.banner(`A bigger bag! +${r.bagSlots} slots`), 1900); }
-      this.banner(`♥ A moment with ${def.name}${r.sparkles ? ` · +${r.sparkles} ✨` : ''}`);
-      this.feedback('fanfare', 'success');
-      this.modal = Math.max(0, this.modal - 1);
-      this.neighbours.releaseAll();
-      this.refreshHud();
-      void this.save(false);
-    };
-    const next = () => {
-      if (i >= steps.length) { finish(); return; }
-      const s = steps[i]; i += 1;
-      const skip = e.skippable ? [{ label: 'Skip', onClick: () => { i -= 1; finish(); } }] : [];
-      if ('choice' in s) {
-        close = dialogue(this.ui, this.line(s.choice) ?? '', {
-          reducedMotion: this.settings.reducedMotion,
-          buttons: s.options.map((o, k) => ({ label: this.line(o.label) ?? '', primary: k === 0, onClick: () => { this.flags.push(o.setFlag); next(); } }))
-        });
-        return;
-      }
-      const who = s.speaker === 'puff' ? null : this.neighbourDefs.get(s.speaker) ?? def;
-      close = dialogue(this.ui, this.line(s.line) ?? '...', {
-        reducedMotion: this.settings.reducedMotion,
-        speaker: who ? { name: who.name, portrait: this.portraitOf(who) } : undefined,
-        buttons: [...skip, { label: i >= steps.length ? 'Lovely' : 'Next', primary: true, onClick: next }]
-      });
-    };
-    next();
-  }
-
-  // ---- requests -----------------------------------------------------------------------------
-
-  private requestDef(id: string) { return this.pack.requests?.find((t) => t.id === id); }
-
-  /** Each morning: missed jobs quietly go (never in relaxed mode), and the board gets new ones. */
-  private postRequests() {
-    const expire = !(this.settings.relaxed && !TUNING.relaxedMode.requestExpiry);
-    this.requests = newDay(this.requests, this.pack.requests ?? [], this.clock.state.day, { expire }).state;
-  }
-
-  private openBoard() {
-    const posted = this.requests.list;
-    const list = h('div', { class: 'board' });
-    let close = () => {};
-    for (const r of posted) {
-      const t = this.requestDef(r.id); if (!t) continue;
-      const who = this.neighbourDefs.get(t.neighbourId);
-      const days = r.until - this.clock.state.day + 1;
-      const when = days <= 1 ? 'Any time today' : `Any time in the next ${days} days`;
-      const take = h('button', { class: `btn small ${r.accepted ? '' : 'primary'}`, type: 'button' }, r.accepted ? 'On it ✓' : 'I\'ll do it');
-      if (r.accepted) take.setAttribute('disabled', '');
-      take.addEventListener('click', () => {
-        this.uiTap();
-        const next = accept(this.requests, r.id);
-        if (!next) { this.say(`Puff can take ${MAX_ACCEPTED} jobs at a time.`); return; }
-        this.requests = next;
-        this.startJob(t);
-        close(); this.refreshHud();
-        this.say('On it!');
-      });
-      list.append(h('div', { class: 'note' },
-        h('p', { class: 'friend-name' }, `${who?.name ?? 'A neighbour'}`),
-        h('p', {}, this.line(t.text) ?? ''),
-        h('p', { class: 'muted' }, `${when} · ${t.sparkles} ✨ · friendship`),
-        take));
-    }
-    close = this.sheet('Notice board', posted.length ? [list] : [h('p', {}, 'Nothing pinned up today. Tomorrow, maybe!')]);
-  }
-
-  /** A tidy job puts its mess down when Puff takes it on. */
-  private startJob(t: RequestTemplate) {
-    if (t.kind !== 'clean' || !t.area || !this.areas.has(t.area)) return;
-    const m = this.messFor(t.area);
-    const tiles = m.scatter(freshMess(t, this.areas.get(t.area)!, m));
-    this.requests = withTiles(this.requests, t.id, tiles);
-    if (t.area === this.areaId) for (const i of tiles) this.world.syncMess(i);
-  }
-
-  /** After a clean: any tidy job in this area with nothing left in its spot is done. */
-  private checkTidyJobs() {
-    for (const r of this.requests.list.filter((x) => x.accepted)) {
-      const t = this.requestDef(r.id);
-      if (t?.kind === 'clean' && t.area === this.areaId && cleanDone(t, this.mess, r.tiles)) this.completeRequest(t, false);
-    }
-  }
-
-  private completeRequest(t: RequestTemplate, inPerson: boolean) {
-    this.requests = finish(this.requests, t.id);
-    const def = this.neighbourDefs.get(t.neighbourId);
-    const f = this.friendOf(t.neighbourId);
-    const hearts = heartsOf(f.points);
-    f.points += TUNING.friendship.request;
-    this.sparkles += t.sparkles;
-    if (t.setFlag && !this.flags.includes(t.setFlag)) this.flags.push(t.setFlag);
-    this.feedback('coin', 'success');
-    this.banner(`Job done! +${t.sparkles} ✨`);
-    const up = heartsOf(f.points) > hearts;
-    if (def && inPerson) this.neighbourSays(def, this.line(`${def.id}.request.done`) ?? 'Thank you!', TUNING.friendship.request, up);
-    else if (def && up) window.setTimeout(() => this.heartUp(def), 1900);
-    this.refreshHud();
-    void this.save(false);
-  }
-
-  /** Pick something from the bag for them; one gift a day each. */
-  private openGifts(def: NeighbourDef) {
-    const grid = h('div', { class: 'bag-grid' });
-    let close = () => {};
-    this.bag.slots.forEach((s) => {
-      if (!s) return;
-      const cell = h('button', { class: 'bag-slot', type: 'button', 'aria-label': `Give the ${this.itemName(s.id).toLowerCase()}` }, itemIcon(s.id), s.count > 1 ? h('b', {}, String(s.count)) : '');
-      cell.addEventListener('click', () => { this.uiTap(); close(); this.giveGift(def, s.id); });
-      grid.append(cell);
-    });
-    close = this.sheet(`A gift for ${def.name}`, [grid, h('p', { class: 'muted' }, 'One gift a day. Everyone likes being thought of.')], () => this.neighbours.releaseAll());
-  }
-
-  private giveGift(def: NeighbourDef, item: string) {
-    const f = this.friendOf(def.id);
-    if (!this.bag.remove(item)) return;
-    const { taste, gained, heartUp } = give(def, f, item, this.clock.state.day);
-    if (taste !== 'disliked') this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), taste === 'loved' ? 12 : 6);
-    this.feedback(taste === 'loved' ? 'coin' : 'tap', taste === 'loved' ? 'medium' : 'light');
-    this.neighbourSays(def, this.line(`${def.id}.gift.${taste}`) ?? 'Thank you!', gained, heartUp > 0);
-    this.refreshHud();
-  }
-
-  /** Everyone Puff has met: hearts, progress to the next one, today's chat and gift, gifts they like. */
-  private openFriends() {
-    const per = TUNING.friendship.pointsPerHeart;
-    const list = h('div', { class: 'friends' });
-    const met = [...this.neighbourDefs.values()].filter((d) => this.friends[d.id]?.met);
-    for (const d of met) {
-      const f = this.friends[d.id]; const hearts = heartsOf(f.points);
-      const day = this.clock.state.day;
-      const row = h('div', { class: 'friend' },
-        h('div', { class: 'portrait' }, this.portraitOf(d)),
-        h('div', { class: 'friend-body' },
-          h('p', { class: 'friend-name' }, d.name),
-          h('p', { class: 'hearts', 'aria-label': `${hearts} of 10 hearts` }, '♥'.repeat(hearts) + '♡'.repeat(10 - hearts)),
-          hearts < 10 ? h('div', { class: 'heart-bar', 'aria-hidden': 'true' }, h('span', { style: { width: `${((f.points % per) / per) * 100}%` } })) : '',
-          h('p', { class: 'muted' }, `${f.talkedDay === day ? 'Chatted today ✓' : 'Say hello today'} · ${f.giftDay === day ? 'Gift given ✓' : 'Gift: any time today'}`),
-          (f.known ?? []).length ? h('p', { class: 'muted' }, `Likes: ${(f.known ?? []).map((i) => this.itemName(i)).join(', ')}`) : ''));
-      list.append(row);
-    }
-    const more = this.neighbourDefs.size - met.length;
-    const body: Node[] = met.length ? [list] : [h('p', {}, 'Puff hasn\'t met anyone yet. Say hello around town!')];
-    if (more > 0 && met.length) body.push(h('p', { class: 'muted' }, `${more} more neighbour${more === 1 ? '' : 's'} to meet.`));
-    this.sheet('Friends', body);
-  }
-
-  /** Their sprite art if it has landed, else the code-drawn placeholder, 2x. */
-  private portraitOf(def: NeighbourDef): HTMLElement {
-    const art = spriteIcon(`${def.id}_idle_down`, 48, def.name) ?? spriteIcon(`${def.id}_walk_down`, 48, def.name);
-    if (art) return art;
-    const pc = drawNeighbour24(def.species, def.colours, 'down', 0);
-    const canvas = h('canvas', { class: 'pixel', width: 24, height: 24, role: 'img', 'aria-label': def.name }) as HTMLCanvasElement;
-    canvas.style.width = '48px'; canvas.style.height = '48px';
-    canvas.getContext('2d')?.putImageData(new ImageData(pc.data, 24, 24), 0, 0);
-    return canvas;
-  }
-
   private startSwing(t: Target) {
+    const { state, view } = this;
     const type = this.mess.typeAt(t.x, t.y) as Exclude<MessType, 'none'>;
     if (type === 'none' as MessType) return;
     const need = TOOL_FOR[type];
-    if (!this.tools[need.tool]) { this.say(`Puff needs a ${TOOL_NAMES[need.tool].toLowerCase()} for that.`); return; }
-    if (this.tools[need.tool] < need.minTier) { this.say('That needs a Copper sponge.'); return; }
+    if (!state.tools[need.tool]) { view.say(`Puff needs a ${TOOL_NAMES[need.tool].toLowerCase()} for that.`); return; }
+    if (state.tools[need.tool] < need.minTier) { view.say('That needs a Copper sponge.'); return; }
     if (this.settings.autoTool) this.selected = need.tool;
-    else if (this.selected !== need.tool) { this.say(`Try the ${TOOL_NAMES[need.tool].toLowerCase()}.`); return; }
-    if (type === 'clutter' && !this.bag.canAdd(this.mess.item[t.y * this.area.w + t.x] ?? '')) { this.say('Bag\'s full! Put things away first.'); return; }
-    if (need.tool !== 'hands' && !this.fluff.spend(false, this.settings.relaxed ? 0.5 : 1)) { this.say('Getting fluffy-sleepy... snack time?'); this.hud.pulseFluff(); return; }
+    else if (this.selected !== need.tool) { view.say(`Try the ${TOOL_NAMES[need.tool].toLowerCase()}.`); return; }
+    if (type === 'clutter' && !state.bag.canAdd(this.mess.item[t.y * this.area.w + t.x] ?? '')) { view.say('Bag\'s full! Put things away first.'); return; }
+    if (need.tool !== 'hands' && !state.fluff.spend(false, this.settings.relaxed ? 0.5 : 1)) { view.say('Getting fluffy-sleepy... snack time?'); this.hud.pulseFluff(); return; }
     this.puff.action = t;
     this.puff.pose = 'swing';
     this.puff.swingMs = SWING_MS;
-    this.feedback(need.tool === 'hands' ? 'tap' : 'scrub', 'light');
+    view.feedback(need.tool === 'hands' ? 'tap' : 'scrub', 'light');
     this.refreshHud();
   }
 
   private finishSwing() {
+    const { state, view } = this;
     const t = this.puff.action!;
     const i = t.y * this.area.w + t.x;
     const type = this.mess.typeAt(t.x, t.y);
     const tool = TOOL_FOR[type as Exclude<MessType, 'none'>]?.tool ?? this.selected;
     const wasRestored = this.mess.restored;
-    const result = this.mess.hit(t.x, t.y, tool, this.tools[tool] ?? 1);
+    const result = this.mess.hit(t.x, t.y, tool, state.tools[tool] ?? 1);
     this.puff.pose = 'idle';
     if (!result.ok) { this.puff.action = null; return; }
     this.world.syncMess(i);
@@ -600,14 +365,14 @@ export class TownGame {
     if (type === 'dust' || type === 'cobweb') this.world.dustPuff(t.x, t.y);
     if (result.cleared) {
       this.world.sparkleBurst(t.x, t.y, 8);
-      this.feedback('sparkle', 'medium');
-      this.lastClean = type;
-      if (result.item) { this.bag.add(result.item); this.say(type === 'clutter' ? `Got the ${this.itemName(result.item).toLowerCase()}!` : ''); }
-      if (this.flags.indexOf('first_clean') < 0) { this.flags.push('first_clean'); this.say('Look! Colour came back!'); }
+      view.feedback('sparkle', 'medium');
+      state.lastClean = type;
+      if (result.item) { state.bag.add(result.item); view.say(type === 'clutter' ? `Got the ${this.content.itemName(result.item).toLowerCase()}!` : ''); }
+      if (!state.has('first_clean')) { state.flag('first_clean'); view.say('Look! Colour came back!'); }
       this.onboard({ type: 'cleared', mess: type, area: this.areaId });
     }
     if (!wasRestored && this.mess.restored) this.onRestored();
-    if (result.cleared) this.checkTidyJobs();
+    if (result.cleared) this.jobs.checkTidy();
     this.refreshHud();
     if (!result.cleared && this.puff.repeat > 0) { this.puff.repeat -= 1; this.startSwing(t); return; }
     this.puff.repeat = 0;
@@ -615,55 +380,57 @@ export class TownGame {
   }
 
   private useProp(t: Extract<Target, { kind: 'prop' }>) {
+    const { state, view } = this;
     switch (t.action) {
       case 'putaway': {
-        const items = (t.accepts ?? []).flatMap((id) => Array.from({ length: this.bag.count(id) }, () => id));
+        const items = (t.accepts ?? []).flatMap((id) => Array.from({ length: state.bag.count(id) }, () => id));
         if (!items.length) {
-          const wanted = (t.accepts ?? []).map((id) => this.itemName(id).toLowerCase()).join(' and ');
-          this.say(`A home for the ${wanted}.`); return;
+          const wanted = (t.accepts ?? []).map((id) => this.content.itemName(id).toLowerCase()).join(' and ');
+          view.say(`A home for the ${wanted}.`); return;
         }
-        for (const id of items) { this.bag.remove(id); this.sparkles += PUTAWAY_SPARKLES; this.onboard({ type: 'putaway', item: id }); }
-        this.say(items.length === 1 ? 'Back where it lives!' : 'All put away!');
-        this.feedback('thunk', 'light');
+        for (const id of items) { state.bag.remove(id); state.sparkles += PUTAWAY_SPARKLES; this.onboard({ type: 'putaway', item: id }); }
+        view.say(items.length === 1 ? 'Back where it lives!' : 'All put away!');
+        view.feedback('thunk', 'light');
         this.world.sparkleBurst(t.x, t.y, 6);
         this.refreshHud();
         return;
       }
       case 'sleep':
-        this.confirm('Go to bed? Puff saves the day and wakes up refreshed.', 'Sleep', () => void this.endDay(false));
+        view.confirm('Go to bed? Puff saves the day and wakes up refreshed.', 'Sleep', () => void this.endDay(false));
         return;
       case 'sign':
-        this.showDialogue(t.text ?? 'A sign.');
+        view.showDialogue(t.text ?? 'A sign.');
         return;
       case 'board':
-        this.openBoard();
+        this.jobs.openBoard();
         return;
       case 'mailbox':
-        this.showDialogue(this.clock.state.day > 1 ? 'Today\'s letter is on the kitchen table. (Puff already read it.)' : 'No post yet. Maybe tomorrow!');
+        view.showDialogue(this.clock.state.day > 1 ? 'Today\'s letter is on the kitchen table. (Puff already read it.)' : 'No post yet. Maybe tomorrow!');
         return;
     }
   }
 
   private useSoil(x: number, y: number) {
-    const crop = this.crops.find((c) => c.area === this.areaId && c.x === x && c.y === y);
+    const { state, view } = this;
+    const crop = state.crops.find((c) => c.area === this.areaId && c.x === x && c.y === y);
     if (crop) {
       if (crop.days >= cropDays(crop.crop)) {
-        if (!this.bag.add(crop.crop)) { this.say('Bag\'s full!'); return; }
-        this.crops.splice(this.crops.indexOf(crop), 1);
-        this.say('A radish! Crunchy.'); this.feedback('coin', 'medium');
+        if (!state.bag.add(crop.crop)) { view.say('Bag\'s full!'); return; }
+        state.crops.splice(state.crops.indexOf(crop), 1);
+        view.say('A radish! Crunchy.'); view.feedback('coin', 'medium');
       } else if (!crop.watered) {
-        if (!this.tools.can) { this.say('Seeds need water. A can would help.'); return; }
-        if (!this.fluff.spend(false, this.settings.relaxed ? 0.5 : 1)) { this.say('Too sleepy to water...'); return; }
+        if (!state.tools.can) { view.say('Seeds need water. A can would help.'); return; }
+        if (!state.fluff.spend(false, this.settings.relaxed ? 0.5 : 1)) { view.say('Too sleepy to water...'); return; }
         crop.watered = true; this.selected = 'can';
-        this.feedback('wipe', 'light');
+        view.feedback('wipe', 'light');
         this.onboard({ type: 'watered' });
-      } else this.say('Growing. No rush.');
-    } else if (this.bag.count('radish_seeds') > 0) {
-      this.bag.remove('radish_seeds');
-      this.crops.push({ area: this.areaId, x, y, crop: 'radish', days: 0, watered: false });
-      this.say('Grow big. No rush.'); this.feedback('thunk', 'light');
+      } else view.say('Growing. No rush.');
+    } else if (state.bag.count('radish_seeds') > 0) {
+      state.bag.remove('radish_seeds');
+      state.crops.push({ area: this.areaId, x, y, crop: 'radish', days: 0, watered: false });
+      view.say('Grow big. No rush.'); view.feedback('thunk', 'light');
       this.onboard({ type: 'planted' });
-    } else this.say('Seeds would grow here.');
+    } else view.say('Seeds would grow here.');
     this.world.setCrops(this.cropsHere());
     this.refreshHud();
   }
@@ -671,7 +438,7 @@ export class TownGame {
   private useDoor(x: number, y: number) {
     const door = this.area.doorAt(x, y);
     if (!door) return;
-    if (door.closedText) { this.say(door.closedText); this.stepOff(x, y); return; }
+    if (door.closedText) { this.view.say(door.closedText); this.stepOff(x, y); return; }
     void this.travel(door.to, door.toX, door.toY);
   }
 
@@ -681,79 +448,48 @@ export class TownGame {
   }
 
   private cropsHere() {
-    return this.crops.filter((c) => c.area === this.areaId).map((c) => ({ x: c.x, y: c.y, stage: c.days >= cropDays(c.crop) ? 2 : c.days > 0 ? 1 : 0, watered: c.watered }));
+    return this.state.crops.filter((c) => c.area === this.areaId).map((c) => ({ x: c.x, y: c.y, stage: c.days >= cropDays(c.crop) ? 2 : c.days > 0 ? 1 : 0, watered: c.watered }));
   }
 
-  // ---- restore and share -------------------------------------------------------------------
-
   private onRestored() {
+    const { state, view } = this;
     const reward = this.area.pack.restoreReward ?? 0;
-    this.sparkles += reward;
-    this.feedback('fanfare', 'success');
+    state.sparkles += reward;
+    view.feedback('fanfare', 'success');
     this.puff.pose = 'hop'; this.puff.hopMs = 900;
     for (let n = 0; n < 6; n += 1) this.world.sparkleBurst(this.puff.x - 3 + n, this.puff.y - 2 + (n % 3), 10);
-    this.banner(`${this.area.pack.name} restored!${reward ? ` +${reward} ✨` : ''}`);
+    view.banner(`${this.area.pack.name} restored!${reward ? ` +${reward} ✨` : ''}`);
     this.onboard({ type: 'restored', area: this.areaId });
     if (this.area.pack.kind === 'home') {
-      this.flags.push(`restored_${this.areaId}`);
+      state.flag(`restored_${this.areaId}`);
       // Auto-offer the clip at most once a day (A11.5).
       if (this.sharePromptDay !== this.clock.state.day) {
         this.sharePromptDay = this.clock.state.day;
-        const first = !this.flags.includes('shared_prompt');
-        this.flags.push('shared_prompt');
-        window.setTimeout(() => this.offerClip(first), 1400);
+        const first = !state.has('shared_prompt');
+        state.flag('shared_prompt');
+        const area = this.area;
+        window.setTimeout(() => offerClip(view, area, first), 1400);
       }
     }
     void this.save(false);
-  }
-
-  private offerClip(first: boolean) {
-    const area = this.area;
-    let file: File | null = null;
-    this.modal += 1;
-    const status = h('p', {}, first ? 'Your first reset! Save or share it?' : `${area.pack.name} is sparkling. Save or share it?`);
-    const make = h('button', { class: 'btn primary', type: 'button' }, '🎬 Make my clip');
-    const later = h('button', { class: 'btn', type: 'button', 'data-close': '' }, 'Not now');
-    const sheet = h('div', { class: 'scrim', 'data-sheet': '' }, h('div', { class: 'panel sheet' }, h('h2', {}, 'Before and after'), status, h('div', { class: 'btn-row', style: { width: '100%' } }, make, later)));
-    const close = () => { sheet.remove(); this.modal = Math.max(0, this.modal - 1); };
-    later.addEventListener('click', () => { this.uiTap(); close(); });
-    make.addEventListener('click', async () => {
-      this.uiTap();
-      if (file) { await shareFile(file, `I restored ${area.pack.name} in Hollowfern ✨ #SweetHomeReset`); return; }
-      make.disabled = true; make.textContent = 'Making your clip…';
-      try {
-        const { before, after } = this.beforeAfter(area);
-        file = await makeClip({ before, after, title: area.pack.name, outfit: null });
-        make.textContent = '📤 Share my clip';
-      } catch { make.textContent = 'Clip didn\'t work this time'; }
-      make.disabled = false;
-    });
-    this.ui.append(sheet);
-  }
-
-  private beforeAfter(area: Area) {
-    const { colour, drained } = bakeArea(area);
-    const before = drained.clone();
-    area.spots.forEach((m, i) => before.draw(drawMess(m.type, i, m.item), m.x * T, m.y * T));
-    const after = colour.clone();
-    return { before, after };
   }
 
   // ---- days --------------------------------------------------------------------------------
 
   private async endDay(dozed: boolean) {
     if (this.fading) return;
-    this.modal += 1;
+    const { state, view } = this;
+    view.hold();
     this.fading = true;
     this.puff.pose = 'sleep';
-    if (dozed) this.say('Zzz... just resting my fluff.');
+    if (dozed) view.say('Zzz... just resting my fluff.');
     await wait(dozed ? 1400 : 300);
     this.fade.classList.add('on', 'night');
     await wait(this.settings.reducedMotion ? 200 : 900);
     this.clock.nextDay();
-    this.postRequests();
-    if (dozed) this.fluff.doze(); else this.fluff.sleep();
-    for (const c of this.crops) { if (c.watered) c.days += 1; c.watered = false; }
+    this.jobs.post();
+    if (dozed) state.fluff.doze(); else state.fluff.sleep();
+    for (const c of state.crops) { if (c.watered) c.days += 1; c.watered = false; }
     this.hud.setLate(false);
     // Wake up beside the bed: the burrow's spawn tile.
     const bed = this.areas.get('burrow')!.pack.spawn;
@@ -762,58 +498,38 @@ export class TownGame {
     await this.save(true);
     this.fade.classList.remove('on', 'night');
     this.fading = false;
-    this.modal = Math.max(0, this.modal - 1);
+    view.release();
     this.refreshHud();
-    this.morningLetter();
-  }
-
-  private morningLetter() {
-    const [did, chore] = LETTER_CHORES[this.lastClean] ?? LETTER_CHORES.none;
-    const today = localDate();
-    if (this.chores.day !== today) this.chores = { ...this.chores, day: today, keys: [] };
-    const key = `day${this.clock.state.day}`;
-    this.modal += 1;
-    const text = `Dear friend, yesterday I ${did}. My paws sparkle! Maybe ${chore}? Or just have tea. Both are lovely. ♥ Puff`;
-    dialogue(this.ui, text, {
-      reducedMotion: this.settings.reducedMotion,
-      buttons: [
-        { label: 'I did it!', primary: true, onClick: () => {
-          this.modal = Math.max(0, this.modal - 1);
-          if (this.chores.keys.length >= TUNING.realChoreCapPerDay) { this.say('That\'s loads today. Rest counts too.'); return; }
-          this.chores.keys.push(key); this.chores.total += 1;
-          this.sparkles += TUNING.realChoreReward.sparkles;
-          this.fluff.boost = TUNING.realChoreReward.maxFluffBonus;
-          this.fluff.eat(TUNING.realChoreReward.maxFluffBonus);
-          this.feedback('coin', 'success');
-          this.banner(`Cosy Boost! +${TUNING.realChoreReward.sparkles} ✨ +${TUNING.realChoreReward.maxFluffBonus} Fluff today`);
-          this.refreshHud();
-        } },
-        { label: 'Not today', onClick: () => { this.modal = Math.max(0, this.modal - 1); this.say('Tea it is. Lovely.'); } }
-      ]
-    });
-    this.lastClean = 'none';
+    morningLetter({ state, view, clock: this.clock, refreshHud: () => this.refreshHud() });
   }
 
   // ---- onboarding --------------------------------------------------------------------------
 
   private onboard(e: OnboardEvent) {
-    const done = this.onboarding.handle(e);
+    const { state } = this;
+    const done = state.onboarding.handle(e);
     for (const step of done) {
-      for (const t of step.grant ?? []) if (!this.tools[t]) { this.tools[t] = 1; this.banner(`New tool: ${TOOL_NAMES[t]}!`); }
-      for (const [id, n] of Object.entries(step.items ?? {})) this.bag.add(id, n);
+      for (const t of step.grant ?? []) this.grantTool(t);
+      for (const [id, n] of Object.entries(step.items ?? {})) state.bag.add(id, n);
     }
     if (done.length) {
-      const next = this.onboarding.current;
-      if (next?.grant) for (const t of next.grant) if (!this.tools[t]) { this.tools[t] = 1; this.banner(`New tool: ${TOOL_NAMES[t]}!`); }
-      if (next?.items) for (const [id, n] of Object.entries(next.items)) if (this.bag.count(id) < n) this.bag.add(id, n - this.bag.count(id));
+      const next = state.onboarding.current;
+      if (next?.grant) for (const t of next.grant) this.grantTool(t);
+      if (next?.items) for (const [id, n] of Object.entries(next.items)) if (state.bag.count(id) < n) state.bag.add(id, n - state.bag.count(id));
       if (next?.id === 'fluff') { this.hud.pulseFluff(); window.setTimeout(() => this.onboard({ type: 'timer' }), 5000); }
       this.updateHighlight();
       this.refreshHud();
     }
   }
 
+  private grantTool(t: ToolId) {
+    if (this.state.tools[t]) return;
+    this.state.tools[t] = 1;
+    this.view.banner(`New tool: ${TOOL_NAMES[t]}!`);
+  }
+
   private updateHighlight() {
-    const step = this.onboarding.current;
+    const step = this.state.onboarding.current;
     if (!step || this.areaId !== 'burrow') { this.world.setHighlight([]); return; }
     const tiles: Tile[] = [];
     const m = this.mess;
@@ -822,20 +538,46 @@ export class TownGame {
     this.world.setHighlight(tiles.slice(0, want === 'dust' ? 4 : 3));
   }
 
+  // ---- sheets ------------------------------------------------------------------------------
+
+  private openBag() { openBag({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud() }); }
+
+  private openPause() {
+    const { state } = this;
+    openPause({
+      view: this.view, settings: this.settings, sound: this.sound,
+      settingsChanged: () => {
+        const s = this.settings;
+        this.sound.enabled = s.sound; this.sound.musicOn = s.music;
+        if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
+        this.world.reducedMotion = s.reducedMotion;
+        void this.save(false);
+      },
+      openFriends: () => this.talk.openFriends(),
+      skipTips: state.onboarding.skippable ? () => {
+        for (const step of state.onboarding.skip()) {
+          for (const t of step.grant ?? []) state.tools[t] = 1;
+          for (const [id, n] of Object.entries(step.items ?? {})) state.bag.add(id, n);
+        }
+        this.updateHighlight(); this.refreshHud();
+      } : null
+    });
+  }
+
   // ---- loop --------------------------------------------------------------------------------
 
   private update(dt: number) {
     dt = Math.min(dt, 100);
     const p = this.puff;
-    if (!this.modal && !this.fading) {
+    if (!this.view.busy && !this.fading) {
       for (const e of this.clock.advance(dt)) {
         if (e === 'tick') this.world.setTint(this.clock.state.minutes);
-        if (e === 'late') { this.hud.setLate(true); this.say('Getting fluffy-sleepy...'); }
+        if (e === 'late') { this.hud.setLate(true); this.view.say('Getting fluffy-sleepy...'); }
         if (e === 'doze' && !this.settings.relaxed) void this.endDay(true);
       }
       // Walk the waypoints at walking speed; the tile under the feet drives mess, doors and onboarding.
       if (p.path.length) {
-        let budget = dt * ((this.fluff.tired ? WALK_SPEED_TIRED : WALK_SPEED) * T / 1000);
+        let budget = dt * ((this.state.fluff.tired ? WALK_SPEED_TIRED : WALK_SPEED) * T / 1000);
         while (budget > 0 && p.path.length) {
           const n = p.path[0]; const dx = n.x - p.fx; const dy = n.y - p.fy; const d = Math.hypot(dx, dy);
           this.faceAlong(dx, dy);
@@ -858,14 +600,14 @@ export class TownGame {
     }
     this.world.drawPuff({ x: p.fx, y: p.fy + FEET_TO_BASE, dir: p.dir, pose: p.pose, tool: this.selected }, dt);
     this.world.drawNeighbours(this.neighbours.visible(this.areaId).map((n) => {
-      const d = this.neighbourDefs.get(n.id)!;
+      const d = this.content.neighbour(n.id)!;
       return { id: n.id, species: d.species, colours: d.colours, x: n.fx, y: n.fy + FEET_TO_BASE, dir: n.dir, pose: n.pose };
     }));
     this.world.follow(p.fx, p.fy - 8);
     this.world.update(dt);
     this.placeBubble(p.fx, p.fy + FEET_TO_BASE);
     this.updateHudLive();
-    if (this.bubbleMs > 0) { this.bubbleMs -= dt; if (this.bubbleMs <= 0) this.hud.bubble.classList.remove('show'); }
+    this.view.tick(dt);
   }
 
   private lastPrompt = '';
@@ -879,7 +621,7 @@ export class TownGame {
       const night = c.state.minutes >= 19 * 60 || c.state.minutes < DAY_START;
       this.hud.setClock(`${c.season} ${c.dayOfSeason}`, formatTime(c.shown), night);
     }
-    this.hud.setFluff(this.fluff.value, this.fluff.cap, this.fluff.tired);
+    this.hud.setFluff(this.state.fluff.value, this.state.fluff.cap, this.state.fluff.tired);
     const prompt = this.promptText();
     if (prompt !== this.lastPrompt) { this.lastPrompt = prompt; this.hud.setPrompt(prompt); }
   }
@@ -896,35 +638,23 @@ export class TownGame {
     if (t.kind === 'mess') {
       const type = this.mess.typeAt(t.x, t.y);
       const hp = this.mess.hp[t.y * this.area.w + t.x];
-      const verb: Record<string, string> = { dust: 'Dust it', stain: 'Sponge the stain', weeds: 'Rake the weeds', clutter: `Pick up the ${this.itemName(this.mess.item[t.y * this.area.w + t.x] ?? '').toLowerCase()}`, grime: 'Scrub the grime', cobweb: 'Dust the cobweb' };
+      const verb: Record<string, string> = { dust: 'Dust it', stain: 'Sponge the stain', weeds: 'Rake the weeds', clutter: `Pick up the ${this.content.itemName(this.mess.item[t.y * this.area.w + t.x] ?? '').toLowerCase()}`, grime: 'Scrub the grime', cobweb: 'Dust the cobweb' };
       return `${verb[type] ?? 'Clean it'}${hp > 1 ? ` (${hp} hits)` : ''}`;
     }
-    if (t.kind === 'soil') return this.crops.some((c) => c.area === this.areaId && c.x === t.x && c.y === t.y) ? 'Tend the crop' : 'Plant seeds';
+    if (t.kind === 'soil') return this.state.crops.some((c) => c.area === this.areaId && c.x === t.x && c.y === t.y) ? 'Tend the crop' : 'Plant seeds';
     if (t.kind === 'door') return 'Go through';
-    if (t.kind === 'neighbour') return `Say hello to ${this.neighbourDefs.get(t.id)?.name ?? 'them'}`;
+    if (t.kind === 'neighbour') return `Say hello to ${this.content.neighbour(t.id)?.name ?? 'them'}`;
     if (t.kind === 'prop') return ({ putaway: 'Put things away', sleep: 'Go to bed', sign: 'Read the sign', board: 'Read the notice board', mailbox: 'Check the mail' } as Record<string, string>)[t.action] ?? '';
     return '';
   }
 
   private refreshHud() {
-    const owned = (['hands', 'duster', 'sponge', 'rake', 'can'] as ToolId[]).filter((t) => this.tools[t]);
+    const owned = (['hands', 'duster', 'sponge', 'rake', 'can'] as ToolId[]).filter((t) => this.state.tools[t]);
     if (!owned.includes(this.selected)) this.selected = owned[0];
     this.hud.setTools(owned, this.selected);
-    this.hud.setSparkles(this.sparkles);
-    const step = this.onboarding.current;
-    const job = this.requests.list.find((r) => r.accepted);
-    const jobText = job && this.line(this.requestDef(job.id)?.text);
-    this.hud.setTracker(step ? step.hint : jobText ?? 'Explore Hollowfern and tidy what you find.');
-  }
-
-  // ---- speech, banners, feedback -----------------------------------------------------------
-
-  say(text: string) {
-    if (!text) return;
-    this.hud.bubble.textContent = text;
-    this.hud.bubble.classList.add('show');
-    this.hud.announce(`Puff: ${text}`);
-    this.bubbleMs = 2600;
+    this.hud.setSparkles(this.state.sparkles);
+    const step = this.state.onboarding.current;
+    this.hud.setTracker(step ? step.hint : this.jobs.tracker() ?? 'Explore Hollowfern and tidy what you find.');
   }
 
   /** x, y: the bottom-centre of Puff's sprite in world px. */
@@ -938,158 +668,53 @@ export class TownGame {
     this.hud.bubble.style.top = `${Math.max(120, s.y)}px`;
   }
 
-  private banner(text: string) {
-    const el = h('div', { class: 'banner', 'aria-hidden': 'true' }, text);
-    this.ui.append(el);
-    this.hud.announce(text);
-    window.setTimeout(() => el.remove(), 1900);
-  }
-
-  private feedback(soundId: SoundId, haptic: HapticKind | null) {
-    if (this.settings.sound) this.sound.play(soundId, this.mess.progress);
-    if (haptic && this.settings.haptics) {
-      if (!this.native.isNative && 'vibrate' in navigator) { try { navigator.vibrate(haptic === 'success' ? [30, 60, 30] : haptic === 'medium' ? [16] : [8]); } catch { /* ignore */ } }
-      else void this.native.haptic(haptic);
-    }
-  }
-
-  private uiTap() { this.sound.unlock(); if (this.settings.sound) this.sound.play('tap'); }
-
-  private itemName(id: string) { return this.pack.items[id]?.name ?? id; }
-
-  // ---- sheets ------------------------------------------------------------------------------
-
-  private showDialogue(text: string) {
-    this.modal += 1;
-    dialogue(this.ui, text, { reducedMotion: this.settings.reducedMotion, buttons: [{ label: 'OK', primary: true, onClick: () => { this.modal = Math.max(0, this.modal - 1); } }] });
-  }
-
-  private confirm(text: string, yes: string, onYes: () => void) {
-    this.modal += 1;
-    dialogue(this.ui, text, { reducedMotion: this.settings.reducedMotion, buttons: [
-      { label: yes, primary: true, onClick: () => { this.modal = Math.max(0, this.modal - 1); onYes(); } },
-      { label: 'Not yet', onClick: () => { this.modal = Math.max(0, this.modal - 1); } }
-    ] });
-  }
-
-  private sheet(title: string, body: Node[], onClose?: () => void) {
-    this.modal += 1;
-    const closeBtn = h('button', { class: 'btn', type: 'button', 'data-close': '' }, 'Close');
-    const el = h('div', { class: 'scrim center', 'data-sheet': '', role: 'dialog', 'aria-modal': 'true' }, h('div', { class: 'panel sheet' }, h('h2', {}, title), ...body, closeBtn));
-    const close = () => { el.remove(); this.modal = Math.max(0, this.modal - 1); };
-    closeBtn.addEventListener('click', () => { this.uiTap(); close(); onClose?.(); });
-    this.ui.append(el);
-    window.setTimeout(() => closeBtn.focus(), 30);
-    return close;
-  }
-
-  private openBag() {
-    const grid = h('div', { class: 'bag-grid' });
-    const info = h('p', { class: 'muted' }, 'Tap an item to see what it\'s for.');
-    const render = () => {
-      clear(grid);
-      this.bag.slots.forEach((s) => {
-        const cell = h('button', { class: 'bag-slot', type: 'button', 'aria-label': s ? `${this.itemName(s.id)}, ${s.count}` : 'Empty slot' }, s ? itemIcon(s.id) : '', s && s.count > 1 ? h('b', {}, String(s.count)) : '');
-        if (s) cell.addEventListener('click', () => {
-          const item = this.pack.items[s.id];
-          if (item?.snack) {
-            this.bag.remove(s.id); this.fluff.eat(item.snack);
-            info.textContent = `Yum! +${item.snack} Fluff.`; this.feedback('coin', 'light'); render(); this.refreshHud();
-          } else info.textContent = item?.home ? `${item.name}: it lives in the ${item.home}.` : `${item?.name ?? s.id}.`;
-        });
-        grid.append(cell);
-      });
-    };
-    render();
-    this.sheet('Bag', [grid, info]);
-  }
-
-  private openPause() {
-    if (this.ui.querySelector('[data-sheet]')) return;
-    const s = this.settings;
-    const toggle = (key: keyof Settings, label: string) => {
-      const b = h('button', { class: 'switch', role: 'switch', type: 'button', 'aria-checked': String(s[key]), 'aria-label': label });
-      b.addEventListener('click', () => {
-        (s as Record<string, boolean>)[key] = !s[key];
-        b.setAttribute('aria-checked', String(s[key]));
-        this.sound.enabled = s.sound; this.sound.musicOn = s.music;
-        if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
-        this.world.reducedMotion = s.reducedMotion;
-        void this.save(false);
-      });
-      return h('div', { class: 'row' }, h('span', { class: 'label' }, label), b);
-    };
-    const friends = h('button', { class: 'btn', type: 'button' }, '♥ Friends');
-    friends.addEventListener('click', () => { this.uiTap(); (this.ui.querySelector('[data-sheet] [data-close]') as HTMLElement | null)?.click(); this.openFriends(); });
-    const body: Node[] = [
-      friends,
-      h('div', { class: 'list' },
-        toggle('sound', 'Sound'), toggle('music', 'Music'), toggle('haptics', 'Haptics'),
-        toggle('reducedMotion', 'Reduce motion'), toggle('relaxed', 'Relaxed mode (half Fluff costs, no dozing off)'), toggle('autoTool', 'Pick the right tool for me'))
-    ];
-    if (this.onboarding.skippable) {
-      const skip = h('button', { class: 'btn small', type: 'button' }, 'Skip the tips');
-      skip.addEventListener('click', () => {
-        for (const step of this.onboarding.skip()) {
-          for (const t of step.grant ?? []) this.tools[t] = 1;
-          for (const [id, n] of Object.entries(step.items ?? {})) this.bag.add(id, n);
-        }
-        this.updateHighlight(); this.refreshHud(); skip.remove();
-      });
-      body.push(skip);
-    }
-    const restart = h('button', { class: 'btn small', type: 'button' }, 'Start over on this device');
-    restart.addEventListener('click', async () => { if (!window.confirm('Start a new game? This clears the town save on this device.')) return; await eraseTown(); location.reload(); });
-    body.push(h('p', { class: 'muted', style: { fontSize: '0.85rem' } }, `Milestone 1 test build · ${TUNING.townName}`), restart);
-    this.sheet('Paused', body);
-  }
-
   // ---- save --------------------------------------------------------------------------------
 
   private snapshot(): TownSave {
+    const s = this.state;
     const areas: TownSave['areas'] = {};
     for (const [id, m] of this.messes) areas[id] = m.snapshot();
     return stamp({
       deviceId: this.deviceId, day: this.clock.state.day, minutes: this.clock.state.minutes,
-      fluff: { value: this.fluff.value, max: this.fluff.max, boost: this.fluff.boost }, sparkles: this.sparkles,
-      bag: this.bag.slots, tools: this.tools, area: this.areaId, puff: { x: this.puff.x, y: this.puff.y, fx: this.puff.fx, fy: this.puff.fy, facing: this.puff.dir },
-      areas, crops: this.crops, flags: this.flags, friends: this.friends, onboarding: this.onboarding.step, chores: this.chores, requests: this.requests, settings: this.settings,
-      selected: this.selected, lastClean: this.lastClean
+      fluff: { value: s.fluff.value, max: s.fluff.max, boost: s.fluff.boost }, sparkles: s.sparkles,
+      bag: s.bag.slots, tools: s.tools, area: this.areaId, puff: { x: this.puff.x, y: this.puff.y, fx: this.puff.fx, fy: this.puff.fy, facing: this.puff.dir },
+      areas, crops: s.crops, flags: s.flags, friends: s.friends, onboarding: s.onboarding.step, chores: s.chores, requests: s.requests, settings: this.settings,
+      selected: this.selected, lastClean: s.lastClean
     });
   }
 
   async save(bedtime: boolean) { await writeTown(this.snapshot(), bedtime); }
 
   /** Load a save; returns Puff's exact saved feet position when there is one. */
-  private restore(s: TownSave): Pt | undefined {
-    this.clock.state = { day: s.day, minutes: Math.min(DAY_END, Math.max(DAY_START, s.minutes)) };
-    this.fluff = new Fluff(s.fluff.value, s.fluff.max, s.fluff.boost);
-    this.sparkles = s.sparkles;
-    this.bag = new Bag(s.bag.length ? s.bag : undefined);
-    this.tools = { hands: 1, ...s.tools };
-    this.crops = s.crops ?? [];
-    this.flags = s.flags ?? [];
-    this.friends = s.friends ?? {};
-    this.onboarding = new Onboarding(s.onboarding ?? 0, 0);
-    this.chores = s.chores ?? this.chores;
-    if (s.requests && typeof s.requests === 'object') this.requests = s.requests as RequestState;
-    this.lastClean = typeof s.lastClean === 'string' ? s.lastClean : 'none';
-    if (typeof s.selected === 'string') this.selected = s.selected as ToolId;
-    for (const [id, snap] of Object.entries(s.areas ?? {})) {
+  private restore(save: TownSave): Pt | undefined {
+    const s = this.state;
+    this.clock.state = { day: save.day, minutes: Math.min(DAY_END, Math.max(DAY_START, save.minutes)) };
+    s.fluff = new Fluff(save.fluff.value, save.fluff.max, save.fluff.boost);
+    s.sparkles = save.sparkles;
+    s.bag = new Bag(save.bag.length ? save.bag : undefined);
+    s.tools = { hands: 1, ...save.tools };
+    s.crops = save.crops ?? [];
+    s.flags = save.flags ?? [];
+    s.friends = save.friends ?? {};
+    s.onboarding = new Onboarding(save.onboarding ?? 0, 0);
+    s.chores = save.chores ?? s.chores;
+    if (save.requests && typeof save.requests === 'object') s.requests = save.requests as RequestState;
+    s.lastClean = typeof save.lastClean === 'string' ? save.lastClean : 'none';
+    if (typeof save.selected === 'string') this.selected = save.selected as ToolId;
+    for (const [id, snap] of Object.entries(save.areas ?? {})) {
       if (!this.areas.has(id)) continue;
       const m = this.messFor(id);
       try { m.load(snap); } catch { /* a bad area snapshot just starts that area fresh */ }
     }
-    const area = this.areas.get(s.area) ? s.area : 'burrow';
+    const area = this.areas.get(save.area) ? save.area : 'burrow';
     this.areaId = area;
     const a = this.areas.get(area)!;
-    const ok = a.walkable(s.puff.x, s.puff.y);
-    this.puff.x = ok ? s.puff.x : a.pack.spawn.x; this.puff.y = ok ? s.puff.y : a.pack.spawn.y;
-    this.puff.dir = s.puff.facing ?? 'down';
+    const ok = a.walkable(save.puff.x, save.puff.y);
+    this.puff.x = ok ? save.puff.x : a.pack.spawn.x; this.puff.y = ok ? save.puff.y : a.pack.spawn.y;
+    this.puff.dir = save.puff.facing ?? 'down';
     if (this.clock.state.minutes >= LATE_AT) this.hud?.setLate(true);
-    return ok && typeof s.puff.fx === 'number' && typeof s.puff.fy === 'number' ? { x: s.puff.fx, y: s.puff.fy } : undefined;
+    return ok && typeof save.puff.fx === 'number' && typeof save.puff.fy === 'number' ? { x: save.puff.fx, y: save.puff.fy } : undefined;
   }
 }
 
 function wait(ms: number) { return new Promise((r) => window.setTimeout(r, ms)); }
-
