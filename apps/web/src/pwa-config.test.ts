@@ -24,8 +24,8 @@ describe('PWA caching rules', () => {
     }
   });
 
-  it('precaches the bundled starter pack so a room plays offline', () => {
-    expect(workboxOptions.globPatterns).toContain('**/*.{js,css,html,png,svg,json,webmanifest}');
+  it('precaches the bundled starter pack, sprites and painted areas so the town plays offline', () => {
+    expect(workboxOptions.globPatterns).toContain('**/*.{js,css,html,png,webp,svg,json,webmanifest}');
   });
 
   it('ships installable icons', () => {

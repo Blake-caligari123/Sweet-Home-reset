@@ -136,6 +136,30 @@ class SheetTest(unittest.TestCase):
         manifest = json.load(open(os.path.join(spr, "manifest.json")))
         self.assertEqual((manifest["sheets"]["t_idle"]["frames"], manifest["sheets"]["t_blink"]["frames"]), (4, 2))
 
+    def test_background_is_padded_to_an_exact_tile_grid(self):
+        img = Image.new("RGB", (300, 150), (246, 227, 161)); ImageDraw.Draw(img).rectangle((20, 20, 280, 130), fill=(185, 147, 122))
+        src = os.path.join(tempfile.mkdtemp(), "room.png"); img.save(src)
+        tmp = tempfile.mkdtemp()
+        out = subprocess.run([sys.executable, SCRIPT, "test_room", "--raw", src, "--background", "5x3", "--tile-px", "64",
+                              "--keep-watermark", "--areas-dir", tmp], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stderr)
+        res = np.asarray(Image.open(os.path.join(tmp, "test_room.webp")).convert("RGBA"))
+        self.assertEqual(res.shape[:2], (192, 320))
+        self.assertEqual(res[185, 310, 3], 0, "padding is transparent")
+        self.assertEqual(res[5, 5, 3], 0, "ground around the building is transparent")
+        self.assertEqual(res[75, 150, 3], 255, "the building itself is solid")
+        self.assertIn("#F6E3A1", out.stdout)
+
+    def test_watermark_tinted_by_the_ground_beside_a_wall_is_still_removed(self):
+        img = Image.new("RGB", (400, 200), (253, 231, 171)); d = ImageDraw.Draw(img)
+        d.rectangle((0, 0, 365, 186), fill=(120, 80, 60))  # wall reaching into the corner
+        d.rectangle((0, 187, 380, 189), fill=(215, 190, 140))  # its shadow, running into the corner
+        d.text((384, 189), "G", fill=(200, 175, 120))  # the mark, tinted by the ground behind it
+        out, n = pa.remove_watermark(img)
+        self.assertGreater(n, 0)
+        a = np.asarray(out).astype(int)
+        self.assertTrue((a[150:180, 355:365] == [120, 80, 60]).all(), "wall untouched")
+
     def test_wrong_frame_count_is_a_clear_error(self):
         src = os.path.join(tempfile.mkdtemp(), "sheet.png"); bunny_sheet(n=5).save(src)
         _, out = self.run_cli(src)

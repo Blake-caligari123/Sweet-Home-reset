@@ -1,12 +1,12 @@
-import { Application, Container, Graphics, Sprite, Texture } from 'pixi.js';
+import { Application, Container, Graphics, Rectangle, Sprite, Texture } from 'pixi.js';
 import { P } from '../art/palette';
-import { PixelCanvas } from '../art/pixel-canvas';
 import { Particles } from '../scenes/particles';
-import { toCanvas, toTexture } from '../scenes/textures';
+import { toTexture } from '../scenes/textures';
 import { drawCrop, drawMess, drawPuff24, drawToolMini, T, type Dir } from './art';
 import { Ambience, drawTapRing, vignetteTexture } from './ambience';
 import type { Area } from './area';
 import { bakeArea } from './bake';
+import { paintedArea } from './backgrounds';
 import { FULL_COLOUR, type AreaMess } from './mess';
 import { blinkClip, breathScale, CLIP_FPS, puffClip, type SpriteBank } from './sprites';
 import { RIPPLE_MS } from './tuning';
@@ -58,7 +58,10 @@ export class World {
   private backdrop = new Graphics();
   private stage = new Container();
   private base = new Sprite();
-  private drained = new Sprite();
+  /** The grey overlay: one sprite per tile cut from the area's grey twin, alpha = how grey it still is. */
+  private drained = new Container();
+  private drainSprites: Sprite[] = [];
+  private owned: Texture[] = [];
   private messLayer = new Container();
   private cropLayer = new Container();
   readonly actors = new Container();
@@ -76,11 +79,6 @@ export class World {
   private toolSprite = new Sprite();
   private messSprites = new Map<number, Sprite>();
   private cropSprites = new Map<number, Sprite>();
-  private drainCanvas: HTMLCanvasElement | null = null;
-  private drainCtx: CanvasRenderingContext2D | null = null;
-  private drainImage: ImageData | null = null;
-  private drainedPixels: Uint8ClampedArray | null = null;
-  private drainTexture: Texture | null = null;
   private shownColour: Float32Array = new Float32Array(0);
   private area: Area | null = null;
   private mess: AreaMess | null = null;
@@ -102,22 +100,34 @@ export class World {
     this.actors.addChild(this.puffShadow, this.puff, this.toolSprite);
   }
 
-  /** Show an area: bake it, build the drained overlay from the colour array, place mess. */
+  /** Show an area: its painting (or baked tiles), the grey overlay from the colour array, mess. */
   load(area: Area, mess: AreaMess) {
     this.area = area; this.mess = mess;
-    const { colour, drained } = bakeArea(area);
-    this.base.texture?.destroy(true);
-    this.base.texture = toTexture(colour);
-    this.drainedPixels = drained.data;
-    this.drainCanvas = toCanvas(new PixelCanvas(colour.width, colour.height));
-    this.drainCtx = this.drainCanvas.getContext('2d')!;
-    this.drainImage = this.drainCtx.getImageData(0, 0, colour.width, colour.height);
+    // Textures this world made for the last area go; shared painted ones stay cached.
+    for (const t of this.owned) t.destroy(true);
+    this.owned = [];
+    const painted = paintedArea(area.pack.id);
+    let colourTex: Texture; let drainTex: Texture; let k = 1;
+    if (painted) {
+      colourTex = painted.colour; drainTex = painted.drained; k = painted.scale;
+    } else {
+      const { colour, drained } = bakeArea(area);
+      colourTex = toTexture(colour); drainTex = toTexture(drained);
+      this.owned.push(colourTex, drainTex);
+    }
+    this.base.texture = colourTex;
+    this.base.scale.set(1 / k);
+    this.drained.removeChildren().forEach((c) => c.destroy());
+    this.drainSprites = [];
+    for (let i = 0; i < area.w * area.h; i += 1) {
+      const x = i % area.w; const y = Math.floor(i / area.w);
+      const tile = new Texture({ source: drainTex.source, frame: new Rectangle(x * T * k, y * T * k, T * k, T * k) });
+      const sprite = new Sprite(tile);
+      sprite.position.set(x * T, y * T); sprite.scale.set(1 / k);
+      this.drained.addChild(sprite); this.drainSprites.push(sprite);
+    }
     this.shownColour = Float32Array.from(mess.colour);
     for (let i = 0; i < mess.colour.length; i += 1) this.paintDrainTile(i, mess.colour[i]);
-    this.drainCtx.putImageData(this.drainImage, 0, 0);
-    this.drainTexture?.destroy(true);
-    this.drainTexture = Texture.from(this.drainCanvas);
-    this.drained.texture = this.drainTexture;
     this.syncDrainedVisible();
     this.messLayer.removeChildren().forEach((c) => c.destroy());
     this.messSprites.clear();
@@ -130,17 +140,10 @@ export class World {
   }
 
   private paintDrainTile(i: number, level: number) {
-    if (!this.area || !this.drainImage || !this.drainedPixels) return;
-    const tx = (i % this.area.w) * T; const ty = Math.floor(i / this.area.w) * T;
-    const w = this.area.w * T;
-    const alpha = Math.round(255 * Math.max(0, Math.min(1, (FULL_COLOUR - level) / FULL_COLOUR)));
-    const d = this.drainImage.data; const s = this.drainedPixels;
-    for (let y = ty; y < ty + T; y += 1) {
-      for (let x = tx; x < tx + T; x += 1) {
-        const k = (y * w + x) * 4;
-        d[k] = s[k]; d[k + 1] = s[k + 1]; d[k + 2] = s[k + 2]; d[k + 3] = s[k + 3] ? alpha : 0;
-      }
-    }
+    const sprite = this.drainSprites[i];
+    if (!sprite) return;
+    sprite.alpha = Math.max(0, Math.min(1, (FULL_COLOUR - level) / FULL_COLOUR));
+    sprite.visible = sprite.alpha > 0;
   }
 
   /** Bring one tile's mess sprite in line with the mess arrays. */
@@ -163,14 +166,11 @@ export class World {
 
   /** Colour changed on these tiles: animate the drained overlay toward the new levels. */
   colourChanged(tiles: number[]) {
-    if (this.reducedMotion || !this.drainCtx) { for (const i of tiles) this.shownColour[i] = this.mess!.colour[i]; this.redrawTiles(tiles); }
+    if (this.reducedMotion) { for (const i of tiles) this.shownColour[i] = this.mess!.colour[i]; this.redrawTiles(tiles); }
   }
 
   private redrawTiles(tiles: number[]) {
-    if (!this.drainCtx || !this.drainImage || !this.area) return;
     for (const i of tiles) this.paintDrainTile(i, this.shownColour[i]);
-    this.drainCtx.putImageData(this.drainImage, 0, 0);
-    this.drainTexture?.source.update();
     this.syncDrainedVisible();
   }
 

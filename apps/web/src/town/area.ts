@@ -10,6 +10,8 @@ export interface AreaPack {
   id: string; name: string; kind: 'home' | 'outdoor'; drained: boolean; edge: string; theme: Theme;
   legend: Record<string, Ground>; map: string[]; props: PropDef[]; doors: Door[]; mess: MessDef[];
   spawn: { x: number; y: number }; restoreReward?: number; signs?: { x: number; y: number; text: string }[];
+  /** A painted background (Blake's art) instead of code-drawn tiles: `scale` painting px per world px. */
+  background?: { src: string; scale: number };
 }
 
 export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string }> }
@@ -72,6 +74,7 @@ export function validateTownPack(input: unknown): TownPack {
       if (!ids.has(d.to) && !d.closedText) throw new Error(`area ${a.id}: door to unknown area ${d.to}`);
       if (![d.x, d.y, d.toX, d.toY].every(isNum)) throw new Error(`area ${a.id}: door coords`);
     }
+    if (a.background && (typeof a.background.src !== 'string' || !isNum(a.background.scale) || a.background.scale <= 0)) throw new Error(`area ${a.id}: background`);
     const area = new Area(a);
     if (!area.walkable(a.spawn.x, a.spawn.y)) throw new Error(`area ${a.id}: spawn is blocked`);
     for (const d of a.doors) {

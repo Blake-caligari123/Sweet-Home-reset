@@ -37,13 +37,16 @@ def remove_watermark(img):
     import cv2
     rgb = np.asarray(img.convert("RGB")).copy()
     h, w = rgb.shape[:2]
-    x0, y0 = int(w * 0.88), int(h * 0.90)
+    # Grok always puts its logo in the same small box in the bottom-right corner. It takes on a tint
+    # of whatever is behind it, so find it by contrast with the box's background colour.
+    x0, y0 = int(w * 0.905), int(h * 0.93)
     reg = rgb[y0:, x0:].astype(np.float32)
-    bgc = np.median(reg.reshape(-1, 3), axis=0)
-    d = np.linalg.norm(reg - bgc, axis=2)
+    from scipy import ndimage
+    # Compare with the local background (a wide median), so soft shadows don't count as marks.
+    local = np.stack([ndimage.median_filter(reg[..., c], size=31, mode="nearest") for c in range(3)], -1)
+    d = np.linalg.norm(reg - local, axis=2)
     m = d > 25
     # Marks touching the corner's top or left edge are part of the art (a sprite's feet), not the logo.
-    from scipy import ndimage
     lab, _ = ndimage.label(m)
     art_ids = np.unique(np.concatenate([lab[0], lab[:, 0]])); art_ids = art_ids[art_ids > 0]
     art = np.isin(lab, art_ids)
@@ -639,6 +642,47 @@ def run_sheet(a):
     print("\n".join(report))
 
 
+# ---- painted area backgrounds --------------------------------------------------------------------
+
+AREAS_PUBLIC = os.path.join(ROOT, "apps", "web", "public", "areas")
+
+
+def fit_background(img, cols, rows, tile_px, edge):
+    """Pad (or crop) a painting to exactly cols×rows tiles of tile_px, anchored top-left. The ground
+    around the building (connected to the picture's border) and the padding become transparent:
+    the game fills them with the area's edge colour and never greys them."""
+    W, H = cols * tile_px, rows * tile_px
+    cut, _ = cutout(img, "floodfill")
+    out = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    out.paste(cut.crop((0, 0, min(W, cut.width), min(H, cut.height))), (0, 0))
+    return out
+
+
+def run_background(a):
+    """--background COLSxROWS: a painted area for the town (see claude/SPRITE-SHEETS.md)."""
+    name = a.asset
+    if not re.fullmatch(r"[a-z0-9]+(_[a-z0-9]+)*", name):
+        sys.exit(f"Area names are lowercase snake_case, got '{name}'")
+    cols, rows = map(int, a.background.lower().split("x"))
+    raw = a.raw or next((os.path.join(ART, "areas", "raw", name + e) for e in (".png", ".jpg", ".jpeg", ".webp")
+                         if os.path.exists(os.path.join(ART, "areas", "raw", name + e))), None)
+    if not raw:
+        sys.exit(f"No raw painting at art/areas/raw/{name}.(png|jpg|webp); pass --raw")
+    img = Image.open(raw).convert("RGB")
+    edge = np.median(np.asarray(img)[:8, :8].reshape(-1, 3), axis=0)
+    if not a.keep_watermark:
+        img, n = remove_watermark(img); print(f"watermark removed (inpainted {n} px, per Blake overrule)")
+    out = fit_background(img, cols, rows, a.tile_px, edge)
+    os.makedirs(a.areas_dir, exist_ok=True)
+    dst = os.path.join(a.areas_dir, name + ".webp")
+    out.save(dst, "WEBP", quality=90, method=6)
+    hx = "#%02X%02X%02X" % tuple(int(v) for v in edge)
+    print(f"wrote {dst} ({out.width}x{out.height} = {cols}x{rows} tiles of {a.tile_px} px, {os.path.getsize(dst) // 1024} KB); edge colour {hx}")
+    if a.log:
+        spec = dict(stem=name, file=os.path.relpath(dst, ROOT), prompt_file="claude/SPRITE-SHEETS.md")
+        print(log_licence(spec, dst, a.keep_watermark))
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("asset", help="asset id: stem (puff_model_sheet), number (1/01) or prompt file stem")
@@ -666,8 +710,13 @@ def main():
     p.add_argument("--rows", help="sheet: the source has one sheet per row; comma list of their names, top to bottom ('-' skips a row; write --rows=-,name when the first row is skipped)")
     p.add_argument("--order", help="sheet: which source frames to keep and in what order, 1-based, e.g. 1,3,5,6 (repeats allowed)")
     p.add_argument("--hires", type=int, metavar="S", help="sheet: keep the art's own colours at S texture px per world px (no palette or pixel shrink)")
+    p.add_argument("--background", metavar="COLSxROWS", help="painted area: pad/crop to this many tiles and write apps/web/public/areas/<name>.webp")
+    p.add_argument("--tile-px", type=int, default=64, help="background: painting pixels per tile (default 64 = 4 per world px)")
+    p.add_argument("--areas-dir", default=AREAS_PUBLIC, help="background: output dir (default apps/web/public/areas)")
     p.add_argument("--sprites-dir", default=SPRITES_PUBLIC, help="sheet: engine output dir (default apps/web/public/sprites)")
     a = p.parse_args()
+    if a.background:
+        return run_background(a)
     if a.sheet:
         if a.out == DEFAULT_OUT:
             a.out = SPRITE_ART

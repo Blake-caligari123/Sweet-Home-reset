@@ -51,3 +51,12 @@ Swap in the sheet line from the table above. Attach Puff's model sheet as the re
 > Pixel art sprite sheet of Puff, a small round fluffy dust bunny: soft grey fur, cream face and belly, two tall upright ears with peach inner ears, big dark eyes with a white shine, peach blush, small smile, little tan feet, round white tail. Same character as the reference image. **[SHEET: e.g. "6-frame walk cycle seen from the front, walking toward the camera, feet alternating"]**. Frames in one horizontal row, evenly spaced, identical size and scale, not touching, all on the same ground line. Plain flat bright magenta background (#FF00FF), no floor, no shadow, no text. Cosy top-down game sprite, chunky readable shapes, crisp hard-edged square pixels, flat colour with one shade step, soft top-left light, 1-pixel warm-brown outline (#8A6E5E), limited warm pastel palette. No anti-aliasing, no blur, no gradients, no dithering, no painterly texture. Original character, not resembling any existing mascot. Negative: photorealism, watercolour, 3D render, text, watermark, background scenery.
 
 For neighbours, replace the first sentence with their description from `claude/STORY.md` §3 and keep the rest.
+
+## Painted areas (backgrounds)
+Decided 27 Oct 2026 (Blake): areas are Grok paintings too, so the whole game looks consistent. The burrow is done; the yard, square and bakery prompts are in the chat log of that day (same style block, burrow attached as the reference).
+1. Save the painting as `art/areas/raw/<area>.jpg`.
+2. `tools/.venv/bin/python tools/process_asset.py <area> --background COLSxROWS --log` (64 painting px per tile, so a 1792×1008 painting is 28×16 tiles). It removes the Grok mark, makes the ground outside the building transparent (the game fills it with the area's `edge` colour and never greys it), pads to the exact grid and writes `apps/web/public/areas/<area>.webp`.
+3. In the pack, give the area `"background": { "src": "areas/<area>.webp", "scale": 4 }`, set `edge` to the colour the tool prints, and trace the map over the painting (walls `#`, floor, rugs `,` for the onboarding, doors). Props stay in the pack as invisible blockers and for their actions (bed, basket, shelf, sink); lamps also place the night glow.
+4. The grey "messy" version is made in code from the painting, per tile; mess is drawn by the game on top.
+Later: furniture tops and tree canopies cut into a front layer so Puff can walk behind them.
+

@@ -107,6 +107,15 @@ export class AreaMess {
 
   load(s: ReturnType<AreaMess['snapshot']>) {
     const n = this.w * this.h;
+    const runs = (r: number[]) => r.reduce((sum, v, i) => (i % 2 ? sum + v : sum), 0);
+    if (runs(s.type) !== n || runs(s.colour) !== n) {
+      // The area was redrawn with a different grid since this save. Tiles can't be matched up, so
+      // keep what matters: a restored area stays restored; anything else starts fresh.
+      if (!s.restored) throw new Error('area size changed');
+      this.type.fill(0); this.hp.fill(0); this.colour.fill(FULL_COLOUR); this.item.fill(undefined);
+      this.total = s.total; this.restored = true;
+      return;
+    }
     this.type.set(unrle(s.type, n)); this.hp.set(unrle(s.hp, n)); this.colour.set(unrle(s.colour, n));
     this.item.fill(undefined);
     for (const [i, v] of s.items) this.item[i] = v;

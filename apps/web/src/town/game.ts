@@ -19,7 +19,6 @@ import { cropDays, PUTAWAY_SPARKLES, SWING_MS, TUNING, WALK_SPEED, WALK_SPEED_TI
 import type { SpriteBank } from './sprites';
 import { World } from './world';
 
-const BED_TILE = { area: 'burrow', x: 3, y: 4 };
 
 type Target =
   | { kind: 'walk'; x: number; y: number }
@@ -88,6 +87,7 @@ export class TownGame {
     ui.append(this.fade);
     this.deviceId = (saved?.deviceId as string) ?? (crypto.randomUUID?.() ?? String(Math.random()).slice(2));
     if (saved) this.restore(saved);
+    else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
     this.world.reducedMotion = settings.reducedMotion;
     this.enterArea(this.areaId, this.puff.x, this.puff.y, false);
     this.bindInput();
@@ -478,7 +478,9 @@ export class TownGame {
     if (dozed) this.fluff.doze(); else this.fluff.sleep();
     for (const c of this.crops) { if (c.watered) c.days += 1; c.watered = false; }
     this.hud.setLate(false);
-    this.enterArea(BED_TILE.area, BED_TILE.x, BED_TILE.y, false);
+    // Wake up beside the bed: the burrow's spawn tile.
+    const bed = this.areas.get('burrow')!.pack.spawn;
+    this.enterArea('burrow', bed.x, bed.y, false);
     this.puff.dir = 'down';
     await this.save(true);
     this.fade.classList.remove('on', 'night');
