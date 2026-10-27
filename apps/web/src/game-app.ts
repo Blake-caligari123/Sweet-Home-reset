@@ -5,7 +5,7 @@ import { PROPS } from './art/props';
 import { drawPuff, type Outfit } from './art/puff';
 import { createFeedback, type FeedbackEvent } from './fx/feedback';
 import type { Sound } from './fx/sound';
-import { line, type LineKey } from './game/lines';
+import { line } from './game/lines';
 import type { DecorDef, Pack, RoomDef } from './game/pack';
 import {
   BOOST_COST, buy, choresDoneToday, isUnlocked, localDate, REWARD, rewardRoom, rewardTask, roomState,

@@ -7,7 +7,7 @@ import { PixelCanvas } from '../art/pixel-canvas';
 import { drawDustBunny, drawItem } from '../art/props';
 import type { Outfit } from '../art/puff';
 import { drawDecor, drawRoom, drawStageOverlay } from '../art/room-art';
-import { drawTool, TOOL_SIZE, type Tool } from '../art/tools';
+import { drawTool, type Tool } from '../art/tools';
 import { Combo } from '../game/combo';
 import { line, type LineKey } from '../game/lines';
 import { ROOM_H, ROOM_W, type DecorDef, type Point, type RoomDef, type StageEffect } from '../game/pack';

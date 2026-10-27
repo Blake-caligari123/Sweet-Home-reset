@@ -49,17 +49,21 @@ export interface OutfitDef { itemId: 'apron' | 'scarf' | 'beanie'; name: string;
 
 export interface Pack { schemaVersion: 1; id: string; version: number; title: string; tier: 'free' | 'plus'; rooms: RoomDef[]; outfits: OutfitDef[] }
 
+// Untrusted pack JSON, checked field by field below before it's treated as a Pack.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Raw = any;
+
 const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
 const isStr = (v: unknown): v is string => typeof v === 'string' && v.length > 0 && v.length < 200;
-const isRect = (v: any) => v && isNum(v.x) && isNum(v.y) && isNum(v.w) && isNum(v.h) && v.w > 0 && v.h > 0;
-const isPoint = (v: any) => v && isNum(v.x) && isNum(v.y);
-const inRoom = (v: any) => v.x >= -20 && v.y >= -20 && v.x <= ROOM_W + 20 && v.y <= ROOM_H + 20;
+const isRect = (v: Raw) => v && isNum(v.x) && isNum(v.y) && isNum(v.w) && isNum(v.h) && v.w > 0 && v.h > 0;
+const isPoint = (v: Raw) => v && isNum(v.x) && isNum(v.y);
+const inRoom = (v: Raw) => v.x >= -20 && v.y >= -20 && v.x <= ROOM_W + 20 && v.y <= ROOM_H + 20;
 
 function check(ok: unknown, message: string): asserts ok {
   if (!ok) throw new Error(message);
 }
 
-function validateTask(t: any, where: string) {
+function validateTask(t: Raw, where: string) {
   check(t && isStr(t.id) && isStr(t.label), `${where}: task needs id and label`);
   if (t.type === 'scrub' || t.type === 'wipe') {
     check(Array.isArray(t.areas) && t.areas.length > 0 && t.areas.length <= 12 && t.areas.every(isRect), `${where}: bad areas`);
@@ -72,11 +76,11 @@ function validateTask(t: any, where: string) {
     check(Array.isArray(t.bunnies) && t.bunnies.length >= 1 && t.bunnies.length <= 12 && t.bunnies.every(isPoint), `${where}: bad bunnies`);
   } else if (t.type === 'sort') {
     check(Array.isArray(t.bins) && t.bins.length >= 1 && t.bins.length <= 4, `${where}: bad bins`);
-    t.bins.forEach((b: any) => check(isRect(b) && isStr(b.id) && isStr(b.label) && Array.isArray(b.accepts) && b.accepts.every(isStr), `${where}: bad bin`));
+    t.bins.forEach((b: Raw) => check(isRect(b) && isStr(b.id) && isStr(b.label) && Array.isArray(b.accepts) && b.accepts.every(isStr), `${where}: bad bin`));
     check(Array.isArray(t.items) && t.items.length >= 1 && t.items.length <= 10, `${where}: bad items`);
-    t.items.forEach((i: any) => {
+    t.items.forEach((i: Raw) => {
       check(isPoint(i) && isStr(i.kind), `${where}: bad item`);
-      check(t.bins.some((b: any) => b.accepts.includes(i.kind)), `${where}: item ${i.kind} has no bin`);
+      check(t.bins.some((b: Raw) => b.accepts.includes(i.kind)), `${where}: item ${i.kind} has no bin`);
     });
   } else {
     throw new Error(`${where}: unknown task type`);
@@ -85,7 +89,7 @@ function validateTask(t: any, where: string) {
 
 /** Throws on anything malformed; callers catch and fall back (FRONTEND-PLAN §6). */
 export function validatePack(input: unknown): Pack {
-  const p = input as any;
+  const p = input as Raw;
   check(p && p.schemaVersion === 1 && isStr(p.id) && isNum(p.version) && isStr(p.title), 'pack header');
   check(p.tier === 'free' || p.tier === 'plus', 'pack tier');
   check(Array.isArray(p.rooms) && p.rooms.length >= 1 && p.rooms.length <= 6, 'pack rooms');
@@ -94,11 +98,11 @@ export function validatePack(input: unknown): Pack {
     const where = `room ${r?.id}`;
     check(r && isStr(r.id) && isStr(r.title) && isStr(r.blurb) && r.theme && isNum(r.theme.wallHeight), `${where}: header`);
     check(Array.isArray(r.layers) && r.layers.length <= 40, `${where}: layers`);
-    r.layers.forEach((l: any) => check(l && l.prop in PROPS && isPoint(l) && inRoom(l), `${where}: bad layer ${l?.prop}`));
+    r.layers.forEach((l: Raw) => check(l && l.prop in PROPS && isPoint(l) && inRoom(l), `${where}: bad layer ${l?.prop}`));
     check(Array.isArray(r.tasks) && r.tasks.length >= 1 && r.tasks.length <= 5, `${where}: tasks`);
-    r.tasks.forEach((t: any) => validateTask(t, where));
-    check(Array.isArray(r.chores) && r.chores.every((c: any) => isStr(c.choreKey) && isStr(c.label) && (c.size === 'tiny' || c.size === 'quick')), `${where}: chores`);
-    check(Array.isArray(r.decor) && r.decor.every((d: any) => isStr(d.itemId) && isStr(d.name) && d.prop in PROPS && isPoint(d) && isNum(d.price) && d.price > 0), `${where}: decor`);
+    r.tasks.forEach((t: Raw) => validateTask(t, where));
+    check(Array.isArray(r.chores) && r.chores.every((c: Raw) => isStr(c.choreKey) && isStr(c.label) && (c.size === 'tiny' || c.size === 'quick')), `${where}: chores`);
+    check(Array.isArray(r.decor) && r.decor.every((d: Raw) => isStr(d.itemId) && isStr(d.name) && d.prop in PROPS && isPoint(d) && isNum(d.price) && d.price > 0), `${where}: decor`);
     check(Array.isArray(r.puffLines) && r.puffLines.every(isStr), `${where}: lines`);
     check(isPoint(r.puff) && isRect(r.walk), `${where}: puff`);
   }
