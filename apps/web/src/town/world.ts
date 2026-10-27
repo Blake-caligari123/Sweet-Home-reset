@@ -8,7 +8,7 @@ import type { Area } from './area';
 import { bakeArea } from './bake';
 import { paintedArea } from './backgrounds';
 import { FULL_COLOUR, type AreaMess } from './mess';
-import { blinkClip, breathScale, CLIP_FPS, puffClip, type SpriteBank } from './sprites';
+import { blinkClip, breathScale, CLIP_FPS, messSprite, puffClip, type SpriteBank } from './sprites';
 import { RIPPLE_MS } from './tuning';
 
 // The world layer (FRONTEND-PLAN §3): baked ground, a drained overlay whose per-tile alpha
@@ -157,9 +157,14 @@ export class World {
       return;
     }
     const name = ['none', 'dust', 'stain', 'grime', 'cobweb', 'crumbs', 'fog', 'clutter', 'weeds', 'mud'][type];
-    const tex = messTexture(name, i, this.mess.item[i]);
-    if (existing) { existing.texture = tex; return; }
-    const sprite = new Sprite(tex);
+    // Blake's art when its sheet has loaded (drawn at world size), else the code-drawn placeholder.
+    const bank = this.sprites;
+    const art = bank && messSprite(name, i, this.mess.item[i], bank.has, (n) => bank.frames(n)!.length);
+    const tex = art ? bank!.frames(art.name)![art.frame] : messTexture(name, i, this.mess.item[i]);
+    const k = art ? 1 / bank!.scale(art.name) : 1;
+    const sprite = existing ?? new Sprite(tex);
+    sprite.texture = tex; sprite.scale.set(k);
+    if (existing) return;
     sprite.position.set((i % this.area.w) * T, Math.floor(i / this.area.w) * T);
     this.messLayer.addChild(sprite);
     this.messSprites.set(i, sprite);
@@ -265,7 +270,10 @@ export class World {
   get puffHeight() { return Math.abs(this.puff.height); }
 
   /** Character sprite sheets as they arrive; until then Puff is code-drawn. */
-  setSprites(bank: SpriteBank) { this.sprites = bank; }
+  setSprites(bank: SpriteBank) {
+    this.sprites = bank;
+    if (this.mess) for (let i = 0; i < this.mess.type.length; i += 1) this.syncMess(i);
+  }
 
   drawPuff(v: PuffView, dt: number) {
     this.animClock += dt;

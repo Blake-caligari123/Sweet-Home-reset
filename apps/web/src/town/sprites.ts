@@ -54,6 +54,32 @@ export function puffClip(dir: Dir, pose: PuffPose, has: (name: string) => boolea
   }
 }
 
+/** Which sheet and frame draws a mess tile: the item's own art for clutter, else a variant of the mess type. */
+export function messSprite(type: string, tile: number, item: string | undefined, has: (name: string) => boolean, frames: (name: string) => number): { name: string; frame: number } | null {
+  if (type === 'clutter' && item && has(`item_${item}`)) return { name: `item_${item}`, frame: 0 };
+  const name = `mess_${type}`;
+  if (!has(name)) return null;
+  // Spread the variants so neighbouring tiles rarely match.
+  return { name, frame: ((tile * 7) ^ (tile >> 3)) % frames(name) };
+}
+
+let iconBank: SpriteBank | null = null;
+/** Sheets loaded for the game also draw the DOM icons (the bag). */
+export function setIconBank(bank: SpriteBank) { iconBank = bank; }
+
+/** A sprite frame as a canvas for the DOM, sized cssPx square; null until the sheet has loaded. */
+export function spriteIcon(name: string, cssPx: number, label?: string): HTMLCanvasElement | null {
+  const tex = iconBank?.frames(name)?.[0];
+  const src = tex?.source.resource as CanvasImageSource | undefined;
+  if (!tex || !src) return null;
+  const c = document.createElement('canvas');
+  c.width = tex.frame.width; c.height = tex.frame.height;
+  c.getContext('2d')!.drawImage(src, tex.frame.x, tex.frame.y, tex.frame.width, tex.frame.height, 0, 0, tex.frame.width, tex.frame.height);
+  c.style.width = `${cssPx}px`; c.style.height = `${cssPx}px`;
+  if (label) { c.setAttribute('role', 'img'); c.setAttribute('aria-label', label); } else c.setAttribute('aria-hidden', 'true');
+  return c;
+}
+
 /** The blink sheet for this facing, if there is one (blinks play over idle). */
 export function blinkClip(dir: Dir, has: (name: string) => boolean): Clip | null {
   const name = `puff_blink_${sideOf(dir)}`;
