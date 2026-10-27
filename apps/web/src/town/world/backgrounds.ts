@@ -1,6 +1,6 @@
 import { Texture } from 'pixi.js';
-import { dullen } from '../../art/dull';
-import { PixelCanvas } from '../../art/pixel-canvas';
+import { dullen } from '../../shared/art/dull';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
 import { T } from './art';
 import type { TownPack } from '../data/area';
 

@@ -1,4 +1,4 @@
-import { seeded } from '../../art/pixel-canvas';
+import { seeded } from '../../shared/art/pixel-canvas';
 import type { Area } from '../data/area';
 import type { AreaMess, MessSpot, MessType } from '../play/mess';
 import { TUNING } from '../data/tuning';

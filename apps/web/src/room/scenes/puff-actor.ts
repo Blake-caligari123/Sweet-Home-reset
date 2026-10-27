@@ -1,7 +1,7 @@
 import { Sprite, type Texture } from 'pixi.js';
-import { buildPuffSheet, PUFF_SIZE, type Outfit } from '../art/puff';
+import { buildPuffSheet, PUFF_SIZE, type Outfit } from '../../shared/art/puff';
 import type { Point, Rect } from '../game/pack';
-import { subTextures, toTexture } from './textures';
+import { subTextures, toTexture } from '../../shared/render/textures';
 
 type Clip = 'idle' | 'blink' | 'hop' | 'walk_down' | 'walk_up' | 'walk_right' | 'sneeze' | 'sleepy' | 'spin';
 const FPS: Record<Clip, number> = { idle: 5, blink: 14, hop: 14, walk_down: 10, walk_up: 10, walk_right: 10, sneeze: 9, sleepy: 2, spin: 8 };

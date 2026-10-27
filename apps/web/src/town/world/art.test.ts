@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { P } from '../../art/palette';
-import { PixelCanvas } from '../../art/pixel-canvas';
+import { P } from '../../shared/art/palette';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
 import { drawGround, type Ground, type Theme } from './art';
 import { isNight } from './ambience';
 

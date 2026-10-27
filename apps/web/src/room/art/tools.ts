@@ -1,5 +1,5 @@
-import { P } from './palette';
-import { PixelCanvas } from './pixel-canvas';
+import { P } from '../../shared/art/palette';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
 
 export type Tool = 'sponge' | 'squeegee' | 'duster' | 'vacuum' | 'hand';
 export const TOOL_SIZE = 18;

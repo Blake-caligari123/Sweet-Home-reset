@@ -1,5 +1,5 @@
-import { P } from '../../art/palette';
-import { PixelCanvas, seeded } from '../../art/pixel-canvas';
+import { P } from '../../shared/art/palette';
+import { PixelCanvas, seeded } from '../../shared/art/pixel-canvas';
 
 // Code-drawn placeholder art at the GDD v3 sizes: 16 px tiles, a 24 px Puff in the world.
 // Art is parked (CLAUDE.md), so everything here is drawn from palette24 until real sprites land.

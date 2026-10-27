@@ -1,4 +1,4 @@
-import { seeded } from '../../art/pixel-canvas';
+import { seeded } from '../../shared/art/pixel-canvas';
 import { isBlockedGround, type Ground, type PropDef, type Theme } from '../world/art';
 import type { MessSpot } from '../play/mess';
 import type { NeighbourDef } from '../neighbours/neighbours';

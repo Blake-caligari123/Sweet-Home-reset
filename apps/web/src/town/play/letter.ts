@@ -1,4 +1,4 @@
-import { localDate } from '../../game/profile';
+import { localDate } from '../../shared/date';
 import { TUNING } from '../data/tuning';
 import type { TownState } from '../state';
 import type { View } from '../ui/view';

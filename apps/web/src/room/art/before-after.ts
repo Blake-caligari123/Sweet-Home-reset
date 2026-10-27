@@ -1,6 +1,6 @@
 import { drawCrumb } from './crumbs';
-import { dingeAlpha, dingeLayer, dullen } from './dull';
-import { PixelCanvas } from './pixel-canvas';
+import { dingeAlpha, dingeLayer, dullen } from '../../shared/art/dull';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
 import { drawDustBunny, drawItem, ITEM_SIZE } from './props';
 import { drawDecor, drawRoom, drawStageOverlay } from './room-art';
 import { DirtMap } from '../game/dirt';

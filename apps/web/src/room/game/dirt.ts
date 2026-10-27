@@ -1,5 +1,5 @@
-import { P, rgb } from '../art/palette';
-import { seeded } from '../art/pixel-canvas';
+import { P, rgb } from '../../shared/art/palette';
+import { seeded } from '../../shared/art/pixel-canvas';
 import { ROOM_H, ROOM_W, type Rect, type TaskDef } from './pack';
 
 // Dirt lives on the room's 1x pixel grid (180×390) so the reveal always snaps to whole pixels.

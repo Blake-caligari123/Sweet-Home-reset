@@ -1,7 +1,7 @@
 import { Container, Sprite, Texture, type Graphics } from 'pixi.js';
-import { P } from '../../art/palette';
-import { PixelCanvas } from '../../art/pixel-canvas';
-import { toTexture } from '../../scenes/textures';
+import { P } from '../../shared/art/palette';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
+import { toTexture } from '../../shared/render/textures';
 import { T } from './art';
 import type { Area } from '../data/area';
 

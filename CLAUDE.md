@@ -26,13 +26,15 @@ A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the 
 - Credit "Some art created with Grok Imagine" in Settings > About and the store listing; log assets in `claude/LICENCES.md`.
 
 ## Commands
-- `npm test` (Vitest, incl. `@cloudflare/vitest-pool-workers`), `npm run build`, `npx playwright test`
+- `npm test` (Vitest, incl. `@cloudflare/vitest-pool-workers`), `npm run lint`, `npm run typecheck`, `npm run build`, `npx playwright test`
 - `npm run pack:build {id}`, `npm run pack:preview {id}`
 - `npx cap sync`, then build in Xcode / Android Studio
 - Art: `tools/.venv/bin/python tools/process_asset.py <name> --sheet N --hires 6 --frame 24x28 [--rows a,b,c] --log` for character sheets; `--pixel room|puff|prop` for the older modes (see `tools/README.md`). Tool tests: `tools/.venv/bin/python -m unittest discover tools`
 
 ## Folder map
-- `claude/`: design and build docs: SPRITE-SHEETS, GAME-DESIGN, FRONTEND-PLAN, BACKEND-PLAN, ASSET-PROMPTS (+ `asset-prompts/01–99`), PIXEL-ART-SPEC, PUFF-ANIMATION-TASKS, LICENCES, STORE-PRICES, IARC-ANSWERS, BUSINESS-IDEAS, STORY.md, `config/` (app.json, pricing.json, tuning.json), `gdd-v3/` (section sources; rebuild A11 with `python3 ../tools/merge_gdd_v3.py` from `claude/`), `prompts/` (build steps)
+- `apps/web/src/`: `town/` (the town game, `/test/` link) in feature folders: `data/`, `world/`, `play/`, `neighbours/`, `requests/`, `ui/`, with `game.ts` as the coordinator. `room/` is the original room game (main link, frozen). `shared/` holds code both use. How the pieces fit and how to add a feature: `docs/ARCHITECTURE.md`. Tests sit beside their files (`*.test.ts`).
+- `config/pricing.json`: the only place prices live.
+- `claude/`: design and build docs: SPRITE-SHEETS, GAME-DESIGN, FRONTEND-PLAN, BACKEND-PLAN, M2-PLAN, DIALOGUE-REVIEW, ASSET-PROMPTS (+ `asset-prompts/01–99`), PIXEL-ART-SPEC, PUFF-ANIMATION-TASKS, LICENCES, STORE-PRICES, IARC-ANSWERS, BUSINESS-IDEAS, STORY.md, `config/tuning.json`, `gdd-v3/` (section sources; rebuild A11 with `python3 ../tools/merge_gdd_v3.py` from `claude/`), `prompts/` (build steps)
 - `art/`: source images and previews (`sprites/raw/` Blake's original sheets, `sprites/*_x4.png` pixel-art previews, `_drafts/`); engine sprite strips in `apps/web/public/sprites/`
 - `tools/`: `process_asset.py`, `palette24.json`, `README.md`
 - Root `GAME-DESIGN.md`, `BUILD-SPEC.md`: early concept docs; `claude/` wins where they differ.

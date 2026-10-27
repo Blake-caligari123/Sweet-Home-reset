@@ -41,6 +41,9 @@ jobs:
       - name: Test
         run: npm test --workspace @sweet-home-reset/web
 
+      - name: Lint
+        run: npm run lint --workspace @sweet-home-reset/web
+
       - name: Check initial JS size (300 KB gzipped per page)
         run: |
           npm run build --workspace @sweet-home-reset/web

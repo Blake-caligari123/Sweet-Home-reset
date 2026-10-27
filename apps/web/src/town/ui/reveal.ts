@@ -1,5 +1,5 @@
-import { makeClip, shareFile } from '../../share/clip';
-import { h } from '../../ui/dom';
+import { makeClip, shareFile } from '../../shared/share/clip';
+import { h } from '../../shared/ui/dom';
 import type { Area } from '../data/area';
 import { bakeArea } from '../world/bake';
 import { drawMess, T } from '../world/art';

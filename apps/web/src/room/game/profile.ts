@@ -1,5 +1,5 @@
 import { DAILY_CHORE_REWARD_CAP } from '@sweet-home-reset/shared';
-import type { Outfit } from '../art/puff';
+import type { Outfit } from '../../shared/art/puff';
 import type { RoomDef } from './pack';
 import type { SessionSave } from './session';
 
@@ -54,10 +54,7 @@ export function migrate(raw: unknown, reducedMotion = false): Profile {
   };
 }
 
-export function localDate(now = new Date()) {
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-}
+export { localDate } from '../../shared/date';
 
 function daysBetween(a: string, b: string) {
   return Math.round((Date.parse(`${b}T12:00:00`) - Date.parse(`${a}T12:00:00`)) / 86_400_000);

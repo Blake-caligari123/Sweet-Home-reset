@@ -1,5 +1,5 @@
-import { P } from './palette';
-import { PixelCanvas, seeded } from './pixel-canvas';
+import { P } from '../../shared/art/palette';
+import { PixelCanvas, seeded } from '../../shared/art/pixel-canvas';
 import { PROPS } from './props';
 import { ROOM_H, ROOM_W, type DecorDef, type LayerDef, type RoomDef, type StageEffect } from '../game/pack';
 

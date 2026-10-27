@@ -1,6 +1,6 @@
-import type { Sound, SoundId } from '../../fx/sound';
-import type { HapticKind, NativeBridge } from '../../native';
-import { h } from '../../ui/dom';
+import type { Sound, SoundId } from '../../shared/audio/sound';
+import type { HapticKind, NativeBridge } from '../../shared/native';
+import { h } from '../../shared/ui/dom';
 import type { TownSave } from '../data/save';
 import { dialogue, type Hud } from './hud';
 

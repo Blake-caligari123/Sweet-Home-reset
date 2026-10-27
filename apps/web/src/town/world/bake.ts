@@ -1,5 +1,5 @@
-import { PixelCanvas } from '../../art/pixel-canvas';
-import { dullen } from '../../art/dull';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
+import { dullen } from '../../shared/art/dull';
 import { drawGround, drawProp, occlude, propShadow, T } from './art';
 import type { Area } from '../data/area';
 import { paintedArea } from './backgrounds';

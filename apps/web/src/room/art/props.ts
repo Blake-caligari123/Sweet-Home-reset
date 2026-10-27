@@ -1,5 +1,5 @@
-import { P } from './palette';
-import { PixelCanvas } from './pixel-canvas';
+import { P } from '../../shared/art/palette';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
 
 // Code-drawn pixel props for the angled top-down rooms. Every prop has a lighter top face,
 // a front face one shade darker and a 1 px warm-brown outline. These are the fallback art

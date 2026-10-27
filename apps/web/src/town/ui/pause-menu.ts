@@ -1,5 +1,5 @@
-import type { Sound } from '../../fx/sound';
-import { h } from '../../ui/dom';
+import type { Sound } from '../../shared/audio/sound';
+import { h } from '../../shared/ui/dom';
 import { eraseTown } from '../data/save';
 import { TUNING } from '../data/tuning';
 import type { Settings, View } from './view';

@@ -1,8 +1,8 @@
 import { Container, Sprite, type Texture } from 'pixi.js';
-import { P } from '../art/palette';
-import { PixelCanvas } from '../art/pixel-canvas';
+import { P } from '../../shared/art/palette';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
 import type { Point } from '../game/pack';
-import { toTexture } from './textures';
+import { toTexture } from '../../shared/render/textures';
 
 let steamFrames: Texture[] | null = null;
 function steam() {

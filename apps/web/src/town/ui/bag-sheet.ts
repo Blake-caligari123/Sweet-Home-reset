@@ -1,4 +1,4 @@
-import { clear, h } from '../../ui/dom';
+import { clear, h } from '../../shared/ui/dom';
 import type { Content } from '../data/content';
 import type { TownState } from '../state';
 import { itemIcon } from './hud';

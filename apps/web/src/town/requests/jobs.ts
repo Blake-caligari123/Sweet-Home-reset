@@ -1,4 +1,4 @@
-import { h } from '../../ui/dom';
+import { h } from '../../shared/ui/dom';
 import type { Area } from '../data/area';
 import type { Content } from '../data/content';
 import { TUNING } from '../data/tuning';

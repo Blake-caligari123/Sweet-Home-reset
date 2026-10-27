@@ -1,7 +1,7 @@
 import type { Application, FederatedPointerEvent } from 'pixi.js';
-import type { Sound } from '../fx/sound';
-import type { NativeBridge } from '../native';
-import { h } from '../ui/dom';
+import type { Sound } from '../shared/audio/sound';
+import type { NativeBridge } from '../shared/native';
+import { h } from '../shared/ui/dom';
 import { Area, type TownPack } from './data/area';
 import { Content } from './data/content';
 import { stamp, writeTown, type TownSave } from './data/save';

@@ -1,7 +1,7 @@
-import { P } from '../../art/palette';
-import { PixelCanvas } from '../../art/pixel-canvas';
-import { clear, h } from '../../ui/dom';
-import { pixelImage, puffPortrait } from '../../ui/pixel-image';
+import { P } from '../../shared/art/palette';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
+import { clear, h } from '../../shared/ui/dom';
+import { pixelImage, puffPortrait } from '../../shared/ui/pixel-image';
 import { drawItemIcon, drawPuff24, drawToolMini } from '../world/art';
 import { spriteIcon } from '../world/sprites';
 import type { ToolId } from '../play/mess';

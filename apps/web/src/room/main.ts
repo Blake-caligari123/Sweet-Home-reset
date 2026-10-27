@@ -1,12 +1,12 @@
 import { Application, TextureStyle } from 'pixi.js';
-import { Sound } from './fx/sound';
-import { GameApp } from './game-app';
+import { Sound } from '../shared/audio/sound';
+import { GameApp } from './app';
 import { validatePack, type Pack } from './game/pack';
 import { migrate } from './game/profile';
 import { loadSave } from './game/storage';
-import { loadNativeBridge } from './native';
-import './style.css';
-import { keepUpdated } from './pwa-update';
+import { loadNativeBridge } from '../shared/native';
+import '../shared/style.css';
+import { keepUpdated } from '../shared/pwa-update';
 
 const host = document.querySelector<HTMLElement>('#app')!;
 const ui = document.querySelector<HTMLElement>('#ui')!;

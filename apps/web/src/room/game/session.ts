@@ -1,4 +1,4 @@
-import { seeded } from '../art/pixel-canvas';
+import { seeded } from '../../shared/art/pixel-canvas';
 import { DirtMap } from './dirt';
 import type { Point, RoomDef, TaskDef } from './pack';
 

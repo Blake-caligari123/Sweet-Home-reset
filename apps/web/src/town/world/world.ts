@@ -1,7 +1,7 @@
 import { Application, Container, Graphics, Rectangle, Sprite, Texture } from 'pixi.js';
-import { P } from '../../art/palette';
-import { Particles } from '../../scenes/particles';
-import { toTexture } from '../../scenes/textures';
+import { P } from '../../shared/art/palette';
+import { Particles } from '../../shared/render/particles';
+import { toTexture } from '../../shared/render/textures';
 import { drawCrop, drawMess, drawNeighbour24, drawPuff24, drawToolMini, T, type Dir } from './art';
 import { Ambience, drawTapRing, vignetteTexture } from './ambience';
 import type { Area } from '../data/area';

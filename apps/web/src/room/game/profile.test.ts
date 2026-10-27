@@ -4,7 +4,7 @@ import { BANNED_WORDS, LINES } from './lines';
 import { validatePack } from './pack';
 import { buy, isUnlocked, migrate, newProfile, rewardRoom, roomState, showUp, spendEnergy, tickChore } from './profile';
 
-const pack = validatePack(JSON.parse(readFileSync(new URL('../../public/packs-bundled/starter-home/2/pack.json', import.meta.url), 'utf8')));
+const pack = validatePack(JSON.parse(readFileSync(new URL('../../../public/packs-bundled/starter-home/2/pack.json', import.meta.url), 'utf8')));
 
 describe('profile and economy', () => {
   it('pays fixed chore rewards up to 5 a day, once per chore, then still counts ticks without paying', () => {

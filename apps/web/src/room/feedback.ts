@@ -1,5 +1,5 @@
-import type { HapticKind } from '../native';
-import type { SoundId } from './sound';
+import type { HapticKind } from '../shared/native';
+import type { SoundId } from '../shared/audio/sound';
 
 // One hook for every satisfying cue (FRONTEND-PLAN §5): each game event maps to a sound,
 // a haptic and a caption, so the game reads the same with sound off.

@@ -1,4 +1,4 @@
-import { localDate } from '../../game/profile';
+import { localDate } from '../../shared/date';
 import type { AreaMess } from '../play/mess';
 
 // One versioned save (BACKEND-PLAN "Saves"): `shr` IndexedDB, `saves` store, slots main + backup.

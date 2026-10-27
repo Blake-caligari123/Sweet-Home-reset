@@ -1,10 +1,10 @@
 import type { Application } from 'pixi.js';
 import { composeAfter, composeBefore, composeProgress } from './art/before-after';
-import { PixelCanvas } from './art/pixel-canvas';
+import { PixelCanvas } from '../shared/art/pixel-canvas';
 import { PROPS } from './art/props';
-import { drawPuff, type Outfit } from './art/puff';
-import { createFeedback, type FeedbackEvent } from './fx/feedback';
-import type { Sound } from './fx/sound';
+import { drawPuff, type Outfit } from '../shared/art/puff';
+import { createFeedback, type FeedbackEvent } from './feedback';
+import type { Sound } from '../shared/audio/sound';
 import { line } from './game/lines';
 import type { DecorDef, Pack, RoomDef } from './game/pack';
 import {
@@ -13,12 +13,12 @@ import {
 } from './game/profile';
 import { RoomSession } from './game/session';
 import { eraseSave, writeSave } from './game/storage';
-import type { NativeBridge } from './native';
+import type { NativeBridge } from '../shared/native';
 import { backAction, type Overlay, type Screen } from './nav';
 import { BRUSH_RADIUS, RoomScene } from './scenes/room-scene';
-import { clear, ENERGY, h, SPARKLE } from './ui/dom';
-import { pixelImage, puffPortrait } from './ui/pixel-image';
-import { makeClip, shareFile } from './share/clip';
+import { clear, ENERGY, h, SPARKLE } from '../shared/ui/dom';
+import { pixelImage, puffPortrait } from '../shared/ui/pixel-image';
+import { makeClip, shareFile } from '../shared/share/clip';
 
 const TASK_ICON: Record<string, string> = { scrub: '🧽', glass: '🪟', dust: '🪶', vacuum: '🌀', pop: '🐰', sort: '🧺' };
 const STAGE_BANNER: Record<number, string> = { 25: 'Colour\'s coming back!', 50: 'Halfway sparkly!', 75: 'Almost there!' };

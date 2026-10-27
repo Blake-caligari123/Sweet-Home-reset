@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import { pwaManifest, workboxOptions } from './src/pwa-config';
+import { pwaManifest, workboxOptions } from './src/shared/pwa-config';
 
 // `vite build --mode native` makes the bundle Capacitor copies into the iOS and Android apps,
 // which serve it from the root. The default build is for GitHub Pages.

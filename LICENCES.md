@@ -1,5 +1,5 @@
-# Asset and dependency licences
+# Licences
 
-All current visual game assets are drawn in code and all sounds will be synthesised with Web Audio or created specifically for the game.
+The asset log (every piece of art, its source, prompt and terms, including the Grok Imagine terms review) is `claude/LICENCES.md`. Add new assets there (`tools/process_asset.py --log` does it for you).
 
-Before adding a third-party asset, record its source, licence, attribution requirement, and permitted use here. Dependencies retain their own licences in `node_modules` and package registries.
+Sounds are synthesised with Web Audio. Dependencies keep their own licences in `node_modules` and the package registries.

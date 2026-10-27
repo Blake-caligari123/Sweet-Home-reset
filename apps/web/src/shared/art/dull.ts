@@ -1,6 +1,6 @@
 import { P, rgb } from './palette';
 import { PixelCanvas, seeded } from './pixel-canvas';
-import { ROOM_H, ROOM_W } from '../game/pack';
+import { ROOM_H, ROOM_W } from '../../room/game/pack';
 
 // The dirty room is the clean room with its colour drained: every pixel is pulled toward a warm
 // grey of the same brightness, and dimmed a touch. Cleaning reveals the colour again.

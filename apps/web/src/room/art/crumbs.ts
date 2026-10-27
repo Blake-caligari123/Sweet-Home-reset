@@ -1,5 +1,5 @@
-import { P } from './palette';
-import { PixelCanvas } from './pixel-canvas';
+import { P } from '../../shared/art/palette';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
 
 /** Tiny crumbs for the vacuum task: a few shapes in toast and biscuit colours. */
 export function drawCrumb(variant: number) {

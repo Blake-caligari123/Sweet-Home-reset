@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { validatePack } from './pack';
 import { decodeRuns, encodeRuns, RoomSession, type SessionEvent } from './session';
 
-const pack = validatePack(JSON.parse(readFileSync(new URL('../../public/packs-bundled/starter-home/2/pack.json', import.meta.url), 'utf8')));
+const pack = validatePack(JSON.parse(readFileSync(new URL('../../../public/packs-bundled/starter-home/2/pack.json', import.meta.url), 'utf8')));
 const kitchen = pack.rooms[0];
 const stagesOf = (events: SessionEvent[]) => events.filter((e) => e.type === 'stage').map((e) => (e as { stage: number }).stage);
 

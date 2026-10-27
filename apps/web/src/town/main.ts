@@ -1,17 +1,17 @@
 import { Application, TextureStyle } from 'pixi.js';
-import { Sound } from '../fx/sound';
-import { loadNativeBridge } from '../native';
+import { Sound } from '../shared/audio/sound';
+import { loadNativeBridge } from '../shared/native';
 import { FrameStats } from './ui/frame-stats';
-import { keepUpdated } from '../pwa-update';
-import { h } from '../ui/dom';
-import { puffPortrait } from '../ui/pixel-image';
+import { keepUpdated } from '../shared/pwa-update';
+import { h } from '../shared/ui/dom';
+import { puffPortrait } from '../shared/ui/pixel-image';
 import { validateTownPack, type TownPack } from './data/area';
 import { loadBackgrounds } from './world/backgrounds';
 import { TownGame } from './game';
 import { loadTown } from './data/save';
 import { SpriteBank } from './world/sprites';
 import { TUNING } from './data/tuning';
-import '../style.css';
+import '../shared/style.css';
 import './ui/town.css';
 
 // Milestone 1 test build of the GDD v3 town game, served at /test/ while the room game
