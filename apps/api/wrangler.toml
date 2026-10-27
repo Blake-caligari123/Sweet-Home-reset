@@ -2,6 +2,10 @@ name = "sweet-home-reset-api"
 main = "src/index.ts"
 compatibility_date = "2026-10-27"
 
+# database_id stays a placeholder until a free D1 database exists.
+# Secrets go in .dev.vars locally and `wrangler secret put` when deployed.
+# Do not put keys in this file.
+
 [[d1_databases]]
 binding = "DB"
 database_name = "sweet-home-reset"

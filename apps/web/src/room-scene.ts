@@ -1,4 +1,8 @@
-import { Application, Container, Graphics, Rectangle, Text, TextStyle } from 'pixi.js';
+import { Application, Container, Graphics, Text, TextStyle } from 'pixi.js';
+import { ROOM_CLEAN_THRESHOLD } from '@sweet-home-reset/shared';
+import { PALETTE } from './palette';
+import { createPuff } from './puff';
+import type { GameScene } from './scene';
 import { loadCleanedSpots, saveCleanedSpots } from './save';
 
 const WIDTH = 420;
@@ -7,23 +11,19 @@ const GRID_COLUMNS = 16;
 const GRID_ROWS = 9;
 const DIRT_TOTAL = GRID_COLUMNS * GRID_ROWS;
 const BRUSH_RADIUS = 34;
-const PALETTE = {
-  ink: '#514353',
-  cream: '#fbf4e6',
-  peach: '#f6cdb1',
-  wall: '#f6e4bd',
-  tile: '#e7a889',
-  sage: '#a8c5a4',
-  lilac: '#c8b9df',
-  dirt: '#9c826a',
-  sparkle: '#f5b94f'
-};
+const STAGES = [25, 50, 75, 100] as const;
+const STAGE_X = [99, 173, 247, 321] as const;
 
 interface DirtSpot {
   x: number;
   y: number;
   radius: number;
   graphics: Graphics;
+}
+
+interface PointerPoint {
+  global: { x: number; y: number };
+  target: unknown;
 }
 
 function textStyle(size: number, weight: '400' | '600' | '700' = '600'): TextStyle {
@@ -42,7 +42,11 @@ function label(value: string, x: number, y: number, size: number, weight: '400' 
   return item;
 }
 
-export function createRoomScene(app: Application, announce: (message: string) => void = () => {}) {
+export function createRoomScene(
+  app: Application,
+  announce: (message: string) => void = () => {},
+  onHome?: () => void
+): GameScene {
   const container = new Container();
   const roomArt = new Container();
   const dirtLayer = new Container();
@@ -86,7 +90,6 @@ export function createRoomScene(app: Application, announce: (message: string) =>
   const cellY = 16;
   for (let row = 0; row < GRID_ROWS; row += 1) {
     for (let column = 0; column < GRID_COLUMNS; column += 1) {
-      const index = row * GRID_COLUMNS + column;
       const x = left + column * cellX + ((row * 5 + column * 3) % 7);
       const y = top + row * cellY + ((column * 3 + row * 2) % 6);
       const radius = 3 + ((row + column * 2) % 4);
@@ -104,17 +107,9 @@ export function createRoomScene(app: Application, announce: (message: string) =>
   keyboardCursor.visible = false;
   roomArt.addChild(keyboardCursor);
 
-  const puff = new Container();
-  puff.addChild(new Graphics()
-    .ellipse(49, 45, 17, 35).fill(PALETTE.lilac)
-    .ellipse(91, 45, 17, 35).fill(PALETTE.lilac)
-    .ellipse(70, 75, 34, 32).fill(PALETTE.lilac)
-    .circle(59, 73, 3.5).fill(PALETTE.ink)
-    .circle(81, 73, 3.5).fill(PALETTE.ink)
-    .ellipse(70, 83, 7, 4).fill('#9c7f92')
-    .circle(43, 78, 5).fill('#efaaa8')
-    .circle(97, 78, 5).fill('#efaaa8'));
-  puff.position.set(260, 556);
+  const puff = createPuff();
+  const puffBaseY = 556;
+  puff.position.set(260, puffBaseY);
   roomArt.addChild(puff);
 
   const title = label('A little kitchen reset', WIDTH / 2, 65, 27, '700');
@@ -128,24 +123,28 @@ export function createRoomScene(app: Application, announce: (message: string) =>
   const completionText = label('Look at that glow!', WIDTH / 2, 420, 20, '700');
   const resetButton = new Graphics();
   const resetLabel = label('Reset room', WIDTH / 2, 464, 14, '700');
+  completionText.visible = false;
+  resetLabel.visible = false;
   hud.addChild(title, subtitle, percentLabel, meterTrack, meterFill, brushHint, helper, completionPanel, completionText, resetButton, resetLabel);
 
-  const stageLabels = [25, 50, 75, 100].map((stage, index) => label(`${stage}%`, [99, 173, 247, 321][index], 207, 11, '600'));
-  const stagePips = [
-    new Graphics().circle(99, 225, 5).fill('#d8cab1'),
-    new Graphics().circle(173, 225, 5).fill('#d8cab1'),
-    new Graphics().circle(247, 225, 5).fill('#d8cab1'),
-    new Graphics().circle(321, 225, 5).fill('#d8cab1')
-  ];
+  if (onHome) {
+    hud.addChild(new Graphics().roundRect(140, 686, 140, 44, 18).fill(PALETTE.peach));
+    hud.addChild(label('House', WIDTH / 2, 708, 14, '700'));
+  }
+
+  const stageLabels = STAGES.map((stage, index) => label(`${stage}%`, STAGE_X[index], 207, 11, '600'));
+  const stagePips = STAGE_X.map((x) => new Graphics().circle(x, 225, 5).fill('#d8cab1'));
   hud.addChild(...stageLabels, ...stagePips);
 
   let cleaned = new Set<number>();
   let isDragging = false;
   let completed = false;
+  let leaving = false;
   let saveTimer: ReturnType<typeof setTimeout> | undefined;
   let lastPoint: { x: number; y: number } | undefined;
   let announcedStage = 0;
   let cursorIndex = 0;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function percentClean() {
     return (cleaned.size / DIRT_TOTAL) * 100;
@@ -153,7 +152,7 @@ export function createRoomScene(app: Application, announce: (message: string) =>
 
   function updateHud() {
     let percent = percentClean();
-    if (percent >= 95 && !completed) {
+    if (percent >= ROOM_CLEAN_THRESHOLD && !completed) {
       completed = true;
       cleaned = new Set(spots.map((_, index) => index));
       spots.forEach((spot) => { spot.graphics.visible = false; });
@@ -169,23 +168,30 @@ export function createRoomScene(app: Application, announce: (message: string) =>
     percentLabel.text = `${Math.floor(percent)}% clean`;
     meterFill.clear();
     meterFill.roundRect(36, 170, Math.max(0, 348 * percent / 100), 17, 9).fill(PALETTE.sage);
-    [25, 50, 75, 100].forEach((stage, index) => {
+    STAGES.forEach((stage, index) => {
       const pip = stagePips[index];
       pip.clear();
-      pip.circle([99, 173, 247, 321][index], 225, 5)
-        .fill(percent >= stage ? PALETTE.sparkle : '#d8cab1');
+      pip.circle(STAGE_X[index], 225, 5).fill(percent >= stage ? PALETTE.sparkle : '#d8cab1');
       stageLabels[index].style.fill = percent >= stage ? PALETTE.ink : '#8f8479';
     });
-    const reachedStage = [25, 50, 75, 100].filter((stage) => percent >= stage).length;
+    const reachedStage = STAGES.filter((stage) => percent >= stage).length;
     if (reachedStage > announcedStage) {
       announcedStage = reachedStage;
-      announce(reachedStage === 4 ? 'Kitchen nook restored. 100% clean.' : `Kitchen nook ${[25, 50, 75, 100][reachedStage - 1]}% clean.`);
+      const stage = STAGES[reachedStage - 1];
+      announce(reachedStage === 4 ? 'Kitchen nook restored. 100% clean.' : `Kitchen nook ${stage}% clean.`);
     }
   }
 
   function scheduleSave() {
     if (saveTimer) clearTimeout(saveTimer);
     saveTimer = setTimeout(() => { void saveCleanedSpots([...cleaned]); }, 120);
+  }
+
+  function flushSave() {
+    if (!saveTimer) return;
+    clearTimeout(saveTimer);
+    saveTimer = undefined;
+    void saveCleanedSpots([...cleaned]);
   }
 
   function scrubAt(x: number, y: number) {
@@ -215,7 +221,28 @@ export function createRoomScene(app: Application, announce: (message: string) =>
     return 0;
   }
 
-  app.canvas.addEventListener('keydown', (event) => {
+  function localPoint(event: { global: { x: number; y: number } }) {
+    return container.toLocal(event.global);
+  }
+
+  function hitsHouse(point: { x: number; y: number }) {
+    return Boolean(onHome) && point.x >= 140 && point.x <= 280 && point.y >= 686 && point.y <= 730;
+  }
+
+  function leave() {
+    if (leaving || !onHome) return;
+    leaving = true;
+    flushSave();
+    queueMicrotask(onHome);
+  }
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (leaving) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      leave();
+      return;
+    }
     const current = spots[cursorIndex];
     if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') cursorIndex = findNextSpot(cursorIndex + 1);
     else if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') cursorIndex = findNextSpot(cursorIndex - 1);
@@ -232,17 +259,16 @@ export function createRoomScene(app: Application, announce: (message: string) =>
       keyboardCursor.position.set(next.x, next.y);
       keyboardCursor.visible = true;
     }
-  });
+  };
 
-  function localPoint(event: { global: { x: number; y: number } }) {
-    return container.toLocal(event.global);
-  }
-
-  app.stage.eventMode = 'static';
-  app.stage.hitArea = new Rectangle(-10000, -10000, 20000, 20000);
-  app.stage.on('pointerdown', (event) => {
+  const onPointerDown = (event: PointerPoint) => {
+    if (leaving) return;
     const point = localPoint(event);
     keyboardCursor.visible = false;
+    if (hitsHouse(point)) {
+      leave();
+      return;
+    }
     if (completed && point.x >= 142 && point.x <= 298 && point.y >= 435 && point.y <= 490) {
       cleaned.clear();
       spots.forEach((spot) => { spot.graphics.visible = true; });
@@ -263,9 +289,10 @@ export function createRoomScene(app: Application, announce: (message: string) =>
       lastPoint = point;
       scrubAt(point.x, point.y);
     }
-  });
-  app.stage.on('pointermove', (event) => {
-    if (!isDragging) return;
+  };
+
+  const onPointerMove = (event: PointerPoint) => {
+    if (!isDragging || leaving) return;
     const point = localPoint(event);
     const from = lastPoint ?? point;
     const distance = Math.hypot(point.x - from.x, point.y - from.y);
@@ -275,11 +302,21 @@ export function createRoomScene(app: Application, announce: (message: string) =>
       scrubAt(from.x + (point.x - from.x) * t, from.y + (point.y - from.y) * t);
     }
     lastPoint = point;
-  });
-  app.stage.on('pointerup', () => { isDragging = false; lastPoint = undefined; });
-  app.stage.on('pointerupoutside', () => { isDragging = false; lastPoint = undefined; });
+  };
+
+  const endStroke = () => {
+    isDragging = false;
+    lastPoint = undefined;
+  };
+
+  app.canvas.addEventListener('keydown', onKeyDown);
+  app.stage.on('pointerdown', onPointerDown);
+  app.stage.on('pointermove', onPointerMove);
+  app.stage.on('pointerup', endStroke);
+  app.stage.on('pointerupoutside', endStroke);
 
   void loadCleanedSpots().then((saved) => {
+    if (leaving) return;
     saved.forEach((index) => {
       if (Number.isInteger(index) && index >= 0 && index < DIRT_TOTAL) {
         cleaned.add(index);
@@ -293,8 +330,20 @@ export function createRoomScene(app: Application, announce: (message: string) =>
     container,
     width: WIDTH,
     height: HEIGHT,
+    label: 'Kitchen nook. Drag across the dusty counter to clean it. Escape returns to the house.',
     update(time: number) {
-      puff.y = Math.sin(time / 460) * 3;
+      if (reduceMotion) return;
+      puff.y = puffBaseY + Math.sin(time / 460) * 3;
+    },
+    destroy() {
+      leaving = true;
+      flushSave();
+      app.canvas.removeEventListener('keydown', onKeyDown);
+      app.stage.off('pointerdown', onPointerDown);
+      app.stage.off('pointermove', onPointerMove);
+      app.stage.off('pointerup', endStroke);
+      app.stage.off('pointerupoutside', endStroke);
+      container.destroy({ children: true });
     }
   };
 }

@@ -1,8 +1,18 @@
+# Local Worker env. Copy to apps/api/.dev.vars and chmod 600.
+# Values stay empty until Blake provides them. Deployed values use `wrangler secret put`.
+# The app domain in config/app.json stays {APP_DOMAIN}. PUBLIC_ORIGIN is the local web origin.
 PUBLIC_ORIGIN=http://localhost:5173
 SESSION_SECRET=
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 STRIPE_PRICE_MONTHLY=
 STRIPE_PRICE_YEARLY=
+STRIPE_COUPON_FOUNDING=
+REVENUECAT_SECRET_KEY=
+REVENUECAT_WEBHOOK_AUTH=
 RESEND_API_KEY=
 EMAIL_FROM=
+APPLE_TEAM_ID=
+APPLE_KEY_ID=
+APPLE_PRIVATE_KEY=
+APPLE_CLIENT_IDS=

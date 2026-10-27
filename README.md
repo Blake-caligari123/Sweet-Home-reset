@@ -1,52 +1,54 @@
 # Sweet Home Reset
 
-Scrub a little room back to sparkling with Puff the dust bunny, then take one gentle real-world reset step. The game is calm, local-first, and never punishes a player for taking time away.
+A calm cleaning game from PixelVortex Games. Puff the dust bunny keeps you company while you scrub a room on screen and, later, tick off a real chore. It is one web app, wrapped for iOS and Android. It stays playable offline and signed out.
+
+This repository is the foundation. The game is not finished. [AGENTS.md](AGENTS.md) (and [CODEX.md](CODEX.md)) is the handoff: what already runs, what to build next, and how to run it.
 
 ## Stack
 
-- Web/PWA: Vite, TypeScript, PixiJS
-- Mobile: Capacitor wrapping the same web build
+- Web: Vite, TypeScript, PixiJS
+- iOS and Android: Capacitor around that same build (`com.pixelvortexgames.sweethomereset`)
 - API: Cloudflare Workers, Hono, D1
-- Tests: Vitest (Playwright is added with the first browser-flow milestone)
+- Tests: Vitest. Playwright arrives with the browser-flow task in `AGENTS.md`
 
-## Repository layout
+## Layout
 
 ```
-apps/web/          PixiJS game shell and bundled starter pack
-apps/api/          Cloudflare Worker API and D1 migrations
-packages/shared/   Save types and shared domain constants
-config/            Product configuration; prices have one source of truth
-docs/              Architecture and delivery notes
+apps/web/                 PixiJS shell, placeholder home, kitchen prototype
+apps/web/public/art/     96 asset paths and manifest.json
+apps/api/                 Worker stub and D1 migrations
+packages/shared/          Save types shared by the web app and the API
+config/                   app.json, pricing.json, tuning.json
+docs/                     Design docs. These win over guesses.
 ```
+
+Art files use the names in `docs/ASSET-PROMPTS.md` and live in `apps/web/public/art/`. The PNGs in git are 8×8 placeholders. `manifest.json` marks every one `missing`. Drop the real picture in under the same file name.
 
 ## Quick start
 
-Requires Node 20+ and npm 10+.
+Node 20+ and npm 10+.
 
 ```sh
 npm install
 npm run dev:web
 ```
 
-In another terminal, start the API when needed:
+Open `http://localhost:5173/Sweet-Home-reset/`. The house is a stand-in. Kitchen Nook can be scrubbed. The other two rooms are not built yet.
 
 ```sh
 npm run dev:api
+npm run check
 ```
 
-Run the checks with `npm run typecheck`, `npm test`, and `npm run build`.
+`npm run check` is typecheck, lint, test, and build.
 
 ## Boundaries
 
-- Never commit secrets. Copy the example environment files locally and use Cloudflare Worker secrets for deployed values.
-- The game is playable offline and signed out; the API provides optional sync, account, entitlement, and reward services.
-- No ads, loot boxes, paid timers, or paid currency. Prices belong only in `config/pricing.json`.
-- Store accounts, payment providers, publishing, and real purchases require Blake's explicit approval.
+- Secrets stay out of the repo. Copy `.env.example`, `apps/web/.env.example`, or `apps/api/.dev.vars.example`, and keep the copies untracked. Deployed Worker values use `wrangler secret put`.
+- The domain in `config/app.json` stays `{APP_DOMAIN}` until it is replaced on purpose.
+- Prices live only in `config/pricing.json`.
+- No ads, loot boxes, or paid timers. Store accounts and real purchases wait for Blake.
 
 ## Status
 
-The first playable room is underway. The kitchen nook has a drag-to-scrub interaction, a clean meter with stage markers, Puff's reactions, keyboard brushing, and an offline save. It currently uses temporary code-drawn room art and one starter room.
-
-Focus the game canvas and use arrow keys or WASD to move the brush, then press Space or Enter to scrub. Pointer, mouse, and touch drags also clean the counter. Progress saves in the browser and is restored when the page is reopened.
-
-Next milestones: polish the task loop and feedback, add the remaining starter rooms as pack data, then build the health/migration baseline for the API.
+The boot screen is Puff's house, drawn in code. The kitchen nook still uses the earlier spot-grid scrub and a local save. The API answers `GET /api/health` and ships the D1 schema from `docs/BACKEND-PLAN.md`. Later routes are listed as tasks in `AGENTS.md`.
