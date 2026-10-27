@@ -36,3 +36,4 @@ Allowed instead:
 | puff_walk_right (from `art/sprites/raw/puff_walk_right_3.jpg`, frames 1,3,5,6) | `apps/web/public/sprites/puff_walk_right.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
 | puff_idle_down (top row of `art/sprites/raw/puff_idle_blink.jpg`, frames 1,1,1,2,2,2; frames 3-4 off-model, unused) | `apps/web/public/sprites/puff_idle_down.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
 | puff_blink_down (bottom row of `art/sprites/raw/puff_idle_blink.jpg`) | `apps/web/public/sprites/puff_blink_down.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+| burrow | `apps/web/public/areas/burrow.webp` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |

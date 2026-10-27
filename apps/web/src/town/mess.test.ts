@@ -55,4 +55,20 @@ describe('area mess', () => {
     expect(copy.progress).toBe(p);
     expect(copy.item[7 + 10]).toBe('sock');
   });
+
+  it('a save from a differently sized area starts it fresh, unless it was already restored', () => {
+    const old = new AreaMess(10, 4, spots, true);
+    old.hit(1, 1, 'duster', 1);
+    const snap = JSON.parse(JSON.stringify(old.snapshot()));
+    const bigger = new AreaMess(12, 5, spots, true);
+    expect(() => bigger.load(snap)).toThrow();
+    const done = new AreaMess(10, 4, spots, true);
+    done.restore();
+    const restored = new AreaMess(12, 5, spots, true);
+    restored.load(JSON.parse(JSON.stringify(done.snapshot())));
+    expect(restored.restored).toBe(true);
+    expect(restored.progress).toBe(1);
+    expect([...restored.colour].every((c) => c === FULL_COLOUR)).toBe(true);
+    expect([...restored.type].every((t) => t === 0)).toBe(true);
+  });
 });

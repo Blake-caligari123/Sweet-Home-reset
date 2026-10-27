@@ -6,6 +6,7 @@ import { keepUpdated } from '../pwa-update';
 import { h } from '../ui/dom';
 import { puffPortrait } from '../ui/pixel-image';
 import { validateTownPack, type TownPack } from './area';
+import { loadBackgrounds } from './backgrounds';
 import { TownGame } from './game';
 import { loadTown } from './save';
 import { SpriteBank } from './sprites';
@@ -37,6 +38,8 @@ async function loadPack(): Promise<TownPack | null> {
 }
 
 const [pack, saved] = await Promise.all([loadPack(), loadTown()]);
+// Painted areas load (and make their grey twins) while the title shows; the game waits for them.
+const backgrounds = pack ? loadBackgrounds(pack, import.meta.env.BASE_URL) : Promise.resolve();
 if (!pack) {
   ui.append(h('main', { class: 'screen title-screen' }, h('div', { class: 'panel title-card' }, h('h1', { class: 'logo' }, 'Sweet Home Reset'), h('p', {}, 'The town is tidying itself. Try again in a moment.'))));
   throw new Error('pack');
@@ -60,7 +63,8 @@ app.canvas.setAttribute('aria-label', `${TUNING.townName}. Tap the ground to wal
 app.canvas.tabIndex = 0;
 host.append(app.canvas);
 
-function start() {
+async function start() {
+  await backgrounds;
   const game = new TownGame(app, ui, pack!, native, sound, settings, saved);
   void sprites.then((bank) => game.setSprites(bank));
   if (new URLSearchParams(location.search).has('fps')) showFrameStats();
@@ -79,7 +83,7 @@ function showFrameStats() {
   window.setInterval(() => { const s = stats.take(); el.textContent = `${s.fps} fps · worst ${s.worstMs} ms · stalls ${s.stalls} · ${app.renderer.resolution}x`; }, 1000);
 }
 
-if (saved) start();
+if (saved) void start();
 else {
   // Title (A6 0:00): "Let's tidy!" and nothing else in the way.
   const puff = puffPortrait(4, null, settings.reducedMotion);
@@ -89,6 +93,6 @@ else {
     h('p', { class: 'muted' }, 'Help a sleepy little town get its sparkle back, one messy home at a time.'),
     go,
     h('p', { class: 'muted', style: { fontSize: '0.85rem' } }, 'Spring is free. Milestone 1 test build.')));
-  go.addEventListener('click', () => { sound.unlock(); title.remove(); start(); });
+  go.addEventListener('click', () => { sound.unlock(); title.remove(); void start(); });
   ui.append(title);
 }

@@ -2,6 +2,7 @@ import { PixelCanvas } from '../art/pixel-canvas';
 import { dullen } from '../art/dull';
 import { drawGround, drawProp, occlude, propShadow, T } from './art';
 import type { Area } from './area';
+import { paintedArea } from './backgrounds';
 
 export interface Baked { colour: PixelCanvas; drained: PixelCanvas }
 
@@ -12,6 +13,8 @@ const baked = new WeakMap<Area, Baked>();
 
 /** Bake an area's ground and props into one image (FRONTEND-PLAN §3 ChunkLayer), plus its drained twin. */
 export function bakeArea(area: Area): Baked {
+  const painted = paintedArea(area.pack.id);
+  if (painted) return painted.world;
   const cached = baked.get(area);
   if (cached) return cached;
   const pc = new PixelCanvas(area.w * T, area.h * T);

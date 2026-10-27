@@ -26,7 +26,7 @@ export const pwaManifest: Partial<ManifestOptions> = {
 };
 
 export const workboxOptions: WorkboxOptions = {
-  globPatterns: ['**/*.{js,css,html,png,svg,json,webmanifest}'],
+  globPatterns: ['**/*.{js,css,html,png,webp,svg,json,webmanifest}'],
   navigateFallbackDenylist: [/\/api\//],
   cleanupOutdatedCaches: true,
   runtimeCaching: [

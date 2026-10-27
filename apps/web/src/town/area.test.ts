@@ -33,7 +33,7 @@ describe('Hollowfern spring pack', () => {
 
   it('rejects a broken pack', () => {
     const broken = JSON.parse(JSON.stringify(pack));
-    broken.areas[0].map[2] = broken.areas[0].map[2].replace('.', '?');
+    broken.areas[0].map[6] = broken.areas[0].map[6].replace('.', '?');
     expect(() => validateTownPack(broken)).toThrow(/unknown map char/);
   });
 });
