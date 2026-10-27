@@ -8,7 +8,7 @@ import { Ambience, drawTapRing, vignetteTexture } from './ambience';
 import type { Area } from './area';
 import { bakeArea } from './bake';
 import { FULL_COLOUR, type AreaMess } from './mess';
-import { blinkClip, CLIP_FPS, puffClip, type SpriteBank } from './sprites';
+import { blinkClip, breathScale, CLIP_FPS, puffClip, type SpriteBank } from './sprites';
 import { RIPPLE_MS } from './tuning';
 
 // The world layer (FRONTEND-PLAN §3): baked ground, a drained overlay whose per-tile alpha
@@ -271,7 +271,8 @@ export class World {
       const i = clip.hold ?? (still ? 0 : Math.floor((this.animClock / 1000) * CLIP_FPS[v.pose]) % frames.length);
       this.puff.texture = (v.pose === 'idle' && this.blinkFrame(v.dir, dt)) || frames[i];
       const k = 1 / this.sprites.scale(clip.name);
-      this.puff.scale.set(clip.mirror ? -k : k, k);
+      const [bx, by] = v.pose === 'idle' && !this.reducedMotion ? breathScale(this.animClock) : [1, 1];
+      this.puff.scale.set((clip.mirror ? -k : k) * bx, k * by);
       if (clip.lift && !this.reducedMotion) lift = clip.lift[i % clip.lift.length];
     } else {
       const fps = v.pose === 'walk' ? 10 : v.pose === 'swing' || v.pose === 'hop' ? 14 : 4;

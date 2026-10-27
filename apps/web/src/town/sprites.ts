@@ -15,6 +15,19 @@ export const CLIP_FPS: Record<PuffPose | 'blink', number> = { walk: 10, idle: 6,
 /** The hop sheet is drawn on the ground; the game lifts Puff by these pixels per frame. */
 export const HOP_LIFT = [0, 2, 4, 4, 2, 0];
 
+/** One idle breath: how long a rise and fall takes, and how far Puff rises (fraction of height). */
+export const BREATH_MS = 2200;
+export const BREATH_RISE = 0.035;
+
+/**
+ * Idle breathing done in code (the AI idle frames differ by less than a pixel at world size):
+ * Puff stretches up a little and narrows a touch, feet planted. Returns [scaleX, scaleY].
+ */
+export function breathScale(ms: number): [number, number] {
+  const k = (1 - Math.cos((ms / BREATH_MS) * Math.PI * 2)) / 2; // 0 → 1 → 0, eased
+  return [1 - BREATH_RISE * 0.4 * k, 1 + BREATH_RISE * k];
+}
+
 /** `withTool`: the tool is drawn in the sheet, so the game doesn't draw its own on top. */
 export interface Clip { name: string; mirror: boolean; hold?: number; lift?: number[]; withTool?: boolean }
 
