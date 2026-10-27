@@ -248,6 +248,9 @@ export class World {
   /** World pixel → screen point, for the speech bubble. */
   toScreen(px: number, py: number) { return this.stage.toGlobal({ x: px, y: py }); }
 
+  /** How tall Puff is drawn right now, in world pixels (for placing the speech bubble). */
+  get puffHeight() { return Math.abs(this.puff.height); }
+
   /** Character sprite sheets as they arrive; until then Puff is code-drawn. */
   setSprites(bank: SpriteBank) { this.sprites = bank; }
 
@@ -260,14 +263,15 @@ export class World {
       const still = this.reducedMotion && v.pose === 'idle';
       const i = clip.hold ?? (still ? 0 : Math.floor((this.animClock / 1000) * CLIP_FPS[v.pose]) % frames.length);
       this.puff.texture = (v.pose === 'idle' && this.blinkFrame(v.dir, dt)) || frames[i];
-      this.puff.scale.x = clip.mirror ? -1 : 1;
+      const k = 1 / this.sprites.scale(clip.name);
+      this.puff.scale.set(clip.mirror ? -k : k, k);
       if (clip.lift && !this.reducedMotion) lift = clip.lift[i % clip.lift.length];
     } else {
       const fps = v.pose === 'walk' ? 10 : v.pose === 'swing' || v.pose === 'hop' ? 14 : 4;
       const frames = v.pose === 'idle' ? 4 : v.pose === 'sleep' ? 1 : 6;
       const frame = this.reducedMotion && v.pose === 'idle' ? 0 : Math.floor((this.animClock / 1000) * fps) % frames;
       this.puff.texture = puffTexture(v.dir, frame, v.pose === 'swing' ? 'idle' : v.pose);
-      this.puff.scale.x = 1;
+      this.puff.scale.set(1, 1);
     }
     const px = Math.round(v.x * T + T / 2); const py = Math.round(v.y * T + T - 1);
     this.puff.position.set(px, py - lift);

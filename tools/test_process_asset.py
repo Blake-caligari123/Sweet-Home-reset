@@ -1,7 +1,7 @@
 """Tests for the sprite sheet pass: tools/.venv/bin/python -m unittest discover tools"""
 import json, os, subprocess, sys, tempfile, unittest
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 
 sys.path.insert(0, os.path.dirname(__file__))
 import process_asset as pa  # noqa: E402
@@ -72,6 +72,38 @@ class SheetTest(unittest.TestCase):
         sheet = bunny_sheet(cell=140)  # 140 px cells hold ~136 px bunnies: gaps of a few px
         frames = pa.sheet_subjects(pa.cutout(sheet, "floodfill")[0], 6)
         self.assertEqual(len(frames), 6)
+
+    def test_multi_row_sheet_becomes_hires_strips_at_one_scale(self):
+        top = bunny_sheet(); small = bunny_sheet().resize((top.width, top.height))  # same size rows
+        # JPEG-style spill: blur the sheet so magenta bleeds into the outline.
+        top = top.filter(ImageFilter.GaussianBlur(2)); small = small.filter(ImageFilter.GaussianBlur(2))
+        img = Image.new("RGB", (top.width, top.height * 3 + 60), (255, 0, 255))
+        for k in range(3): img.paste(top if k != 1 else small, (0, k * (top.height + 20)))
+        src = os.path.join(tempfile.mkdtemp(), "rows.png"); img.save(src)
+        tmp = tempfile.mkdtemp(); spr = os.path.join(tmp, "sprites")
+        out = subprocess.run([sys.executable, SCRIPT, "test_walk", "--raw", src, "--sheet", "6", "--keep-watermark",
+                              "--rows", "t_down,t_up,t_right", "--frame", "24x28", "--hires", "6",
+                              "--sprites-dir", spr, "--out", os.path.join(tmp, "art")], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stderr)
+        manifest = json.load(open(os.path.join(spr, "manifest.json")))
+        heights = []
+        for name in ("t_down", "t_up", "t_right"):
+            self.assertEqual(manifest["sheets"][name], {"frames": 6, "w": 144, "h": 168, "scale": 6})
+            a = np.asarray(Image.open(os.path.join(spr, name + ".png")))
+            self.assertEqual(a.shape[:2], (168, 864))
+            for i in range(6):
+                rows = np.nonzero((a[:, i * 144:(i + 1) * 144, 3] > 10).any(1))[0]
+                self.assertEqual(rows.max(), 167, "feet on the bottom row"); heights.append(rows.max() - rows.min())
+            vis = a[..., :3][a[..., 3] > 60].astype(int)  # no magenta tint anywhere visible
+            self.assertLessEqual((np.minimum(vis[:, 0], vis[:, 2]) - vis[:, 1] > 25).mean(), 0.002)
+        self.assertLessEqual(max(heights) - min(heights), 2, "one scale across all three sheets")
+
+    def test_watermark_removal_leaves_art_in_the_corner_alone(self):
+        img = Image.new("RGB", (400, 200), (255, 0, 255)); d = ImageDraw.Draw(img)
+        d.rectangle((330, 120, 360, 185), fill=(120, 120, 120))  # sprite feet reaching into the corner
+        d.text((365, 185), "G", fill=(255, 255, 255))  # the mark
+        out, _ = pa.remove_watermark(img)
+        self.assertTrue((np.asarray(out)[125:180, 335:355] == 120).all(), "feet untouched")
 
     def test_wrong_frame_count_is_a_clear_error(self):
         src = os.path.join(tempfile.mkdtemp(), "sheet.png"); bunny_sheet(n=5).save(src)

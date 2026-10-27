@@ -648,7 +648,8 @@ export class TownGame {
   }
 
   private placeBubble(x: number, y: number) {
-    const s = this.world.toScreen((x + 0.5) * T, y * T - 10);
+    // Just above Puff's ears, whatever art Puff is drawn with.
+    const s = this.world.toScreen((x + 0.5) * T, (y + 1) * T - 1 - this.world.puffHeight - 2);
     this.hud.fadeNear(s.y + 20);
     if (!this.hud.bubble.classList.contains('show')) return;
     const half = Math.min(120, this.hud.bubble.offsetWidth / 2 + 8);

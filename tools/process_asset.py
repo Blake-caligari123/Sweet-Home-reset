@@ -41,8 +41,15 @@ def remove_watermark(img):
     reg = rgb[y0:, x0:].astype(np.float32)
     bgc = np.median(reg.reshape(-1, 3), axis=0)
     d = np.linalg.norm(reg - bgc, axis=2)
-    m = (d > 25).astype(np.uint8)
+    m = d > 25
+    # Marks touching the corner's top or left edge are part of the art (a sprite's feet), not the logo.
+    from scipy import ndimage
+    lab, _ = ndimage.label(m)
+    art_ids = np.unique(np.concatenate([lab[0], lab[:, 0]])); art_ids = art_ids[art_ids > 0]
+    art = np.isin(lab, art_ids)
+    m = (m & ~art).astype(np.uint8)
     m = cv2.dilate(m, np.ones((5, 5), np.uint8), iterations=2)
+    m[ndimage.binary_dilation(art, iterations=2)] = 0
     full = np.zeros((h, w), np.uint8); full[y0:, x0:] = m * 255
     out = cv2.inpaint(rgb, full, 7, cv2.INPAINT_TELEA)
     return Image.fromarray(out), int(m.sum())
@@ -378,6 +385,74 @@ def sheet_subjects(img, count=None, grid=None):
     return frames
 
 
+def split_rows(img, min_gap=3):
+    """Split a multi-row sheet at runs of fully transparent rows."""
+    rows = (np.asarray(img)[..., 3] >= 128).any(axis=1)
+    bands, start, gap = [], None, 0
+    for y, on in enumerate(rows):
+        if on:
+            if start is None: start = y
+            gap = 0
+        elif start is not None:
+            gap += 1
+            if gap >= min_gap:
+                bands.append((start, y - gap + 1)); start = None
+    if start is not None:
+        bands.append((start, len(rows)))
+    return [img.crop((0, a, img.width, b)) for a, b in bands]
+
+
+SPILL_HEX = "#5A4038"  # the dark outline brown of the AI character art
+
+
+def decontaminate(rgba, bg):
+    """Remove the background colour bleeding into soft edges (chroma-key unmix): c = (obs - (1-a)·bg) / a."""
+    a = np.asarray(rgba).astype(np.float32)
+    al = a[..., 3:4] / 255.0
+    rgb = (a[..., :3] - (1 - al) * np.asarray(bg, np.float32)) / np.maximum(al, 1e-3)
+    a[..., :3] = np.where(al > 0, np.clip(rgb, 0, 255), 0)
+    # JPEG bleeds the key colour into solid outline pixels too: near the edge, anything tinted toward
+    # the key (both its strong channels well above its weak one) goes back to the dark outline brown.
+    from scipy import ndimage
+    near_edge = ndimage.binary_dilation(a[..., 3] < 128, iterations=8) & (a[..., 3] > 0)
+    bg = np.asarray(bg, np.float32); hi = np.argsort(bg)[1:]; lo = int(np.argmin(bg))
+    tint = np.min(a[..., hi], axis=-1) - a[..., lo]
+    spill = near_edge & (tint > 12) & (a[..., hi[-1]] - a[..., lo] > 25)
+    a[..., :3][spill] = _hex_rgb(SPILL_HEX)
+    return Image.fromarray(a.astype(np.uint8), "RGBA")
+
+
+def _resize_premul(fr, size):
+    """High-quality resize with premultiplied alpha (no dark or coloured halo)."""
+    a = np.asarray(fr.convert("RGBA")).astype(np.float32) / 255.0
+    al = a[..., 3]
+    chans = [a[..., i] * al for i in range(3)] + [al]
+    out = [np.clip(np.asarray(Image.fromarray(c, "F").resize(size, Image.LANCZOS)), 0, 1) for c in chans]
+    rgb = np.stack(out[:3], -1) / np.maximum(out[3], 1e-4)[..., None]
+    return np.clip(rgb, 0, 1), out[3]
+
+
+def hires_sheet(frames, fw, fh, s):
+    """Frames -> one-row strip of (fw·s)×(fh·s) cells keeping the art's own colours and outline: one
+    shared scale, each body centred on its alpha centroid, feet on the bottom row. Drawn by the game
+    at 1/s so a cell covers fw×fh world pixels."""
+    W, H = fw * s, fh * s
+    k = min((W - 2) / max(f.width for f in frames), (H - 1) / max(f.height for f in frames))
+    strip = np.zeros((H, W * len(frames), 4), np.float32)
+    report = [f"  scale {k:.4f} (shared by all {len(frames)} frames), cell {W}x{H} = {fw}x{fh} world px at {s}x"]
+    for i, fr in enumerate(frames):
+        rgb, al = _resize_premul(fr, (max(1, round(fr.width * k)), max(1, round(fr.height * k))))
+        ys, xs = np.nonzero(al > 0.04)
+        rgb, al = rgb[ys.min():ys.max() + 1, xs.min():xs.max() + 1], al[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
+        h, w = al.shape
+        cx = (al.sum(0) * np.arange(w)).sum() / al.sum()
+        ox = int(min(max(round((W - 1) / 2 - cx), 0), W - w)); oy = H - h
+        cell = strip[:, i * W:(i + 1) * W]
+        cell[oy:oy + h, ox:ox + w, :3] = rgb; cell[oy:oy + h, ox:ox + w, 3] = al
+        report.append(f"  frame {i + 1}: body {w}x{h} tex px ({w / s:.1f}x{h / s:.1f} world), centre x {ox + cx:.1f}")
+    return Image.fromarray((strip * 255).round().astype(np.uint8), "RGBA"), report
+
+
 def row_frames(img, min_gap=3):
     """Split a one-row sheet at runs of fully transparent columns (gaps of at least min_gap px)."""
     cols = (np.asarray(img)[..., 3] >= 128).any(axis=0)
@@ -467,10 +542,13 @@ def pixel_sheet(frames, fw, fh, baseline=None, do_outline=True, pal_path=PIXEL_P
     return Image.fromarray(out, "RGBA"), report
 
 
-def update_sprite_manifest(sprites_dir, name, frames, fw, fh):
+def update_sprite_manifest(sprites_dir, name, frames, fw, fh, scale=1):
     path = os.path.join(sprites_dir, "manifest.json")
-    data = json.load(open(path)) if os.path.exists(path) else {"version": 1, "sheets": {}}
-    data["sheets"][name] = {"frames": frames, "w": fw, "h": fh}
+    data = {"version": 1, "sheets": {}}
+    if os.path.exists(path):
+        with open(path) as f:
+            data = json.load(f)
+    data["sheets"][name] = {"frames": frames, "w": fw, "h": fh, **({"scale": scale} if scale != 1 else {})}
     data["sheets"] = dict(sorted(data["sheets"].items()))
     with open(path, "w") as f:
         json.dump(data, f, indent=1); f.write("\n")
@@ -488,39 +566,61 @@ def find_sheet_raws(name, raw):
 
 
 def run_sheet(a):
-    """--sheet N: process a character sprite sheet (see claude/SPRITE-SHEETS.md)."""
+    """--sheet N: process character sprite sheets (see claude/SPRITE-SHEETS.md). With --rows, one
+    source holds several sheets, one per row, sharing one scale so the character never changes size."""
     global BG_REF
-    name = a.asset
-    if not re.fullmatch(r"[a-z0-9]+(_[a-z0-9]+)*", name):
-        sys.exit(f"Sheet names are lowercase snake_case, got '{name}'")
+    names = a.rows.split(",") if a.rows else [a.asset]
+    for name in names:
+        if not re.fullmatch(r"[a-z0-9]+(_[a-z0-9]+)*", name):
+            sys.exit(f"Sheet names are lowercase snake_case, got '{name}'")
     fw, fh = map(int, a.frame.lower().split("x"))
-    raws = find_sheet_raws(name, a.raw)
-    frames = []
+    raws = find_sheet_raws(a.asset, a.raw)
+    rows = []  # one list of frames per output sheet
     for r in raws:
         img = Image.open(r).convert("RGB")
         BG_REF = bg_colour(np.asarray(img))
         if not a.keep_watermark:
             img, n = remove_watermark(img); print(f"{os.path.basename(r)}: watermark removed (inpainted {n} px, per Blake overrule)")
         img, how = cutout(img, a.cutout if a.cutout != "off" else "floodfill"); print(f"{os.path.basename(r)}: cutout {how}")
-        got = sheet_subjects(img, None if len(raws) > 1 else a.sheet, a.grid)
-        if len(raws) > 1 and len(got) != 1:
-            sys.exit(f"{r}: expected one frame per file, found {len(got)}")
-        frames += got
-    if len(frames) != a.sheet:
-        sys.exit(f"Got {len(frames)} frames, expected {a.sheet}")
+        if a.hires:
+            img = decontaminate(img, BG_REF)
+        bands = split_rows(img) if a.rows else [img]
+        if a.rows and len(bands) != len(names):
+            sys.exit(f"Found {len(bands)} rows, expected {len(names)} ({a.rows})")
+        for band in bands:
+            got = sheet_subjects(band, None if len(raws) > 1 else a.sheet, a.grid)
+            if len(raws) > 1 and len(got) != 1:
+                sys.exit(f"{r}: expected one frame per file, found {len(got)}")
+            rows.append(got)
+    if len(raws) > 1:
+        rows = [[f for row in rows for f in row]]
+    for row in rows:
+        if len(row) != a.sheet:
+            sys.exit(f"Got {len(row)} frames in a sheet, expected {a.sheet}")
     if not a.no_ground_clean:
-        frames = [clean_ground(f) for f in frames]
-    strip, report = pixel_sheet(frames, fw, fh, do_outline=not a.no_outline)
+        rows = [[clean_ground(f) for f in row] for row in rows]
     os.makedirs(a.sprites_dir, exist_ok=True); os.makedirs(a.out, exist_ok=True)
-    dst = safe_path(os.path.join(a.sprites_dir, name + ".png")); strip.save(dst)
-    preview = safe_path(os.path.join(a.out, name + "_x4.png"))
-    strip.resize((strip.width * PIXEL_SCALE, strip.height * PIXEL_SCALE), Image.NEAREST).save(preview)
-    print(f"wrote {dst} ({strip.width}x{strip.height}, {a.sheet} frames) and preview {preview}")
+    if a.hires:
+        everything, report = hires_sheet([f for row in rows for f in row], fw, fh, a.hires)
+        cw = fw * a.hires
+        strips = [everything.crop((k * a.sheet * cw, 0, (k + 1) * a.sheet * cw, everything.height)) for k in range(len(rows))]
+    else:
+        strips, report = [], []
+        for row in rows:
+            st, rep = pixel_sheet(row, fw, fh, do_outline=not a.no_outline); strips.append(st); report += rep
+    for name, strip in zip(names, strips):
+        dst = safe_path(os.path.join(a.sprites_dir, name + ".png")); strip.save(dst, optimize=True)
+        if a.hires:  # the strip is already full size: it is its own preview
+            size = (fw * a.hires, fh * a.hires); print(f"wrote {dst} ({strip.width}x{strip.height}, {a.sheet} frames)")
+        else:
+            preview = safe_path(os.path.join(a.out, name + "_x4.png"))
+            strip.resize((strip.width * PIXEL_SCALE, strip.height * PIXEL_SCALE), Image.NEAREST).save(preview)
+            size = (fw, fh); print(f"wrote {dst} ({strip.width}x{strip.height}, {a.sheet} frames) and preview {preview}")
+        print(f"manifest: {update_sprite_manifest(a.sprites_dir, name, a.sheet, *size, scale=a.hires or 1)}")
+        if a.log:
+            spec = dict(stem=name, file=os.path.relpath(dst, ROOT), prompt_file="claude/SPRITE-SHEETS.md")
+            print(log_licence(spec, dst, a.keep_watermark))
     print("\n".join(report))
-    print(f"manifest: {update_sprite_manifest(a.sprites_dir, name, a.sheet, fw, fh)}")
-    if a.log:
-        spec = dict(stem=name, file=os.path.relpath(dst, ROOT), prompt_file="claude/SPRITE-SHEETS.md")
-        print(log_licence(spec, dst, a.keep_watermark))
 
 
 def main():
@@ -547,6 +647,8 @@ def main():
                    help="sprite sheet mode: N frames -> one-row strip at --frame size in apps/web/public/sprites/ (see claude/SPRITE-SHEETS.md)")
     p.add_argument("--frame", default="24x24", help="sheet cell size WxH (default 24x24, the world Puff)")
     p.add_argument("--grid", help="sheet: split the source into even COLSxROWS cells instead of finding subjects")
+    p.add_argument("--rows", help="sheet: the source has one sheet per row; comma list of their names, top to bottom")
+    p.add_argument("--hires", type=int, metavar="S", help="sheet: keep the art's own colours at S texture px per world px (no palette or pixel shrink)")
     p.add_argument("--sprites-dir", default=SPRITES_PUBLIC, help="sheet: engine output dir (default apps/web/public/sprites)")
     a = p.parse_args()
     if a.sheet:

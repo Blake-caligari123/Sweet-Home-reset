@@ -4,7 +4,8 @@ import type { Dir } from './art';
 // Character sprite sheets from claude/SPRITE-SHEETS.md, made by tools/process_asset.py --sheet and
 // listed in public/sprites/manifest.json. Each is one row of frames with the feet on one baseline.
 // Anything not in the manifest yet falls back to the code-drawn placeholder.
-export interface SheetInfo { frames: number; w: number; h: number }
+/** `scale`: texture pixels per world pixel for hi-res art (drawn at 1/scale); 1 or absent for pixel art. */
+export interface SheetInfo { frames: number; w: number; h: number; scale?: number }
 export interface SpriteManifest { version: 1; sheets: Record<string, SheetInfo> }
 
 export type PuffPose = 'walk' | 'idle' | 'swing' | 'sleep' | 'hop';
@@ -48,8 +49,11 @@ export function blinkClip(dir: Dir, has: (name: string) => boolean): Clip | null
 
 export class SpriteBank {
   private sheets = new Map<string, Texture[]>();
+  private scales = new Map<string, number>();
   has = (name: string) => this.sheets.has(name);
   frames(name: string) { return this.sheets.get(name); }
+  /** Texture pixels per world pixel for this sheet. */
+  scale(name: string) { return this.scales.get(name) ?? 1; }
 
   /** Load every sheet in the manifest. A missing manifest or a bad sheet is skipped calmly. */
   static async load(base: string): Promise<SpriteBank> {
@@ -63,8 +67,11 @@ export class SpriteBank {
     await Promise.all(Object.entries(manifest.sheets ?? {}).map(async ([name, info]) => {
       try {
         const sheet = await Assets.load<Texture>(`${base}sprites/${name}.png`);
-        sheet.source.scaleMode = 'nearest';
+        const scale = info.scale && info.scale > 1 ? info.scale : 1;
+        // Hi-res art is shrunk on screen, so it filters smoothly; pixel art stays nearest-neighbour.
+        sheet.source.scaleMode = scale > 1 ? 'linear' : 'nearest';
         if (sheet.width < info.w * info.frames || sheet.height < info.h) throw new Error('sheet smaller than its manifest entry');
+        bank.scales.set(name, scale);
         bank.sheets.set(name, Array.from({ length: info.frames }, (_, i) => new Texture({ source: sheet.source, frame: new Rectangle(i * info.w, 0, info.w, info.h) })));
       } catch (e) { console.warn(`Sprite sheet ${name} skipped`, e); }
     }));

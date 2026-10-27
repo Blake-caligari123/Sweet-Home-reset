@@ -26,4 +26,7 @@ Allowed instead:
 | puff_idle (asset 2, #2 "Puff state: idle") | `puff/puff_idle.png` (box: art/puff/puff_state_idle.png) | ASSET-PROMPTS.md #2 | 2026-10-27 | Grok Imagine (mark removed per Blake 2026-10-27; jpg kept) |
 | puff pose cutouts ×7 (from #1 "Puff model sheet") | art/puff/puff_{front,three_quarter,side,back,talk,happy,sleepy}.png | ASSET-PROMPTS.md #1 | 2026-10-27 | Grok Imagine (mark not in cutouts; sheet jpg kept) |
 | puff_side (re-cut by tools/process_asset.py) | `puff/puff_side.png` | `claude/asset-prompts/01-puff-model-sheet.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; ground patch cleaned; jpg kept) |
-| puff_walk_down (raw sheet; not in the game yet) | `art/sprites/raw/puff_walk_down.jpg` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+| puff_walk_down, first try (superseded by puff_walk.jpg; not used) | `art/sprites/raw/puff_walk_down.jpg` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+| puff_walk_down (row of `art/sprites/raw/puff_walk.jpg`) | `apps/web/public/sprites/puff_walk_down.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+| puff_walk_up (row of `art/sprites/raw/puff_walk.jpg`) | `apps/web/public/sprites/puff_walk_up.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+| puff_walk_right (row of `art/sprites/raw/puff_walk.jpg`) | `apps/web/public/sprites/puff_walk_right.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
