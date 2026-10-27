@@ -106,6 +106,13 @@ describe('room session', () => {
     expect(Array.from(decodeRuns(encodeRuns(session.dirt.hp), session.dirt.hp.length))).toEqual(Array.from(session.dirt.hp));
   });
 
+  it('starts fresh from a save made when the room had different tasks', () => {
+    const saved = new RoomSession(kitchen, 3).save();
+    saved.stage = 50;
+    saved.popped = saved.popped.slice(1);
+    expect(new RoomSession(kitchen, 3, saved).stage).toBe(0);
+  });
+
   it('ignores a save made for a different mess', () => {
     const saved = new RoomSession(kitchen, 3).save();
     saved.stage = 50;

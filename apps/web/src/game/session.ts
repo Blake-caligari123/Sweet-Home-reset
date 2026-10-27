@@ -37,7 +37,8 @@ export class RoomSession {
     this.crumbs = room.tasks.map((t) => (t.type === 'vacuum' ? scatter(t.areas, t.count, seed * 104729 + t.seed) : []));
     this.vacuumed = this.crumbs.map((list) => list.map(() => false));
     this.done = room.tasks.map(() => false);
-    if (saved && saved.seed === seed) this.restore(saved);
+    // A save from a different mess, or from an older version of this room's tasks, starts fresh.
+    if (saved && saved.seed === seed && saved.popped?.length === room.tasks.length) this.restore(saved);
   }
 
   get tasks(): TaskDef[] { return this.room.tasks; }
