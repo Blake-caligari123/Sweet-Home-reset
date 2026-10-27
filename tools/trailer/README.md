@@ -15,3 +15,11 @@ Run from this folder with the dev server up (`npm run dev` → port 5173):
     node render.cjs h <shot> --still 0.5,1.2          # stills for checking
     python3 assemble.py h        # → final/…_16x9.mp4
     python3 assemble.py v A      # → final/…_vertical_A.mp4
+
+## v3 (viral cuts)
+
+`shots3.js` holds one timeline per video (`v3A` satisfying, `v3B` POV story, `v3C` glow-up, `v3H` 16:9). `audio3.py` is the harder 808/chip-pop score.
+
+    node render.cjs v v3A        # → out/v_v3A.mp4 (+ .sfx.json)
+    node render.cjs h v3H
+    ./assemble3.sh A             # music + sfx → final/sweet_home_reset_v3_vertical_A.mp4

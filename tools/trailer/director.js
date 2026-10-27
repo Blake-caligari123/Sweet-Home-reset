@@ -201,7 +201,7 @@
   D.alphaTag = (show = true) => {
     if (!show) return;
     const e = D.el('alphatag', (e) => { e.className = 'o tag'; e.style.fontSize = U() * 0.62 + 'px'; e.textContent = 'ALPHA FOOTAGE · WORK IN PROGRESS'; });
-    if (D.vertical) D.place2(e, D.vw * 0.5, D.vh * 0.135, {}); else D.place2(e, D.vw - U() * 1.0, U() * 1.0, { ax: 1, ay: 0 });
+    if (D.vertical) D.place2(e, D.vw * 0.5, D.vh * (D.v3 ? 0.085 : 0.135), {}); else if (D.v3) D.place2(e, U() * 1.0, U() * 1.0, { ax: 0, ay: 0 }); else D.place2(e, D.vw - U() * 1.0, U() * 1.0, { ax: 1, ay: 0 });
   };
   // Colour meter: value 0..1
   D.meter = (v, { pulse = 0, show = 1 } = {}) => {
@@ -244,6 +244,53 @@
   // ---- frame driver
   D.frameNo = 0;
   D.shot = null;
-  D.run = (t) => { D.t = t; D.beginFrame(); D.shot?.(D, t); D.endFrame(); D.frameNo += 1; };
+  D.run = (t) => { D.t = t; D.stepMs = 1000 / 60; D.beginFrame(); D.shot?.(D, t); D.endFrame(); D.frameNo += 1; return D.stepMs; };
+
+  // ---- v3: platform-native captions, emoji, counter, badges, flashes
+  const css3 = document.createElement('style');
+  css3.textContent = `
+  #tr .tt{font-weight:900;color:#fff;-webkit-text-stroke:calc(var(--u)*0.42) #111;paint-order:stroke fill;letter-spacing:-0.01em;text-align:center;white-space:normal;line-height:1.08;text-shadow:0 calc(var(--u)*0.18) calc(var(--u)*0.3) rgba(0,0,0,.35)}
+  #tr .ttbox{font-weight:800;color:#111;text-align:center;white-space:normal;line-height:1.18}
+  #tr .ttbox .w{background:#fff;box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:calc(var(--u)*0.12) calc(var(--u)*0.35);border-radius:calc(var(--u)*0.35)}
+  #tr .w{display:inline-block;white-space:pre}
+  #tr .emo{font-family:'Noto Color Emoji';line-height:1}
+  #tr .hl{color:#ffe066}
+  `;
+  document.head.append(css3);
+  // word-by-word caption. words wrapped in *stars* get highlight colour.
+  D.cap = (id, txt, { x = 0.5, y = 0.2, t0 = 0, t1 = 1e9, size = 2.0, box = false, wordDur = 0.09, width = 0.86, pop = 1.18 } = {}) => {
+    const t = D.t; if (t < t0 || t > t1) return null;
+    const e = D.el(id, (e) => {
+      e.className = 'o ' + (box ? 'ttbox' : 'tt'); e.style.fontSize = size * D.U() + 'px'; e.style.width = width * D.vw + 'px';
+      e.innerHTML = txt.split(' ').map((w) => { const hl = /^\*.*\*$/.test(w); w = w.replace(/\*/g, ''); const emo = /\p{Extended_Pictographic}/u.test(w); return `<span class="w${hl ? ' hl' : ''}${emo ? ' emo' : ''}">${w}</span><span class="w"> </span>`; }).join('');
+    });
+    const ws = [...e.querySelectorAll('.w')].filter((_, i) => i % 2 === 0);
+    ws.forEach((w, i) => { const q = (t - t0 - i * wordDur) / 0.1; w.style.visibility = q >= 0 ? 'visible' : 'hidden'; const s = q < 0 ? 0 : q < 1 ? D.lerp(pop, 1, D.E.out(q)) : 1; w.style.transform = `scale(${s})`; });
+    D.place2(e, x * D.vw, y * D.vh, {});
+    return e;
+  };
+  D.emoji = (id, ch, x, y, t0, t1 = 1e9, size = 3, r = 0) => {
+    const t = D.t; if (t < t0 || t > t1 + 0.12) return null;
+    const e = D.el(id, (e) => { e.className = 'o emo'; e.style.fontSize = size * D.U() + 'px'; e.textContent = ch; });
+    const k = t - t0; let s = D.E.back(k / 0.22); if (t > t1) s *= 1 - (t - t1) / 0.12;
+    D.place2(e, x * D.vw, y * D.vh, { s, r: r + Math.sin(k * 9) * 6 * Math.exp(-k * 3) });
+    return e;
+  };
+  D.counter = (id, txt, { x = 0.5, y = 0.32, size = 4.2, pulseT = -9, color = '#fff' } = {}) => {
+    const e = D.el(id, (e) => { e.className = 'o tt'; e.style.whiteSpace = 'nowrap'; e.style.width = 'auto'; });
+    e.style.fontSize = size * D.U() + 'px'; e.textContent = txt; e.style.color = color;
+    const k = D.t - pulseT; const s = k >= 0 && k < 0.25 ? 1 + 0.28 * Math.exp(-k * 14) : 1;
+    D.place2(e, x * D.vw, y * D.vh, { s });
+    return e;
+  };
+  D.badge = (id, txt, x, y, t0, t1 = 1e9, size = 1.3) => {
+    const t = D.t; if (t < t0 || t > t1) return null;
+    const e = D.el(id, (e) => { e.className = 'o'; e.style.cssText += `;background:#ff2d55;color:#fff;font-weight:900;border-radius:${D.U() * 0.5}px;padding:${D.U() * 0.2}px ${D.U() * 0.6}px;font-size:${size * D.U()}px;box-shadow:0 ${D.U() * 0.25}px 0 #a3001f`; });
+    e.textContent = txt;
+    D.place2(e, x * D.vw, y * D.vh, { s: D.E.back((t - t0) / 0.2), r: -4 });
+    return e;
+  };
+  D.flash = (id, t0, dur = 0.18, color = '#fff', peak = 0.85) => { const k = (D.t - t0) / dur; if (k < 0 || k > 1) return; D.layer(id, 'background:' + color, (1 - k) * peak); };
+  D.vignetteDark = (o) => D.layer('vdark', 'background:radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 45%, rgba(0,0,0,.7) 100%)', o);
   window.__step(16.667);
 })();

@@ -28,7 +28,8 @@ const VP = fmt === 'v' ? { width: 1080, height: 1920 } : { width: 1920, height: 
   for (let i = 0; i < 30; i++) { await p.evaluate(() => window.__step(16.667)); await p.waitForTimeout(10); }
   await p.addScriptTag({ path: 'director.js' });
   await p.addScriptTag({ path: 'shots.js' });
-  const info = await p.evaluate(([shot, variant]) => { const s = window.SHOTS[shot]; D.variant = variant; D.shot = s.f; s.setup?.(D); for (let i = 0; i < (s.pre ?? 30); i++) { D.run(-1); window.__step(16.667); } return { dur: s.dur }; }, [shot, variant]);
+  await p.addScriptTag({ path: 'shots3.js' });
+  const info = await p.evaluate(([shot, variant]) => { const s = window.SHOTS[shot]; D.variant = variant; D.shot = s.f; s.setup?.(D); for (let i = 0; i < (s.pre ?? 30); i++) { D.run(-1); window.__step(16.667); } D.stepMs = 1000 / 60; return { dur: s.dur }; }, [shot, variant]);
   // preload DOM images
   await p.evaluate(() => Promise.all(['puff_idle_down', 'puff_blink_down', 'item_sock', 'item_book', 'item_cup'].map((n) => new Promise((r) => { const i = new Image(); i.onload = i.onerror = r; i.src = `/Sweet-Home-reset/sprites/${n}.png`; }))));
   const cdp = await ctx.newCDPSession(p);
@@ -36,7 +37,7 @@ const VP = fmt === 'v' ? { width: 1080, height: 1920 } : { width: 1920, height: 
   if (stills) {
     const ts = stills.split(',').map(Number); let t = 0, f = 0;
     for (const want of ts) {
-      while (t < want) { await p.evaluate((t) => { D.run(t); window.__step(1000 / 60); }, t); f++; t = f / FPS; }
+      while (t < want) { await p.evaluate((t) => { window.__step(D.run(t)); }, t); f++; t = f / FPS; }
       fs.writeFileSync(`out/still_${fmt}_${shot}${variant}_${want}.png`, await shotPng());
     }
   } else {
@@ -44,7 +45,7 @@ const VP = fmt === 'v' ? { width: 1080, height: 1920 } : { width: 1920, height: 
     const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '14', '-pix_fmt', 'yuv420p', out], { stdio: ['pipe', 'inherit', 'inherit'] });
     const t0 = Date.now();
     for (let f = 0; f < n; f++) {
-      await p.evaluate((t) => { D.run(t); window.__step(1000 / 60); }, f / FPS);
+      await p.evaluate((t) => { window.__step(D.run(t)); }, f / FPS);
       const buf = await shotPng();
       if (!ff.stdin.write(buf)) await new Promise((r) => ff.stdin.once('drain', r));
       if (f % 120 === 0) console.log(`${shot}${variant} ${f}/${n} ${((Date.now() - t0) / (f + 1)).toFixed(0)}ms/f`);
