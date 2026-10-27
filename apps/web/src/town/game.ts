@@ -11,9 +11,9 @@ import { Bag } from './bag';
 import { Clock, DAY_END, DAY_START, formatTime, LATE_AT } from './clock';
 import { Fluff } from './fluff';
 import { dialogue, Hud, itemIcon, TOOL_NAMES } from './hud';
-import { AreaMess, TOOL_FOR, type MessType, type ToolId } from './mess';
+import { AreaMess, FULL_COLOUR, TOOL_FOR, type MessType, type ToolId } from './mess';
 import { Onboarding, type OnboardEvent } from './onboarding';
-import { findPath, standTiles, type Tile } from './pathfind';
+import { retarget, standTiles, type Route, type Tile } from './pathfind';
 import { eraseTown, stamp, writeTown, type TownSave } from './save';
 import { cropDays, PUTAWAY_SPARKLES, SWING_MS, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './tuning';
 import { World } from './world';
@@ -104,7 +104,10 @@ export class TownGame {
         props: () => this.area.pack.props.filter((p) => p.action).map((p) => ({ type: p.type, x: p.x, y: p.y, action: p.action, accepts: p.accepts })),
         doors: () => this.area.pack.doors.filter((d) => !d.closedText),
         tapTile: (x: number, y: number) => this.tap({ x, y }),
-        busy: () => this.puff.path.length > 0 || this.puff.swingMs > 0 || this.modal > 0 || this.fading
+        busy: () => this.puff.path.length > 0 || this.puff.swingMs > 0 || this.modal > 0 || this.fading,
+        /** Jump to an area in full colour, for screenshots. */
+        visit: (id: string, x: number, y: number, colour = true) => { if (colour) this.messFor(id).colour.fill(FULL_COLOUR); this.enterArea(id, x, y, false); },
+        drawn: () => { const p = this.puff; const n = p.path[0]; return { x: n ? p.x + (n.x - p.x) * p.seg : p.x, y: n ? p.y + (n.y - p.y) * p.seg : p.y }; }
       };
     }
   }
@@ -220,13 +223,23 @@ export class TownGame {
     // Act from a free tile beside the target (any tile of a multi-tile prop).
     const goals = this.standFor(target);
     if (goals.some((g) => g.x === this.puff.x && g.y === this.puff.y) && !this.puff.path.length) { this.act(target); return; }
-    let best: Tile[] | null = null;
+    let best: Route | null = null;
     for (const g of goals) {
-      const p = findPath(this.area, { x: this.puff.x, y: this.puff.y }, g);
-      if (p && (!best || p.length < best.length)) best = p;
+      const r = this.route(g);
+      if (r && (!best || r.path.length - r.seg < best.path.length - best.seg)) best = r;
     }
     if (!best) { this.say('Hmm, can\'t reach that.'); return; }
-    this.puff.path = best; this.puff.seg = 0; this.puff.action = target;
+    this.go(best, target);
+  }
+
+  /** A path to `goal` from wherever Puff is drawn right now, even part-way between two tiles. */
+  private route(goal: Tile) {
+    const p = this.puff;
+    return retarget(this.area, { x: p.x, y: p.y }, p.path[0] ?? null, p.seg, goal);
+  }
+
+  private go(r: Route, action: Target | null) {
+    Object.assign(this.puff, { x: r.from.x, y: r.from.y, seg: r.seg, path: r.path, action });
   }
 
   private standFor(t: Target): Tile[] {
@@ -243,20 +256,20 @@ export class TownGame {
   }
 
   private walkTo(tile: Tile, door: Target | null) {
-    const path = this.area.walkable(tile.x, tile.y) ? findPath(this.area, { x: this.puff.x, y: this.puff.y }, tile) : null;
-    if (path) { this.puff.path = path; this.puff.seg = 0; this.puff.action = door; return; }
+    const direct = this.area.walkable(tile.x, tile.y) ? this.route(tile) : null;
+    if (direct) { this.go(direct, door); return; }
     // Unreachable: go to the closest reachable spot (FRONTEND-PLAN §4).
-    let best: Tile[] | null = null; let bestD = Infinity;
+    let best: Route | null = null; let bestD = Infinity;
     for (let r = 1; r < 6 && !best; r += 1) {
       for (let dy = -r; dy <= r; dy += 1) for (let dx = -r; dx <= r; dx += 1) {
         const c = { x: tile.x + dx, y: tile.y + dy };
         if (!this.area.walkable(c.x, c.y)) continue;
-        const p = findPath(this.area, { x: this.puff.x, y: this.puff.y }, c);
+        const p = this.route(c);
         const d = Math.abs(dx) + Math.abs(dy);
         if (p && d < bestD) { best = p; bestD = d; }
       }
     }
-    if (best) { this.puff.path = best; this.puff.seg = 0; this.puff.action = null; }
+    if (best) this.go(best, null);
   }
 
   // ---- actions -----------------------------------------------------------------------------
