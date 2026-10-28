@@ -78,8 +78,8 @@ describe('Hollowfern dialogue', () => {
     }
   });
 
-  it('gives each free neighbour a full spring of lines, each with text', () => {
-    for (const id of ['hazel', 'bea', 'pip']) {
+  it('gives every neighbour a full spring of lines, each with text', () => {
+    for (const { id } of pack.neighbours!) {
       const lines = pack.dialogue?.[id] ?? [];
       for (const l of lines) expect(strings[l.id], l.id).toBeTruthy();
       const count = (f: (l: Line) => boolean) => lines.filter(f).length;

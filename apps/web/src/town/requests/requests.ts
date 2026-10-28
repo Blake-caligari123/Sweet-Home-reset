@@ -17,6 +17,8 @@ export interface RequestTemplate {
   area?: string; rect?: [number, number, number, number]; mess?: Exclude<MessType, 'none'>;
   /** bring: the item to hand over. */
   item?: string;
+  /** Not posted before this day (a job in a place that opens later). */
+  fromDay?: number;
   /** Always on the board on day 1 (the onboarding request). */
   first?: boolean;
   /** Set when it's done, for scenes that remember it. */
@@ -38,7 +40,7 @@ export function newDay(s: RequestState, templates: RequestTemplate[], day: numbe
   // Unaccepted posts come down each morning; accepted ones stay until done or missed.
   const list = s.list.filter((r) => r.accepted && !expired.includes(r.id));
   const want = lo + Math.floor(rand() * (hi - lo + 1));
-  const pool = templates.filter((t) => !list.some((r) => r.id === t.id));
+  const pool = templates.filter((t) => (t.fromDay ?? 1) <= day && !list.some((r) => r.id === t.id));
   const pick: RequestTemplate[] = day === 1 ? pool.filter((t) => t.first) : [];
   const rest = pool.filter((t) => !pick.includes(t));
   while (pick.length < want && rest.length) pick.push(rest.splice(Math.floor(rand() * rest.length), 1)[0]);

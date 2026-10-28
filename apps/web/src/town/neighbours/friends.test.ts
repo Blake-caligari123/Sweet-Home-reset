@@ -76,7 +76,8 @@ describe('Hollowfern tastes', () => {
   it('names every item a neighbour loves, likes or dislikes, and each has a spring gift they like', () => {
     for (const n of pack.neighbours!) {
       for (const id of [...n.loves, ...n.likes, ...n.dislikes]) expect(pack.items[id]?.name, `${n.id} ${id}`).toBeTruthy();
-      expect([...n.loves, ...n.likes].some((id) => ['radish', 'tart', 'radish_seeds'].includes(id)), n.id).toBe(true);
+      // Something they'd love or like that Puff can find or buy in spring.
+      expect([...n.loves, ...n.likes].some((id) => ['radish', 'tart', 'radish_seeds', 'flowers', 'shell', 'book'].includes(id)), n.id).toBe(true);
       for (const t of ['loved', 'liked', 'neutral', 'disliked']) expect(pack.strings!['en-AU'][`${n.id}.gift.${t}`], `${n.id} ${t}`).toBeTruthy();
     }
   });

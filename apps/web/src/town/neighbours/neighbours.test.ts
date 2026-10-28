@@ -140,6 +140,20 @@ describe('Hollowfern neighbours', () => {
     }
   });
 
+  it('Otto, Moss and Mabel keep their routines', () => {
+    const at = (id: string, m: number) => { const d = pack.neighbours!.find((n) => n.id === id)!; return d.schedule[stopAt(d.schedule, m)]; };
+    expect(at('otto', 6 * 60)).toMatchObject({ area: 'riverside' }); // fishing
+    expect(at('otto', 12 * 60)).toMatchObject({ area: 'bathhouse' }); // polishing the brass
+    expect(at('otto', 20 * 60 + 30)).toMatchObject({ area: 'riverside' }); // alone on the jetty
+    expect(at('moss', 9 * 60)).toMatchObject({ area: 'library', sleep: true });
+    for (const m of [10 * 60, 15 * 60, 22 * 60]) expect(at('moss', m)).toMatchObject({ area: 'library' });
+    expect(at('moss', 12 * 60).sleep).toBeFalsy();
+    // Mabel sleeps by day and takes visitors in the square from 18:00 to 1:00 until the lighthouse opens.
+    expect(at('mabel', 12 * 60).area).not.toBe('square');
+    for (const m of [18 * 60, 21 * 60, 24 * 60 + 30]) expect(at('mabel', m)).toMatchObject({ area: 'square' });
+    expect(at('mabel', 25 * 60 + 10).area).not.toBe('square');
+  });
+
   it('Hazel keeps her routine: bakes from 6, shop from 11, asleep in a chair by 21', () => {
     const hazel = pack.neighbours!.find((d) => d.id === 'hazel')!;
     const at = (m: number) => hazel.schedule[stopAt(hazel.schedule, m)];

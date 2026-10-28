@@ -42,8 +42,9 @@ describe('heart events', () => {
 describe('Hollowfern heart events', () => {
   const text = pack.strings!['en-AU'];
 
-  it('has 2, 4, 6, 8 and 10 for each free neighbour, each needing the one before', () => {
-    for (const id of ['hazel', 'bea', 'pip']) {
+  it('has 2, 4, 6, 8 and 10 for every neighbour, each needing the one before', () => {
+    expect(pack.neighbours!.length).toBe(6);
+    for (const { id } of pack.neighbours!) {
       const mine = events.filter((e) => e.neighbourId === id);
       expect(mine.map((e) => e.hearts), id).toEqual([2, 4, 6, 8, 10]);
       mine.forEach((e, i) => { if (i) expect(e.conditions?.seen, e.id).toContain(mine[i - 1].id); });
@@ -66,6 +67,14 @@ describe('Hollowfern heart events', () => {
     const h10 = events.find((e) => e.id === 'he_hazel_10')!;
     const guest = (f: string) => stepsOf(h10, [f]).filter((s) => 'line' in s && s.if).map((s) => 'line' in s && s.line);
     expect(guest('first_tart_bea')).not.toEqual(guest('first_tart_pip'));
+  });
+
+  it('Moss 10 tells of things Puff really did, and Mabel 10 waits for Winter Lights', () => {
+    const m10 = events.find((e) => e.id === 'he_moss_10')!;
+    const told = (f: string[]) => stepsOf(m10, f).map((s) => 'line' in s && s.line);
+    expect(told(['restored_bakery', 'onboard_counter_done'])).not.toEqual(told([]));
+    expect(told([]).length).toBeGreaterThanOrEqual(4);
+    expect(events.find((e) => e.id === 'he_mabel_10')!.conditions?.flags).toContain('winter_lights');
   });
 
   it('Pip 6 stitches a bigger bag', () => {

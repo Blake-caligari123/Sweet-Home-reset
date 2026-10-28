@@ -26,6 +26,12 @@ describe('the notice board', () => {
     expect(newDay(empty(), templates, 1, { expire: true }).state.list.map((r) => r.id)).toContain('a');
   });
 
+  it('waits to post a job until the day its place opens', () => {
+    const river = [tpl('a', { first: true }), tpl('river', { fromDay: 3 })];
+    for (let day = 1; day < 3; day += 1) expect(newDay(empty(), river, day, { expire: true }).state.list.map((r) => r.id)).not.toContain('river');
+    expect([3, 4, 5, 6].some((day) => newDay(empty(), river, day, { expire: true }).state.list.some((r) => r.id === 'river'))).toBe(true);
+  });
+
   it('never posts the same request twice at once', () => {
     let s = empty();
     for (let day = 1; day < 20; day += 1) {
@@ -112,6 +118,26 @@ describe('Hollowfern requests', () => {
       expect(text[r.text], r.id).toBeTruthy();
       expect(pack.neighbours!.some((n) => n.id === r.neighbourId), r.id).toBe(true);
       if (r.kind === 'bring') expect(pack.items[r.item!]?.name, r.id).toBeTruthy();
+    }
+  });
+
+  it('gives every neighbour jobs, and never posts one before its place opens', () => {
+    // The first day each place can be reached: the latest gate on the earliest way there.
+    const opens = new Map<string, number>([['burrow', 1]]);
+    for (let changed = true; changed;) {
+      changed = false;
+      for (const a of pack.areas) for (const d of a.doors) {
+        const from = opens.get(a.id);
+        if (from === undefined || (d.closedText && !d.opensDay)) continue;
+        const day = Math.max(from, d.opensDay ?? 1);
+        if (day < (opens.get(d.to) ?? Infinity)) { opens.set(d.to, day); changed = true; }
+      }
+    }
+    for (const n of pack.neighbours!) expect(list.filter((r) => r.neighbourId === n.id).length, n.id).toBeGreaterThanOrEqual(2);
+    for (const r of list) {
+      const who = pack.neighbours!.find((n) => n.id === r.neighbourId)!;
+      const ready = r.kind === 'clean' ? opens.get(r.area!)! : Math.min(...who.schedule.map((s) => opens.get(s.area) ?? Infinity));
+      expect(r.fromDay ?? 1, r.id).toBeGreaterThanOrEqual(ready);
     }
   });
 
