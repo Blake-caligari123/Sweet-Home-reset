@@ -1,6 +1,7 @@
 /* Town HUD (GDD v3 A5 / A11.3): top-left Fluff, top-centre tracker, top-right clock and
    Sparkles, bottom tool band with a context prompt. Live text, 44 pt targets. */
 #ui > .town-hud, #ui > .fade, #ui > .banner { pointer-events: none; }
+#ui > .banner { width: max-content; max-width: calc(100vw - 32px); white-space: normal; text-align: center; font-size: 1.05rem; }
 #ui > .fade.on { pointer-events: auto; }
 .town-hud { position: absolute; inset: 0; }
 .town-hud button { pointer-events: auto; }

@@ -30,7 +30,7 @@ export interface Tuning {
     findChance: number; findPity: number; goldenSparkles: number; goldenFromDay: number;
     xp: { clean: number; job: number; restore: number; find: number };
     levelXpBase: number; levelXpGrowth: number; levelSparkles: number; levelFluffEvery: number;
-    goalsPerDay: number; goalSparkles: number; allGoalsBonus: number;
+    goalsPerDay: number; goalsFromDay: number; goalSparkles: number; allGoalsBonus: number;
   };
   townName: string;
   fountainName: string;

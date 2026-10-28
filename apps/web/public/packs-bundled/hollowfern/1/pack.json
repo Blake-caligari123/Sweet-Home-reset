@@ -4106,7 +4106,17 @@
    "req.moss_book": "Moss would like a book. Any book. Quietly.",
    "req.moss_cobwebs": "Dust the cobwebs in Moss's reading corner.",
    "req.mabel_mud": "Clear the mud by Mabel's evening bench.",
-   "req.mabel_biscuit": "Mabel fancies a biscuit with her evening tea."
+   "req.mabel_biscuit": "Mabel fancies a biscuit with her evening tea.",
+   "title.1": "Little Dust Bunny",
+   "title.2": "Tidy Paws",
+   "title.3": "Sparkle Scout",
+   "title.4": "Polish Pal",
+   "title.5": "Shine Seeker",
+   "title.6": "Gleam Keeper",
+   "title.7": "Colour Bringer",
+   "title.8": "Hollowfern Helper",
+   "title.9": "Glimmer Friend",
+   "title.10": "Keeper of Sparkles"
   }
  },
  "heartEvents": [

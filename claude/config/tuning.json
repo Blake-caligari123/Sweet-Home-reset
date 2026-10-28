@@ -19,11 +19,12 @@
     "goldenSparkles": 40,
     "goldenFromDay": 2,
     "xp": { "clean": 1, "job": 10, "restore": 25, "find": 3 },
-    "levelXpBase": 40,
+    "levelXpBase": 30,
     "levelXpGrowth": 1.25,
     "levelSparkles": 20,
     "levelFluffEvery": 2,
     "goalsPerDay": 3,
+    "goalsFromDay": 2,
     "goalSparkles": 15,
     "allGoalsBonus": 30
   },

@@ -7,7 +7,9 @@ import type { TownState } from '../state';
 import type { View } from '../ui/view';
 import { cleared, fade, NO_CHAIN } from './chain';
 import { rollFind } from './finds';
+import { goalLabel, goalsFor, progressGoals, type GoalState } from './goals';
 import { GOLDEN, goldenPickup, goldenSpot } from './golden';
+import { addXp, levelReward, xpToNext } from './level';
 import { crossed } from './milestones';
 import type { RewardHud } from './reward-hud';
 
@@ -17,9 +19,16 @@ export interface RewardState {
   finds: Record<string, number>;
   /** Cleans since the last find (for findPity). */
   sinceFind: number;
+  /** Puff's sparkle level and the XP toward the next one. */
+  level: number;
+  xp: number;
+  /** Today's goals and how far along each is. */
+  goals: GoalState;
+  /** Days with at least one goal done. Only ever goes up. */
+  cosyDays: number;
 }
 
-export const newRewardState = (): RewardState => ({ finds: {}, sinceFind: 0 });
+export const newRewardState = (): RewardState => ({ finds: {}, sinceFind: 0, level: 1, xp: 0, goals: { day: 0, goals: [], progress: [] }, cosyDays: 0 });
 
 export interface RewardsHost {
   state: TownState;
@@ -38,6 +47,12 @@ export interface RewardsHost {
   refreshHud(): void;
 }
 
+/** Puff's title at a level (the last one carries on past the list). */
+export function titleOf(content: Content, level: number) {
+  for (let l = level; l > 0; l -= 1) { const t = content.line(`title.${l}`); if (t) return t; }
+  return 'Dust Bunny';
+}
+
 /** How often golden dust glints. */
 const TWINKLE_MS = 1200;
 
@@ -51,8 +66,76 @@ export class Rewards {
   constructor(private host: RewardsHost) {}
 
   handle(e: PlayEvent) {
-    if (e.type === 'cleared') { this.cleaned(e.x, e.y); this.maybeFind(e.area, e.x, e.y); }
+    const xp = TUNING.rewards.xp;
+    if (e.type === 'cleared') { this.cleaned(e.x, e.y); this.maybeFind(e.area, e.x, e.y); this.gainXp(xp.clean); }
     if (e.type === 'took' && e.item === GOLDEN) this.caughtGolden(e.x, e.y);
+    if (e.type === 'found') this.gainXp(xp.find);
+    if (e.type === 'jobDone') this.gainXp(xp.job);
+    if (e.type === 'restored') this.gainXp(xp.restore);
+    this.countGoals(e);
+  }
+
+  /** Today's goals, set up fresh each day (from goalsFromDay). */
+  goalsToday(): GoalState | null {
+    const r = this.host.state.rewards;
+    const day = this.host.clock.state.day;
+    if (day < TUNING.rewards.goalsFromDay) return null;
+    if (r.goals.day !== day) { const goals = goalsFor(day); r.goals = { day, goals, progress: goals.map(() => 0) }; }
+    return r.goals;
+  }
+
+  private countGoals(e: PlayEvent) {
+    const today = this.goalsToday();
+    if (!today) return;
+    const { state, view } = this.host;
+    const r = state.rewards;
+    const wasAny = today.progress.some((p, i) => p >= today.goals[i].target);
+    const { state: next, finished } = progressGoals(today, e);
+    r.goals = next;
+    if (!finished.length) return;
+    const R = TUNING.rewards;
+    if (!wasAny) r.cosyDays += 1;
+    for (const i of finished) { state.sparkles += R.goalSparkles; view.banner(`Goal done: ${goalLabel(next.goals[i])}! +${R.goalSparkles} ✨`); }
+    view.feedback('chime', 'light');
+    if (next.progress.every((p, i) => p >= next.goals[i].target)) {
+      state.sparkles += R.allGoalsBonus;
+      view.banner(`All of today's goals! +${R.allGoalsBonus} ✨ · Cosy Days: ${r.cosyDays}`);
+      view.feedback('fanfare', 'success');
+      this.host.hopPuff();
+    }
+    this.host.refreshHud();
+  }
+
+  private gainXp(gain: number) {
+    const { state, view, content } = this.host;
+    const r = state.rewards;
+    const next = addXp(r, gain);
+    r.xp = next.xp; r.level = next.level;
+    for (const level of next.ups) {
+      const prize = levelReward(level);
+      state.sparkles += prize.sparkles;
+      if (prize.fluffMax) { state.fluff.max += prize.fluffMax; state.fluff.eat(prize.fluffMax); }
+      view.feedback('fanfare', 'success');
+      this.host.hopPuff();
+      view.banner(`Level ${level}: ${titleOf(content, level)}! +${prize.sparkles} ✨${prize.fluffMax ? ` · +${prize.fluffMax} max Fluff` : ''}`);
+    }
+  }
+
+  /** The level and goals chips. */
+  showStatus() {
+    const r = this.host.state.rewards;
+    const today = this.goalsToday();
+    this.host.hud.setStatus({
+      level: r.level, xp: r.xp, need: xpToNext(r.level),
+      goals: today ? { done: today.progress.filter((p, i) => p >= today.goals[i].target).length, of: today.goals.length } : null
+    });
+  }
+
+  /** The next unfinished goal, for the tracker when there are no tips or jobs. */
+  trackerLine() {
+    const today = this.goalsToday();
+    const i = today?.goals.findIndex((g, k) => today.progress[k] < g.target) ?? -1;
+    return today && i >= 0 ? `☆ ${goalLabel(today.goals[i])} (${today.progress[i]}/${today.goals[i].target})` : null;
   }
 
   /** Where today's golden dust waits. */
@@ -115,6 +198,7 @@ export class Rewards {
     this.host.sparkle(x, y, 10);
     view.feedback(first ? 'fanfare' : 'coin', 'medium');
     view.banner(`${first ? 'New find' : 'A find'}: ${content.itemName(item)}!${first ? ' Into the Finds book.' : ''}${roomy ? '' : ' (Bag\'s full.)'}`);
+    this.handle({ type: 'found', item });
     this.host.refreshHud();
   }
 

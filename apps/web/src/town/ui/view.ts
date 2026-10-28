@@ -8,12 +8,17 @@ export type Settings = TownSave['settings'];
 export interface Button { label: string; primary?: boolean; onClick: () => void }
 export type Speaker = { name: string; portrait: HTMLElement };
 
+/** How long a banner shows (its CSS animation runs this long). */
+const BANNER_MS = 1900;
+
 // Everything on screen over the world that features share: speech boxes, sheets, banners, Puff's
 // bubble, sounds and haptics. While any box or sheet is open the game is held (`busy`): the clock,
 // Puff and the neighbours wait.
 export class View {
   private modal = 0;
   private bubbleMs = 0;
+  /** Banners waiting their turn, so several at once read one after another. */
+  private banners: string[] = [];
 
   constructor(
     readonly root: HTMLElement,
@@ -44,10 +49,17 @@ export class View {
   }
 
   banner(text: string) {
+    this.banners.push(text);
+    if (this.banners.length === 1) this.nextBanner();
+  }
+
+  private nextBanner() {
+    const text = this.banners[0];
+    if (!text) return;
     const el = h('div', { class: 'banner', 'aria-hidden': 'true' }, text);
     this.root.append(el);
     this.hud.announce(text);
-    window.setTimeout(() => el.remove(), 1900);
+    window.setTimeout(() => { el.remove(); this.banners.shift(); this.nextBanner(); }, BANNER_MS);
   }
 
   feedback(soundId: SoundId, haptic: HapticKind | null) {

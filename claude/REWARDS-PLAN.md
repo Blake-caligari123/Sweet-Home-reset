@@ -43,13 +43,30 @@ rewards/                     new feature folder
   finds-sheet.ts             the Finds book and the Today sheet
 play/events.ts               PlayEvent: one event type for the tips and rewards (was OnboardEvent)
 ```
-- **Saved progress:** `TownState.rewards` holds xp, level, finds, sinceFind, goals and cosyDays. Pips use flags. It's optional in the save, so no migration is needed.
+- **Saved progress:** `TownState.rewards` holds xp, level, finds, sinceFind, goals and cosyDays. Pips need nothing saved, since progress only rises. It's optional in the save, so no migration is needed.
 - **Content:** the find items, their icons and the titles go in the pack. Numbers go in `tuning.json` under `rewards`.
 - **`game.ts`:**
   - construct `Rewards`
   - send play events to it as well as the guide (`notify`)
   - give the golden dust to the area's pickups
   - tick it in the loop
+
+## Built (28 Oct 2026)
+All seven are in.
+- **Batch 1:** Sparkles per clean, the chain, juice, the progress bar.
+- **Batch 2:** finds, the Finds book, golden dust.
+- **Batch 3:** levels, goals, Cosy Days.
+
+**Tuned in play:**
+- **The chain holds while Puff walks or cleans,** and only fades while Puff stands about. Walking between spots kept breaking it.
+- **The first level-up comes at 30 XP.** At 40 it arrived a little too late for an early win.
+- **Golden dust twinkles** so it can be spotted across a room.
+
+**On the way:**
+- Banners now queue, so a find, a goal and a level-up read one after another, and long ones wrap.
+- The `?debug` hooks moved out of `game.ts` into `debug.ts`.
+
+**Tastes:** finds are gifts too. Hazel likes acorns, Bea ribbons, Moss tiny brass keys, Mabel old coins. Pip already loves buttons, and Otto shells and river stones.
 
 ## Build order
 1. Events, the chain, Sparkles per clean, juice and the progress bar.

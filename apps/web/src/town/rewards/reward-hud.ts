@@ -12,17 +12,37 @@ export class RewardHud {
   private barFill: HTMLElement;
   private barLabel: HTMLElement;
   private chainBadge: HTMLElement;
+  private levelChip: HTMLElement;
+  private levelFill: HTMLElement;
+  private goalsChip: HTMLButtonElement;
   private shown = '';
 
-  constructor(private root: HTMLElement, private reducedMotion: () => boolean) {
+  /** `openToday`: the level and goals chips open the Today page. */
+  constructor(private root: HTMLElement, private reducedMotion: () => boolean, openToday: () => void) {
     this.barFill = h('i');
     this.barLabel = h('span', { class: 'home-bar-label' });
     const pips = PIPS.map((p) => h('b', { class: 'pip', style: { left: `${p * 100}%` } }));
     this.bar = h('div', { class: 'home-bar', hidden: true, role: 'meter', 'aria-label': 'How tidy this place is', 'aria-valuemin': 0, 'aria-valuemax': 100 },
       this.barLabel, h('div', { class: 'home-bar-track' }, this.barFill, ...pips));
     this.chainBadge = h('div', { class: 'chain-badge', hidden: true, 'aria-hidden': 'true' });
+    this.levelFill = h('i');
+    this.levelChip = h('button', { class: 'chip level-chip', type: 'button' }, h('span', {}, 'Lv 1'), h('span', { class: 'level-track' }, this.levelFill));
+    this.goalsChip = h('button', { class: 'chip goals-chip', type: 'button', hidden: true }, '★ 0/3');
+    for (const b of [this.levelChip, this.goalsChip]) b.addEventListener('click', openToday);
     root.querySelector('.town-top')!.append(this.bar);
+    root.querySelector('.clock-box')!.append(h('div', { class: 'reward-chips' }, this.levelChip, this.goalsChip));
     root.append(this.chainBadge);
+  }
+
+  /** Puff's level (with XP toward the next) and today's goals done, if there are goals today. */
+  setStatus(s: { level: number; xp: number; need: number; goals: { done: number; of: number } | null }) {
+    (this.levelChip.firstChild as HTMLElement).textContent = `Lv ${s.level}`;
+    this.levelFill.style.width = `${Math.min(100, (s.xp / s.need) * 100)}%`;
+    this.levelChip.setAttribute('aria-label', `Level ${s.level}, ${s.xp} of ${s.need} to the next. Open today's page.`);
+    this.goalsChip.hidden = !s.goals;
+    if (!s.goals) return;
+    this.goalsChip.textContent = `${s.goals.done === s.goals.of ? '★' : '☆'} ${s.goals.done}/${s.goals.of}`;
+    this.goalsChip.setAttribute('aria-label', `Today's goals: ${s.goals.done} of ${s.goals.of} done. Open today's page.`);
   }
 
   private get counter() { return this.root.querySelector('.sparkles') as HTMLElement; }

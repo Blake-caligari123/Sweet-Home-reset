@@ -13,3 +13,9 @@
 .sparkles.pulse { animation: pulse 260ms ease; }
 @media (prefers-reduced-motion: reduce) { .reward-pop { animation-duration: 600ms; } }
 .bag-slot.find.unfound > :first-child { filter: brightness(0) opacity(0.25); }
+.reward-chips { display: flex; gap: 6px; }
+.level-chip, .goals-chip { min-height: 34px; padding: 2px 10px; font-weight: 900; font-variant-numeric: tabular-nums; cursor: pointer; }
+.level-chip { display: flex; flex-direction: row; align-items: center; gap: 6px; }
+.level-track { display: block; width: 34px; height: 8px; border: 2px solid var(--line); border-radius: 999px; background: #fff; overflow: hidden; }
+.level-track > i { display: block; height: 100%; background: var(--sage); transition: width 300ms ease; }
+.goal.done { background: var(--butter-3); }
