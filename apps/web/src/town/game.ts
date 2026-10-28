@@ -215,8 +215,10 @@ export class TownGame {
       toWorld: (x, y) => this.world.toWorld(x, y),
       unlock: () => this.sound.unlock(),
       tap: (p) => this.tap(p.x, p.y),
-      // Each pass of a rub is another scrub, so a stain comes up in one go.
-      rub: (p, passes) => { this.tap(p.x, p.y); if (this.puff.action?.kind === 'mess' || this.puff.swing) this.puff.repeat = Math.min(MAX_RUB, passes - 1); },
+      // Each pass of a rub (or loop of a circle) is another scrub; a hold keeps going until it's gone.
+      rub: (p, passes) => this.scrub(p, passes - 1),
+      circle: (p, passes) => this.scrub(p, passes * 2),
+      hold: (p) => this.scrub(p, MAX_RUB),
       drag: (from, to) => this.carry.drag(from, to),
       carryable: (p) => this.carry.clutterAt(Math.floor(p.x / T), Math.floor(p.y / T)) ?? null
     });
@@ -225,6 +227,13 @@ export class TownGame {
       selectSlot: (n) => { const t = TOOL_SLOTS[n - 1]; if (this.state.tools[t]) { this.selected = t; this.refreshHud(); } },
       openBag: () => this.openBag()
     });
+  }
+
+  /** A tap on mess or a Grumble with extra scrubs queued (from a rub, circle or hold). */
+  private scrub(p: Pt, extra: number) {
+    this.tap(p.x, p.y);
+    const kind = (this.puff.swing ?? this.puff.action)?.kind;
+    if (kind === 'mess' || kind === 'grumble') this.puff.repeat = Math.min(MAX_RUB, extra);
   }
 
   /** Android back / Escape: close the top sheet, else open pause. */
