@@ -209,6 +209,10 @@ One new thing every couple of days, each with one tip or letter:
 - **Phase 2g (overnight):**
   - Building upgrades: a finished bench becomes a cosy bench (80 ✨), a flower bed a big flower bed (60 ✨), and a lamppost a twin lamp (120 ✨, two nights, Town Bloom 3).
   - They're offered on the plot's card in the Keeper's plans and built overnight like any build.
+- **Phase 2h (29 Oct, Blake: "make it straight away"):**
+  - A greenhouse on a new yard plot beside the garden (300 ✨, two nights, Town Bloom 2).
+  - Once it's finished, every crop in the yard counts as watered each night.
+  - Growing spring crops in other seasons comes with seasons (Phase 4).
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

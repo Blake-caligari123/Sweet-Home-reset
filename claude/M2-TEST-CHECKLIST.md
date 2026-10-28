@@ -165,6 +165,10 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Once something on a plot is finished, its card in the Keeper's plans offers "Upgrade: …": bench → cosy bench, flower bed → big flower bed, lamppost → twin lamp (needs Town Bloom 3).
 - [ ] The upgrade builds overnight (scaffold first) and is there in the morning.
 
+## 11n. Phase 2h: greenhouse
+- [ ] At Town Bloom 2 the Keeper's plans show a new plot, "By the garden", with the Greenhouse (300 ✨, two nights).
+- [ ] Once it's built (next to the garden fence), yard crops grow every night even if you forget to water.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

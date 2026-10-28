@@ -331,7 +331,7 @@ export class TownGame {
     await wait(this.settings.reducedMotion ? 200 : 900);
     this.clock.nextDay();
     this.jobs.post();
-    const built = overnight(state, this.content.pack.buildings ?? [], this.clock.state.day - 1, dozed);
+    const built = overnight(state, { buildings: this.content.pack.buildings ?? [], plots: this.content.pack.plots ?? [] }, this.clock.state.day - 1, dozed);
     this.places.rebuild(this.state.plots, this.state.decor);
     this.places.driftBack(this.clock.state.day);
     this.grumbles.newDay(this.clock.state.day);

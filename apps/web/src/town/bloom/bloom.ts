@@ -20,7 +20,7 @@ export function bloomLevel(points: number) {
 }
 
 /** The town's Bloom right now, from Puff's progress and how many places are restored. */
-export function townBloom(s: TownState, restored: number) {
+function townBloom(s: TownState, restored: number) {
   return bloomLevel(bloomPoints({
     restored,
     builds: Object.values(s.plots).filter((p) => p.stage >= DONE).length,

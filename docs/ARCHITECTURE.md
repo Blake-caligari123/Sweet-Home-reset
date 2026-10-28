@@ -55,7 +55,8 @@ town/
                 area with its mess and walking grid, rebuilt as things get built), grumble-layer.ts, pet-layer.ts,
                 outfit-layer.ts (the piece Puff is wearing)
     art/          code-drawn placeholders: texture.ts (tile size, noise, dither), ground.ts,
-                  props.ts, items.ts (mess, item icons, crops), characters.ts (Puff, neighbours)
+                  props.ts, built-props.ts (the plans board, builds, upgrades, decor), items.ts (mess, item icons,
+                  crops), characters.ts (Puff, neighbours), grumbles.ts, pets.ts, outfits.ts
   play/         core rules: mess.ts (mess, colour, restore), bag.ts, fluff.ts, clock.ts,
                 pickups.ts, onboarding.ts (tip rules), letter.ts (morning letter and real chore),
                 names.ts (the player's names for Puff and the town: `{puff}`, `{town}` in text),
