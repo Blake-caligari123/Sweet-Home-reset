@@ -154,7 +154,7 @@ export class PuffActions {
   }
 
   private useSoil(x: number, y: number) {
-    const { state, view, settings } = this.host;
+    const { state, view } = this.host;
     const id = this.host.here().id;
     const crop = state.crops.find((c) => c.area === id && c.x === x && c.y === y);
     if (crop) {
@@ -164,7 +164,6 @@ export class PuffActions {
         view.say('A radish! Crunchy.'); view.feedback('coin', 'medium');
       } else if (!crop.watered) {
         if (!state.tools.can) { view.say('Seeds need water. A can would help.'); return; }
-        if (!state.fluff.spend(false, settings.relaxed ? 0.5 : 1)) { view.say('Too sleepy to water...'); return; }
         crop.watered = true; this.host.select('can');
         view.feedback('wipe', 'light');
         this.host.guide.handle({ type: 'watered' });

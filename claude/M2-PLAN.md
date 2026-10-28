@@ -73,6 +73,7 @@ Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Progress is ticked in the Steps tab
 - **The late-night hint** is A6's: "Puff's getting sleepy. Head home to bed."
 - **The Day 2 letter** knows every kind of mess. After Hazel's counter it says "yesterday I cleaned a counter... wipe one counter of yours".
 - **Fixed on the way:** the planting tip gave its 3 seeds twice (once at the start, once when done). Now it's once.
+- **Watering is free now** (the GDD only charges Fluff for cleaning, and rain waters for free). Playing the tips exactly as written, Puff ran out of Fluff at "Water your seeds" (8:30 am, before Hazel's tart) and was stuck until bedtime. Proposed; easy to change back.
 - **Scripted check:** a Playwright run plays a new game with real taps from "Let's tidy!" to Day 2 and checks the A6 target state.
 
 **Pass test (A9):** onboarding to 30:00 completes; playtesters befriend neighbours and restore 3 homes within 14 days; a home restores at 95% and triggers the reveal; hearts never drop. FRONTEND-PLAN adds: onboarding to 30:00 by script, and 30 area changes without a memory leak.
