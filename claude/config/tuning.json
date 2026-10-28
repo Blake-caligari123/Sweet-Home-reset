@@ -97,6 +97,10 @@
     },
     "pet": {
       "day": 4
+    },
+    "cave_1": {
+      "day": 10,
+      "flag": "cave_leaf_1"
     }
   },
   "grumbles": {
@@ -119,5 +123,14 @@
     30,
     50
   ],
-  "findEveryCleans": 8
+  "findEveryCleans": 8,
+  "caves": {
+    "resetDays": 7,
+    "fluffPerSwing": 2,
+    "rockHits": {
+      "small": 2,
+      "medium": 3,
+      "large": 4
+    }
+  }
 }

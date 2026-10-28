@@ -98,6 +98,9 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
   Replies: I'll find you, M.! · By the sea? I'll look.
 - Hint: "A bottle's washed up by the fountain." · After replying: "Off it floats. I hope M. reads it soon."
 
+## New in Phase 3b (29 Oct): the caves (proposed, please review)
+- "The fountain's so quiet... Something's down there." · "Ooh. It's cool down here. And sparkly." · "A bit of {town}'s colour! Let's bring it home." · "Copper ore! Pip will love this." · "Mining takes Fluff. A snack first?"
+
 ## Hazel
 
 **First hello**

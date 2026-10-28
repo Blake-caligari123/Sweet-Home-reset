@@ -3,6 +3,7 @@ import type { Content } from '../data/content';
 import { PUTAWAY_SPARKLES, SWING_MS, TUNING } from '../data/tuning';
 import { nextFind } from '../bloom/bloom';
 import { openCollection } from '../bloom/collection-sheet';
+import type { Mining } from '../caves/mining';
 import { openLetter } from '../letters/letter-sheet';
 import { lettersWaiting } from '../letters/letters';
 import { harvest, seedsIn, stageOf, type CropDef } from './crops';
@@ -26,7 +27,9 @@ import type { Target } from './targets';
 
 export interface ActionsHost {
   state: TownState; view: View; content: Content; clock: Clock; settings: Settings;
-  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide; grumbles: GrumbleLife;
+  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide; grumbles: GrumbleLife; mining: Mining;
+  /** Whether something in the year-one schedule has arrived (the caves on day 10). */
+  arrived(key: string): boolean;
   /** The area Puff is in. */
   here(): { id: string; area: Area; mess: AreaMess; nav: NavGrid };
   /** The tool in Puff's paws. */
@@ -130,6 +133,7 @@ export class PuffActions {
     puff.swing = null; puff.charged = false;
     if (!t) { puff.pose = 'idle'; puff.repeat = 0; return; }
     puff.pose = 'idle';
+    if (t.kind === 'prop' && t.action === 'mine') { this.host.mining.land(t); return; }
     if (t.kind === 'grumble') {
       if (this.host.grumbles.tidy(t.id) === 'more' && puff.repeat > 0) { puff.repeat -= 1; this.startTidy(t); } else puff.repeat = 0;
       return;
@@ -257,6 +261,17 @@ export class PuffActions {
       case 'decor': {
         const p = this.host.here().area.tapPropAt(t.x, t.y);
         if (p) view.confirm(`Pick up the ${content.itemName(state.decor.find((d) => d.x === p.x && d.y === p.y && d.area === this.host.here().id)?.item ?? '').toLowerCase()}?`, 'Pick up', () => this.host.pickUpDecor(p.x, p.y));
+        return;
+      }
+      case 'mine':
+        this.host.mining.start(t);
+        return;
+      case 'hatch': {
+        const prop = this.host.here().area.tapPropAt(t.x, t.y);
+        const to = prop?.to && content.pack.areas.find((a) => a.id === prop.to);
+        if (!to || !this.host.arrived(to.id)) { view.say(content.line('cave.closed') ?? ''); return; }
+        view.say(content.line('cave.enter') ?? '');
+        this.host.travel(to.id, to.spawn.x, to.spawn.y);
         return;
       }
       case 'museum':

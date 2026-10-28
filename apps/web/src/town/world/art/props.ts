@@ -3,7 +3,7 @@ import { PixelCanvas, seeded } from '../../../shared/art/pixel-canvas';
 import { drawBuiltProp } from './built-props';
 import { T, dither } from './texture';
 
-export interface PropDef { type: string; x: number; y: number; w?: number; h?: number; colour?: string; label?: string; action?: string; accepts?: string[]; walkable?: boolean; doorX?: number; tap?: [number, number, number, number]; shop?: string }
+export interface PropDef { /** `to`: where a hatch leads. */ to?: string; type: string; x: number; y: number; w?: number; h?: number; colour?: string; label?: string; action?: string; accepts?: string[]; walkable?: boolean; doorX?: number; tap?: [number, number, number, number]; shop?: string }
 
 /** Ground shadow under a prop's footprint, drawn before any prop so props never shade each other. */
 export function propShadow(pc: PixelCanvas, p: PropDef) {

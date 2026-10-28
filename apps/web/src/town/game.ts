@@ -19,6 +19,7 @@ import { installDebugHooks } from './debug';
 import { PuffActions } from './play/actions';
 import { Clock, LATE_AT } from './play/clock';
 import { Carry } from './play/carry';
+import { Mining } from './caves/mining';
 import { Placing } from './decor/placing';
 import { Sweep } from './play/sweep';
 import { HomeLife } from './play/home-life';
@@ -82,6 +83,7 @@ export class TownGame {
   private petLayer: PetLayer;
   private outfitLayer: OutfitLayer;
   private carry: Carry;
+  private mining: Mining;
   private placing: Placing;
   private hudLive: HudLive;
   private sweep: Sweep;
@@ -134,7 +136,12 @@ export class TownGame {
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
     this.placing = new Placing({
       state: this.state, view: this.view, content: this.content, places: this.places, world: this.world, area: () => this.areaId,
-      refreshArea: () => { this.places.rebuild(this.state.plots, this.state.decor); this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet); },
+      refreshArea: () => { this.places.rebuild(this.state); this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet); },
+      refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+    });
+    this.mining = new Mining({
+      state: this.state, view: this.view, content: this.content, world: this.world, puff: this.puff, settings, area: () => this.areaId, day: () => this.clock.state.day,
+      refreshArea: () => { this.places.rebuild(this.state); this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet); },
       refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.tap(x, y) });
@@ -153,7 +160,7 @@ export class TownGame {
     });
     this.actions = new PuffActions({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
-      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, grumbles: this.grumbles,
+      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, grumbles: this.grumbles, mining: this.mining, arrived: (k) => this.arrived(k),
       here: () => ({ id: this.areaId, area: this.area, mess: this.mess, nav: this.nav }),
       selected: () => this.selected,
       select: (t) => { this.selected = t; },
@@ -177,7 +184,7 @@ export class TownGame {
       if (this.clock.state.minutes >= LATE_AT) this.hud.setLate(true);
     }
     else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
-    this.places.rebuild(this.state.plots, this.state.decor);
+    this.places.rebuild(this.state);
     this.grumbles.newDay(this.clock.state.day);
     this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = settings.reducedMotion;
     if (this.state.requests.day !== this.clock.state.day) this.jobs.post();
@@ -333,7 +340,7 @@ export class TownGame {
     this.clock.nextDay();
     this.jobs.post();
     const built = overnight(state, { buildings: this.content.pack.buildings ?? [], plots: this.content.pack.plots ?? [] }, this.clock.state.day - 1, dozed);
-    this.places.rebuild(this.state.plots, this.state.decor);
+    this.places.rebuild(this.state);
     this.places.driftBack(this.clock.state.day);
     this.grumbles.newDay(this.clock.state.day);
     this.hud.setLate(false);
@@ -367,7 +374,7 @@ export class TownGame {
     openBuildBoard({
       state: this.state, view: this.view, content: this.content, clock: this.clock, arrived: (k) => this.arrived(k),
       started: (plot) => {
-        this.places.rebuild(this.state.plots, this.state.decor);
+        this.places.rebuild(this.state);
         if (plot.area === this.areaId) this.enterArea(this.areaId, this.puff.x, this.puff.y, false, { x: this.puff.fx, y: this.puff.fy });
         this.world.sparkleBurst(plot.x, plot.y, 10);
         this.refreshHud();

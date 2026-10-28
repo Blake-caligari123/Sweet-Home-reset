@@ -3,7 +3,7 @@ import type { Crop } from '../state';
 import type { Here, Target } from '../play/targets';
 
 const CLEAN: Record<string, string> = { dust: 'Dust it', stain: 'Sponge the stain', weeds: 'Rake the weeds', grime: 'Scrub the grime', cobweb: 'Dust the cobweb' };
-const USE: Record<string, string> = { putaway: 'Put things away', sleep: 'Go to bed', sign: 'Read the sign', board: 'Read the notice board', mailbox: 'Check the mail', shop: 'Browse the shop', build: 'Look at the Keeper\'s plans', craft: 'Use the workbench', cook: 'Cook something', museum: 'Look at Moss\'s collection', decor: 'Pick it up' };
+const USE: Record<string, string> = { putaway: 'Put things away', sleep: 'Go to bed', sign: 'Read the sign', board: 'Read the notice board', mailbox: 'Check the mail', shop: 'Browse the shop', build: 'Look at the Keeper\'s plans', craft: 'Use the workbench', cook: 'Cook something', museum: 'Look at Moss\'s collection', decor: 'Pick it up', mine: 'Mine the rock', hatch: 'Climb down' };
 
 /** The context line above the tool bar: what Puff is facing or about to do. */
 export function promptFor(t: Target | null, here: Here, crops: Crop[], content: Content): string {

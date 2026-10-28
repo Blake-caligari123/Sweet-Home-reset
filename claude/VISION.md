@@ -218,6 +218,11 @@ One new thing every couple of days, each with one tip or letter:
   - Puff writes back by choosing one of two replies. That sets a flag and gives Mabel +3 friendship before she's met.
   - The first letter brings the shore-map leaf (`cave_leaf_1`) for the caves.
   - The letter text is proposed and in DIALOGUE-REVIEW.
+- **Phase 3b (29 Oct):**
+  - Caves floor 1 (`cave_1`) under the Glimmerwell, opened from the fountain hatch once day 10 has come and Mabel's leaf is read.
+  - 8 rocks (small, medium, large) take 2–4 swings at 2 Fluff each and drop colour shards and copper ore (fixed drops, no randomness).
+  - Mined rocks come back a week after the first one is mined (`tuning.caves`). A ladder leads back up to the square.
+  - Code-drawn stone and rock walls until a cave painting arrives. Floor 2 comes next.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

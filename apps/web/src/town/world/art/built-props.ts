@@ -57,6 +57,21 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       pc.hline(x + 1, y - 2, 15, P.ink);
       for (const lx of [x, x + 11]) { pc.box(lx, y - 9, 6, 7, P.butterLight, P.ink, 1); pc.rect(lx + 2, y - 7, 2, 3, P.white); }
       break;
+    case 'ladder': // the way back up to the fountain
+      for (const lx of [x + 3, x + 11]) pc.rect(lx, y - 10, 2, h + 10, P.brownLight);
+      for (let ly = y - 8; ly < y + h; ly += 4) pc.hline(x + 3, ly, 10, P.brown);
+      pc.vline(x + 3, y - 10, h + 10, P.outline); pc.vline(x + 12, y - 10, h + 10, P.outline);
+      break;
+    case 'rock_small': case 'rock_medium': case 'rock_large': {
+      // A cave rock with veins of the town's lost colour; bigger rocks show more.
+      const r = p.type === 'rock_small' ? 4 : p.type === 'rock_medium' ? 6 : 7;
+      pc.ellipseBox(x + 8, y + 15 - r, r + 1, r, P.greyShade, P.outline);
+      pc.ellipse(x + 7, y + 14 - r, r - 1, r - 2, P.grey); pc.ellipse(x + 6, y + 13 - r, 2, 1, P.greyLight);
+      const vein = p.type === 'rock_small' ? P.blueLight : P.peachShade;
+      pc.line(x + 8 - r + 2, y + 14 - r, x + 8 + r - 2, y + 15 - r + 2, vein);
+      if (p.type === 'rock_large') pc.set(x + 9, y + 9, P.butter);
+      break;
+    }
     case 'flower_pot':
       pc.box(x + 4, y + 8, 8, 7, P.peachShade, P.outline, 1); pc.hline(x + 4, y + 9, 8, P.peach);
       pc.ellipse(x + 8, y + 6, 4, 3, P.sage); pc.ellipse(x + 7, y + 5, 2, 2, P.sageLight);

@@ -186,6 +186,14 @@
   },
   "bottle": {
    "name": "Bottle"
+  },
+  "ore_copper": {
+   "name": "Copper ore",
+   "sell": 30
+  },
+  "shard_colour": {
+   "name": "Colour shard",
+   "sell": 20
   }
  },
  "areas": [
@@ -1074,7 +1082,9 @@
      "x": 13,
      "y": 8,
      "w": 4,
-     "h": 4
+     "h": 4,
+     "action": "hatch",
+     "to": "cave_1"
     },
     {
      "type": "board",
@@ -3395,6 +3405,139 @@
      ]
     }
    ]
+  },
+  {
+   "id": "cave_1",
+   "name": "Under the Glimmerwell",
+   "kind": "cave",
+   "drained": false,
+   "edge": "#2f2b3a",
+   "theme": {
+    "wall": "#8E8AA0",
+    "wallAccent": "#A6A2B5",
+    "floor": "#6F6B80",
+    "floorShade": "#5E5A6E",
+    "rug": "#A9BFD6",
+    "rugShade": "#8FA6C0"
+   },
+   "legend": {
+    "#": "rock",
+    ".": "stone",
+    "~": "water",
+    " ": "void"
+   },
+   "map": [
+    "####################",
+    "####################",
+    "##................##",
+    "#......~~.........##",
+    "#.....~~~~........##",
+    "#......~~.........##",
+    "#..................#",
+    "#..................#",
+    "#........~~.......##",
+    "##.......~~......###",
+    "###..............###",
+    "#######.....########",
+    "####################"
+   ],
+   "props": [
+    {
+     "type": "ladder",
+     "x": 9,
+     "y": 11,
+     "walkable": true
+    }
+   ],
+   "doors": [
+    {
+     "x": 9,
+     "y": 11,
+     "to": "square",
+     "toX": 17,
+     "toY": 12
+    }
+   ],
+   "mess": [],
+   "spawn": {
+    "x": 9,
+    "y": 10
+   },
+   "rocks": [
+    {
+     "id": "cave_1_r1",
+     "x": 3,
+     "y": 3,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_1_r2",
+     "x": 12,
+     "y": 3,
+     "size": "medium",
+     "drop": {
+      "ore_copper": 1
+     }
+    },
+    {
+     "id": "cave_1_r3",
+     "x": 16,
+     "y": 4,
+     "size": "large",
+     "drop": {
+      "ore_copper": 2,
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_1_r4",
+     "x": 3,
+     "y": 7,
+     "size": "medium",
+     "drop": {
+      "ore_copper": 1
+     }
+    },
+    {
+     "id": "cave_1_r5",
+     "x": 14,
+     "y": 7,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_1_r6",
+     "x": 5,
+     "y": 9,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_1_r7",
+     "x": 15,
+     "y": 9,
+     "size": "medium",
+     "drop": {
+      "ore_copper": 1
+     }
+    },
+    {
+     "id": "cave_1_r8",
+     "x": 11,
+     "y": 6,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    }
+   ]
   }
  ],
  "neighbours": [
@@ -5116,7 +5259,12 @@
    "letter.mabel_5.r1": "I'll find you, M.!",
    "letter.mabel_5.r2": "By the sea? I'll look.",
    "letter.hint": "A bottle's washed up by the fountain.",
-   "letter.sent": "Off it floats. I hope M. reads it soon."
+   "letter.sent": "Off it floats. I hope M. reads it soon.",
+   "cave.closed": "The fountain's so quiet... Something's down there.",
+   "cave.enter": "Ooh. It's cool down here. And sparkly.",
+   "cave.shard": "A bit of {town}'s colour! Let's bring it home.",
+   "cave.ore": "Copper ore! Pip will love this.",
+   "cave.tired": "Mining takes Fluff. A snack first?"
   }
  },
  "heartEvents": [
