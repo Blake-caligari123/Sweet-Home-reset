@@ -7,6 +7,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 |---|---|---|
 | #40 | **Phase 1 finished:** hold, circle and sweep gestures; light mess drifting back into restored rooms overnight | checklist §11f |
 | #41 | **Phase 2a:** twigs and pebbles to forage; Pip's workbench; Copper duster, sponge and rake; charged hold clean | checklist §11g |
+| #46 | **Phase 2f:** free decor outdoors: flower pots, lanterns, little fences, stone paths. Place from the bag, pick up any time; never blocks the way | checklist §11l |
 | #45 | **Phase 2e:** six earned outfits (bow, Keeper's badge, scarf, berry hat, flower crown, star clip), worn on Puff; pick them in Pause → 👒 Outfits | checklist §11k |
 | #44 | **Phase 2d:** Town Bloom levels (pause menu, banners, the lamppost needs Bloom 2); surprise finds every 8 cleans; Moss's collection on his library table | checklist §11j |
 | #43 | **Phase 2c:** cooking in the burrow kitchen: veggie soup, pea fritters, and a Berry tart after Hazel's 2-heart scene | checklist §11i |
@@ -24,6 +25,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
   - sell prices: 15–30 ✨
   - These are all in `tuning.json` and the pack, so they're easy to tune after you play.
 - **Town Bloom points:** restore 3, build 2, each heart 1, each helper 1. Levels at 0/6/15/30/50 (`tuning.bloomLevels`).
+- **Decor goes outdoors only for now.** The burrow and bakery are paintings, so placed things wouldn't match the art. Indoor decor can come with the burrow growing.
 - **Kitchen:** it's the burrow counter to the right of the sink. The painting doesn't show a stove there, so a stove in the next burrow painting would be nice.
 
 ## Art to ask Grok for (prompts in `claude/SPRITE-SHEETS.md`)

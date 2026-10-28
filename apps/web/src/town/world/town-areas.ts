@@ -1,5 +1,6 @@
 import { withBuilds, type PlotState } from '../build/build';
-import { Area, type TownPack } from '../data/area';
+import { Area, type AreaPack, type TownPack } from '../data/area';
+import { withDecor, type Placed } from '../decor/decor';
 import type { TownSave } from '../data/save';
 import { TUNING } from '../data/tuning';
 import { AreaMess } from '../play/mess';
@@ -14,6 +15,8 @@ export class TownAreas {
   private areas = new Map<string, Area>();
   private messes = new Map<string, AreaMess>();
   private navs = new Map<string, NavGrid>();
+  /** Each rebuilt area's pack with its builds (before decor). */
+  private built = new Map<string, AreaPack>();
 
   constructor(private pack: TownPack) {
     for (const a of pack.areas) this.areas.set(a.id, new Area(a));
@@ -39,14 +42,19 @@ export class TownAreas {
     return g;
   }
 
-  /** Areas as they stand today, with what's built on their plots. */
-  rebuild(plots: Record<string, PlotState>) {
-    const { areas, plots: defs = [], buildings = [] } = this.pack;
-    for (const a of areas.filter((x) => defs.some((p) => p.area === x.id))) {
-      this.areas.set(a.id, new Area(withBuilds(a, defs, plots, buildings)));
+  /** Areas as they stand today: what's built on their plots, then the decor placed in them. */
+  rebuild(plots: Record<string, PlotState>, decor: Placed[]) {
+    const { areas, plots: defs = [], buildings = [], items } = this.pack;
+    for (const a of areas.filter((x) => defs.some((p) => p.area === x.id) || decor.some((d) => d.area === x.id) || this.built.has(x.id))) {
+      const built = withBuilds(a, defs, plots, buildings);
+      this.built.set(a.id, built);
+      this.areas.set(a.id, new Area(withDecor(built, decor, items)));
       this.navs.delete(a.id);
     }
   }
+
+  /** An area with its builds but before decor (what decor is placed onto). */
+  withoutDecor(id: string) { return this.built.get(id) ?? this.areas.get(id)!.pack; }
 
   /** Overnight: a little light mess drifts back into the restored places Puff has been. */
   driftBack(day: number) {

@@ -77,6 +77,8 @@ town/
                 area), build-sheet.ts (the Keeper's plans screen)
   craft/        recipes.ts (what a recipe needs, making a tool or a dish), craft-sheet.ts (Pip's
                 workbench and Puff's kitchen)
+  decor/        decor.ts (placing rules: open ground, never blocking a way; areas with decor),
+                placing.ts (choosing a spot, picking pieces back up)
   grumbles/     grumbles.ts (families, setting them out each day, tidying into helpers), drift.ts
                 (the slow amble, shy of Puff), grumble-life.ts (Grumbles in play: spawn spots, taps,
                 tidies, hellos)

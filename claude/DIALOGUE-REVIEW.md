@@ -80,6 +80,11 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 - Finds: "A lucky find: [name]!" then "Ooh, a little treasure! Moss will love this." (Thimble: "A thimble... like the old Keeper's name." Tiny key: "A tiny key. What could it open?")
 - Finds: Lost button, Tiny thimble, Glass marble, Old coin, Tiny brass key, Pressed flower, Sea glass, Blue feather.
 
+## New in Phase 2f (overnight): decor
+- "Where shall it go? Tap the ground." · "All done! Looks lovely." · "Back in the bag."
+- "Not there. Somewhere open?" · "Something's already there." · "That would block the way. Somewhere else?"
+- Indoors: "Decor goes outside: the yard, square, Lane or Riverside." · Tracker: "Tap the ground to place it. Tap Puff to stop."
+
 ## Hazel
 
 **First hello**

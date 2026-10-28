@@ -19,6 +19,7 @@ import { installDebugHooks } from './debug';
 import { PuffActions } from './play/actions';
 import { Clock, LATE_AT } from './play/clock';
 import { Carry } from './play/carry';
+import { Placing } from './decor/placing';
 import { Sweep } from './play/sweep';
 import { HomeLife } from './play/home-life';
 import { morningLetter } from './play/letter';
@@ -80,6 +81,7 @@ export class TownGame {
   private petLayer: PetLayer;
   private outfitLayer: OutfitLayer;
   private carry: Carry;
+  private placing: Placing;
   private hudLive: HudLive;
   private sweep: Sweep;
   private fading = false;
@@ -129,6 +131,11 @@ export class TownGame {
       highlight: (tiles) => this.world.setHighlight(tiles), refreshHud: () => this.refreshHud()
     });
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
+    this.placing = new Placing({
+      state: this.state, view: this.view, content: this.content, places: this.places, world: this.world, area: () => this.areaId,
+      refreshArea: () => { this.places.rebuild(this.state.plots, this.state.decor); this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet); },
+      refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+    });
     this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.tap(x, y) });
     this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.scrub({ x, y }, MAX_RUB) });
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
@@ -152,6 +159,7 @@ export class TownGame {
       travel: (to, x, y) => void this.travel(to, x, y),
       sleep: () => void this.endDay(false),
       openBuild: () => this.openBuild(),
+      pickUpDecor: (x, y) => this.placing.pickUp(x, y),
       openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false) }, station),
       openShop: (shop) => this.openShop(shop),
       refreshHud: () => this.refreshHud(),
@@ -168,7 +176,7 @@ export class TownGame {
       if (this.clock.state.minutes >= LATE_AT) this.hud.setLate(true);
     }
     else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
-    this.places.rebuild(this.state.plots);
+    this.places.rebuild(this.state.plots, this.state.decor);
     this.grumbles.newDay(this.clock.state.day);
     this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = settings.reducedMotion;
     if (this.state.requests.day !== this.clock.state.day) this.jobs.post();
@@ -260,6 +268,7 @@ export class TownGame {
   /** Android back / Escape: close the top sheet, else open pause. */
   back() {
     if (this.view.closeTopSheet()) return;
+    if (this.placing.active) { this.placing.stop(); this.refreshHud(); return; }
     if (this.view.root.querySelector('.dialogue') || this.fading) return;
     this.openPause();
   }
@@ -268,6 +277,8 @@ export class TownGame {
   private tap(px: number, py: number) {
     const tile = { x: Math.floor(px / T), y: Math.floor(py / T) };
     if (this.view.busy || this.fading || !this.area.inside(tile.x, tile.y)) return;
+    // Placing decor: taps go on the ground (tapping Puff stops).
+    if (this.placing.active) { if (Math.hypot(px - this.puff.fx, py - this.puff.fy + 8) < 10) this.placing.stop(); else this.placing.tap(tile); this.refreshHud(); return; }
     if (this.pet.at(px, py)) { this.pet.pat(); return; }
     this.neighbours.releaseAll();
     this.puff.charged = false;
@@ -321,7 +332,7 @@ export class TownGame {
     this.clock.nextDay();
     this.jobs.post();
     const built = overnight(state, this.content.pack.buildings ?? [], this.clock.state.day - 1, dozed);
-    this.places.rebuild(this.state.plots);
+    this.places.rebuild(this.state.plots, this.state.decor);
     this.places.driftBack(this.clock.state.day);
     this.grumbles.newDay(this.clock.state.day);
     this.hud.setLate(false);
@@ -355,7 +366,7 @@ export class TownGame {
     openBuildBoard({
       state: this.state, view: this.view, content: this.content, clock: this.clock, arrived: (k) => this.arrived(k),
       started: (plot) => {
-        this.places.rebuild(this.state.plots);
+        this.places.rebuild(this.state.plots, this.state.decor);
         if (plot.area === this.areaId) this.enterArea(this.areaId, this.puff.x, this.puff.y, false, { x: this.puff.fx, y: this.puff.fy });
         this.world.sparkleBurst(plot.x, plot.y, 10);
         this.refreshHud();
@@ -364,7 +375,9 @@ export class TownGame {
     });
   }
 
-  private openBag() { openBag({ state: this.state, view: this.view, content: this.content, onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud() }); }
+  private openBag() {
+    openBag({ state: this.state, view: this.view, content: this.content, onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), place: (id) => { this.placing.start(id); this.refreshHud(); } });
+  }
 
   private openPause() {
     openPause({
@@ -442,7 +455,7 @@ export class TownGame {
     if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }
     for (const o of newlyEarned(this.state, this.content.pack.outfits ?? [])) this.view.banner(`👒 New outfit: ${o.name}! (Pause → Outfits)`);
     const next = this.content.line(nudge(this.state, (k) => this.arrived(k)) ?? undefined);
-    this.hud.setTracker(this.content.named(step ? step.hint : this.jobs.tracker() ?? next ?? 'Explore {town} and tidy what you find.'));
+    this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? step.hint : this.jobs.tracker() ?? next ?? 'Explore {town} and tidy what you find.'));
   }
 
   // ---- save --------------------------------------------------------------------------------
