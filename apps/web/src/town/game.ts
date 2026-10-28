@@ -15,6 +15,7 @@ import { AreaMess, FULL_COLOUR, type ToolId } from './play/mess';
 import { OnboardingGuide } from './play/onboarding-guide';
 import { Puff } from './play/puff';
 import { distTo, FEET_TO_BASE, neighbourAt, rectOf, targetAt, type Here, type Target } from './play/targets';
+import { isLocked, plusFromUrl } from './plus/plus';
 import { Jobs } from './requests/jobs';
 import { openShop } from './shops/shop-sheet';
 import { isOpen } from './shops/shops';
@@ -51,6 +52,8 @@ export class TownGame {
   private puff = new Puff();
   private guide: OnboardingGuide;
   private actions: PuffActions;
+  /** M2 stub: test builds have Plus; `?plus=0` shows the free game. */
+  private plus = plusFromUrl(location.search);
   private fading = false;
   private autosaveMs = 0;
   private down: { x: number; y: number; t: number } | null = null;
@@ -85,6 +88,7 @@ export class TownGame {
       hopPuff: () => this.puff.hop(),
       sparkleAtPuff: (n) => this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), n),
       extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.shopButtonsFor(id)],
+      locked: (id) => this.locked(id),
       onboard: (e) => this.guide.handle(e),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
@@ -92,7 +96,7 @@ export class TownGame {
     this.jobs = new Jobs({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings, talk: this.talk, areas: this.areas,
       messFor: (id) => this.messFor(id), area: () => this.areaId, syncMess: (i) => this.world.syncMess(i),
-      onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+      locked: (id) => this.locked(id), onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.guide = new OnboardingGuide({
       state: this.state, view: this.view, hud: this.hud, area: () => this.areaId, messFor: (id) => this.messFor(id),
@@ -287,6 +291,8 @@ export class TownGame {
     this.puff.path = path; this.puff.action = action;
   }
 
+  private locked(id: string) { return isLocked(this.content.neighbour(id), this.plus); }
+
   private rectOf(t: Target) { return rectOf(t, this.area, t.kind === 'neighbour' ? this.neighbours.states.get(t.id) : undefined); }
 
   /** What's around Puff in the current area, for working out taps and prompts. */
@@ -388,7 +394,7 @@ export class TownGame {
     this.world.drawPuff({ x: p.fx, y: p.fy + FEET_TO_BASE, dir: p.dir, pose: p.pose, tool: this.selected }, dt);
     this.world.drawNeighbours(this.neighbours.visible(this.areaId).map((n) => {
       const d = this.content.neighbour(n.id)!;
-      return { id: n.id, species: d.species, colours: d.colours, x: n.fx, y: n.fy + FEET_TO_BASE, dir: n.dir, pose: n.pose };
+      return { id: n.id, species: d.species, colours: d.colours, x: n.fx, y: n.fy + FEET_TO_BASE, dir: n.dir, pose: n.pose, locked: this.locked(n.id) };
     }));
     this.world.follow(p.fx, p.fy - 8);
     this.world.update(dt);

@@ -80,6 +80,12 @@ export function drawToolMini(tool: string) {
   return pc;
 }
 
+/** A neighbour Puff meets later (Plus, M2 stub): one soft colour, no face. */
+export function silhouette(pc: PixelCanvas) {
+  for (let y = 0; y < pc.height; y += 1) for (let x = 0; x < pc.width; x += 1) if (pc.alpha(x, y)) pc.set(x, y, P.greyShade, pc.alpha(x, y));
+  return pc;
+}
+
 /** Placeholder neighbours (M2) until their sprite sheets land: Puff's round build in their own colours, with each species' look. */
 export function drawNeighbour24(species: string, c: { fur: string; belly: string; accent: string }, dir: Dir, frame: number, pose: 'walk' | 'idle' | 'sleep' = 'idle') {
   const pc = new PixelCanvas(PUFF_PX, PUFF_PX);

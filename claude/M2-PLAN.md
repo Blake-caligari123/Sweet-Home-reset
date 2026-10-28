@@ -77,6 +77,15 @@ Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Progress is ticked in the Steps tab
 - **Watering is free now** (the GDD only charges Fluff for cleaning, and rain waters for free). Playing the tips exactly as written, Puff ran out of Fluff at "Water your seeds" (8:30 am, before Hazel's tart) and was stuck until bedtime. Proposed; easy to change back.
 - **Scripted check:** a Playwright run plays a new game with real taps from "Let's tidy!" to Day 2 and checks the A6 target state.
 
+**Step 9 notes (Plus gate stub):**
+- `town/plus/plus.ts`: test builds have Plus, so all six are playable. Add `?plus=0` to the test link to see the free game.
+- **Without Plus**, Otto, Moss and Mabel:
+  - still keep their routines, drawn as soft grey silhouettes
+  - give Puff a kind "Someone new! We'll say hello another day." instead of a chat
+  - keep their jobs off the board
+
+  No paywall, no prices. The postcard offer after the day-14 fair and real entitlement come in M5.
+
 **Pass test (A9):** onboarding to 30:00 completes; playtesters befriend neighbours and restore 3 homes within 14 days; a home restores at 95% and triggers the reveal; hearts never drop. FRONTEND-PLAN adds: onboarding to 30:00 by script, and 30 area changes without a memory leak.
 
 **Before M2 starts:** M1 passes on Blake's iPhone (a full day from waking to bed, Hazel's bakery restored, `?fps` holding 60, save survives a reload). The yard and square paintings can land during M2.
@@ -98,7 +107,7 @@ Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Progress is ticked in the Steps tab
 | 6 ✅ | **Shops and Sparkles** | Shop screen with fixed prices from the pack and opening hours. General Store (tools, snacks, bag upgrades; the Copper recipe listed from day 5 for M3), Bea's flower shop (seeds, plants), Pip's workshop (decor). Closed shops say when they open. | Can't buy when closed or short of Sparkles; nothing random for sale; prices only from pack data. |
 | 7 ✅ | **New areas** (7a ✅ Lane; 7b ✅ Riverside; 7c ✅ Otto, Moss and Mabel) | Neighbour Lane (open from day 1) with Bea's flower shop and Pip's workshop; Riverside (opens day 3) with Otto's bathhouse; the General Store off the square; Moss's library and Mabel's home per the decision below. Each home has mess, a 95% restore and the reveal. | Pack reachability tests for every area (walk to every door, mess spot and usable prop); a restored home stays restored after reload. |
 | 8 ✅ | **Onboarding 6:30–30:00** | GDD A6 / story §5: meet Hazel at the bakery door, Berry tart, eat it, first notice-board request (dust Hazel's counter), meet Bea and Pip on the Lane, evening hint, bed, Day 2 letter, General Store opens. | A scripted run reaches the 30:00 target state: burrow restored, 3 neighbours met, 1 request done, 1 crop growing, 1 day completed. |
-| 9 | **Plus gate stub** | Otto, Moss and Mabel check one `hasPlus()` stub; test builds unlock everything. Real Plus arrives in M5. | Stub on: all six playable. Stub off: the three are silhouettes with a kind "later" line, no paywall. |
+| 9 ✅ | **Plus gate stub** | Otto, Moss and Mabel check one `hasPlus()` stub; test builds unlock everything. Real Plus arrives in M5. | Stub on: all six playable. Stub off: the three are silhouettes with a kind "later" line, no paywall. |
 | 10 | **M2 check** | Full playthrough at 390×844 and the QA Group pass, then Blake's phone test. | A9 M2 pass test. |
 
 ## Decisions (all three recommendations accepted by Blake, 27 Oct 2026)

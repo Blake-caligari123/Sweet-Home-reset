@@ -59,6 +59,8 @@ town/
                 Friends UI)
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
   shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
+  plus/         plus.ts: the M2 Plus stub (test builds have everything; `?plus=0` shows the free
+                game, with Otto, Moss and Mabel as silhouettes); real entitlement comes in M5
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
                 the tool bar), bag-sheet.ts,
                 pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css
