@@ -26,7 +26,7 @@ export function morningLetter(d: { state: TownState; view: View; clock: Clock; g
   const today = localDate();
   if (state.chores.day !== today) state.chores = { ...state.chores, day: today, keys: [] };
   const key = `day${d.clock.state.day}`;
-  view.ask(`Dear friend, yesterday I ${did}. My paws sparkle! Maybe ${chore}? Or just have tea. Both are lovely. ♥ Puff${d.golden ? ` P.S. Something golden is glinting in ${d.golden}!` : ''}`, [
+  view.ask(`Dear friend, yesterday I ${did}. My paws sparkle! Maybe ${chore}? Or just have tea. Both are lovely. ♥ Puff${d.golden ? ` P.S. Psst! Golden dust today. Where? ${d.golden}!` : ''}`, [
     { label: 'I did it!', primary: true, onClick: () => {
       if (state.chores.keys.length >= TUNING.realChoreCapPerDay) { view.say('That\'s loads today. Rest counts too.'); return; }
       state.chores.keys.push(key); state.chores.total += 1;
