@@ -59,6 +59,8 @@ export function installDebugHooks(g: DebugTarget) {
     showAlive: () => { const st = g.area().pack.alive ?? []; g.world.alive.load(st, st.length); },
     /** Grow every crop by some days (as if that many nights passed, watered). */
     growCrops: (days: number) => { for (const c of s.crops) c.days += days; },
+    /** Set the Town Bloom level (for testing what it unlocks). */
+    setBloom: (n: number) => { s.bloom = n; },
     /** Put on an outfit (earned or not), for screenshots. */
     wear: (id: string | null) => { s.outfit = id; },
     /** Turn Puff to face a way. */

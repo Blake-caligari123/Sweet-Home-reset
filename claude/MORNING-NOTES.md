@@ -13,9 +13,10 @@ You said to carry on without asking. I've merged each slice to the test link onc
 | #45 | **2e:** six earned outfits (bow, Keeper's badge, scarf, berry hat, flower crown, star clip), worn on Puff; Pause → 👒 Outfits | §11k |
 | #46 | **2f:** free decor outdoors (flower pots, lanterns, little fences, stone paths); place from the bag, pick up any time; never blocks the way | §11l |
 | #47 | **2g:** building upgrades (cosy bench, big flower bed, twin lamp) | §11m |
+| #49 | **2h:** a greenhouse by the yard garden (Town Bloom 2, 300 ✨) that waters the garden every night (you said make it straight away) | §11n |
 
 ## Phase 2: what's left
-- **A greenhouse and the burrow growing (new rooms).** Both look best as Grok paintings, like the burrow and bakery, so I've held them for your art. See the questions below.
+- **The burrow growing (new rooms)** looks best as a Grok painting, like the burrow and bakery, so it waits for your art (question 1). The greenhouse is in (#49).
 - Everything else in the Phase 2 plan is in.
 
 ## Decisions I made (easy to change)
@@ -44,10 +45,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
-2. **Greenhouse:**
-   - Option 1: a painted interior, like the bakery.
-   - Option 2: a code-drawn building on a yard plot, which I could do straight away.
-3. Anything you'd like changed from tonight, just say.
+2. Anything you'd like changed from tonight, just say.
 
 ## Next, unless you say otherwise
 Phase 3:

@@ -231,6 +231,18 @@ export function drawProp(pc: PixelCanvas, p: PropDef) {
       for (const px of [x + 1, x + w - 3]) pc.rect(px, y - 4, 2, h + 3, P.brown);
       pc.box(x, y - 5, w, 3, P.brownLight, P.outline); pc.hline(x + 2, y + h - 3, w - 4, P.brownShade);
       break;
+    case 'greenhouse': {
+      // Glass panes on a wooden frame, a peaked roof, plants showing through.
+      pc.box(x, y + 6, w, h - 6, P.blueLight, P.outline);
+      for (let i = 0; i < w; i += 8) pc.vline(x + i, y + 6, h - 6, P.brownLight);
+      pc.hline(x, y + 6 + Math.floor((h - 6) / 2), w, P.brownLight);
+      for (let i = 0; i < 8; i += 1) pc.hline(x + 8 - i * 1, y + i, w - 16 + i * 2, i % 3 ? P.blueLight : P.white);
+      pc.line(x, y + 7, x + w / 2, y - 1, P.brown); pc.line(x + w - 1, y + 7, x + w / 2, y - 1, P.brown);
+      for (const px of [6, 14, 22, 30, 38]) if (px < w - 2) { pc.ellipse(x + px, y + h - 7, 3, 2, P.sage); pc.set(x + px, y + h - 9, P.peach); }
+      pc.box(x + w / 2 - 4, y + h - 10, 8, 10, P.brownLight, P.outline);
+      pc.mix(x + 3, y + 9, P.white, 0.7); pc.mix(x + 4, y + 10, P.white, 0.7);
+      break;
+    }
     case 'bench_cosy':
       pc.rect(x + 3, y + 10, 2, 5, P.outline); pc.rect(x + w - 5, y + 10, 2, 5, P.outline);
       pc.box(x, y + 1, w, 4, P.brownLight, P.outline); pc.box(x, y + 6, w, 5, P.brownLight, P.outline);

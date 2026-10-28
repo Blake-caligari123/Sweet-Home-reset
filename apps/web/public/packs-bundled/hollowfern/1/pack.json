@@ -6840,6 +6840,19 @@
     "lamppost"
    ],
    "unlock": "building"
+  },
+  {
+   "id": "plot_yard_garden",
+   "name": "By the garden",
+   "area": "yard",
+   "x": 10,
+   "y": 11,
+   "w": 3,
+   "h": 3,
+   "allow": [
+    "greenhouse"
+   ],
+   "unlock": "building"
   }
  ],
  "buildings": [
@@ -6919,6 +6932,21 @@
    },
    "upgradeOf": "lamppost",
    "bloom": 3
+  },
+  {
+   "id": "greenhouse",
+   "name": "Greenhouse",
+   "nights": 2,
+   "cost": {
+    "sparkles": 300
+   },
+   "prop": {
+    "type": "greenhouse",
+    "w": 3,
+    "h": 3
+   },
+   "bloom": 2,
+   "effect": "waters_garden"
   }
  ],
  "grumbleFamilies": [
