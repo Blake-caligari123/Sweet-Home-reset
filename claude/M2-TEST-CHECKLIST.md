@@ -90,6 +90,13 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
   - Outdoors: lamps, flowers and birds in the yard, square, Lane and Riverside.
 - [ ] Leave and come back: what's switched on stays on.
 
+## 11c. Phase 1b: the Keeper's plans
+- [ ] In the square, the blue plans board sits right of the fountain. Before Hazel's welcome it says "Keeper wanted". After it, on day 1: "Plans start tomorrow".
+- [ ] Day 2: the tracker points to the plans. The board lists 4 plots, with what fits each and its cost. Anything you can't afford is greyed out.
+- [ ] Build a bench by the fountain: Sparkles go down, and scaffolding appears straight away.
+- [ ] Sleep (or doze off). Next morning, "The new bench is finished. Come see!", and the bench is there. You can sit beside it, and nothing blocks the doors or the board.
+- [ ] Reload mid-build: the scaffolding and the Sparkles stay as they were.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

@@ -148,6 +148,12 @@ One new thing every couple of days, each with one tip or letter:
 - **Phase 1a (28 Oct):**
   - Hazel names Puff the Keeper, a story scene at 0 hearts. It sets `keeper_named`, and its banner reads "🏅 {puff}, Keeper of {town}!".
   - Every home and outdoor area comes alive in stages, with a new robin effect.
+- **Phase 1b (28 Oct):**
+  - The Keeper's plans board in the square, open from day 2 once Puff is the Keeper (`tuning.unlocks.building`).
+  - Four plots: by the fountain, the west, east and south lawns. Three buildings: a bench, a flower bed and a lamppost.
+  - You pay up front and it's built overnight, the same after a sleep or a doze: scaffolding first, then the morning banner.
+  - `game.ts` was split: the areas moved into `world/town-areas.ts` and the night into `play/overnight.ts`.
+  - Still to come with Phase 2: materials, upgrades, paths and free decor.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

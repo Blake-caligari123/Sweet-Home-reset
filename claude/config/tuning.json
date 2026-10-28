@@ -83,6 +83,10 @@
   "unlocks": {
     "mabel": {
       "day": 43
+    },
+    "building": {
+      "day": 2,
+      "flag": "keeper_named"
     }
   }
 }

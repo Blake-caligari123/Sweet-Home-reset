@@ -2,7 +2,8 @@ import type { Application } from 'pixi.js';
 import type { Sound } from '../shared/audio/sound';
 import type { NativeBridge } from '../shared/native';
 import { h } from '../shared/ui/dom';
-import { Area, type TownPack } from './data/area';
+import { openBuildBoard } from './build/build-sheet';
+import type { TownPack } from './data/area';
 import { Content } from './data/content';
 import { stamp, writeQuick, writeTown, type TownSave } from './data/save';
 import { NEIGHBOUR_WALK_SPEED, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
@@ -13,8 +14,9 @@ import { PuffActions } from './play/actions';
 import { Clock, DAY_END, DAY_START, formatTime, LATE_AT } from './play/clock';
 import { HomeLife } from './play/home-life';
 import { morningLetter } from './play/letter';
-import { AreaMess, type ToolId } from './play/mess';
+import type { ToolId } from './play/mess';
 import { OnboardingGuide } from './play/onboarding-guide';
+import { overnight } from './play/overnight';
 import { Puff } from './play/puff';
 import { distTo, FEET_TO_BASE, neighbourAt, rectOf, targetAt, type Here, type Target } from './play/targets';
 import { Jobs } from './requests/jobs';
@@ -31,9 +33,10 @@ import { promptFor } from './ui/prompt';
 import { View, type Settings } from './ui/view';
 import { isUnlocked } from './unlocks';
 import { T } from './world/art/texture';
-import { FEET, navFor, REACH, type NavGrid, type Pt } from './world/nav';
+import { FEET, REACH, type Pt } from './world/nav';
 import type { Tile } from './world/pathfind';
 import { setIconBank, type SpriteBank } from './world/sprites';
+import { TownAreas } from './world/town-areas';
 import { World } from './world/world';
 
 /** At most this many extra scrubs from one rub. */
@@ -43,9 +46,7 @@ const MAX_RUB = 4;
 // to feature modules: neighbours/conversations (talk, gifts, heart events, Friends), requests/jobs
 // (notice board), ui/* (sheets) and play/letter. Saved progress lives in one shared TownState.
 export class TownGame {
-  private areas = new Map<string, Area>();
-  private messes = new Map<string, AreaMess>();
-  private navs = new Map<string, NavGrid>();
+  private places: TownAreas;
   private areaId = 'burrow';
   private world: World;
   private hud: Hud;
@@ -77,9 +78,9 @@ export class TownGame {
     public settings: Settings,
     saved: TownSave | null
   ) {
-    for (const a of pack.areas) this.areas.set(a.id, new Area(a));
+    this.places = new TownAreas(pack);
     this.content = new Content(pack, () => this.state.names);
-    this.neighbours = new Neighbours(pack.neighbours ?? [], pack.areas, (id) => (this.areas.has(id) ? this.navAt(id) : null), NEIGHBOUR_WALK_SPEED, (id) => this.arrived(id));
+    this.neighbours = new Neighbours(pack.neighbours ?? [], pack.areas, (id) => (this.places.has(id) ? this.places.nav(id) : null), NEIGHBOUR_WALK_SPEED, (id) => this.arrived(id));
     this.world = new World(app);
     app.stage.addChild(this.world.root);
     this.hud = new Hud(ui, {
@@ -101,12 +102,12 @@ export class TownGame {
       save: () => void this.save(false)
     });
     this.jobs = new Jobs({
-      state: this.state, view: this.view, content: this.content, clock: this.clock, settings, talk: this.talk, areas: this.areas,
-      messFor: (id) => this.messFor(id), area: () => this.areaId, syncMess: (i) => this.world.syncMess(i),
+      state: this.state, view: this.view, content: this.content, clock: this.clock, settings, talk: this.talk, areas: this.places,
+      messFor: (id) => this.places.mess(id), area: () => this.areaId, syncMess: (i) => this.world.syncMess(i),
       arrived: (id) => this.arrived(id), onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.guide = new OnboardingGuide({
-      state: this.state, view: this.view, hud: this.hud, area: () => this.areaId, messFor: (id) => this.messFor(id),
+      state: this.state, view: this.view, hud: this.hud, area: () => this.areaId, messFor: (id) => this.places.mess(id),
       highlight: (tiles) => this.world.setHighlight(tiles), refreshHud: () => this.refreshHud()
     });
     this.actions = new PuffActions({
@@ -117,6 +118,7 @@ export class TownGame {
       select: (t) => { this.selected = t; },
       travel: (to, x, y) => void this.travel(to, x, y),
       sleep: () => void this.endDay(false),
+      openBuild: () => this.openBuild(),
       openShop: (shop) => this.openShop(shop),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
@@ -128,6 +130,7 @@ export class TownGame {
     let feet: Pt | undefined;
     if (saved) feet = this.restore(saved);
     else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
+    this.places.rebuild(this.state.plots);
     this.world.reducedMotion = settings.reducedMotion;
     if (this.state.requests.day !== this.clock.state.day) this.jobs.post();
     this.enterArea(this.areaId, this.puff.x, this.puff.y, false, feet);
@@ -140,7 +143,7 @@ export class TownGame {
       installDebugHooks({
         world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide,
         areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
-        messFor: (id) => this.messFor(id), enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), tap: (x, y) => this.tap(x, y), refreshHud: () => this.refreshHud()
+        messFor: (id) => this.places.mess(id), enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), tap: (x, y) => this.tap(x, y), refreshHud: () => this.refreshHud()
       });
     }
   }
@@ -150,25 +153,9 @@ export class TownGame {
 
   // ---- areas -------------------------------------------------------------------------------
 
-  private messFor(id: string) {
-    let m = this.messes.get(id);
-    if (!m) {
-      const area = this.areas.get(id)!;
-      m = new AreaMess(area.w, area.h, area.spots, area.pack.drained);
-      this.messes.set(id, m);
-    }
-    return m;
-  }
-
-  private get area() { return this.areas.get(this.areaId)!; }
-  /** The fine walking grid for the current area: traced polygons for painted areas, else tiles. */
-  private get nav() { return this.navAt(this.areaId); }
-  private navAt(id: string) {
-    let g = this.navs.get(id);
-    if (!g) { g = navFor(this.areas.get(id)!); this.navs.set(id, g); }
-    return g;
-  }
-  private get mess() { return this.messFor(this.areaId); }
+  private get area() { return this.places.get(this.areaId)!; }
+  private get nav() { return this.places.nav(this.areaId); }
+  private get mess() { return this.places.mess(this.areaId); }
   /** How tidy the current area is, 1 once it's restored. */
   private get tidiness() { return this.mess.restored ? 1 : this.mess.progress; }
 
@@ -298,11 +285,11 @@ export class TownGame {
     await wait(this.settings.reducedMotion ? 200 : 900);
     this.clock.nextDay();
     this.jobs.post();
-    if (dozed) state.fluff.doze(); else state.fluff.sleep();
-    for (const c of state.crops) { if (c.watered) c.days += 1; c.watered = false; }
+    const built = overnight(state, this.content.pack.buildings ?? [], this.clock.state.day - 1, dozed);
+    this.places.rebuild(this.state.plots);
     this.hud.setLate(false);
     // Wake up beside the bed: the burrow's spawn tile.
-    const bed = this.areas.get('burrow')!.pack.spawn;
+    const bed = this.places.get('burrow')!.pack.spawn;
     this.enterArea('burrow', bed.x, bed.y, false);
     this.puff.dir = 'down';
     await this.save(true);
@@ -312,6 +299,7 @@ export class TownGame {
     this.guide.handle({ type: 'slept' });
     this.refreshHud();
     morningLetter({ state, view, clock: this.clock, refreshHud: () => this.refreshHud() });
+    for (const name of built) view.banner((this.content.line('build.done') ?? '').replace('{building}', name.toLowerCase()));
   }
 
   // ---- sheets ------------------------------------------------------------------------------
@@ -324,6 +312,19 @@ export class TownGame {
   private shopButtonsFor(id: string) {
     return (this.content.pack.shops ?? []).filter((s) => s.keeper === id && isOpen(s, this.clock.state.minutes, this.clock.state.day))
       .map((s) => ({ label: `Browse ${s.name.replace(/^.*'s /, '')}`, onClick: () => this.openShop(s) }));
+  }
+
+  private openBuild() {
+    openBuildBoard({
+      state: this.state, view: this.view, content: this.content, clock: this.clock, arrived: (k) => this.arrived(k),
+      started: (plot) => {
+        this.places.rebuild(this.state.plots);
+        if (plot.area === this.areaId) this.enterArea(this.areaId, this.puff.x, this.puff.y, false, { x: this.puff.fx, y: this.puff.fy });
+        this.world.sparkleBurst(plot.x, plot.y, 10);
+        this.refreshHud();
+        void this.save(false);
+      }
+    });
   }
 
   private openBag() { openBag({ state: this.state, view: this.view, content: this.content, onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud() }); }
@@ -429,7 +430,8 @@ export class TownGame {
     this.hud.setSparkles(this.state.sparkles);
     this.guide.unstick();
     const step = this.state.onboarding.current;
-    this.hud.setTracker(this.content.named(step ? step.hint : this.jobs.tracker() ?? 'Explore {town} and tidy what you find.'));
+    const firstBuild = this.arrived('building') && !Object.keys(this.state.plots).length ? this.content.line('build.hint') : undefined;
+    this.hud.setTracker(this.content.named(step ? step.hint : this.jobs.tracker() ?? firstBuild ?? 'Explore {town} and tidy what you find.'));
   }
 
   /** x, y: the bottom-centre of Puff's sprite in world px. */
@@ -446,8 +448,7 @@ export class TownGame {
   // ---- save --------------------------------------------------------------------------------
 
   private snapshot(): TownSave {
-    const areas: TownSave['areas'] = {};
-    for (const [id, m] of this.messes) areas[id] = m.snapshot();
+    const areas = this.places.snapshot();
     return stamp({
       ...this.state.toSave(),
       deviceId: this.deviceId, day: this.clock.state.day, minutes: this.clock.state.minutes,
@@ -467,13 +468,13 @@ export class TownGame {
     this.state.load(save);
     if (typeof save.selected === 'string') this.selected = save.selected as ToolId;
     for (const [id, snap] of Object.entries(save.areas ?? {})) {
-      if (!this.areas.has(id)) continue;
-      const m = this.messFor(id);
+      if (!this.places.has(id)) continue;
+      const m = this.places.mess(id);
       try { m.load(snap); } catch { /* a bad area snapshot just starts that area fresh */ }
     }
-    const area = this.areas.get(save.area) ? save.area : 'burrow';
+    const area = this.places.get(save.area) ? save.area : 'burrow';
     this.areaId = area;
-    const a = this.areas.get(area)!;
+    const a = this.places.get(area)!;
     const ok = a.walkable(save.puff.x, save.puff.y);
     this.puff.x = ok ? save.puff.x : a.pack.spawn.x; this.puff.y = ok ? save.puff.y : a.pack.spawn.y;
     this.puff.dir = save.puff.facing ?? 'down';

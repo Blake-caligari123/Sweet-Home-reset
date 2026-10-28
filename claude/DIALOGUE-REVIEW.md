@@ -33,6 +33,14 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 - **Riverside:** Lamps by the water. So twinkly! · Flowers on the riverbank! · The river sparkles back at me.
 - **Otto's bathhouse:** Warm light in the steam. · Steam and sunshine! · Fluffy towels. Fluffy like me! · Otto's bathhouse sparkles!
 
+## New in Phase 1b (28 Oct 2026): the Keeper's plans
+- Tapping the plans board before Hazel's welcome: "A notice: 'Keeper wanted. Kind paws only.'"
+- On day 1, after it: "Plans start tomorrow, Keeper!"
+- Tracker until the first build: "Check the Keeper's plans in the square."
+- Starting a build: "Here, I think. It'll be cosy here."
+- Next morning: "The new bench is finished. Come see!"
+- Plots: By the fountain, West lawn, East lawn, South lawn. Buildings: Bench (40 ✨), Flower bed (30 ✨), Lamppost (60 ✨), each finished overnight.
+
 ## Hazel
 
 **First hello**
