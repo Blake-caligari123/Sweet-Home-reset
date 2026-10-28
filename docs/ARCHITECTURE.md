@@ -84,6 +84,12 @@ Areas, mess, neighbours, routines, dialogue, gift reactions, heart events, reque
 4. Wire it into `game.ts`: construct it, give it its host, and call it from taps, the loop or the day.
 5. Add a `?debug` hook if a browser test needs one (`installDebugHooks` in `game.ts`).
 
+### Keeping it clean
+
+Two project skills in `.claude/skills/` keep the code organised as it grows:
+- **factorisation-and-organisation:** the file plan and size budgets before building.
+- **post-feature-cleanup:** after building, a checker (`node .claude/skills/post-feature-cleanup/check.mjs`: oversized files, orphans, dead exports, leftovers, `any`, unused CSS) plus a self-review against the project standard.
+
 ### Checks
 
 From `apps/web`:

@@ -91,6 +91,10 @@
   },
   "toy_boat": {
    "name": "Toy boat"
+  },
+  "towel": {
+   "name": "Towel",
+   "home": "towel basket"
   }
  },
  "areas": [
@@ -1595,7 +1599,7 @@
     {
      "x": 15,
      "y": 14,
-     "text": "Riverside this way. The river path opens soon."
+     "text": "Riverside this way. The river path opens on day 3."
     }
    ],
    "doors": [
@@ -1638,9 +1642,10 @@
      "x": 14,
      "y": 15,
      "to": "riverside",
-     "toX": 0,
-     "toY": 0,
-     "closedText": "The river path opens soon."
+     "toX": 14,
+     "toY": 1,
+     "closedText": "The river path opens on day 3.",
+     "opensDay": 3
     }
    ],
    "mess": [
@@ -2142,6 +2147,301 @@
     "y": 9
    },
    "restoreReward": 100
+  },
+  {
+   "id": "riverside",
+   "name": "Riverside",
+   "kind": "outdoor",
+   "drained": true,
+   "edge": "#79B176",
+   "theme": {
+    "wall": "#F7D2BF",
+    "wallAccent": "#F4C2A8",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#A9CDA0",
+    "rugShade": "#79B176"
+   },
+   "legend": {
+    "h": "hedge",
+    "g": "grass",
+    "p": "path",
+    "c": "cobble",
+    "s": "soil",
+    "f": "flowers",
+    "w": "water",
+    "x": "fence",
+    " ": "void",
+    "j": "wood"
+   },
+   "map": [
+    "hhhhhhhhhhhhhhphhhhhhhhhhhhhhh",
+    "hgggggggggggggpggggggggggggggh",
+    "hggggfggggggggpggggggggggggggh",
+    "hgggggggggggggpggggggggggggfgh",
+    "hgggggggggggggpggggggggggggggh",
+    "hgggggggggggggpgggggggpggggggh",
+    "hpppppppppppppppppppppppppppph",
+    "hggggggggggggggggggggggggggggh",
+    "hggfgggggggggggggfgggggggggggh",
+    "hggggggggggfggggggggggggfggggh",
+    "hwwwwwwwjjwwwwwwwwwwwwwwwwwwwh",
+    "hwwwwwwwjjwwwwwwwwwwwwwwwwwwwh",
+    "hwwwwwwwjjwwwwwwwwwwwwwwwwwwwh",
+    "hwwwwwwwwwwwwwwwwwwwwwwwwwwwwh",
+    "hwwwwwwwwwwwwwwwwwwwwwwwwwwwwh",
+    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+   ],
+   "props": [
+    {
+     "type": "shopfront",
+     "x": 18,
+     "y": 1,
+     "w": 9,
+     "h": 4,
+     "colour": "#A9BFD6",
+     "doorX": 22
+    },
+    {
+     "type": "bench",
+     "x": 4,
+     "y": 7,
+     "w": 2
+    },
+    {
+     "type": "tree",
+     "x": 1,
+     "y": 2,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 26,
+     "y": 7,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "lamppost",
+     "x": 12,
+     "y": 7
+    },
+    {
+     "type": "lamppost",
+     "x": 16,
+     "y": 2
+    }
+   ],
+   "doors": [
+    {
+     "x": 14,
+     "y": 0,
+     "to": "lane",
+     "toX": 14,
+     "toY": 14
+    },
+    {
+     "x": 22,
+     "y": 5,
+     "to": "bathhouse",
+     "toX": 7,
+     "toY": 9
+    }
+   ],
+   "mess": [
+    {
+     "type": "weeds",
+     "rect": [
+      1,
+      7,
+      28,
+      3
+     ],
+     "density": 0.1,
+     "seed": 91
+    },
+    {
+     "type": "mud",
+     "rect": [
+      1,
+      6,
+      28,
+      1
+     ],
+     "density": 0.18,
+     "seed": 93
+    }
+   ],
+   "pickups": [
+    {
+     "id": "river_shell_1",
+     "x": 6,
+     "y": 9,
+     "item": "shell"
+    },
+    {
+     "id": "river_shell_2",
+     "x": 20,
+     "y": 9,
+     "item": "shell"
+    }
+   ],
+   "spawn": {
+    "x": 14,
+    "y": 2
+   }
+  },
+  {
+   "id": "bathhouse",
+   "name": "Otto's bathhouse",
+   "kind": "home",
+   "drained": true,
+   "edge": "#534239",
+   "theme": {
+    "wall": "#F9EDC2",
+    "wallAccent": "#F6E3A1",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#F4C2A8",
+    "rugShade": "#DCA88D"
+   },
+   "legend": {
+    "#": "wall",
+    "=": "tile",
+    "w": "water",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "################",
+    "################",
+    "#==============#",
+    "#==============#",
+    "#====wwwww=====#",
+    "#====wwwww=====#",
+    "#====wwwww=====#",
+    "#==============#",
+    "#==============#",
+    "#==============#",
+    "#######m########"
+   ],
+   "props": [
+    {
+     "type": "basket",
+     "x": 1,
+     "y": 2,
+     "w": 2,
+     "action": "putaway",
+     "accepts": [
+      "towel"
+     ],
+     "label": "towel basket"
+    },
+    {
+     "type": "shelf",
+     "x": 4,
+     "y": 2,
+     "w": 3
+    },
+    {
+     "type": "sink",
+     "x": 12,
+     "y": 2,
+     "w": 2,
+     "colour": "#A9BFD6"
+    },
+    {
+     "type": "bench",
+     "x": 1,
+     "y": 8,
+     "w": 2
+    },
+    {
+     "type": "bench",
+     "x": 13,
+     "y": 8,
+     "w": 2
+    },
+    {
+     "type": "plant",
+     "x": 14,
+     "y": 5
+    }
+   ],
+   "doors": [
+    {
+     "x": 7,
+     "y": 10,
+     "to": "riverside",
+     "toX": 22,
+     "toY": 6
+    }
+   ],
+   "mess": [
+    {
+     "type": "clutter",
+     "x": 3,
+     "y": 4,
+     "item": "towel"
+    },
+    {
+     "type": "clutter",
+     "x": 11,
+     "y": 6,
+     "item": "towel"
+    },
+    {
+     "type": "clutter",
+     "x": 6,
+     "y": 8,
+     "item": "towel"
+    },
+    {
+     "type": "clutter",
+     "x": 12,
+     "y": 7,
+     "item": "towel"
+    },
+    {
+     "type": "stain",
+     "rect": [
+      1,
+      2,
+      14,
+      8
+     ],
+     "density": 0.22,
+     "seed": 81
+    },
+    {
+     "type": "fog",
+     "rect": [
+      9,
+      2,
+      6,
+      2
+     ],
+     "density": 0.45,
+     "seed": 83
+    },
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      7,
+      14,
+      3
+     ],
+     "density": 0.12,
+     "seed": 85
+    }
+   ],
+   "spawn": {
+    "x": 7,
+    "y": 9
+   },
+   "restoreReward": 100
   }
  ],
  "neighbours": [
@@ -2260,8 +2560,9 @@
     {
      "at": 1080,
      "area": "riverside",
-     "x": 0,
-     "y": 0
+     "x": 6,
+     "y": 8,
+     "dir": "down"
     },
     {
      "at": 1200,

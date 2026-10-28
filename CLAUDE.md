@@ -22,7 +22,7 @@ A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the 
 ## Art (unparked 27 Oct 2026, hybrid)
 - Character sprite sheets come from Blake (Grok Imagine + cleanup), processed by `tools/process_asset.py --sheet` into `apps/web/public/sprites/` and wired in as they arrive: `claude/SPRITE-SHEETS.md` (order: Puff walk, idle+blink, clean swing, hop+doze; then neighbours). Code-drawn placeholders stay until each sheet lands.
 - Claude Code keeps tiles, props, mess, effects and ambient animation in code (16 px tiles, 24 px Puff in the world; 48 px menu Puff later).
-- Character sprites use Blake's Grok art at high resolution (`--hires 6`: the art's own colours and outline, 6 texture px per world px, Puff in a 24×28 world-px cell), decided 27 Oct 2026. Areas are Grok paintings too (decided 27 Oct 2026): `--background` in `process_asset.py`, `background` in the pack, map traced over the painting; the burrow and bakery are in; yard, square, General Store, Neighbour Lane, Bea's shop, Pip's workshop and Moss's library are code-drawn until their paintings arrive (`claude/SPRITE-SHEETS.md`). Soft shadows and lamp glow are code overlays. `PUFF-ANIMATION-TASKS.md` (48 px room game) is retired. Old room paintings / 01–99 prompts are retired unless re-requested.
+- Character sprites use Blake's Grok art at high resolution (`--hires 6`: the art's own colours and outline, 6 texture px per world px, Puff in a 24×28 world-px cell), decided 27 Oct 2026. Areas are Grok paintings too (decided 27 Oct 2026): `--background` in `process_asset.py`, `background` in the pack, map traced over the painting; the burrow and bakery are in; yard, square, General Store, Neighbour Lane, Bea's shop, Pip's workshop, Moss's library, Riverside and Otto's bathhouse are code-drawn until their paintings arrive (`claude/SPRITE-SHEETS.md`). Soft shadows and lamp glow are code overlays. `PUFF-ANIMATION-TASKS.md` (48 px room game) is retired. Old room paintings / 01–99 prompts are retired unless re-requested.
 - Credit "Some art created with Grok Imagine" in Settings > About and the store listing; log assets in `claude/LICENCES.md`.
 
 ## Commands
@@ -42,6 +42,8 @@ A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the 
 - Precedence: BACKEND-PLAN wins on API/data; FRONTEND-PLAN on client; GAME-DESIGN on rules and feel.
 
 ## Conventions
+- **Before building** any feature, step, area or sizeable fix: follow the `factorisation-and-organisation` skill (`.claude/skills/`). Write a file plan, keep files within budget, and `game.ts` only wires.
+- **After building**, before committing: run the `post-feature-cleanup` skill every time, without being asked. That means its checker (`node .claude/skills/post-feature-cleanup/check.mjs`), a self-review of the diff, then all checks and the docs.
 - Tests first; each step ends with `npm test` green. Lowercase snake_case asset names; pack room ids use `-`.
 - Copy is a kind friend: never "failed", "lost", "overdue"; no body, weight or appearance talk. Puff is never sad because of the player.
 - Secrets only in Worker secrets / `.dev.vars` / `.env` (gitignored, chmod 600). Never in code or chat.
