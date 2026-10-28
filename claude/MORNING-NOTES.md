@@ -13,6 +13,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 | #45 | **2e:** six earned outfits (bow, Keeper's badge, scarf, berry hat, flower crown, star clip), worn on Puff; Pause → 👒 Outfits | §11k |
 | #46 | **2f:** free decor outdoors (flower pots, lanterns, little fences, stone paths); place from the bag, pick up any time; never blocks the way | §11l |
 | #47 | **2g:** building upgrades (cosy bench, big flower bed, twin lamp) | §11m |
+| #50 | **3a:** Mabel's bottle letters: from day 10 a bottle washes up by the fountain every few days; write back for friendship before you meet her; the first brings the cave map leaf | §11o |
 | #49 | **2h:** a greenhouse by the yard garden (Town Bloom 2, 300 ✨) that waters the garden every night (you said make it straight away) | §11n |
 
 ## Phase 2: what's left
@@ -42,6 +43,9 @@ You said to carry on without asking. I've merged each slice to the test link onc
   - pebble
   - Copper duster
   - Copper rake
+
+## Phase 3 so far
+- **3a (#50):** Mabel's letters. The text is my proposal (see DIALOGUE-REVIEW), so please tweak anything that isn't her voice.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.

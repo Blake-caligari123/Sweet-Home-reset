@@ -28,6 +28,7 @@ import { OnboardingGuide } from './play/onboarding-guide';
 import { nudge } from './play/nudges';
 import { overnight } from './play/overnight';
 import { bloomUp } from './bloom/bloom';
+import { lettersWaiting } from './letters/letters';
 import { Puff } from './play/puff';
 import { distTo, FEET_TO_BASE, neighbourAt, rectOf, targetAt, type Here, type Target } from './play/targets';
 import { Jobs } from './requests/jobs';
@@ -454,7 +455,8 @@ export class TownGame {
     const up = bloomUp(this.state, this.places.restoredCount());
     if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }
     for (const o of newlyEarned(this.state, this.content.pack.outfits ?? [])) this.view.banner(`👒 New outfit: ${o.name}! (Pause → Outfits)`);
-    const next = this.content.line(nudge(this.state, (k) => this.arrived(k)) ?? undefined);
+    const bottle = lettersWaiting(this.content.pack.letters ?? [], this.clock.state.day, this.state.flags).length > 0;
+    const next = this.content.line(nudge(this.state, (k) => this.arrived(k), bottle) ?? undefined);
     this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? step.hint : this.jobs.tracker() ?? next ?? 'Explore {town} and tidy what you find.'));
   }
 

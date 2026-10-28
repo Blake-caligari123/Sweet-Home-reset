@@ -68,6 +68,7 @@ town/
                 actions.ts (cleaning, furniture, soil, pickups, doors), onboarding-guide.ts
                 (runs the tips: tools, highlights); gestures.ts (tap, rub, drag); a home coming
                 alive: alive.ts (stage rules) and home-life.ts (switches stages on in play)
+  letters/      letters.ts (which bottle letter is waiting), letter-sheet.ts (reading and writing back)
   neighbours/   neighbours.ts (routines, walking), talk.ts (line choice), friends.ts (points,
                 gifts), heart-events.ts (scene rules), conversations.ts (the talk/gift/scene/
                 Friends UI)

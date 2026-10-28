@@ -21,7 +21,7 @@ export interface Tuning {
   requestsPerDay: [number, number];
   requestExpiryDays: [number, number];
   relaxedMode: { fluffCostMultiplier: number; doze: boolean; requestExpiry: boolean };
-  friendship: { talk: number; liked: number; loved: number; request: number; pointsPerHeart: number };
+  friendship: { talk: number; liked: number; loved: number; request: number; pointsPerHeart: number; letter: number };
   autosaveSeconds: number;
   townName: string;
   fountainName: string;

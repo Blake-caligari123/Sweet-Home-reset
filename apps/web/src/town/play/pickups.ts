@@ -7,6 +7,8 @@ export interface PickupDef {
   item: string;
   /** Drawn this many tiles higher, to sit on top of the furniture. */
   drawDy?: number;
+  /** A bottle letter: opening it, rather than into the bag. */
+  letter?: string;
 }
 
 /** Which pickups were taken, on which day. */

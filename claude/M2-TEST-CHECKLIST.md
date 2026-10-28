@@ -169,6 +169,11 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] At Town Bloom 2 the Keeper's plans show a new plot, "By the garden", with the Greenhouse (300 ✨, two nights).
 - [ ] Once it's built (next to the garden fence), yard crops grow every night even if you forget to water.
 
+## 11o. Phase 3a: Mabel's bottle letters
+- [ ] Day 10: the tracker says "A bottle's washed up by the fountain." There's a bottle by the fountain. Tap it to read a letter signed "M."
+- [ ] Choose a reply: "Off it floats…" Mabel gets friendship (Pause → Friends once you've met her). The letter is gone.
+- [ ] More come on days 13, 17, 23 and 31, one at a time, each waiting until you read it. "Later" leaves it there.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

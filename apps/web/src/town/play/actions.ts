@@ -3,6 +3,8 @@ import type { Content } from '../data/content';
 import { PUTAWAY_SPARKLES, SWING_MS, TUNING } from '../data/tuning';
 import { nextFind } from '../bloom/bloom';
 import { openCollection } from '../bloom/collection-sheet';
+import { openLetter } from '../letters/letter-sheet';
+import { lettersWaiting } from '../letters/letters';
 import { harvest, seedsIn, stageOf, type CropDef } from './crops';
 import type { GrumbleLife } from '../grumbles/grumble-life';
 import type { Conversations } from '../neighbours/conversations';
@@ -65,7 +67,11 @@ export class PuffActions {
     else if (t.kind === 'prop') this.useProp(t);
   }
 
-  pickupsHere() { const { state, clock } = this.host; return available(this.host.here().area.pack.pickups ?? [], state.picked, clock.state.day); }
+  pickupsHere() {
+    const { state, clock, content } = this.host; const id = this.host.here().id;
+    const bottles = lettersWaiting(content.pack.letters ?? [], clock.state.day, state.flags).filter((l) => l.area === id).map((l) => ({ id: `letter_${l.id}`, x: l.x, y: l.y, item: 'bottle', letter: l.id }));
+    return [...available(this.host.here().area.pack.pickups ?? [], state.picked, clock.state.day), ...bottles];
+  }
 
   cropsHere() {
     const id = this.host.here().id;
@@ -313,6 +319,8 @@ export class PuffActions {
     const { state, view, content, clock } = this.host;
     const p = this.pickupsHere().find((x) => x.id === id);
     if (!p) return;
+    const letter = p.letter && content.pack.letters?.find((l) => l.id === p.letter);
+    if (letter) { openLetter(view, content, state, letter, () => { this.host.world.setPickups(this.pickupsHere()); this.host.refreshHud(); this.host.save(); }); return; }
     if (!state.bag.add(p.item)) { view.say('Bag\'s full! Put things away first.'); return; }
     state.picked = take(state.picked, id, clock.state.day);
     const name = content.itemName(p.item).toLowerCase();

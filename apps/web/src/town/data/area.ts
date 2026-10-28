@@ -17,6 +17,7 @@ import type { CropDef } from '../play/crops';
 import type { FindDef } from '../bloom/bloom';
 import type { OutfitDef } from '../outfits/outfits';
 import type { DecorKind } from '../decor/decor';
+import type { LetterDef } from '../letters/letters';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 /** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
@@ -54,7 +55,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** Little treasures that turn up while tidying, for Moss's collection. */
   finds?: FindDef[];
   /** Things Puff can wear, earned by playing (VISION §4). */
-  outfits?: OutfitDef[] }
+  outfits?: OutfitDef[];
+  /** Bottle letters that wash up by the fountain (Mabel's, from day 10). */
+  letters?: LetterDef[] }
 
 export class Area {
   readonly w: number;
@@ -161,6 +164,7 @@ export function validateTownPack(input: unknown): TownPack {
     for (const id of Object.keys(r.cost?.items ?? {})) if (!p.items[id]) throw new Error(`recipe ${r.id}: unknown item ${id}`);
   }
   for (const c of p.crops ?? []) if (!p.items[c.id] || !p.items[c.seed]) throw new Error(`crop ${c.id}: unknown item`);
+  for (const l of p.letters ?? []) for (const id of [...l.lines, ...l.replies.map((r) => r.label)]) if (typeof text[id] !== 'string') throw new Error(`letter ${l.id}: no text for ${id}`);
   for (const pet of p.pets ?? []) if (!pet.id || !pet.name || !pet.defaultName || typeof text[pet.line] !== 'string') throw new Error(`pet ${pet.id}: shape`);
   for (const sh of p.shops ?? []) {
     if (!sh.id || ![sh.opens, sh.closes].every(isNum) || !Array.isArray(sh.stock)) throw new Error(`shop ${sh.id}: shape`);
