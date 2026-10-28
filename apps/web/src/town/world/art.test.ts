@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { P } from '../../shared/art/palette';
 import { PixelCanvas } from '../../shared/art/pixel-canvas';
-import { drawGround, type Ground, type Theme } from './art';
+import { drawGround, drawMess, type Ground, type Theme } from './art';
+import { MESS_TYPES } from '../play/mess';
 import { isNight } from './ambience';
 
 const theme: Theme = { wall: P.peachLight, wallAccent: P.peach, floor: P.brownLight, floorShade: P.brown, rug: P.sage, rugShade: P.sageShade };
@@ -28,5 +29,14 @@ describe('town ground art', () => {
     expect(isNight(19 * 60)).toBe(true);
     expect(isNight(3 * 60)).toBe(true);
     expect(isNight(12 * 60)).toBe(false);
+  });
+
+  it('draws every kind of mess so none is ever invisible', () => {
+    for (const type of MESS_TYPES.filter((t) => t !== 'none')) {
+      const pc = drawMess(type, 0, 'sock');
+      let solid = 0;
+      for (let i = 3; i < pc.data.length; i += 4) if (pc.data[i] > 0) solid += 1;
+      expect(solid, type).toBeGreaterThan(10);
+    }
   });
 });

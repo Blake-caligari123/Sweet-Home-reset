@@ -648,6 +648,15 @@ export function drawMess(type: string, variant: number, item?: string) {
       pc.line(0, 0, 14, 14, P.greyLight); pc.line(0, 0, 15, 6, P.greyLight); pc.line(0, 0, 6, 15, P.greyLight);
       for (let k = 4; k < 15; k += 5) { pc.line(k, 0, 0, k, P.greyLight); }
       break;
+    case 'crumbs':
+      for (let i = 0; i < 9; i += 1) { const cx = 2 + Math.floor(r() * 12); const cy = 3 + Math.floor(r() * 10); pc.rect(cx, cy, 2, 1, P.butterShade); pc.set(cx, cy + 1, P.brownLight); }
+      break;
+    case 'fog':
+      pc.ellipse(8, 8, 6, 5, P.blueLight, 170); pc.ellipse(6, 6, 3, 2, P.white, 190); pc.ellipse(11, 10, 2, 2, P.white, 150);
+      break;
+    case 'mud':
+      pc.ellipse(8, 10, 6, 4, P.brownShade); pc.ellipse(6, 9, 3, 2, P.brown); pc.set(11, 8, P.brownLight); pc.set(4, 12, P.brownShade); pc.set(13, 13, P.brownShade);
+      break;
     case 'clutter':
       drawItemIcon(pc, item ?? 'sock', 1, 1);
       break;
@@ -675,6 +684,11 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'toy': pc.ellipseBox(ox + 7, oy + 8, 4, 4, P.blue, P.outline); pc.ellipseBox(ox + 5, oy + 4, 1, 2, P.blue, P.outline); pc.ellipseBox(ox + 9, oy + 4, 1, 2, P.blue, P.outline); pc.set(ox + 6, oy + 8, P.ink); pc.set(ox + 8, oy + 8, P.ink); pc.hline(ox + 9, oy + 11, 3, P.white); break;
     case 'string': pc.ellipseBox(ox + 7, oy + 7, 5, 5, P.peachLight, P.outline); pc.line(ox + 3, oy + 6, ox + 11, oy + 8, P.peachShade); pc.line(ox + 4, oy + 9, ox + 10, oy + 4, P.peachShade); pc.line(ox + 11, oy + 10, ox + 13, oy + 13, P.peachShade); break;
     case 'toy_boat': b(1, 8, 12, 4, P.peach, 1); pc.vline(ox + 7, oy + 1, 7, P.brownShade); b(8, 2, 4, 5, P.white); break;
+    case 'towel': b(2, 3, 10, 9, P.blueLight, 1); pc.hline(ox + 3, oy + 5, 8, P.blue); pc.hline(ox + 3, oy + 9, 8, P.blue); pc.hline(ox + 3, oy + 11, 8, P.white); break;
+    case 'shell':
+      pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.peachLight, P.outline);
+      for (const dx of [-3, 0, 3]) pc.line(ox + 7, oy + 12, ox + 7 + dx, oy + 5, P.peachShade);
+      pc.set(ox + 5, oy + 6, P.white); break;
     case 'bag': b(2, 4, 10, 9, P.brownLight, 2); pc.line(ox + 4, oy + 4, ox + 6, oy + 1, P.outline); pc.line(ox + 10, oy + 4, ox + 8, oy + 1, P.outline); pc.hline(ox + 4, oy + 7, 6, P.brown); break;
     case 'copper_sponge': b(1, 2, 12, 10, P.cream, 1); pc.hline(ox + 3, oy + 5, 8, P.greyShade); pc.hline(ox + 3, oy + 8, 6, P.greyShade); pc.ellipseBox(ox + 10, oy + 10, 2, 2, P.peachShade, P.outline); break;
     default: b(3, 3, 8, 8, P.butter, 1);

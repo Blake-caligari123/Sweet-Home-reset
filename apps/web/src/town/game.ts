@@ -136,6 +136,7 @@ export class TownGame {
       tileToScreen: (x: number, y: number) => this.world.toScreen((x + 0.5) * T, (y + 0.5) * T),
       debug: () => ({ area: this.areaId, puff: { x: this.puff.x, y: this.puff.y }, fluff: s.fluff.value, sparkles: s.sparkles, bag: s.bag.slots.filter(Boolean), tools: s.tools, step: s.onboarding.current?.id ?? 'done', progress: this.mess.progress, day: this.clock.state.day, minutes: this.clock.state.minutes, crops: s.crops }),
       setMinutes: (m: number) => { this.clock.state.minutes = m; },
+      setDay: (d: number) => { this.clock.state.day = d; this.jobs.post(); },
       mess: () => { const m = this.mess; const out: { x: number; y: number; type: string; hp: number; item?: string }[] = []; for (let i = 0; i < m.type.length; i += 1) if (m.type[i]) out.push({ x: i % m.w, y: Math.floor(i / m.w), type: m.typeAt(i % m.w, Math.floor(i / m.w)), hp: m.hp[i], item: m.item[i] }); return out; },
       props: () => this.area.pack.props.filter((p) => p.action).map((p) => ({ type: p.type, x: p.x, y: p.y, action: p.action, accepts: p.accepts })),
       doors: () => this.area.pack.doors.filter((d) => !d.closedText),
@@ -465,7 +466,8 @@ export class TownGame {
     if (!this.state.bag.add(p.item)) { this.view.say('Bag\'s full! Put things away first.'); return; }
     this.state.picked = take(this.state.picked, id, this.clock.state.day);
     const name = this.content.itemName(p.item).toLowerCase();
-    this.view.say(`${/^[aeiou]/.test(name) ? 'An' : 'A'} ${name}! Snack for later.`);
+    const snack = !!this.content.pack.items[p.item]?.snack;
+    this.view.say(`${/^[aeiou]/.test(name) ? 'An' : 'A'} ${name}! ${snack ? 'Snack for later.' : 'Into the bag it goes.'}`);
     this.view.feedback('coin', 'light');
     this.world.setPickups(this.pickupsHere());
     this.refreshHud();
