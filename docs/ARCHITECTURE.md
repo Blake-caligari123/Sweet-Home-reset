@@ -83,7 +83,8 @@ town/
                 pet-life.ts (the pet in play: the doorstep offer, following, pats)
   shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
-                the tool bar), pointer-input.ts (fingers on the world), keyboard.ts, bag-sheet.ts,
+                the tool bar), pointer-input.ts (fingers on the world), keyboard.ts, hud-live.ts (clock,
+                Fluff, prompt and bubble each frame), bag-sheet.ts,
                 naming-sheet.ts, pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css
 ```
 

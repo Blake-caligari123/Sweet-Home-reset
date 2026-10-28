@@ -15,7 +15,7 @@ import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
 import { installDebugHooks } from './debug';
 import { PuffActions } from './play/actions';
-import { Clock, DAY_START, formatTime, LATE_AT } from './play/clock';
+import { Clock, LATE_AT } from './play/clock';
 import { Carry } from './play/carry';
 import { Sweep } from './play/sweep';
 import { HomeLife } from './play/home-life';
@@ -33,11 +33,11 @@ import { isOpen } from './shops/shops';
 import { TownState } from './state';
 import { openBag } from './ui/bag-sheet';
 import { Hud, TOOL_SLOTS } from './ui/hud';
+import { HudLive } from './ui/hud-live';
 import { bindKeyboard } from './ui/keyboard';
 import { openNaming } from './ui/naming-sheet';
 import { openPause } from './ui/pause-menu';
 import { PointerInput } from './ui/pointer-input';
-import { promptFor } from './ui/prompt';
 import { View, type Settings } from './ui/view';
 import { isUnlocked } from './unlocks';
 import { T } from './world/art/texture';
@@ -76,6 +76,7 @@ export class TownGame {
   private pet: PetLife;
   private petLayer: PetLayer;
   private carry: Carry;
+  private hudLive: HudLive;
   private sweep: Sweep;
   private fading = false;
   private autosaveMs = 0;
@@ -123,6 +124,7 @@ export class TownGame {
       state: this.state, view: this.view, hud: this.hud, area: () => this.areaId, messFor: (id) => this.places.mess(id),
       highlight: (tiles) => this.world.setHighlight(tiles), refreshHud: () => this.refreshHud()
     });
+    this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
     this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.tap(x, y) });
     this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.scrub({ x, y }, MAX_RUB) });
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
@@ -418,33 +420,8 @@ export class TownGame {
     this.pet.tick(dt);
     this.world.follow(p.fx, p.fy - 8);
     this.world.update(dt);
-    this.placeBubble(p.fx, p.fy + FEET_TO_BASE);
-    this.updateHudLive();
+    this.hudLive.tick();
     this.view.tick(dt);
-  }
-
-  private lastPrompt = '';
-  private lastClock = '';
-
-  private updateHudLive() {
-    const c = this.clock;
-    const clockText = `${c.season} ${c.dayOfSeason}|${formatTime(c.shown)}`;
-    if (clockText !== this.lastClock) {
-      this.lastClock = clockText;
-      const night = c.state.minutes >= 19 * 60 || c.state.minutes < DAY_START;
-      this.hud.setClock(`${c.season} ${c.dayOfSeason}`, formatTime(c.shown), night);
-    }
-    if (this.hud.setFluff(this.state.fluff.value, this.state.fluff.cap, this.state.fluff.tired)) this.view.say('Feeling sleepy... a snack would help.');
-    const prompt = this.promptText();
-    if (prompt !== this.lastPrompt) { this.lastPrompt = prompt; this.hud.setPrompt(prompt); }
-  }
-
-  /** The context line above the tool bar: what Puff is facing or about to do. */
-  private promptText() {
-    const p = this.puff;
-    const here = this.here;
-    const ahead = targetAt(here, p.facing.x, p.facing.y);
-    return promptFor(p.action ?? p.swing ?? (ahead.kind === 'walk' ? null : ahead), here, this.state.crops, this.content);
   }
 
   private refreshHud() {
@@ -458,17 +435,6 @@ export class TownGame {
     if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }
     const next = this.content.line(nudge(this.state, (k) => this.arrived(k)) ?? undefined);
     this.hud.setTracker(this.content.named(step ? step.hint : this.jobs.tracker() ?? next ?? 'Explore {town} and tidy what you find.'));
-  }
-
-  /** x, y: the bottom-centre of Puff's sprite in world px. */
-  private placeBubble(x: number, y: number) {
-    // Just above Puff's ears, whatever art Puff is drawn with.
-    const s = this.world.toScreen(x, y - this.world.puffHeight - 2);
-    this.hud.fadeNear(s.y + 20);
-    if (!this.hud.bubble.classList.contains('show')) return;
-    const half = Math.min(120, this.hud.bubble.offsetWidth / 2 + 8);
-    this.hud.bubble.style.left = `${Math.min(window.innerWidth - half, Math.max(half, s.x))}px`;
-    this.hud.bubble.style.top = `${Math.max(120, s.y)}px`;
   }
 
   // ---- save --------------------------------------------------------------------------------
