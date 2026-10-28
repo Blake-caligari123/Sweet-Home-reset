@@ -34,6 +34,8 @@ export interface Tuning {
   cropDays?: Record<string, number>;
   /** The year-one schedule (VISION §8): when each thing arrives. Read only through `isUnlocked`. */
   unlocks: Record<string, UnlockRule>;
+  /** Grumbles (VISION §7): how many gather per area, helpers kept, how fast they amble. */
+  grumbles: { perAreaMax: number; helpersMax: number; driftTilesPerSecond: number };
 }
 
 /** Open on or after `day`, once story flag `flag` is set (either may be left out). */

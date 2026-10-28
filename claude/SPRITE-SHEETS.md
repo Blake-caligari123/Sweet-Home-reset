@@ -45,6 +45,17 @@ Later (not wired yet): `puff_yawn`, `puff_pickup_<dir>`, and the 48 px menu Puff
 ## Neighbours (after the Puff set; cell size set per neighbour, e.g. `--frame 16x28`)
 Ids: `hazel` (hedgehog), `bea` (bee), `pip` (mouse), `otto` (otter), `moss` (mole), `mabel` (owl). For each: `<id>_idle_down` (4), `<id>_walk_down`, `<id>_walk_up`, `<id>_walk_right` (6 each). The 48 px portraits with 3 expressions (happy, thinking, tired) are a separate later set.
 
+## Grumbles (Phase 1c; cell 16×15 world px, `--frame 16x15`)
+The dust family first (cobweb, mud and soot follow with their days). Two sheets, one per row in one image:
+- `grumble_dust_grumpy`: 4 frames, idle, grey and droopy
+- `grumble_dust_bright`: 4 frames, idle, bright and happy
+
+Prompt (no reference image needed; attach the code placeholder screenshot if Grok drifts):
+
+> Pixel art sprite sheet, two rows of four frames. A Grumble: a tiny round puff of soft fluffy dust, the size of a dumpling, with a few wispy tufts on top and no arms or legs. **Row 1:** grey and sleepy, droopy half-closed eyes, a tiny pout, gently bobbing up and down across the 4 frames. **Row 2:** the same creature brightened to soft butter yellow with rosy peach cheeks, happy closed-arc eyes and a small smile, bobbing cheerfully across the 4 frames. Cute and harmless: no teeth, no glowing eyes, no slime. Frames evenly spaced, identical size and scale, not touching, all on the same ground line, a clear gap between the rows. Plain flat bright magenta background (#FF00FF), no floor, no shadow, no text. Cosy top-down game sprite, chunky readable shapes, crisp hard-edged square pixels, flat colour with one shade step, soft top-left light, 1-pixel warm-brown outline (#8A6E5E), limited warm pastel palette. No anti-aliasing, no blur, no gradients, no dithering. Original character. Negative: photorealism, watercolour, 3D render, text, watermark, background scenery.
+
+Process: `... process_asset.py grumble_dust --sheet 4 --rows grumble_dust_grumpy,grumble_dust_bright --hires 6 --frame 16x15 --log`
+
 ## Prompt template (Grok Imagine)
 Swap in the sheet line from the table above. Attach Puff's model sheet as the reference image so Puff stays on-model.
 

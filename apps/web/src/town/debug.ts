@@ -47,6 +47,7 @@ export function installDebugHooks(g: DebugTarget) {
     drawn: () => ({ x: g.puff.fx / T - 0.5, y: (g.puff.fy + FEET_TO_BASE + 1) / T - 1 }),
     neighbours: () => g.neighbours.visible(g.areaId()).map((n) => ({ id: n.id, x: Math.floor(n.fx / T), y: Math.floor(n.fy / T), fx: n.fx, fy: n.fy, pose: n.pose, dir: n.dir })),
     tapNeighbour: (id: string) => { const n = g.neighbours.states.get(id); if (n) g.tap(n.fx, n.fy - 6); },
+    grumbles: () => s.grumbles.list.filter((x) => x.area === g.areaId()),
     friends: () => s.friends,
     flags: () => s.flags,
     requests: () => s.requests,

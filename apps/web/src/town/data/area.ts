@@ -10,6 +10,7 @@ import type { AliveStage } from '../play/alive';
 import type { PickupDef } from '../play/pickups';
 import type { Line } from '../neighbours/talk';
 import type { BuildingDef, PlotDef } from '../build/build';
+import type { FamilyDef } from '../grumbles/grumbles';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 /** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
@@ -35,7 +36,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   dialogue?: Record<string, Line[]>; strings?: Record<string, Record<string, string>>;
   heartEvents?: HeartEvent[]; requests?: RequestTemplate[]; shops?: ShopDef[];
   /** Where the town can build, and what (VISION §5). */
-  plots?: PlotDef[]; buildings?: BuildingDef[] }
+  plots?: PlotDef[]; buildings?: BuildingDef[];
+  /** Grumble families: their tool, tidies needed, where they gather (VISION §7). */
+  grumbleFamilies?: FamilyDef[] }
 
 export class Area {
   readonly w: number;

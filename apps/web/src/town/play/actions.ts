@@ -1,6 +1,7 @@
 import type { Area, TownPack } from '../data/area';
 import type { Content } from '../data/content';
 import { cropDays, PUTAWAY_SPARKLES, SWING_MS } from '../data/tuning';
+import type { GrumbleLife } from '../grumbles/grumble-life';
 import type { Conversations } from '../neighbours/conversations';
 import type { Jobs } from '../requests/jobs';
 import type { TownState } from '../state';
@@ -20,7 +21,7 @@ import type { Target } from './targets';
 
 export interface ActionsHost {
   state: TownState; view: View; content: Content; clock: Clock; settings: Settings;
-  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide;
+  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide; grumbles: GrumbleLife;
   /** The area Puff is in. */
   here(): { id: string; area: Area; mess: AreaMess; nav: NavGrid };
   /** The tool in Puff's paws. */
@@ -51,6 +52,7 @@ export class PuffActions {
     this.host.puff.face(t.x, t.y);
     if (t.kind === 'door') this.useDoor(t.x, t.y);
     else if (t.kind === 'mess') this.startSwing(t);
+    else if (t.kind === 'grumble') this.startTidy(t);
     else if (t.kind === 'soil') this.useSoil(t.x, t.y);
     else if (t.kind === 'pickup') this.takePickup(t.id);
     else if (t.kind === 'prop') this.useProp(t);
@@ -71,21 +73,39 @@ export class PuffActions {
   }
 
   private startSwing(t: Target) {
-    const { state, view, settings, puff } = this.host;
+    const { state, view } = this.host;
     const { area, mess } = this.host.here();
     const type = mess.typeAt(t.x, t.y) as Exclude<MessType, 'none'>;
     if (type === 'none' as MessType) return;
     const need = TOOL_FOR[type];
-    if (!state.tools[need.tool]) { view.say(`${state.names.puff} needs a ${TOOL_NAMES[need.tool].toLowerCase()} for that.`); return; }
-    if (state.tools[need.tool] < need.minTier) { view.say('That needs a Copper sponge.'); return; }
-    if (settings.autoTool) this.host.select(need.tool);
-    else if (this.host.selected() !== need.tool) { view.say(`Try the ${TOOL_NAMES[need.tool].toLowerCase()}.`); return; }
     if (type === 'clutter' && !state.bag.canAdd(mess.item[t.y * area.w + t.x] ?? '')) { view.say('Bag\'s full! Put things away first.'); return; }
-    if (need.tool !== 'hands' && !state.fluff.spend(false, settings.relaxed ? 0.5 : 1)) { view.say('Getting fluffy-sleepy... snack time?'); this.host.hud.pulseFluff(); return; }
+    if (this.toolReady(need.tool, need.minTier)) this.swingAt(t, need.tool);
+  }
+
+  /** A Grumble: tidied like mess, one go per swing; a helper just gets a hello. */
+  private startTidy(t: Extract<Target, { kind: 'grumble' }>) {
+    const tool = this.host.grumbles.toolFor(t.id);
+    if (!tool) { this.host.grumbles.greet(t.id); return; }
+    if (this.toolReady(tool, 1)) this.swingAt(t, tool);
+  }
+
+  /** Puff has the tool (in hand, or picked for them) and the Fluff to use it, which is spent. */
+  private toolReady(tool: ToolId, minTier: number) {
+    const { state, view, settings } = this.host;
+    if (!state.tools[tool]) { view.say(`${state.names.puff} needs a ${TOOL_NAMES[tool].toLowerCase()} for that.`); return false; }
+    if (state.tools[tool] < minTier) { view.say('That needs a Copper sponge.'); return false; }
+    if (settings.autoTool) this.host.select(tool);
+    else if (this.host.selected() !== tool) { view.say(`Try the ${TOOL_NAMES[tool].toLowerCase()}.`); return false; }
+    if (tool !== 'hands' && !state.fluff.spend(false, settings.relaxed ? 0.5 : 1)) { view.say('Getting fluffy-sleepy... snack time?'); this.host.hud.pulseFluff(); return false; }
+    return true;
+  }
+
+  private swingAt(t: Target, tool: ToolId) {
+    const { puff, view } = this.host;
     puff.swing = t;
     puff.pose = 'swing';
     puff.swingMs = SWING_MS;
-    view.feedback(need.tool === 'hands' ? 'tap' : 'scrub', 'light');
+    view.feedback(tool === 'hands' ? 'tap' : 'scrub', 'light');
     this.host.refreshHud();
   }
 
@@ -96,6 +116,11 @@ export class PuffActions {
     const t = puff.swing;
     puff.swing = null;
     if (!t) { puff.pose = 'idle'; puff.repeat = 0; return; }
+    if (t.kind === 'grumble') {
+      puff.pose = 'idle';
+      if (this.host.grumbles.tidy(t.id) === 'more' && puff.repeat > 0) { puff.repeat -= 1; this.startTidy(t); } else puff.repeat = 0;
+      return;
+    }
     const i = t.y * area.w + t.x;
     const type = mess.typeAt(t.x, t.y);
     const tool = TOOL_FOR[type as Exclude<MessType, 'none'>]?.tool ?? this.host.selected();

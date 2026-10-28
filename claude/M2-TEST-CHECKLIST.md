@@ -97,6 +97,15 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Sleep (or doze off). Next morning, "The new bench is finished. Come see!", and the bench is there. You can sit beside it, and nothing blocks the doors or the board.
 - [ ] Reload mid-build: the scaffolding and the Sparkles stay as they were.
 
+## 11d. Phase 1c: dust Grumbles
+- [ ] Before day 3: no Grumbles anywhere.
+- [ ] Day 3: the tracker says something grey is grumbling on Neighbour Lane. Walk in and Puff says "You look like me!"
+- [ ] There are 1–3 Grumbles each on the Lane, in Pip's workshop and in Moss's library. They amble slowly and shuffle away if Puff gets close.
+- [ ] Tap one: Puff dusts it (1 Fluff) and a pip fills. Three goes and it turns butter-yellow, with "Friend made! ✨". Tapping it again says "Pff! Ooh!"
+- [ ] Sleep: untidied ones are gone and new ones arrive. Your helpers stay. Nothing is lost.
+- [ ] Reload mid-tidy: the pips, positions and helpers are all kept.
+- [ ] Dragging the sock to its basket still works.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

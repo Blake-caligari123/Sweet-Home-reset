@@ -154,6 +154,13 @@ One new thing every couple of days, each with one tip or letter:
   - You pay up front and it's built overnight, the same after a sleep or a doze: scaffolding first, then the morning banner.
   - `game.ts` was split: the areas moved into `world/town-areas.ts` and the night into `play/overnight.ts`.
   - Still to come with Phase 2: materials, upgrades, paths and free decor.
+- **Phase 1c (28 Oct):**
+  - Dust Grumbles from day 3: 1–3 each morning on Neighbour Lane, in Pip's workshop and in Moss's library. They amble slowly and shuffle away from Puff.
+  - Three duster tidies each (1 Fluff a go, the same tool checks as mess) fill a pip ring. Then the Grumble brightens into a helper ("Friend made!").
+  - Untidied Grumbles drift away overnight, with no penalty. Helpers stay, up to 12.
+  - The tracker nudges to the next new thing (`play/nudges.ts`).
+  - Drag-to-put-away moved to `play/carry.ts`. The Grok prompt is in SPRITE-SHEETS.
+  - Helper jobs come with Phase 3.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
