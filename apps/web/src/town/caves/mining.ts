@@ -59,7 +59,7 @@ export class Mining {
     world.sparkleBurst(t.x, t.y, 14);
     view.feedback('sparkle', 'success');
     view.banner(Object.entries(got).map(([id, n]) => `+${n} ${content.itemName(id)}`).join(' · '));
-    view.say(content.line(got.shard_colour ? 'cave.shard' : 'cave.ore') ?? '');
+    view.say(content.line(got.gem_blue ? 'cave.gem' : got.shard_colour ? 'cave.shard' : 'cave.ore') ?? '');
     this.host.refreshArea();
     this.host.refreshHud();
     this.host.save();

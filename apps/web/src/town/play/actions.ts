@@ -272,8 +272,8 @@ export class PuffActions {
       case 'hatch': {
         const prop = this.host.here().area.tapPropAt(t.x, t.y);
         const to = prop?.to && content.pack.areas.find((a) => a.id === prop.to);
-        if (!to || !this.host.arrived(to.id)) { view.say(content.line('cave.closed') ?? ''); return; }
-        view.say(content.line('cave.enter') ?? '');
+        if (!to || !this.host.arrived(to.id)) { view.say(content.line(`cave.closed.${prop?.to}`) ?? content.line('cave.closed') ?? ''); return; }
+        view.say(content.line(`cave.enter.${to.id}`) ?? content.line('cave.enter') ?? '');
         this.host.travel(to.id, to.spawn.x, to.spawn.y);
         return;
       }

@@ -52,6 +52,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **3c (#52):** Sorrel moves in. Her letter comes on day 8, you build her cottage on the Lane (two nights), and she's there on day 10. She's a code-drawn red squirrel, and all her lines are my proposal (DIALOGUE-REVIEW). Checklist §11q.
 - **3d (#53):** the footbridge. From day 12, mend it at Riverside with Sparkles, twigs, pebbles and copper ore from the caves. Two nights later you can cross to the Far Bank, a new grey orchard to restore. Checklist §11r.
 - **3e (#54):** cobweb (day 9), mud (day 13) and soot (day 16) Grumbles, each tinted on your dust art for now. Checklist §11s.
+- **3f (#55):** cave floor 2, the Warm Deep. Mabel's second letter brings the map leaf; there are blue gems and an old carving about Thimble. Checklist §11t.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
@@ -60,4 +61,3 @@ You said to carry on without asking. I've merged each slice to the test link onc
 ## Next, unless you say otherwise
 Phase 3:
 - town jobs and neighbours visiting
-- caves floor 2

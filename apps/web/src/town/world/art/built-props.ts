@@ -83,6 +83,16 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       for (let ly = y - 8; ly < y + h; ly += 4) pc.hline(x + 3, ly, 10, P.brown);
       pc.vline(x + 3, y - 10, h + 10, P.outline); pc.vline(x + 12, y - 10, h + 10, P.outline);
       break;
+    case 'ladder_down': // a hole in the cave floor, the ladder's top poking out
+      pc.ellipse(x + 8, y + 9, 7, 5, P.ink); pc.ellipse(x + 8, y + 8, 6, 3, P.outline);
+      for (const lx of [x + 4, x + 11]) pc.rect(lx, y + 1, 2, 9, P.brownLight);
+      pc.hline(x + 4, y + 3, 9, P.brown); pc.hline(x + 4, y + 7, 9, P.brown);
+      break;
+    case 'carving': // a smooth slab of cave wall with old letters cut into it
+      pc.box(x + 1, y + 1, 14, 13, P.greyLight, P.outline);
+      for (const ly of [y + 4, y + 7, y + 10]) for (let lx = x + 3; lx < x + 13; lx += 3) pc.hline(lx, ly, 2, P.greyShade);
+      pc.set(x + 3, y + 2, P.white);
+      break;
     case 'rock_small': case 'rock_medium': case 'rock_large': {
       // A cave rock with veins of the town's lost colour; bigger rocks show more.
       const r = p.type === 'rock_small' ? 4 : p.type === 'rock_medium' ? 6 : 7;

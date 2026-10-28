@@ -199,6 +199,12 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Day 16: soot-grey Grumbles at the bathhouse and the General Store. Sponge, 4 tidies.
 - [ ] Each one turns into the same bright helper, and two Grumbles never stand on the same spot.
 
+## 11t. Phase 3f: caves floor 2
+- [ ] Mabel's day-13 letter now ends with another map leaf.
+- [ ] On cave floor 1 there's a hole with a ladder (right side). Before that letter: "The ladder goes down into the dark. Not yet." After it: "Climb down" to the Warm Deep.
+- [ ] Floor 2 has 9 rocks. Large ones give blue gems (sell 60 ✨); the rest give copper ore and shards. They grow back weekly like floor 1.
+- [ ] A carved slab at the top: "Thimble kept the water warm." The ladder at the bottom goes back up to floor 1.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.
