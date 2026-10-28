@@ -184,6 +184,10 @@ One new thing every couple of days, each with one tip or letter:
   - Seeds come from the General Store (carrot from day 3, peas from day 6) and from Bea (strawberries from day 8).
   - With more than one kind of seed, Puff asks which to plant. Each crop has its own look and harvest line, and the General Store buys them all.
   - Seasons for crops come with Phase 4.
+- **Phase 2c (overnight):**
+  - Cooking at the burrow kitchen (the counter right of the sink). Veggie soup (radish + carrot) and pea fritters (2 peas → 2) from the start; the Berry tart (2 strawberries) once Hazel's 2-heart scene has played.
+  - Dishes are big snacks, sell well, and several neighbours like them as gifts.
+  - Recipes now make a tool or an item, each at its station.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

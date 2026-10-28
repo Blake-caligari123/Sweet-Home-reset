@@ -33,8 +33,8 @@ export interface ActionsHost {
   sleep(): void;
   /** The Keeper's plans: building on plots. */
   openBuild(): void;
-  /** Pip's workbench: crafting better tools. */
-  openWorkbench(): void;
+  /** Pip's workbench (better tools) or Puff's kitchen (cooking). */
+  openWorkbench(station: 'bench' | 'kitchen'): void;
   openShop(shop: NonNullable<TownPack['shops']>[number]): void;
   refreshHud(): void;
   save(): void;
@@ -227,7 +227,10 @@ export class PuffActions {
         this.host.openBuild();
         return;
       case 'craft':
-        this.host.openWorkbench();
+        this.host.openWorkbench('bench');
+        return;
+      case 'cook':
+        this.host.openWorkbench('kitchen');
         return;
       case 'shop': {
         const shop = content.pack.shops?.find((s) => s.id === t.shop);

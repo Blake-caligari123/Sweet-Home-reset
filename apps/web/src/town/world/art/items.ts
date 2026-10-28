@@ -86,6 +86,8 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'carrot': pc.ellipseBox(ox + 7, oy + 8, 2, 5, P.peachShade, P.outline); pc.set(ox + 6, oy + 6, P.peach); pc.line(ox + 7, oy + 3, ox + 5, oy + 0, P.sageShade); pc.line(ox + 7, oy + 3, ox + 9, oy + 0, P.sageShade); break;
     case 'peas': pc.ellipseBox(ox + 7, oy + 7, 5, 2, P.sage, P.outline); for (const x of [4, 7, 10]) pc.ellipse(ox + x, oy + 7, 1, 1, P.sageLight); break;
     case 'strawberry': pc.ellipseBox(ox + 7, oy + 8, 4, 4, P.peachShade, P.outline); for (const [x, y] of [[5, 7], [8, 9], [9, 6]]) pc.set(ox + x, oy + y, P.butterLight); pc.hline(ox + 5, oy + 3, 5, P.sageShade); break;
+    case 'veggie_soup': pc.ellipseBox(ox + 7, oy + 9, 6, 3, P.cream, P.outline); pc.ellipse(ox + 7, oy + 8, 5, 1, P.peachShade); pc.set(ox + 5, oy + 8, P.sage); pc.set(ox + 9, oy + 8, P.peach); for (const x of [5, 8]) pc.vline(ox + x, oy + 2, 3, P.white); break;
+    case 'pea_fritters': for (const [x, y] of [[5, 8], [9, 7], [7, 10]]) { pc.ellipseBox(ox + x, oy + y, 3, 2, P.butterShade, P.outline); pc.set(ox + x - 1, oy + y, P.sage); } break;
     case 'twig':
       pc.line(ox + 2, oy + 11, ox + 12, oy + 3, P.brown); pc.line(ox + 3, oy + 11, ox + 12, oy + 4, P.brownShade);
       pc.line(ox + 7, oy + 7, ox + 5, oy + 3, P.brown); pc.ellipseBox(ox + 4, oy + 3, 1, 1, P.sage, P.outline); break;
