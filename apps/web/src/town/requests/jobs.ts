@@ -24,8 +24,8 @@ export interface JobsHost {
   area(): string;
   /** Redraw one mess tile of the current area. */
   syncMess(i: number): void;
-  /** A Plus neighbour without Plus (M2 stub): their jobs stay off the board. */
-  locked(id: string): boolean;
+  /** Whether a neighbour has arrived in town yet (the year-one schedule): jobs only come from those who have. */
+  arrived(id: string): boolean;
   /** Tell the onboarding tips a job was taken or done. */
   onboard(e: OnboardEvent): void;
   refreshHud(): void;
@@ -41,7 +41,7 @@ export class Jobs {
     const { state, content, clock, settings } = this.host;
     const expire = !(settings.relaxed && !TUNING.relaxedMode.requestExpiry);
     const before = state.requests.list;
-    const { state: next, expired } = newDay(state.requests, (content.pack.requests ?? []).filter((t) => !this.host.locked(t.neighbourId)), clock.state.day, { expire });
+    const { state: next, expired } = newDay(state.requests, (content.pack.requests ?? []).filter((t) => this.host.arrived(t.neighbourId)), clock.state.day, { expire });
     state.requests = next;
     // A missed tidy job takes its leftover mess with it.
     for (const r of before.filter((x) => expired.includes(x.id) && x.tiles?.length)) {
@@ -69,7 +69,7 @@ export class Jobs {
       take.addEventListener('click', () => {
         view.uiTap();
         const next = accept(state.requests, r.id);
-        if (!next) { view.say(`Puff can take ${MAX_ACCEPTED} jobs at a time.`); return; }
+        if (!next) { view.say(`${this.host.state.names.puff} can take ${MAX_ACCEPTED} jobs at a time.`); return; }
         state.requests = next;
         this.start(t);
         this.host.onboard({ type: 'accepted', id: r.id });

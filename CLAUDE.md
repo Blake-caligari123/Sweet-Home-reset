@@ -14,9 +14,10 @@ A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the 
 - `claude/GAME-DESIGN.md` (GDD v3): Part A wins over Part B (v2 text) and all older room-game docs. A11 holds specialist sections; A11.7 is the story.
 - `claude/STORY.md`: story bible (world, Puff, neighbours, heart events, dialogue, pack JSON example).
 - `claude/FRONTEND-PLAN.md` (client, F1–F15) and `claude/BACKEND-PLAN.md` (server: opt-in sync, Plus, Mess of the Day, claims, packs, analytics, privacy).
-- `claude/config/tuning.json`: every gameplay number (`dayRealMinutes` default 10, test 8). Never hard-code.
+- `claude/VISION.md` (28 Oct 2026, from Blake's 44 answers): the full vision and the 12-week road to release. It wins over everything below where they differ (no ending; free first spring + one unlock instead of Plus; all six neighbours in year one).
+- `claude/config/tuning.json`: every gameplay number (`dayRealMinutes` 8, `firstDayRealMinutes` 10; the year-one schedule in `unlocks`). Never hard-code.
 - Milestone order (A9, v2 p.12): M1 walking world → M2 all 6 neighbours (Plus gate stubbed) → M3 grow and craft → M4 seasons + sharing (reveal clip, photo mode, Mess of the Day) → M5 launch (accounts, sync, Plus, store builds, TestFlight/Play testing, IARC). Milestones are test checkpoints, not scope cuts.
-- Plus = seasons 2–4 + neighbours 4–6. Offered first at the day-14 Spring Clean Fair (postcard at home after the fair), then at most once per in-game week; never mid-task. Lapse keeps all progress.
+- Money (VISION §10): the first spring is free, then one purchase unlocks the full game and its future updates; optional cosmetic packs later. The Plus gate is gone (Phase 0); `unlocks.ts` never reads a purchase. Offer timing is decided in Phase 5.
 - Analytics: first-party, anonymous gameplay counts only. No third-party tracking.
 
 ## Art (unparked 27 Oct 2026, hybrid)

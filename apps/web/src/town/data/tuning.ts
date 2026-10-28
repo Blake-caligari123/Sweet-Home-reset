@@ -32,7 +32,12 @@ export interface Tuning {
   toolSwingMs?: number;
   putAwaySparkles?: number;
   cropDays?: Record<string, number>;
+  /** The year-one schedule (VISION §8): when each thing arrives. Read only through `isUnlocked`. */
+  unlocks: Record<string, UnlockRule>;
 }
+
+/** Open on or after `day`, once story flag `flag` is set (either may be left out). */
+export interface UnlockRule { day?: number; flag?: string }
 
 export const TUNING: Tuning = raw as unknown as Tuning;
 

@@ -51,7 +51,7 @@ export const STEPS: Step[] = [
   { id: 'board', hint: 'Check the notice board in the square.', match: (e) => e.type === 'accepted' && e.id === 'hazel_counter' },
   { id: 'counter', hint: "Dust Hazel's shop counter.", match: (e) => e.type === 'jobDone' && e.id === 'hazel_counter' },
   { id: 'lane', hint: 'Meet Bea and Pip on Neighbour Lane.', count: 2, match: (e) => e.type === 'met' && (e.id === 'bea' || e.id === 'pip') },
-  { id: 'bed', hint: 'Explore, chat, tidy. Bed when Puff gets sleepy.', match: (e) => e.type === 'slept' }
+  { id: 'bed', hint: 'Explore, chat, tidy. Bed when {puff} gets sleepy.', match: (e) => e.type === 'slept' }
 ];
 
 /** What the save already shows Puff did: neighbours met, flags, jobs taken. */

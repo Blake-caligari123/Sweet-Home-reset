@@ -134,6 +134,18 @@ One new thing every couple of days, each with one tip or letter:
 | 11–12 | **5. Release** | The unlock purchase + parental gate; accessibility options; optional accounts and sync; store builds; privacy, IARC, store listing, screenshots and video; TestFlight and Play testing rounds; polish | Blake approves the store submissions |
 | After | **6. Live** | v1.1, v1.2… each real season | |
 
+### Progress
+- **Phase 0 (28 Oct):**
+  - Built:
+    - The Plus stub is gone. `unlocks.ts` runs the year-one schedule (`tuning.unlocks`), so Mabel arrives on day 43 and Otto and Moss are there from the start. Anyone already met stays.
+    - Save schema 3 adds `names`. A save from a newer version is never loaded or overwritten. Before an upgrade, the old save is kept until the next bedtime.
+    - Naming Puff and the town, at the start and from Pause → Names. Text uses `{puff}` and `{town}`.
+    - 8-minute days (the first is 10).
+    - The peach sleepy Fluff bar, which breathes gently, with one "Feeling sleepy" line.
+    - Keyboard controls moved out of `game.ts`.
+  - Fluff numbers stay the same. A shorter day means the same bar covers more of it, and Blake's playtest decides from here.
+  - The other save fields (plots, Grumbles, caves…) arrive with their features, with defaults on load, so a save never carries fields nothing uses.
+
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
 |---|---|

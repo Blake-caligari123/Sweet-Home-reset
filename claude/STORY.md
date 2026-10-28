@@ -1,6 +1,8 @@
 **Sweet Home Reset: Story Bible (first draft)**
 *PixelVortex Games · SHR Story Lead · 27 Oct 2026 · Draft for team review. Sources: GDD-v2.pdf, GAME-DESIGN.md (v3 draft, Part A and Part B), gdd-v3/, v3-sections/. Anything marked **Proposed** is new and not yet in the GDD. Everything else restates an established fact. Never name another game in any player-facing text taken from this file. Headings start at level 4 so that tools/merge_gdd_v3.py can nest them under A11.7.*
 
+> **28 Oct 2026: `claude/VISION.md` now sits above this file.** The game never ends: each year is a chapter, and Winter Lights closes a chapter, not the game. Plus is replaced by a free first spring and one unlock. All six neighbours are in year one (Mabel is first met on day 43). Days are 8 real minutes (the first is 10). Where this file disagrees, VISION.md wins.
+
 #### 1. World premise and town history
 
 ##### 1.1 Established

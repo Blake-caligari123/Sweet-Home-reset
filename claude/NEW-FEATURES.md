@@ -569,6 +569,8 @@ Morning letter suggests one tiny real chore (existing) → "I did it!" or "Not t
 ### Hard dependency (blocks save v2)
 Fix the v1 slot bug first (`apps/web/src/town/data/save.ts:137`, and `pickSave` at `:77-78`): every save writes backup then main, and load picks the slot with the newer `savedAt` (falling back to the other if one is corrupt). Today autosave writes only the backup and `pickSave` always prefers main, so mid-day saves are lost on reload (QA R3). Migrating on top of a broken loader loses data. No save v2 code merges until this fix passes QA.
 
+*Phase 0 (28 Oct 2026, VISION.md): schema 3 shipped with `names` only. Each field below arrives with the feature that uses it, filled with its default on load, so no further schema bump is needed for an added field. Story flags use the save's existing append-only `flags` list (`TownState.flag()` only ever adds), and `unlocks.ts` reads `day` and `flags`.*
+
 ### Version numbering (B)
 The code is already at `SCHEMA_VERSION = 2` (M2's `MIGRATIONS[1]` adds `friends`). So "save v2" in this doc = **`schemaVersion: 3`** in code, added as `MIGRATIONS[2]`. A v1 save runs 1 → 2 → 3. "Future version" means `schemaVersion ≥ 4`.
 

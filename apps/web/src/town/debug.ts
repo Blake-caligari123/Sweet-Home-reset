@@ -52,6 +52,8 @@ export function installDebugHooks(g: DebugTarget) {
     requests: () => s.requests,
     /** Skip the tips (hands over every tool), for tests of later play. */
     skipTips: () => g.guide.skip(),
+    /** Fluff straight to a value, to see the sleepy bar. */
+    setFluff: (n: number) => { s.fluff.value = n; },
     addItem: (id: string, n = 1) => { s.bag.add(id, n); g.refreshHud(); },
     /** Friendship points straight in, to reach heart events in tests. */
     addPoints: (id: string, n: number) => { s.friendOf(id).points += Math.max(0, n); }

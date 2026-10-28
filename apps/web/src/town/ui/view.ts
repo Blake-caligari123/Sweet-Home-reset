@@ -28,7 +28,9 @@ export class View {
     /** The live settings object (the pause menu changes it in place). */
     private settings: Settings,
     /** How tidy the current area is, for the sound's brightness. */
-    private progress: () => number
+    private progress: () => number,
+    /** What the player called Puff, for screen readers. */
+    private puffName: () => string
   ) {}
 
   get busy() { return this.modal > 0; }
@@ -40,7 +42,7 @@ export class View {
     if (!text) return;
     this.hud.bubble.textContent = text;
     this.hud.bubble.classList.add('show');
-    this.hud.announce(`Puff: ${text}`);
+    this.hud.announce(`${this.puffName()}: ${text}`);
     this.bubbleMs = 2600;
   }
 
@@ -90,10 +92,10 @@ export class View {
     this.ask(text, [{ label: yes, primary: true, onClick: onYes }, { label: 'Not yet', onClick: () => {} }]);
   }
 
-  /** A sheet with a title and a Close button; returns a function that closes it. */
-  sheet(title: string, body: Node[], onClose?: () => void) {
+  /** A sheet with a title and a Close button (or another label); returns a function that closes it. */
+  sheet(title: string, body: Node[], onClose?: () => void, closeLabel = 'Close') {
     this.hold();
-    const closeBtn = h('button', { class: 'btn', type: 'button', 'data-close': '' }, 'Close');
+    const closeBtn = h('button', { class: 'btn', type: 'button', 'data-close': '' }, closeLabel);
     const el = h('div', { class: 'scrim center', 'data-sheet': '', role: 'dialog', 'aria-modal': 'true' }, h('div', { class: 'panel sheet' }, h('h2', {}, title), ...body, closeBtn));
     const close = () => { el.remove(); this.release(); };
     closeBtn.addEventListener('click', () => { this.uiTap(); close(); onClose?.(); });

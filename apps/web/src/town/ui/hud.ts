@@ -33,6 +33,7 @@ export class Hud {
   private fluffBar: HTMLElement;
   private fluffNum: HTMLElement;
   private fluffIcon: HTMLElement;
+  private fluffMeter: HTMLElement;
   private dayText: HTMLElement;
   private timeText: HTMLElement;
   private sparkleText: HTMLElement;
@@ -53,7 +54,7 @@ export class Hud {
     this.tracker = h('button', { class: 'tracker', type: 'button', 'aria-label': 'Current goal. Tap to fold.' }, '');
     this.tracker.addEventListener('click', () => { this.tracker.classList.toggle('folded'); handlers.tracker(); });
     this.prompt = h('div', { class: 'context', 'aria-live': 'polite' });
-    this.note = h('div', { class: 'late-note', hidden: true }, 'Getting late. Puff could head home to bed.');
+    this.note = h('div', { class: 'late-note', hidden: true }, 'Getting late. Time to head home to bed.');
     this.bubble = h('div', { class: 'bubble', 'aria-hidden': 'true' });
     this.live = h('p', { class: 'sr-only', role: 'status', 'aria-live': 'polite' });
     const tools = TOOL_SLOTS.map((t) => {
@@ -67,7 +68,7 @@ export class Hud {
     bag.addEventListener('click', handlers.bag);
     const pause = h('button', { class: 'icon-btn pause-btn', type: 'button', 'aria-label': 'Pause and settings' }, '❚❚');
     pause.addEventListener('click', handlers.pause);
-    const fluffMeter = h('div', { class: 'fluff', role: 'meter', 'aria-label': 'Fluff', 'aria-valuemin': 0 }, this.fluffIcon, h('div', { class: 'fluff-bar' }, this.fluffBar), this.fluffNum);
+    const fluffMeter = this.fluffMeter = h('div', { class: 'fluff', role: 'meter', 'aria-label': 'Fluff', 'aria-valuemin': 0 }, this.fluffIcon, h('div', { class: 'fluff-bar' }, this.fluffBar), this.fluffNum);
     this.root = h('div', { class: 'town-hud' },
       h('header', { class: 'town-top' },
         h('div', { class: 'top-left' }, pause, fluffMeter),
@@ -91,17 +92,23 @@ export class Hud {
   /** Item art arrived: swap the bag button's icon for it. */
   refreshIcons() { this.bagButton.firstElementChild?.replaceWith(itemIcon('sock')); }
 
+  /** Low Fluff turns the bar peach and it breathes gently (never red, never an alarm). True just as Puff gets sleepy. */
   setFluff(value: number, cap: number, tired: boolean) {
+    const el = this.fluffMeter;
     this.fluffBar.style.width = `${Math.max(0, Math.min(100, (value / cap) * 100))}%`;
     this.fluffNum.textContent = String(Math.round(value));
-    this.fluffBar.parentElement!.parentElement!.setAttribute('aria-valuenow', String(Math.round(value)));
-    this.fluffBar.parentElement!.parentElement!.setAttribute('aria-valuemax', String(cap));
-    this.fluffBar.parentElement!.parentElement!.classList.toggle('tired', tired);
-    if (tired !== this.tired) { this.tired = tired; this.setFluffIcon(tired); }
+    el.setAttribute('aria-valuenow', String(Math.round(value)));
+    el.setAttribute('aria-valuemax', String(cap));
+    if (tired) el.setAttribute('aria-valuetext', `${Math.round(value)}, feeling sleepy`); else el.removeAttribute('aria-valuetext');
+    if (tired === this.tired) return false;
+    this.tired = tired;
+    el.classList.toggle('tired', tired);
+    this.setFluffIcon(tired);
+    return tired;
   }
 
   pulseFluff() {
-    const el = this.fluffBar.parentElement!.parentElement!;
+    const el = this.fluffMeter;
     el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse');
   }
 
