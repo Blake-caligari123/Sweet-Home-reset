@@ -1,0 +1,21 @@
+/* Rewards overhaul (claude/REWARDS-PLAN.md): home progress bar, chain badge, pop-ups, flying sparkles. */
+.town-hud .town-top { grid-template-areas: 'left . right' 'track track track' 'bar bar bar'; }
+.town-hud .home-bar { grid-area: bar; justify-self: center; display: flex; flex-direction: column; align-items: center; gap: 2px; width: min(70%, 260px); padding: 4px 10px 6px; border: 3px solid var(--line); border-radius: 14px; background: rgba(255, 248, 236, 0.95); font-weight: 900; font-size: 0.8rem; }
+.home-bar-track { position: relative; width: 100%; height: 10px; border: 2px solid var(--line); border-radius: 999px; background: #fff; overflow: hidden; }
+.home-bar-track > i { display: block; height: 100%; background: linear-gradient(90deg, var(--sage), var(--butter)); transition: width 300ms ease; }
+.home-bar .pip { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--line-soft); }
+.home-bar .pip.lit { background: var(--ink); }
+.chain-badge { position: absolute; left: 50%; bottom: calc(max(8px, env(safe-area-inset-bottom)) + 128px); transform: translateX(-50%); padding: 4px 14px; border: 3px solid var(--line); border-radius: 999px; background: var(--butter); font-weight: 900; white-space: nowrap; }
+.chain-badge.bump { animation: pulse 240ms ease; }
+.reward-pop { position: absolute; transform: translate(-50%, -100%); font-weight: 900; font-size: 1rem; color: var(--ink); text-shadow: 0 2px 0 #fff, 0 -2px 0 #fff, 2px 0 0 #fff, -2px 0 0 #fff; pointer-events: none; animation: rise 900ms ease-out forwards; }
+@keyframes rise { to { transform: translate(-50%, -260%); opacity: 0; } }
+.fly-spark { position: absolute; transform: translate(-50%, -50%); transition: transform 600ms cubic-bezier(0.5, 0, 0.8, 0.6), opacity 600ms ease; pointer-events: none; font-size: 0.9rem; }
+.sparkles.pulse { animation: pulse 260ms ease; }
+@media (prefers-reduced-motion: reduce) { .reward-pop { animation-duration: 600ms; } }
+.bag-slot.find.unfound > :first-child { filter: brightness(0) opacity(0.25); }
+.reward-chips { display: flex; gap: 6px; }
+.level-chip, .goals-chip { min-height: 34px; padding: 2px 10px; font-weight: 900; font-variant-numeric: tabular-nums; cursor: pointer; }
+.level-chip { display: flex; flex-direction: row; align-items: center; gap: 6px; }
+.level-track { display: block; width: 34px; height: 8px; border: 2px solid var(--line); border-radius: 999px; background: #fff; overflow: hidden; }
+.level-track > i { display: block; height: 100%; background: var(--sage); transition: width 300ms ease; }
+.goal.done { background: var(--butter-3); }

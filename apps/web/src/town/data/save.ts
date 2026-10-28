@@ -1,6 +1,7 @@
 import { localDate } from '../../shared/date';
 import type { AreaMess } from '../play/mess';
 import type { RequestState } from '../requests/requests';
+import type { RewardState } from '../rewards/rewards';
 
 // One versioned save (BACKEND-PLAN "Saves"): `shr` IndexedDB, `saves` store, slots main + backup.
 // Backup is written first, then main; a corrupt main loads the backup. Unknown fields are kept.
@@ -39,6 +40,8 @@ export interface TownSave {
   lastClean?: string;
   /** The tool in Puff's paws. */
   selected?: string;
+  /** Finds, levels and goals (the rewards overhaul). */
+  rewards?: RewardState;
   settings: { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; relaxed: boolean; autoTool: boolean };
   [extra: string]: unknown;
 }

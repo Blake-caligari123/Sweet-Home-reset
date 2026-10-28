@@ -3,6 +3,7 @@ import type { Content } from '../data/content';
 import { cropDays, PUTAWAY_SPARKLES, SWING_MS } from '../data/tuning';
 import type { Conversations } from '../neighbours/conversations';
 import type { Jobs } from '../requests/jobs';
+import { GOLDEN } from '../rewards/golden';
 import type { TownState } from '../state';
 import { TOOL_NAMES, type Hud } from '../ui/hud';
 import { offerClip } from '../ui/reveal';
@@ -12,17 +13,21 @@ import { FEET, type NavGrid } from '../world/nav';
 import { standTiles } from '../world/pathfind';
 import type { World } from '../world/world';
 import type { Clock } from './clock';
+import type { PlayEvent } from './events';
 import { TOOL_FOR, type AreaMess, type MessType, type ToolId } from './mess';
-import type { OnboardingGuide } from './onboarding-guide';
-import { available, take } from './pickups';
+import { available, take, type PickupDef } from './pickups';
 import type { Puff } from './puff';
 import type { Target } from './targets';
 
 export interface ActionsHost {
   state: TownState; view: View; content: Content; clock: Clock; settings: Settings;
-  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide;
+  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations;
+  /** Tell the tips and rewards what Puff did. */
+  notify(e: PlayEvent): void;
   /** The area Puff is in. */
   here(): { id: string; area: Area; mess: AreaMess; nav: NavGrid };
+  /** Pickups that come and go (today's golden dust). */
+  extraPickups(area: string): PickupDef[];
   /** The tool in Puff's paws. */
   selected(): ToolId;
   /** Swap tools (auto-tool and the watering can do this). */
@@ -51,7 +56,11 @@ export class PuffActions {
     else if (t.kind === 'prop') this.useProp(t);
   }
 
-  pickupsHere() { const { state, clock } = this.host; return available(this.host.here().area.pack.pickups ?? [], state.picked, clock.state.day); }
+  pickupsHere() {
+    const { state, clock } = this.host;
+    const { id, area } = this.host.here();
+    return available([...(area.pack.pickups ?? []), ...this.host.extraPickups(id)], state.picked, clock.state.day);
+  }
 
   cropsHere() {
     const id = this.host.here().id;
@@ -108,7 +117,7 @@ export class PuffActions {
       state.lastClean = type;
       if (result.item) { state.bag.add(result.item); view.say(type === 'clutter' ? `Got the ${this.host.content.itemName(result.item).toLowerCase()}!` : ''); }
       if (!state.has('first_clean')) { state.flag('first_clean'); view.say('Look! Colour came back!'); }
-      this.host.guide.handle({ type: 'cleared', mess: type, area: id });
+      this.host.notify({ type: 'cleared', mess: type, area: id, x: t.x, y: t.y });
     }
     if (!wasRestored && mess.restored) this.onRestored();
     if (result.cleared) this.host.jobs.checkTidy();
@@ -126,7 +135,7 @@ export class PuffActions {
           const wanted = (t.accepts ?? []).map((id) => content.itemName(id).toLowerCase()).join(' and ');
           view.say(`A home for the ${wanted}.`); return;
         }
-        for (const id of items) { state.bag.remove(id); state.sparkles += PUTAWAY_SPARKLES; this.host.guide.handle({ type: 'putaway', item: id }); }
+        for (const id of items) { state.bag.remove(id); state.sparkles += PUTAWAY_SPARKLES; this.host.notify({ type: 'putaway', item: id }); }
         view.say(items.length === 1 ? 'Back where it lives!' : 'All put away!');
         view.feedback('thunk', 'light');
         this.host.world.sparkleBurst(t.x, t.y, 6);
@@ -166,13 +175,13 @@ export class PuffActions {
         if (!state.tools.can) { view.say('Seeds need water. A can would help.'); return; }
         crop.watered = true; this.host.select('can');
         view.feedback('wipe', 'light');
-        this.host.guide.handle({ type: 'watered' });
+        this.host.notify({ type: 'watered' });
       } else view.say('Growing. No rush.');
     } else if (state.bag.count('radish_seeds') > 0) {
       state.bag.remove('radish_seeds');
       state.crops.push({ area: id, x, y, crop: 'radish', days: 0, watered: false });
       view.say('Grow big. No rush.'); view.feedback('thunk', 'light');
-      this.host.guide.handle({ type: 'planted' });
+      this.host.notify({ type: 'planted' });
     } else view.say('Seeds would grow here.');
     this.host.world.setCrops(this.cropsHere());
     this.host.refreshHud();
@@ -182,15 +191,19 @@ export class PuffActions {
     const { state, view, content, clock } = this.host;
     const p = this.pickupsHere().find((x) => x.id === id);
     if (!p) return;
-    if (!state.bag.add(p.item)) { view.say('Bag\'s full! Put things away first.'); return; }
+    const golden = p.item === GOLDEN;
+    if (!golden && !state.bag.add(p.item)) { view.say('Bag\'s full! Put things away first.'); return; }
     state.picked = take(state.picked, id, clock.state.day);
+    this.host.world.setPickups(this.pickupsHere());
+    this.host.notify({ type: 'took', item: p.item, x: p.x, y: p.y });
+    if (golden) return; // the rewards cheer for it
     const name = content.itemName(p.item).toLowerCase();
     const snack = !!content.pack.items[p.item]?.snack;
     view.say(`${/^[aeiou]/.test(name) ? 'An' : 'A'} ${name}! ${snack ? 'Snack for later.' : 'Into the bag it goes.'}`);
     view.feedback('coin', 'light');
-    this.host.world.setPickups(this.pickupsHere());
     this.host.refreshHud();
   }
+
 
   /** After bumping a closed door, step back one tile so the next tap isn't swallowed. */
   private stepOff(x: number, y: number) {
@@ -213,7 +226,7 @@ export class PuffActions {
     puff.hop();
     for (let n = 0; n < 6; n += 1) this.host.world.sparkleBurst(puff.x - 3 + n, puff.y - 2 + (n % 3), 10);
     view.banner(`${area.pack.name} restored!${reward ? ` +${reward} ✨` : ''}`);
-    this.host.guide.handle({ type: 'restored', area: id });
+    this.host.notify({ type: 'restored', area: id });
     if (area.pack.kind === 'home') {
       state.flag(`restored_${id}`);
       if (this.sharePromptDay !== clock.state.day) {
