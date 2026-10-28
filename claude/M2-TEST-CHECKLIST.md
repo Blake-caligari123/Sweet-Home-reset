@@ -115,6 +115,14 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Tap it: sparkles and a happy line.
 - [ ] Reload: your pet and its name are still there.
 
+## 11f. Phase 1e: new gestures and mess drifting back
+- [ ] **Hold:** keep a finger on a stain or cobweb and Puff keeps scrubbing until it's gone. On a Grumble, it tidies it all the way.
+- [ ] **Circle:** draw circles over a stain to scrub it with suds.
+- [ ] **Sweep:** swipe along a row of dust or weeds and Puff tidies each one in turn.
+- [ ] A back-and-forth rub still works. Dragging the sock to its basket still carries it. A drag over empty floor just walks.
+- [ ] Tapping alone still does everything.
+- [ ] Sleep after restoring a room: next day there are a couple of fresh dust bits (or weeds outside). The room stays restored and keeps everything that came alive. It never gets more than 4.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

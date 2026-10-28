@@ -38,6 +38,8 @@ export interface Tuning {
   grumbles: { perAreaMax: number; helpersMax: number; driftTilesPerSecond: number };
   /** How far behind Puff the pet trots, in world px. */
   petFollowPx: number;
+  /** Light mess drifting back into restored places overnight: how much a night, and the most there can be. */
+  messReturn: { perNight: number; maxFresh: number };
 }
 
 /** Open on or after `day`, once story flag `flag` is set (either may be left out). */

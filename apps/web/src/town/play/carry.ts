@@ -17,14 +17,15 @@ export class Carry {
   /** The clutter item on a tile, if any (what a drag can pick up). */
   clutterAt(x: number, y: number) { const m = this.host.mess(); return m.typeAt(x, y) === 'clutter' ? m.item[y * this.host.area().w + x] : undefined; }
 
-  /** A drag: clutter dropped on where it lives is picked up, then carried there; anything else walks to the drop. */
+  /** A drag: clutter dropped on where it lives is picked up, then carried there. False if it wasn't a carry. */
   drag(from: Pt, to: Pt) {
     const tile = { x: Math.floor(from.x / T), y: Math.floor(from.y / T) };
     const item = this.clutterAt(tile.x, tile.y);
     const home = item ? this.host.area().tapPropAt(Math.floor(to.x / T), Math.floor(to.y / T)) : null;
-    if (!item || !home?.accepts?.includes(item)) { this.host.tap(to.x, to.y); return; }
+    if (!item || !home?.accepts?.includes(item)) return false;
     this.carrying = { from: tile, to: { x: (home.x + 0.5) * T, y: (home.y + 0.5) * T } };
     this.host.tap(from.x, from.y);
+    return true;
   }
 
   /** Each frame: once Puff has picked up the carried clutter, off it goes to where it lives (or the carry is dropped). */
