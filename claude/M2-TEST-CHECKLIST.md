@@ -205,6 +205,17 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Floor 2 has 9 rocks. Large ones give blue gems (sell 60 ✨); the rest give copper ore and shards. They grow back weekly like floor 1.
 - [ ] A carved slab at the top: "Thimble kept the water warm." The ladder at the bottom goes back up to floor 1.
 
+## 11u. Phase 3g: neighbours visiting
+- [ ] Once a week each neighbour pops round for an hour or so, then goes back to their day:
+  - Hazel visits your yard on days 3, 10, 17 (3 pm)
+  - Bea, days 5, 12 (10 am)
+  - Sorrel, days 14, 21 (11 am)
+  - Pip visits Moss's library (5 pm)
+  - Otto visits the bakery (8 am)
+  - Moss sits in the square (1 pm)
+- [ ] Talking to them while they're visiting gives a visit hello first ("Just popping by with a warm bun, Keeper!").
+- [ ] They walk there and back through the doors, like the rest of their day.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

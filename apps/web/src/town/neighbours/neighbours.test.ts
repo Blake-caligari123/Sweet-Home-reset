@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
 import { FEET, navFor, type NavGrid } from '../world/nav';
-import { firstDoor, Neighbours, stopAt, wakesAt, type NeighbourDef } from './neighbours';
+import { firstDoor, Neighbours, scheduleFor, stopAt, wakesAt, type NeighbourDef } from './neighbours';
 
 const T = 16;
 const navs = new Map<string, NavGrid>();
@@ -121,11 +121,35 @@ describe('neighbours in the world', () => {
   });
 });
 
+describe('visits', () => {
+  const d: NeighbourDef = { id: 'hazel', name: 'Hazel', species: 'hedgehog', colours: { fur: '#000000', belly: '#000000', accent: '#000000' }, loves: [], likes: [], dislikes: [],
+    schedule: [{ at: 360, area: 'bakery', x: 1, y: 1 }, { at: 660, area: 'bakery', x: 2, y: 2 }, { at: 1020, area: 'bakery', x: 3, y: 3 }],
+    visits: [{ every: 7, on: 3, at: 900, until: 990, area: 'yard', x: 9, y: 9 }] };
+
+  it('on a visiting day, goes visiting for a while and then back to the usual stop', () => {
+    expect(scheduleFor(d, 10).map((s) => [s.at, s.area, s.x])).toEqual([[360, 'bakery', 1], [660, 'bakery', 2], [900, 'yard', 9], [990, 'bakery', 2], [1020, 'bakery', 3]]);
+  });
+
+  it('keeps the usual day on other days', () => {
+    expect(scheduleFor(d, 11)).toBe(d.schedule);
+  });
+});
+
 describe('Hollowfern neighbours', () => {
+  it('visit Puff in the yard and each other, each with a hello for where they are', () => {
+    const visits = (pack.neighbours ?? []).flatMap((n) => (n.visits ?? []).map((v) => ({ n, v })));
+    expect(visits.filter(({ v }) => v.area === 'yard').length).toBeGreaterThanOrEqual(3);
+    for (const { n, v } of visits) {
+      expect(v.until, n.id).toBeGreaterThan(v.at);
+      expect(pack.dialogue![n.id].filter((l) => l.area === v.area).length, `${n.id} in ${v.area}`).toBeGreaterThanOrEqual(1);
+      expect(n.schedule.some((s) => s.area === v.area), `${n.id} only visits ${v.area}`).toBe(false);
+    }
+  });
+
   it('every stop in a built area is open floor reachable from the area spawn', () => {
     expect(pack.neighbours?.length).toBeGreaterThanOrEqual(3);
     for (const d of pack.neighbours ?? []) {
-      for (const s of d.schedule) {
+      for (const s of [...d.schedule, ...(d.visits ?? [])]) {
         const nav = navOf(s.area);
         if (!nav) continue;
         const a = pack.areas.find((x) => x.id === s.area)!;

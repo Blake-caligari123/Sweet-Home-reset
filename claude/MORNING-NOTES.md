@@ -53,6 +53,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **3d (#53):** the footbridge. From day 12, mend it at Riverside with Sparkles, twigs, pebbles and copper ore from the caves. Two nights later you can cross to the Far Bank, a new grey orchard to restore. Checklist §11r.
 - **3e (#54):** cobweb (day 9), mud (day 13) and soot (day 16) Grumbles, each tinted on your dust art for now. Checklist §11s.
 - **3f (#55):** cave floor 2, the Warm Deep. Mabel's second letter brings the map leaf; there are blue gems and an old carving about Thimble. Checklist §11t.
+- **3g (#56):** neighbours visit once a week. Hazel, Bea and Sorrel pop round to your yard, and the others visit each other, each with a hello. Checklist §11u.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
@@ -60,4 +61,5 @@ You said to carry on without asking. I've merged each slice to the test link onc
 
 ## Next, unless you say otherwise
 Phase 3:
-- town jobs and neighbours visiting
+- town jobs (asks from the whole town, on the notice board)
+- then Phase 4: seasons, weather and festivals

@@ -181,6 +181,17 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `cave.gem`: A blue gem! It glows like the fountain.
 - Carving: Old letters in the stone: 'Thimble kept the water warm.'
 
+## New in Phase 3g (29 Oct): visit hellos (proposed)
+- `hazel.visit.1`: Just popping by with a warm bun, Keeper!
+- `hazel.visit.2`: Your yard's looking lovely! I can't stay long.
+- `bea.visit.1`: Bzz! Checking on your flowers, Keeper!
+- `bea.visit.2`: Your garden hums nicely. I approve!
+- `sorrel.visit.1`: Hi, neighbour! Just saying hello. Hello!
+- `sorrel.visit.2`: Your burrow's so round! I love it.
+- `otto.visit.1`: Hazel's buns! Worth leaving the river for. Heh.
+- `moss.visit.1`: A little sun now and then. Don't tell my books.
+- `pip.visit.1`: Moss lends me gear books. Shh, I'm reading!
+
 ## Hazel
 
 **First hello**

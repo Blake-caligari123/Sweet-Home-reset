@@ -241,6 +241,11 @@ One new thing every couple of days, each with one tip or letter:
   - 9 rocks drop blue gems (new, sell 60 ✨), copper ore and shards, all fixed drops.
   - An old carving starts the mystery thread of Thimble, the keeper before Puff, and the warm water under the town.
   - Hatches now have their own closed and enter lines per floor. Floors 3–4 are for later.
+- **Phase 3g (29 Oct):**
+  - Neighbours visit: each has a weekly visit (`visits` in the pack, spliced into that day's routine by `scheduleFor`).
+  - Hazel, Bea and Sorrel visit Puff's yard; Pip visits Moss's library, Otto the bakery, and Moss the square.
+  - A line tied to an area now outranks the rest, so they greet Puff with a visit hello.
+  - Town jobs (town-wide, not from one neighbour) are still to come.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
