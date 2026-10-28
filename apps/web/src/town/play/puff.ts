@@ -22,6 +22,8 @@ export class Puff {
   action: Target | null = null;
   swing: Target | null = null;
   repeat = 0;
+  /** The next swing is charged (a hold with a Copper tool): it lands on neighbouring mess too. */
+  charged = false;
   swingMs = 0;
   hopMs = 0;
 

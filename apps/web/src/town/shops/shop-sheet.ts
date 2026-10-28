@@ -41,7 +41,7 @@ export function openShop(host: ShopHost, shop: ShopDef) {
         if (!r.ok) { view.say(SORRY[r.reason]); return; }
         view.feedback('coin', 'light');
         if (e.kind === 'bag') view.banner(`A bigger bag! +${e.slots} slots`);
-        if (e.kind === 'recipe') view.banner(`New recipe: ${name(e)}`);
+        if (e.kind === 'recipe') { view.banner(`New recipe: ${name(e)}`); view.say('Pip can help me make it at the workbench!'); }
         render(); host.refreshHud(); host.save();
       });
       list.append(h('div', { class: 'shop-row' }, itemIcon(e.kind === 'bag' ? 'bag' : e.item), h('span', { class: 'shop-name' }, name(e)), btn));

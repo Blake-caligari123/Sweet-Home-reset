@@ -3,6 +3,7 @@ import type { Sound } from '../shared/audio/sound';
 import type { NativeBridge } from '../shared/native';
 import { h } from '../shared/ui/dom';
 import { openBuildBoard } from './build/build-sheet';
+import { openWorkbench } from './craft/craft-sheet';
 import type { TownPack } from './data/area';
 import { Content } from './data/content';
 import { restoreGame } from './data/restore';
@@ -143,6 +144,7 @@ export class TownGame {
       travel: (to, x, y) => void this.travel(to, x, y),
       sleep: () => void this.endDay(false),
       openBuild: () => this.openBuild(),
+      openWorkbench: () => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false) }),
       openShop: (shop) => this.openShop(shop),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
@@ -227,7 +229,8 @@ export class TownGame {
       // Each pass of a rub (or loop of a circle) is another scrub; a hold keeps going until it's gone.
       rub: (p, passes) => this.scrub(p, passes - 1),
       circle: (p, passes) => this.scrub(p, passes * 2),
-      hold: (p) => this.scrub(p, MAX_RUB),
+      // With a Copper tool, a hold charges the swing instead.
+      hold: (p) => { this.scrub(p, MAX_RUB); if (this.actions.charge(Math.floor(p.x / T), Math.floor(p.y / T))) this.puff.repeat = 0; },
       // Clutter carried home, or a row of mess swept; otherwise walk to where the finger stopped.
       drag: (from, to) => { this.sweep.stop(); if (!this.carry.drag(from, to) && !this.sweep.drag(from, to)) this.tap(to.x, to.y); },
       carryable: (p) => this.carry.clutterAt(Math.floor(p.x / T), Math.floor(p.y / T)) ?? null
@@ -259,6 +262,7 @@ export class TownGame {
     if (this.view.busy || this.fading || !this.area.inside(tile.x, tile.y)) return;
     if (this.pet.at(px, py)) { this.pet.pat(); return; }
     this.neighbours.releaseAll();
+    this.puff.charged = false;
     const target = neighbourAt(this.neighbours.visible(this.areaId), px, py) ?? this.grumbles.at(px, py) ?? targetAt(this.here, tile.x, tile.y);
     if (target.kind === 'neighbour') this.neighbours.hold(target.id);
     this.world.showMarker(px, py);
@@ -444,7 +448,7 @@ export class TownGame {
   private refreshHud() {
     const owned = TOOL_SLOTS.filter((t) => this.state.tools[t]);
     if (!owned.includes(this.selected)) this.selected = owned[0];
-    this.hud.setTools(owned, this.selected);
+    this.hud.setTools(owned, this.selected, this.state.tools);
     this.hud.setSparkles(this.state.sparkles);
     this.guide.unstick();
     const step = this.state.onboarding.current;

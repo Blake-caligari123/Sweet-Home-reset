@@ -174,6 +174,11 @@ One new thing every couple of days, each with one tip or letter:
     - **sweep** is a swipe along a row of mess, each tile finished in turn
   - Mess gently returns: overnight, restored places Puff has visited get up to 2 light bits (dust indoors, weeds outside), never more than 4. It's "fresh" mess, so a restore is never undone.
   - `game.ts` was split again: Puff's walking moved to `Puff.walk`, and loading moved to `data/restore.ts`.
+- **Phase 2a (28–29 Oct, overnight):**
+  - Foraging: twigs and pebbles in the yard, square, Lane and Riverside, back each morning.
+  - Pip's workbench, in his workshop, makes Copper tools from Sparkles and forage. The recipes are learned at the General Store: the duster and sponge from day 5, the rake from day 7.
+  - This also fixes a gap: the Copper sponge recipe never made a sponge before.
+  - A Copper tool cleans faster, shows a copper rim on the toolbar, and a hold charges a swing that cleans the spot plus up to two matching neighbours (5 Fluff, `fluffCharged`).
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

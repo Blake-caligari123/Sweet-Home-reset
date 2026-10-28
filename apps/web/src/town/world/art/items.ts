@@ -72,6 +72,16 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
       pc.set(ox + 5, oy + 6, P.white); break;
     case 'bag': b(2, 4, 10, 9, P.brownLight, 2); pc.line(ox + 4, oy + 4, ox + 6, oy + 1, P.outline); pc.line(ox + 10, oy + 4, ox + 8, oy + 1, P.outline); pc.hline(ox + 4, oy + 7, 6, P.brown); break;
     case 'copper_sponge': b(1, 2, 12, 10, P.cream, 1); pc.hline(ox + 3, oy + 5, 8, P.greyShade); pc.hline(ox + 3, oy + 8, 6, P.greyShade); pc.ellipseBox(ox + 10, oy + 10, 2, 2, P.peachShade, P.outline); break;
+    case 'copper_duster':
+      pc.line(ox + 3, oy + 12, ox + 9, oy + 5, P.brownShade); pc.rect(ox + 8, oy + 4, 3, 2, P.peachShade);
+      pc.ellipseBox(ox + 10, oy + 3, 3, 2, P.creamShade, P.outline); pc.set(ox + 9, oy + 2, P.white); break;
+    case 'copper_rake':
+      pc.line(ox + 3, oy + 12, ox + 9, oy + 4, P.brownShade); pc.hline(ox + 6, oy + 3, 7, P.peachShade);
+      for (const x of [6, 8, 10, 12]) pc.set(ox + x, oy + 4, P.peachShade); break;
+    case 'twig':
+      pc.line(ox + 2, oy + 11, ox + 12, oy + 3, P.brown); pc.line(ox + 3, oy + 11, ox + 12, oy + 4, P.brownShade);
+      pc.line(ox + 7, oy + 7, ox + 5, oy + 3, P.brown); pc.ellipseBox(ox + 4, oy + 3, 1, 1, P.sage, P.outline); break;
+    case 'pebble': pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.grey, P.outline); pc.ellipse(ox + 6, oy + 7, 2, 1, P.greyLight); pc.set(ox + 5, oy + 6, P.white); break;
     case 'cushion': b(1, 4, 12, 8, P.peach, 3); pc.hline(ox + 3, oy + 7, 8, P.peachShade); pc.ellipseBox(ox + 7, oy + 8, 1, 1, P.peachShade, P.outline); pc.set(ox + 3, oy + 5, P.peachLight); break;
     default: b(3, 3, 8, 8, P.butter, 1);
   }
