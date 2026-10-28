@@ -69,7 +69,8 @@ Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Progress is ticked in the Steps tab
 
   The old "restore the bakery" tip is gone; A6's 30:00 target doesn't need it.
 - **Done early still counts.** Anything done before its tip came up counts. The tips also catch up from the save (neighbours met, jobs taken or done), so a save from the old tips never sticks.
-- **Day 1 runs for 20 real minutes** (`firstDayRealMinutes` in tuning.json), so A6's beats fit before bed. Every later day is `dayRealMinutes` (10). Proposed; easy to change.
+- **Day 1 runs for 12 real minutes** (`firstDayRealMinutes` in tuning.json), so A6's beats fit before bed. Every later day is `dayRealMinutes` (10).
+- **Fluff balance (Blake's playtest, 28 Oct):** a full bar ran out after about 3 minutes, leaving most of the day with nothing to clean. A clean hit now costs 1 Fluff, not 2, so a bar is about 5 minutes of steady cleaning plus about 3 more from snacks. Day 1 came down from 20 minutes to 12.
 - **The late-night hint** is A6's: "Puff's getting sleepy. Head home to bed."
 - **The Day 2 letter** knows every kind of mess. After Hazel's counter it says "yesterday I cleaned a counter... wipe one counter of yours".
 - **Fixed on the way:** the planting tip gave its 3 seeds twice (once at the start, once when done). Now it's once.

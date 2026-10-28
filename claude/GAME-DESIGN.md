@@ -83,9 +83,10 @@ Town: Hollowfern; fountain: the Glimmerwell; Puff is "they". Heart events at 2, 
 | Key | Value | Notes |
 |---|---|---|
 | dayRealMinutes | 10 (test 8) | 6:00–2:00 game day |
+| firstDayRealMinutes | 12 | Day 1 only, so the A6 first half hour fits before bed |
 | gameMinutesPerTick | 10 | clock steps |
 | fluffStart / fluffMaxStep | 100 / +10 | per Fluff upgrade |
-| fluffToolUse / charged | 2 / 5–8 | +1 under 20 Fluff |
+| fluffToolUse / charged | 1 / 5–8 | +1 under 20 Fluff. Was 2; halved after Blake's playtest (28 Oct 2026): a full bar was only ~3 minutes of cleaning |
 | fluffLowThreshold | 20 | yawn, slow walk |
 | dozeWakeFluff | 0.5 × max | no other cost |
 | restoreThreshold | 0.95 | home counts as restored |
