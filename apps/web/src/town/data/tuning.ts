@@ -50,6 +50,8 @@ export interface Tuning {
   caves: { resetDays: number; fluffPerSwing: number; rockHits: Record<string, number> };
   /** Rain: dry for the first days, then a chance per season (spring, summer, autumn, winter). */
   weather: { dryFirstDays: number; rainChance: number[] };
+  /** The any-day tidy dash at the fair stall: how long and how many spots. */
+  practiceDash: { seconds: number; spots: number };
 }
 
 /** Open on or after `day`, once story flag `flag` is set (either may be left out). */

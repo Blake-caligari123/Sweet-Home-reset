@@ -5,7 +5,7 @@ import type { Clock } from '../play/clock';
 import type { AreaMess } from '../play/mess';
 import type { TownState } from '../state';
 import type { View } from '../ui/view';
-import { dashResult, dashSpots, festivalToday, type FestivalDef } from './festivals';
+import { dashResult, dashSpots, festivalToday, practiceDash, type FestivalDef } from './festivals';
 
 export interface DashHost {
   state: TownState; view: View; content: Content; clock: Clock;
@@ -20,7 +20,7 @@ export interface DashHost {
  * The fair stall and its tidy dash: on a festival day, tap the stall to start; light mess pops up
  * around the place and a timer counts down (paused while a sheet is open). Fluff is topped up so
  * the dash never runs Puff dry. When every spot is tidied, time's up, or Puff wanders off, the
- * leftovers vanish and the town cheers.
+ * leftovers vanish and the town cheers. On other days the stall offers a practice dash, for a best score.
  */
 export class TidyDash {
   private run: { def: FestivalDef; tiles: number[]; left: number; el: HTMLElement } | null = null;
@@ -32,9 +32,13 @@ export class TidyDash {
   /** Tapping the stall. */
   open() {
     const { view, content, clock } = this.host;
-    const def = festivalToday(content.pack.festivals ?? [], clock.state.day);
-    if (!def) { view.say(content.line('festival.closed') ?? ''); return; }
     if (this.run) return;
+    const def = festivalToday(content.pack.festivals ?? [], clock.state.day);
+    if (!def) {
+      const p = practiceDash(this.host.area());
+      view.ask(content.line('festival.practice') ?? '', [{ label: 'Start the dash!', primary: true, onClick: () => this.start(p) }, { label: 'Not now', onClick: () => {} }]);
+      return;
+    }
     if (def.game === 'lights') { view.say(content.line(`festival.${def.id}.intro`) ?? def.name); return; }
     view.ask(content.line(`festival.${def.id}.intro`) ?? def.name, [
       { label: 'Start the dash!', primary: true, onClick: () => this.start(def) },
@@ -85,6 +89,13 @@ export class TidyDash {
     m.clearFresh(r.tiles);
     if (this.host.area() === r.def.area) for (const i of r.tiles) this.host.syncMess(i);
     const { sparkles, cheer } = dashResult(r.def, done);
+    if (r.def.id === 'practice') {
+      const best = done > state.dashBest; if (best) state.dashBest = done;
+      view.feedback('fanfare', 'success');
+      view.showDialogue(`${content.line(cheer) ?? ''} ${done} of ${r.tiles.length} tidied${best ? ' · a new best!' : ` · best ${state.dashBest}`}`);
+      this.host.save();
+      return;
+    }
     // The prize is for the first go each festival day; another go is just for fun.
     const today = `festival_${r.def.id}_day${clock.state.day}`;
     const first = !state.has(today);

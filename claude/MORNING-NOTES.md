@@ -74,6 +74,8 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **4g (#64):** the overgrown path (day 26) opens the Woodland Edge and its orchard, with apples every morning. Checklist §12g.
 - **4h (#65):** caves floors 3 and 4 (silver ore, Thimble's second carving). The store buys ore and gems now, and every item has an icon. Checklist §12h.
 - **Year soak:** I ran a 57-day browser run (sleep, then visit eight places each morning), and it finished with no errors. Year two carries on. The script is `tools/year-soak.cjs`.
+- **4i (#66):** Sorrel's five heart scenes (her acorn, her sister Bramble, becoming a helper). Checklist §12i.
+- **4j (#66):** a practice tidy dash at the fair stall on any day, with a best score. **That completes Phase 4.** Checklist §12j.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
@@ -87,6 +89,12 @@ You said to carry on without asking. I've merged each slice to the test link onc
 4. Anything you'd like changed from tonight, just say.
 
 ## Next, unless you say otherwise
-Phase 4 (seasons and sharing):
-- the timed tidy mini-game any day (a fun score)
-- Sorrel's heart scenes
+Phase 5 (release) needs you for most of it, so I'll stop before anything that touches accounts, money or stores:
+- **Things I can do without you:**
+  - accessibility options (bigger text, colour-blind-friendly highlights, hold-to-tap)
+  - polish passes
+  - more tests
+- **Things that need your yes:**
+  - the unlock purchase and its timing
+  - optional accounts and sync
+  - store builds, the listing, IARC and TestFlight/Play testing

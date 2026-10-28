@@ -309,6 +309,41 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `cave.silver`: Silver ore! It shines like the moon.
 - Floor 4 carving: Carved deep: 'I'll sleep by the warm spring. Wake me when the town is bright. T.'
 
+## New in Phase 4i (29 Oct): Sorrel's heart scenes (proposed)
+- `he_sorrel_02.l01`: Keeper! Look. I brought one acorn from the hills.
+- `he_sorrel_02.l02`: I don't know where to plant it. Everywhere's new.
+- `he_sorrel_02.l03`: By your door? Then it'll see you every day.
+- `he_sorrel_02.l04`: By my door... yes! Oh, will you help me dig?
+- `he_sorrel_02.l05`: Digging is nearly tidying. I love it.
+- `he_sorrel_02.l06`: Then it's our acorn now. Grow, little one!
+- `he_sorrel_04.l01`: The lamps are so cosy tonight.
+- `he_sorrel_04.l02`: I miss the hills tonight. And my sister, Bramble.
+- `he_sorrel_04.l03`: Write to her? Tell her about the lamps.
+- `he_sorrel_04.l04`: I could! I'd tell her about you, too.
+- `he_sorrel_04.l05`: Tell her I'm a dust bunny. She'll laugh.
+- `he_sorrel_04.l06`: Ha! I'll say you're the kindest friend in town.
+- `he_sorrel_06.l01`: I want to help {town}, like you do.
+- `he_sorrel_06.l02`: But I've never tidied a whole town before.
+- `he_sorrel_06.l03`: Me neither! We learn one spot at a time.
+- `he_sorrel_06.l04`: One spot at a time. I can do one spot!
+- `he_sorrel_06.l05`: Then you're a helper now. Official.
+- `he_sorrel_06.l06`: Official! I'm telling Bramble tonight.
+- `he_sorrel_08.l01`: Keeper! Come quick! Look by my door!
+- `he_sorrel_08.l02`: Our acorn... it's a tiny tree! Two leaves!
+- `he_sorrel_08.l03`: It found its home. Like you did.
+- `he_sorrel_08.l04`: Something of mine grows here now. Roots and all.
+- `he_sorrel_08.l05`: Roots are the best part.
+- `he_sorrel_08.l06`: Then I'm staying. For always, I think.
+- `he_sorrel_10.l01`: Bramble wrote back. She asked if I'm happy.
+- `he_sorrel_10.l02`: I said yes. I said home is where friends are.
+- `he_sorrel_10.l03`: Then this is home. You've got lots of us.
+- `he_sorrel_10.l04`: I carved you something. An acorn. For luck.
+- `he_sorrel_10.l05`: It's perfect. I'll keep it by my bed.
+- `he_sorrel_10.l06`: Thank you for my home, Keeper. And for you.
+
+## New in Phase 4j (29 Oct): the practice dash
+- `festival.practice`: A tidy dash, just for fun? 45 seconds. Go!
+
 ## Hazel
 
 **First hello**
