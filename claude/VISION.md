@@ -161,6 +161,12 @@ One new thing every couple of days, each with one tip or letter:
   - The tracker nudges to the next new thing (`play/nudges.ts`).
   - Drag-to-put-away moved to `play/carry.ts`. The Grok prompt is in SPRITE-SHEETS.
   - Helper jobs come with Phase 3.
+  - Blake's Grok Grumbles are in: the grey row's moods play as the Grumble cheers up (droopy, wide-eyed, winking), then the bright helper.
+- **Phase 1d (28 Oct):**
+  - Pick a pet from day 4: a cat, a pup or a hedgehoglet (Blake's three), offered on the doorstep once a day until chosen, then named.
+  - It trails behind Puff along Puff's own path, everywhere. A tap gives a happy wiggle and a line.
+  - Its bed and treats come with the burrow growing (Phase 2).
+  - Code-drawn for now; the Grok prompts are in SPRITE-SHEETS, and the sheets go in with no code change.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

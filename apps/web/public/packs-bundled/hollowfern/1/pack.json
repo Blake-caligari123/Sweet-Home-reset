@@ -4884,7 +4884,16 @@
    "grumble.puff.first": "Oh! A little grey puff. You look like me!",
    "grumble.puff.tidy": "Hello, grumbly. Let's brighten you up.",
    "grumble.puff.helper": "Friend made! Want to help?",
-   "grumble.hint": "Something grey is grumbling on Neighbour Lane."
+   "grumble.hint": "Something grey is grumbling on Neighbour Lane.",
+   "pet.cat.line": "A sleepy cat who loves sunbeams.",
+   "pet.pup.line": "A waggy pup who loves walks.",
+   "pet.hedgehoglet.line": "A shy hedgehoglet who loves crunchy leaves.",
+   "pet.arrive": "Someone's at the door! Three little visitors.",
+   "pet.welcome": "Welcome home, {pet}!",
+   "pet.pat.1": "Hello, {pet}!",
+   "pet.pat.2": "{pet} does a happy wiggle.",
+   "pet.pat.3": "Best friends, you and me.",
+   "pet.hint": "Someone's waiting at your burrow door."
   }
  },
  "heartEvents": [
@@ -6630,6 +6639,26 @@
     "library"
    ],
    "unlock": "grumble_dust"
+  }
+ ],
+ "pets": [
+  {
+   "id": "cat",
+   "name": "Cat",
+   "defaultName": "Mochi",
+   "line": "pet.cat.line"
+  },
+  {
+   "id": "pup",
+   "name": "Pup",
+   "defaultName": "Biscuit",
+   "line": "pet.pup.line"
+  },
+  {
+   "id": "hedgehoglet",
+   "name": "Hedgehoglet",
+   "defaultName": "Bramble",
+   "line": "pet.hedgehoglet.line"
   }
  ]
 }

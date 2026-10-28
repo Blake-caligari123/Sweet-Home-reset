@@ -58,6 +58,22 @@ Process: `... process_asset.py grumble_dust --sheet 4 --rows grumble_dust_grumpy
 
 **Landed 28 Oct 2026** (`art/sprites/raw/grumble_dust.jpg`). Grok gave the grey row four moods instead of one idle loop, so they're used as the Grumble cheering up while it's tidied: droopy (frame 1), then wide-eyed (4), then winking (2), then the bright row. Frame 3 (happy grey) isn't used. The bob is in code (`grumbles.ts` `faceFor`). For the cobweb, mud and soot families, ask for the same four-mood row on purpose.
 
+## Pets (Phase 1d; cell 16×13 world px, `--frame 16x13`)
+Three pets, chosen on day 4. Each needs two sheets, side view **facing right** (the game mirrors them for left):
+- `pet_<id>_walk`: a 4-frame trot
+- `pet_<id>_idle`: a 4-frame breathing or tail loop
+
+Ids: `cat`, `pup`, `hedgehoglet`. One image per pet, two rows (walk on top, idle below).
+
+> Pixel art sprite sheet, two rows of four frames, side view facing right. **[PET]**. **Row 1:** a happy 4-frame trotting walk cycle, legs alternating. **Row 2:** the same pet standing still, a gentle 4-frame idle (soft breathing, a small tail or ear twitch). Small, round and friendly, a companion for a tiny dust bunny: about three-quarters the dust bunny's height. Frames evenly spaced, identical size and scale, not touching, all on the same ground line, a clear gap between the rows. Plain flat bright magenta background (#FF00FF), no floor, no shadow, no text. Cosy top-down game sprite, chunky readable shapes, crisp hard-edged square pixels, flat colour with one shade step, soft top-left light, 1-pixel warm-brown outline (#8A6E5E), limited warm pastel palette. No anti-aliasing, no blur, no gradients, no dithering. Original character. Negative: photorealism, watercolour, 3D render, text, watermark, background scenery.
+
+**[PET]** lines:
+- Cat: "A small peach-and-cream kitten with a curled tail, sleepy half-moon eyes and pink nose"
+- Pup: "A small cream puppy with floppy brown ears, a wagging tail and a tiny black nose"
+- Hedgehoglet: "A tiny brown baby hedgehog with soft rounded spines, a cream face and a little black nose"
+
+Process (per pet): `... process_asset.py pet_cat --sheet 4 --rows pet_cat_walk,pet_cat_idle --hires 6 --frame 16x13 --log`. The game picks them up with no code change.
+
 ## Prompt template (Grok Imagine)
 Swap in the sheet line from the table above. Attach Puff's model sheet as the reference image so Puff stays on-model.
 

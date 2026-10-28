@@ -8,6 +8,7 @@ import { Content } from './data/content';
 import { stamp, writeQuick, writeTown, type TownSave } from './data/save';
 import { NEIGHBOUR_WALK_SPEED, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
 import { GrumbleLife } from './grumbles/grumble-life';
+import { PetLife } from './pets/pet-life';
 import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
 import { installDebugHooks } from './debug';
@@ -39,6 +40,7 @@ import { T } from './world/art/texture';
 import { FEET, REACH, type Pt } from './world/nav';
 import { setIconBank, type SpriteBank } from './world/sprites';
 import { GrumbleLayer } from './world/grumble-layer';
+import { PetLayer } from './world/pet-layer';
 import { TownAreas } from './world/town-areas';
 import { World } from './world/world';
 
@@ -67,6 +69,8 @@ export class TownGame {
   private homeLife: HomeLife;
   private grumbles: GrumbleLife;
   private grumbleLayer: GrumbleLayer;
+  private pet: PetLife;
+  private petLayer: PetLayer;
   private carry: Carry;
   private fading = false;
   private autosaveMs = 0;
@@ -121,6 +125,11 @@ export class TownGame {
       arrived: (k) => this.arrived(k), area: () => this.areaId, puff: () => this.puff.feet,
       targeted: () => { const t = this.puff.swing ?? this.puff.action; return t?.kind === 'grumble' ? t.id : null; }, refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
+    this.petLayer = new PetLayer(this.world.actors);
+    this.pet = new PetLife({
+      state: this.state, view: this.view, content: this.content, world: this.world, layer: this.petLayer, arrived: (k) => this.arrived(k),
+      puff: () => this.puff.feet, day: () => this.clock.state.day, refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+    });
     this.actions = new PuffActions({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
       puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, grumbles: this.grumbles,
@@ -143,7 +152,7 @@ export class TownGame {
     else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
     this.places.rebuild(this.state.plots);
     this.grumbles.newDay(this.clock.state.day);
-    this.world.reducedMotion = this.grumbleLayer.reducedMotion = settings.reducedMotion;
+    this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = settings.reducedMotion;
     if (this.state.requests.day !== this.clock.state.day) this.jobs.post();
     this.enterArea(this.areaId, this.puff.x, this.puff.y, false, feet);
     this.bindInput(ui);
@@ -161,7 +170,7 @@ export class TownGame {
   }
 
   /** Character sprite sheets loaded after start; Puff stays code-drawn until they arrive. */
-  setSprites(bank: SpriteBank) { setIconBank(bank); this.world.setSprites(bank); this.grumbleLayer.setSprites(bank); this.hud.refreshIcons(); }
+  setSprites(bank: SpriteBank) { setIconBank(bank); this.world.setSprites(bank); this.grumbleLayer.setSprites(bank); this.petLayer.setSprites(bank); this.hud.refreshIcons(); }
 
   // ---- areas -------------------------------------------------------------------------------
 
@@ -179,6 +188,7 @@ export class TownGame {
     this.world.load(this.area, this.mess);
     this.homeLife.enter(id, this.area.pack.alive ?? [], this.tidiness);
     this.grumbles.entered();
+    this.pet.entered(id);
     this.neighbours.place(this.clock.state.minutes);
     this.world.setCrops(this.actions.cropsHere());
     this.world.setPickups(this.actions.pickupsHere());
@@ -228,6 +238,7 @@ export class TownGame {
   private tap(px: number, py: number) {
     const tile = { x: Math.floor(px / T), y: Math.floor(py / T) };
     if (this.view.busy || this.fading || !this.area.inside(tile.x, tile.y)) return;
+    if (this.pet.at(px, py)) { this.pet.pat(); return; }
     this.neighbours.releaseAll();
     const target = neighbourAt(this.neighbours.visible(this.areaId), px, py) ?? this.grumbles.at(px, py) ?? targetAt(this.here, tile.x, tile.y);
     if (target.kind === 'neighbour') this.neighbours.hold(target.id);
@@ -330,7 +341,7 @@ export class TownGame {
         const s = this.settings;
         this.sound.enabled = s.sound; this.sound.musicOn = s.music;
         if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
-        this.world.reducedMotion = this.grumbleLayer.reducedMotion = s.reducedMotion;
+        this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = s.reducedMotion;
         document.documentElement.classList.toggle('reduce-motion', s.reducedMotion);
         void this.save(false);
       },
@@ -387,6 +398,7 @@ export class TownGame {
       return { id: n.id, species: d.species, colours: d.colours, x: n.fx, y: n.fy + FEET_TO_BASE, dir: n.dir, pose: n.pose };
     }));
     this.grumbles.tick(dt, this.view.busy || this.fading);
+    this.pet.tick(dt);
     this.world.follow(p.fx, p.fy - 8);
     this.world.update(dt);
     this.placeBubble(p.fx, p.fy + FEET_TO_BASE);

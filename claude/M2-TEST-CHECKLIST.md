@@ -106,6 +106,15 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Reload mid-tidy: the pips, positions and helpers are all kept.
 - [ ] Dragging the sock to its basket still works.
 
+## 11e. Phase 1d: your pet
+- [ ] Before day 4, nothing happens at the door.
+- [ ] Day 4: step out of the burrow into the yard. "Someone's at the door!" and a choice of cat, pup or hedgehoglet appears.
+- [ ] "Maybe later" closes it. The tracker says someone's waiting, and it comes back the next day.
+- [ ] Choose one and name it (its usual name is filled in). You get "Welcome home, [name]!"
+- [ ] It follows Puff everywhere, round corners and through doors, and faces the way it's going.
+- [ ] Tap it: sparkles and a happy line.
+- [ ] Reload: your pet and its name are still there.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

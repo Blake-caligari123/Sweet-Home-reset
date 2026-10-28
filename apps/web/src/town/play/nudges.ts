@@ -7,5 +7,6 @@ import type { TownState } from '../state';
 export function nudge(state: TownState, arrived: (key: string) => boolean): string | null {
   if (arrived('building') && !Object.keys(state.plots).length) return 'build.hint';
   if (arrived('grumble_dust') && !state.has('grumble_friend')) return 'grumble.hint';
+  if (arrived('pet') && !state.pet) return 'pet.hint';
   return null;
 }

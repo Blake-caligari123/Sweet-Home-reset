@@ -90,11 +90,15 @@
     },
     "grumble_dust": {
       "day": 3
+    },
+    "pet": {
+      "day": 4
     }
   },
   "grumbles": {
     "perAreaMax": 3,
     "helpersMax": 12,
     "driftTilesPerSecond": 0.75
-  }
+  },
+  "petFollowPx": 18
 }

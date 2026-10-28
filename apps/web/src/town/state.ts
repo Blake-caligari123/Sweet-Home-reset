@@ -2,6 +2,7 @@ import type { RequestState } from './requests/requests';
 import type { PlotState } from './build/build';
 import type { Friend, TownSave } from './data/save';
 import type { GrumbleState } from './grumbles/grumbles';
+import type { Pet } from './pets/pets';
 import { Bag } from './play/bag';
 import { Fluff } from './play/fluff';
 import { DEFAULT_NAMES, type Names } from './play/names';
@@ -9,7 +10,7 @@ import { Onboarding } from './play/onboarding';
 import type { Taken } from './play/pickups';
 
 /** The parts of a save that hold Puff's progress. */
-export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles'>;
+export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet'>;
 
 export interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
 
@@ -36,6 +37,7 @@ export class TownState {
   names: Names = { ...DEFAULT_NAMES };
   plots: Record<string, PlotState> = {};
   grumbles: GrumbleState = { day: 0, list: [] };
+  pet: Pet | null = null;
 
   has(flag: string) { return this.flags.includes(flag); }
   /** Set a save flag (once). */
@@ -47,7 +49,7 @@ export class TownState {
       fluff: { value: this.fluff.value, max: this.fluff.max, boost: this.fluff.boost }, sparkles: this.sparkles,
       bag: this.bag.slots, tools: this.tools, crops: this.crops, flags: this.flags, friends: this.friends,
       onboarding: this.onboarding.step, onboardingAhead: this.onboarding.ahead, chores: this.chores,
-      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles
+      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet
     };
   }
 
@@ -68,5 +70,6 @@ export class TownState {
     this.names = { ...DEFAULT_NAMES, ...save.names };
     this.plots = save.plots ?? {};
     this.grumbles = save.grumbles ?? { day: 0, list: [] };
+    this.pet = save.pet ?? null;
   }
 }

@@ -48,6 +48,17 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 - Brightened: banner "Friend made! ✨", Puff: "Friend made! Want to help?" Tapping a helper: "Pff! Ooh!"
 - Prompt line over a Grumble: "Brighten the Grumble".
 
+## New in Phase 1d (28 Oct 2026): picking a pet
+- From day 4, stepping out into the yard (once a day until chosen), Puff says: "Someone's at the door! Three little visitors."
+- Sheet: **Who'd like to live with you?**
+  - Cat: "A sleepy cat who loves sunbeams."
+  - Pup: "A waggy pup who loves walks."
+  - Hedgehoglet: "A shy hedgehoglet who loves crunchy leaves."
+  - Close button: "Maybe later"
+- Then **Name your cat/pup/hedgehoglet** (Mochi, Biscuit or Bramble filled in) → banner "Welcome home, [name]!"
+- Patting, in turn: "Hello, [name]!" · "[name] does a happy wiggle." · "Best friends, you and me."
+- Tracker until chosen: "Someone's waiting at your burrow door."
+
 ## Hazel
 
 **First hello**

@@ -13,5 +13,8 @@ describe('nudges', () => {
     expect(nudge(s, open(['building', 'grumble_dust']))).toBe('grumble.hint');
     s.flag('grumble_friend');
     expect(nudge(s, open(['building', 'grumble_dust']))).toBeNull();
+    expect(nudge(s, open(['building', 'grumble_dust', 'pet']))).toBe('pet.hint');
+    s.pet = { kind: 'cat', name: 'Mochi', day: 4 };
+    expect(nudge(s, open(['building', 'grumble_dust', 'pet']))).toBeNull();
   });
 });
