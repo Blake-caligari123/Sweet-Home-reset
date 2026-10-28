@@ -1,4 +1,5 @@
-import { T, type Dir } from '../world/art';
+import type { Dir } from '../world/art/characters';
+import { T } from '../world/art/texture';
 import type { AreaPack, Door } from '../data/area';
 import { FEET, type NavGrid, type Pt } from '../world/nav';
 

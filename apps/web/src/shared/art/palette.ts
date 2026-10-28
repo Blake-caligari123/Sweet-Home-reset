@@ -41,6 +41,3 @@ export function rgb(hex: string): [number, number, number] {
   return value;
 }
 
-export function isPaletteColour(hex: string): boolean {
-  return (Object.values(P) as string[]).includes(hex.toUpperCase());
-}

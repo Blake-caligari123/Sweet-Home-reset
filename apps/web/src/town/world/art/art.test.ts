@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { P } from '../../shared/art/palette';
-import { PixelCanvas } from '../../shared/art/pixel-canvas';
-import { drawGround, drawMess, type Ground, type Theme } from './art';
-import { MESS_TYPES } from '../play/mess';
-import { isNight } from './ambience';
+import { P } from '../../../shared/art/palette';
+import { PixelCanvas } from '../../../shared/art/pixel-canvas';
+import { drawGround, type Ground, type Theme } from './ground';
+import { drawMess } from './items';
+import { MESS_TYPES } from '../../play/mess';
+import { isNight } from '../ambience';
 
 const theme: Theme = { wall: P.peachLight, wallAccent: P.peach, floor: P.brownLight, floorShade: P.brown, rug: P.sage, rugShade: P.sageShade };
 const tile = (g: Ground, around: (dx: number, dy: number) => Ground) => {

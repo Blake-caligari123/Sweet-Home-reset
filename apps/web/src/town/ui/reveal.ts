@@ -2,7 +2,8 @@ import { makeClip, shareFile } from '../../shared/share/clip';
 import { h } from '../../shared/ui/dom';
 import type { Area } from '../data/area';
 import { bakeArea } from '../world/bake';
-import { drawMess, T } from '../world/art';
+import { drawMess } from '../world/art/items';
+import { T } from '../world/art/texture';
 import type { View } from './view';
 
 /** After a home is restored: offer a before-and-after clip, made on the device (GDD v3 A2, A11.5). */

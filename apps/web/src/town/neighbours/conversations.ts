@@ -5,7 +5,7 @@ import type { Clock } from '../play/clock';
 import type { TownState } from '../state';
 import { itemIcon } from '../ui/hud';
 import type { Button, View } from '../ui/view';
-import { drawNeighbour24, type Dir } from '../world/art';
+import { drawNeighbour24, type Dir } from '../world/art/characters';
 import { spriteIcon } from '../world/sprites';
 import { canGift, chat, give } from './friends';
 import { doneFlag, eventDue, stepsOf, type HeartEvent } from './heart-events';

@@ -333,8 +333,6 @@ export function drawItem(kind: string) {
   return pc;
 }
 
-export const ITEM_KINDS = Object.keys(ITEM_ART);
-
 /** Shy dust-bunny cousins for the pop task, two wiggle frames. */
 export function drawDustBunny(frame: 0 | 1) {
   const pc = new PixelCanvas(14, 14);
