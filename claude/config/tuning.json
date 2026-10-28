@@ -183,5 +183,9 @@
       0.3,
       0.2
     ]
+  },
+  "practiceDash": {
+    "seconds": 45,
+    "spots": 15
   }
 }

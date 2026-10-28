@@ -285,6 +285,10 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
   - 8: the acorn's first leaves
   - 10: home is where friends are, plus an acorn charm and +100 ✨
 
+## 12j. Phase 4j: the practice tidy dash
+- [ ] On any non-festival day, the fair stall offers "A tidy dash, just for fun? 45 seconds." 15 spots, no Sparkles, and it says "a new best!" or your best so far.
+- [ ] Festival days still run that festival's own game.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

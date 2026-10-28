@@ -55,6 +55,8 @@ export interface TownSave {
   bloom?: number;
   /** Town jobs done. */
   townJobs?: number;
+  /** The best practice dash. */
+  dashBest?: number;
   /** Cleans counted per place, and the surprise finds collected. */
   finds?: Finds;
   /** Rocks broken in the caves this week. */

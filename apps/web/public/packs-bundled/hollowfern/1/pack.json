@@ -7211,7 +7211,6 @@
    "mabel.festival.1": "Hoo! The whole town at the fountain. Like old times.",
    "sorrel.festival.1": "My first fair! Is the dash hard? I'll cheer loud!",
    "festival.spring_fair.intro": "It's the Spring Clean Fair! Tidy all you can in 60 seconds.",
-   "festival.closed": "The fair stall. Packed away till the last day of the season.",
    "festival.cheer.all": "Every last spot! The whole town is cheering!",
    "festival.cheer.lots": "So much sparkle! The town loved watching.",
    "festival.cheer.some": "What fun! Everyone clapped for {puff}.",
@@ -7290,7 +7289,8 @@
    "he_sorrel_10.l03": "Then this is home. You've got lots of us.",
    "he_sorrel_10.l04": "I carved you something. An acorn. For luck.",
    "he_sorrel_10.l05": "It's perfect. I'll keep it by my bed.",
-   "he_sorrel_10.l06": "Thank you for my home, Keeper. And for you."
+   "he_sorrel_10.l06": "Thank you for my home, Keeper. And for you.",
+   "festival.practice": "A tidy dash, just for fun? 45 seconds. Go!"
   }
  },
  "heartEvents": [

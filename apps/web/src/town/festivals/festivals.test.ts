@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
 import { AreaMess } from '../play/mess';
-import { dashResult, dashSpots, festivalToday, litFlag, withLanterns, type FestivalDef } from './festivals';
+import { dashResult, dashSpots, festivalToday, litFlag, practiceDash, withLanterns, type FestivalDef } from './festivals';
+import { TUNING } from '../data/tuning';
 
 const fair: FestivalDef = { id: 'spring_fair', name: 'Spring Clean Fair', season: 'Spring', area: 'square', seconds: 60, spots: 20, perSpot: 5, mess: ['weeds', 'dust', 'crumbs'], outfit: 'fair_ribbon' };
 
@@ -12,6 +13,12 @@ describe('festivals', () => {
     expect(festivalToday([fair], 70)?.id).toBe('spring_fair');
     expect(festivalToday([fair], 13)).toBeNull();
     expect(festivalToday([fair], 28)).toBeNull(); // summer's is its own
+  });
+
+  it('offers a practice dash on other days: just for fun, no Sparkles, its size from tuning', () => {
+    const p = practiceDash('square');
+    expect([p.seconds, p.spots, p.perSpot, p.outfit]).toEqual([TUNING.practiceDash.seconds, TUNING.practiceDash.spots, 0, undefined]);
+    expect(dashResult(p, 7).sparkles).toBe(0);
   });
 
   it('scores the tidy dash kindly: Sparkles for every spot, and a cheer for any score', () => {
@@ -62,7 +69,7 @@ describe('festivals', () => {
     expect(pack.areas.find((a) => a.id === 'square')!.props.some((p) => p.action === 'festival')).toBe(true);
     expect(pack.outfits!.find((o) => o.id === def.outfit)?.earn.flag).toBe(`festival_${def.id}`);
     const text = pack.strings!['en-AU'];
-    for (const id of ['festival.cheer.all', 'festival.cheer.lots', 'festival.cheer.some', 'festival.closed', `festival.${def.id}.intro`]) expect(text[id], id).toBeTruthy();
+    for (const id of ['festival.cheer.all', 'festival.cheer.lots', 'festival.cheer.some', 'festival.practice', `festival.${def.id}.intro`]) expect(text[id], id).toBeTruthy();
   });
 
   it('gathers every neighbour in the square on fair day', () => {

@@ -341,6 +341,9 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `he_sorrel_10.l05`: It's perfect. I'll keep it by my bed.
 - `he_sorrel_10.l06`: Thank you for my home, Keeper. And for you.
 
+## New in Phase 4j (29 Oct): the practice dash
+- `festival.practice`: A tidy dash, just for fun? 45 seconds. Go!
+
 ## Hazel
 
 **First hello**

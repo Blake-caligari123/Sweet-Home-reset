@@ -1,5 +1,6 @@
 import { seeded } from '../../shared/art/pixel-canvas';
 import type { Area, AreaPack } from '../data/area';
+import { TUNING } from '../data/tuning';
 import { DAYS_PER_SEASON, seasonOf } from '../play/clock';
 import type { AreaMess, MessSpot } from '../play/mess';
 
@@ -27,6 +28,12 @@ export interface FestivalDef {
 export function festivalToday(defs: FestivalDef[], day: number) {
   if (((day - 1) % DAYS_PER_SEASON) + 1 !== DAYS_PER_SEASON) return null;
   return defs.find((f) => f.season === seasonOf(day)) ?? null;
+}
+
+/** On any other day, the stall offers a practice dash (VISION §7: the timed tidy mini-game): a fun score, no prize. */
+export function practiceDash(area: string): FestivalDef {
+  const t = TUNING.practiceDash;
+  return { id: 'practice', name: 'Tidy dash', season: '', area, seconds: t.seconds, spots: t.spots, perSpot: 0, mess: ['dust', 'weeds', 'crumbs'] };
 }
 
 /** How the dash went: Sparkles for every spot, and a cheer (every score gets one). */
