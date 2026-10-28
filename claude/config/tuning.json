@@ -120,6 +120,10 @@
     },
     "grumble_soot": {
       "day": 16
+    },
+    "cave_2": {
+      "day": 13,
+      "flag": "cave_leaf_2"
     }
   },
   "grumbles": {

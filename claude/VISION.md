@@ -236,6 +236,11 @@ One new thing every couple of days, each with one tip or letter:
   - Three more Grumble families, one at a time: cobweb (day 9, duster, the library and Bea's shop), mud (day 13, rake, Riverside, the yard and the Far Bank) and soot (day 16, sponge, the bathhouse and the store).
   - Each has its own lines and a tracker hint until the first one is befriended.
   - They wear Blake's dust art in their own grumpy tint until their own sheets arrive; helpers are all bright.
+- **Phase 3f (29 Oct):**
+  - Caves floor 2, the Warm Deep (`cave_2`). It opens from a ladder hole on floor 1 once Mabel's day-13 letter brings the second map leaf (`cave_leaf_2`).
+  - 9 rocks drop blue gems (new, sell 60 ✨), copper ore and shards, all fixed drops.
+  - An old carving starts the mystery thread of Thimble, the keeper before Puff, and the warm water under the town.
+  - Hatches now have their own closed and enter lines per floor. Floors 3–4 are for later.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

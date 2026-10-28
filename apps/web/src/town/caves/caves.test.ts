@@ -28,8 +28,8 @@ describe('caves', () => {
     expect(p.props.filter((q) => q.action === 'mine').map((q) => [q.x, q.y])).toEqual([[3, 3]]);
   });
 
-  it('floor 1 is open to walk, every rock and the way up reachable, with fixed drops', () => {
-    const cave = pack.areas.find((a) => a.id === 'cave_1')!;
+  for (const id of ['cave_1', 'cave_2']) it(`${id} is open to walk, every rock, ladder and the way up reachable, with fixed drops`, () => {
+    const cave = pack.areas.find((a) => a.id === id)!;
     const defs = cave.rocks ?? [];
     expect(defs.length).toBeGreaterThanOrEqual(6);
     const area = new Area(withRocks(cave, defs, fresh()));
@@ -41,5 +41,15 @@ describe('caves', () => {
       for (const id of Object.keys(r.drop)) expect(pack.items[id], id).toBeTruthy();
     }
     for (const d of cave.doors) expect(nav.findPathNear(spawn, tile(d.x, d.y), 0)).not.toBeNull();
+    for (const p of cave.props.filter((q) => q.action)) expect(nav.findPathNear(spawn, tile(p.x, p.y), REACH), p.type).not.toBeNull();
+  });
+
+  it('floor 2 opens from a ladder on floor 1 with the second map leaf, and holds gems and an old carving', () => {
+    const down = pack.areas.find((a) => a.id === 'cave_1')!.props.find((p) => p.action === 'hatch');
+    expect(down?.to).toBe('cave_2');
+    expect(pack.letters!.find((l) => l.id === 'mabel_2')?.gives).toContain('cave_leaf_2');
+    const floor2 = pack.areas.find((a) => a.id === 'cave_2')!;
+    expect(floor2.rocks!.some((r) => r.drop.gem_blue)).toBe(true);
+    expect(floor2.signs?.length).toBeGreaterThan(0);
   });
 });

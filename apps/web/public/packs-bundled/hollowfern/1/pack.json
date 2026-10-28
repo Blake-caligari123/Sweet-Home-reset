@@ -197,6 +197,10 @@
   },
   "envelope": {
    "name": "Letter"
+  },
+  "gem_blue": {
+   "name": "Blue gem",
+   "sell": 60
   }
  },
  "areas": [
@@ -3458,6 +3462,13 @@
      "x": 9,
      "y": 11,
      "walkable": true
+    },
+    {
+     "type": "ladder_down",
+     "x": 17,
+     "y": 6,
+     "action": "hatch",
+     "to": "cave_2"
     }
    ],
    "doors": [
@@ -3778,6 +3789,163 @@
        "bloom": 2
       }
      ]
+    }
+   ]
+  },
+  {
+   "id": "cave_2",
+   "name": "The Warm Deep",
+   "kind": "cave",
+   "drained": false,
+   "edge": "#2b2733",
+   "theme": {
+    "wall": "#9A8A9E",
+    "wallAccent": "#B0A2B3",
+    "floor": "#77697E",
+    "floorShade": "#66596C",
+    "rug": "#E0B9A8",
+    "rugShade": "#C99C8A"
+   },
+   "legend": {
+    "#": "rock",
+    ".": "stone",
+    "~": "water",
+    " ": "void"
+   },
+   "map": [
+    "####################",
+    "####################",
+    "###......~~~......##",
+    "##......~~~~~......#",
+    "#.......~~~~~......#",
+    "#..........~.......#",
+    "#...#..............#",
+    "#...##.......#.....#",
+    "#............##....#",
+    "##.................#",
+    "###...........~~..##",
+    "##########.#########",
+    "####################"
+   ],
+   "props": [
+    {
+     "type": "ladder",
+     "x": 10,
+     "y": 11,
+     "walkable": true
+    },
+    {
+     "type": "carving",
+     "x": 13,
+     "y": 2,
+     "action": "sign"
+    }
+   ],
+   "signs": [
+    {
+     "x": 13,
+     "y": 2,
+     "text": "Old letters in the stone: 'Thimble kept the water warm.'"
+    }
+   ],
+   "doors": [
+    {
+     "x": 10,
+     "y": 11,
+     "to": "cave_1",
+     "toX": 17,
+     "toY": 7
+    }
+   ],
+   "mess": [],
+   "spawn": {
+    "x": 10,
+    "y": 10
+   },
+   "rocks": [
+    {
+     "id": "cave_2_r1",
+     "x": 3,
+     "y": 3,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_2_r2",
+     "x": 6,
+     "y": 5,
+     "size": "medium",
+     "drop": {
+      "ore_copper": 1
+     }
+    },
+    {
+     "id": "cave_2_r3",
+     "x": 16,
+     "y": 3,
+     "size": "large",
+     "drop": {
+      "gem_blue": 1,
+      "ore_copper": 1
+     }
+    },
+    {
+     "id": "cave_2_r4",
+     "x": 2,
+     "y": 8,
+     "size": "medium",
+     "drop": {
+      "ore_copper": 1
+     }
+    },
+    {
+     "id": "cave_2_r5",
+     "x": 8,
+     "y": 7,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_2_r6",
+     "x": 17,
+     "y": 6,
+     "size": "large",
+     "drop": {
+      "gem_blue": 1
+     }
+    },
+    {
+     "id": "cave_2_r7",
+     "x": 11,
+     "y": 8,
+     "size": "medium",
+     "drop": {
+      "ore_copper": 1,
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_2_r8",
+     "x": 16,
+     "y": 9,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_2_r9",
+     "x": 5,
+     "y": 10,
+     "size": "large",
+     "drop": {
+      "gem_blue": 1,
+      "ore_copper": 1
+     }
     }
    ]
   }
@@ -5677,7 +5845,7 @@
    "letter.mabel_1.r1": "Thank you, M.! I'll keep tidying.",
    "letter.mabel_1.r2": "Who are you?",
    "letter.mabel_2.l1": "The Glimmerwell hums when it's happy.",
-   "letter.mabel_2.l2": "Listen to it at dawn, little Keeper. M.",
+   "letter.mabel_2.l2": "Listen to it at dawn, little Keeper.",
    "letter.mabel_2.r1": "I heard it hum!",
    "letter.mabel_2.r2": "I'll listen tomorrow.",
    "letter.mabel_3.l1": "Long ago, the town met at the fountain each spring.",
@@ -5763,7 +5931,11 @@
    "grumble.soot.before.1": "Kff. Smudgy.",
    "grumble.soot.before.2": "Mmrf... sooty.",
    "grumble.soot.after.1": "Ahh! Sparkly clean!",
-   "grumble.soot.hint": "Something smudgy is grumbling at Otto's bathhouse."
+   "grumble.soot.hint": "Something smudgy is grumbling at Otto's bathhouse.",
+   "letter.mabel_2.l3": "Here's another map leaf. It goes deeper. M.",
+   "cave.closed.cave_2": "The ladder goes down into the dark. Not yet.",
+   "cave.enter.cave_2": "Deeper... and warm! The water's warm down here.",
+   "cave.gem": "A blue gem! It glows like the fountain."
   }
  },
  "heartEvents": [
@@ -8087,7 +8259,8 @@
    "y": 12,
    "lines": [
     "letter.mabel_2.l1",
-    "letter.mabel_2.l2"
+    "letter.mabel_2.l2",
+    "letter.mabel_2.l3"
    ],
    "replies": [
     {
@@ -8098,6 +8271,9 @@
      "label": "letter.mabel_2.r2",
      "flag": "reply_mabel_2_later"
     }
+   ],
+   "gives": [
+    "cave_leaf_2"
    ]
   },
   {

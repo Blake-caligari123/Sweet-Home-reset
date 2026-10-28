@@ -173,6 +173,14 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `grumble.soot.after.1`: Ahh! Sparkly clean!
 - `grumble.soot.hint`: Something smudgy is grumbling at Otto's bathhouse.
 
+## New in Phase 3f (29 Oct): caves floor 2 (proposed)
+- `letter.mabel_2.l2`: Listen to it at dawn, little Keeper.
+- `letter.mabel_2.l3`: Here's another map leaf. It goes deeper. M.
+- `cave.closed.cave_2`: The ladder goes down into the dark. Not yet.
+- `cave.enter.cave_2`: Deeper... and warm! The water's warm down here.
+- `cave.gem`: A blue gem! It glows like the fountain.
+- Carving: Old letters in the stone: 'Thimble kept the water warm.'
+
 ## Hazel
 
 **First hello**
