@@ -31,8 +31,6 @@ export interface ConversationHost {
   sparkleAtPuff(count: number): void;
   /** Buttons other features add to a neighbour's speech box (requests to hand over). */
   extraButtons(id: string): Button[];
-  /** A Plus neighbour without Plus (M2 stub): no chat yet. */
-  locked(id: string): boolean;
   /** Tell the onboarding tips Puff met someone. */
   onboard(e: OnboardEvent): void;
   refreshHud(): void;
@@ -48,7 +46,6 @@ export class Conversations {
     const def = content.neighbour(id); const n = neighbours.states.get(id);
     if (!def || !n || n.area !== this.host.area()) { neighbours.releaseAll(); return; }
     const dir = this.host.facePuff(n.fx, n.fy);
-    if (this.host.locked(id)) { this.host.view.say('Someone new! We\'ll say hello another day.'); neighbours.releaseAll(); return; }
     if (n.pose === 'sleep') {
       const up = wakesAt(def.schedule, clock.state.minutes);
       this.host.view.say(`Shh... ${def.name}'s having a doze.${up ? ` Up at ${formatTime(up)}.` : ''}`);
@@ -183,7 +180,7 @@ export class Conversations {
           (f.known ?? []).length ? h('p', { class: 'muted' }, `Likes: ${(f.known ?? []).map((i) => content.itemName(i)).join(', ')}`) : '')));
     }
     const more = content.neighbours.size - met.length;
-    const body: Node[] = met.length ? [list] : [h('p', {}, 'Puff hasn\'t met anyone yet. Say hello around town!')];
+    const body: Node[] = met.length ? [list] : [h('p', {}, `${this.host.state.names.puff} hasn't met anyone yet. Say hello around town!`)];
     if (more > 0 && met.length) body.push(h('p', { class: 'muted' }, `${more} more neighbour${more === 1 ? '' : 's'} to meet.`));
     view.sheet('Friends', body);
   }

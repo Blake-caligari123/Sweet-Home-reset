@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { migrate, MIGRATIONS, pickSave, SCHEMA_VERSION, stamp, type TownSave } from './save';
+import { DEFAULT_NAMES } from '../play/names';
+import { fromNewerVersion, migrate, MIGRATIONS, newestSlot, pickSave, SCHEMA_VERSION, stamp, type TownSave } from './save';
 
 function fixture(): TownSave {
   return stamp({
     deviceId: 'test', day: 3, minutes: 600, fluff: { value: 60, max: 100, boost: 0 }, sparkles: 120,
     bag: [{ id: 'sock', count: 1 }, null], tools: { duster: 1 }, area: 'burrow', puff: { x: 4, y: 5, facing: 'down' },
-    areas: {}, crops: [], flags: ['met_hazel'], friends: { hazel: { points: 3, talkedDay: 2, met: true } }, onboarding: 5, chores: { day: '', keys: [], total: 0 },
+    areas: {}, crops: [], flags: ['met_hazel'], friends: { hazel: { points: 3, talkedDay: 2, met: true } }, onboarding: 5, chores: { day: '', keys: [], total: 0 }, names: { puff: 'Dusty', town: 'Mossbrook' },
     settings: { sound: true, music: true, haptics: true, reducedMotion: false, relaxed: false, autoTool: true }
   });
 }
@@ -56,12 +57,42 @@ describe('town save', () => {
     expect(pickSave(null, null)).toBeNull();
   });
 
-  it('upgrades a milestone 1 save (schema 1) with an empty friends list', () => {
-    const { friends, ...rest } = fixture();
-    void friends;
-    const v2 = migrate({ ...rest, schemaVersion: 1 })!;
-    expect(v2.schemaVersion).toBe(2);
-    expect(v2.friends).toEqual({});
-    expect(v2.flags).toEqual(['met_hazel']);
+  it('upgrades a milestone 1 save (schema 1) all the way, with an empty friends list and the usual names', () => {
+    const { friends, names, ...rest } = fixture();
+    void friends; void names;
+    const now = migrate({ ...rest, schemaVersion: 1 })!;
+    expect(now.schemaVersion).toBe(SCHEMA_VERSION);
+    expect(now.friends).toEqual({});
+    expect(now.names).toEqual(DEFAULT_NAMES);
+    expect(now.flags).toEqual(['met_hazel']);
+  });
+
+  it('gives a schema 2 save the usual names, keeping everything else (and is the same run twice)', () => {
+    const { names, ...rest } = fixture();
+    void names;
+    const v2 = { ...rest, schemaVersion: 2, futureField: 'kept' };
+    const now = migrate(v2)!;
+    expect(now.schemaVersion).toBe(3);
+    expect(now.names).toEqual(DEFAULT_NAMES);
+    expect({ ...now, names: undefined, schemaVersion: 2 }).toEqual({ ...v2, names: undefined });
+    expect(migrate(now)).toEqual(now);
+  });
+
+  it('keeps names already in a save', () => {
+    expect(migrate(fixture())!.names).toEqual({ puff: 'Dusty', town: 'Mossbrook' });
+  });
+
+  it('spots a save from a newer version of the game, so it is never overwritten', () => {
+    expect(fromNewerVersion(fixture(), null, '{oops')).toBe(false);
+    expect(fromNewerVersion(fixture(), { ...fixture(), schemaVersion: SCHEMA_VERSION + 1 })).toBe(true);
+  });
+
+  it('hands back the raw slot it picked, for the pre-upgrade copy', () => {
+    const { names, ...rest } = fixture();
+    void names;
+    const old = { ...rest, schemaVersion: 2, savedAt: '2099-01-01T09:00:00+11:00' };
+    const best = newestSlot([fixture(), old])!;
+    expect(best.raw).toBe(old);
+    expect(best.save.schemaVersion).toBe(SCHEMA_VERSION);
   });
 });

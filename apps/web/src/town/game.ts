@@ -17,18 +17,19 @@ import { AreaMess, type ToolId } from './play/mess';
 import { OnboardingGuide } from './play/onboarding-guide';
 import { Puff } from './play/puff';
 import { distTo, FEET_TO_BASE, neighbourAt, rectOf, targetAt, type Here, type Target } from './play/targets';
-import { isLocked, plusFromUrl } from './plus/plus';
 import { Jobs } from './requests/jobs';
 import { openShop } from './shops/shop-sheet';
 import { isOpen } from './shops/shops';
 import { TownState } from './state';
 import { openBag } from './ui/bag-sheet';
 import { Hud, TOOL_SLOTS } from './ui/hud';
+import { bindKeyboard } from './ui/keyboard';
+import { openNaming } from './ui/naming-sheet';
 import { openPause } from './ui/pause-menu';
 import { PointerInput } from './ui/pointer-input';
 import { promptFor } from './ui/prompt';
 import { View, type Settings } from './ui/view';
-import type { Dir } from './world/art/characters';
+import { isUnlocked } from './unlocks';
 import { T } from './world/art/texture';
 import { FEET, navFor, REACH, type NavGrid, type Pt } from './world/nav';
 import type { Tile } from './world/pathfind';
@@ -62,8 +63,6 @@ export class TownGame {
   private homeLife: HomeLife;
   /** Clutter being carried home by a drag: its tile, and where it goes once Puff has it. */
   private carrying: { from: Tile; to: Pt } | null = null;
-  /** M2 stub: test builds have Plus; `?plus=0` shows the free game. */
-  private plus = plusFromUrl(location.search);
   private fading = false;
   private autosaveMs = 0;
   private fade: HTMLElement;
@@ -79,8 +78,8 @@ export class TownGame {
     saved: TownSave | null
   ) {
     for (const a of pack.areas) this.areas.set(a.id, new Area(a));
-    this.content = new Content(pack);
-    this.neighbours = new Neighbours(pack.neighbours ?? [], pack.areas, (id) => (this.areas.has(id) ? this.navAt(id) : null), NEIGHBOUR_WALK_SPEED);
+    this.content = new Content(pack, () => this.state.names);
+    this.neighbours = new Neighbours(pack.neighbours ?? [], pack.areas, (id) => (this.areas.has(id) ? this.navAt(id) : null), NEIGHBOUR_WALK_SPEED, (id) => this.arrived(id));
     this.world = new World(app);
     app.stage.addChild(this.world.root);
     this.hud = new Hud(ui, {
@@ -89,7 +88,7 @@ export class TownGame {
       pause: () => { this.view.uiTap(); this.openPause(); },
       tracker: () => this.view.uiTap()
     });
-    this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress);
+    this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress, () => this.state.names.puff);
     this.talk = new Conversations({
       state: this.state, view: this.view, content: this.content, clock: this.clock, neighbours: this.neighbours,
       area: () => this.areaId,
@@ -97,7 +96,6 @@ export class TownGame {
       hopPuff: () => this.puff.hop(),
       sparkleAtPuff: (n) => this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), n),
       extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.shopButtonsFor(id)],
-      locked: (id) => this.locked(id),
       onboard: (e) => this.guide.handle(e),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
@@ -105,7 +103,7 @@ export class TownGame {
     this.jobs = new Jobs({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings, talk: this.talk, areas: this.areas,
       messFor: (id) => this.messFor(id), area: () => this.areaId, syncMess: (i) => this.world.syncMess(i),
-      locked: (id) => this.locked(id), onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+      arrived: (id) => this.arrived(id), onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.guide = new OnboardingGuide({
       state: this.state, view: this.view, hud: this.hud, area: () => this.areaId, messFor: (id) => this.messFor(id),
@@ -137,7 +135,7 @@ export class TownGame {
     app.ticker.add((t) => this.update(t.deltaMS));
     window.addEventListener('resize', () => { app.resize(); this.world.resize(); });
     this.refreshHud();
-    if (!saved) window.setTimeout(() => this.view.say('Ooh. Grey. Let\'s fix that.'), 600);
+    if (!saved) this.openNames(() => window.setTimeout(() => this.view.say('Ooh. Grey. Let\'s fix that.'), 600));
     if (new URLSearchParams(location.search).has('debug')) {
       installDebugHooks({
         world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide,
@@ -187,7 +185,7 @@ export class TownGame {
     this.world.setTint(this.clock.state.minutes);
     this.world.follow(spot.x, spot.y - 8, true);
     this.guide.updateHighlight();
-    if (announce) { this.hud.announce(this.area.pack.name); this.guide.handle({ type: 'entered', area: id }); }
+    if (announce) { this.hud.announce(this.content.named(this.area.pack.name)); this.guide.handle({ type: 'entered', area: id }); }
   }
 
   private async travel(to: string, x: number, y: number) {
@@ -212,7 +210,11 @@ export class TownGame {
       drag: (from, to) => this.carry(from, to),
       carryable: (p) => this.clutterAt(Math.floor(p.x / T), Math.floor(p.y / T)) ?? null
     });
-    window.addEventListener('keydown', (e) => this.key(e));
+    bindKeyboard({
+      puff: this.puff, nav: () => this.nav, busy: () => this.view.busy, back: () => this.back(), tap: (x, y) => this.tap(x, y),
+      selectSlot: (n) => { const t = TOOL_SLOTS[n - 1]; if (this.state.tools[t]) { this.selected = t; this.refreshHud(); } },
+      openBag: () => this.openBag()
+    });
   }
 
   private clutterAt(x: number, y: number) { return this.mess.typeAt(x, y) === 'clutter' ? this.mess.item[y * this.area.w + x] : undefined; }
@@ -233,32 +235,6 @@ export class TownGame {
     if (!c || p.path.length || p.swingMs > 0) return;
     this.carrying = null;
     if (!this.clutterAt(c.from.x, c.from.y)) this.tap(c.to.x, c.to.y);
-  }
-
-
-  private key(e: KeyboardEvent) {
-    if (e.target instanceof HTMLElement && e.target.closest('input, textarea')) return;
-    if (e.key === 'Escape') { e.preventDefault(); this.back(); return; }
-    if (this.view.busy) return;
-    const moves: Record<string, [number, number, Dir]> = { ArrowUp: [0, -1, 'up'], w: [0, -1, 'up'], ArrowDown: [0, 1, 'down'], s: [0, 1, 'down'], ArrowLeft: [-1, 0, 'left'], a: [-1, 0, 'left'], ArrowRight: [1, 0, 'right'], d: [1, 0, 'right'] };
-    const m = moves[e.key.length === 1 ? e.key.toLowerCase() : e.key];
-    if (m) {
-      e.preventDefault();
-      if (this.puff.path.length || this.puff.swingMs > 0) return;
-      const p = this.puff; const to = { x: p.fx + m[0] * T, y: p.fy + m[1] * T };
-      p.dir = m[2];
-      if (this.nav.clear({ x: p.fx, y: p.fy }, to)) p.path = [to];
-      return;
-    }
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      const f = this.puff.facing;
-      this.tap((f.x + 0.5) * T, (f.y + 0.5) * T);
-      return;
-    }
-    const n = Number(e.key);
-    if (n >= 1 && n <= 5) { const t = TOOL_SLOTS[n - 1]; if (this.state.tools[t]) { this.selected = t; this.refreshHud(); } }
-    if (e.key.toLowerCase() === 'b') this.openBag();
   }
 
   /** Android back / Escape: close the top sheet, else open pause. */
@@ -297,7 +273,11 @@ export class TownGame {
     this.puff.path = path; this.puff.action = action;
   }
 
-  private locked(id: string) { return isLocked(this.content.neighbour(id), this.plus); }
+  /**
+   * Whether something in the year-one schedule (a neighbour, a place) has arrived yet. A neighbour
+   * Puff has already met stays (older test saves met everyone early): nothing is ever taken away.
+   */
+  private arrived(key: string) { return isUnlocked(key, { day: this.clock.state.day, flags: this.state.flags }) || !!this.state.friends[key]?.met; }
 
   private rectOf(t: Target) { return rectOf(t, this.area, t.kind === 'neighbour' ? this.neighbours.states.get(t.id) : undefined); }
 
@@ -356,11 +336,18 @@ export class TownGame {
         this.sound.enabled = s.sound; this.sound.musicOn = s.music;
         if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
         this.world.reducedMotion = s.reducedMotion;
+        document.documentElement.classList.toggle('reduce-motion', s.reducedMotion);
         void this.save(false);
       },
       openFriends: () => this.talk.openFriends(),
+      openNames: () => this.openNames(),
       skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null
     });
+  }
+
+  /** Name Puff and the town; `then` runs once the sheet closes. */
+  private openNames(then?: () => void) {
+    openNaming(this.view, this.state.names, (names) => { this.state.names = names; this.refreshHud(); void this.save(false); then?.(); });
   }
 
   // ---- loop --------------------------------------------------------------------------------
@@ -371,7 +358,7 @@ export class TownGame {
     if (!this.view.busy && !this.fading) {
       for (const e of this.clock.advance(dt)) {
         if (e === 'tick') this.world.setTint(this.clock.state.minutes);
-        if (e === 'late') { this.hud.setLate(true); this.view.say('Puff\'s getting sleepy. Head home to bed.'); }
+        if (e === 'late') { this.hud.setLate(true); this.view.say(`${this.state.names.puff}'s getting sleepy. Head home to bed.`); }
         if (e === 'doze' && !this.settings.relaxed) void this.endDay(true);
       }
       // Walk the waypoints at walking speed; the tile under the feet drives mess, doors and onboarding.
@@ -402,7 +389,7 @@ export class TownGame {
     this.world.drawPuff({ x: p.fx, y: p.fy + FEET_TO_BASE, dir: p.dir, pose: p.pose, tool: this.selected }, dt);
     this.world.drawNeighbours(this.neighbours.visible(this.areaId).map((n) => {
       const d = this.content.neighbour(n.id)!;
-      return { id: n.id, species: d.species, colours: d.colours, x: n.fx, y: n.fy + FEET_TO_BASE, dir: n.dir, pose: n.pose, locked: this.locked(n.id) };
+      return { id: n.id, species: d.species, colours: d.colours, x: n.fx, y: n.fy + FEET_TO_BASE, dir: n.dir, pose: n.pose };
     }));
     this.world.follow(p.fx, p.fy - 8);
     this.world.update(dt);
@@ -422,7 +409,7 @@ export class TownGame {
       const night = c.state.minutes >= 19 * 60 || c.state.minutes < DAY_START;
       this.hud.setClock(`${c.season} ${c.dayOfSeason}`, formatTime(c.shown), night);
     }
-    this.hud.setFluff(this.state.fluff.value, this.state.fluff.cap, this.state.fluff.tired);
+    if (this.hud.setFluff(this.state.fluff.value, this.state.fluff.cap, this.state.fluff.tired)) this.view.say('Feeling sleepy... a snack would help.');
     const prompt = this.promptText();
     if (prompt !== this.lastPrompt) { this.lastPrompt = prompt; this.hud.setPrompt(prompt); }
   }
@@ -442,7 +429,7 @@ export class TownGame {
     this.hud.setSparkles(this.state.sparkles);
     this.guide.unstick();
     const step = this.state.onboarding.current;
-    this.hud.setTracker(step ? step.hint : this.jobs.tracker() ?? 'Explore Hollowfern and tidy what you find.');
+    this.hud.setTracker(this.content.named(step ? step.hint : this.jobs.tracker() ?? 'Explore {town} and tidy what you find.'));
   }
 
   /** x, y: the bottom-centre of Puff's sprite in world px. */

@@ -11,7 +11,7 @@ export type Species = 'hedgehog' | 'bee' | 'mouse' | 'otter' | 'mole' | 'owl';
 /** From `at` (game minutes from midnight) until the next stop, stand at this tile. */
 export interface Stop { at: number; area: string; x: number; y: number; dir?: Dir; sleep?: boolean }
 export interface NeighbourDef {
-  id: string; name: string; species: Species; plus?: boolean;
+  id: string; name: string; species: Species;
   colours: { fur: string; belly: string; accent: string };
   loves: string[]; likes: string[]; dislikes: string[];
   schedule: Stop[];
@@ -76,7 +76,9 @@ export class Neighbours {
     private areas: AreaPack[],
     private navOf: (area: string) => NavGrid | null,
     /** Walking speed in tiles per second. */
-    private speed: number
+    private speed: number,
+    /** Whether a neighbour has arrived in town yet (the year-one schedule); until then nobody sees them. */
+    private arrived: (id: string) => boolean = () => true
   ) {}
 
   /** The feet point for a tile: its usual spot, nudged onto open floor. */
@@ -101,7 +103,7 @@ export class Neighbours {
     }
   }
 
-  visible(view: string) { return [...this.states.values()].filter((s) => s.area === view); }
+  visible(view: string) { return [...this.states.values()].filter((s) => s.area === view && this.arrived(s.id)); }
 
   hold(id: string) { const st = this.states.get(id); if (st) { st.held = true; if (st.pose === 'walk') st.pose = 'idle'; } }
   releaseAll() { for (const st of this.states.values()) st.held = false; }

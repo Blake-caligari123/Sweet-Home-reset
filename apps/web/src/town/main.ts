@@ -37,13 +37,17 @@ async function loadPack(): Promise<TownPack | null> {
   }
 }
 
-const [pack, saved] = await Promise.all([loadPack(), loadTown()]);
+const [pack, loaded] = await Promise.all([loadPack(), loadTown()]);
+const saved = loaded.save;
 // Painted areas load (and make their grey twins) while the title shows; the game waits for them.
 const backgrounds = pack ? loadBackgrounds(pack, import.meta.env.BASE_URL) : Promise.resolve();
-if (!pack) {
-  ui.append(h('main', { class: 'screen title-screen' }, h('div', { class: 'panel title-card' }, h('h1', { class: 'logo' }, 'Sweet Home Reset'), h('p', {}, 'The town is tidying itself. Try again in a moment.'))));
-  throw new Error('pack');
+/** A title card with a note instead of a game. */
+function notice(text: string) {
+  ui.append(h('main', { class: 'screen title-screen' }, h('div', { class: 'panel title-card' }, h('h1', { class: 'logo' }, 'Sweet Home Reset'), h('p', {}, text))));
 }
+if (!pack) { notice('The town is tidying itself. Try again in a moment.'); throw new Error('pack'); }
+// A save from a newer version is left exactly as it is until this copy of the game updates.
+if (loaded.newer) { notice('Your town was saved by a newer version of the game. Update the game to keep playing.'); throw new Error('newer save'); }
 
 const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 const settings = saved?.settings ?? { sound: true, music: true, haptics: true, reducedMotion: reduced, relaxed: false, autoTool: true };
@@ -92,7 +96,7 @@ else {
     h('h1', { class: 'logo' }, h('small', {}, TUNING.townName), 'Sweet Home Reset'),
     h('p', { class: 'muted' }, 'Help a sleepy little town get its sparkle back, one messy home at a time.'),
     go,
-    h('p', { class: 'muted', style: { fontSize: '0.85rem' } }, 'Spring is free. Milestone 1 test build.')));
+    h('p', { class: 'muted', style: { fontSize: '0.85rem' } }, 'The first spring is free. Test build.')));
   go.addEventListener('click', () => { sound.unlock(); title.remove(); void start(); });
   ui.append(title);
 }

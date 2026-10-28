@@ -74,7 +74,7 @@ export class PuffActions {
     const type = mess.typeAt(t.x, t.y) as Exclude<MessType, 'none'>;
     if (type === 'none' as MessType) return;
     const need = TOOL_FOR[type];
-    if (!state.tools[need.tool]) { view.say(`Puff needs a ${TOOL_NAMES[need.tool].toLowerCase()} for that.`); return; }
+    if (!state.tools[need.tool]) { view.say(`${state.names.puff} needs a ${TOOL_NAMES[need.tool].toLowerCase()} for that.`); return; }
     if (state.tools[need.tool] < need.minTier) { view.say('That needs a Copper sponge.'); return; }
     if (settings.autoTool) this.host.select(need.tool);
     else if (this.host.selected() !== need.tool) { view.say(`Try the ${TOOL_NAMES[need.tool].toLowerCase()}.`); return; }
@@ -138,7 +138,7 @@ export class PuffActions {
         return;
       }
       case 'sleep':
-        view.confirm('Go to bed? Puff saves the day and wakes up refreshed.', 'Sleep', () => this.host.sleep());
+        view.confirm(`Go to bed? ${this.host.state.names.puff} saves the day and wakes up refreshed.`, 'Sleep', () => this.host.sleep());
         return;
       case 'sign':
         view.showDialogue(t.text ?? 'A sign.');
@@ -152,7 +152,7 @@ export class PuffActions {
         return;
       }
       case 'mailbox':
-        view.showDialogue(this.host.clock.state.day > 1 ? 'Today\'s letter is on the kitchen table. (Puff already read it.)' : 'No post yet. Maybe tomorrow!');
+        view.showDialogue(this.host.clock.state.day > 1 ? `Today's letter is on the kitchen table. (${this.host.state.names.puff} already read it.)` : 'No post yet. Maybe tomorrow!');
         return;
     }
   }
@@ -216,13 +216,13 @@ export class PuffActions {
     view.feedback('fanfare', 'success');
     puff.hop();
     for (let n = 0; n < 6; n += 1) this.host.world.sparkleBurst(puff.x - 3 + n, puff.y - 2 + (n % 3), 10);
-    view.banner(`${area.pack.name} restored!${reward ? ` +${reward} ✨` : ''}`);
+    view.banner(`${this.host.content.named(area.pack.name)} restored!${reward ? ` +${reward} ✨` : ''}`);
     this.host.guide.handle({ type: 'restored', area: id });
     if (area.pack.kind === 'home') state.flag(`restored_${id}`);
     // Every area restores once, so each gets its before-and-after clip offer: homes, the yard, the square.
     const first = !state.has('shared_prompt');
     state.flag('shared_prompt');
-    window.setTimeout(() => offerClip(view, area, first), CLIP_OFFER_MS);
+    window.setTimeout(() => offerClip(view, area, first, state.names), CLIP_OFFER_MS);
     this.host.save();
   }
 }

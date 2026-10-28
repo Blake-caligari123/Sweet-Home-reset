@@ -1,6 +1,8 @@
 # Sweet Home Reset: Game Design Document v3 (full game)
 *PixelVortex Games · v3 · 27 Oct 2026 · owner: BB Builder (merge), sections by Dev Team. Claude Code builds from this file. It supersedes GDD-v2.pdf and the v1 GAME-DESIGN.md (backup: gdd-v3/GAME-DESIGN-v1-backup.md). All numbers are design targets or playtest starting values, not measured data.*
 
+> **28 Oct 2026: `claude/VISION.md` now sits above this file.** The game never ends: each year is a chapter, and Winter Lights closes a chapter, not the game. Plus is replaced by a free first spring and one unlock. All six neighbours are in year one (Mabel is first met on day 43). Days are 8 real minutes (the first is 10). Where this file disagrees, VISION.md wins.
+
 **Rules for prompts and store copy:** never name another game in asset prompts, store text, marketing or in-game copy. Internal references in Part B (the v2 text) are allowed.
 
 ## Part A: v3 decisions and additions

@@ -42,8 +42,10 @@ town/
   game.ts       TownGame, the coordinator: wires the features together; areas, input, the day,
                 the main loop and the save
   debug.ts      the `?debug` test hooks (`window.__town`) for browser playthroughs
-  state.ts      TownState: Puff's saved progress (Sparkles, bag, Fluff, tools, flags, friends, jobs…)
-                and how it saves and loads
+  state.ts      TownState: Puff's saved progress (Sparkles, bag, Fluff, tools, flags, friends, jobs,
+                names…) and how it saves and loads
+  unlocks.ts    the year-one schedule: whether something (a neighbour, a place) has arrived yet, from
+                the day and story flags only (`tuning.unlocks`); never a purchase
   data/         the pack schema and validation (area.ts), save format and migrations (save.ts),
                 tuning.json access (tuning.ts), pack lookups (content.ts), the test pack loader
   world/        drawing and walking: world.ts (Pixi stage), alive.ts (lamps, sunbeams, the cat…),
@@ -52,7 +54,8 @@ town/
     art/          code-drawn placeholders: texture.ts (tile size, noise, dither), ground.ts,
                   props.ts, items.ts (mess, item icons, crops), characters.ts (Puff, neighbours)
   play/         core rules: mess.ts (mess, colour, restore), bag.ts, fluff.ts, clock.ts,
-                pickups.ts, onboarding.ts (tip rules), letter.ts (morning letter and real chore);
+                pickups.ts, onboarding.ts (tip rules), letter.ts (morning letter and real chore),
+                names.ts (the player's names for Puff and the town: `{puff}`, `{town}` in text);
                 Puff in play: puff.ts (position, facing), targets.ts (what a tap lands on),
                 actions.ts (cleaning, furniture, soil, pickups, doors), onboarding-guide.ts
                 (runs the tips: tools, highlights); gestures.ts (tap, rub, drag); a home coming
@@ -62,11 +65,9 @@ town/
                 Friends UI)
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
   shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
-  plus/         plus.ts: the M2 Plus stub (test builds have everything; `?plus=0` shows the free
-                game, with Otto, Moss and Mabel as silhouettes); real entitlement comes in M5
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
-                the tool bar), pointer-input.ts (fingers on the world), bag-sheet.ts,
-                pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css
+                the tool bar), pointer-input.ts (fingers on the world), keyboard.ts, bag-sheet.ts,
+                naming-sheet.ts, pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css
 ```
 
 ### How the pieces talk

@@ -56,6 +56,13 @@ describe('neighbours in the world', () => {
     expect(navOf('bakery')!.openAt(s.fx, s.fy)).toBe(true);
   });
 
+  it('are not seen anywhere until they have arrived in town', () => {
+    const n = new Neighbours([pip], pack.areas, navOf, 2.5, (id) => id !== 'pip');
+    n.place(910);
+    expect(n.visible('bakery')).toEqual([]);
+    expect(n.states.get('pip')?.area).toBe('bakery'); // still keeping their routine, out of sight
+  });
+
   it('walk to their next stop in the same area instead of jumping', () => {
     const n = sim();
     n.place(910);

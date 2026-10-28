@@ -1,6 +1,6 @@
 {
-  "dayRealMinutes": 10,
-  "firstDayRealMinutes": 12,
+  "dayRealMinutes": 8,
+  "firstDayRealMinutes": 10,
   "dayRealMinutesTest": [
     8,
     10
@@ -79,5 +79,10 @@
   "putAwaySparkles": 5,
   "cropDays": {
     "radish": 3
+  },
+  "unlocks": {
+    "mabel": {
+      "day": 43
+    }
   }
 }

@@ -1,10 +1,12 @@
 import { localDate } from '../../shared/date';
 import type { AreaMess } from '../play/mess';
+import { DEFAULT_NAMES, type Names } from '../play/names';
 import type { RequestState } from '../requests/requests';
 
 // One versioned save (BACKEND-PLAN "Saves"): `shr` IndexedDB, `saves` store, slots main + backup.
 // Backup is written first, then main; a corrupt main loads the backup. Unknown fields are kept.
-export const SCHEMA_VERSION = 2;
+// Schema 3 is "save v2" in NEW-FEATURES §7.
+export const SCHEMA_VERSION = 3;
 export const CATALOGUE_VERSION = 1;
 
 export interface TownSave {
@@ -37,6 +39,8 @@ export interface TownSave {
   requests?: RequestState;
   /** The last kind of mess cleaned today, for the morning letter. */
   lastClean?: string;
+  /** What the player called Puff and the town. */
+  names: Names;
   /** The tool in Puff's paws. */
   selected?: string;
   settings: { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; relaxed: boolean; autoTool: boolean };
@@ -51,7 +55,9 @@ export type Migration = (save: Record<string, unknown>) => Record<string, unknow
 /** migrations[n] upgrades a save at version n to n + 1. */
 export const MIGRATIONS: Record<number, Migration> = {
   // M2: neighbours arrive.
-  1: (s) => ({ ...s, friends: {} })
+  1: (s) => ({ ...s, friends: {} }),
+  // Phase 0: the player names Puff and the town; older games keep the usual names.
+  2: (s) => ('names' in s ? {} : { names: { ...DEFAULT_NAMES } })
 };
 
 export function migrate(raw: unknown, migrations: Record<number, Migration> = MIGRATIONS, target = SCHEMA_VERSION): TownSave | null {
@@ -74,17 +80,24 @@ export function isSave(s: Record<string, unknown>) {
 }
 
 /**
- * The newest of the slots that load cleanly (the earlier slot on a tie: main, backup, quick),
- * else nothing (a fresh game). Autosaves write only the backup and leaving the page writes the
- * quick copy, so after a bedtime main is usually the oldest.
+ * The newest of the slots that load cleanly (the earlier slot on a tie: main, backup, quick), with
+ * the slot as it was stored, else nothing (a fresh game). Autosaves write only the backup and
+ * leaving the page writes the quick copy, so after a bedtime main is usually the oldest.
  */
-export function pickSave(...slots: unknown[]) {
-  let best: TownSave | null = null;
+export function newestSlot(slots: unknown[]) {
+  let best: { save: TownSave; raw: unknown } | null = null;
   for (const raw of slots) {
-    const s = migrate(raw);
-    if (s && (!best || Date.parse(s.savedAt) > Date.parse(best.savedAt))) best = s;
+    const save = migrate(raw);
+    if (save && (!best || Date.parse(save.savedAt) > Date.parse(best.save.savedAt))) best = { save, raw };
   }
   return best;
+}
+
+export function pickSave(...slots: unknown[]) { return newestSlot(slots)?.save ?? null; }
+
+/** A slot written by a newer version of the game: this one mustn't load it or write over it. */
+export function fromNewerVersion(...slots: unknown[]) {
+  return slots.some((s) => !!s && typeof s === 'object' && Number((s as TownSave).schemaVersion) > SCHEMA_VERSION);
 }
 
 export function stamp(save: Omit<TownSave, 'savedAt' | 'localDate' | 'schemaVersion' | 'catalogueVersion'> & Partial<TownSave>): TownSave {
@@ -118,10 +131,11 @@ async function get(db: IDBDatabase, key: string) {
   });
 }
 
+/** Write a slot; `undefined` removes it. */
 async function put(db: IDBDatabase, key: string, value: unknown) {
   return new Promise<void>((resolve, reject) => {
     const tx = db.transaction(STORE, 'readwrite');
-    tx.objectStore(STORE).put(value, key);
+    if (value === undefined) tx.objectStore(STORE).delete(key); else tx.objectStore(STORE).put(value, key);
     tx.oncomplete = () => resolve(); tx.onerror = () => reject(tx.error); tx.onabort = () => reject(tx.error);
   });
 }
@@ -131,15 +145,33 @@ function stored(key: string): unknown {
   try { return JSON.parse(localStorage.getItem(`shr:${key}`) ?? 'null'); } catch { return null; }
 }
 
-export async function loadTown(): Promise<TownSave | null> {
+/** The save to play, or nothing for a new game; `newer` when the save is from a newer version of the game. */
+export interface Loaded { save: TownSave | null; newer: boolean }
+
+/** Before a save is first upgraded, its old form is kept until the next bedtime, in case the upgrade goes wrong. */
+const PRE_UPGRADE = 'pre-upgrade';
+
+export async function loadTown(): Promise<Loaded> {
+  let slots: unknown[];
+  let db: IDBDatabase | null = null;
   try {
-    const db = await open();
-    const [main, backup] = await Promise.all([get(db, 'main'), get(db, 'backup')]);
-    db.close();
-    return pickSave(main, backup, stored('quick'));
+    db = await open();
+    slots = [...await Promise.all([get(db, 'main'), get(db, 'backup')]), stored('quick')];
   } catch {
-    return pickSave(stored('main'), stored('backup'), stored('quick'));
+    slots = [stored('main'), stored('backup'), stored('quick')];
   }
+  if (fromNewerVersion(...slots)) { frozen = true; db?.close(); return { save: null, newer: true }; }
+  const best = newestSlot(slots);
+  if (best && Number((best.raw as TownSave).schemaVersion) < SCHEMA_VERSION) await keepPreUpgrade(db, best.raw);
+  db?.close();
+  return { save: best?.save ?? null, newer: false };
+}
+
+async function keepPreUpgrade(db: IDBDatabase | null, raw: unknown) {
+  try {
+    if (db) { if (!await get(db, PRE_UPGRADE)) await put(db, PRE_UPGRADE, raw); }
+    else if (!stored(PRE_UPGRADE)) localStorage.setItem(`shr:${PRE_UPGRADE}`, JSON.stringify(raw));
+  } catch { /* no room for the extra copy: the save itself is untouched */ }
 }
 
 /**
@@ -147,29 +179,38 @@ export async function loadTown(): Promise<TownSave | null> {
  * localStorage, which is written at once. Loading takes whichever copy is newest.
  */
 export function writeQuick(save: TownSave) {
-  if (erased) return;
+  if (frozen) return;
   try { localStorage.setItem('shr:quick', JSON.stringify(save)); } catch { /* storage full or blocked: the autosave still stands */ }
 }
 
-/** Bedtime writes both slots; autosaves write only the backup. Backup always goes first. */
+/**
+ * Bedtime writes both slots (and lets the pre-upgrade copy go: the upgraded save has now made it
+ * through a whole day); autosaves write only the backup. Backup always goes first.
+ */
 export async function writeTown(save: TownSave, bedtime: boolean) {
-  if (erased) return;
+  if (frozen) return;
   const plain = JSON.parse(JSON.stringify(save));
   try {
     const db = await open();
     await put(db, 'backup', plain);
-    if (bedtime) await put(db, 'main', plain);
+    if (bedtime) { await put(db, 'main', plain); await put(db, PRE_UPGRADE, undefined); }
     db.close();
   } catch {
-    try { localStorage.setItem('shr:backup', JSON.stringify(plain)); if (bedtime) localStorage.setItem('shr:main', JSON.stringify(plain)); } catch { /* keep playing */ }
+    try {
+      localStorage.setItem('shr:backup', JSON.stringify(plain));
+      if (bedtime) { localStorage.setItem('shr:main', JSON.stringify(plain)); localStorage.removeItem(`shr:${PRE_UPGRADE}`); }
+    } catch { /* keep playing */ }
   }
 }
 
-/** Set once the save is erased: nothing is written again before the page reloads into a new game. */
-let erased = false;
+/**
+ * Nothing is written: the save was erased (until the page reloads into a new game), or it's from
+ * a newer version of the game and must stay as it is.
+ */
+let frozen = false;
 
 export async function eraseTown() {
-  erased = true;
+  frozen = true;
   try { indexedDB.deleteDatabase(DB); } catch { /* ignore */ }
-  try { for (const k of ['main', 'backup', 'quick']) localStorage.removeItem(`shr:${k}`); } catch { /* ignore */ }
+  try { for (const k of ['main', 'backup', 'quick', PRE_UPGRADE]) localStorage.removeItem(`shr:${k}`); } catch { /* ignore */ }
 }

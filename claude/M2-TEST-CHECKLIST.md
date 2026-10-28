@@ -16,7 +16,7 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Say hello to Hazel in the bakery and get a Berry tart. Eat it from the Bag.
 - [ ] Take Hazel's counter job from the notice board, then dust her counter.
 - [ ] Meet Bea and Pip on Neighbour Lane, through the square's east gate. If Pip's asleep, he says when he's up.
-- [ ] Day 1 lasts about 12 minutes. Near 1 am Puff says "Head home to bed."
+- [ ] Day 1 lasts about 10 minutes; later days about 8. Near 1 am Puff says "Head home to bed."
 - [ ] Sleep. The Day 2 letter mentions what you cleaned.
 - [ ] Day 2: the radishes have sprouted and the General Store is open.
 - [ ] Doing things out of order (for example, Bea before Hazel) never gets the tips stuck.
@@ -75,12 +75,13 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] **Mabel:** walks into the square around 6 pm and sits by the east bench until 1 am.
 - [ ] Their jobs show up on the board. Otto's only appear from day 3.
 
-## 11. Plus stub (step 9)
-- [ ] Add `?plus=0` to the end of the link:
-  - Otto, Moss and Mabel are grey silhouettes.
-  - Tapping one says "Someone new! We'll say hello another day."
-  - None of their jobs appear on the board.
-  - There's no paywall anywhere.
+## 11. Phase 0: names, Mabel, sleepy bar
+- [ ] A new game asks for names first (Puff and Hollowfern are filled in). Your names show in the tracker, Puff's lines, the letter sign-off, area names ("…'s burrow") and the share text.
+- [ ] Pause → ✎ Names changes them. An empty box goes back to the usual name.
+- [ ] Mabel isn't in the square before day 43, and none of her jobs appear until then. If you met her in an older test save, she's still there.
+- [ ] Otto and Moss are there from the start, in colour (no silhouettes).
+- [ ] Below 20 Fluff, the bar turns peach and breathes gently, and Puff says "Feeling sleepy... a snack would help." With Reduce motion on, it stays still.
+- [ ] An old save loads with all its progress and the usual names.
 
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.

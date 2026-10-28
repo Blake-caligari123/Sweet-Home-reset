@@ -4,6 +4,15 @@ Drafted from `claude/STORY.md` for Blake to review (M2 step 2). Edit any line he
 
 How a line is chosen: the most specific one that fits wins (a story moment, then hearts, weather, season, time of day), skipping the last 5 heard. The first chat each day gives +1 friendship; later chats that day use the short "second chat" lines.
 
+## New in Phase 0 (28 Oct 2026): names and a sleepy Puff
+Players name Puff and the town at the start (and from Pause → Names). Lines say `{puff}` and `{town}`, filled in with the player's names (Puff and Hollowfern unless they change them), so every line that used to say "Puff" or "Hollowfern" now follows the player's choice.
+- Naming sheet: **Names** · "Call them anything you like. You can change these later in the pause menu." · *Your dust bunny* · *Your town* · **Done**
+- Low Fluff (under 20), once each time: "Feeling sleepy... a snack would help."
+- Late-night note: "Getting late. Time to head home to bed." (was "Puff could head home to bed")
+- Title screen: "The first spring is free. Test build."
+- A save from a newer version: "Your town was saved by a newer version of the game. Update the game to keep playing."
+- Gone: "Someone new! We'll say hello another day." (the Plus silhouettes). Mabel simply isn't in town until day 43.
+
 ## Hazel
 
 **First hello**

@@ -1,16 +1,18 @@
 import { makeClip, shareFile } from '../../shared/share/clip';
 import { h } from '../../shared/ui/dom';
 import type { Area } from '../data/area';
+import { withNames, type Names } from '../play/names';
 import { bakeArea } from '../world/bake';
 import { drawMess } from '../world/art/items';
 import { T } from '../world/art/texture';
 import type { View } from './view';
 
 /** After an area is restored (a home, the yard, the square): offer a before-and-after clip, made on the device (GDD v3 A2, A11.5). */
-export function offerClip(view: View, area: Area, first: boolean) {
+export function offerClip(view: View, area: Area, first: boolean, names: Names) {
+  const title = withNames(area.pack.name, names);
   let file: File | null = null;
   view.hold();
-  const status = h('p', {}, first ? 'Your first reset! Save or share it?' : `${area.pack.name} is sparkling. Save or share it?`);
+  const status = h('p', {}, first ? 'Your first reset! Save or share it?' : `${title} is sparkling. Save or share it?`);
   const make = h('button', { class: 'btn primary', type: 'button' }, '🎬 Make my clip');
   const later = h('button', { class: 'btn', type: 'button', 'data-close': '' }, 'Not now');
   const sheet = h('div', { class: 'scrim', 'data-sheet': '' }, h('div', { class: 'panel sheet' }, h('h2', {}, 'Before and after'), status, h('div', { class: 'btn-row', style: { width: '100%' } }, make, later)));
@@ -18,11 +20,11 @@ export function offerClip(view: View, area: Area, first: boolean) {
   later.addEventListener('click', () => { view.uiTap(); close(); });
   make.addEventListener('click', async () => {
     view.uiTap();
-    if (file) { await shareFile(file, `I restored ${area.pack.name} in Hollowfern ✨ #SweetHomeReset`); return; }
+    if (file) { await shareFile(file, `I restored ${title} in ${names.town} ✨ #SweetHomeReset`); return; }
     make.disabled = true; make.textContent = 'Making your clip…';
     try {
       const { before, after } = beforeAfter(area);
-      file = await makeClip({ before, after, title: area.pack.name, outfit: null });
+      file = await makeClip({ before, after, title, outfit: null });
       make.textContent = '📤 Share my clip';
     } catch { make.textContent = 'Clip didn\'t work this time'; }
     make.disabled = false;
