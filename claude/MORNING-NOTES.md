@@ -6,13 +6,17 @@ You said to carry on without asking. I've merged each slice to the test link onc
 | PR | What | Test steps |
 |---|---|---|
 | #40 | **Phase 1 finished:** hold, circle and sweep gestures; light mess drifting back into restored rooms overnight | checklist §11f |
-| #41 | **Phase 2a:** twigs and pebbles to forage; Pip's workbench; Copper duster, sponge and rake; charged hold clean | checklist §11g |
-| #47 | **Phase 2g:** building upgrades (cosy bench, big flower bed, twin lamp) | checklist §11m |
-| #46 | **Phase 2f:** free decor outdoors: flower pots, lanterns, little fences, stone paths. Place from the bag, pick up any time; never blocks the way | checklist §11l |
-| #45 | **Phase 2e:** six earned outfits (bow, Keeper's badge, scarf, berry hat, flower crown, star clip), worn on Puff; pick them in Pause → 👒 Outfits | checklist §11k |
-| #44 | **Phase 2d:** Town Bloom levels (pause menu, banners, the lamppost needs Bloom 2); surprise finds every 8 cleans; Moss's collection on his library table | checklist §11j |
-| #43 | **Phase 2c:** cooking in the burrow kitchen: veggie soup, pea fritters, and a Berry tart after Hazel's 2-heart scene | checklist §11i |
-| #42 | **Phase 2b:** carrots, peas and strawberries (strawberries grow back); pick your seeds; sell them all | checklist §11h |
+| #41 | **2a:** twigs and pebbles to forage; Pip's workbench; Copper duster, sponge and rake; charged hold clean | §11g |
+| #42 | **2b:** carrots, peas and strawberries (strawberries grow back); pick your seeds; sell them all | §11h |
+| #43 | **2c:** cooking in the burrow kitchen: veggie soup, pea fritters, and a Berry tart after Hazel's 2-heart scene | §11i |
+| #44 | **2d:** Town Bloom levels (pause menu, banners; the lamppost needs Bloom 2); surprise finds every 8 cleans; Moss's collection on his library table | §11j |
+| #45 | **2e:** six earned outfits (bow, Keeper's badge, scarf, berry hat, flower crown, star clip), worn on Puff; Pause → 👒 Outfits | §11k |
+| #46 | **2f:** free decor outdoors (flower pots, lanterns, little fences, stone paths); place from the bag, pick up any time; never blocks the way | §11l |
+| #47 | **2g:** building upgrades (cosy bench, big flower bed, twin lamp) | §11m |
+
+## Phase 2: what's left
+- **A greenhouse and the burrow growing (new rooms).** Both look best as Grok paintings, like the burrow and bakery, so I've held them for your art. See the questions below.
+- Everything else in the Phase 2 plan is in.
 
 ## Decisions I made (easy to change)
 - **Copper tools:** crafted at Pip's table in his workshop. Pip's the tinkerer, and the workshop is code-drawn, so it was easy to add.
@@ -39,4 +43,15 @@ You said to carry on without asking. I've merged each slice to the test link onc
   - Copper rake
 
 ## Questions for you
-- None that blocked me. Anything you'd like changed, just say.
+1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
+2. **Greenhouse:**
+   - Option 1: a painted interior, like the bakery.
+   - Option 2: a code-drawn building on a yard plot, which I could do straight away.
+3. Anything you'd like changed from tonight, just say.
+
+## Next, unless you say otherwise
+Phase 3:
+- Mabel's bottle letters from day 10
+- the caves under the fountain
+- Sorrel's invite
+- the footbridge repair
