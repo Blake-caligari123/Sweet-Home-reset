@@ -105,3 +105,10 @@ export function withBuilds(pack: AreaPack, defs: PlotDef[], plots: Record<string
   const map = pack.map.map((row, y) => [...row].map((ch, x) => mended.find(({ d, b }) => b.paves && on(x, y, d))?.b.paves ?? ch).join(''));
   return { ...pack, map, props: [...pack.props.filter((p) => !used.some((d) => on(p.x, p.y, d))), ...extra], doors: [...pack.doors, ...mended.flatMap(({ b }) => b.doors ?? [])] };
 }
+
+/** The areas with a finished building that has this effect (a greenhouse's garden). */
+export function areasWith(effect: BuildingDef['effect'], plots: Record<string, PlotState>, defs: PlotDef[], catalogue: BuildingDef[]) {
+  return new Set(Object.entries(plots)
+    .filter(([, p]) => p.stage >= DONE && catalogue.find((b) => b.id === p.buildingId)?.effect === effect)
+    .map(([id]) => defs.find((d) => d.id === id)?.area));
+}

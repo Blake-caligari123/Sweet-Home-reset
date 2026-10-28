@@ -227,6 +227,19 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] A little mud drifts into restored outdoor places overnight instead of weeds (rake it).
 - [ ] Neighbours use their rainy-day lines.
 
+## 12b. Phase 4b: the seasons turn
+- [ ] Day 15 brings "Summer in Hollowfern! New seeds at the shops.", then autumn on day 29, winter on day 43, and spring again on day 57 (a new year).
+- [ ] Outdoors: summer looks like spring with warmer light; in autumn the greens turn golden with falling leaves; winter is snowy, with snowflakes instead of petals or fireflies.
+- [ ] Crops grow only in their seasons:
+  - radish in spring
+  - carrot in spring and autumn
+  - peas and strawberries in spring and summer
+  - tomato and corn in summer
+  - pumpkin in autumn
+- [ ] Out of season a crop just rests and keeps its progress. With a finished greenhouse, the yard grows anything any time.
+- [ ] Shops only sell seeds that grow that season (none outdoors in winter). Planting seeds out of season says they rest till their season.
+- [ ] Each neighbour has a line for summer, autumn and winter.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

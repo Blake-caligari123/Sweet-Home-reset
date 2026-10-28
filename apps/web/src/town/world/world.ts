@@ -10,6 +10,7 @@ import { AliveLayer, daylight } from './alive';
 import { Ambience, drawTapRing, vignetteTexture } from './ambience';
 import type { Area } from '../data/area';
 import { bakeArea } from './bake';
+import { seasonal } from './art/seasons';
 import { paintedArea } from './backgrounds';
 import { FULL_COLOUR, type AreaMess } from '../play/mess';
 import { blinkClip, breathScale, CLIP_FPS, messSprite, neighbourClip, puffClip, type SpriteBank } from './sprites';
@@ -76,6 +77,9 @@ export interface PuffView { x: number; y: number; dir: Dir; pose: 'walk' | 'idle
 /** A neighbour to draw: x, y is the bottom-centre of their sprite in world px. */
 export interface NeighbourView { id: string; species: string; colours: { fur: string; belly: string; accent: string }; x: number; y: number; dir: Dir; pose: 'walk' | 'idle' | 'sleep' }
 
+/** Midday light outdoors per season (spring is the plain day). */
+const SEASON_LIGHT: Record<string, [string, number]> = { Summer: [P.butterLight, 0.1], Autumn: [P.peach, 0.12], Winter: [P.blueLight, 0.16] };
+
 export class World {
   readonly root = new Container();
   private backdrop = new Graphics();
@@ -139,7 +143,7 @@ export class World {
       colourTex = painted.colour; drainTex = painted.drained; k = painted.scale;
     } else {
       const { colour, drained } = bakeArea(area);
-      colourTex = toTexture(colour); drainTex = toTexture(drained);
+      colourTex = toTexture(area.pack.kind === 'outdoor' ? seasonal(colour, this.ambience.season) : colour); drainTex = toTexture(drained);
       this.owned.push(colourTex, drainTex);
     }
     this.base.texture = colourTex;
@@ -252,12 +256,16 @@ export class World {
     drawTapRing(this.marker, this.markerAt.x, this.markerAt.y, 0);
   }
 
-  /** Time-of-day tint over the world only (never the HUD); a rainy day is cooler and greyer outdoors. */
+  /** The season and whether it's raining, for the outdoor tint and what drifts through the air. */
+  setSky(season: string, rainy: boolean) { this.ambience.season = season; this.ambience.rainy = rainy; }
+
+  /** Time-of-day tint over the world only (never the HUD); outdoors, rain is cooler and each season has its light. */
   setTint(minutes: number) {
     this.ambience.minutes = minutes;
     const h = minutes / 60;
+    const out = this.area?.pack.kind === 'outdoor' && h >= 8 && h < 16;
     const wet = this.ambience.rainy && this.area?.pack.kind === 'outdoor' && h < 19;
-    const [colour, alpha] = wet ? [P.blueShade, 0.24] : h < 8 ? [P.butter, 0.14] : h < 16 ? [P.white, 0] : h < 19 ? [P.peach, 0.16] : h < 21 ? [P.peachShade, 0.22] : [P.blueShade, 0.34];
+    const [colour, alpha] = wet ? [P.blueShade, 0.24] : out && SEASON_LIGHT[this.ambience.season] ? SEASON_LIGHT[this.ambience.season] : h < 8 ? [P.butter, 0.14] : h < 16 ? [P.white, 0] : h < 19 ? [P.peach, 0.16] : h < 21 ? [P.peachShade, 0.22] : [P.blueShade, 0.34];
     this.tint.clear();
     if (this.area && alpha > 0) this.tint.rect(0, 0, this.area.w * T, this.area.h * T).fill({ color: colour, alpha });
   }

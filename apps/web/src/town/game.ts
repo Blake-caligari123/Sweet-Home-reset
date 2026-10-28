@@ -45,6 +45,7 @@ import { openPause } from './ui/pause-menu';
 import { PointerInput } from './ui/pointer-input';
 import { View, type Settings } from './ui/view';
 import { isUnlocked } from './unlocks';
+import { morningNews } from './play/weather';
 import { T } from './world/art/texture';
 import { FEET, REACH, type Pt } from './world/nav';
 import { setIconBank, type SpriteBank } from './world/sprites';
@@ -219,6 +220,7 @@ export class TownGame {
     // Stand at the tile's usual spot (or a saved exact spot), nudged onto open floor if needed.
     const spot = this.nav.nearestOpen(feet && this.nav.openAt(feet.x, feet.y) ? feet : { x: x * T + T / 2, y: y * T + FEET }) ?? { x: x * T + T / 2, y: y * T + FEET };
     this.puff.standAt(spot);
+    this.world.setSky(this.clock.season, this.clock.weather === 'rainy');
     this.world.load(this.area, this.mess);
     this.homeLife.enter(id, this.area.pack.alive ?? [], this.tidiness);
     this.grumbles.entered();
@@ -339,7 +341,7 @@ export class TownGame {
     await wait(this.settings.reducedMotion ? 200 : 900);
     this.clock.nextDay();
     this.jobs.post();
-    const built = overnight(state, { buildings: this.content.pack.buildings ?? [], plots: this.content.pack.plots ?? [], outdoor: new Set(this.content.pack.areas.filter((a) => a.kind === 'outdoor').map((a) => a.id)) }, this.clock.state.day - 1, dozed, this.clock.weather === 'rainy');
+    const built = overnight(state, { buildings: this.content.pack.buildings ?? [], plots: this.content.pack.plots ?? [], outdoor: new Set(this.content.pack.areas.filter((a) => a.kind === 'outdoor').map((a) => a.id)), crops: this.content.pack.crops }, this.clock.state.day - 1, dozed, this.clock.weather === 'rainy');
     this.places.rebuild(this.state);
     this.places.driftBack(this.clock.state.day, this.clock.weather === 'rainy');
     this.grumbles.newDay(this.clock.state.day);
@@ -355,7 +357,7 @@ export class TownGame {
     this.guide.handle({ type: 'slept' });
     this.refreshHud();
     morningLetter({ state, view, clock: this.clock, refreshHud: () => this.refreshHud() });
-    if (this.clock.weather === 'rainy') view.say(this.content.line('weather.rain') ?? '');
+    for (const [kind, id] of morningNews(this.clock)) (kind === 'banner' ? view.banner : view.say).call(view, (this.content.line(id) ?? '').replace('{town}', state.names.town));
     for (const b of built) view.banner(b.home ? this.content.line(`home.${b.home}`) ?? '' : (this.content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
   }
 
@@ -419,7 +421,7 @@ export class TownGame {
     const p = this.puff;
     if (!this.view.busy && !this.fading) {
       for (const e of this.clock.advance(dt)) {
-        if (e === 'tick') { this.world.ambience.rainy = this.clock.weather === 'rainy'; this.world.setTint(this.clock.state.minutes); }
+        if (e === 'tick') { this.world.setSky(this.clock.season, this.clock.weather === 'rainy'); this.world.setTint(this.clock.state.minutes); }
         if (e === 'late') { this.hud.setLate(true); this.view.say(`${this.state.names.puff}'s getting sleepy. Head home to bed.`); }
         if (e === 'doze' && !this.settings.relaxed) void this.endDay(true);
       }

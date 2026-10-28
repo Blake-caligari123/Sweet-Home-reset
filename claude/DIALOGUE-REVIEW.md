@@ -203,6 +203,37 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 ## New in Phase 4a (29 Oct): rain
 - `weather.rain`: Rain today! The garden gets a drink. No watering.
 
+## New in Phase 4b (29 Oct): seasons (proposed)
+- `crop.tomato.harvest`: A tomato! Warm from the sun. More will grow back.
+- `crop.corn.harvest`: Corn! Tall and golden.
+- `crop.pumpkin.harvest`: A pumpkin! So round and orange.
+- `crop.offseason`: These seeds rest till their season. Or try a greenhouse!
+- `season.summer`: Summer in {town}! New seeds at the shops.
+- `season.autumn`: Autumn in {town}! Leaves and pumpkins.
+- `season.winter`: Winter in {town}! Snug and snowy.
+- `season.spring`: Spring again! A new year in {town}.
+- `hazel.summer.1`: Too hot for the oven! I'm baking anyway, petal.
+- `hazel.autumn.1`: Pumpkin buns season! My favourite, petal.
+- `hazel.winter.1`: Warm bread on a cold day. Nothing better, petal.
+- `bea.summer.1`: Bzz! The flowers are showing off today.
+- `bea.autumn.1`: Bzz... the bees are getting sleepy. Me too.
+- `bea.winter.1`: Winter flowers are brave little things. Bzz.
+- `pip.summer.1`: Too hot to tinker! I'm tinkering in the shade.
+- `pip.autumn.1`: Leaves in my gears again! Every autumn.
+- `pip.winter.1`: Cold fingers, warm workshop. I've got a stove!
+- `otto.summer.1`: Summer swims! Well, paddles. Heh.
+- `otto.autumn.1`: The river's full of leaves. Little boats! Heh.
+- `otto.winter.1`: The bathhouse is the warmest place in town. Heh.
+- `moss.summer.1`: Sun! Too much. I'll stay with my books.
+- `moss.autumn.1`: Autumn is for reading. So is everything.
+- `moss.winter.1`: Snow outside, stories inside. Perfect.
+- `mabel.summer.1`: Long summer evenings. Hoo. Good for stars.
+- `mabel.autumn.1`: The wind's turning. Hoo. Hold on to your hat.
+- `mabel.winter.1`: The sea is grey and grand in winter. Hoo.
+- `sorrel.summer.1`: My first summer here! Is it always this sunny?
+- `sorrel.autumn.1`: Acorn season! I'm SO busy. Happy busy!
+- `sorrel.winter.1`: I've stored enough acorns for ten winters!
+
 ## Hazel
 
 **First hello**

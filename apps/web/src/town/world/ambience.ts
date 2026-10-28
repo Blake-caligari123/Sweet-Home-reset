@@ -11,7 +11,7 @@ export const AMBIENT_MAX = 22;
 export const isNight = (minutes: number) => minutes >= 19 * 60 || minutes < 6 * 60;
 const isDusk = (minutes: number) => minutes >= 18 * 60 || minutes < 6 * 60 + 30;
 
-type Mote = 'petal' | 'firefly' | 'dust' | 'rain';
+type Mote = 'petal' | 'firefly' | 'dust' | 'rain' | 'leaf' | 'snow';
 const RAIN_MAX = 90;
 interface Drifter { sprite: Sprite; kind: Mote; x: number; y: number; vx: number; vy: number; phase: number; age: number; life: number }
 
@@ -22,7 +22,8 @@ function textures() {
   const fly = new PixelCanvas(3, 3); fly.set(1, 0, P.white); fly.set(0, 1, P.white); fly.set(1, 1, P.white); fly.set(2, 1, P.white); fly.set(1, 2, P.white);
   const dust = new PixelCanvas(1, 1); dust.set(0, 0, P.white);
   const rain = new PixelCanvas(1, 6); for (let y = 0; y < 6; y += 1) rain.set(0, y, P.white);
-  shapes = { petal: toTexture(petal), firefly: toTexture(fly), dust: toTexture(dust), rain: toTexture(rain) };
+  const flake = new PixelCanvas(2, 2); flake.rect(0, 0, 2, 2, P.white);
+  shapes = { petal: toTexture(petal), firefly: toTexture(fly), dust: toTexture(dust), rain: toTexture(rain), leaf: toTexture(petal), snow: toTexture(flake) };
   return shapes;
 }
 
@@ -64,6 +65,7 @@ export class Ambience {
   private clock = 0;
   minutes = 12 * 60;
   rainy = false;
+  season = 'Spring';
   reducedMotion = false;
 
   constructor() {
@@ -98,7 +100,9 @@ export class Ambience {
     if (this.area.pack.kind === 'home') return 'dust';
     if (this.area.pack.kind === 'cave') return null;
     if (this.rainy) return 'rain';
-    return isNight(this.minutes) ? 'firefly' : 'petal';
+    if (this.season === 'Winter') return 'snow';
+    if (isNight(this.minutes)) return 'firefly';
+    return this.season === 'Autumn' ? 'leaf' : 'petal';
   }
 
   private release(d: Drifter) { this.container.removeChild(d.sprite); this.pool.push(d.sprite); }
@@ -111,16 +115,17 @@ export class Ambience {
     sprite.texture = textures()[kind];
     sprite.anchor.set(0.5);
     sprite.alpha = 0;
-    sprite.tint = kind === 'rain' ? P.blueShade : kind === 'petal' ? [P.white, P.peachLight, P.peach, P.butterLight][Math.floor(Math.random() * 4)] : kind === 'firefly' ? P.butterLight : P.white;
+    sprite.tint = kind === 'leaf' ? [P.peach, P.peachShade, P.butter, P.butterShade][Math.floor(Math.random() * 4)] : kind === 'snow' ? P.white : kind === 'rain' ? P.blueShade : kind === 'petal' ? [P.white, P.peachLight, P.peach, P.butterLight][Math.floor(Math.random() * 4)] : kind === 'firefly' ? P.butterLight : P.white;
     sprite.blendMode = kind === 'firefly' ? 'add' : 'normal';
     this.container.addChild(sprite);
-    const x = kind === 'petal' && !anywhere ? -8 + Math.random() * w * 0.6 : Math.random() * w;
-    const y = (kind === 'petal' || kind === 'rain') && !anywhere ? -8 : Math.random() * h;
+    const drifts = kind === 'petal' || kind === 'leaf';
+    const x = drifts && !anywhere ? -8 + Math.random() * w * 0.6 : Math.random() * w;
+    const y = (drifts || kind === 'rain' || kind === 'snow') && !anywhere ? -8 : Math.random() * h;
     const d: Drifter = {
       sprite, kind, x, y, phase: Math.random() * Math.PI * 2, age: anywhere ? Math.random() * 3000 : 0,
-      vx: kind === 'rain' ? -8 : kind === 'petal' ? 8 + Math.random() * 6 : (Math.random() - 0.5) * 4,
-      vy: kind === 'rain' ? 150 + Math.random() * 40 : kind === 'petal' ? 7 + Math.random() * 5 : kind === 'dust' ? -1.5 - Math.random() * 1.5 : (Math.random() - 0.5) * 4,
-      life: kind === 'rain' ? (h / 160) * 1000 + 400 : kind === 'petal' ? 14000 : 6000 + Math.random() * 5000
+      vx: kind === 'rain' ? -8 : kind === 'snow' ? -2 + Math.random() * 4 : drifts ? 8 + Math.random() * 6 : (Math.random() - 0.5) * 4,
+      vy: kind === 'rain' ? 150 + Math.random() * 40 : kind === 'snow' ? 10 + Math.random() * 6 : drifts ? 7 + Math.random() * 5 : kind === 'dust' ? -1.5 - Math.random() * 1.5 : (Math.random() - 0.5) * 4,
+      life: kind === 'rain' ? (h / 160) * 1000 + 400 : drifts || kind === 'snow' ? 14000 : 6000 + Math.random() * 5000
     };
     this.live.push(d);
   }
@@ -134,7 +139,7 @@ export class Ambience {
     }
     if (this.reducedMotion) { if (this.live.length) { for (const d of this.live) this.release(d); this.live = []; } return; }
     this.spawnMs -= dt;
-    if (this.spawnMs <= 0) { this.spawn(); this.spawnMs = this.kind() === 'rain' ? 20 : this.kind() === 'petal' ? 650 : 420; }
+    if (this.spawnMs <= 0) { this.spawn(); this.spawnMs = this.kind() === 'rain' ? 20 : this.kind() === 'snow' ? 260 : this.kind() === 'petal' || this.kind() === 'leaf' ? 650 : 420; }
     const s = dt / 1000;
     const want = this.kind();
     for (let i = this.live.length - 1; i >= 0; i -= 1) {
@@ -143,9 +148,10 @@ export class Ambience {
       // Motes of the wrong kind (dusk fell, or day broke) fade out early.
       if (d.age >= d.life || (d.kind !== want && d.age < d.life - 800)) d.age = Math.max(d.age, d.life - 800);
       if (d.age >= d.life) { this.release(d); this.live.splice(i, 1); continue; }
-      d.phase += s * (d.kind === 'petal' ? 2.4 : 1.1);
+      const petalish = d.kind === 'petal' || d.kind === 'leaf';
+      d.phase += s * (petalish ? 2.4 : 1.1);
       const sway = d.kind === 'rain' ? 0 : Math.sin(d.phase);
-      d.x += (d.vx + (d.kind === 'petal' ? sway * 10 : sway * 3)) * s;
+      d.x += (d.vx + (petalish ? sway * 10 : sway * 3)) * s;
       d.y += (d.vy + (d.kind === 'firefly' ? Math.cos(d.phase * 0.7) * 3 : 0)) * s;
       d.sprite.position.set(Math.round(d.x), Math.round(d.y));
       const fade = Math.min(1, d.age / 700, (d.life - d.age) / 800);

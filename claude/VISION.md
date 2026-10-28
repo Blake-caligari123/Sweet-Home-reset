@@ -253,6 +253,12 @@ One new thing every couple of days, each with one tip or letter:
   - Rain: `play/weather.ts` gives a fixed weather per day (`tuning.weather`, a chance per season). It's always dry on the first 5 days and on each festival day.
   - Rain waters every outdoor crop for that day, turns returning outdoor mess into mud, cools the outdoor tint, sends rain streaks across outdoor places, shows ☂ on the clock, and lets neighbours use their rainy lines.
   - Snow, wind and weather prep come with the other seasons.
+- **Phase 4b (29 Oct):**
+  - The seasons turn every 14 days, with a banner each new season (`morningNews`).
+  - Crops grow only in their seasons (`seasons` on each crop, default spring). Out of season they rest and are never lost, and a greenhouse grows anything any time.
+  - New crops: summer tomato (grows back) and corn, autumn pumpkin. Shops stock seeds by season.
+  - Outdoors: autumn greens turn golden, winter is snowy (`world/art/seasons.ts`), with seasonal light, falling leaves and snow.
+  - Every neighbour has summer, autumn and winter lines.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
