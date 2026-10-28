@@ -58,9 +58,9 @@ export class TownAreas {
   /** An area with its builds but before decor (what decor is placed onto). */
   withoutDecor(id: string) { return this.built.get(id) ?? this.areas.get(id)!.pack; }
 
-  /** Overnight: a little light mess drifts back into the restored places Puff has been. */
-  driftBack(day: number) {
-    for (const [id, m] of this.messes) m.scatter(returningMess(this.areas.get(id)!, m, day, TUNING.messReturn));
+  /** Overnight: a little light mess drifts back into the restored places Puff has been (muddy if it's raining). */
+  driftBack(day: number, rainy = false) {
+    for (const [id, m] of this.messes) m.scatter(returningMess(this.areas.get(id)!, m, day, TUNING.messReturn, rainy));
   }
 
   /** How many places are restored (for Town Bloom). */

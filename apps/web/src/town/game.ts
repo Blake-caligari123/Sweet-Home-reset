@@ -339,9 +339,9 @@ export class TownGame {
     await wait(this.settings.reducedMotion ? 200 : 900);
     this.clock.nextDay();
     this.jobs.post();
-    const built = overnight(state, { buildings: this.content.pack.buildings ?? [], plots: this.content.pack.plots ?? [] }, this.clock.state.day - 1, dozed);
+    const built = overnight(state, { buildings: this.content.pack.buildings ?? [], plots: this.content.pack.plots ?? [], outdoor: new Set(this.content.pack.areas.filter((a) => a.kind === 'outdoor').map((a) => a.id)) }, this.clock.state.day - 1, dozed, this.clock.weather === 'rainy');
     this.places.rebuild(this.state);
-    this.places.driftBack(this.clock.state.day);
+    this.places.driftBack(this.clock.state.day, this.clock.weather === 'rainy');
     this.grumbles.newDay(this.clock.state.day);
     this.hud.setLate(false);
     // Wake up beside the bed: the burrow's spawn tile.
@@ -355,6 +355,7 @@ export class TownGame {
     this.guide.handle({ type: 'slept' });
     this.refreshHud();
     morningLetter({ state, view, clock: this.clock, refreshHud: () => this.refreshHud() });
+    if (this.clock.weather === 'rainy') view.say(this.content.line('weather.rain') ?? '');
     for (const b of built) view.banner(b.home ? this.content.line(`home.${b.home}`) ?? '' : (this.content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
   }
 
@@ -418,7 +419,7 @@ export class TownGame {
     const p = this.puff;
     if (!this.view.busy && !this.fading) {
       for (const e of this.clock.advance(dt)) {
-        if (e === 'tick') this.world.setTint(this.clock.state.minutes);
+        if (e === 'tick') { this.world.ambience.rainy = this.clock.weather === 'rainy'; this.world.setTint(this.clock.state.minutes); }
         if (e === 'late') { this.hud.setLate(true); this.view.say(`${this.state.names.puff}'s getting sleepy. Head home to bed.`); }
         if (e === 'doze' && !this.settings.relaxed) void this.endDay(true);
       }

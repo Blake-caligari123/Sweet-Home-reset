@@ -56,6 +56,9 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **3g (#56):** neighbours visit once a week. Hazel, Bea and Sorrel pop round to your yard, and the others visit each other, each with a hello. Checklist §11u.
 - **3h (#57):** town jobs. Some days the notice board has a job from the whole town; they count toward Town Bloom. Checklist §11v. **That completes Phase 3.**
 
+## Phase 4 so far
+- **4a (#58):** rain. Fixed rainy days (first on day 6) water the outdoor crops, bring a little mud, and look cooler, with rain falling. Checklist §12a.
+
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
 2. Anything you'd like changed from tonight, just say.
@@ -63,6 +66,5 @@ You said to carry on without asking. I've merged each slice to the test link onc
 ## Next, unless you say otherwise
 Phase 4 (seasons and sharing):
 - seasons turning after day 28, with summer crops and a changing town
-- weather: rain that waters crops and brings mud
 - the Spring Clean Fair on day 14 and its mini-game
 - Sorrel's heart scenes

@@ -33,6 +33,15 @@ describe('overnight', () => {
     expect(s.crops.map((c) => c.days)).toEqual([1, 0]);
   });
 
+  it('lets the rain water every outdoor crop for the day ahead, not indoor ones', () => {
+    const s = new TownState();
+    s.crops = [{ area: 'yard', x: 1, y: 1, crop: 'radish', days: 0, watered: false }, { area: 'greenhouse_in', x: 1, y: 1, crop: 'radish', days: 0, watered: false }];
+    overnight(s, { buildings: [], plots: [], outdoor: new Set(['yard']) }, 8, false, true);
+    expect(s.crops.map((c) => c.watered)).toEqual([true, false]);
+    overnight(s, { buildings: [], plots: [], outdoor: new Set(['yard']) }, 9, false, false);
+    expect(s.crops.map((c) => [c.days, c.watered])).toEqual([[1, false], [0, false]]);
+  });
+
   it("sets the newcomer's home flag once their cottage is finished", () => {
     const cottage: BuildingDef = { id: 'cottage_sorrel', name: "Sorrel's cottage", nights: 1, cost: { sparkles: 0 }, prop: { type: 'cottage', w: 4, h: 3 }, effect: 'home', home: 'sorrel' };
     const cp: PlotDef = { id: 'c1', name: 'Lane end', area: 'lane', x: 20, y: 11, w: 4, h: 3, allow: ['cottage_sorrel'] };

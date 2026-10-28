@@ -26,6 +26,11 @@ describe('mess gently coming back', () => {
     expect(returningMess(yard, restoredMess(yard), 5, opts).every((s) => s.type === 'weeds' && yard.walkable(s.x, s.y))).toBe(true);
   });
 
+  it('brings mud outside after rain, and still dust indoors', () => {
+    expect(returningMess(yard, restoredMess(yard), 5, opts, true).every((s) => s.type === 'mud')).toBe(true);
+    expect(returningMess(burrow, restoredMess(burrow), 5, opts, true).every((s) => s.type === 'dust')).toBe(true);
+  });
+
   it('never piles up past the cap, and differs from night to night', () => {
     const m = restoredMess(burrow);
     for (let day = 2; day < 10; day += 1) m.scatter(returningMess(burrow, m, day, opts));

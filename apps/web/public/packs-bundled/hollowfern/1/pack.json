@@ -6057,7 +6057,8 @@
    "req.town_lane_dust": "Dust the cobbles outside the Lane shops.",
    "req.town_river_mud": "Rake the mud off the riverside path.",
    "req.town_lane_weeds": "Tidy the Lane's grass for the walkers.",
-   "req.town_square_east": "Clear the weeds round the square's east side."
+   "req.town_square_east": "Clear the weeds round the square's east side.",
+   "weather.rain": "Rain today! The garden gets a drink. No watering."
   }
  },
  "heartEvents": [

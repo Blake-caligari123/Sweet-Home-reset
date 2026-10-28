@@ -5,14 +5,15 @@ import { regrow } from '../caves/caves';
 /**
  * While Puff sleeps (or dozes off; the same either way, nothing lost): Fluff refills, watered crops
  * grow a day (in an area with a finished greenhouse, every crop counts as watered), cave rocks
- * come back once their week is up, builds move on (a finished cottage means its newcomer moves in). Returns the buildings finished by morning.
+ * come back once their week is up, builds move on (a finished cottage means its newcomer moves in).
+ * If tomorrow is rainy, every outdoor crop starts it watered. Returns the buildings finished by morning.
  */
-export function overnight(state: TownState, pack: { buildings: BuildingDef[]; plots: PlotDef[] }, endedDay: number, dozed: boolean) {
+export function overnight(state: TownState, pack: { buildings: BuildingDef[]; plots: PlotDef[]; outdoor?: Set<string> }, endedDay: number, dozed: boolean, rainTomorrow = false) {
   if (dozed) state.fluff.doze(); else state.fluff.sleep();
   const sprinkled = new Set(Object.entries(state.plots)
     .filter(([, p]) => p.stage >= DONE && pack.buildings.find((b) => b.id === p.buildingId)?.effect === 'waters_garden')
     .map(([id]) => pack.plots.find((d) => d.id === id)?.area));
-  for (const c of state.crops) { if (c.watered || sprinkled.has(c.area)) c.days += 1; c.watered = false; }
+  for (const c of state.crops) { if (c.watered || sprinkled.has(c.area)) c.days += 1; c.watered = rainTomorrow && !!pack.outdoor?.has(c.area); }
   regrow(state.caves, endedDay + 1);
   const finished = resolveBuilds(state.plots, pack.buildings, endedDay).flatMap((id) => pack.buildings.filter((b) => b.id === state.plots[id].buildingId));
   for (const b of finished) if (b.effect === 'home' && b.home) state.flag(`home_${b.home}`);

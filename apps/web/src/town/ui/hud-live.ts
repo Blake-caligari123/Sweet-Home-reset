@@ -24,7 +24,7 @@ export class HudLive {
     if (clockText !== this.lastClock) {
       this.lastClock = clockText;
       const night = c.state.minutes >= 19 * 60 || c.state.minutes < DAY_START;
-      hud.setClock(`${c.season} ${c.dayOfSeason}`, formatTime(c.shown), night);
+      hud.setClock(`${c.season} ${c.dayOfSeason}`, formatTime(c.shown), night, c.weather === 'rainy');
     }
     if (hud.setFluff(state.fluff.value, state.fluff.cap, state.fluff.tired)) this.host.view.say('Feeling sleepy... a snack would help.');
     const prompt = this.promptText();

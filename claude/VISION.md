@@ -249,6 +249,10 @@ One new thing every couple of days, each with one tip or letter:
   - Town jobs: notice-board jobs from the whole town (`neighbourId: "town"`) from day 8, tidying the square, Lane and riverside.
   - They pay Sparkles, and each one done (`townJobs`, saved) adds a point toward Town Bloom instead of friendship.
   - That finishes Phase 3's list, apart from Sorrel's heart scenes and festival-linked visits.
+- **Phase 4a (29 Oct):**
+  - Rain: `play/weather.ts` gives a fixed weather per day (`tuning.weather`, a chance per season). It's always dry on the first 5 days and on each festival day.
+  - Rain waters every outdoor crop for that day, turns returning outdoor mess into mud, cools the outdoor tint, sends rain streaks across outdoor places, shows ☂ on the clock, and lets neighbours use their rainy lines.
+  - Snow, wind and weather prep come with the other seasons.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
