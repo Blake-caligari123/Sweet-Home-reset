@@ -34,14 +34,14 @@ export interface ActionsHost {
   save(): void;
 }
 
+/** The clip offer waits for the restore fanfare and banners. */
+const CLIP_OFFER_MS = 1400;
+
 /** Mess that gets scrubbed, so it throws up suds. */
 const WET: string[] = ['stain', 'grime', 'mud', 'fog'];
 
 /** Puff using what's in reach: cleaning mess, furniture, soil, snacks, doors and neighbours. */
 export class PuffActions {
-  /** The last day the reveal clip was offered by itself (at most once a day, A11.5). */
-  private sharePromptDay = 0;
-
   constructor(private host: ActionsHost) {}
 
   act(t: Target) {
@@ -209,7 +209,7 @@ export class PuffActions {
   }
 
   private onRestored() {
-    const { state, view, puff, clock } = this.host;
+    const { state, view, puff } = this.host;
     const { id, area } = this.host.here();
     const reward = area.pack.restoreReward ?? 0;
     state.sparkles += reward;
@@ -218,15 +218,11 @@ export class PuffActions {
     for (let n = 0; n < 6; n += 1) this.host.world.sparkleBurst(puff.x - 3 + n, puff.y - 2 + (n % 3), 10);
     view.banner(`${area.pack.name} restored!${reward ? ` +${reward} ✨` : ''}`);
     this.host.guide.handle({ type: 'restored', area: id });
-    if (area.pack.kind === 'home') {
-      state.flag(`restored_${id}`);
-      if (this.sharePromptDay !== clock.state.day) {
-        this.sharePromptDay = clock.state.day;
-        const first = !state.has('shared_prompt');
-        state.flag('shared_prompt');
-        window.setTimeout(() => offerClip(view, area, first), 1400);
-      }
-    }
+    if (area.pack.kind === 'home') state.flag(`restored_${id}`);
+    // Every area restores once, so each gets its before-and-after clip offer: homes, the yard, the square.
+    const first = !state.has('shared_prompt');
+    state.flag('shared_prompt');
+    window.setTimeout(() => offerClip(view, area, first), CLIP_OFFER_MS);
     this.host.save();
   }
 }
