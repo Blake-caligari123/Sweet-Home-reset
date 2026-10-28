@@ -14,6 +14,7 @@ import { Fluff } from './play/fluff';
 import { morningLetter } from './play/letter';
 import { AreaMess, FULL_COLOUR, TOOL_FOR, type MessType, type ToolId } from './play/mess';
 import { Onboarding, type OnboardEvent } from './play/onboarding';
+import { available, take } from './play/pickups';
 import { Jobs } from './requests/jobs';
 import { openShop } from './shops/shop-sheet';
 import { isOpen } from './shops/shops';
@@ -36,7 +37,8 @@ type Target =
   | { kind: 'soil'; x: number; y: number }
   | { kind: 'door'; x: number; y: number }
   | { kind: 'prop'; x: number; y: number; action: string; accepts?: string[]; text?: string; shop?: string }
-  | { kind: 'neighbour'; x: number; y: number; id: string };
+  | { kind: 'neighbour'; x: number; y: number; id: string }
+  | { kind: 'pickup'; x: number; y: number; id: string };
 
 /** The sprite's bottom edge is drawn this far below the feet point. */
 const FEET_TO_BASE = 5;
@@ -189,6 +191,7 @@ export class TownGame {
     this.world.load(this.area, this.mess);
     this.neighbours.place(this.clock.state.minutes);
     this.world.setCrops(this.cropsHere());
+    this.world.setPickups(this.pickupsHere());
     this.world.setTint(this.clock.state.minutes);
     this.world.follow(spot.x, spot.y - 8, true);
     this.updateHighlight();
@@ -255,6 +258,12 @@ export class TownGame {
 
   private targetAt(x: number, y: number): Target {
     const area = this.area;
+    // A snack on the counter: its tile, or where it's drawn just above.
+    const pick = this.pickupsHere().find((p) => p.x === x && (p.y === y || p.y + Math.round(p.drawDy ?? 0) === y));
+    if (pick) return { kind: 'pickup', x: pick.x, y: pick.y, id: pick.id };
+    // Carrying something that lives here? Put it away before dusting the furniture.
+    const home = area.tapPropAt(x, y);
+    if (home?.action === 'putaway' && home.accepts?.some((id) => this.state.bag.count(id) > 0)) return { kind: 'prop', x, y, action: home.action, accepts: home.accepts };
     if (this.mess.typeAt(x, y) !== 'none') return { kind: 'mess', x, y };
     if (area.groundAt(x, y) === 'soil') return { kind: 'soil', x, y };
     if (area.doorAt(x, y)) return { kind: 'door', x, y };
@@ -334,6 +343,7 @@ export class TownGame {
     if (t.kind === 'door') { this.useDoor(t.x, t.y); return; }
     if (t.kind === 'mess') { this.startSwing(t); return; }
     if (t.kind === 'soil') { this.useSoil(t.x, t.y); return; }
+    if (t.kind === 'pickup') { this.takePickup(t.id); return; }
     if (t.kind === 'prop') this.useProp(t);
   }
 
@@ -444,6 +454,20 @@ export class TownGame {
       this.onboard({ type: 'planted' });
     } else view.say('Seeds would grow here.');
     this.world.setCrops(this.cropsHere());
+    this.refreshHud();
+  }
+
+  private pickupsHere() { return available(this.area.pack.pickups ?? [], this.state.picked, this.clock.state.day); }
+
+  private takePickup(id: string) {
+    const p = this.pickupsHere().find((x) => x.id === id);
+    if (!p) return;
+    if (!this.state.bag.add(p.item)) { this.view.say('Bag\'s full! Put things away first.'); return; }
+    this.state.picked = take(this.state.picked, id, this.clock.state.day);
+    const name = this.content.itemName(p.item).toLowerCase();
+    this.view.say(`${/^[aeiou]/.test(name) ? 'An' : 'A'} ${name}! Snack for later.`);
+    this.view.feedback('coin', 'light');
+    this.world.setPickups(this.pickupsHere());
     this.refreshHud();
   }
 
@@ -672,6 +696,7 @@ export class TownGame {
     }
     if (t.kind === 'soil') return this.state.crops.some((c) => c.area === this.areaId && c.x === t.x && c.y === t.y) ? 'Tend the crop' : 'Plant seeds';
     if (t.kind === 'door') return 'Go through';
+    if (t.kind === 'pickup') { const p = this.pickupsHere().find((x) => x.id === t.id); return p ? `Take the ${this.content.itemName(p.item).toLowerCase()}` : ''; }
     if (t.kind === 'neighbour') return `Say hello to ${this.content.neighbour(t.id)?.name ?? 'them'}`;
     if (t.kind === 'prop') return ({ putaway: 'Put things away', sleep: 'Go to bed', sign: 'Read the sign', board: 'Read the notice board', mailbox: 'Check the mail', shop: 'Browse the shop' } as Record<string, string>)[t.action] ?? '';
     return '';
@@ -708,7 +733,7 @@ export class TownGame {
       deviceId: this.deviceId, day: this.clock.state.day, minutes: this.clock.state.minutes,
       fluff: { value: s.fluff.value, max: s.fluff.max, boost: s.fluff.boost }, sparkles: s.sparkles,
       bag: s.bag.slots, tools: s.tools, area: this.areaId, puff: { x: this.puff.x, y: this.puff.y, fx: this.puff.fx, fy: this.puff.fy, facing: this.puff.dir },
-      areas, crops: s.crops, flags: s.flags, friends: s.friends, onboarding: s.onboarding.step, onboardingAhead: s.onboarding.ahead, chores: s.chores, requests: s.requests, settings: this.settings,
+      areas, crops: s.crops, flags: s.flags, friends: s.friends, onboarding: s.onboarding.step, onboardingAhead: s.onboarding.ahead, chores: s.chores, requests: s.requests, picked: s.picked, settings: this.settings,
       selected: this.selected, lastClean: s.lastClean
     });
   }
@@ -730,6 +755,7 @@ export class TownGame {
     s.chores = save.chores ?? s.chores;
     if (save.requests && typeof save.requests === 'object') s.requests = save.requests as RequestState;
     s.lastClean = typeof save.lastClean === 'string' ? save.lastClean : 'none';
+    s.picked = save.picked ?? { day: 0, ids: [] };
     if (typeof save.selected === 'string') this.selected = save.selected as ToolId;
     for (const [id, snap] of Object.entries(save.areas ?? {})) {
       if (!this.areas.has(id)) continue;

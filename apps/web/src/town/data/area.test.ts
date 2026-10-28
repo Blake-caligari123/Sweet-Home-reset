@@ -9,8 +9,8 @@ const T = 16;
 
 
 describe('Hollowfern spring pack', () => {
-  it('has the M1 areas and the M2 General Store', () => {
-    expect(pack.areas.map((a) => a.id)).toEqual(['burrow', 'yard', 'square', 'bakery', 'store']);
+  it('has the M1 areas and the M2 ones so far', () => {
+    expect(pack.areas.map((a) => a.id)).toEqual(['burrow', 'yard', 'square', 'bakery', 'store', 'lane', 'bea_shop', 'pip_workshop', 'library']);
   });
 
   it('can reach every open door and every mess tile from the spawn', () => {
@@ -55,6 +55,13 @@ describe('Hollowfern spring pack', () => {
         expect(MESS_TYPES).toContain(m.type);
         expect(a.props.some((p) => p.accepts?.includes(m.item!)), `${a.id} ${m.item}`).toBe(true);
       }
+    }
+  });
+
+  it('never loses a placed item or mess spot under scattered mess', () => {
+    for (const a of pack.areas) {
+      const area = new Area(a);
+      for (const d of a.mess) if (!('rect' in d)) expect(area.spots.find((s) => s.x === d.x && s.y === d.y), `${a.id} ${d.type} at ${d.x},${d.y}`).toEqual(d);
     }
   });
 

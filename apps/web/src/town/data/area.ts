@@ -5,6 +5,7 @@ import type { NeighbourDef } from '../neighbours/neighbours';
 import type { RequestTemplate } from '../requests/requests';
 import type { ShopDef } from '../shops/shops';
 import type { HeartEvent } from '../neighbours/heart-events';
+import type { PickupDef } from '../play/pickups';
 import type { Line } from '../neighbours/talk';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
@@ -20,6 +21,8 @@ export interface AreaPack {
   background?: { src: string; scale: number };
   /** Free-movement outlines traced over a painting (world px polygons): where feet may go, and furniture. */
   nav?: { floor: number[][]; blockers: number[][] };
+  /** Things Puff can take, back each morning (a snack on the counter). */
+  pickups?: PickupDef[];
 }
 
 export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string; sell?: number }>; neighbours?: NeighbourDef[];
@@ -63,14 +66,17 @@ export class Area {
   signAt(x: number, y: number) { return this.pack.signs?.find((s) => s.x === x && s.y === y); }
 }
 
+/** Placed spots first, then scattered ones on whatever tiles are left: a placed item is never lost. */
 export function expandMess(defs: MessDef[]): MessSpot[] {
-  const out: MessSpot[] = [];
+  const out: MessSpot[] = defs.filter((d): d is MessSpot => !('rect' in d));
+  const taken = new Set(out.map((m) => `${m.x},${m.y}`));
   for (const d of defs) {
-    if ('rect' in d) {
-      const rand = seeded(d.seed);
-      const [x0, y0, w, h] = d.rect;
-      for (let y = y0; y < y0 + h; y += 1) for (let x = x0; x < x0 + w; x += 1) if (rand() < d.density) out.push({ type: d.type, x, y });
-    } else out.push(d);
+    if (!('rect' in d)) continue;
+    const rand = seeded(d.seed);
+    const [x0, y0, w, h] = d.rect;
+    for (let y = y0; y < y0 + h; y += 1) for (let x = x0; x < x0 + w; x += 1) {
+      if (rand() < d.density && !taken.has(`${x},${y}`)) { out.push({ type: d.type, x, y }); taken.add(`${x},${y}`); }
+    }
   }
   return out;
 }
@@ -89,6 +95,7 @@ export function validateTownPack(input: unknown): TownPack {
       if (!ids.has(d.to) && !d.closedText) throw new Error(`area ${a.id}: door to unknown area ${d.to}`);
       if (![d.x, d.y, d.toX, d.toY].every(isNum)) throw new Error(`area ${a.id}: door coords`);
     }
+    for (const pk of a.pickups ?? []) if (!pk.id || !p.items?.[pk.item] || ![pk.x, pk.y].every(isNum)) throw new Error(`area ${a.id}: pickup ${pk.id}`);
     for (const pr of a.props) if (pr.tap && !(pr.tap.length === 4 && pr.tap.every(isNum))) throw new Error(`area ${a.id}: ${pr.type} tap area`);
     if (a.background && (typeof a.background.src !== 'string' || !isNum(a.background.scale) || a.background.scale <= 0)) throw new Error(`area ${a.id}: background`);
     const area = new Area(a);
