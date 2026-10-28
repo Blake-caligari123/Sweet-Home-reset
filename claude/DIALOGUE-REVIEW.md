@@ -59,6 +59,14 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 - Patting, in turn: "Hello, [name]!" · "[name] does a happy wiggle." · "Best friends, you and me."
 - Tracker until chosen: "Someone's waiting at your burrow door."
 
+## New in Phase 2a (overnight 28 Oct): forage and Pip's workbench
+- Picking up: "A twig! Into the bag it goes." / "A pebble! Into the bag it goes."
+- Buying a recipe: "Pip can help me make it at the workbench!"
+- Workbench with no recipe yet: "Pip's workbench. Learn a recipe at the General Store!"
+- Workbench note: "Twigs and pebbles turn up outside each morning."
+- Made: "[Copper duster]! Hold on mess to clean a little patch at once."
+- Charged clean: "Whoosh! A big clean!"
+
 ## Hazel
 
 **First hello**

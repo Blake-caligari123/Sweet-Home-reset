@@ -123,6 +123,13 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Tapping alone still does everything.
 - [ ] Sleep after restoring a room: next day there are a couple of fresh dust bits (or weeds outside). The room stays restored and keeps everything that came alive. It never gets more than 4.
 
+## 11g. Phase 2a: forage, Pip's workbench, Copper tools
+- [ ] Twigs and pebbles lie about in the yard, square, Lane and Riverside. Tap to pick them up. They're back each morning.
+- [ ] The General Store sells the Copper duster and sponge recipes from day 5, and the rake recipe from day 7 (100 ✨ each). Buying one: "Pip can help me make it at the workbench!"
+- [ ] In Pip's workshop, tap his table to open the workbench. It shows what each recipe needs and how many you have, and Make works once you've got it all.
+- [ ] A Copper tool gets a copper rim on the toolbar and cleans in fewer goes. The Copper sponge cleans grime.
+- [ ] Hold on mess with a Copper tool: "Whoosh! A big clean!" and the spot plus up to 2 matching spots beside it clear. It costs 5 Fluff.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

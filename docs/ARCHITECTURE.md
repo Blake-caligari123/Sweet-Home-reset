@@ -71,6 +71,7 @@ town/
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
   build/        build.ts (plots and buildings: start, overnight finish, the props they put in an
                 area), build-sheet.ts (the Keeper's plans screen)
+  craft/        recipes.ts (what a recipe needs, making it), craft-sheet.ts (Pip's workbench)
   grumbles/     grumbles.ts (families, setting them out each day, tidying into helpers), drift.ts
                 (the slow amble, shy of Puff), grumble-life.ts (Grumbles in play: spawn spots, taps,
                 tidies, hellos)

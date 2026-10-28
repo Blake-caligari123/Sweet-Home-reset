@@ -24,7 +24,7 @@ describe('Hollowfern spring pack', () => {
     }
   });
 
-  it('lets Puff walk freely from the spawn to every door, mess spot and usable prop', () => {
+  it('lets Puff walk freely from the spawn to every door, mess spot, usable prop and pickup', () => {
     for (const a of pack.areas) {
       const area = new Area(a); const nav = navFor(area);
       const spawn = nav.nearestOpen({ x: a.spawn.x * T + T / 2, y: a.spawn.y * T + FEET })!;
@@ -33,6 +33,7 @@ describe('Hollowfern spring pack', () => {
       for (const d of a.doors.filter((d) => !d.closedText)) expect(nav.findPathNear(spawn, tile(d.x, d.y), 0), `${a.id} → ${d.to}`).not.toBeNull();
       for (const m of area.spots) expect(nav.findPathNear(spawn, tile(m.x, m.y), REACH), `${a.id} ${m.type} at ${m.x},${m.y}`).not.toBeNull();
       for (const p of a.props.filter((p) => p.action)) expect(nav.findPathNear(spawn, tile(p.x, p.y, p.w, p.h), REACH), `${a.id} ${p.type}`).not.toBeNull();
+      for (const p of a.pickups ?? []) expect(nav.findPathNear(spawn, tile(p.x, p.y), REACH), `${a.id} pickup ${p.id}`).not.toBeNull();
     }
   });
 

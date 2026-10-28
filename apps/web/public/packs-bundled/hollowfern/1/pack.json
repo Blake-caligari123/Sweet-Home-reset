@@ -119,6 +119,12 @@
   },
   "cushion": {
    "name": "Cushion"
+  },
+  "twig": {
+   "name": "Twig"
+  },
+  "pebble": {
+   "name": "Pebble"
   }
  },
  "areas": [
@@ -893,6 +899,38 @@
       }
      ]
     }
+   ],
+   "pickups": [
+    {
+     "id": "yard_twig_1",
+     "x": 3,
+     "y": 3,
+     "item": "twig"
+    },
+    {
+     "id": "yard_twig_2",
+     "x": 19,
+     "y": 3,
+     "item": "twig"
+    },
+    {
+     "id": "yard_twig_3",
+     "x": 16,
+     "y": 12,
+     "item": "twig"
+    },
+    {
+     "id": "yard_pebble_1",
+     "x": 11,
+     "y": 8,
+     "item": "pebble"
+    },
+    {
+     "id": "yard_pebble_2",
+     "x": 24,
+     "y": 13,
+     "item": "pebble"
+    }
    ]
   },
   {
@@ -1218,6 +1256,26 @@
        "bloom": 2
       }
      ]
+    }
+   ],
+   "pickups": [
+    {
+     "id": "square_twig_1",
+     "x": 3,
+     "y": 18,
+     "item": "twig"
+    },
+    {
+     "id": "square_twig_2",
+     "x": 25,
+     "y": 17,
+     "item": "twig"
+    },
+    {
+     "id": "square_pebble_1",
+     "x": 2,
+     "y": 14,
+     "item": "pebble"
     }
    ]
   },
@@ -2122,6 +2180,26 @@
       }
      ]
     }
+   ],
+   "pickups": [
+    {
+     "id": "lane_twig_1",
+     "x": 24,
+     "y": 12,
+     "item": "twig"
+    },
+    {
+     "id": "lane_pebble_1",
+     "x": 12,
+     "y": 13,
+     "item": "pebble"
+    },
+    {
+     "id": "lane_pebble_2",
+     "x": 20,
+     "y": 11,
+     "item": "pebble"
+    }
    ]
   },
   {
@@ -2385,7 +2463,8 @@
      "x": 5,
      "y": 3,
      "w": 3,
-     "label": "workbench"
+     "label": "workbench",
+     "action": "craft"
     },
     {
      "type": "shelf",
@@ -2939,6 +3018,24 @@
      "x": 20,
      "y": 9,
      "item": "shell"
+    },
+    {
+     "id": "river_pebble_1",
+     "x": 9,
+     "y": 9,
+     "item": "pebble"
+    },
+    {
+     "id": "river_pebble_2",
+     "x": 15,
+     "y": 9,
+     "item": "pebble"
+    },
+    {
+     "id": "river_twig_1",
+     "x": 3,
+     "y": 4,
+     "item": "twig"
     }
    ],
    "spawn": {
@@ -4893,7 +4990,12 @@
    "pet.pat.1": "Hello, {pet}!",
    "pet.pat.2": "{pet} does a happy wiggle.",
    "pet.pat.3": "Best friends, you and me.",
-   "pet.hint": "Someone's waiting at your burrow door."
+   "pet.hint": "Someone's waiting at your burrow door.",
+   "craft.none": "Pip's workbench. Learn a recipe at the General Store!",
+   "craft.made": "{tool}! Hold on mess to clean a little patch at once.",
+   "craft.charged": "Whoosh! A big clean!",
+   "stock.copper_duster": "Copper duster recipe",
+   "stock.copper_rake": "Copper rake recipe"
   }
  },
  "heartEvents": [
@@ -6488,8 +6590,20 @@
     {
      "item": "copper_sponge",
      "kind": "recipe",
-     "price": 150,
+     "price": 100,
      "fromDay": 5
+    },
+    {
+     "kind": "recipe",
+     "item": "copper_duster",
+     "price": 100,
+     "fromDay": 5
+    },
+    {
+     "kind": "recipe",
+     "item": "copper_rake",
+     "price": 100,
+     "fromDay": 7
     }
    ],
    "buys": [
@@ -6659,6 +6773,56 @@
    "name": "Hedgehoglet",
    "defaultName": "Bramble",
    "line": "pet.hedgehoglet.line"
+  }
+ ],
+ "recipes": [
+  {
+   "id": "copper_duster",
+   "name": "Copper duster",
+   "makes": {
+    "tool": "duster",
+    "tier": 2
+   },
+   "cost": {
+    "sparkles": 40,
+    "items": {
+     "twig": 4,
+     "pebble": 1
+    }
+   },
+   "learn": "recipe_copper_duster"
+  },
+  {
+   "id": "copper_sponge",
+   "name": "Copper sponge",
+   "makes": {
+    "tool": "sponge",
+    "tier": 2
+   },
+   "cost": {
+    "sparkles": 50,
+    "items": {
+     "pebble": 4,
+     "twig": 2
+    }
+   },
+   "learn": "recipe_copper_sponge"
+  },
+  {
+   "id": "copper_rake",
+   "name": "Copper rake",
+   "makes": {
+    "tool": "rake",
+    "tier": 2
+   },
+   "cost": {
+    "sparkles": 40,
+    "items": {
+     "twig": 3,
+     "pebble": 3
+    }
+   },
+   "learn": "recipe_copper_rake"
   }
  ]
 }

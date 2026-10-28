@@ -32,6 +32,8 @@ export interface ActionsHost {
   sleep(): void;
   /** The Keeper's plans: building on plots. */
   openBuild(): void;
+  /** Pip's workbench: crafting better tools. */
+  openWorkbench(): void;
   openShop(shop: NonNullable<TownPack['shops']>[number]): void;
   refreshHud(): void;
   save(): void;
@@ -111,23 +113,71 @@ export class PuffActions {
 
   /** The swing lands: clean a hit off the mess, then go again if more taps are queued. */
   finishSwing() {
-    const { state, view, puff, world } = this.host;
-    const { id, area, mess } = this.host.here();
-    const t = puff.swing;
-    puff.swing = null;
+    const { puff } = this.host;
+    const t = puff.swing; const charged = puff.charged;
+    puff.swing = null; puff.charged = false;
     if (!t) { puff.pose = 'idle'; puff.repeat = 0; return; }
+    puff.pose = 'idle';
     if (t.kind === 'grumble') {
-      puff.pose = 'idle';
       if (this.host.grumbles.tidy(t.id) === 'more' && puff.repeat > 0) { puff.repeat -= 1; this.startTidy(t); } else puff.repeat = 0;
       return;
     }
+    const near = charged && this.payCharge() ? this.alike(t.x, t.y) : [];
+    const result = this.hitTile(t.x, t.y);
+    if (!result) { puff.repeat = 0; return; }
+    if (near.length) {
+      for (const n of near) this.hitTile(n.x, n.y);
+      this.host.view.feedback('sparkle', 'success');
+      this.host.view.say(this.host.content.line('craft.charged') ?? '');
+    }
+    this.host.refreshHud();
+    if (!result.cleared && puff.repeat > 0) { puff.repeat -= 1; this.startSwing(t); return; }
+    puff.repeat = 0;
+  }
+
+  /**
+   * A hold with a Copper (or better) tool: the next swing on this mess is charged, landing on up to
+   * two matching spots beside it too (VISION §7). False if this tile can't be charged.
+   */
+  charge(x: number, y: number) {
+    const { state, puff } = this.host;
+    const type = this.host.here().mess.typeAt(x, y);
+    const aim = puff.swing ?? puff.action;
+    if (type === 'none' || type === 'clutter' || aim?.kind !== 'mess' || aim.x !== x || aim.y !== y) return false;
+    puff.charged = (state.tools[TOOL_FOR[type].tool] ?? 0) >= 2;
+    return puff.charged;
+  }
+
+  /** The charged swing's extra Fluff, if Puff has it (else it's an ordinary swing). */
+  private payCharge() {
+    const { fluff } = this.host.state;
+    const extra = Math.round((fluff.costOf(true) - fluff.costOf(false)) * (this.host.settings.relaxed ? 0.5 : 1));
+    if (fluff.value < extra) return false;
+    fluff.value -= extra;
+    return true;
+  }
+
+  /** Up to two spots next to this one with mess the same tool cleans, nearest first. */
+  private alike(x: number, y: number) {
+    const { mess } = this.host.here();
+    const type = mess.typeAt(x, y);
+    if (type === 'none' || type === 'clutter') return [];
+    const tool = TOOL_FOR[type].tool;
+    const around = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]].map(([dx, dy]) => ({ x: x + dx, y: y + dy }));
+    return around.filter((p) => { const t = mess.typeAt(p.x, p.y); return t !== 'none' && t !== 'clutter' && TOOL_FOR[t].tool === tool; }).slice(0, 2);
+  }
+
+  /** One tidy landing on a mess tile, with its colour, effects and rewards. Null if nothing happened. */
+  private hitTile(x: number, y: number) {
+    const { state, view, world } = this.host;
+    const { id, area, mess } = this.host.here();
+    const t = { x, y };
     const i = t.y * area.w + t.x;
     const type = mess.typeAt(t.x, t.y);
     const tool = TOOL_FOR[type as Exclude<MessType, 'none'>]?.tool ?? this.host.selected();
     const wasRestored = mess.restored;
     const result = mess.hit(t.x, t.y, tool, state.tools[tool] ?? 1);
-    puff.pose = 'idle';
-    if (!result.ok) { puff.repeat = 0; return; }
+    if (!result.ok) return null;
     world.syncMess(i);
     world.colourChanged(result.changed);
     for (const c of result.changed) world.syncMess(c);
@@ -143,9 +193,7 @@ export class PuffActions {
     }
     if (!wasRestored && mess.restored) this.onRestored();
     if (result.cleared) this.host.jobs.checkTidy();
-    this.host.refreshHud();
-    if (!result.cleared && puff.repeat > 0) { puff.repeat -= 1; this.startSwing(t); return; }
-    puff.repeat = 0;
+    return result;
   }
 
   private useProp(t: Extract<Target, { kind: 'prop' }>) {
@@ -175,6 +223,9 @@ export class PuffActions {
         return;
       case 'build':
         this.host.openBuild();
+        return;
+      case 'craft':
+        this.host.openWorkbench();
         return;
       case 'shop': {
         const shop = content.pack.shops?.find((s) => s.id === t.shop);
