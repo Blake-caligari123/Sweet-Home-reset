@@ -6879,6 +6879,46 @@
     "w": 1
    },
    "bloom": 2
+  },
+  {
+   "id": "bench_cosy",
+   "name": "Cosy bench",
+   "nights": 1,
+   "cost": {
+    "sparkles": 80
+   },
+   "prop": {
+    "type": "bench_cosy",
+    "w": 2
+   },
+   "upgradeOf": "bench"
+  },
+  {
+   "id": "flower_bed_big",
+   "name": "Big flower bed",
+   "nights": 1,
+   "cost": {
+    "sparkles": 60
+   },
+   "prop": {
+    "type": "flower_bed_big",
+    "w": 2
+   },
+   "upgradeOf": "flower_bed"
+  },
+  {
+   "id": "lamppost_twin",
+   "name": "Twin lamp",
+   "nights": 2,
+   "cost": {
+    "sparkles": 120
+   },
+   "prop": {
+    "type": "lamppost_twin",
+    "w": 1
+   },
+   "upgradeOf": "lamppost",
+   "bloom": 3
   }
  ],
  "grumbleFamilies": [

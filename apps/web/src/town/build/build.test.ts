@@ -3,7 +3,7 @@ import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
 import { T } from '../world/art/texture';
 import { FEET, navFor, REACH } from '../world/nav';
-import { builtProps, canBuild, resolveBuilds, startBuild, withBuilds, type BuildingDef, type PlotDef, type PlotState } from './build';
+import { builtProps, canBuild, canUpgrade, resolveBuilds, startBuild, upgrade, withBuilds, type BuildingDef, type PlotDef, type PlotState } from './build';
 
 const bench: BuildingDef = { id: 'bench', name: 'Bench', nights: 1, cost: { sparkles: 40 }, prop: { type: 'bench', w: 2 } };
 const gazebo: BuildingDef = { id: 'gazebo', name: 'Gazebo', nights: 3, cost: { sparkles: 300 }, prop: { type: 'bench', w: 2 } };
@@ -49,6 +49,23 @@ describe('building on plots', () => {
     resolveBuilds(s.plots, catalogue, 2);
     expect(builtProps('square', [plot], s.plots, catalogue)).toEqual([{ type: 'bench', x: 13, y: 13, w: 2, h: 1 }]);
     expect(builtProps('yard', [plot], s.plots, catalogue)).toEqual([]);
+  });
+});
+
+describe('upgrades', () => {
+  const cosy: BuildingDef = { id: 'bench_cosy', name: 'Cosy bench', nights: 1, cost: { sparkles: 80 }, prop: { type: 'bench_cosy', w: 2 }, upgradeOf: 'bench' };
+  it('turns a finished building into its upgrade overnight, paid up front, all or nothing', () => {
+    const s = fresh(200);
+    startBuild(s, plot, bench, 2);
+    expect(canUpgrade(s, plot, cosy)).toBe('not_yet'); // still being built
+    resolveBuilds(s.plots, [bench, cosy], 2);
+    expect(canUpgrade(s, plot, cosy)).toBe('ok');
+    expect(upgrade(s, plot, cosy, 3)).toBe(true);
+    expect(s.sparkles).toBe(80);
+    expect(s.plots.p1).toEqual({ buildingId: 'bench_cosy', stage: 0, startedDay: 3, readyDay: 4 });
+    resolveBuilds(s.plots, [bench, cosy], 3);
+    expect(builtProps('square', [plot], s.plots, [bench, cosy])[0].type).toBe('bench_cosy');
+    expect(canUpgrade(fresh(5), plot, cosy)).toBe('not_yet');
   });
 });
 

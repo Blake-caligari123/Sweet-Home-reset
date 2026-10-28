@@ -149,6 +149,7 @@ export function validateTownPack(input: unknown): TownPack {
   }
   const built = new Set((p.buildings ?? []).map((b) => b.id));
   for (const b of p.buildings ?? []) if (!b.id || !b.name || !isNum(b.nights) || b.nights < 1 || !isNum(b.cost?.sparkles) || !b.prop?.type) throw new Error(`building ${b.id}: shape`);
+  for (const b of p.buildings ?? []) if (b.upgradeOf && !built.has(b.upgradeOf)) throw new Error(`building ${b.id}: upgrades unknown ${b.upgradeOf}`);
   for (const pl of p.plots ?? []) {
     if (!pl.id || !pl.name || !ids.has(pl.area) || ![pl.x, pl.y, pl.w, pl.h].every(isNum)) throw new Error(`plot ${pl.id}: shape`);
     for (const b of pl.allow ?? []) if (!built.has(b)) throw new Error(`plot ${pl.id}: unknown building ${b}`);

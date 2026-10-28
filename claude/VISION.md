@@ -206,6 +206,9 @@ One new thing every couple of days, each with one tip or letter:
   - A placed piece can be tapped to pick it up. A path tile is picked up by tapping it while placing paths.
   - A piece is never allowed to block a door, something usable or a pickup (tested).
   - Painted rooms keep their painting, so there's no decor indoors yet.
+- **Phase 2g (overnight):**
+  - Building upgrades: a finished bench becomes a cosy bench (80 ✨), a flower bed a big flower bed (60 ✨), and a lamppost a twin lamp (120 ✨, two nights, Town Bloom 3).
+  - They're offered on the plot's card in the Keeper's plans and built overnight like any build.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
