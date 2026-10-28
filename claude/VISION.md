@@ -245,7 +245,10 @@ One new thing every couple of days, each with one tip or letter:
   - Neighbours visit: each has a weekly visit (`visits` in the pack, spliced into that day's routine by `scheduleFor`).
   - Hazel, Bea and Sorrel visit Puff's yard; Pip visits Moss's library, Otto the bakery, and Moss the square.
   - A line tied to an area now outranks the rest, so they greet Puff with a visit hello.
-  - Town jobs (town-wide, not from one neighbour) are still to come.
+- **Phase 3h (29 Oct):**
+  - Town jobs: notice-board jobs from the whole town (`neighbourId: "town"`) from day 8, tidying the square, Lane and riverside.
+  - They pay Sparkles, and each one done (`townJobs`, saved) adds a point toward Town Bloom instead of friendship.
+  - That finishes Phase 3's list, apart from Sorrel's heart scenes and festival-linked visits.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

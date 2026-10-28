@@ -6,8 +6,12 @@ import { TUNING } from '../data/tuning';
 // Requests (GDD v3 A8, Part B): the notice board posts 1–3 jobs each morning, the same ones on
 // every device for that day. A job is tidying a spot (fresh mess appears when it's accepted) or
 // bringing someone an item. A missed one just goes after 2–3 days and the neighbour is fine.
+/** Who a town job is from: the whole town, not one neighbour (its thanks is Town Bloom, not friendship). */
+export const TOWN = 'town';
+
 export interface RequestTemplate {
   id: string;
+  /** Who asks: a neighbour's id, or TOWN. */
   neighbourId: string;
   kind: 'clean' | 'bring';
   /** Text id in the string table. */

@@ -4,9 +4,9 @@ import { TownState } from '../state';
 import { bloomLevel, bloomPoints, bloomUp, nextFind, type FindDef } from './bloom';
 
 describe('Town Bloom', () => {
-  it('grows with restored places, builds, friendship and helpers', () => {
-    expect(bloomPoints({ restored: 0, builds: 0, hearts: 0, helpers: 0 })).toBe(0);
-    expect(bloomPoints({ restored: 2, builds: 1, hearts: 3, helpers: 1 })).toBe(2 * 3 + 2 + 3 + 1);
+  it('grows with restored places, builds, friendship, helpers and town jobs', () => {
+    expect(bloomPoints({ restored: 0, builds: 0, hearts: 0, helpers: 0, townJobs: 0 })).toBe(0);
+    expect(bloomPoints({ restored: 2, builds: 1, hearts: 3, helpers: 1, townJobs: 2 })).toBe(2 * 3 + 2 + 3 + 1 + 2);
   });
 
   it('reads levels from tuning, from 1, never past the top', () => {

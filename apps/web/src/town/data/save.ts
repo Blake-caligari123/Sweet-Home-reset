@@ -53,6 +53,8 @@ export interface TownSave {
   pet?: Pet | null;
   /** Town Bloom level celebrated so far. */
   bloom?: number;
+  /** Town jobs done. */
+  townJobs?: number;
   /** Cleans counted per place, and the surprise finds collected. */
   finds?: Finds;
   /** Rocks broken in the caves this week. */

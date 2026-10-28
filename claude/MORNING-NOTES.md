@@ -46,7 +46,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
   - Copper duster
   - Copper rake
 
-## Phase 3 so far
+## Phase 3 (done)
 - **3a (#50):** Mabel's letters. The text is my proposal (see DIALOGUE-REVIEW), so please tweak anything that isn't her voice.
 - **3b (#51):** the caves, floor 1. Mabel's first letter opens the fountain hatch; mine rocks for copper ore and colour shards; they grow back weekly. Code-drawn for now (a Grok cave painting would be lovely later). Checklist §11p.
 - **3c (#52):** Sorrel moves in. Her letter comes on day 8, you build her cottage on the Lane (two nights), and she's there on day 10. She's a code-drawn red squirrel, and all her lines are my proposal (DIALOGUE-REVIEW). Checklist §11q.
@@ -54,12 +54,15 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **3e (#54):** cobweb (day 9), mud (day 13) and soot (day 16) Grumbles, each tinted on your dust art for now. Checklist §11s.
 - **3f (#55):** cave floor 2, the Warm Deep. Mabel's second letter brings the map leaf; there are blue gems and an old carving about Thimble. Checklist §11t.
 - **3g (#56):** neighbours visit once a week. Hazel, Bea and Sorrel pop round to your yard, and the others visit each other, each with a hello. Checklist §11u.
+- **3h (#57):** town jobs. Some days the notice board has a job from the whole town; they count toward Town Bloom. Checklist §11v. **That completes Phase 3.**
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
 2. Anything you'd like changed from tonight, just say.
 
 ## Next, unless you say otherwise
-Phase 3:
-- town jobs (asks from the whole town, on the notice board)
-- then Phase 4: seasons, weather and festivals
+Phase 4 (seasons and sharing):
+- seasons turning after day 28, with summer crops and a changing town
+- weather: rain that waters crops and brings mud
+- the Spring Clean Fair on day 14 and its mini-game
+- Sorrel's heart scenes

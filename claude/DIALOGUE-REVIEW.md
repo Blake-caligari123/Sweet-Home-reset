@@ -192,6 +192,14 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `moss.visit.1`: A little sun now and then. Don't tell my books.
 - `pip.visit.1`: Moss lends me gear books. Shh, I'm reading!
 
+## New in Phase 3h (29 Oct): town jobs (proposed)
+- `req.town_square_weeds`: Pull the weeds along the square's south lawn.
+- `req.town_lane_dust`: Dust the cobbles outside the Lane shops.
+- `req.town_river_mud`: Rake the mud off the riverside path.
+- `req.town_lane_weeds`: Tidy the Lane's grass for the walkers.
+- `req.town_square_east`: Clear the weeds round the square's east side.
+- Board: "All of {town}" · Done: "Job done! +60 ✨ The town says thank you."
+
 ## Hazel
 
 **First hello**
