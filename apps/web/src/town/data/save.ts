@@ -69,7 +69,9 @@ export interface TownSave {
   names: Names;
   /** The tool in Puff's paws. */
   selected?: string;
-  settings: { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; relaxed: boolean; autoTool: boolean };
+  settings: { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; relaxed: boolean; autoTool: boolean;
+    /** Accessibility (FRONTEND-PLAN §11); missing in older saves, so off. */
+    bigText?: boolean; highContrast?: boolean; tapOnly?: boolean };
   [extra: string]: unknown;
 }
 

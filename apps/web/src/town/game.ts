@@ -26,6 +26,7 @@ import { Placing } from './decor/placing';
 import { Sweep } from './play/sweep';
 import { HomeLife } from './play/home-life';
 import { morning, passNight } from './play/night';
+import { applyLook } from './ui/a11y';
 import type { ToolId } from './play/mess';
 import { OnboardingGuide } from './play/onboarding-guide';
 import { nudge } from './play/nudges';
@@ -248,7 +249,8 @@ export class TownGame {
     new PointerInput(this.world.root, ui, {
       toWorld: (x, y) => this.world.toWorld(x, y),
       unlock: () => this.sound.unlock(),
-      tap: (p) => { this.sweep.stop(); this.tap(p.x, p.y); },
+      // Tap-only play: one tap tidies a whole spot, as a hold would.
+      tap: (p) => { this.sweep.stop(); if (this.settings.tapOnly) this.scrub(p, MAX_RUB); else this.tap(p.x, p.y); },
       // Each pass of a rub (or loop of a circle) is another scrub; a hold keeps going until it's gone.
       rub: (p, passes) => this.scrub(p, passes - 1),
       circle: (p, passes) => this.scrub(p, passes * 2),
@@ -388,7 +390,7 @@ export class TownGame {
         this.sound.enabled = s.sound; this.sound.musicOn = s.music;
         if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
         this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = s.reducedMotion;
-        document.documentElement.classList.toggle('reduce-motion', s.reducedMotion);
+        applyLook(s);
         void this.save(false);
       },
       openFriends: () => this.talk.openFriends(),

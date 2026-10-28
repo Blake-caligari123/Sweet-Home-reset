@@ -289,6 +289,12 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] On any non-festival day, the fair stall offers "A tidy dash, just for fun? 45 seconds." 15 spots, no Sparkles, and it says "a new best!" or your best so far.
 - [ ] Festival days still run that festival's own game.
 
+## 13a. Phase 5a: accessibility options (Pause)
+- [ ] **Tap-only:** one tap tidies a whole spot, as a hold would. No gestures needed.
+- [ ] **Bigger text:** all the UI text is a step bigger, and the toolbar still fits.
+- [ ] **High contrast:** darker text and outlines, and solid panels.
+- [ ] All three are remembered after a reload. A tall sheet (like Pause, now) scrolls, so its Close button is always reachable.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

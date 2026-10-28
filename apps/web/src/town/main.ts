@@ -1,3 +1,4 @@
+import { applyLook } from './ui/a11y';
 import { Application, TextureStyle } from 'pixi.js';
 import { Sound } from '../shared/audio/sound';
 import { loadNativeBridge } from '../shared/native';
@@ -51,7 +52,7 @@ if (loaded.newer) { notice('Your town was saved by a newer version of the game. 
 
 const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 const settings = saved?.settings ?? { sound: true, music: true, haptics: true, reducedMotion: reduced, relaxed: false, autoTool: true };
-document.documentElement.classList.toggle('reduce-motion', settings.reducedMotion);
+applyLook(settings);
 
 const sound = new Sound();
 sound.enabled = settings.sound;
