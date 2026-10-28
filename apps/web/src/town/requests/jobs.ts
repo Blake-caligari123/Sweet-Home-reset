@@ -6,6 +6,7 @@ import type { Conversations } from '../neighbours/conversations';
 import { heartsOf } from '../neighbours/talk';
 import type { Clock } from '../play/clock';
 import type { AreaMess } from '../play/mess';
+import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import type { Button, Settings, View } from '../ui/view';
 import { accept, cleanDone, finish, freshMess, MAX_ACCEPTED, newDay, withTiles, type RequestTemplate } from './requests';
@@ -23,6 +24,10 @@ export interface JobsHost {
   area(): string;
   /** Redraw one mess tile of the current area. */
   syncMess(i: number): void;
+  /** A Plus neighbour without Plus (M2 stub): their jobs stay off the board. */
+  locked(id: string): boolean;
+  /** Tell the onboarding tips a job was taken or done. */
+  onboard(e: OnboardEvent): void;
   refreshHud(): void;
   save(): void;
 }
@@ -36,7 +41,7 @@ export class Jobs {
     const { state, content, clock, settings } = this.host;
     const expire = !(settings.relaxed && !TUNING.relaxedMode.requestExpiry);
     const before = state.requests.list;
-    const { state: next, expired } = newDay(state.requests, content.pack.requests ?? [], clock.state.day, { expire });
+    const { state: next, expired } = newDay(state.requests, (content.pack.requests ?? []).filter((t) => !this.host.locked(t.neighbourId)), clock.state.day, { expire });
     state.requests = next;
     // A missed tidy job takes its leftover mess with it.
     for (const r of before.filter((x) => expired.includes(x.id) && x.tiles?.length)) {
@@ -67,6 +72,7 @@ export class Jobs {
         if (!next) { view.say(`Puff can take ${MAX_ACCEPTED} jobs at a time.`); return; }
         state.requests = next;
         this.start(t);
+        this.host.onboard({ type: 'accepted', id: r.id });
         close(); this.host.refreshHud();
         view.say('On it!');
       });
@@ -116,6 +122,7 @@ export class Jobs {
     f.points += TUNING.friendship.request;
     state.sparkles += t.sparkles;
     if (t.setFlag) state.flag(t.setFlag);
+    this.host.onboard({ type: 'jobDone', id: t.id });
     view.feedback('coin', 'success');
     view.banner(`Job done! +${t.sparkles} ✨`);
     const up = heartsOf(f.points) > hearts;

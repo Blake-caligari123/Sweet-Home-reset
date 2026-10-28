@@ -1,15 +1,16 @@
 import { h } from '../../shared/ui/dom';
 import type { Content } from '../data/content';
 import { TUNING } from '../data/tuning';
-import type { Clock } from '../play/clock';
+import { formatTime, type Clock } from '../play/clock';
+import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import { itemIcon } from '../ui/hud';
 import type { Button, View } from '../ui/view';
-import { drawNeighbour24, type Dir } from '../world/art';
+import { drawNeighbour24, type Dir } from '../world/art/characters';
 import { spriteIcon } from '../world/sprites';
 import { canGift, chat, give } from './friends';
 import { doneFlag, eventDue, stepsOf, type HeartEvent } from './heart-events';
-import type { NeighbourDef, Neighbours } from './neighbours';
+import { wakesAt, type NeighbourDef, type Neighbours } from './neighbours';
 import { heartsOf, pickLine, RECENT } from './talk';
 
 const OPPOSITE: Record<Dir, Dir> = { down: 'up', up: 'down', left: 'right', right: 'left' };
@@ -30,6 +31,10 @@ export interface ConversationHost {
   sparkleAtPuff(count: number): void;
   /** Buttons other features add to a neighbour's speech box (requests to hand over). */
   extraButtons(id: string): Button[];
+  /** A Plus neighbour without Plus (M2 stub): no chat yet. */
+  locked(id: string): boolean;
+  /** Tell the onboarding tips Puff met someone. */
+  onboard(e: OnboardEvent): void;
   refreshHud(): void;
   save(): void;
 }
@@ -43,7 +48,12 @@ export class Conversations {
     const def = content.neighbour(id); const n = neighbours.states.get(id);
     if (!def || !n || n.area !== this.host.area()) { neighbours.releaseAll(); return; }
     const dir = this.host.facePuff(n.fx, n.fy);
-    if (n.pose === 'sleep') { this.host.view.say(`Shh... ${def.name}'s having a doze.`); neighbours.releaseAll(); return; }
+    if (this.host.locked(id)) { this.host.view.say('Someone new! We\'ll say hello another day.'); neighbours.releaseAll(); return; }
+    if (n.pose === 'sleep') {
+      const up = wakesAt(def.schedule, clock.state.minutes);
+      this.host.view.say(`Shh... ${def.name}'s having a doze.${up ? ` Up at ${formatTime(up)}.` : ''}`);
+      neighbours.releaseAll(); return;
+    }
     n.dir = OPPOSITE[dir];
     const f = state.friendOf(id);
     const day = clock.state.day;
@@ -76,7 +86,7 @@ export class Conversations {
 
   private meet(id: string) {
     const f = this.host.state.friendOf(id);
-    if (!f.met) { f.met = true; this.host.state.flag(`met_${id}`); }
+    if (!f.met) { f.met = true; this.host.state.flag(`met_${id}`); this.host.onboard({ type: 'met', id }); }
   }
 
   /** A neighbour's speech box; Bye lets them get on with their day. */

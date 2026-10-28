@@ -95,6 +95,27 @@
   "towel": {
    "name": "Towel",
    "home": "towel basket"
+  },
+  "fibre": {
+   "name": "Fibre"
+  },
+  "river_stone": {
+   "name": "River stone"
+  },
+  "mushroom": {
+   "name": "Mushroom"
+  },
+  "tea": {
+   "name": "Tea leaves"
+  },
+  "old_map": {
+   "name": "Old map"
+  },
+  "lint": {
+   "name": "Lint"
+  },
+  "cobweb": {
+   "name": "Cobweb"
   }
  },
  "areas": [
@@ -2181,7 +2202,7 @@
     "hgggggggggggggpggggggggggggfgh",
     "hgggggggggggggpggggggggggggggh",
     "hgggggggggggggpgggggggpggggggh",
-    "hpppppppppppppppppppppppppppph",
+    "hppppppppppppppppppppppppppppp",
     "hggggggggggggggggggggggggggggh",
     "hggfgggggggggggggfgggggggggggh",
     "hggggggggggfggggggggggggfggggh",
@@ -2247,6 +2268,14 @@
      "to": "bathhouse",
      "toX": 7,
      "toY": 9
+    },
+    {
+     "x": 29,
+     "y": 6,
+     "to": "beach",
+     "toX": 1,
+     "toY": 1,
+     "closedText": "The beach path is all overgrown. Maybe in winter."
     }
    ],
    "mess": [
@@ -2632,6 +2661,178 @@
      "x": 11,
      "y": 5,
      "dir": "down",
+     "sleep": true
+    }
+   ]
+  },
+  {
+   "id": "otto",
+   "name": "Otto",
+   "species": "otter",
+   "plus": true,
+   "colours": {
+    "fur": "#B9937A",
+    "belly": "#FAEBD2",
+    "accent": "#A9BFD6"
+   },
+   "loves": [
+    "shell",
+    "soap"
+   ],
+   "likes": [
+    "bread",
+    "fibre",
+    "river_stone"
+   ],
+   "dislikes": [
+    "cobweb",
+    "silk_thread"
+   ],
+   "schedule": [
+    {
+     "at": 360,
+     "area": "riverside",
+     "x": 8,
+     "y": 11,
+     "dir": "down"
+    },
+    {
+     "at": 600,
+     "area": "bathhouse",
+     "x": 12,
+     "y": 4,
+     "dir": "up"
+    },
+    {
+     "at": 960,
+     "area": "riverside",
+     "x": 20,
+     "y": 7,
+     "dir": "down"
+    },
+    {
+     "at": 1200,
+     "area": "riverside",
+     "x": 9,
+     "y": 12,
+     "dir": "down"
+    },
+    {
+     "at": 1320,
+     "area": "bathhouse",
+     "x": 11,
+     "y": 8,
+     "dir": "left",
+     "sleep": true
+    }
+   ]
+  },
+  {
+   "id": "moss",
+   "name": "Moss",
+   "species": "mole",
+   "plus": true,
+   "colours": {
+    "fur": "#A6A29F",
+    "belly": "#F7D2BF",
+    "accent": "#F4C2A8"
+   },
+   "loves": [
+    "book",
+    "mushroom"
+   ],
+   "likes": [
+    "tea",
+    "old_map",
+    "lint"
+   ],
+   "dislikes": [
+    "flowers",
+    "soap"
+   ],
+   "schedule": [
+    {
+     "at": 360,
+     "area": "library",
+     "x": 12,
+     "y": 8,
+     "dir": "down",
+     "sleep": true
+    },
+    {
+     "at": 600,
+     "area": "library",
+     "x": 7,
+     "y": 8,
+     "dir": "up"
+    },
+    {
+     "at": 960,
+     "area": "library",
+     "x": 10,
+     "y": 4,
+     "dir": "up"
+    },
+    {
+     "at": 1320,
+     "area": "library",
+     "x": 11,
+     "y": 8,
+     "dir": "down"
+    },
+    {
+     "at": 1440,
+     "area": "library",
+     "x": 12,
+     "y": 8,
+     "dir": "down",
+     "sleep": true
+    }
+   ]
+  },
+  {
+   "id": "mabel",
+   "name": "Mabel",
+   "species": "owl",
+   "plus": true,
+   "colours": {
+    "fur": "#C5A691",
+    "belly": "#FFF8EC",
+    "accent": "#E7CB69"
+   },
+   "loves": [
+    "tea",
+    "old_map"
+   ],
+   "likes": [
+    "book",
+    "honey",
+    "silk_thread"
+   ],
+   "dislikes": [
+    "mud",
+    "crumbs"
+   ],
+   "schedule": [
+    {
+     "at": 360,
+     "area": "beach",
+     "x": 1,
+     "y": 1,
+     "sleep": true
+    },
+    {
+     "at": 1080,
+     "area": "square",
+     "x": 19,
+     "y": 14,
+     "dir": "down"
+    },
+    {
+     "at": 1500,
+     "area": "beach",
+     "x": 1,
+     "y": 1,
      "sleep": true
     }
    ]
@@ -3042,6 +3243,411 @@
     "flag": "restored_bakery",
     "once": true
    }
+  ],
+  "otto": [
+   {
+    "id": "otto.meet.1",
+    "meet": true
+   },
+   {
+    "id": "otto.busy.1",
+    "busy": true
+   },
+   {
+    "id": "otto.busy.2",
+    "busy": true
+   },
+   {
+    "id": "otto.busy.3",
+    "busy": true
+   },
+   {
+    "id": "otto.morning.1",
+    "time": "morning"
+   },
+   {
+    "id": "otto.morning.2",
+    "time": "morning"
+   },
+   {
+    "id": "otto.day.1",
+    "time": "day"
+   },
+   {
+    "id": "otto.day.2",
+    "time": "day"
+   },
+   {
+    "id": "otto.evening.1",
+    "time": "evening"
+   },
+   {
+    "id": "otto.evening.2",
+    "time": "evening"
+   },
+   {
+    "id": "otto.night.1",
+    "time": "night"
+   },
+   {
+    "id": "otto.night.2",
+    "time": "night"
+   },
+   {
+    "id": "otto.spring.1",
+    "season": "spring"
+   },
+   {
+    "id": "otto.spring.2",
+    "season": "spring"
+   },
+   {
+    "id": "otto.spring.3",
+    "season": "spring"
+   },
+   {
+    "id": "otto.rainy.1",
+    "weather": "rainy"
+   },
+   {
+    "id": "otto.rainy.2",
+    "weather": "rainy"
+   },
+   {
+    "id": "otto.h0.1",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "otto.h0.2",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "otto.h0.3",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "otto.h3.1",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "otto.h3.2",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "otto.h3.3",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "otto.h6.1",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "otto.h6.2",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "otto.h6.3",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "otto.h9.1",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "otto.h9.2",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "otto.h9.3",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "otto.restored.1",
+    "flag": "restored_bathhouse",
+    "once": true
+   }
+  ],
+  "moss": [
+   {
+    "id": "moss.meet.1",
+    "meet": true
+   },
+   {
+    "id": "moss.busy.1",
+    "busy": true
+   },
+   {
+    "id": "moss.busy.2",
+    "busy": true
+   },
+   {
+    "id": "moss.busy.3",
+    "busy": true
+   },
+   {
+    "id": "moss.morning.1",
+    "time": "morning"
+   },
+   {
+    "id": "moss.morning.2",
+    "time": "morning"
+   },
+   {
+    "id": "moss.day.1",
+    "time": "day"
+   },
+   {
+    "id": "moss.day.2",
+    "time": "day"
+   },
+   {
+    "id": "moss.evening.1",
+    "time": "evening"
+   },
+   {
+    "id": "moss.evening.2",
+    "time": "evening"
+   },
+   {
+    "id": "moss.night.1",
+    "time": "night"
+   },
+   {
+    "id": "moss.night.2",
+    "time": "night"
+   },
+   {
+    "id": "moss.spring.1",
+    "season": "spring"
+   },
+   {
+    "id": "moss.spring.2",
+    "season": "spring"
+   },
+   {
+    "id": "moss.spring.3",
+    "season": "spring"
+   },
+   {
+    "id": "moss.rainy.1",
+    "weather": "rainy"
+   },
+   {
+    "id": "moss.rainy.2",
+    "weather": "rainy"
+   },
+   {
+    "id": "moss.h0.1",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "moss.h0.2",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "moss.h0.3",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "moss.h3.1",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "moss.h3.2",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "moss.h3.3",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "moss.h6.1",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "moss.h6.2",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "moss.h6.3",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "moss.h9.1",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "moss.h9.2",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "moss.h9.3",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "moss.restored.1",
+    "flag": "restored_library",
+    "once": true
+   }
+  ],
+  "mabel": [
+   {
+    "id": "mabel.meet.1",
+    "meet": true
+   },
+   {
+    "id": "mabel.busy.1",
+    "busy": true
+   },
+   {
+    "id": "mabel.busy.2",
+    "busy": true
+   },
+   {
+    "id": "mabel.busy.3",
+    "busy": true
+   },
+   {
+    "id": "mabel.morning.1",
+    "time": "morning"
+   },
+   {
+    "id": "mabel.morning.2",
+    "time": "morning"
+   },
+   {
+    "id": "mabel.day.1",
+    "time": "day"
+   },
+   {
+    "id": "mabel.day.2",
+    "time": "day"
+   },
+   {
+    "id": "mabel.evening.1",
+    "time": "evening"
+   },
+   {
+    "id": "mabel.evening.2",
+    "time": "evening"
+   },
+   {
+    "id": "mabel.night.1",
+    "time": "night"
+   },
+   {
+    "id": "mabel.night.2",
+    "time": "night"
+   },
+   {
+    "id": "mabel.spring.1",
+    "season": "spring"
+   },
+   {
+    "id": "mabel.spring.2",
+    "season": "spring"
+   },
+   {
+    "id": "mabel.spring.3",
+    "season": "spring"
+   },
+   {
+    "id": "mabel.rainy.1",
+    "weather": "rainy"
+   },
+   {
+    "id": "mabel.rainy.2",
+    "weather": "rainy"
+   },
+   {
+    "id": "mabel.h0.1",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "mabel.h0.2",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "mabel.h0.3",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "mabel.h3.1",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "mabel.h3.2",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "mabel.h3.3",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "mabel.h6.1",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "mabel.h6.2",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "mabel.h6.3",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "mabel.h9.1",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "mabel.h9.2",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "mabel.h9.3",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "mabel.restored.1",
+    "flag": "restored_bathhouse",
+    "once": true
+   }
   ]
  },
  "strings": {
@@ -3258,7 +3864,215 @@
    "pip.request.done": "You did it! Best helper ever, right?",
    "stock.bag_small": "Bigger bag (+6 slots)",
    "stock.bag_big": "Biggest bag (+6 more)",
-   "stock.copper_sponge": "Copper sponge recipe"
+   "stock.copper_sponge": "Copper sponge recipe",
+   "otto.meet.1": "Well, hello! Water you doing here? Heh. I'm Otto!",
+   "otto.busy.1": "Brass won't polish itself! Back tomorrow? Heh.",
+   "otto.busy.2": "Otter things to do! Heh. See you tomorrow!",
+   "otto.busy.3": "Still here, still bubbly! Heh heh.",
+   "otto.morning.1": "Up with the fish! Not that they wanted me up.",
+   "otto.morning.2": "Morning! The river's all sparkly at this hour.",
+   "otto.day.1": "Polishing Uncle Brook's brass. It likes a shine.",
+   "otto.day.2": "Every tap in here squeaks. I've named them all.",
+   "otto.evening.1": "Evening's for the jetty. Just sitting. Thinking.",
+   "otto.evening.2": "Listen. The river sounds different at dusk.",
+   "otto.night.1": "Shh. The bubbles are asleep. Heh. Kidding.",
+   "otto.night.2": "Stars on the water. Two skies for the price of one.",
+   "otto.spring.1": "Spring melt! The river's in a hurry today.",
+   "otto.spring.2": "A blossom floated by this morning. Lucky river.",
+   "otto.spring.3": "Spring means bubble season. Every season does.",
+   "otto.rainy.1": "Rain! The river's having a bath too. Heh.",
+   "otto.rainy.2": "Puddles are tiny bathhouses. I approve.",
+   "otto.h0.1": "A dust bunny at a bathhouse! That's a first. Heh.",
+   "otto.h0.2": "Mind the soap scum. There's... a lot. Heh. Sorry.",
+   "otto.h0.3": "You're welcome here any time. Bring bubbles!",
+   "otto.h3.1": "You make the place feel open again. Nearly.",
+   "otto.h3.2": "Uncle Brook would have liked you. A lot.",
+   "otto.h3.3": "I saved you the best towel. The fluffy one!",
+   "otto.h6.1": "Doors open! Real guests! Can you believe it?",
+   "otto.h6.2": "The brass shines like Brook kept it. Better, maybe.",
+   "otto.h6.3": "Some days I laugh because it's easier. Not today.",
+   "otto.h9.1": "Bath night was the best night. Thanks, friend.",
+   "otto.h9.2": "Still not a swimmer. But I'm a top paddler!",
+   "otto.h9.3": "This place is mine now. Brook's and mine.",
+   "otto.restored.1": "Look at it gleam! I think Brook's smiling.",
+   "otto.gift.loved": "For me?! I could do a backflip. Heh. Thanks!",
+   "otto.gift.liked": "Ooh, nice one! That's going on the windowsill.",
+   "otto.gift.neutral": "A present? You're a good egg. Er, bunny.",
+   "otto.gift.disliked": "Ah, not really my thing. Kind of you, though!",
+   "otto.request.done": "You're a star! A wet, sparkly star. Thanks!",
+   "otto.meet.1.alt": "Well, hello! What brings you down here? I'm Otto!",
+   "otto.busy.2.alt": "So much to do! Heh. See you tomorrow!",
+   "moss.meet.1": "Oh. ... Hello. ... You may stay. Quietly.",
+   "moss.busy.1": "... That's enough talking for today. Thank you.",
+   "moss.busy.2": "... I'm in the middle of a chapter.",
+   "moss.busy.3": "Mm. ... Tomorrow. Perhaps.",
+   "moss.morning.1": "... It's early. The books are still asleep.",
+   "moss.morning.2": "Morning. ... Tea first. Then words.",
+   "moss.day.1": "Shelving. ... A to M today. N to Z tomorrow.",
+   "moss.day.2": "... The curtains stay shut. Light fades pages.",
+   "moss.evening.1": "Evening is quiet. ... I like quiet.",
+   "moss.evening.2": "... Pip came by. Only for a minute. It was nice.",
+   "moss.night.1": "... You heard me reading? Oh. ... It's nothing.",
+   "moss.night.2": "Night is the best time for stories. ... Shh.",
+   "moss.spring.1": "Spring. ... Bea's flowers. ... Atchoo. Sorry.",
+   "moss.spring.2": "... Someone waters my doorstep plants. Not me.",
+   "moss.spring.3": "Spring cleaning. ... You'd know about that.",
+   "moss.rainy.1": "Rain on the roof. ... The best reading sound.",
+   "moss.rainy.2": "... Rainy days. Nobody visits. I don't mind.",
+   "moss.h0.1": "... You're tidying? Mind the stacks. Please.",
+   "moss.h0.2": "Shh. ... Sorry. Habit. You may speak.",
+   "moss.h0.3": "... The dust has been here longer than me.",
+   "moss.h3.1": "... I saved you a chair. The good one.",
+   "moss.h3.2": "You don't fill the quiet. ... I like that.",
+   "moss.h3.3": "... Mabel lends me maps. I'll show you one.",
+   "moss.h6.1": "The cellar nook is ready. ... One seat. Yours too.",
+   "moss.h6.2": "... I wave now. When I want company. See?",
+   "moss.h6.3": "... Some days are people days. Today is one.",
+   "moss.h9.1": "Quiet hour went well. ... Four whole visitors.",
+   "moss.h9.2": "... I'm glad you came in. That first day.",
+   "moss.h9.3": "You're in my story. ... You don't mind?",
+   "moss.restored.1": "... The light came in. The books seem happier.",
+   "moss.gift.loved": "... Oh. ... For me? ... Thank you. Truly.",
+   "moss.gift.liked": "... That's thoughtful. Thank you.",
+   "moss.gift.neutral": "... A gift. Thank you. ... I'll find it a shelf.",
+   "moss.gift.disliked": "Atchoo. ... Sorry. ... Kind, though. Thank you.",
+   "moss.request.done": "... Thank you. That was ... very kind.",
+   "mabel.meet.1": "Hoo. So you're the one who tidies. Welcome, dear.",
+   "mabel.busy.1": "Hoo. A long night for an old owl. Tomorrow, dear.",
+   "mabel.busy.2": "Rest your paws, dear. Talk keeps till dusk.",
+   "mabel.busy.3": "Hoo. Still here? Many paws, light work.",
+   "mabel.morning.1": "Hoo... awake at this hour? Owls and dew don't mix.",
+   "mabel.morning.2": "Morning, dear. My feathers say it's bedtime.",
+   "mabel.day.1": "Hoo. Daylight's for sleeping. But for you, a minute.",
+   "mabel.day.2": "The sun's so bright, dear. I'll squint and smile.",
+   "mabel.evening.1": "Evening, dear. The square is kind at this hour.",
+   "mabel.evening.2": "Hoo. Lamps on, hearts warm. That's the way.",
+   "mabel.night.1": "Night's my time. Sit a while, if you like.",
+   "mabel.night.2": "Hoo. See the candle by the sea? That's mine.",
+   "mabel.spring.1": "Spring's a promise, dear. Keep it, it keeps you.",
+   "mabel.spring.2": "Hoo. Blossom slow, blossom sweet. Spring's complete.",
+   "mabel.spring.3": "I smell spring on you. And a little soap.",
+   "mabel.rainy.1": "Rain on the sea, rain on the square. Hoo.",
+   "mabel.rainy.2": "A wet night's a story night, dear.",
+   "mabel.h0.1": "Hoo. The fountain's quiet. It wasn't always.",
+   "mabel.h0.2": "Busy paws, kind heart. Mind you rest, dear.",
+   "mabel.h0.3": "I knew this town when it sparkled, dear.",
+   "mabel.h3.1": "Hoo. You remind me of someone. Can't think who.",
+   "mabel.h3.2": "Otto's doing better. You've helped there.",
+   "mabel.h3.3": "Old maps, old friends. Both worth keeping.",
+   "mabel.h6.1": "Lamp nights are back. Hoo. Who'd have thought?",
+   "mabel.h6.2": "The climb is easier with a rail. And a friend.",
+   "mabel.h6.3": "Brook would laugh to see the bathhouse now.",
+   "mabel.h9.1": "Hoo. Many paws, light work. You showed us that.",
+   "mabel.h9.2": "You're the little keeper, dear. I always hoped.",
+   "mabel.h9.3": "Whatever comes, the light remembers you.",
+   "mabel.restored.1": "Hoo. Brook's bathhouse, bright again. Thank you.",
+   "mabel.gift.loved": "Hoo! For me? You've a good eye, dear. Thank you.",
+   "mabel.gift.liked": "How thoughtful. A kind gift for an old owl.",
+   "mabel.gift.neutral": "Hoo. A present. That's sweet of you, dear.",
+   "mabel.gift.disliked": "Hoo. Not for me, dear. But the thought's lovely.",
+   "mabel.request.done": "Hoo. Kindly done, dear. Kindly done.",
+   "he_otto_02.l01": "Welcome to the bathhouse! Well. It's closed.",
+   "he_otto_02.l02": "Soap scum on every tile. Heh. Bit much, eh?",
+   "he_otto_02.l03": "I could scrub? Scrubbing is my favourite.",
+   "he_otto_02.l04": "You'd do that? For a bathhouse nobody visits?",
+   "he_otto_02.l05": "Somebody visits. Me!",
+   "he_otto_02.l06": "Heh. Heh! Then it's open. For one.",
+   "he_otto_04.l01": "This was Uncle Brook's. Forty years, he ran it.",
+   "he_otto_04.l02": "Everyone loved it. Loved him.",
+   "he_otto_04.l03": "I'm not sure I'm... Brook enough. You know?",
+   "he_otto_04.l04": "You don't have to be Brook. You're Otto.",
+   "he_otto_04.l05": "...Heh. I'm Otto. Yeah. I can be Otto.",
+   "he_otto_06.l01": "Big news! The bathhouse reopens. Today!",
+   "he_otto_06.l02": "The first guest gets the good towel. Who's first?",
+   "he_otto_06.c03": "Who gets the first good towel?",
+   "he_otto_06.c03.o1": "Hazel, who never sits down",
+   "he_otto_06.c03.o2": "Bea, after a long day",
+   "he_otto_06.c03.o3": "Pip, for the bath toys",
+   "he_otto_06.l04": "Perfect! And for you, Brook's squeegee plans.",
+   "he_otto_06.l05": "A Silver squeegee. Windows won't know what hit them!",
+   "he_otto_08.l01": "I'm adding a bubble bath. For tired neighbours.",
+   "he_otto_08.l02": "Can I tell you a secret? I can't really swim.",
+   "he_otto_08.l03": "That's okay. Want to paddle in the shallows?",
+   "he_otto_08.l04": "...Yeah. Just the shallows. Together?",
+   "he_otto_08.l05": "Together. Paws in, nice and slow.",
+   "he_otto_08.l06": "Ha! Look at us. Two paddlers. Heh.",
+   "he_otto_10.l01": "Bath night! The whole town came. Can you hear?",
+   "he_otto_10.l02": "Hoo. Brook once fell in his own pool, you know.",
+   "he_otto_10.l03": "In his best waistcoat. He came up laughing.",
+   "he_otto_10.l04": "He did?! Ha! Ha ha! Oh, that's so Brook.",
+   "he_otto_10.l05": "First real laugh in ages. Thanks, Puff.",
+   "he_moss_02.l01": "... Books. Floor to ceiling. I know.",
+   "he_moss_02.l02": "The curtains stay shut. ... Fewer visitors.",
+   "he_moss_02.l03": "Could I shelve a few? Very quietly?",
+   "he_moss_02.l04": "... Very quietly. ... Yes. All right.",
+   "he_moss_04.l01": "... Can I say something? ... People tire me out.",
+   "he_moss_04.l02": "Not you. ... Everyone. All at once.",
+   "he_moss_04.l03": "Then I'll only come in when you wave.",
+   "he_moss_04.l04": "... A waving sign. For the window. ... Yes.",
+   "he_moss_04.c05": "What goes on the waving sign?",
+   "he_moss_04.c05.o1": "A little paw",
+   "he_moss_04.c05.o2": "A tiny book",
+   "he_moss_04.c05.o3": "A sleepy moon",
+   "he_moss_04.l06": "... It's perfect. ... I'll wave. Sometimes.",
+   "he_moss_06.l01": "... There's a cellar. I've never shown anyone.",
+   "he_moss_06.l02": "A reading nook. ... Just for one.",
+   "he_moss_06.l03": "It's so cosy. It's like a burrow!",
+   "he_moss_06.l04": "... Use it whenever you like. ... You count.",
+   "he_moss_08.l01": "... I'm starting a quiet hour. For others.",
+   "he_moss_08.l02": "Reading. No talking. ... Pip wants to come.",
+   "he_moss_08.l03": "... And. ... I write stories. Here's one.",
+   "he_moss_08.l04": "\"The Dust Bunny Who Stayed.\" ...Is that me?",
+   "he_moss_08.l05": "... Maybe. ... Don't read it out loud. Yet.",
+   "he_moss_10.l01": "... I'm going to read my story. Out loud.",
+   "he_moss_10.l02": "\"Once, a dust bunny came to Hollowfern.\"",
+   "he_moss_10.l03": "\"On its very first day, it dusted Hazel's counter.\"",
+   "he_moss_10.l04": "\"It made the bakery shine like a new loaf.\"",
+   "he_moss_10.l05": "\"It tidied Bea's back room, lists and all.\"",
+   "he_moss_10.l06": "\"It found a home for every one of Pip's toys.\"",
+   "he_moss_10.l07": "\"It scrubbed the bathhouse till it sang.\"",
+   "he_moss_10.l08": "\"Wherever it tidied, the colour came back.\"",
+   "he_moss_10.l09": "\"And the town remembered how to gather.\" ... The end.",
+   "he_moss_10.l10": "Moss. That's the best story I've ever heard.",
+   "he_moss_10.l11": "... It's a true one. ... That's the trick.",
+   "he_mabel_02.l01": "Hoo. Out by the sea there's a lighthouse. Mine.",
+   "he_mabel_02.l02": "Salt on every window. The light's been off for years.",
+   "he_mabel_02.l03": "Off? Then how do the boats find their way?",
+   "he_mabel_02.l04": "A candle in my window, dear. It's what I can do.",
+   "he_mabel_02.l05": "Light a small light, and the big ones remember.",
+   "he_mabel_04.l01": "The lighthouse stairs are long, dear. So long.",
+   "he_mabel_04.l02": "The rail's loose and the steps are dim. So I stopped.",
+   "he_mabel_04.l03": "Then let's fix the rail. I'm good at fixing.",
+   "he_mabel_04.l04": "Hoo. Pip lent you his little hammer, I see.",
+   "he_mabel_04.l05": "Tap, tap. Steady as a branch. Thank you, dear.",
+   "he_mabel_06.l01": "Hoo. An idea, dear. A lamp night, here in the square.",
+   "he_mabel_06.l02": "Everyone brings a little light. Like we used to.",
+   "he_mabel_06.c03": "What will Puff bring?",
+   "he_mabel_06.c03.o1": "A paper lantern",
+   "he_mabel_06.c03.o2": "A jar of glow-worms",
+   "he_mabel_06.c03.o3": "A candle from home",
+   "he_mabel_06.l04": "Lovely. Light that's shared is light that's doubled.",
+   "he_mabel_08.l01": "Hoo. Sit, dear. I've brought my oldest maps.",
+   "he_mabel_08.l02": "See? The Glimmerwell. The town gathered here.",
+   "he_mabel_08.l03": "Every spring. \"Many paws, light work,\" we said.",
+   "he_mabel_08.l04": "And here, by the rim. A little drawing.",
+   "he_mabel_08.l05": "\"The Well's little keeper, born of what we let fall.\"",
+   "he_mabel_08.l06": "It looks a bit like... a dust bunny?",
+   "he_mabel_08.l07": "Hoo. You've even woken Brook's bathhouse. I knew it.",
+   "he_mabel_08.l08": "Hoo. One home at a time, dear. I knew it.",
+   "he_mabel_08.l09": "I've waited a long time to meet you, dear.",
+   "he_mabel_10.l01": "Hoo. Tonight's the night, dear. Winter Lights.",
+   "he_mabel_10.l02": "Up we go, Mabel. One step. Then another.",
+   "he_mabel_10.l03": "Many paws, light work. Light the lamp, dear.",
+   "he_mabel_10.l04": "It's lit! Look, the fountain's lighting up too!",
+   "he_mabel_10.l05": "Hoo. The town remembered how to gather.",
+   "he_mabel_10.l06": "Thank you, little keeper. Welcome home.",
+   "req.otto_shell": "Otto's windowsill needs a shell. Just one!",
+   "req.otto_fog": "Clear the foggy patches by Otto's pool.",
+   "req.moss_book": "Moss would like a book. Any book. Quietly.",
+   "req.moss_cobwebs": "Dust the cobwebs in Moss's reading corner.",
+   "req.mabel_mud": "Clear the mud by Mabel's evening bench.",
+   "req.mabel_biscuit": "Mabel fancies a biscuit with her evening tea."
   }
  },
  "heartEvents": [
@@ -3952,6 +4766,687 @@
    "rewards": {
     "sparkles": 100
    }
+  },
+  {
+   "id": "he_otto_02",
+   "neighbourId": "otto",
+   "hearts": 2,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "otto",
+     "line": "he_otto_02.l01"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_02.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_otto_02.l03"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_02.l04"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_otto_02.l05"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_02.l06"
+    }
+   ],
+   "skippable": true
+  },
+  {
+   "id": "he_otto_04",
+   "neighbourId": "otto",
+   "hearts": 4,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "otto",
+     "line": "he_otto_04.l01"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_04.l02"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_04.l03"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_otto_04.l04"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_04.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_otto_02"
+    ]
+   }
+  },
+  {
+   "id": "he_otto_06",
+   "neighbourId": "otto",
+   "hearts": 6,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "otto",
+     "line": "he_otto_06.l01"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_06.l02"
+    },
+    {
+     "choice": "he_otto_06.c03",
+     "options": [
+      {
+       "label": "he_otto_06.c03.o1",
+       "setFlag": "first_towel_hazel"
+      },
+      {
+       "label": "he_otto_06.c03.o2",
+       "setFlag": "first_towel_bea"
+      },
+      {
+       "label": "he_otto_06.c03.o3",
+       "setFlag": "first_towel_pip"
+      }
+     ]
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_06.l04"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_06.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_otto_04"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "recipe_silver_squeegee"
+    ]
+   }
+  },
+  {
+   "id": "he_otto_08",
+   "neighbourId": "otto",
+   "hearts": 8,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "otto",
+     "line": "he_otto_08.l01"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_08.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_otto_08.l03"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_08.l04"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_otto_08.l05"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_08.l06"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_otto_06"
+    ]
+   }
+  },
+  {
+   "id": "he_otto_10",
+   "neighbourId": "otto",
+   "hearts": 10,
+   "trigger": {
+    "type": "talk",
+    "timeBand": [
+     "evening",
+     "night"
+    ]
+   },
+   "scene": [
+    {
+     "speaker": "otto",
+     "line": "he_otto_10.l01"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_otto_10.l02"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_otto_10.l03"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_10.l04"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_otto_10.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_otto_08"
+    ]
+   },
+   "rewards": {
+    "sparkles": 100
+   }
+  },
+  {
+   "id": "he_moss_02",
+   "neighbourId": "moss",
+   "hearts": 2,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "moss",
+     "line": "he_moss_02.l01"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_02.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_moss_02.l03"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_02.l04"
+    }
+   ],
+   "skippable": true
+  },
+  {
+   "id": "he_moss_04",
+   "neighbourId": "moss",
+   "hearts": 4,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "moss",
+     "line": "he_moss_04.l01"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_04.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_moss_04.l03"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_04.l04"
+    },
+    {
+     "choice": "he_moss_04.c05",
+     "options": [
+      {
+       "label": "he_moss_04.c05.o1",
+       "setFlag": "wave_sign_paw"
+      },
+      {
+       "label": "he_moss_04.c05.o2",
+       "setFlag": "wave_sign_book"
+      },
+      {
+       "label": "he_moss_04.c05.o3",
+       "setFlag": "wave_sign_moon"
+      }
+     ]
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_04.l06"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_moss_02"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "moss_wave_sign"
+    ]
+   }
+  },
+  {
+   "id": "he_moss_06",
+   "neighbourId": "moss",
+   "hearts": 6,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "moss",
+     "line": "he_moss_06.l01"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_06.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_moss_06.l03"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_06.l04"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_moss_04"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "library_cellar"
+    ]
+   }
+  },
+  {
+   "id": "he_moss_08",
+   "neighbourId": "moss",
+   "hearts": 8,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "moss",
+     "line": "he_moss_08.l01"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_08.l02"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_08.l03"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_moss_08.l04"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_08.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_moss_06"
+    ]
+   }
+  },
+  {
+   "id": "he_moss_10",
+   "neighbourId": "moss",
+   "hearts": 10,
+   "trigger": {
+    "type": "talk",
+    "timeBand": [
+     "night"
+    ]
+   },
+   "scene": [
+    {
+     "speaker": "moss",
+     "line": "he_moss_10.l01"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_10.l02"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_10.l03",
+     "if": {
+      "flag": "onboard_counter_done"
+     }
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_10.l04",
+     "if": {
+      "flag": "restored_bakery"
+     }
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_10.l05",
+     "if": {
+      "flag": "restored_bea_shop"
+     }
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_10.l06",
+     "if": {
+      "flag": "restored_pip_workshop"
+     }
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_10.l07",
+     "if": {
+      "flag": "restored_bathhouse"
+     }
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_10.l08",
+     "if": {
+      "notFlag": "restored_bakery"
+     }
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_10.l09"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_moss_10.l10"
+    },
+    {
+     "speaker": "moss",
+     "line": "he_moss_10.l11"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_moss_08"
+    ]
+   },
+   "rewards": {
+    "sparkles": 100
+   }
+  },
+  {
+   "id": "he_mabel_02",
+   "neighbourId": "mabel",
+   "hearts": 2,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_02.l01"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_02.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_mabel_02.l03"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_02.l04"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_02.l05"
+    }
+   ],
+   "skippable": true
+  },
+  {
+   "id": "he_mabel_04",
+   "neighbourId": "mabel",
+   "hearts": 4,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_04.l01"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_04.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_mabel_04.l03"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_04.l04"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_04.l05"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_mabel_02"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "lighthouse_rail"
+    ]
+   }
+  },
+  {
+   "id": "he_mabel_06",
+   "neighbourId": "mabel",
+   "hearts": 6,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_06.l01"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_06.l02"
+    },
+    {
+     "choice": "he_mabel_06.c03",
+     "options": [
+      {
+       "label": "he_mabel_06.c03.o1",
+       "setFlag": "lamp_lantern"
+      },
+      {
+       "label": "he_mabel_06.c03.o2",
+       "setFlag": "lamp_jar"
+      },
+      {
+       "label": "he_mabel_06.c03.o3",
+       "setFlag": "lamp_candle"
+      }
+     ]
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_06.l04"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_mabel_04"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "lamp_night"
+    ]
+   }
+  },
+  {
+   "id": "he_mabel_08",
+   "neighbourId": "mabel",
+   "hearts": 8,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_08.l01"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_08.l02"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_08.l03"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_08.l04"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_08.l05"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_mabel_08.l06"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_08.l07",
+     "if": {
+      "flag": "restored_bathhouse"
+     }
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_08.l08",
+     "if": {
+      "notFlag": "restored_bathhouse"
+     }
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_08.l09"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_mabel_06"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "mabel_maps"
+    ]
+   }
+  },
+  {
+   "id": "he_mabel_10",
+   "neighbourId": "mabel",
+   "hearts": 10,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_10.l01"
+    },
+    {
+     "speaker": "otto",
+     "line": "he_mabel_10.l02"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_10.l03"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_mabel_10.l04"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_10.l05"
+    },
+    {
+     "speaker": "mabel",
+     "line": "he_mabel_10.l06"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_mabel_08"
+    ],
+    "flags": [
+     "winter_lights"
+    ]
+   },
+   "rewards": {
+    "sparkles": 100
+   }
   }
  ],
  "requests": [
@@ -4033,6 +5528,77 @@
    "text": "req.pip_tart",
    "sparkles": 60,
    "item": "tart"
+  },
+  {
+   "id": "otto_shell",
+   "neighbourId": "otto",
+   "kind": "bring",
+   "text": "req.otto_shell",
+   "sparkles": 50,
+   "item": "shell",
+   "fromDay": 3
+  },
+  {
+   "id": "otto_fog",
+   "neighbourId": "otto",
+   "kind": "clean",
+   "text": "req.otto_fog",
+   "sparkles": 50,
+   "area": "bathhouse",
+   "rect": [
+    5,
+    8,
+    5,
+    1
+   ],
+   "mess": "fog",
+   "fromDay": 3
+  },
+  {
+   "id": "moss_book",
+   "neighbourId": "moss",
+   "kind": "bring",
+   "text": "req.moss_book",
+   "sparkles": 40,
+   "item": "book"
+  },
+  {
+   "id": "moss_cobwebs",
+   "neighbourId": "moss",
+   "kind": "clean",
+   "text": "req.moss_cobwebs",
+   "sparkles": 50,
+   "area": "library",
+   "rect": [
+    10,
+    9,
+    5,
+    1
+   ],
+   "mess": "cobweb"
+  },
+  {
+   "id": "mabel_mud",
+   "neighbourId": "mabel",
+   "kind": "clean",
+   "text": "req.mabel_mud",
+   "sparkles": 50,
+   "area": "square",
+   "rect": [
+    17,
+    16,
+    5,
+    1
+   ],
+   "mess": "mud"
+  },
+  {
+   "id": "mabel_biscuit",
+   "neighbourId": "mabel",
+   "kind": "bring",
+   "text": "req.mabel_biscuit",
+   "sparkles": 40,
+   "item": "biscuit"
   }
  ],
  "shops": [

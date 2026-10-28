@@ -41,12 +41,12 @@ Forward planning: if this milestone will push a file past 400 lines, split it **
 
 - **Rules** (decisions, maths, state changes): a pure module in the feature folder (`town/neighbours/talk.ts`, `town/shops/shops.ts`). No DOM, no Pixi. Tested beside it (`*.test.ts`), tests first.
 - **Feature UI** (sheets, dialogs, flows): one class or function per feature. It receives a small **host interface** listing exactly what it needs (`ConversationHost`, `JobsHost`, `ShopHost`) and never reaches into `TownGame`.
-- **Saved progress**: a field on `TownState` (`town/state.ts`) plus `TownSave` (`data/save.ts`), with a migration if old saves need a value, and `snapshot()` / `restore()` in `game.ts`.
+- **Saved progress**: a field on `TownState` (`town/state.ts`) plus `TownSave` (`data/save.ts`), with a migration if old saves need a value, and `toSave()` / `load()` in `state.ts`.
 - **Screen chrome**: through `View` (`ask`, `sheet`, `banner`, `say`, `feedback`). Never manage the busy hold by hand outside `View`.
 - **Content is data**: areas, mess, neighbours, routines, dialogue, scenes, requests, shops, items and pickups go in the pack (`public/packs-bundled/hollowfern/1/pack.json`), validated in `data/area.ts`, with a pack test.
   - Player-facing text goes in `strings['en-AU']` with ids; logic uses ids, never names.
   - Every gameplay number goes in `claude/config/tuning.json`. Never hard-code.
-- **Drawing**: `world/`. Code-drawn placeholders go in `world/art.ts` until art lands. When `art.ts` needs to grow, split it by subject (`art/ground.ts`, `art/props.ts`, `art/characters.ts`, `art/items.ts`) first.
+- **Drawing**: `world/`. Code-drawn placeholders go in `world/art/` by subject (`ground`, `props`, `items`, `characters`) until art lands.
 - **Shared code** (`src/shared/`) only if both the town and room games use it. `src/room/` is frozen: no new features.
 - **A new feature folder** when a feature has rules plus UI plus content (`town/shops/` is the model). Small helpers live with the feature that owns them, not in a grab-bag `utils`.
 

@@ -39,21 +39,30 @@ apps/web/src/
 ```
 town/
   main.ts       entry: loads the pack, save, paintings and sprites, then starts TownGame
-  game.ts       TownGame, the coordinator: areas, Puff, input, the day, the main loop, save/load
+  game.ts       TownGame, the coordinator: wires the features together; areas, input, the day,
+                the main loop and the save
   state.ts      TownState: Puff's saved progress (Sparkles, bag, Fluff, tools, flags, friends, jobs…)
+                and how it saves and loads
   data/         the pack schema and validation (area.ts), save format and migrations (save.ts),
                 tuning.json access (tuning.ts), pack lookups (content.ts), the test pack loader
-  world/        drawing and walking: world.ts (Pixi stage), art.ts (code-drawn tiles, props,
-                placeholders), sprites.ts, backgrounds.ts (paintings), bake.ts, ambience.ts,
-                nav.ts (free movement), pathfind.ts
+  world/        drawing and walking: world.ts (Pixi stage), sprites.ts, backgrounds.ts (paintings),
+                bake.ts, ambience.ts, nav.ts (free movement), pathfind.ts
+    art/          code-drawn placeholders: texture.ts (tile size, noise, dither), ground.ts,
+                  props.ts, items.ts (mess, item icons, crops), characters.ts (Puff, neighbours)
   play/         core rules: mess.ts (mess, colour, restore), bag.ts, fluff.ts, clock.ts,
-                onboarding.ts, letter.ts (morning letter and real chore)
+                pickups.ts, onboarding.ts (tip rules), letter.ts (morning letter and real chore);
+                Puff in play: puff.ts (position, facing), targets.ts (what a tap lands on),
+                actions.ts (cleaning, furniture, soil, pickups, doors), onboarding-guide.ts
+                (runs the tips: tools, highlights)
   neighbours/   neighbours.ts (routines, walking), talk.ts (line choice), friends.ts (points,
                 gifts), heart-events.ts (scene rules), conversations.ts (the talk/gift/scene/
                 Friends UI)
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
   shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
-  ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), bag-sheet.ts,
+  plus/         plus.ts: the M2 Plus stub (test builds have everything; `?plus=0` shows the free
+                game, with Otto, Moss and Mabel as silhouettes); real entitlement comes in M5
+  ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
+                the tool bar), bag-sheet.ts,
                 pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css
 ```
 
@@ -65,7 +74,7 @@ town/
   1. Add it to `TownState`.
   2. Add it to `TownSave` in `data/save.ts`.
   3. Add a migration if old saves need a value.
-  4. Add it to `snapshot()` and `restore()` in `game.ts`.
+  4. Add it to `toSave()` and `load()` in `state.ts`.
 - **`View`** owns everything over the world: speech boxes (`ask`), sheets, banners, Puff's bubble, sounds and haptics. While a box or sheet is open the game is held (`view.busy`), so the clock, Puff and the neighbours wait.
 - **`Content`** answers questions about the pack: text by id (`line`), item names, neighbours, requests.
 

@@ -1,5 +1,6 @@
 import { localDate } from '../../shared/date';
 import type { AreaMess } from '../play/mess';
+import type { RequestState } from '../requests/requests';
 
 // One versioned save (BACKEND-PLAN "Saves"): `shr` IndexedDB, `saves` store, slots main + backup.
 // Backup is written first, then main; a corrupt main loads the backup. Unknown fields are kept.
@@ -32,6 +33,12 @@ export interface TownSave {
   /** Pickups taken today (they're back each morning). */
   picked?: { day: number; ids: string[] };
   chores: { day: string; keys: string[]; total: number };
+  /** The notice board's jobs. */
+  requests?: RequestState;
+  /** The last kind of mess cleaned today, for the morning letter. */
+  lastClean?: string;
+  /** The tool in Puff's paws. */
+  selected?: string;
   settings: { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; relaxed: boolean; autoTool: boolean };
   [extra: string]: unknown;
 }

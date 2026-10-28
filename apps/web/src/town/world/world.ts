@@ -3,7 +3,9 @@ import { P } from '../../shared/art/palette';
 import { Particles } from '../../shared/render/particles';
 import { toTexture } from '../../shared/render/textures';
 import { PixelCanvas } from '../../shared/art/pixel-canvas';
-import { drawCrop, drawItemIcon, drawMess, drawNeighbour24, drawPuff24, drawToolMini, T, type Dir } from './art';
+import { drawNeighbour24, drawPuff24, drawToolMini, silhouette, type Dir } from './art/characters';
+import { drawCrop, drawItemIcon, drawMess } from './art/items';
+import { T } from './art/texture';
 import { Ambience, drawTapRing, vignetteTexture } from './ambience';
 import type { Area } from '../data/area';
 import { bakeArea } from './bake';
@@ -39,9 +41,12 @@ function puffTexture(dir: Dir, frame: number, pose: Parameters<typeof drawPuff24
 
 const npcFrames = new Map<string, Texture>();
 function npcTexture(v: NeighbourView, frame: number) {
-  const key = `${v.species}:${v.colours.fur}:${v.dir}:${frame}:${v.pose}`;
+  const key = `${v.species}:${v.colours.fur}:${v.dir}:${frame}:${v.pose}:${v.locked ? 'locked' : ''}`;
   let t = npcFrames.get(key);
-  if (!t) { t = toTexture(drawNeighbour24(v.species, v.colours, v.dir, frame, v.pose)); npcFrames.set(key, t); }
+  if (!t) {
+    const pc = drawNeighbour24(v.species, v.colours, v.dir, frame, v.pose);
+    t = toTexture(v.locked ? silhouette(pc) : pc); npcFrames.set(key, t);
+  }
   return t;
 }
 
@@ -71,7 +76,9 @@ function cropTexture(stage: number, watered: boolean) {
 export interface PuffView { x: number; y: number; dir: Dir; pose: 'walk' | 'idle' | 'swing' | 'sleep' | 'hop'; tool: string | null }
 
 /** A neighbour to draw: x, y is the bottom-centre of their sprite in world px. */
-export interface NeighbourView { id: string; species: string; colours: { fur: string; belly: string; accent: string }; x: number; y: number; dir: Dir; pose: 'walk' | 'idle' | 'sleep' }
+export interface NeighbourView { id: string; species: string; colours: { fur: string; belly: string; accent: string }; x: number; y: number; dir: Dir; pose: 'walk' | 'idle' | 'sleep';
+  /** Met later (Plus): drawn as a silhouette. */
+  locked?: boolean }
 
 export class World {
   readonly root = new Container();

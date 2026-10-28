@@ -2,7 +2,7 @@ import { Container, Sprite, Texture, type Graphics } from 'pixi.js';
 import { P } from '../../shared/art/palette';
 import { PixelCanvas } from '../../shared/art/pixel-canvas';
 import { toTexture } from '../../shared/render/textures';
-import { T } from './art';
+import { T } from './art/texture';
 import type { Area } from '../data/area';
 
 // Gentle life in the world: petals drift outdoors by day, fireflies wander at night, dust motes

@@ -1,5 +1,5 @@
 import { Assets, Rectangle, Texture } from 'pixi.js';
-import type { Dir } from './art';
+import type { Dir } from './art/characters';
 
 // Character sprite sheets from claude/SPRITE-SHEETS.md, made by tools/process_asset.py --sheet and
 // listed in public/sprites/manifest.json. Each is one row of frames with the feet on one baseline.

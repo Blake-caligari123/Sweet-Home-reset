@@ -44,7 +44,7 @@ Read every changed line as a reviewer would, against this standard.
 **Structure** (see `docs/ARCHITECTURE.md`)
 - [ ] Rules live in pure, tested modules; UI in a feature class or function with a host interface; `game.ts` only wires.
 - [ ] Each new file has one job you can say in one sentence. No file grew past budget.
-- [ ] Saved state goes through `TownState`, `TownSave`, a migration if needed, and `snapshot()` / `restore()`.
+- [ ] Saved state goes through `TownState`, `TownSave`, a migration if needed, and `toSave()` / `load()`.
 
 **No unnecessary code**
 - [ ] No functions called once that just wrap one line. Inline them.

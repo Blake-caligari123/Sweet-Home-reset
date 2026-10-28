@@ -1,4 +1,5 @@
-import { T, type Dir } from '../world/art';
+import type { Dir } from '../world/art/characters';
+import { T } from '../world/art/texture';
 import type { AreaPack, Door } from '../data/area';
 import { FEET, type NavGrid, type Pt } from '../world/nav';
 
@@ -32,6 +33,11 @@ export function stopAt(schedule: Stop[], minutes: number) {
   let i = schedule.length - 1;
   for (let k = 0; k < schedule.length; k += 1) if (schedule[k].at <= minutes) i = k;
   return i;
+}
+
+/** When a dozing neighbour's next waking stop starts today, or null if they sleep till morning. */
+export function wakesAt(schedule: Stop[], minutes: number) {
+  return schedule.slice(stopAt(schedule, minutes) + 1).find((s) => s.at > minutes && !s.sleep)?.at ?? null;
 }
 
 const nodeOf = (areas: AreaPack[], id: string) => (areas.some((a) => a.id === id || a.doors.some((d) => d.to === id)) ? id : OFFSTAGE);

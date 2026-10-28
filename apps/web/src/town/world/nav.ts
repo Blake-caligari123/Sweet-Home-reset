@@ -1,4 +1,4 @@
-import { T } from './art';
+import { T } from './art/texture';
 import type { Area } from '../data/area';
 
 // Free movement: a fine walkability grid of 4 world-px cells under every area. Code-drawn areas

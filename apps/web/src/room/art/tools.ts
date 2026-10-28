@@ -39,4 +39,3 @@ export function drawTool(tool: Tool) {
   return pc;
 }
 
-export const TOOL_ICON: Record<Tool, string> = { sponge: '🧽', squeegee: '🪟', duster: '🪶', vacuum: '🌀', hand: '✋' };

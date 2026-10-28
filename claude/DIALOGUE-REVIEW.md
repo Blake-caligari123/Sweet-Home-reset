@@ -1,6 +1,6 @@
-# Dialogue review: spring, Hazel, Bea and Pip
+# Dialogue review: spring, all six neighbours
 
-Drafted from `claude/STORY.md` for Blake to review (M2 step 2). Edit any line here or tell Claude Code what to change; the game reads them from the Hollowfern pack (`strings.en-AU`). New in step 3 (proposed, so the free spring has gifts each of them likes): Hazel likes a radish, Bea likes radish seeds, Pip likes the berry tart. Rules: 60 characters max, kind, no guilt words, no body or appearance talk.
+Drafted from `claude/STORY.md` for Blake to review (M2 step 2). Edit any line here or tell Claude Code what to change; the game reads them from the Hollowfern pack (`strings.en-AU`). New in step 3 (proposed, so the free spring has gifts each of them likes): Hazel likes a radish, Bea likes radish seeds, Pip likes the berry tart. New in step 7c: Otto, Moss and Mabel (their talk, scenes, tastes and jobs), with Otto's puns given plain versions for translators. Rules: 60 characters max, kind, no guilt words, no body or appearance talk.
 
 How a line is chosen: the most specific one that fits wins (a story moment, then hearts, weather, season, time of day), skipping the last 5 heard. The first chat each day gives +1 friendship; later chats that day use the short "second chat" lines.
 
@@ -203,6 +203,208 @@ How a line is chosen: the most specific one that fits wins (a story moment, then
 **Tastes**: loves Button, String; likes Silk thread, Shell, Clay, Berry tart; would rather not have Soap.
 
 
+## Otto
+
+**First hello**
+- Well, hello! Water you doing here? Heh. I'm Otto!
+
+**Second chat the same day**
+- Brass won't polish itself! Back tomorrow? Heh.
+- Otter things to do! Heh. See you tomorrow!
+- Still here, still bubbly! Heh heh.
+
+**Morning (6–11)**
+- Up with the fish! Not that they wanted me up.
+- Morning! The river's all sparkly at this hour.
+
+**Daytime (11–17)**
+- Polishing Uncle Brook's brass. It likes a shine.
+- Every tap in here squeaks. I've named them all.
+
+**Evening (17–22)**
+- Evening's for the jetty. Just sitting. Thinking.
+- Listen. The river sounds different at dusk.
+
+**Night (22–2)**
+- Shh. The bubbles are asleep. Heh. Kidding.
+- Stars on the water. Two skies for the price of one.
+
+**Spring**
+- Spring melt! The river's in a hurry today.
+- A blossom floated by this morning. Lucky river.
+- Spring means bubble season. Every season does.
+
+**Rainy days**
+- Rain! The river's having a bath too. Heh.
+- Puddles are tiny bathhouses. I approve.
+
+**0–2 hearts**
+- A dust bunny at a bathhouse! That's a first. Heh.
+- Mind the soap scum. There's... a lot. Heh. Sorry.
+- You're welcome here any time. Bring bubbles!
+
+**3–5 hearts**
+- You make the place feel open again. Nearly.
+- Uncle Brook would have liked you. A lot.
+- I saved you the best towel. The fluffy one!
+
+**6–8 hearts**
+- Doors open! Real guests! Can you believe it?
+- The brass shines like Brook kept it. Better, maybe.
+- Some days I laugh because it's easier. Not today.
+
+**9–10 hearts**
+- Bath night was the best night. Thanks, friend.
+- Still not a swimmer. But I'm a top paddler!
+- This place is mine now. Brook's and mine.
+
+**After the bathhouse is restored (once)**
+- Look at it gleam! I think Brook's smiling.
+
+**Plain versions of the puns** (for translators)
+- Well, hello! What brings you down here? I'm Otto!
+- So much to do! Heh. See you tomorrow!
+
+**Gift reactions**
+- Loved: For me?! I could do a backflip. Heh. Thanks!
+- Liked: Ooh, nice one! That's going on the windowsill.
+- Neutral: A present? You're a good egg. Er, bunny.
+- Disliked: Ah, not really my thing. Kind of you, though!
+
+**Tastes**: loves Shell, Soap; likes Fresh bread, Fibre, River stone; would rather not have Cobweb, Silk thread.
+
+## Moss
+
+**First hello**
+- Oh. ... Hello. ... You may stay. Quietly.
+
+**Second chat the same day**
+- ... That's enough talking for today. Thank you.
+- ... I'm in the middle of a chapter.
+- Mm. ... Tomorrow. Perhaps.
+
+**Morning (6–11)**
+- ... It's early. The books are still asleep.
+- Morning. ... Tea first. Then words.
+
+**Daytime (11–17)**
+- Shelving. ... A to M today. N to Z tomorrow.
+- ... The curtains stay shut. Light fades pages.
+
+**Evening (17–22)**
+- Evening is quiet. ... I like quiet.
+- ... Pip came by. Only for a minute. It was nice.
+
+**Night (22–2)**
+- ... You heard me reading? Oh. ... It's nothing.
+- Night is the best time for stories. ... Shh.
+
+**Spring**
+- Spring. ... Bea's flowers. ... Atchoo. Sorry.
+- ... Someone waters my doorstep plants. Not me.
+- Spring cleaning. ... You'd know about that.
+
+**Rainy days**
+- Rain on the roof. ... The best reading sound.
+- ... Rainy days. Nobody visits. I don't mind.
+
+**0–2 hearts**
+- ... You're tidying? Mind the stacks. Please.
+- Shh. ... Sorry. Habit. You may speak.
+- ... The dust has been here longer than me.
+
+**3–5 hearts**
+- ... I saved you a chair. The good one.
+- You don't fill the quiet. ... I like that.
+- ... Mabel lends me maps. I'll show you one.
+
+**6–8 hearts**
+- The cellar nook is ready. ... One seat. Yours too.
+- ... I wave now. When I want company. See?
+- ... Some days are people days. Today is one.
+
+**9–10 hearts**
+- Quiet hour went well. ... Four whole visitors.
+- ... I'm glad you came in. That first day.
+- You're in my story. ... You don't mind?
+
+**After the library is restored (once)**
+- ... The light came in. The books seem happier.
+
+**Gift reactions**
+- Loved: ... Oh. ... For me? ... Thank you. Truly.
+- Liked: ... That's thoughtful. Thank you.
+- Neutral: ... A gift. Thank you. ... I'll find it a shelf.
+- Disliked: Atchoo. ... Sorry. ... Kind, though. Thank you.
+
+**Tastes**: loves Book, Mushroom; likes Tea leaves, Old map, Lint; would rather not have Flowers, Soap.
+
+## Mabel
+
+**First hello**
+- Hoo. So you're the one who tidies. Welcome, dear.
+
+**Second chat the same day**
+- Hoo. A long night for an old owl. Tomorrow, dear.
+- Rest your paws, dear. Talk keeps till dusk.
+- Hoo. Still here? Many paws, light work.
+
+**Morning (6–11)**
+- Hoo... awake at this hour? Owls and dew don't mix.
+- Morning, dear. My feathers say it's bedtime.
+
+**Daytime (11–17)**
+- Hoo. Daylight's for sleeping. But for you, a minute.
+- The sun's so bright, dear. I'll squint and smile.
+
+**Evening (17–22)**
+- Evening, dear. The square is kind at this hour.
+- Hoo. Lamps on, hearts warm. That's the way.
+
+**Night (22–2)**
+- Night's my time. Sit a while, if you like.
+- Hoo. See the candle by the sea? That's mine.
+
+**Spring**
+- Spring's a promise, dear. Keep it, it keeps you.
+- Hoo. Blossom slow, blossom sweet. Spring's complete.
+- I smell spring on you. And a little soap.
+
+**Rainy days**
+- Rain on the sea, rain on the square. Hoo.
+- A wet night's a story night, dear.
+
+**0–2 hearts**
+- Hoo. The fountain's quiet. It wasn't always.
+- Busy paws, kind heart. Mind you rest, dear.
+- I knew this town when it sparkled, dear.
+
+**3–5 hearts**
+- Hoo. You remind me of someone. Can't think who.
+- Otto's doing better. You've helped there.
+- Old maps, old friends. Both worth keeping.
+
+**6–8 hearts**
+- Lamp nights are back. Hoo. Who'd have thought?
+- The climb is easier with a rail. And a friend.
+- Brook would laugh to see the bathhouse now.
+
+**9–10 hearts**
+- Hoo. Many paws, light work. You showed us that.
+- You're the little keeper, dear. I always hoped.
+- Whatever comes, the light remembers you.
+
+**After Otto's bathhouse is restored (once)**
+- Hoo. Brook's bathhouse, bright again. Thank you.
+
+**Gift reactions**
+- Loved: Hoo! For me? You've a good eye, dear. Thank you.
+- Liked: How thoughtful. A kind gift for an old owl.
+- Neutral: Hoo. A present. That's sweet of you, dear.
+- Disliked: Hoo. Not for me, dear. But the thought's lovely.
+
+**Tastes**: loves Tea leaves, Old map; likes Book, Honey, Silk thread; would rather not have Mud, Crumbs.
+
 # Heart events (M2 step 4)
 
 One short scene at 2, 4, 6, 8 and 10 hearts, played the next time Puff talks to them after reaching it. Every scene can be skipped (Skip still gives the rewards and takes the first choice). Lines marked *(if ...)* only play when Puff did that thing.
@@ -327,6 +529,134 @@ One short scene at 2, 4, 6, 8 and 10 hearts, played the next time Puff talks to 
 - **Pip:** Best bunny-friend. Forever. No -ish. Right?
 - *Gives:* +100 Sparkles
 
+## Otto: 2 hearts
+- **Otto:** Welcome to the bathhouse! Well. It's closed.
+- **Otto:** Soap scum on every tile. Heh. Bit much, eh?
+- **Puff:** I could scrub? Scrubbing is my favourite.
+- **Otto:** You'd do that? For a bathhouse nobody visits?
+- **Puff:** Somebody visits. Me!
+- **Otto:** Heh. Heh! Then it's open. For one.
+
+## Otto: 4 hearts
+- **Otto:** This was Uncle Brook's. Forty years, he ran it.
+- **Otto:** Everyone loved it. Loved him.
+- **Otto:** I'm not sure I'm... Brook enough. You know?
+- **Puff:** You don't have to be Brook. You're Otto.
+- **Otto:** ...Heh. I'm Otto. Yeah. I can be Otto.
+
+## Otto: 6 hearts
+- **Otto:** Big news! The bathhouse reopens. Today!
+- **Otto:** The first guest gets the good towel. Who's first?
+- *Choice:* Who gets the first good towel? → Hazel, who never sits down / Bea, after a long day / Pip, for the bath toys
+- **Otto:** Perfect! And for you, Brook's squeegee plans.
+- **Otto:** A Silver squeegee. Windows won't know what hit them!
+- *Gives:* Silver squeegee recipe (M3)
+
+## Otto: 8 hearts
+- **Otto:** I'm adding a bubble bath. For tired neighbours.
+- **Otto:** Can I tell you a secret? I can't really swim.
+- **Puff:** That's okay. Want to paddle in the shallows?
+- **Otto:** ...Yeah. Just the shallows. Together?
+- **Puff:** Together. Paws in, nice and slow.
+- **Otto:** Ha! Look at us. Two paddlers. Heh.
+
+## Otto: 10 hearts
+*(plays in the evening or night)*
+- **Otto:** Bath night! The whole town came. Can you hear?
+- **Mabel:** Hoo. Brook once fell in his own pool, you know.
+- **Mabel:** In his best waistcoat. He came up laughing.
+- **Otto:** He did?! Ha! Ha ha! Oh, that's so Brook.
+- **Otto:** First real laugh in ages. Thanks, Puff.
+- *Gives:* +100 Sparkles
+
+## Moss: 2 hearts
+- **Moss:** ... Books. Floor to ceiling. I know.
+- **Moss:** The curtains stay shut. ... Fewer visitors.
+- **Puff:** Could I shelve a few? Very quietly?
+- **Moss:** ... Very quietly. ... Yes. All right.
+
+## Moss: 4 hearts
+- **Moss:** ... Can I say something? ... People tire me out.
+- **Moss:** Not you. ... Everyone. All at once.
+- **Puff:** Then I'll only come in when you wave.
+- **Moss:** ... A waving sign. For the window. ... Yes.
+- *Choice:* What goes on the waving sign? → A little paw / A tiny book / A sleepy moon
+- **Moss:** ... It's perfect. ... I'll wave. Sometimes.
+- *Gives:* the waving sign
+
+## Moss: 6 hearts
+- **Moss:** ... There's a cellar. I've never shown anyone.
+- **Moss:** A reading nook. ... Just for one.
+- **Puff:** It's so cosy. It's like a burrow!
+- **Moss:** ... Use it whenever you like. ... You count.
+- *Gives:* the cellar reading nook (later)
+
+## Moss: 8 hearts
+- **Moss:** ... I'm starting a quiet hour. For others.
+- **Moss:** Reading. No talking. ... Pip wants to come.
+- **Moss:** ... And. ... I write stories. Here's one.
+- **Puff:** "The Dust Bunny Who Stayed." ...Is that me?
+- **Moss:** ... Maybe. ... Don't read it out loud. Yet.
+
+## Moss: 10 hearts
+*(plays in the night)*
+- **Moss:** ... I'm going to read my story. Out loud.
+- **Moss:** "Once, a dust bunny came to Hollowfern."
+- **Moss:** "On its very first day, it dusted Hazel's counter." *(if Puff dusted Hazel's counter on day 1)*
+- **Moss:** "It made the bakery shine like a new loaf." *(if the bakery is restored)*
+- **Moss:** "It tidied Bea's back room, lists and all." *(if Bea's shop is restored)*
+- **Moss:** "It found a home for every one of Pip's toys." *(if Pip's workshop is restored)*
+- **Moss:** "It scrubbed the bathhouse till it sang." *(if the bathhouse is restored)*
+- **Moss:** "Wherever it tidied, the colour came back." *(if not: the bakery is restored)*
+- **Moss:** "And the town remembered how to gather." ... The end.
+- **Puff:** Moss. That's the best story I've ever heard.
+- **Moss:** ... It's a true one. ... That's the trick.
+- *Gives:* +100 Sparkles
+
+## Mabel: 2 hearts
+- **Mabel:** Hoo. Out by the sea there's a lighthouse. Mine.
+- **Mabel:** Salt on every window. The light's been off for years.
+- **Puff:** Off? Then how do the boats find their way?
+- **Mabel:** A candle in my window, dear. It's what I can do.
+- **Mabel:** Light a small light, and the big ones remember.
+
+## Mabel: 4 hearts
+- **Mabel:** The lighthouse stairs are long, dear. So long.
+- **Mabel:** The rail's loose and the steps are dim. So I stopped.
+- **Puff:** Then let's fix the rail. I'm good at fixing.
+- **Mabel:** Hoo. Pip lent you his little hammer, I see.
+- **Mabel:** Tap, tap. Steady as a branch. Thank you, dear.
+- *Gives:* the lighthouse stair rail (M4)
+
+## Mabel: 6 hearts
+- **Mabel:** Hoo. An idea, dear. A lamp night, here in the square.
+- **Mabel:** Everyone brings a little light. Like we used to.
+- *Choice:* What will Puff bring? → A paper lantern / A jar of glow-worms / A candle from home
+- **Mabel:** Lovely. Light that's shared is light that's doubled.
+- *Gives:* lamp night (M4)
+
+## Mabel: 8 hearts
+- **Mabel:** Hoo. Sit, dear. I've brought my oldest maps.
+- **Mabel:** See? The Glimmerwell. The town gathered here.
+- **Mabel:** Every spring. "Many paws, light work," we said.
+- **Mabel:** And here, by the rim. A little drawing.
+- **Mabel:** "The Well's little keeper, born of what we let fall."
+- **Puff:** It looks a bit like... a dust bunny?
+- **Mabel:** Hoo. You've even woken Brook's bathhouse. I knew it. *(if the bathhouse is restored)*
+- **Mabel:** Hoo. One home at a time, dear. I knew it. *(if not: the bathhouse is restored)*
+- **Mabel:** I've waited a long time to meet you, dear.
+- *Gives:* Mabel's maps
+
+## Mabel: 10 hearts
+*(waits for Winter Lights, the year-1 finale (M4))*
+- **Mabel:** Hoo. Tonight's the night, dear. Winter Lights.
+- **Otto:** Up we go, Mabel. One step. Then another.
+- **Mabel:** Many paws, light work. Light the lamp, dear.
+- **Puff:** It's lit! Look, the fountain's lighting up too!
+- **Mabel:** Hoo. The town remembered how to gather.
+- **Mabel:** Thank you, little keeper. Welcome home.
+- *Gives:* +100 Sparkles
+
 # Requests (M2 step 5)
 
 The notice board in the square posts 1–3 a day; each is up for 2–3 days, then quietly goes (never in relaxed mode). Done = +10 friendship and the Sparkles shown. Tidy jobs put fresh mess down when Puff takes them on; it never counts against a home's restore progress.
@@ -338,8 +668,17 @@ The notice board in the square posts 1–3 a day; each is up for 2–3 days, the
 - **Bea:** Bea would love a packet of radish seeds. *(bring: Radish seeds, 40 Sparkles)*
 - **Pip:** Pip needs a cup for paint water. *(bring: Cup, 40 Sparkles)*
 - **Pip:** Bring Pip a berry tart. Crumbs welcome! *(bring: Berry tart, 60 Sparkles)*
+- **Otto:** Otto's windowsill needs a shell. Just one! *(bring: Shell, 50 Sparkles, from day 3)*
+- **Otto:** Clear the foggy patches by Otto's pool. *(tidy (fog in the bathhouse), 50 Sparkles, from day 3)*
+- **Moss:** Moss would like a book. Any book. Quietly. *(bring: Book, 40 Sparkles)*
+- **Moss:** Dust the cobwebs in Moss's reading corner. *(tidy (cobweb in the library), 50 Sparkles)*
+- **Mabel:** Clear the mud by Mabel's evening bench. *(tidy (mud in the square), 50 Sparkles)*
+- **Mabel:** Mabel fancies a biscuit with her evening tea. *(bring: Oat biscuit, 40 Sparkles)*
 
 **Thank-you when handed over in person**
 - Hazel: You're a treasure, petal. Thank you!
 - Bea: Three things! Thank you, thank you, thank you!
 - Pip: You did it! Best helper ever, right?
+- Otto: You're a star! A wet, sparkly star. Thanks!
+- Moss: ... Thank you. That was ... very kind.
+- Mabel: Hoo. Kindly done, dear. Kindly done.

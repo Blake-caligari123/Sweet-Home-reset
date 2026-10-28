@@ -10,6 +10,11 @@ const LETTER_CHORES: Record<string, [string, string]> = {
   stain: ['scrubbed a stain away', 'wipe one counter of yours'],
   weeds: ['raked the weeds', 'water a plant, or pull one weed'],
   clutter: ['put things where they live', 'put 3 things back where they belong'],
+  crumbs: ['cleaned a counter', 'wipe one counter of yours'],
+  cobweb: ['swept away cobwebs', 'dust one high corner'],
+  grime: ['scrubbed away grime', 'wipe one tap or handle'],
+  fog: ['cleared a foggy mirror', 'wipe one mirror or window'],
+  mud: ['cleared away mud', 'shake out one doormat'],
   none: ['had a cosy day', 'open a window for some fresh air']
 };
 
