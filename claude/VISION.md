@@ -1,210 +1,184 @@
 # Sweet Home Reset: full vision and the road to release
-*Blake and Claude Code, 28 Oct 2026. Draft for Blake's approval. Once approved this sits above the roadmap: GDD v4, NEW-FEATURES.md, STORY.md and the plans fill in the detail. Where they disagree with a "Decided" line here, this wins.*
+*Blake and Claude Code, 28 Oct 2026. Built from Blake's answers to 44 questions (the log is in §14). This sits above the GDD, NEW-FEATURES.md, STORY.md and the plans. Where they disagree with this file, this file wins.*
 
 ## 1. The game in one breath
-Puff, a dust bunny born from the fountain's last sparkle, becomes the Keeper of Hollowfern, a grey little town that has forgotten how to gather. Every room Puff tidies floods back with colour and comes alive. Neighbours become friends, newcomers move in, the town grows plot by plot, and the old waterways under the fountain give back the town's lost colour. **It never ends.** Seasons turn, festivals come round each year, and there's always a corner to brighten, a friend to visit or something new to build.
+Puff, a dust bunny born from the fountain's last sparkle, becomes the Keeper of a grey little town and brings it back to life: tidying homes until they glow, farming, building, repairing the way to new places, befriending a growing cast of neighbours and uncovering the mystery under the fountain. **It never ends.** Seasons turn, festivals return, the town keeps growing and new chapters keep arriving.
+
+**Who it's for:** cosy-game players, casual mobile players and families. It's safe for kids and deep enough for adults.
+
+**How it should feel:** relaxed and satisfied.
+
+**How people play:** a 10-minute check-in or a long cosy evening, both equally good.
 
 ## 2. Pillars (every feature is checked against these)
-1. **Colour comes back.** The core reward is the world visibly coming to life: rooms switch on, streets bloom, the fountain wakes. It isn't counters or levels.
-2. **Feels good in your fingers.** Rub to scrub, wipe to reveal, drag things home, straighten the wonky frame. Cleaning is satisfying, never a chore list.
-3. **You're the Keeper of a living town.** You build, invite and look after the town, but you're a helper, never a boss. There are no wages, taxes or hiring.
-4. **Gentle by design.** Nothing is lost, failed or overdue. Fluff and dozing off are the only limits. No streaks, no guilt, no fail state.
-5. **Always something to come back to.** Daily life, seasons, collections, new chapters. It plays as an ongoing life, not a level to beat.
+1. **Colour comes back.** The reward is the world coming alive: rooms switch on, streets bloom, the town thrives. It isn't counters.
+2. **Satisfying in your fingers.** Rub, wipe, drag, sweep, straighten. Every gesture also works as a tap.
+3. **Everything in balance.** Cleaning, the town, the farm and friends carry equal weight. None is a side dish.
+4. **Gentle by design.** Nothing is lost, failed or overdue. Fluff and dozing off are the only limits. No streaks, no guilt, no romance, no fail state.
+5. **Always more.** Ongoing life with yearly chapters, a mystery to follow and a town that keeps growing.
 
 ## 3. What a player does
 | Scale | Loop |
 |---|---|
-| **A moment** (seconds) | Tap, rub, wipe or drag mess away. Colour floods back with a sparkle and a sound. A Grumble brightens into a helper. A rock cracks and shows colour. |
-| **A day** (10 minutes; day 1 is 12) | Morning letter (a tiny real chore, always optional) → check the Town Hall and the board → tidy, build, visit, mine, garden → Fluff runs low near evening → bed. Overnight: builds finish, crops grow, newcomers arrive. |
-| **A season** (14 days) | A season's worth of new things: a home to restore, a newcomer, a cave floor, a Grumble family, crops, a festival to end it. |
-| **A year** (56 days) | Spring, summer, autumn, winter. The year's story chapter. Winter Lights ends the year with the town together. |
-| **Forever** | Every year the festivals return, rocks regrow, crops rotate, Grumbles turn up in quiet corners and neighbours have new lines. New chapters, newcomers and areas arrive in content updates (pack JSON, no app update needed). |
+| **Moment** | Tidy with taps or gestures; colour floods back. Free surprise finds turn up. A Grumble brightens into a helper. A rock cracks open with colour. A fish bites. |
+| **Day** (**8 real minutes**, tuned for a brisk pace) | Morning letter → water the crops and feed the animals → tidy, build, visit, mine, fish, forage → the evening → bed. Overnight: builds finish, crops grow, newcomers arrive, a little mess drifts back. |
+| **Season** (14 days) | New crops, a repair that opens a new place, a newcomer, a Grumble family, weather, a festival to close it. |
+| **Year** (56 days) | Four seasons and four festivals, plus small specials on real-world holidays. The year's chapter of the mystery. |
+| **Forever** | Festivals return, crops rotate, rocks regrow, mess gently returns, neighbours have new things to say, and new chapters, neighbours and districts arrive in updates. |
 
-## 4. The world
-**Built now:**
-- Puff's burrow and yard
-- the Town Square and Hazel's bakery
-- the General Store
-- Neighbour Lane, with Bea's flower shop, Pip's toy workshop and Moss's library
-- Riverside and Otto's bathhouse
+## 4. Puff and home
+- **Earned outfits:** bows, hats and scarves from festivals, friends, finds and milestones. Optional paid cosmetic packs later (§10), never anything that affects play.
+- **The burrow grows big:** new rooms, upgrades and full decorating. It's a real home project.
+- **A pet:** choose one critter (the burrow cat, a pup, a hedgehoglet…), with a bed, treats and a pet name.
+- **Naming:** the player names Puff and the town at the start (Puff and Hollowfern are the defaults). All story text uses name tokens.
+- **Movement:** a gentle walk, plus a quick hop for long trips.
 
-**To build:**
-| Place | When | Notes |
-|---|---|---|
-| Town Hall (in the square) | Day 1 | The Keeper's board: plots, invites, jobs. Dusty at first; the first room Puff restores for the town. |
-| Building plots | Day 2 | Fixed plots in the square, the Lane and Riverside; more open each season. |
-| The Glimmerwell hatch and the caves | Day 10 (floor 1), one floor a season | Small handmade floors with ore, colour shards and mysteries. Floor 5 is in year 2. |
-| Woodland edge | Autumn | Foraging, Moss's autumn story, leaf piles. |
-| The Beach and the lighthouse | Winter (day 43) | Mabel's home and the lamp. |
-| Newcomers' homes | As built | Sorrel's ramp cottage, Fig's pond porch, Wren's nest-loft. |
+## 5. The town: restore it, build it, grow it
+- **Repair to expand.** New places open because Puff fixes the way there:
 
-## 4a. Town building and expansion (Blake, 28 Oct 2026)
-Hollowfern is restored, then built, then grown. Cosy throughout: no upkeep, no running costs, no unhappiness meters, nothing decays.
-1. **Repair to expand.** New areas open because Puff fixes the way there. Each repair is a small project: gather materials, then the town fixes it overnight, and in the morning the camera pans to a new grey area waiting. That replaces "opens on day X".
+  | Repair | Opens |
+  |---|---|
+  | The broken footbridge | The far bank |
+  | The overgrown path | The Woodland edge and Orchard Hill |
+  | The sea steps | The Beach |
+  | Later repairs | New districts |
 
-   | Repair | Opens |
-   |---|---|
-   | The broken footbridge | The far bank of the river |
-   | The overgrown path past the library | The Woodland edge |
-   | The collapsed sea steps | The Beach |
+  Seasons set the earliest time each repair can happen. Each one is a small project (gather materials; it's fixed overnight; the morning pans to a new grey place).
+- **Plots and free decor.** Buildings go on set plots, keeping the town hand-made. Paths, roads, fences, lamps, flower beds and benches go anywhere on a grid, and can be moved or stored.
+- **Building upgrades:** a stall becomes a shop, then a café; a cottage becomes a bigger home; a bench becomes a gazebo.
+- **Visitors:** once the town blooms, visitors arrive (by road, then by boat). Some stay as newcomers.
+- **Town Bloom:** a visible level for how the town thrives (birds, lit windows, market days, visitors). It unlocks building types and decor sets.
+- **It keeps growing:** there's no cap. New rings and districts arrive in updates.
+- **Puff's own shop:** a later update.
 
-   The season days in §4 become the earliest each repair can be done.
-2. **Build on plots, then upgrade** (NEW-FEATURES F1).
-   - **Plots:** homes, stalls and workshops.
-   - **Upgrades:** a bench becomes a gazebo; a stall becomes a shop; a cottage becomes a two-storey home.
-   - **Buildings do things:**
-     - Hazel's snack stall sells food.
-     - Bea's garden plots grow flowers.
-     - A lantern post lights the street at night.
-3. **Decorate freely.** Off the plots, place decor anywhere on a grid: paths, fences, lamps, flower beds, benches, signs. Move it or store it any time. This is where Hollowfern becomes the player's own, and it's a strong screenshot and sharing moment.
-4. **The town grows in rings,** each opened by a repair and bringing new plots, newcomers and a Grumble family:
-
-   | Ring | Places |
-   |---|---|
-   | Old Hollowfern | Where we are now |
-   | The waterfront | Riverside, the far bank, Fig's ferry |
-   | Woodland edge and Orchard Hill | New plots and foraging |
-   | The Beach and the harbour | The lighthouse, and visiting boats in later years |
-5. **Town Bloom.** A level that rises with restores, buildings and newcomers. It shows in the world rather than as a number: more birds and butterflies, lit windows, neighbours chatting in the street, market days, visitors by boat. Each level unlocks new building types and decor sets.
-
-## 5. People
-- **The six:** Hazel, Bea, Pip, Otto, Moss, Mabel. All playable from year 1 with no gates. Each has hearts 0–10, 5 heart scenes, gifts, routines and a town job at 6 hearts.
-- **Newcomers:** Sorrel (spring, week 2), Fig (summer), Wren (autumn, after Pip 8). Three more to be written for year 2 and later.
-- **Mabel:** met on day 43 at the Beach, but her bottle letters, signed "M.", start on day 10. Puff can write back and send small gifts, which earn hearts before they meet. The reveal: "M. was Mabel all along." *(Proposed. It fixes her heart crunch.)*
-- **Grumbles:** shy grey fluff clouds, Puff's cousins. They're tidied, never harmed, and become helpers with small overnight jobs. Dust (day 3), cobweb (day 10), mud (first rain), soot (summer).
-
-## 6. Story: chapters, not an ending
-- **Year 1, "Bring the colour back":**
-  - **Day 1:** Hazel names Puff the Keeper and gives the badge.
-  - **Through the year:** the town comes alive, newcomers arrive and the caves give up their mysteries.
-  - **The first Winter Lights (day 56):** the fountain and lighthouse relight, the town sings the old song, and the badge becomes the ribbon: Keeper of the Glimmerwell.
-  - **After that,** spring simply comes again. No credits. *(If a friendship isn't ready yet, its moment waits for a later Winter Lights. Nothing else waits.)*
-- **Year 2, "The Spring Heart":** floor 5 and the source of the warm water. Sorrel's map and earlier keepers like Thimble. Newcomers 4–6.
-- **Year 3 and on:** new chapters ship as content updates, each a new area, a newcomer or two, a mystery and a festival twist. The daily life never stops while players wait.
+## 6. People and story
+- **The six:** Hazel, Bea, Pip, Otto, Moss, Mabel. All playable in year 1, with **deep arcs** (heart scenes 2–10, then more chapters beyond).
+- **Newcomers keep coming:** Sorrel, Fig and Wren first, then more in every update.
+- **They live their lives:** they visit Puff's burrow and each other, chat in the street, and come to festivals together.
+- **The mystery runs through everything:** the fountain, the keepers before Puff (Thimble), the warm water under the town, the old song. Each year is a chapter and each chapter ends at Winter Lights. Nothing ends the game.
+- **Mabel:** her bottle letters, signed "M.", start on day 10 and can be answered, building friendship before she's met on day 43. *(Proposed in the last draft, kept unless Blake says no.)*
+- **Friendship only.** No romance.
 
 ## 7. Systems
-| System | Status | What it is |
+| System | Depth | Notes |
 |---|---|---|
-| Tidying (tap, rub, drag) | **Built** | 9 mess types; rub to scrub, drag clutter home |
-| Homes come alive | **Burrow built** | Stages switch on as a room gets tidier: lamps, sunlight, a cat, music layers |
-| Neighbours, talk, gifts, hearts, scenes | **Built** | M2 |
-| Jobs board, shops, Sparkles | **Built** | M2 |
-| Onboarding (first 30 min) | **Built** | Gains the Keeper beat |
-| Saves | **Fixed (PR #35)** | Save v2 next (schemaVersion 3) |
-| **Wipe to reveal, Spotless rooms, straighten things** | Next | The "oddly satisfying" layer |
-| **Tool upgrades** | Next | Copper (3-spot swipe), broom (a row), Sparkle burst (3×3); ore tiers above Copper |
-| **Keeper and building** | Next | Town Hall board, plots, overnight builds, morning reveal; upgrades (§4a) |
-| **Repairs that expand the town** | Then | Bridge, paths and steps open new rings (§4a) |
-| **Free decorating in town** | Then | Grid placement off the plots; move and store |
-| **Town Bloom** | Then | The town visibly thrives; unlocks building types and decor sets |
-| **Grumbles and helpers** | Next | Four families, pip ring, helpers |
-| **Garden, foraging, crafting, cooking** | Next | Seeds by season, materials, bench, snack recipes |
-| **Invites and town jobs** | Then | Who'd love this home? Prepare it, then they move in |
-| **Caves and ore** | Then | Floors 1–5, fixed drops, mysteries |
-| **Seasons, weather, festivals** | Then | Palette swaps, rain and snow, 4 festivals with a small mini-game each, yearly |
-| **Decorating** | Then | Burrow and homes; finds and crafted decor |
-| **Collections** | Then | Crops, finds, recipes, decor, a town scrapbook (the Our Home scrapbook from STORY) |
-| **Sharing** | Built (clip) | The reveal clip for every restore; Mess of the Day card; photo mode later |
-| **Gentle limits** | Built | Fluff, dozing off; the peach bar and pulse next |
+| **Tidying** | Core | Tap, rub, wipe, drag, plus more gestures (hold for cobwebs, sweep for leaves, circle for suds). Mess **gently returns** over days, never undoing a restore. Homes come alive in stages. |
+| **Tools** | **Big and exciting** | Each tier changes how you clean: the Copper sponge does a 3-spot swipe, the broom a row, the Sparkle burst a 3×3 patch. Ore tiers above Copper. |
+| **Farming** | **Big** | Seasonal crops, an orchard and greenhouse, farm animals (hens, a goat, a cow, cared for gently), selling produce at market days and to neighbours. Rain waters crops. |
+| **Cooking and crafting** | Medium | A good set of recipes and crafts, not overwhelming. |
+| **Foraging, fishing, critter catching** | Medium | Calm fishing at the river and beach. Critters are catch-and-release for the collection. |
+| **Collections and the museum** | Medium | Moss's library shows everything found, caught, grown and cooked. |
+| **Free surprise finds** | Light | Little treasures now and then while cleaning. Always free, shown in the world and the museum, not as HUD counters. |
+| **Grumbles** | **More kinds** | Many families (dust, cobweb, mud, soot and more), tidied into helpers, collectable. Never harmed. |
+| **Caves** | **Bigger** | Handmade floors with the mystery; more floors in updates. |
+| **Building and town** | Core | §5. |
+| **Weather** | Changes play | Rain waters crops and brings mud; wind blows leaves; snow brings new mess. Optional weather prep. |
+| **Festivals** | 4 a year + real holidays | The Spring Clean Fair, Summer Picnic, Autumn Leaf Fest and Winter Lights, each with a mini-game. Small specials on real-world holidays. |
+| **Optional challenges** | Light | A timed tidy mini-game with a fun score, festival mini-games and puzzle rooms (sorting and straightening). Never required. |
+| **Gentle limits** | Core | Fluff (rebalanced for 8-minute days) and dozing off. |
+| **Sharing** | Light | The reveal clip and screenshots. Visiting friends' towns comes later. |
 
 ## 8. Pacing (the first 14 days)
-One new thing every couple of days, each arriving with a single tip or letter, so spring never feels like a firehose:
+One new thing every couple of days, each with one tip or letter:
 
 | Day | New | Day | New |
 |---|---|---|---|
-| 1 | Keeper badge, the burrow, Hazel | 8 | Sorrel's invite (once a home plot is built) |
-| 2 | Town Hall and the first build (a bench, Sparkles only) | 10 | The fountain hatch: cave floor 1; Mabel's first bottle letter |
-| 3 | First dust Grumble | 12 | Cobweb Grumbles (in the caves) |
-| 5 | Copper sponge recipe at the store | 14 | Spring Clean Fair |
-
-*(Cobweb Grumbles move from day 10 to day 12 so the caves get their own moment. Proposed.)*
+| 1 | Name Puff and the town; the burrow; Hazel names Puff Keeper | 8 | First newcomer invite (Sorrel) |
+| 2 | The Town Hall and the first build | 10 | The fountain hatch (caves); Mabel's first bottle letter |
+| 3 | First Grumble | 12 | The footbridge repair (the far bank) |
+| 4 | Pick a pet | 14 | Spring Clean Fair |
+| 5 | Copper sponge; first crops ready | | |
 
 ## 9. Economy
-- **Sparkles** come from restores, jobs, put-aways, selling crops and festivals. They're spent on buildings, recipes, seeds, decor and bag upgrades.
-- **Materials** (twig, pebble, clay, thread…) come from foraging, helpers and crops, and go into building and crafting.
-- **Ore and gems** come from fixed cave drops and go into tools above Copper, building upgrades and decor.
-- **Never sold for money:** Sparkles, Fluff, time, random items. No loot boxes and no ads, whatever the monetisation model is.
+- **Sparkles:** earned from restores, jobs, selling produce, festivals and put-aways. Spent on buildings, upgrades, decor, seeds, animals and recipes.
+- **Materials:** from foraging, crops, animals and helpers. Spent on building, crafting and repairs.
+- **Ore and gems:** fixed cave drops. Spent on high tool tiers, upgrades and decor.
+- **Never sold for money:** Sparkles, Fluff, time skips, random items. No loot boxes and no ads, ever.
 
-## 10. Monetisation (decision needed before release; TBD per Blake)
-| Model | How it'd work | Fit with an ongoing cosy game |
-|---|---|---|
-| **A. Free spring + one-time "Full Hollowfern" unlock** | The first 14 days are free, then one purchase unlocks everything, including future chapters | ★ Simple, trusted, suits "a life, not a service". Future chapters are free updates that build goodwill. |
-| B. Subscription (the original Plus) | A$7.99 a month or A$44.99 a year | Strong revenue if updates are frequent; feels heavy for a cosy game; needs steady content |
-| C. Paid upfront | One price, no free part | Lowest friction once bought, but hard to get people to try it |
-
-**Claude's recommendation: A.** The full game unlocks once. Later chapters and cosmetics could be optional paid packs, decided once there's an audience. The code reads one `hasFullGame()` check, so whichever model is chosen is quick to wire.
+## 10. Monetisation (decided)
+- **Free start + one unlock:** the first spring (14 days) is free, and one purchase unlocks the full game, including future chapters as free updates.
+- **Optional cosmetic packs later:** outfits and decor sets, never anything that affects play.
+- **Families:** purchases sit behind a parental gate, and the store rating is for everyone. We won't list it in the store's dedicated Kids category, whose rules forbid this kind of purchase and link.
 
 ## 11. Art and sound
-**From Blake (Grok, processed by `tools/process_asset.py`):**
-- the neighbours' sheets
-- the newcomers' sheets
-- the four Grumble families
-- Puff mining
-- area paintings as they come
+- **Keep the current style:** a pixel world with Grok-painted rooms and characters.
+- **Workflow:** Claude builds each feature with code-drawn placeholders, then straight away sends Blake the exact Grok prompts for that feature's art, and wires it in when it arrives.
+- **Music:** synthesised for now (growing with each room), with a commissioned soundtrack before or after release.
 
-**In code until then:**
-- tiles, props, mess and effects
-- the life effects (lamps, sun, the cat)
-- placeholder neighbours
+## 12. Release
+- **Target:** within 3 months (late January 2027).
+- **Platforms:** web, iOS and Android, worldwide at once. English only at launch; translations in updates.
+- **Accessibility options:** tap-only play, bigger text, colour-blind friendly, reduced motion, haptics off.
+- **Launch the core, then update the rest.** Updates come every real season (~3 months), with smaller fixes between.
 
-**Sound:**
-- the synthesised music grows with each room (the bloom layers)
-- one theme per season and area
-- satisfying sounds for each mess type
+| | Contents |
+|---|---|
+| **v1.0 (launch)** | A full first year: the town (Keeper, plots, upgrades, paths, free decor, 3 repairs, Town Bloom); the 6 neighbours with deep arcs, plus Sorrel; 4 Grumble families; caves floors 1–4; farming (seasonal crops, greenhouse, selling); cooking and crafting; big tools; foraging; free finds and the museum; weather; the 4 festivals and their mini-games; the timed tidy mini-game; the burrow growing; outfits; a pet; naming; every home coming alive; the unlock purchase; store builds; accessibility options |
+| **v1.1** | Farm animals, fishing, Fig and Wren, visitors, real-holiday events, floor 5 and the Spring Heart |
+| **v1.2** | Critter catching, puzzle rooms, Puff's own shop, more Grumbles, deeper caves, new newcomers, cosmetic packs |
+| **Later** | Visiting friends' towns, translations, the commissioned soundtrack, new districts and chapters |
 
-Commissioned art or music only with Blake's yes.
+**Honest risk:** v1.0 is big for 12 weeks. The code can move fast; the bottlenecks are art, playtesting and store review. To protect the date:
+- each phase below ends playable on Blake's phone
+- art requests go out the same day a feature lands
+- if a phase slips, its last item moves to v1.1 rather than pushing the release
 
-## 12. Release-ready means
-- **Platforms:** web (PWA), iOS (App Store) and Android (Google Play) together. Australia first.
-- **Quality:**
-  - 60 fps at 390×844 on a mid-range phone
-  - first load ≤ 300 KB
-  - no GPU readbacks
-  - works offline
-  - saves can't be lost (main, backup and a quick copy, plus optional cloud sync)
-- **Accessibility:**
-  - 44 pt targets
-  - reduced motion
-  - haptics off
-  - tap-only play (gestures are always optional)
-  - VoiceOver labels
-  - colour never the only signal
-- **Store:**
-  - IARC rating, with "shares user content" = No
-  - privacy policy
-  - in-app account deletion (if sign-in ships)
-  - screenshots and a preview video
-  - the "Some art created with Grok Imagine" credit
-- **Testing:**
-  - unit tests for every rule
-  - a scripted 30-minute run
-  - a scripted 56-day run with no soft-locks
-  - a 100-day save under 200 KB
-  - the monkey test
-  - TestFlight and Play testing rounds with a small group of players
-  - Blake's phone test at every phase
+## 13. Phases to v1.0 (about 12 weeks)
+| Weeks | Phase | Builds | Done when |
+|---|---|---|---|
+| 1 | **0. Foundations** | Save fix (#35) + save v2 + `unlocks.ts`; remove the Plus stub; 8-minute days and a Fluff rebalance; naming (Puff and the town); peach Fluff bar; docs | Old saves migrate; names show everywhere |
+| 2–3 | **1. The Keeper's first week** | Hazel names Puff Keeper; Town Hall + first build; dust Grumbles; pick a pet; every current home comes alive; more gestures (hold, sweep, circle); mess gently returning | A new player's first week has a new moment every couple of days |
+| 4–6 | **2. Farm, craft, get stronger** | Big tools and charged use; seasonal crops + greenhouse + selling; foraging and materials; cooking and crafting; full building (stages, morning reveal, upgrades, paths, free decor); Town Bloom; free finds + the museum; the burrow growing; outfits | A Copper tool by day 7, a market sale, three buildings by day 14 |
+| 7–8 | **3. Newcomers, repairs, caves** | Invites + Sorrel; town jobs; neighbours visiting; the footbridge repair; caves floors 1–2 + ore; cobweb, mud and soot Grumbles; Mabel's letters | Sorrel moves in during week 2; floor 1 opens on day 10; the far bank opens |
+| 9–10 | **4. A full year** | Seasons, weather and palettes; the Woodland/Orchard and Beach repairs; 4 festivals + mini-games; the timed tidy mini-game; floors 3–4; the deep arcs to 10 hearts; the first Winter Lights; year 2 carries on | A scripted 56-day run with no soft-locks, and day 57 carries on |
+| 11–12 | **5. Release** | The unlock purchase + parental gate; accessibility options; optional accounts and sync; store builds; privacy, IARC, store listing, screenshots and video; TestFlight and Play testing rounds; polish | Blake approves the store submissions |
+| After | **6. Live** | v1.1, v1.2… each real season | |
 
-## 13. Phases to release
-Each phase ends playable on Blake's phone and passes its "done when" before the next starts. Each step inside a phase is one PR: plan, tests first, browser check, cleanup.
-
-| Phase | Builds | Done when |
-|---|---|---|
-| **0. Foundations** | Save fix (#35); save v2 + `unlocks.ts`; remove the Plus stub; the peach Fluff bar; "no ending" docs; banned words in the copy test | Old saves migrate; nothing reads entitlement |
-| **1. The Keeper's first week** | Keeper beat on day 1; Town Hall + first build (day 2); dust Grumbles (day 3); wipe to reveal, Spotless and straightening; every current home comes alive | A new player's first week has a new moment every day or two, and they feel it |
-| **2. Grow, craft and get stronger** | Tool tiers and charged use; foraging and materials; crafting bench; garden and seasonal crops; cooking; full build mode with stages, the morning reveal and upgrades; free town decorating; Town Bloom; helpers | A Copper tool by day 7, a crop by day 7, three buildings by day 14 |
-| **3. Newcomers, repairs and the caves** | Invites + Sorrel; town jobs; the footbridge repair (the far bank); cave map type, floors 1–2, ore; cobweb Grumbles; Mabel's bottle letters | Sorrel moves in during week 2; floor 1 opens on day 10 |
-| **4. A full year** | Seasons, weather and palettes; the path and sea-steps repairs (Woodland edge, Orchard Hill, Beach and lighthouse); 4 festivals; Fig and Wren; floors 3–4; mud and soot Grumbles; decorating; collections; the first Winter Lights; year 2 begins (floor 5) | A scripted 56-day run plays with no soft-locks, and day 57 carries on |
-| **5. Release** | Monetisation as decided; optional accounts and sync; store builds; accessibility pass; music; credits; IARC; privacy; store listing; playtest rounds | Blake approves the store submissions |
-| **6. Live** | Content updates as packs: chapters, newcomers 4–6, new festivals, seasonal events | Ongoing |
-
-## 14. Decisions for Blake
-1. **Approve this vision** (pillars, no ending, chapters).
-2. **Monetisation:** A, B or C (recommendation A). Can wait until Phase 5, but it shapes the free part.
-3. **Mabel's bottle letters** before day 43 (recommended).
-4. **Pacing:** the day-by-day spring table in §8.
-5. **Release target:** a rough month to aim for, so the phases can be sized.
-
-## 15. What changes in the existing docs
-- **GDD and STORY:** "finale" becomes "the first Winter Lights", with no credits and nothing that waits except the one friendship moment. A2's "Plus" rows are replaced by §10 once decided. Combat stays none; the caves replace the puzzle cellar (already in NEW-FEATURES).
-- **NEW-FEATURES.md** stays the detailed spec for F1–F6, with §8's pacing tweaks and the Mabel letters.
-- **ROADMAP-PLAN.md** is replaced by §13.
+## 14. Blake's answers (28 Oct 2026)
+| Topic | Answer |
+|---|---|
+| Heart of the game | Even mix |
+| Sessions | Both short and long |
+| Audience | Cosy gamers, casual mobile, families and kids |
+| Feelings | Relaxed, satisfied |
+| Puff's looks | Earned outfits |
+| Burrow | Grows big |
+| Naming | Name the town and Puff |
+| Movement | Gentle walk + quick hop |
+| Building | Plots + free decor |
+| Town size | Keeps growing |
+| Expansion | Repair to expand |
+| Town extras | Upgrades, paths and roads, visitors, Town Bloom |
+| Own shop | Later |
+| Mess | Gently returns |
+| Gestures | More gestures, plus taps |
+| Challenges | Timed tidy, festival mini-games, puzzle rooms |
+| Tools | Claude's call (big and exciting) |
+| Surprises | Free finds |
+| Romance | Never |
+| Neighbours | Keep growing |
+| Visits | Neighbours visit Puff and each other |
+| Story | Deep arcs |
+| Mystery | Yes |
+| Pet | Choose one |
+| Day length | 8 minutes |
+| Seasons | Game calendar + real-holiday events |
+| Weather | Changes play |
+| Pacing | Every couple of days |
+| Festivals | The 4 seasonal + real holidays |
+| Farming | Big: crops, animals, orchard/greenhouse, selling |
+| Cooking/crafting | Medium |
+| Activities | Fishing, critter catching, foraging, museum |
+| Caves | Bigger |
+| Grumbles | More kinds |
+| Art | Keep the current style; placeholders, then ask for Grok art straight after |
+| Music | Synth now, real later |
+| Multiplayer | Later update |
+| Money | Free start + unlock |
+| Cosmetics | Yes, later |
+| Release | Within 3 months |
+| Platforms | Web, iOS and Android, all countries |
+| Scope | Launch core, update the rest |
+| Updates | Claude's call (each real season) |
+| Languages | English first |
+| Accessibility | All as options |
