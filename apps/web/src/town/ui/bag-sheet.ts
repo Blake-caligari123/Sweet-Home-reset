@@ -1,12 +1,12 @@
 import { clear, h } from '../../shared/ui/dom';
 import type { Content } from '../data/content';
-import type { OnboardEvent } from '../play/onboarding';
+import type { PlayEvent } from '../play/events';
 import type { TownState } from '../state';
 import { itemIcon } from './hud';
 import type { View } from './view';
 
 /** The bag: tap a snack to eat it (Fluff back), anything else to see where it lives. */
-export function openBag(d: { state: TownState; view: View; content: Content; onboard(e: OnboardEvent): void; refreshHud(): void }) {
+export function openBag(d: { state: TownState; view: View; content: Content; notify(e: PlayEvent): void; refreshHud(): void }) {
   const { state, view, content } = d;
   const grid = h('div', { class: 'bag-grid' });
   const info = h('p', { class: 'muted' }, 'Tap an item to see what it\'s for.');
@@ -19,7 +19,7 @@ export function openBag(d: { state: TownState; view: View; content: Content; onb
         if (item?.snack) {
           state.bag.remove(s.id); state.fluff.eat(item.snack);
           info.textContent = `Yum! +${item.snack} Fluff.`; view.feedback('coin', 'light'); render();
-          d.onboard({ type: 'ate', item: s.id }); d.refreshHud();
+          d.notify({ type: 'ate', item: s.id }); d.refreshHud();
         } else info.textContent = item?.home ? `${item.name}: it lives in the ${item.home}.` : `${item?.name ?? s.id}.`;
       });
       grid.append(cell);

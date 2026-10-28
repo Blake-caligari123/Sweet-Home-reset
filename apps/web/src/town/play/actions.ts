@@ -13,14 +13,16 @@ import { standTiles } from '../world/pathfind';
 import type { World } from '../world/world';
 import type { Clock } from './clock';
 import { TOOL_FOR, type AreaMess, type MessType, type ToolId } from './mess';
-import type { OnboardingGuide } from './onboarding-guide';
+import type { PlayEvent } from './events';
 import { available, take } from './pickups';
 import type { Puff } from './puff';
 import type { Target } from './targets';
 
 export interface ActionsHost {
   state: TownState; view: View; content: Content; clock: Clock; settings: Settings;
-  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide;
+  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations;
+  /** Tell the tips and rewards what Puff did. */
+  notify(e: PlayEvent): void;
   /** The area Puff is in. */
   here(): { id: string; area: Area; mess: AreaMess; nav: NavGrid };
   /** The tool in Puff's paws. */
@@ -108,7 +110,7 @@ export class PuffActions {
       state.lastClean = type;
       if (result.item) { state.bag.add(result.item); view.say(type === 'clutter' ? `Got the ${this.host.content.itemName(result.item).toLowerCase()}!` : ''); }
       if (!state.has('first_clean')) { state.flag('first_clean'); view.say('Look! Colour came back!'); }
-      this.host.guide.handle({ type: 'cleared', mess: type, area: id });
+      this.host.notify({ type: 'cleared', mess: type, area: id, x: t.x, y: t.y });
     }
     if (!wasRestored && mess.restored) this.onRestored();
     if (result.cleared) this.host.jobs.checkTidy();
@@ -126,7 +128,7 @@ export class PuffActions {
           const wanted = (t.accepts ?? []).map((id) => content.itemName(id).toLowerCase()).join(' and ');
           view.say(`A home for the ${wanted}.`); return;
         }
-        for (const id of items) { state.bag.remove(id); state.sparkles += PUTAWAY_SPARKLES; this.host.guide.handle({ type: 'putaway', item: id }); }
+        for (const id of items) { state.bag.remove(id); state.sparkles += PUTAWAY_SPARKLES; this.host.notify({ type: 'putaway', item: id }); }
         view.say(items.length === 1 ? 'Back where it lives!' : 'All put away!');
         view.feedback('thunk', 'light');
         this.host.world.sparkleBurst(t.x, t.y, 6);
@@ -166,13 +168,13 @@ export class PuffActions {
         if (!state.tools.can) { view.say('Seeds need water. A can would help.'); return; }
         crop.watered = true; this.host.select('can');
         view.feedback('wipe', 'light');
-        this.host.guide.handle({ type: 'watered' });
+        this.host.notify({ type: 'watered' });
       } else view.say('Growing. No rush.');
     } else if (state.bag.count('radish_seeds') > 0) {
       state.bag.remove('radish_seeds');
       state.crops.push({ area: id, x, y, crop: 'radish', days: 0, watered: false });
       view.say('Grow big. No rush.'); view.feedback('thunk', 'light');
-      this.host.guide.handle({ type: 'planted' });
+      this.host.notify({ type: 'planted' });
     } else view.say('Seeds would grow here.');
     this.host.world.setCrops(this.cropsHere());
     this.host.refreshHud();
@@ -213,7 +215,7 @@ export class PuffActions {
     puff.hop();
     for (let n = 0; n < 6; n += 1) this.host.world.sparkleBurst(puff.x - 3 + n, puff.y - 2 + (n % 3), 10);
     view.banner(`${area.pack.name} restored!${reward ? ` +${reward} ✨` : ''}`);
-    this.host.guide.handle({ type: 'restored', area: id });
+    this.host.notify({ type: 'restored', area: id });
     if (area.pack.kind === 'home') {
       state.flag(`restored_${id}`);
       if (this.sharePromptDay !== clock.state.day) {

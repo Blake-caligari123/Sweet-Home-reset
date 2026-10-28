@@ -12,11 +12,14 @@ import { PuffActions } from './play/actions';
 import { Clock, DAY_END, DAY_START, formatTime, LATE_AT } from './play/clock';
 import { morningLetter } from './play/letter';
 import { AreaMess, FULL_COLOUR, type ToolId } from './play/mess';
+import type { PlayEvent } from './play/events';
 import { OnboardingGuide } from './play/onboarding-guide';
 import { Puff } from './play/puff';
 import { distTo, FEET_TO_BASE, neighbourAt, rectOf, targetAt, type Here, type Target } from './play/targets';
 import { isLocked, plusFromUrl } from './plus/plus';
 import { Jobs } from './requests/jobs';
+import { RewardHud } from './rewards/reward-hud';
+import { Rewards } from './rewards/rewards';
 import { openShop } from './shops/shop-sheet';
 import { isOpen } from './shops/shops';
 import { TownState } from './state';
@@ -52,6 +55,7 @@ export class TownGame {
   private puff = new Puff();
   private guide: OnboardingGuide;
   private actions: PuffActions;
+  private rewards: Rewards;
   /** M2 stub: test builds have Plus; `?plus=0` shows the free game. */
   private plus = plusFromUrl(location.search);
   private fading = false;
@@ -89,14 +93,14 @@ export class TownGame {
       sparkleAtPuff: (n) => this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), n),
       extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.shopButtonsFor(id)],
       locked: (id) => this.locked(id),
-      onboard: (e) => this.guide.handle(e),
+      notify: (e) => this.notify(e),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
     });
     this.jobs = new Jobs({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings, talk: this.talk, areas: this.areas,
       messFor: (id) => this.messFor(id), area: () => this.areaId, syncMess: (i) => this.world.syncMess(i),
-      locked: (id) => this.locked(id), onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+      locked: (id) => this.locked(id), notify: (e) => this.notify(e), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.guide = new OnboardingGuide({
       state: this.state, view: this.view, hud: this.hud, area: () => this.areaId, messFor: (id) => this.messFor(id),
@@ -104,7 +108,7 @@ export class TownGame {
     });
     this.actions = new PuffActions({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
-      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide,
+      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, notify: (e) => this.notify(e),
       here: () => ({ id: this.areaId, area: this.area, mess: this.mess, nav: this.nav }),
       selected: () => this.selected,
       select: (t) => { this.selected = t; },
@@ -113,6 +117,13 @@ export class TownGame {
       openShop: (shop) => this.openShop(shop),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
+    });
+    this.rewards = new Rewards({
+      state: this.state, view: this.view, hud: new RewardHud(this.hud.root, () => this.settings.reducedMotion),
+      here: () => ({ id: this.areaId, name: this.area.pack.name, progress: this.mess.progress, bar: this.mess.total > 0 && !this.mess.restored }),
+      tileToScreen: (x, y) => this.world.toScreen((x + 0.5) * T, (y + 0.5) * T),
+      hopPuff: () => this.puff.hop(),
+      refreshHud: () => this.refreshHud()
     });
     this.fade = h('div', { class: 'fade', 'aria-hidden': 'true' });
     ui.append(this.fade);
@@ -201,7 +212,7 @@ export class TownGame {
     this.world.setTint(this.clock.state.minutes);
     this.world.follow(spot.x, spot.y - 8, true);
     this.guide.updateHighlight();
-    if (announce) { this.hud.announce(this.area.pack.name); this.guide.handle({ type: 'entered', area: id }); }
+    if (announce) { this.hud.announce(this.area.pack.name); this.notify({ type: 'entered', area: id }); }
   }
 
   private async travel(to: string, x: number, y: number) {
@@ -291,6 +302,9 @@ export class TownGame {
     this.puff.path = path; this.puff.action = action;
   }
 
+  /** Everything Puff does goes to the tips (and the rewards). */
+  private notify(e: PlayEvent) { this.guide.handle(e); this.rewards.handle(e); }
+
   private locked(id: string) { return isLocked(this.content.neighbour(id), this.plus); }
 
   private rectOf(t: Target) { return rectOf(t, this.area, t.kind === 'neighbour' ? this.neighbours.states.get(t.id) : undefined); }
@@ -323,7 +337,7 @@ export class TownGame {
     this.fade.classList.remove('on', 'night');
     this.fading = false;
     view.release();
-    this.guide.handle({ type: 'slept' });
+    this.notify({ type: 'slept' });
     this.refreshHud();
     morningLetter({ state, view, clock: this.clock, refreshHud: () => this.refreshHud() });
   }
@@ -340,7 +354,7 @@ export class TownGame {
       .map((s) => ({ label: `Browse ${s.name.replace(/^.*'s /, '')}`, onClick: () => this.openShop(s) }));
   }
 
-  private openBag() { openBag({ state: this.state, view: this.view, content: this.content, onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud() }); }
+  private openBag() { openBag({ state: this.state, view: this.view, content: this.content, notify: (e) => this.notify(e), refreshHud: () => this.refreshHud() }); }
 
   private openPause() {
     openPause({
@@ -376,7 +390,7 @@ export class TownGame {
           p.faceAlong(dx, dy);
           if (d <= budget) { p.fx = n.x; p.fy = n.y; p.path.shift(); budget -= d; } else { p.fx += (dx / d) * budget; p.fy += (dy / d) * budget; budget = 0; }
           const tx = Math.floor(p.fx / T); const ty = Math.floor(p.fy / T);
-          if (tx !== p.x || ty !== p.y) { p.x = tx; p.y = ty; this.guide.handle({ type: 'stood', ground: this.area.groundAt(tx, ty), area: this.areaId }); }
+          if (tx !== p.x || ty !== p.y) { p.x = tx; p.y = ty; this.notify({ type: 'stood', ground: this.area.groundAt(tx, ty), area: this.areaId }); }
         }
         if (!p.path.length) {
           p.pose = 'idle';
@@ -386,6 +400,7 @@ export class TownGame {
         } else p.pose = 'walk';
       }
       this.neighbours.update(this.clock.state.minutes, this.areaId, dt);
+      this.rewards.tick(dt, p.path.length > 0 || p.swingMs > 0);
       if (p.swingMs > 0) { p.swingMs -= dt; if (p.swingMs <= 0) this.actions.finishSwing(); }
       if (p.hopMs > 0) { p.hopMs -= dt; if (p.hopMs <= 0 && p.pose === 'hop') p.pose = 'idle'; }
       this.autosaveMs += dt;

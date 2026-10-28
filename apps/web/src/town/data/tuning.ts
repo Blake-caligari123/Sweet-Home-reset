@@ -23,6 +23,15 @@ export interface Tuning {
   relaxedMode: { fluffCostMultiplier: number; doze: boolean; requestExpiry: boolean };
   friendship: { talk: number; liked: number; loved: number; request: number; pointsPerHeart: number };
   autosaveSeconds: number;
+  /** The rewards overhaul (claude/REWARDS-PLAN.md). */
+  rewards: {
+    sparklesPerClean: number; chainWindowMs: number; chainBonusEvery: number; chainBonusMax: number; chainHopEvery: number;
+    milestones: number[]; milestoneSparkles: number;
+    findChance: number; findPity: number; goldenSparkles: number; goldenFromDay: number;
+    xp: { clean: number; job: number; restore: number; find: number };
+    levelXpBase: number; levelXpGrowth: number; levelSparkles: number; levelFluffEvery: number;
+    goalsPerDay: number; goalSparkles: number; allGoalsBonus: number;
+  };
   townName: string;
   fountainName: string;
   walkTilesPerSecond?: number;

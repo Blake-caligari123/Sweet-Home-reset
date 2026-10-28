@@ -58,6 +58,9 @@ export class View {
     }
   }
 
+  /** A rising chime for a sparkle chain (`level` 0..1 raises the pitch). */
+  chime(level: number) { if (this.settings.sound) this.sound.play('combo', level); }
+
   /** The soft tap every UI button makes. */
   uiTap() { this.sound.unlock(); if (this.settings.sound) this.sound.play('tap'); }
 
