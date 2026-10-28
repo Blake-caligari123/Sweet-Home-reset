@@ -1,0 +1,92 @@
+# M2 test checklist (phone test, step 10)
+
+Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload once after each deploy. Start with a new game (Pause → Restart).
+
+## 1. The first 30 minutes (step 8)
+- [ ] The tips go in order:
+  1. walk to the rug
+  2. dust 3 spots
+  3. put the sock in the basket
+  4. sponge the stain
+  5. eat the snack on the counter
+  6. tidy the rest of the burrow
+- [ ] The burrow restores with a reveal and the "Before and after" offer.
+- [ ] In the yard: rake 3 weeds, plant 3 radish seeds, water them. Watering is free.
+- [ ] Walk into the square. Puff says "Why is that fountain so quiet?"
+- [ ] Say hello to Hazel in the bakery and get a Berry tart. Eat it from the Bag.
+- [ ] Take Hazel's counter job from the notice board, then dust her counter.
+- [ ] Meet Bea and Pip on Neighbour Lane, through the square's east gate. If Pip's asleep, he says when he's up.
+- [ ] Day 1 lasts about 12 minutes. Near 1 am Puff says "Head home to bed."
+- [ ] Sleep. The Day 2 letter mentions what you cleaned.
+- [ ] Day 2: the radishes have sprouted and the General Store is open.
+- [ ] Doing things out of order (for example, Bea before Hazel) never gets the tips stuck.
+
+## 2. Fluff balance (new)
+- [ ] A clean hit costs 1 Fluff. Restoring the burrow leaves about half a bar.
+- [ ] Fluff lasts most of the day, with snacks helping. It shouldn't run out in the first few minutes.
+- [ ] Under 20 Fluff, Puff yawns and cleaning costs a little more.
+
+## 3. Neighbours walking about (step 1)
+- [ ] **Hazel:** bakes in the morning, runs the shop by day, and dozes in her chair at night.
+- [ ] **Bea:** at her shop 8–6, does lists in the back room around 1 pm, and walks to Riverside at 6 pm.
+- [ ] **Pip:** sleeps until 10, works at his bench, and visits Hazel's around 3 pm.
+- [ ] Neighbours walk through doors rather than popping in and out.
+
+## 4. Talking (step 2)
+- [ ] The first chat each day gives +1 friendship. Talking again gives a short "busy" line.
+- [ ] Lines change with the time of day and over the days, with no instant repeats.
+
+## 5. Gifts and hearts (step 3)
+- [ ] "Give a gift" works once a day per neighbour.
+- [ ] A loved gift gets a big reaction, a liked one a nice one, and a disliked one a kind "not for me" that costs nothing.
+- [ ] Pause → ♥ Friends shows hearts, progress, and the gifts you've found they like.
+- [ ] Hearts never go down, even after a reload.
+
+## 6. Heart scenes (step 4)
+- [ ] A scene plays the next time you talk after reaching 2 hearts. It can be skipped, and choices work.
+- [ ] Loved gifts are the fastest way to hearts: flowers for Hazel, shells for Otto, a book for Moss.
+
+## 7. Notice board and jobs (step 5)
+- [ ] 1–3 jobs a day, and you can hold up to 3.
+- [ ] Tidy jobs put fresh mess down. "Bring" jobs show a "Give the …" button in that neighbour's chat.
+- [ ] Finishing a job gives Sparkles and friendship, and the tracker updates.
+- [ ] Missed jobs quietly go after 2–3 days, with no penalty.
+
+## 8. Shops (step 6)
+- [ ] **General Store,** off the square: open from day 2, 8 am–6 pm.
+  - Buy seeds, an oat biscuit and a bigger bag.
+  - Sell radishes.
+  - The Copper sponge recipe appears from day 5.
+- [ ] **Bea's flowers:** use "Browse flowers" in her chat while her shop is open.
+- [ ] You can't buy when the shop is closed or you're short of Sparkles.
+
+## 9. New areas (step 7)
+- [ ] **Bea's shop and Pip's workshop** each restore with a reveal and +100 Sparkles. Lists go to Bea's desk, and toys go in Pip's toy box.
+- [ ] **Moss's library,** at the end of the Lane: dust, cobwebs, and books for the shelves.
+- [ ] **Riverside,** through the Lane's bottom gate: closed until day 3.
+  - Two shells on the bank each morning.
+  - The beach path on the right says it's overgrown.
+- [ ] **Otto's bathhouse:** soap scum, foggy patches, and towels for the basket.
+- [ ] Restored homes stay restored after a reload.
+
+## 10. Otto, Moss and Mabel (7c)
+- [ ] **Otto:** on the jetty at dawn, in the bathhouse 10–4, and on the jetty again at night.
+- [ ] **Moss:** in his library. He's asleep before 10 am.
+- [ ] **Mabel:** walks into the square around 6 pm and sits by the east bench until 1 am.
+- [ ] Their jobs show up on the board. Otto's only appear from day 3.
+
+## 11. Plus stub (step 9)
+- [ ] Add `?plus=0` to the end of the link:
+  - Otto, Moss and Mabel are grey silhouettes.
+  - Tapping one says "Someone new! We'll say hello another day."
+  - None of their jobs appear on the board.
+  - There's no paywall anywhere.
+
+## 12. Also check
+- [ ] The burrow counter snack comes back every morning.
+- [ ] The book goes on the bookshelf, and other put-aways work.
+- [ ] The tracker at the top updates after each step.
+- [ ] Nothing freezes after a long session or lots of area changes.
+- [ ] The new dialogue reads right. It's all in `claude/DIALOGUE-REVIEW.md`.
+
+Note anything odd as you go and send it over in one list.
