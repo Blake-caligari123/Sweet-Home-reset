@@ -1,4 +1,4 @@
-import type { Application, FederatedPointerEvent } from 'pixi.js';
+import type { Application } from 'pixi.js';
 import type { Sound } from '../shared/audio/sound';
 import type { NativeBridge } from '../shared/native';
 import { h } from '../shared/ui/dom';
@@ -8,10 +8,12 @@ import { stamp, writeTown, type TownSave } from './data/save';
 import { NEIGHBOUR_WALK_SPEED, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
 import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
+import { installDebugHooks } from './debug';
 import { PuffActions } from './play/actions';
 import { Clock, DAY_END, DAY_START, formatTime, LATE_AT } from './play/clock';
+import { HomeLife } from './play/home-life';
 import { morningLetter } from './play/letter';
-import { AreaMess, FULL_COLOUR, type ToolId } from './play/mess';
+import { AreaMess, type ToolId } from './play/mess';
 import { OnboardingGuide } from './play/onboarding-guide';
 import { Puff } from './play/puff';
 import { distTo, FEET_TO_BASE, neighbourAt, rectOf, targetAt, type Here, type Target } from './play/targets';
@@ -23,13 +25,18 @@ import { TownState } from './state';
 import { openBag } from './ui/bag-sheet';
 import { Hud, TOOL_SLOTS } from './ui/hud';
 import { openPause } from './ui/pause-menu';
+import { PointerInput } from './ui/pointer-input';
 import { promptFor } from './ui/prompt';
 import { View, type Settings } from './ui/view';
 import type { Dir } from './world/art/characters';
 import { T } from './world/art/texture';
 import { FEET, navFor, REACH, type NavGrid, type Pt } from './world/nav';
+import type { Tile } from './world/pathfind';
 import { setIconBank, type SpriteBank } from './world/sprites';
 import { World } from './world/world';
+
+/** At most this many extra scrubs from one rub. */
+const MAX_RUB = 4;
 
 // The town game (GDD v3): it owns the areas, Puff, input, the day and the save, and hands the rest
 // to feature modules: neighbours/conversations (talk, gifts, heart events, Friends), requests/jobs
@@ -52,11 +59,13 @@ export class TownGame {
   private puff = new Puff();
   private guide: OnboardingGuide;
   private actions: PuffActions;
+  private homeLife: HomeLife;
+  /** Clutter being carried home by a drag: its tile, and where it goes once Puff has it. */
+  private carrying: { from: Tile; to: Pt } | null = null;
   /** M2 stub: test builds have Plus; `?plus=0` shows the free game. */
   private plus = plusFromUrl(location.search);
   private fading = false;
   private autosaveMs = 0;
-  private down: { x: number; y: number; t: number } | null = null;
   private fade: HTMLElement;
   private deviceId: string;
 
@@ -114,6 +123,7 @@ export class TownGame {
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
     });
+    this.homeLife = new HomeLife({ world: this.world, view: this.view, sound, content: this.content });
     this.fade = h('div', { class: 'fade', 'aria-hidden': 'true' });
     ui.append(this.fade);
     this.deviceId = (saved?.deviceId as string) ?? (crypto.randomUUID?.() ?? String(Math.random()).slice(2));
@@ -123,49 +133,22 @@ export class TownGame {
     this.world.reducedMotion = settings.reducedMotion;
     if (this.state.requests.day !== this.clock.state.day) this.jobs.post();
     this.enterArea(this.areaId, this.puff.x, this.puff.y, false, feet);
-    this.bindInput();
+    this.bindInput(ui);
     app.ticker.add((t) => this.update(t.deltaMS));
     window.addEventListener('resize', () => { app.resize(); this.world.resize(); });
     this.refreshHud();
     if (!saved) window.setTimeout(() => this.view.say('Ooh. Grey. Let\'s fix that.'), 600);
-    if (new URLSearchParams(location.search).has('debug')) this.installDebugHooks();
+    if (new URLSearchParams(location.search).has('debug')) {
+      installDebugHooks({
+        world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide,
+        areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
+        messFor: (id) => this.messFor(id), enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), tap: (x, y) => this.tap(x, y), refreshHud: () => this.refreshHud()
+      });
+    }
   }
 
   /** Character sprite sheets loaded after start; Puff stays code-drawn until they arrive. */
   setSprites(bank: SpriteBank) { setIconBank(bank); this.world.setSprites(bank); this.hud.refreshIcons(); }
-
-  /** Test hook for automated playthroughs, only with ?debug in the URL. */
-  private installDebugHooks() {
-    const s = this.state;
-    (window as unknown as { __town: unknown }).__town = {
-      tileToScreen: (x: number, y: number) => this.world.toScreen((x + 0.5) * T, (y + 0.5) * T),
-      debug: () => ({ area: this.areaId, puff: { x: this.puff.x, y: this.puff.y }, fluff: s.fluff.value, sparkles: s.sparkles, bag: s.bag.slots.filter(Boolean), tools: s.tools, step: s.onboarding.current?.id ?? 'done', progress: this.mess.progress, day: this.clock.state.day, minutes: this.clock.state.minutes, crops: s.crops }),
-      setMinutes: (m: number) => { this.clock.state.minutes = m; },
-      setDay: (d: number) => { this.clock.state.day = d; this.jobs.post(); },
-      mess: () => { const m = this.mess; const out: { x: number; y: number; type: string; hp: number; item?: string }[] = []; for (let i = 0; i < m.type.length; i += 1) if (m.type[i]) out.push({ x: i % m.w, y: Math.floor(i / m.w), type: m.typeAt(i % m.w, Math.floor(i / m.w)), hp: m.hp[i], item: m.item[i] }); return out; },
-      props: () => this.area.pack.props.filter((p) => p.action).map((p) => ({ type: p.type, x: p.x, y: p.y, action: p.action, accepts: p.accepts })),
-      doors: () => this.area.pack.doors.filter((d) => !d.closedText),
-      tapTile: (x: number, y: number) => this.tap((x + 0.5) * T, (y + 0.5) * T),
-      tapPoint: (x: number, y: number) => this.tap(x, y),
-      feet: () => ({ x: this.puff.fx, y: this.puff.fy }),
-      openAt: (x: number, y: number) => this.nav.openAt(x, y),
-      busy: () => this.puff.path.length > 0 || this.puff.swingMs > 0 || this.view.busy || this.fading,
-      busyWhy: () => ({ path: this.puff.path.length, swingMs: this.puff.swingMs, view: this.view.busy, fading: this.fading }),
-      /** Jump to an area in full colour, for screenshots. */
-      visit: (id: string, x: number, y: number, colour = true) => { if (colour) this.messFor(id).colour.fill(FULL_COLOUR); this.enterArea(id, x, y, false); },
-      puffSprite: () => ({ ...this.world.puffDebug, pose: this.puff.pose, dir: this.puff.dir }),
-      /** Where Puff is drawn, in tile units (the tile's own coords when standing at its usual spot). */
-      drawn: () => ({ x: this.puff.fx / T - 0.5, y: (this.puff.fy + FEET_TO_BASE + 1) / T - 1 }),
-      neighbours: () => this.neighbours.visible(this.areaId).map((n) => ({ id: n.id, x: Math.floor(n.fx / T), y: Math.floor(n.fy / T), fx: n.fx, fy: n.fy, pose: n.pose, dir: n.dir })),
-      tapNeighbour: (id: string) => { const n = this.neighbours.states.get(id); if (n) this.tap(n.fx, n.fy - 6); },
-      friends: () => s.friends,
-      flags: () => s.flags,
-      requests: () => s.requests,
-      addItem: (id: string, n = 1) => { s.bag.add(id, n); this.refreshHud(); },
-      /** Friendship points straight in, to reach heart events in tests. */
-      addPoints: (id: string, n: number) => { s.friendOf(id).points += Math.max(0, n); }
-    };
-  }
 
   // ---- areas -------------------------------------------------------------------------------
 
@@ -188,6 +171,8 @@ export class TownGame {
     return g;
   }
   private get mess() { return this.messFor(this.areaId); }
+  /** How tidy the current area is, 1 once it's restored. */
+  private get tidiness() { return this.mess.restored ? 1 : this.mess.progress; }
 
   private enterArea(id: string, x: number, y: number, announce = true, feet?: Pt) {
     this.areaId = id;
@@ -195,6 +180,7 @@ export class TownGame {
     const spot = this.nav.nearestOpen(feet && this.nav.openAt(feet.x, feet.y) ? feet : { x: x * T + T / 2, y: y * T + FEET }) ?? { x: x * T + T / 2, y: y * T + FEET };
     this.puff.standAt(spot);
     this.world.load(this.area, this.mess);
+    this.homeLife.enter(id, this.area.pack.alive ?? [], this.tidiness);
     this.neighbours.place(this.clock.state.minutes);
     this.world.setCrops(this.actions.cropsHere());
     this.world.setPickups(this.actions.pickupsHere());
@@ -216,19 +202,39 @@ export class TownGame {
 
   // ---- input -------------------------------------------------------------------------------
 
-  private bindInput() {
-    const root = this.world.root;
-    root.eventMode = 'static';
-    root.on('pointerdown', (e: FederatedPointerEvent) => { this.down = { x: e.global.x, y: e.global.y, t: performance.now() }; });
-    root.on('pointerup', (e: FederatedPointerEvent) => {
-      const d = this.down; this.down = null;
-      if (!d || Math.hypot(e.global.x - d.x, e.global.y - d.y) > 14) return;
-      this.sound.unlock();
-      const p = this.world.toWorld(e.global.x, e.global.y);
-      this.tap(p.x, p.y);
+  private bindInput(ui: HTMLElement) {
+    new PointerInput(this.world.root, ui, {
+      toWorld: (x, y) => this.world.toWorld(x, y),
+      unlock: () => this.sound.unlock(),
+      tap: (p) => this.tap(p.x, p.y),
+      // Each pass of a rub is another scrub, so a stain comes up in one go.
+      rub: (p, passes) => { this.tap(p.x, p.y); if (this.puff.action?.kind === 'mess' || this.puff.swing) this.puff.repeat = Math.min(MAX_RUB, passes - 1); },
+      drag: (from, to) => this.carry(from, to),
+      carryable: (p) => this.clutterAt(Math.floor(p.x / T), Math.floor(p.y / T)) ?? null
     });
     window.addEventListener('keydown', (e) => this.key(e));
   }
+
+  private clutterAt(x: number, y: number) { return this.mess.typeAt(x, y) === 'clutter' ? this.mess.item[y * this.area.w + x] : undefined; }
+
+  /** A drag: clutter dropped on where it lives is picked up, then carried there; anything else walks to the drop. */
+  private carry(from: Pt, to: Pt) {
+    const tile = { x: Math.floor(from.x / T), y: Math.floor(from.y / T) };
+    const item = this.clutterAt(tile.x, tile.y);
+    const home = item ? this.area.tapPropAt(Math.floor(to.x / T), Math.floor(to.y / T)) : null;
+    if (!item || !home?.accepts?.includes(item)) { this.tap(to.x, to.y); return; }
+    this.carrying = { from: tile, to: { x: (home.x + 0.5) * T, y: (home.y + 0.5) * T } };
+    this.tap(from.x, from.y);
+  }
+
+  /** Once Puff has picked up the carried clutter, off it goes to where it lives (or the carry is dropped). */
+  private carryOn() {
+    const c = this.carrying; const p = this.puff;
+    if (!c || p.path.length || p.swingMs > 0) return;
+    this.carrying = null;
+    if (!this.clutterAt(c.from.x, c.from.y)) this.tap(c.to.x, c.to.y);
+  }
+
 
   private key(e: KeyboardEvent) {
     if (e.target instanceof HTMLElement && e.target.closest('input, textarea')) return;
@@ -386,6 +392,8 @@ export class TownGame {
         } else p.pose = 'walk';
       }
       this.neighbours.update(this.clock.state.minutes, this.areaId, dt);
+      this.homeLife.tick(this.areaId, this.tidiness);
+      this.carryOn();
       if (p.swingMs > 0) { p.swingMs -= dt; if (p.swingMs <= 0) this.actions.finishSwing(); }
       if (p.hopMs > 0) { p.hopMs -= dt; if (p.hopMs <= 0 && p.pose === 'hop') p.pose = 'idle'; }
       this.autosaveMs += dt;

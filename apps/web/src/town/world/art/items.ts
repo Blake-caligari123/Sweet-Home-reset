@@ -72,6 +72,7 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
       pc.set(ox + 5, oy + 6, P.white); break;
     case 'bag': b(2, 4, 10, 9, P.brownLight, 2); pc.line(ox + 4, oy + 4, ox + 6, oy + 1, P.outline); pc.line(ox + 10, oy + 4, ox + 8, oy + 1, P.outline); pc.hline(ox + 4, oy + 7, 6, P.brown); break;
     case 'copper_sponge': b(1, 2, 12, 10, P.cream, 1); pc.hline(ox + 3, oy + 5, 8, P.greyShade); pc.hline(ox + 3, oy + 8, 6, P.greyShade); pc.ellipseBox(ox + 10, oy + 10, 2, 2, P.peachShade, P.outline); break;
+    case 'cushion': b(1, 4, 12, 8, P.peach, 3); pc.hline(ox + 3, oy + 7, 8, P.peachShade); pc.ellipseBox(ox + 7, oy + 8, 1, 1, P.peachShade, P.outline); pc.set(ox + 3, oy + 5, P.peachLight); break;
     default: b(3, 3, 8, 8, P.butter, 1);
   }
 }

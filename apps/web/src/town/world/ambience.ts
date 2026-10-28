@@ -26,7 +26,7 @@ function textures() {
 
 let glowTex: Texture | null = null;
 /** A soft round light, drawn once with a radial gradient (lighting, not pixel art). */
-function glowTexture() {
+export function glowTexture() {
   if (glowTex) return glowTex;
   const c = document.createElement('canvas'); c.width = 64; c.height = 64;
   const g = c.getContext('2d')!;

@@ -41,11 +41,13 @@ town/
   main.ts       entry: loads the pack, save, paintings and sprites, then starts TownGame
   game.ts       TownGame, the coordinator: wires the features together; areas, input, the day,
                 the main loop and the save
+  debug.ts      the `?debug` test hooks (`window.__town`) for browser playthroughs
   state.ts      TownState: Puff's saved progress (Sparkles, bag, Fluff, tools, flags, friends, jobs…)
                 and how it saves and loads
   data/         the pack schema and validation (area.ts), save format and migrations (save.ts),
                 tuning.json access (tuning.ts), pack lookups (content.ts), the test pack loader
-  world/        drawing and walking: world.ts (Pixi stage), sprites.ts, backgrounds.ts (paintings),
+  world/        drawing and walking: world.ts (Pixi stage), alive.ts (lamps, sunbeams, the cat…),
+                sprites.ts, backgrounds.ts (paintings),
                 bake.ts, ambience.ts, nav.ts (free movement), pathfind.ts
     art/          code-drawn placeholders: texture.ts (tile size, noise, dither), ground.ts,
                   props.ts, items.ts (mess, item icons, crops), characters.ts (Puff, neighbours)
@@ -53,7 +55,8 @@ town/
                 pickups.ts, onboarding.ts (tip rules), letter.ts (morning letter and real chore);
                 Puff in play: puff.ts (position, facing), targets.ts (what a tap lands on),
                 actions.ts (cleaning, furniture, soil, pickups, doors), onboarding-guide.ts
-                (runs the tips: tools, highlights)
+                (runs the tips: tools, highlights); gestures.ts (tap, rub, drag); a home coming
+                alive: alive.ts (stage rules) and home-life.ts (switches stages on in play)
   neighbours/   neighbours.ts (routines, walking), talk.ts (line choice), friends.ts (points,
                 gifts), heart-events.ts (scene rules), conversations.ts (the talk/gift/scene/
                 Friends UI)
@@ -62,7 +65,7 @@ town/
   plus/         plus.ts: the M2 Plus stub (test builds have everything; `?plus=0` shows the free
                 game, with Otto, Moss and Mabel as silhouettes); real entitlement comes in M5
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
-                the tool bar), bag-sheet.ts,
+                the tool bar), pointer-input.ts (fingers on the world), bag-sheet.ts,
                 pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css
 ```
 
