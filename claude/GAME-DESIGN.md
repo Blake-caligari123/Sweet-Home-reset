@@ -306,7 +306,7 @@ Detail only. The clip conditions are in A2. All v1 sharing happens on the device
 #### Reveal clip
 - 6 s, 9:16, at least 1080×1920 (integer 4x+ upscale, nearest-neighbour). The before state shows for under 1 s, then a sparkle wipe, a sound effect on the reveal, the after state, and Puff's happy pose for the last 2 s.
 - Small corner wordmark watermark, with the synthesised v1 music baked in.
-- Offered when a house or room reaches 100% clean, and from the photo menu. Share or Save to device. Auto-prompted at most once a day.
+- Offered when a house, room or outdoor area (the yard, the square) is restored, and from the photo menu. Share or Save to device. Each area restores once, so each gets one automatic offer. (Blake, 28 Oct 2026: the yard and the square too, no once-a-day cap.)
 
 #### Mess of the Day card
 - One daily seeded mess that's the same for everyone (seed = the date in Sydney time), with a one-line prompt, e.g. "Muddy porch after the storm".
