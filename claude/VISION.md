@@ -291,6 +291,11 @@ One new thing every couple of days, each with one tip or letter:
   - Tall sheets now scroll within the screen.
   - Colour-blind-friendly mess (shape cues) and screen-reader announcements are still to come.
 
+- **Silver tools (29 Oct):** tier 3 for the duster, sponge (the Silver squeegee, from Otto's 6 hearts) and rake.
+  - Made from cave silver, and only after Copper, since recipes go up one tier at a time.
+  - Fewer swings, and a charged swing covers the whole 3×3 patch (VISION §7's Sparkle burst).
+  - The duster and rake recipes are at the General Store from day 17.
+
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
 |---|---|

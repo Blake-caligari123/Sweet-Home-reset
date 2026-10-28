@@ -9268,6 +9268,18 @@
      "item": "lantern",
      "price": 40,
      "fromDay": 4
+    },
+    {
+     "kind": "recipe",
+     "item": "silver_duster",
+     "price": 250,
+     "fromDay": 17
+    },
+    {
+     "kind": "recipe",
+     "item": "silver_rake",
+     "price": 250,
+     "fromDay": 17
     }
    ],
    "buys": [
@@ -9776,6 +9788,54 @@
     }
    },
    "learn": "recipe_copper_rake"
+  },
+  {
+   "id": "silver_duster",
+   "name": "Silver duster",
+   "makes": {
+    "tool": "duster",
+    "tier": 3
+   },
+   "cost": {
+    "sparkles": 120,
+    "items": {
+     "ore_silver": 2,
+     "twig": 3
+    }
+   },
+   "learn": "recipe_silver_duster"
+  },
+  {
+   "id": "silver_sponge",
+   "name": "Silver squeegee",
+   "makes": {
+    "tool": "sponge",
+    "tier": 3
+   },
+   "cost": {
+    "sparkles": 140,
+    "items": {
+     "ore_silver": 3,
+     "pebble": 2
+    }
+   },
+   "learn": "recipe_silver_squeegee"
+  },
+  {
+   "id": "silver_rake",
+   "name": "Silver rake",
+   "makes": {
+    "tool": "rake",
+    "tier": 3
+   },
+   "cost": {
+    "sparkles": 120,
+    "items": {
+     "ore_silver": 2,
+     "pebble": 3
+    }
+   },
+   "learn": "recipe_silver_rake"
   },
   {
    "id": "veggie_soup",

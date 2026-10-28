@@ -11,12 +11,12 @@ export type Makes = { tool: ToolId; tier: number } | { item: string; qty: number
 /** `station`: where it's made (Pip's workbench by default). `learn`: the flag that teaches it. */
 export interface RecipeDef { id: string; name: string; station?: 'bench' | 'kitchen'; makes: Makes; cost: { sparkles?: number; items?: Record<string, number> }; learn?: string }
 
-/** `unknown`: not learned yet (or no tool to upgrade); `have`: already at that tier or better; `full`: no room in the bag. */
+/** `unknown`: not learned yet (or no tool a tier below to upgrade); `have`: already at that tier or better; `full`: no room in the bag. */
 export function canCraft(s: TownState, r: RecipeDef): 'ok' | 'unknown' | 'have' | 'short' | 'full' {
   if (r.learn && !s.has(r.learn)) return 'unknown';
   if ('tool' in r.makes) {
     const now = s.tools[r.makes.tool];
-    if (!now) return 'unknown';
+    if (!now || now < r.makes.tier - 1) return 'unknown'; // one tier at a time: Silver after Copper
     if (now >= r.makes.tier) return 'have';
   }
   if (s.sparkles < (r.cost.sparkles ?? 0)) return 'short';

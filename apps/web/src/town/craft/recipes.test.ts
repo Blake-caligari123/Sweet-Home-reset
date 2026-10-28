@@ -19,6 +19,14 @@ describe('crafting', () => {
     expect(canCraft(noTool, sponge)).toBe('unknown');
   });
 
+  it('goes up one tier at a time: Silver needs Copper first', () => {
+    const silver: RecipeDef = { ...sponge, id: 'silver_sponge', makes: { tool: 'sponge', tier: 3 }, learn: 'recipe_copper_sponge' };
+    const s = ready();
+    expect(canCraft(s, silver)).toBe('unknown');
+    s.tools.sponge = 2;
+    expect(canCraft(s, silver)).toBe('ok');
+  });
+
   it('makes the tool better, using up the cost, all or nothing, and only once', () => {
     const s = ready();
     expect(craft(s, sponge)).toBe(true);
@@ -42,6 +50,20 @@ describe('Hollowfern crafting', () => {
       const learnable = (pack.shops ?? []).some((sh) => sh.stock.some((e) => e.kind === 'recipe' && `recipe_${e.item}` === r!.learn));
       expect(learnable, `${tool} recipe in a shop`).toBe(true);
       for (const item of Object.keys(r!.cost.items ?? {})) expect(pack.areas.some((a) => (a.pickups ?? []).some((p) => p.item === item)), `${item} can be foraged`).toBe(true);
+    }
+  });
+});
+
+describe('Hollowfern Silver tools', () => {
+  it('has a Silver recipe for the duster, sponge and rake, made from cave silver, each learnable somewhere', () => {
+    const recipes = pack.recipes ?? [];
+    const learnable = (flag: string) => (pack.shops ?? []).some((sh) => sh.stock.some((e) => e.kind === 'recipe' && `recipe_${e.item}` === flag))
+      || (pack.heartEvents ?? []).some((e) => e.rewards?.flags?.includes(flag));
+    for (const tool of ['duster', 'sponge', 'rake']) {
+      const r = recipes.find((x) => 'tool' in x.makes && x.makes.tool === tool && x.makes.tier === 3)!;
+      expect(r, tool).toBeTruthy();
+      expect(r.cost.items?.ore_silver, tool).toBeGreaterThan(0);
+      expect(learnable(r.learn!), `${tool} silver recipe`).toBe(true);
     }
   });
 });

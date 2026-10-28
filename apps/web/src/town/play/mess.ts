@@ -156,3 +156,12 @@ export function unrle(runs: number[], n: number) {
   for (let i = 0; i + 1 < runs.length && k < n; i += 2) { const end = Math.min(n, k + runs[i + 1]); out.fill(runs[i], k, end); k = end; }
   return out;
 }
+
+/** Up to `n` spots around this one (sides first, then corners) with mess the same tool cleans; never clutter. */
+export function matchingAround(m: AreaMess, x: number, y: number, n: number) {
+  const type = m.typeAt(x, y);
+  if (type === 'none' || type === 'clutter') return [];
+  const tool = TOOL_FOR[type].tool;
+  const around = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]].map(([dx, dy]) => ({ x: x + dx, y: y + dy }));
+  return around.filter((p) => { const t = m.typeAt(p.x, p.y); return t !== 'none' && t !== 'clutter' && TOOL_FOR[t].tool === tool; }).slice(0, n);
+}

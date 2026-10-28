@@ -295,6 +295,11 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] **High contrast:** darker text and outlines, and solid panels.
 - [ ] All three are remembered after a reload. A tall sheet (like Pause, now) scrolls, so its Close button is always reachable.
 
+## 13b. Silver tools
+- [ ] From day 17 the General Store sells the Silver duster and Silver rake recipes (250 ✨). Otto's 6-heart scene teaches the Silver squeegee (for the sponge).
+- [ ] At Pip's workbench, Silver shows only once you have that tool in Copper. It costs Sparkles and silver ore from cave floors 3–4.
+- [ ] A Silver tool takes fewer swings, and a charged swing (hold) tidies the whole 3×3 patch of matching mess around it. The tool button gets a silver rim.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.
