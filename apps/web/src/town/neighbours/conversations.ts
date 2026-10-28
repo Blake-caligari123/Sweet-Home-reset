@@ -114,7 +114,7 @@ export class Conversations {
       for (const f of [...(r.flags ?? []), doneFlag(e)]) state.flag(f);
       if (r.sparkles) state.sparkles += r.sparkles;
       if (r.bagSlots) { state.bag.grow(r.bagSlots); window.setTimeout(() => view.banner(`A bigger bag! +${r.bagSlots} slots`), 1900); }
-      view.banner(`♥ A moment with ${def.name}${r.sparkles ? ` · +${r.sparkles} ✨` : ''}`);
+      view.banner(`${content.line(e.banner) ?? `♥ A moment with ${def.name}`}${r.sparkles ? ` · +${r.sparkles} ✨` : ''}`);
       view.feedback('fanfare', 'success');
       view.release();
       this.host.neighbours.releaseAll();

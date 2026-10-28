@@ -145,6 +145,9 @@ One new thing every couple of days, each with one tip or letter:
     - Keyboard controls moved out of `game.ts`.
   - Fluff numbers stay the same. A shorter day means the same bar covers more of it, and Blake's playtest decides from here.
   - The other save fields (plots, Grumbles, caves…) arrive with their features, with defaults on load, so a save never carries fields nothing uses.
+- **Phase 1a (28 Oct):**
+  - Hazel names Puff the Keeper, a story scene at 0 hearts. It sets `keeper_named`, and its banner reads "🏅 {puff}, Keeper of {town}!".
+  - Every home and outdoor area comes alive in stages, with a new robin effect.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

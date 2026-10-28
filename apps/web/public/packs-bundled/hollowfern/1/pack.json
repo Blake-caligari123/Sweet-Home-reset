@@ -830,7 +830,70 @@
    "spawn": {
     "x": 12,
     "y": 6
-   }
+   },
+   "alive": [
+    {
+     "at": 0.34,
+     "say": "alive.yard.flowers",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 6,
+       "y": 4.5
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 17,
+       "y": 4.5
+      }
+     ]
+    },
+    {
+     "at": 0.67,
+     "say": "alive.yard.robin",
+     "effects": [
+      {
+       "type": "bird",
+       "x": 14.5,
+       "y": 5.2
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.yard.home",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 8,
+       "y": 6.5
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 15,
+       "y": 6.5
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 23,
+       "y": 16.5
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "square",
@@ -1057,7 +1120,99 @@
    "spawn": {
     "x": 2,
     "y": 11
-   }
+   },
+   "alive": [
+    {
+     "at": 0.25,
+     "say": "alive.square.lamps",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 5.5,
+       "y": 7.2,
+       "size": 30
+      },
+      {
+       "type": "glow",
+       "x": 24.5,
+       "y": 7.2,
+       "size": 30
+      }
+     ]
+    },
+    {
+     "at": 0.5,
+     "say": "alive.square.flowers",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 12,
+       "y": 17.5
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 17,
+       "y": 17.5
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 0.75,
+     "say": "alive.square.birds",
+     "effects": [
+      {
+       "type": "bird",
+       "x": 13.6,
+       "y": 8.3
+      },
+      {
+       "type": "bird",
+       "x": 16.4,
+       "y": 8.3
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.square.home",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 5.5,
+       "y": 15.2,
+       "size": 30
+      },
+      {
+       "type": "glow",
+       "x": 24.5,
+       "y": 15.2,
+       "size": 30
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 9,
+       "y": 14.5
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 20,
+       "y": 14.5
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "bakery",
@@ -1482,7 +1637,89 @@
       202.5
      ]
     ]
-   }
+   },
+   "alive": [
+    {
+     "at": 0.25,
+     "say": "alive.bakery.lamp",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 16.5,
+       "y": 4.3,
+       "size": 34
+      }
+     ]
+    },
+    {
+     "at": 0.5,
+     "say": "alive.bakery.sun",
+     "effects": [
+      {
+       "type": "sunbeam",
+       "x": 18.5,
+       "y": 1.2,
+       "w": 3,
+       "h": 6
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 0.75,
+     "say": "alive.bakery.tarts",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "tart",
+       "x": 8.5,
+       "y": 8.4
+      },
+      {
+       "type": "decor",
+       "item": "tart",
+       "x": 11.5,
+       "y": 8.4
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 8,
+       "y": 11.4
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.bakery.home",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 5,
+       "y": 4.6,
+       "size": 40
+      },
+      {
+       "type": "bird",
+       "x": 23.5,
+       "y": 5.2
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 19,
+       "y": 11.4
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "store",
@@ -1567,7 +1804,59 @@
    "spawn": {
     "x": 7,
     "y": 8
-   }
+   },
+   "alive": [
+    {
+     "at": 0.34,
+     "say": "alive.store.lamp",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 7,
+       "y": 2.4,
+       "size": 30
+      }
+     ]
+    },
+    {
+     "at": 0.67,
+     "say": "alive.store.sun",
+     "effects": [
+      {
+       "type": "sunbeam",
+       "x": 9.5,
+       "y": 0.8,
+       "w": 2.5,
+       "h": 5
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.store.home",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 6,
+       "y": 2.5
+      },
+      {
+       "type": "bird",
+       "x": 12.5,
+       "y": 7.2
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "lane",
@@ -1763,7 +2052,70 @@
    "spawn": {
     "x": 2,
     "y": 8
-   }
+   },
+   "alive": [
+    {
+     "at": 0.34,
+     "say": "alive.lane.lamps",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 2.5,
+       "y": 11.2,
+       "size": 30
+      },
+      {
+       "type": "glow",
+       "x": 27.5,
+       "y": 11.2,
+       "size": 30
+      }
+     ]
+    },
+    {
+     "at": 0.67,
+     "say": "alive.lane.flowers",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 7,
+       "y": 11.5
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 21,
+       "y": 11.5
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.lane.home",
+     "effects": [
+      {
+       "type": "bird",
+       "x": 25.6,
+       "y": 12.2
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 12,
+       "y": 11.5
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "bea_shop",
@@ -1915,7 +2267,77 @@
     "x": 7,
     "y": 9
    },
-   "restoreReward": 100
+   "restoreReward": 100,
+   "alive": [
+    {
+     "at": 0.25,
+     "say": "alive.bea_shop.flower",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 3,
+       "y": 2.5
+      }
+     ]
+    },
+    {
+     "at": 0.5,
+     "say": "alive.bea_shop.sun",
+     "effects": [
+      {
+       "type": "sunbeam",
+       "x": 5,
+       "y": 0.8,
+       "w": 3,
+       "h": 6
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 0.75,
+     "say": "alive.bea_shop.robin",
+     "effects": [
+      {
+       "type": "bird",
+       "x": 12.5,
+       "y": 2.4
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.bea_shop.home",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 11,
+       "y": 6.5
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 13,
+       "y": 6.5
+      },
+      {
+       "type": "glow",
+       "x": 8.5,
+       "y": 2.4,
+       "size": 32
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "pip_workshop",
@@ -2077,7 +2499,72 @@
     "x": 7,
     "y": 9
    },
-   "restoreReward": 100
+   "restoreReward": 100,
+   "alive": [
+    {
+     "at": 0.25,
+     "say": "alive.pip_workshop.lamp",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 6.5,
+       "y": 3.3,
+       "size": 30
+      }
+     ]
+    },
+    {
+     "at": 0.5,
+     "say": "alive.pip_workshop.sun",
+     "effects": [
+      {
+       "type": "sunbeam",
+       "x": 8,
+       "y": 0.8,
+       "w": 3,
+       "h": 6
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 0.75,
+     "say": "alive.pip_workshop.boat",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "toy_boat",
+       "x": 2,
+       "y": 2.4
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.pip_workshop.home",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "cushion",
+       "x": 13.5,
+       "y": 3.6
+      },
+      {
+       "type": "decor",
+       "item": "toy",
+       "x": 5.6,
+       "y": 3.4
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "library",
@@ -2234,7 +2721,71 @@
     "x": 7,
     "y": 9
    },
-   "restoreReward": 100
+   "restoreReward": 100,
+   "alive": [
+    {
+     "at": 0.25,
+     "say": "alive.library.lamp",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 14.5,
+       "y": 6.3,
+       "size": 34
+      }
+     ]
+    },
+    {
+     "at": 0.5,
+     "say": "alive.library.sun",
+     "effects": [
+      {
+       "type": "sunbeam",
+       "x": 7.5,
+       "y": 0.8,
+       "w": 3,
+       "h": 6
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 0.75,
+     "say": "alive.library.cat",
+     "effects": [
+      {
+       "type": "cat",
+       "x": 13,
+       "y": 7.9
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.library.home",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "book",
+       "x": 7,
+       "y": 6.4
+      },
+      {
+       "type": "glow",
+       "x": 7.5,
+       "y": 6.2,
+       "size": 28
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "riverside",
@@ -2386,7 +2937,70 @@
    "spawn": {
     "x": 14,
     "y": 2
-   }
+   },
+   "alive": [
+    {
+     "at": 0.34,
+     "say": "alive.riverside.lamps",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 12.5,
+       "y": 7.2,
+       "size": 30
+      },
+      {
+       "type": "glow",
+       "x": 16.5,
+       "y": 2.2,
+       "size": 30
+      }
+     ]
+    },
+    {
+     "at": 0.67,
+     "say": "alive.riverside.flowers",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 3,
+       "y": 7.5
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 7,
+       "y": 7.5
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.riverside.home",
+     "effects": [
+      {
+       "type": "bird",
+       "x": 5,
+       "y": 7.2
+      },
+      {
+       "type": "decor",
+       "item": "shell",
+       "x": 10,
+       "y": 9.5
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "bathhouse",
@@ -2537,7 +3151,77 @@
     "x": 7,
     "y": 9
    },
-   "restoreReward": 100
+   "restoreReward": 100,
+   "alive": [
+    {
+     "at": 0.25,
+     "say": "alive.bathhouse.lamp",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 8,
+       "y": 2.4,
+       "size": 30
+      }
+     ]
+    },
+    {
+     "at": 0.5,
+     "say": "alive.bathhouse.sun",
+     "effects": [
+      {
+       "type": "sunbeam",
+       "x": 9,
+       "y": 0.8,
+       "w": 3,
+       "h": 6
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 0.75,
+     "say": "alive.bathhouse.towels",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "towel",
+       "x": 1.6,
+       "y": 8.4
+      },
+      {
+       "type": "decor",
+       "item": "shell",
+       "x": 5.5,
+       "y": 2.4
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.bathhouse.home",
+     "effects": [
+      {
+       "type": "bird",
+       "x": 14.5,
+       "y": 5.2
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 14,
+       "y": 8.4
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
   }
  ],
  "neighbours": [
@@ -4140,10 +4824,84 @@
    "alive.burrow.lamp": "Ooh! The lamp works!",
    "alive.burrow.sun": "Sunshine! It's getting cosy.",
    "alive.burrow.cat": "A visitor! Hello, puss.",
-   "alive.burrow.home": "It's... a home. Is it mine?|It's mine."
+   "alive.burrow.home": "It's... a home. Is it mine?|It's mine.",
+   "alive.bakery.lamp": "The bakery lamp! Cosy already.",
+   "alive.bakery.sun": "Sunshine on the buns!",
+   "alive.bakery.tarts": "Fresh tarts on the display. Yum!",
+   "alive.bakery.home": "It smells like a real bakery again.",
+   "alive.store.lamp": "A lamp on the counter. Hello, shop!",
+   "alive.store.sun": "Look at the light on the shelves.",
+   "alive.store.home": "Flowers and a robin. Open for business!",
+   "alive.bea_shop.flower": "Oh! A flower popped up.",
+   "alive.bea_shop.sun": "Sunlight for the flowers.",
+   "alive.bea_shop.robin": "A robin's come to visit!",
+   "alive.bea_shop.home": "Bea's shop is blooming!",
+   "alive.pip_workshop.lamp": "Pip's workbench lamp!",
+   "alive.pip_workshop.sun": "Sunbeams for tinkering.",
+   "alive.pip_workshop.boat": "A little boat! Did Pip make that?",
+   "alive.pip_workshop.home": "Toys everywhere, in the best way.",
+   "alive.library.lamp": "The reading lamp's on.",
+   "alive.library.sun": "Sunlight on the spines. So quiet.",
+   "alive.library.cat": "A library cat! Of course.",
+   "alive.library.home": "A good book and a warm lamp. Perfect.",
+   "alive.bathhouse.lamp": "Warm light in the steam.",
+   "alive.bathhouse.sun": "Steam and sunshine!",
+   "alive.bathhouse.towels": "Fluffy towels. Fluffy like me!",
+   "alive.bathhouse.home": "Otto's bathhouse sparkles!",
+   "alive.yard.flowers": "Flowers! Right outside my door.",
+   "alive.yard.robin": "A robin on the mailbox. Hello!",
+   "alive.yard.home": "Our yard is blooming!",
+   "alive.square.lamps": "The lamps are back on!",
+   "alive.square.flowers": "Flowers by the fountain!",
+   "alive.square.birds": "Birds at the fountain. A good sign.",
+   "alive.square.home": "{town} Square shines again!",
+   "alive.lane.lamps": "Lamps along the lane!",
+   "alive.lane.flowers": "The lane has flowers again.",
+   "alive.lane.home": "Neighbour Lane looks so friendly.",
+   "alive.riverside.lamps": "Lamps by the water. So twinkly!",
+   "alive.riverside.flowers": "Flowers on the riverbank!",
+   "alive.riverside.home": "The river sparkles back at me.",
+   "keeper.day1.hazel.1": "Oh! The colour's back. No mayor here, petal...",
+   "keeper.day1.hazel.2": "...but the Glimmerwell needs a Keeper. Will you be ours?",
+   "keeper.day1.puff.1": "Me? I only just woke up... but yes. I'd love to.",
+   "keeper.day1.hazel.3": "Here's the badge. Keeper of {town}! Now, a tart...",
+   "keeper.banner": "🏅 {puff}, Keeper of {town}!"
   }
  },
  "heartEvents": [
+  {
+   "id": "keeper_day1",
+   "neighbourId": "hazel",
+   "hearts": 0,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "hazel",
+     "line": "keeper.day1.hazel.1"
+    },
+    {
+     "speaker": "hazel",
+     "line": "keeper.day1.hazel.2"
+    },
+    {
+     "speaker": "puff",
+     "line": "keeper.day1.puff.1"
+    },
+    {
+     "speaker": "hazel",
+     "line": "keeper.day1.hazel.3"
+    }
+   ],
+   "skippable": true,
+   "banner": "keeper.banner",
+   "rewards": {
+    "flags": [
+     "keeper_named"
+    ]
+   }
+  },
   {
    "id": "he_hazel_02",
    "neighbourId": "hazel",

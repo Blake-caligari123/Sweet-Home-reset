@@ -45,10 +45,22 @@ describe('Hollowfern heart events', () => {
   it('has 2, 4, 6, 8 and 10 for every neighbour, each needing the one before', () => {
     expect(pack.neighbours!.length).toBe(6);
     for (const { id } of pack.neighbours!) {
-      const mine = events.filter((e) => e.neighbourId === id);
+      // Story scenes (the Keeper welcome) play at 0 hearts and sit outside the heart arcs.
+      const mine = events.filter((e) => e.neighbourId === id && e.hearts > 0);
       expect(mine.map((e) => e.hearts), id).toEqual([2, 4, 6, 8, 10]);
       mine.forEach((e, i) => { if (i) expect(e.conditions?.seen, e.id).toContain(mine[i - 1].id); });
     }
+  });
+
+  it('has Hazel name Puff the Keeper the first time they talk, once, before her 2-heart scene', () => {
+    const at = (hearts: number, flags: string[]) => eventDue(events, 'hazel', { hearts, flags, minutes: 9 * 60, area: 'bakery' })?.id;
+    expect(at(0, [])).toBe('keeper_day1');
+    expect(at(2, [])).toBe('keeper_day1'); // an older save catches up first
+    expect(at(2, ['keeper_day1_done'])).toBe('he_hazel_02');
+    expect(at(0, ['keeper_day1_done'])).toBeUndefined();
+    const keeper = events.find((e) => e.id === 'keeper_day1')!;
+    expect(keeper.rewards?.flags).toContain('keeper_named');
+    expect(text[keeper.banner!]).toContain('Keeper');
   });
 
   it('gives every line, choice and option text, kept short and kind', () => {

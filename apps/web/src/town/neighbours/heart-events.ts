@@ -1,6 +1,7 @@
 import { timeBand, type TimeBand } from './talk';
 
-// Heart events (GDD v3 A7, §7): a short scene at 2, 4, 6, 8 and 10 hearts. Each plays once,
+// Heart events (GDD v3 A7, §7): a short scene at 2, 4, 6, 8 and 10 hearts (and story scenes at 0,
+// like Hazel naming Puff the Keeper on day 1). Each plays once,
 // in order, when Puff next talks to the neighbour (at the right time and place, if it has one).
 // Lines can depend on what Puff did (save flags) and choices set flags later scenes remember.
 // Everything is skippable; skipping still gives the rewards and takes the first choice.
@@ -18,6 +19,8 @@ export interface HeartEvent {
   /** `flags` mark unlocks other milestones read (recipes, the greenhouse); `bagSlots` grows the bag. */
   rewards?: { sparkles?: number; bagSlots?: number; flags?: string[] };
   skippable?: boolean;
+  /** Text id for the banner at the end, instead of "A moment with …" (story scenes like the Keeper welcome). */
+  banner?: string;
 }
 
 export interface EventContext { hearts: number; flags: string[]; minutes: number; area: string }

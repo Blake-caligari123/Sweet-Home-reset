@@ -8,7 +8,7 @@ import { T } from './art/texture';
 import { glowTexture } from './ambience';
 
 // Draws a home coming alive (claude/ALIVE-PLAN.md): lamp glows, a sunbeam with dancing motes,
-// a sleepy cat, decor. Stages already reached show at once; a new one fades in.
+// a sleepy cat, a robin, decor. Stages already reached show at once; a new one fades in.
 interface Shown { effect: AliveEffect; sprite: Sprite; target: number; motes?: Sprite[] }
 
 const FADE_MS = 700;
@@ -45,6 +45,21 @@ function catTexture(frame: number) {
   return toTexture(pc);
 }
 
+/** A robin perched, bobbing: two frames. */
+function birdTexture(frame: number) {
+  const pc = new PixelCanvas(10, 9);
+  const y = frame ? 1 : 0;
+  pc.ellipse(5, 5 + y, 3, 2, P.brown);
+  pc.ellipse(6, 3 + y, 2, 2, P.brown);
+  pc.ellipse(5, 5 + y, 2, 1, P.peach);
+  pc.set(7, 2 + y, P.ink);
+  pc.set(9, 3 + y, P.butterShade);
+  pc.hline(1, 4 + y, 2, P.brown);
+  pc.set(4, 8, P.ink); pc.set(6, 8, P.ink);
+  pc.outlineShapes(P.outline);
+  return toTexture(pc);
+}
+
 export class AliveLayer {
   /** Drawn on the floor, under Puff and the neighbours. */
   readonly under = new Container();
@@ -52,6 +67,7 @@ export class AliveLayer {
   readonly lights = new Container();
   private shown: Shown[] = [];
   private cat: Texture[] | null = null;
+  private bird: Texture[] | null = null;
   private clock = 0;
   reducedMotion = false;
 
@@ -95,6 +111,11 @@ export class AliveLayer {
         const s = new Sprite(this.cat[0]); s.anchor.set(0.5, 1); s.position.set(e.x * T, e.y * T);
         this.under.addChild(s); return s;
       }
+      case 'bird': {
+        this.bird ??= [birdTexture(0), birdTexture(1)];
+        const s = new Sprite(this.bird[0]); s.anchor.set(0.5, 1); s.position.set(e.x * T, e.y * T);
+        this.under.addChild(s); return s;
+      }
       case 'decor': {
         const pc = new PixelCanvas(14, 14); drawItemIcon(pc, e.item);
         const s = new Sprite(toTexture(pc)); s.anchor.set(0.5); s.position.set(e.x * T, e.y * T);
@@ -122,6 +143,8 @@ export class AliveLayer {
       s.sprite.alpha += (want - s.sprite.alpha) * Math.min(1, dt / FADE_MS);
       if (s.effect.type === 'glow' && !this.reducedMotion) s.sprite.alpha *= 0.94 + Math.sin(this.clock / 380) * 0.06;
       if (s.effect.type === 'cat' && this.cat) s.sprite.texture = this.cat[Math.floor(this.clock / 900) % 2];
+      // A bob now and then, not a steady tick.
+      if (s.effect.type === 'bird' && this.bird && !this.reducedMotion) s.sprite.texture = this.bird[Math.floor(this.clock / 260) % 7 === 0 ? 1 : 0];
       s.motes?.forEach((m, i) => {
         const t = this.clock / 1000 + i * 1.3;
         m.y -= dt * 0.004; if (m.y < s.sprite.y) m.y = s.sprite.y + s.sprite.height;
