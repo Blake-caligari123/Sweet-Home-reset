@@ -1,6 +1,6 @@
 {
   "dayRealMinutes": 10,
-  "firstDayRealMinutes": 20,
+  "firstDayRealMinutes": 12,
   "dayRealMinutesTest": [
     8,
     10
@@ -8,7 +8,7 @@
   "gameMinutesPerTick": 10,
   "fluffStart": 100,
   "fluffMaxStep": 10,
-  "fluffToolUse": 2,
+  "fluffToolUse": 1,
   "fluffCharged": [
     5,
     8
