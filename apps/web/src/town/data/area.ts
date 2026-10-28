@@ -1,3 +1,4 @@
+import type { FestivalDef } from '../festivals/festivals';
 import { seeded } from '../../shared/art/pixel-canvas';
 import { isBlockedGround, type Ground, type Theme } from '../world/art/ground';
 import type { PropDef } from '../world/art/props';
@@ -60,7 +61,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** Things Puff can wear, earned by playing (VISION §4). */
   outfits?: OutfitDef[];
   /** Bottle letters that wash up by the fountain (Mabel's, from day 10). */
-  letters?: LetterDef[] }
+  letters?: LetterDef[];
+  /** A festival on the last day of each season (VISION §7). */
+  festivals?: FestivalDef[] }
 
 export class Area {
   readonly w: number;

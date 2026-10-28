@@ -60,7 +60,8 @@ town/
   play/         core rules: mess.ts (mess, colour, restore), bag.ts, fluff.ts, clock.ts,
                 pickups.ts, onboarding.ts (tip rules), letter.ts (morning letter and real chore),
                 names.ts (the player's names for Puff and the town: `{puff}`, `{town}` in text),
-                overnight.ts (what happens while Puff sleeps: Fluff, crops, builds), nudges.ts (the tracker's
+                overnight.ts (what happens while Puff sleeps: Fluff, crops, builds), night.ts (the night and
+                the morning's messages, for game.ts), weather.ts (rain by day), nudges.ts (the tracker's
                 "try this next"), carry.ts (dragging clutter home), sweep.ts (swiping along a row of mess),
                 crops.ts (crop kinds, growth stages, picking and growing back),
                 mess-return.ts (light mess drifting back into restored places overnight);
@@ -70,6 +71,8 @@ town/
                 alive: alive.ts (stage rules) and home-life.ts (switches stages on in play)
   letters/      letters.ts (which letter is waiting from each writer: Mabel's bottles, a newcomer's envelope), letter-sheet.ts (reading and writing back)
   caves/        caves.ts (rocks standing, mined, regrowing weekly), mining.ts (swinging at a rock, the drops)
+  festivals/    festivals.ts (which festival is today, the dash's spots and kind score), tidy-dash.ts (the fair
+                stall, the timer, the cheer and the prize)
   neighbours/   neighbours.ts (routines, walking), talk.ts (line choice), friends.ts (points,
                 gifts), heart-events.ts (scene rules), conversations.ts (the talk/gift/scene/
                 Friends UI)

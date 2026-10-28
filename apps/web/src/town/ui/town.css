@@ -107,3 +107,7 @@
 .note.letter p { margin: 0 0 4px; }
 .reply-list { display: flex; flex-direction: column; gap: 8px; width: 100%; }
 .reply-list .btn { flex: none; }
+.dash-timer {
+  position: absolute; top: calc(140px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); padding: 6px 16px; border: 3px solid var(--line); border-radius: 18px;
+  background: rgba(255, 248, 236, 0.96); font-weight: 900; font-size: 1.05rem; font-variant-numeric: tabular-nums; pointer-events: none;
+}

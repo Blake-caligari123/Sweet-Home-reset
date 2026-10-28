@@ -240,6 +240,13 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Shops only sell seeds that grow that season (none outdoors in winter). Planting seeds out of season says they rest till their season.
 - [ ] Each neighbour has a line for summer, autumn and winter.
 
+## 12c. Phase 4c: the Spring Clean Fair (day 14)
+- [ ] There's a little striped fair stall in the square. On other days it says it's packed away till the last day of the season.
+- [ ] Day 14, 10 am to 4 pm: everyone gathers in the square, and each has a fair-day line.
+- [ ] Tap the stall, then "Start the dash!": 20 spots of light mess pop up, Fluff is topped up, and a timer shows "✨ 0 / 20 · 60s" (it pauses while a sheet is open).
+- [ ] When every spot is tidied, time runs out, or you leave the square, the leftover dash mess vanishes and the town cheers. Any score gets a kind cheer.
+- [ ] The first go that day pays 5 ✨ a spot, and the first ever gives the fair ribbon (Pause → Outfits). Another go is just for fun.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

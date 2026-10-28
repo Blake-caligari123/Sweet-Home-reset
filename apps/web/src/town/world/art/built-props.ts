@@ -38,6 +38,13 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       for (const wx of [x + 8, x + w - 20]) { pc.box(wx, y + 20, 12, 10, P.butterLight, P.outline); pc.vline(wx + 6, y + 20, 10, P.brownLight); pc.hline(wx, y + 25, 12, P.brownLight); pc.rect(wx, y + 30, 12, 3, P.sage); pc.set(wx + 3, y + 30, P.peach); pc.set(wx + 9, y + 31, P.butter); }
       break;
     }
+    case 'fair_stall': // a little booth with a striped awning and a ribbon pinned up
+      pc.rect(x + 2, y + 2, 2, h + 2, P.brownShade); pc.rect(x + w - 4, y + 2, 2, h + 2, P.brownShade);
+      pc.box(x + 1, y + 8, w - 2, 8, P.brownLight, P.outline);
+      for (let i = 0; i < w; i += 4) pc.rect(x + i, y - 4, 4, 6, (i / 4) % 2 ? P.white : P.blueLight);
+      pc.hline(x, y + 2, w, P.outline); pc.hline(x, y - 5, w, P.outline);
+      pc.ellipse(x + w / 2, y + 11, 2, 2, P.blue); pc.set(x + w / 2, y + 11, P.white);
+      break;
     case 'bridge_broken': // two snapped planks and a leaning post over the water
       pc.box(x + 2, y + 2, 12, 4, P.brownLight, P.outline); pc.line(x + 14, y + 3, x + 19, y + 9, P.brown);
       pc.box(x + w - 10, y + 6, 8, 3, P.brownLight, P.outline);
