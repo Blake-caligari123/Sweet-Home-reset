@@ -3,7 +3,7 @@ import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
 import { AreaMess, MESS_TYPES } from '../play/mess';
 import { FEET, navFor, REACH } from '../world/nav';
-import { accept, cleanDone, freshMess, newDay, type RequestState, type RequestTemplate } from './requests';
+import { accept, cleanDone, freshMess, newDay, TOWN, type RequestState, type RequestTemplate } from './requests';
 import type { MessSpot } from '../play/mess';
 
 const T = 16;
@@ -116,7 +116,7 @@ describe('Hollowfern requests', () => {
     expect(list.find((r) => r.first)).toMatchObject({ neighbourId: 'hazel', kind: 'clean', area: 'bakery', setFlag: 'onboard_counter_done' });
     for (const r of list) {
       expect(text[r.text], r.id).toBeTruthy();
-      expect(pack.neighbours!.some((n) => n.id === r.neighbourId), r.id).toBe(true);
+      expect(r.neighbourId === TOWN || pack.neighbours!.some((n) => n.id === r.neighbourId), r.id).toBe(true);
       if (r.kind === 'bring') expect(pack.items[r.item!]?.name, r.id).toBeTruthy();
     }
   });
@@ -134,10 +134,19 @@ describe('Hollowfern requests', () => {
       }
     }
     for (const n of pack.neighbours!) expect(list.filter((r) => r.neighbourId === n.id).length, n.id).toBeGreaterThanOrEqual(2);
-    for (const r of list) {
+    for (const r of list.filter((x) => x.neighbourId !== TOWN)) {
       const who = pack.neighbours!.find((n) => n.id === r.neighbourId)!;
       const ready = r.kind === 'clean' ? opens.get(r.area!)! : Math.min(...who.schedule.map((s) => opens.get(s.area) ?? Infinity));
       expect(r.fromDay ?? 1, r.id).toBeGreaterThanOrEqual(ready);
+    }
+  });
+
+  it('has town jobs from day 8: tidying jobs anywhere open, for the whole town', () => {
+    const town = list.filter((r) => r.neighbourId === TOWN);
+    expect(town.length).toBeGreaterThanOrEqual(4);
+    for (const r of town) {
+      expect(r.kind, r.id).toBe('clean');
+      expect(r.fromDay, r.id).toBeGreaterThanOrEqual(8);
     }
   });
 

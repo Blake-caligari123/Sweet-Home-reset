@@ -216,6 +216,10 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Talking to them while they're visiting gives a visit hello first ("Just popping by with a warm bun, Keeper!").
 - [ ] They walk there and back through the doors, like the rest of their day.
 
+## 11v. Phase 3h: town jobs
+- [ ] From day 8 the notice board sometimes has a job from "All of Hollowfern" (your town name): weeds on the square, dust or grass on the Lane, mud on the riverside path. Each pays 60 ✨ and says "Town Bloom" instead of "friendship".
+- [ ] Take it, tidy the mess it puts down, and "Job done! +60 ✨ The town says thank you." Each town job done counts toward Town Bloom.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

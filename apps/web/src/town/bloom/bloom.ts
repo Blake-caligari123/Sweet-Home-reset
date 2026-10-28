@@ -4,14 +4,14 @@ import { heartsOf } from '../neighbours/talk';
 import type { TownState } from '../state';
 
 // Town Bloom (VISION §5): how the town is thriving, as a level that only rises. Restored places,
-// things built, friendship and Grumble helpers all count. And surprise finds (VISION §7): every
+// things built, friendship, Grumble helpers and town jobs all count. And surprise finds (VISION §7): every
 // few cleans in a place turns up a little treasure for Moss's collection. Free, fixed, no chance.
 
-export interface BloomCounts { restored: number; builds: number; hearts: number; helpers: number }
+export interface BloomCounts { restored: number; builds: number; hearts: number; helpers: number; townJobs: number }
 
-/** Points toward Town Bloom: a restore counts most, then a build, then each heart and helper. */
+/** Points toward Town Bloom: a restore counts most, then a build, then each heart, helper and town job. */
 export function bloomPoints(c: BloomCounts) {
-  return c.restored * 3 + c.builds * 2 + c.hearts + c.helpers;
+  return c.restored * 3 + c.builds * 2 + c.hearts + c.helpers + c.townJobs;
 }
 
 /** The level (1 up) these points reach, by the thresholds in tuning. */
@@ -25,7 +25,8 @@ function townBloom(s: TownState, restored: number) {
     restored,
     builds: Object.values(s.plots).filter((p) => p.stage >= DONE).length,
     hearts: Object.values(s.friends).reduce((n, f) => n + heartsOf(f.points), 0),
-    helpers: s.grumbles.list.filter((g) => g.state === 'helper').length
+    helpers: s.grumbles.list.filter((g) => g.state === 'helper').length,
+    townJobs: s.townJobs
   }));
 }
 

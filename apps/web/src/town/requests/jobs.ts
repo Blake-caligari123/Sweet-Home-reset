@@ -9,7 +9,7 @@ import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import type { Button, Settings, View } from '../ui/view';
 import type { TownAreas } from '../world/town-areas';
-import { accept, cleanDone, finish, freshMess, MAX_ACCEPTED, newDay, withTiles, type RequestTemplate } from './requests';
+import { accept, cleanDone, finish, freshMess, MAX_ACCEPTED, newDay, TOWN, withTiles, type RequestTemplate } from './requests';
 
 /** What the notice board and jobs need from the game around them. */
 export interface JobsHost {
@@ -77,9 +77,9 @@ export class Jobs {
         view.say('On it!');
       });
       list.append(h('div', { class: 'note' },
-        h('p', { class: 'friend-name' }, content.neighbour(t.neighbourId)?.name ?? 'A neighbour'),
+        h('p', { class: 'friend-name' }, t.neighbourId === TOWN ? `All of ${state.names.town}` : content.neighbour(t.neighbourId)?.name ?? 'A neighbour'),
         h('p', {}, content.line(t.text) ?? ''),
-        h('p', { class: 'muted' }, `${when} · ${t.sparkles} ✨ · friendship`),
+        h('p', { class: 'muted' }, `${when} · ${t.sparkles} ✨ · ${t.neighbourId === TOWN ? 'Town Bloom' : 'friendship'}`),
         take));
     }
     close = view.sheet('Notice board', state.requests.list.length ? [list] : [h('p', {}, 'Nothing pinned up today. Tomorrow, maybe!')]);
@@ -116,11 +116,20 @@ export class Jobs {
   private complete(t: RequestTemplate, inPerson: boolean) {
     const { state, view, content } = this.host;
     state.requests = finish(state.requests, t.id);
+    state.sparkles += t.sparkles;
+    if (t.neighbourId === TOWN) {
+      state.townJobs += 1;
+      if (t.setFlag) state.flag(t.setFlag);
+      view.feedback('coin', 'success');
+      view.banner(`Job done! +${t.sparkles} ✨ The town says thank you.`);
+      this.host.refreshHud();
+      this.host.save();
+      return;
+    }
     const def = content.neighbour(t.neighbourId);
     const f = state.friendOf(t.neighbourId);
     const hearts = heartsOf(f.points);
     f.points += TUNING.friendship.request;
-    state.sparkles += t.sparkles;
     if (t.setFlag) state.flag(t.setFlag);
     this.host.onboard({ type: 'jobDone', id: t.id });
     view.feedback('coin', 'success');

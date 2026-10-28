@@ -6052,7 +6052,12 @@
    "sorrel.visit.2": "Your burrow's so round! I love it.",
    "otto.visit.1": "Hazel's buns! Worth leaving the river for. Heh.",
    "moss.visit.1": "A little sun now and then. Don't tell my books.",
-   "pip.visit.1": "Moss lends me gear books. Shh, I'm reading!"
+   "pip.visit.1": "Moss lends me gear books. Shh, I'm reading!",
+   "req.town_square_weeds": "Pull the weeds along the square's south lawn.",
+   "req.town_lane_dust": "Dust the cobbles outside the Lane shops.",
+   "req.town_river_mud": "Rake the mud off the riverside path.",
+   "req.town_lane_weeds": "Tidy the Lane's grass for the walkers.",
+   "req.town_square_east": "Clear the weeds round the square's east side."
   }
  },
  "heartEvents": [
@@ -7633,6 +7638,86 @@
     19,
     14,
     6,
+    1
+   ],
+   "mess": "weeds",
+   "fromDay": 10
+  },
+  {
+   "id": "town_square_weeds",
+   "neighbourId": "town",
+   "kind": "clean",
+   "text": "req.town_square_weeds",
+   "sparkles": 60,
+   "area": "square",
+   "rect": [
+    4,
+    15,
+    8,
+    2
+   ],
+   "mess": "weeds",
+   "fromDay": 8
+  },
+  {
+   "id": "town_lane_dust",
+   "neighbourId": "town",
+   "kind": "clean",
+   "text": "req.town_lane_dust",
+   "sparkles": 60,
+   "area": "lane",
+   "rect": [
+    3,
+    7,
+    10,
+    2
+   ],
+   "mess": "dust",
+   "fromDay": 8
+  },
+  {
+   "id": "town_river_mud",
+   "neighbourId": "town",
+   "kind": "clean",
+   "text": "req.town_river_mud",
+   "sparkles": 60,
+   "area": "riverside",
+   "rect": [
+    10,
+    6,
+    10,
+    1
+   ],
+   "mess": "mud",
+   "fromDay": 8
+  },
+  {
+   "id": "town_square_east",
+   "neighbourId": "town",
+   "kind": "clean",
+   "text": "req.town_square_east",
+   "sparkles": 60,
+   "area": "square",
+   "rect": [
+    18,
+    10,
+    8,
+    2
+   ],
+   "mess": "weeds",
+   "fromDay": 9
+  },
+  {
+   "id": "town_lane_weeds",
+   "neighbourId": "town",
+   "kind": "clean",
+   "text": "req.town_lane_weeds",
+   "sparkles": 60,
+   "area": "lane",
+   "rect": [
+    3,
+    13,
+    10,
     1
    ],
    "mess": "weeds",
