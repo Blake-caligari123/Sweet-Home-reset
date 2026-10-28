@@ -72,8 +72,8 @@ export class PuffActions {
 
   pickupsHere() {
     const { state, clock, content } = this.host; const id = this.host.here().id;
-    const bottles = lettersWaiting(content.pack.letters ?? [], clock.state.day, state.flags).filter((l) => l.area === id).map((l) => ({ id: `letter_${l.id}`, x: l.x, y: l.y, item: 'bottle', letter: l.id }));
-    return [...available(this.host.here().area.pack.pickups ?? [], state.picked, clock.state.day), ...bottles];
+    const letters = lettersWaiting(content.pack.letters ?? [], clock.state.day, state.flags).filter((l) => l.area === id).map((l) => ({ id: `letter_${l.id}`, x: l.x, y: l.y, item: l.item ?? 'bottle', letter: l.id }));
+    return [...available(this.host.here().area.pack.pickups ?? [], state.picked, clock.state.day), ...letters];
   }
 
   cropsHere() {

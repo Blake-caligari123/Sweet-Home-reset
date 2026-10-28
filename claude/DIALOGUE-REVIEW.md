@@ -101,6 +101,55 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 ## New in Phase 3b (29 Oct): the caves (proposed, please review)
 - "The fountain's so quiet... Something's down there." · "Ooh. It's cool down here. And sparkly." · "A bit of {town}'s colour! Let's bring it home." · "Copper ore! Pip will love this." · "Mining takes Fluff. A snack first?"
 
+## New in Phase 3c (29 Oct): Sorrel, the first newcomer (proposed, please review)
+Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited to belong.
+- `letter.sorrel_1.title`: A letter for the Keeper
+- `letter.sorrel_1.hint`: There's a letter by the Lane sign.
+- `letter.sorrel_1.sent`: Off it goes! Let's find Sorrel a home.
+- `letter.sorrel_1.l1`: Dear Keeper of {town}, I'm Sorrel, from over the hills.
+- `letter.sorrel_1.l2`: I heard the colour's coming back. Is there room for me?
+- `letter.sorrel_1.l3`: I'd love a little cottage. I'm very good at tidy! Sorrel
+- `letter.sorrel_1.r1`: Yes! Come and live here!
+- `letter.sorrel_1.r2`: There's always room. Welcome!
+- `invite.hint`: Sorrel needs a home. See the Keeper's plans.
+- `sorrel.meet.1`: Hi! You're the Keeper! I'm Sorrel. I live here now!
+- `sorrel.busy.1`: Unpacking! So many boxes. Pop by tomorrow?
+- `sorrel.busy.2`: Oops, left the kettle on! See you tomorrow!
+- `sorrel.busy.3`: Still settling in! Tomorrow, okay?
+- `sorrel.morning.1`: Morning! I've been up since the first bird.
+- `sorrel.morning.2`: I counted the Lane's flowers. Forty-two!
+- `sorrel.day.1`: Everyone here waves. I love that.
+- `sorrel.day.2`: I'm learning every path. Left, left, then the fountain!
+- `sorrel.evening.1`: The lamps come on one by one. Like a song.
+- `sorrel.evening.2`: My cottage smells of new wood. And jam.
+- `sorrel.night.1`: Shh, I'm nearly asleep. Night, Keeper!
+- `sorrel.night.2`: Stars over the Lane! Better than the hills.
+- `sorrel.spring.1`: Spring in a new town! Everything's a first.
+- `sorrel.spring.2`: I planted a seed by my door. Hope it likes me.
+- `sorrel.spring.3`: Blossom on my windowsill! It found me.
+- `sorrel.rainy.1`: Rain on a new roof sounds so cosy.
+- `sorrel.rainy.2`: My tail's a little umbrella. Mostly.
+- `sorrel.h0.1`: Thank you for my home. I still can't believe it.
+- `sorrel.h0.2`: Who's the baker? Hazel? I must say hello!
+- `sorrel.h0.3`: I'm a bit shy. But you make it easy.
+- `sorrel.h3.1`: I wrote to my sister. I said I'm happy here.
+- `sorrel.h3.2`: Bea gave me honey! Everyone's so kind.
+- `sorrel.h3.3`: Want to see my acorn jar? It's very full.
+- `sorrel.h6.1`: This feels like home now. Really home.
+- `sorrel.h6.2`: I helped Pip with a gear today! A tiny one.
+- `sorrel.h6.3`: Some nights I miss the hills. Then I see the lamps.
+- `sorrel.h9.1`: Best friends? I hope so. I think so!
+- `sorrel.h9.2`: I'll tell newcomers about you. The kind Keeper.
+- `sorrel.h9.3`: You built me a home. I'll help you build a town.
+- `sorrel.gift.loved`: For me?! Oh, I'll save this forever. Thank you!
+- `sorrel.gift.liked`: Ooh, lovely! It's going on my new shelf.
+- `sorrel.gift.neutral`: A present for me? You're so sweet. Thanks!
+- `sorrel.gift.disliked`: Oh! Not really for me. But thank you, truly.
+- `sorrel.request.done`: You did it! Thank you, Keeper!
+- `req.sorrel_flowers`: Sorrel would love flowers for her new window.
+- `req.sorrel_weeds`: Pull the weeds by Sorrel's front door.
+- `home.sorrel`: Sorrel's moved in! Say hello on the Lane.
+
 ## Hazel
 
 **First hello**

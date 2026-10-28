@@ -198,7 +198,7 @@ export class TownGame {
       installDebugHooks({
         world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide,
         areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
-        messFor: (id) => this.places.mess(id), enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), tap: (x, y) => this.tap(x, y), refreshHud: () => this.refreshHud()
+        messFor: (id) => this.places.mess(id), enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), tap: (x, y) => this.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
       });
     }
   }
@@ -355,7 +355,7 @@ export class TownGame {
     this.guide.handle({ type: 'slept' });
     this.refreshHud();
     morningLetter({ state, view, clock: this.clock, refreshHud: () => this.refreshHud() });
-    for (const name of built) view.banner((this.content.line('build.done') ?? '').replace('{building}', name.toLowerCase()));
+    for (const b of built) view.banner(b.home ? this.content.line(`home.${b.home}`) ?? '' : (this.content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
   }
 
   // ---- sheets ------------------------------------------------------------------------------
@@ -462,8 +462,8 @@ export class TownGame {
     const up = bloomUp(this.state, this.places.restoredCount());
     if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }
     for (const o of newlyEarned(this.state, this.content.pack.outfits ?? [])) this.view.banner(`👒 New outfit: ${o.name}! (Pause → Outfits)`);
-    const bottle = lettersWaiting(this.content.pack.letters ?? [], this.clock.state.day, this.state.flags).length > 0;
-    const next = this.content.line(nudge(this.state, (k) => this.arrived(k), bottle) ?? undefined);
+    const [letter] = lettersWaiting(this.content.pack.letters ?? [], this.clock.state.day, this.state.flags);
+    const next = this.content.line(nudge(this.state, (k) => this.arrived(k), letter ? letter.hint ?? 'letter.hint' : null) ?? undefined);
     this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? step.hint : this.jobs.tracker() ?? next ?? 'Explore {town} and tidy what you find.'));
   }
 

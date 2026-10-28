@@ -5,7 +5,7 @@ import type { TownState } from '../state';
 import type { View } from '../ui/view';
 import { readFlag, type LetterDef } from './letters';
 
-/** A bottle letter: its lines, then a reply to choose. Replying sends it back and is friendship with its writer. */
+/** A letter: its lines, then a reply to choose. Replying sends it back and is friendship with its writer. */
 export function openLetter(view: View, content: Content, state: TownState, l: LetterDef, done: () => void) {
   let close = () => {};
   const replies = l.replies.map((r) => {
@@ -16,12 +16,12 @@ export function openLetter(view: View, content: Content, state: TownState, l: Le
       state.friendOf(l.from).points += TUNING.friendship.letter;
       close();
       view.feedback('chime', 'success');
-      view.say(content.line('letter.sent') ?? '');
+      view.say(content.line(l.sent ?? 'letter.sent') ?? '');
       done();
     });
     return b;
   });
-  close = view.sheet('A letter in a bottle', [
+  close = view.sheet(content.line(l.title ?? 'letter.title') ?? '', [
     h('div', { class: 'note letter' }, ...l.lines.map((id) => h('p', {}, content.line(id) ?? ''))),
     h('p', { class: 'muted' }, 'Write back:'), h('div', { class: 'reply-list' }, ...replies)
   ], undefined, 'Later');

@@ -101,6 +101,7 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'fence_post': for (const x of [3, 9]) b(x, 3, 2, 10, P.brownLight); b(1, 5, 12, 2, P.brownLight); b(1, 9, 12, 2, P.brown); break;
     case 'stone_path': for (const [x, y] of [[2, 3], [7, 2], [3, 8], [8, 7]]) { pc.ellipseBox(ox + x + 2, oy + y + 2, 2, 2, P.greyLight, P.outline); } break;
     case 'bottle': b(5, 2, 4, 3, P.brownLight, 1); b(3, 5, 8, 8, P.blueLight, 2); pc.rect(ox + 5, oy + 7, 4, 4, P.cream); pc.hline(ox + 6, oy + 8, 2, P.greyShade); pc.set(ox + 4, oy + 6, P.white); break;
+    case 'envelope': b(2, 4, 10, 7, P.cream, 1); pc.line(ox + 3, oy + 5, ox + 7, oy + 8, P.creamShade); pc.line(ox + 11, oy + 5, ox + 7, oy + 8, P.creamShade); pc.ellipseBox(ox + 7, oy + 8, 1, 1, P.peachShade, P.peachShade); break;
     case 'ore_copper': pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.greyShade, P.outline); for (const [x, y] of [[5, 7], [8, 9], [9, 6]]) { pc.set(ox + x, oy + y, P.peachShade); pc.set(ox + x + 1, oy + y, P.peach); } break;
     case 'shard_colour': pc.line(ox + 4, oy + 12, ox + 7, oy + 2, P.blueLight); pc.ellipseBox(ox + 7, oy + 7, 3, 5, P.blueLight, P.outline); pc.set(ox + 6, oy + 5, P.white); pc.set(ox + 8, oy + 9, P.peach); break;
     case 'twig':

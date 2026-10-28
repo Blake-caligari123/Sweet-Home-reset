@@ -194,6 +194,9 @@
   "shard_colour": {
    "name": "Colour shard",
    "sell": 20
+  },
+  "envelope": {
+   "name": "Letter"
   }
  },
  "areas": [
@@ -3906,6 +3909,68 @@
      "sleep": true
     }
    ]
+  },
+  {
+   "id": "sorrel",
+   "name": "Sorrel",
+   "species": "squirrel",
+   "colours": {
+    "fur": "#C8744A",
+    "belly": "#F6E2C8",
+    "accent": "#7FA36E"
+   },
+   "loves": [
+    "strawberry",
+    "berries"
+   ],
+   "likes": [
+    "flowers",
+    "tart",
+    "pebble",
+    "carrot"
+   ],
+   "dislikes": [
+    "mud",
+    "cobweb"
+   ],
+   "schedule": [
+    {
+     "at": 360,
+     "area": "lane",
+     "x": 22,
+     "y": 14,
+     "dir": "up"
+    },
+    {
+     "at": 540,
+     "area": "square",
+     "x": 12,
+     "y": 12,
+     "dir": "down"
+    },
+    {
+     "at": 780,
+     "area": "lane",
+     "x": 11,
+     "y": 13,
+     "dir": "down"
+    },
+    {
+     "at": 1020,
+     "area": "riverside",
+     "x": 14,
+     "y": 3,
+     "dir": "down"
+    },
+    {
+     "at": 1260,
+     "area": "lane",
+     "x": 22,
+     "y": 14,
+     "dir": "up",
+     "sleep": true
+    }
+   ]
   }
  ],
  "dialogue": {
@@ -4718,6 +4783,136 @@
     "flag": "restored_bathhouse",
     "once": true
    }
+  ],
+  "sorrel": [
+   {
+    "id": "sorrel.meet.1",
+    "meet": true
+   },
+   {
+    "id": "sorrel.busy.1",
+    "busy": true
+   },
+   {
+    "id": "sorrel.busy.2",
+    "busy": true
+   },
+   {
+    "id": "sorrel.busy.3",
+    "busy": true
+   },
+   {
+    "id": "sorrel.morning.1",
+    "time": "morning"
+   },
+   {
+    "id": "sorrel.morning.2",
+    "time": "morning"
+   },
+   {
+    "id": "sorrel.day.1",
+    "time": "day"
+   },
+   {
+    "id": "sorrel.day.2",
+    "time": "day"
+   },
+   {
+    "id": "sorrel.evening.1",
+    "time": "evening"
+   },
+   {
+    "id": "sorrel.evening.2",
+    "time": "evening"
+   },
+   {
+    "id": "sorrel.night.1",
+    "time": "night"
+   },
+   {
+    "id": "sorrel.night.2",
+    "time": "night"
+   },
+   {
+    "id": "sorrel.spring.1",
+    "season": "spring"
+   },
+   {
+    "id": "sorrel.spring.2",
+    "season": "spring"
+   },
+   {
+    "id": "sorrel.spring.3",
+    "season": "spring"
+   },
+   {
+    "id": "sorrel.rainy.1",
+    "weather": "rainy"
+   },
+   {
+    "id": "sorrel.rainy.2",
+    "weather": "rainy"
+   },
+   {
+    "id": "sorrel.h0.1",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "sorrel.h0.2",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "sorrel.h0.3",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "sorrel.h3.1",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "sorrel.h3.2",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "sorrel.h3.3",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "sorrel.h6.1",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "sorrel.h6.2",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "sorrel.h6.3",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "sorrel.h9.1",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "sorrel.h9.2",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "sorrel.h9.3",
+    "heartsMin": 9,
+    "heartsMax": 10
+   }
   ]
  },
  "strings": {
@@ -5264,7 +5459,54 @@
    "cave.enter": "Ooh. It's cool down here. And sparkly.",
    "cave.shard": "A bit of {town}'s colour! Let's bring it home.",
    "cave.ore": "Copper ore! Pip will love this.",
-   "cave.tired": "Mining takes Fluff. A snack first?"
+   "cave.tired": "Mining takes Fluff. A snack first?",
+   "letter.title": "A letter in a bottle",
+   "letter.sorrel_1.title": "A letter for the Keeper",
+   "letter.sorrel_1.hint": "There's a letter by the Lane sign.",
+   "letter.sorrel_1.sent": "Off it goes! Let's find Sorrel a home.",
+   "letter.sorrel_1.l1": "Dear Keeper of {town}, I'm Sorrel, from over the hills.",
+   "letter.sorrel_1.l2": "I heard the colour's coming back. Is there room for me?",
+   "letter.sorrel_1.l3": "I'd love a little cottage. I'm very good at tidy! Sorrel",
+   "letter.sorrel_1.r1": "Yes! Come and live here!",
+   "letter.sorrel_1.r2": "There's always room. Welcome!",
+   "invite.hint": "Sorrel needs a home. See the Keeper's plans.",
+   "sorrel.meet.1": "Hi! You're the Keeper! I'm Sorrel. I live here now!",
+   "sorrel.busy.1": "Unpacking! So many boxes. Pop by tomorrow?",
+   "sorrel.busy.2": "Oops, left the kettle on! See you tomorrow!",
+   "sorrel.busy.3": "Still settling in! Tomorrow, okay?",
+   "sorrel.morning.1": "Morning! I've been up since the first bird.",
+   "sorrel.morning.2": "I counted the Lane's flowers. Forty-two!",
+   "sorrel.day.1": "Everyone here waves. I love that.",
+   "sorrel.day.2": "I'm learning every path. Left, left, then the fountain!",
+   "sorrel.evening.1": "The lamps come on one by one. Like a song.",
+   "sorrel.evening.2": "My cottage smells of new wood. And jam.",
+   "sorrel.night.1": "Shh, I'm nearly asleep. Night, Keeper!",
+   "sorrel.night.2": "Stars over the Lane! Better than the hills.",
+   "sorrel.spring.1": "Spring in a new town! Everything's a first.",
+   "sorrel.spring.2": "I planted a seed by my door. Hope it likes me.",
+   "sorrel.spring.3": "Blossom on my windowsill! It found me.",
+   "sorrel.rainy.1": "Rain on a new roof sounds so cosy.",
+   "sorrel.rainy.2": "My tail's a little umbrella. Mostly.",
+   "sorrel.h0.1": "Thank you for my home. I still can't believe it.",
+   "sorrel.h0.2": "Who's the baker? Hazel? I must say hello!",
+   "sorrel.h0.3": "I'm a bit shy. But you make it easy.",
+   "sorrel.h3.1": "I wrote to my sister. I said I'm happy here.",
+   "sorrel.h3.2": "Bea gave me honey! Everyone's so kind.",
+   "sorrel.h3.3": "Want to see my acorn jar? It's very full.",
+   "sorrel.h6.1": "This feels like home now. Really home.",
+   "sorrel.h6.2": "I helped Pip with a gear today! A tiny one.",
+   "sorrel.h6.3": "Some nights I miss the hills. Then I see the lamps.",
+   "sorrel.h9.1": "Best friends? I hope so. I think so!",
+   "sorrel.h9.2": "I'll tell newcomers about you. The kind Keeper.",
+   "sorrel.h9.3": "You built me a home. I'll help you build a town.",
+   "sorrel.gift.loved": "For me?! Oh, I'll save this forever. Thank you!",
+   "sorrel.gift.liked": "Ooh, lovely! It's going on my new shelf.",
+   "sorrel.gift.neutral": "A present for me? You're so sweet. Thanks!",
+   "sorrel.gift.disliked": "Oh! Not really for me. But thank you, truly.",
+   "sorrel.request.done": "You did it! Thank you, Keeper!",
+   "req.sorrel_flowers": "Sorrel would love flowers for her new window.",
+   "req.sorrel_weeds": "Pull the weeds by Sorrel's front door.",
+   "home.sorrel": "Sorrel's moved in! Say hello on the Lane."
   }
  },
  "heartEvents": [
@@ -6824,6 +7066,31 @@
    "text": "req.mabel_biscuit",
    "sparkles": 40,
    "item": "biscuit"
+  },
+  {
+   "id": "sorrel_flowers",
+   "neighbourId": "sorrel",
+   "kind": "bring",
+   "text": "req.sorrel_flowers",
+   "sparkles": 40,
+   "item": "flowers",
+   "fromDay": 10
+  },
+  {
+   "id": "sorrel_weeds",
+   "neighbourId": "sorrel",
+   "kind": "clean",
+   "text": "req.sorrel_weeds",
+   "sparkles": 40,
+   "area": "lane",
+   "rect": [
+    19,
+    14,
+    6,
+    1
+   ],
+   "mess": "weeds",
+   "fromDay": 10
   }
  ],
  "shops": [
@@ -7027,6 +7294,19 @@
     "greenhouse"
    ],
    "unlock": "building"
+  },
+  {
+   "id": "plot_lane_cottage",
+   "name": "Lane end",
+   "area": "lane",
+   "x": 20,
+   "y": 11,
+   "w": 4,
+   "h": 3,
+   "allow": [
+    "cottage_sorrel"
+   ],
+   "unlock": "invite_sorrel"
   }
  ],
  "buildings": [
@@ -7121,6 +7401,21 @@
    },
    "bloom": 2,
    "effect": "waters_garden"
+  },
+  {
+   "id": "cottage_sorrel",
+   "name": "Sorrel's cottage",
+   "nights": 2,
+   "cost": {
+    "sparkles": 200
+   },
+   "prop": {
+    "type": "cottage",
+    "w": 4,
+    "h": 3
+   },
+   "effect": "home",
+   "home": "sorrel"
   }
  ],
  "grumbleFamilies": [
@@ -7389,6 +7684,36 @@
   }
  ],
  "letters": [
+  {
+   "id": "sorrel_1",
+   "from": "sorrel",
+   "day": 8,
+   "area": "lane",
+   "x": 16,
+   "y": 13,
+   "item": "envelope",
+   "title": "letter.sorrel_1.title",
+   "hint": "letter.sorrel_1.hint",
+   "sent": "letter.sorrel_1.sent",
+   "lines": [
+    "letter.sorrel_1.l1",
+    "letter.sorrel_1.l2",
+    "letter.sorrel_1.l3"
+   ],
+   "replies": [
+    {
+     "label": "letter.sorrel_1.r1",
+     "flag": "reply_sorrel_1_yes"
+    },
+    {
+     "label": "letter.sorrel_1.r2",
+     "flag": "reply_sorrel_1_welcome"
+    }
+   ],
+   "gives": [
+    "invite_sorrel"
+   ]
+  },
   {
    "id": "mabel_1",
    "from": "mabel",
