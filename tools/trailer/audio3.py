@@ -160,6 +160,12 @@ def section(m, t0, beats, style, alt=False):
         m.kick(tf, 1.2); m.music.add(tf, a.bell(48, 2.5, 1.4))
     elif style == 'silence':
         pass
+    elif style == 'roomtone':
+        n = int(beats * B * SR)
+        m.music.add(t0, a.lp_fast(rng.uniform(-1, 1, n), 400) * 0.012)
+    elif style == 'chime':
+        for i, n in enumerate([72, 76, 79, 84, 88]):
+            m.music.add(t0 + i * 0.12, a.bell(n, 2.5, 0.9))
 
 
 ARR = {
@@ -178,7 +184,10 @@ ARR['B4'] = [(0, 3, 'cute'), (3, 8, 'tension'), (8, 9, 'silence'), (9, 13, 'groo
 ARR['C4'] = [(0, 2, 'groove'), (2, 5.5, 'build'), (5.5, 6, 'silence'), (6, 10, 'drop'), (10, 13.5, 'build'), (13.5, 14, 'silence'), (14, 18, 'drop', True),
              (18, 21.5, 'build'), (21.5, 22, 'silence'), (22, 26, 'drop'), (26, 29.5, 'build'), (29.5, 30, 'silence'), (30, 34, 'drop', True),
              (34, 35, 'build'), (35, 45, 'drop'), (45, 53, 'cute'), (53, 57, 'groove'), (57, 61, 'drop', True), (61, 70, 'outro')]
-BEATS = {'A': 35, 'H': 37, 'B': 25, 'C': 22, 'A4': 70, 'H4': 70, 'B4': 70, 'C4': 70}
+ARR['G5'] = [(0, 4, 'cute'), (4, 7, 'silence'), (7, 15, 'groove'), (15, 21, 'groove2'), (21, 25, 'build'), (25, 26, 'silence'), (26, 30, 'drop'), (30, 38, 'cute'), (38, 48, 'outro')]
+ARR['T5'] = [(0, 4, 'cute'), (4, 6, 'groove'), (6, 14, 'groove'), (14, 20, 'groove2'), (20, 24, 'build'), (24, 25, 'silence'), (25, 33, 'drop'), (33, 41, 'groove'), (41, 48, 'outro')]
+ARR['M5'] = [(0, 40, 'roomtone'), (40, 41, 'chime'), (41, 50, 'roomtone')]
+BEATS = {'G5': 48, 'T5': 48, 'M5': 50, 'A': 35, 'H': 37, 'B': 25, 'C': 22, 'A4': 70, 'H4': 70, 'B4': 70, 'C4': 70}
 
 
 def render(fmt, sfx_path=None):

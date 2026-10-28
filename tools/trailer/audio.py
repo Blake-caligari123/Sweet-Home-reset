@@ -296,6 +296,25 @@ def score(fmt):
 def sfx(name, o):
     p = o.get('pitch', 1.0)
     g = o.get('gain', 1.0)
+    if name == 'notif':
+        out = np.zeros(int(0.5 * SR))
+        for i, m in enumerate([88, 95]):
+            n = int(0.22 * SR); t = np.arange(n) / SR
+            s = (np.sin(2 * np.pi * hz(m) * t) + 0.3 * np.sin(2 * np.pi * hz(m + 12) * t)) * np.exp(-t * 14) * 0.35
+            k = int(i * 0.11 * SR); out[k:k + n] += s
+        return out * g, 0
+    if name == 'doorbell':
+        out = np.zeros(int(1.6 * SR))
+        for i, m in enumerate([76, 72]):
+            n = int(1.0 * SR); t = np.arange(n) / SR
+            s = (np.sin(2 * np.pi * hz(m) * t) + 0.4 * np.sin(2 * np.pi * hz(m) * 2.76 * t) * np.exp(-t * 5)) * np.exp(-t * 3) * 0.4
+            k = int(i * 0.45 * SR); out[k:k + n] += s
+        return out * g, 0
+    if name == 'swish':
+        n = int(0.32 * SR); t = np.arange(n) / SR
+        e = np.sin(np.pi * t / 0.32) ** 1.5
+        s = hp_fast(lp_fast(noise(n), 7000), 1500) * e * 0.3
+        return s * g, 0.05
     if name == 'pop':
         n = int(0.12 * SR); t = np.arange(n) / SR
         s = square(hz(84) * p, n, 0.5, slide=hz(96) * p) * np.exp(-t * 30) * 0.18
