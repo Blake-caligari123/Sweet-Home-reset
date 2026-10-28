@@ -59,6 +59,10 @@ export function installDebugHooks(g: DebugTarget) {
     showAlive: () => { const st = g.area().pack.alive ?? []; g.world.alive.load(st, st.length); },
     /** Grow every crop by some days (as if that many nights passed, watered). */
     growCrops: (days: number) => { for (const c of s.crops) c.days += days; },
+    /** Put on an outfit (earned or not), for screenshots. */
+    wear: (id: string | null) => { s.outfit = id; },
+    /** Turn Puff to face a way. */
+    face: (dir: 'up' | 'down' | 'left' | 'right') => { g.puff.dir = dir; },
     /** Fluff straight to a value, to see the sleepy bar. */
     setFluff: (n: number) => { s.fluff.value = n; },
     addItem: (id: string, n = 1) => { s.bag.add(id, n); g.refreshHud(); },

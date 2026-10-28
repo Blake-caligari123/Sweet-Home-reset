@@ -7041,5 +7041,55 @@
     "riverside"
    ]
   }
+ ],
+ "outfits": [
+  {
+   "id": "peach_bow",
+   "name": "Peach bow",
+   "hint": "Restore your burrow",
+   "earn": {
+    "flag": "restored_burrow"
+   }
+  },
+  {
+   "id": "keeper_badge",
+   "name": "Keeper's badge",
+   "hint": "Become the Keeper",
+   "earn": {
+    "flag": "keeper_named"
+   }
+  },
+  {
+   "id": "leaf_scarf",
+   "name": "Leaf scarf",
+   "hint": "Make a Grumble friend",
+   "earn": {
+    "flag": "grumble_friend"
+   }
+  },
+  {
+   "id": "berry_hat",
+   "name": "Berry hat",
+   "hint": "Pick a strawberry",
+   "earn": {
+    "flag": "grown_strawberry"
+   }
+  },
+  {
+   "id": "flower_crown",
+   "name": "Flower crown",
+   "hint": "Reach Town Bloom 2",
+   "earn": {
+    "bloom": 2
+   }
+  },
+  {
+   "id": "star_clip",
+   "name": "Star clip",
+   "hint": "Find 4 treasures",
+   "earn": {
+    "finds": 4
+   }
+  }
  ]
 }

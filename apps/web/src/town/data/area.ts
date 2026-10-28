@@ -15,6 +15,7 @@ import type { PetDef } from '../pets/pets';
 import type { RecipeDef } from '../craft/recipes';
 import type { CropDef } from '../play/crops';
 import type { FindDef } from '../bloom/bloom';
+import type { OutfitDef } from '../outfits/outfits';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 /** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
@@ -50,7 +51,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** What grows in soil (VISION §7). */
   crops?: CropDef[];
   /** Little treasures that turn up while tidying, for Moss's collection. */
-  finds?: FindDef[] }
+  finds?: FindDef[];
+  /** Things Puff can wear, earned by playing (VISION §4). */
+  outfits?: OutfitDef[] }
 
 export class Area {
   readonly w: number;

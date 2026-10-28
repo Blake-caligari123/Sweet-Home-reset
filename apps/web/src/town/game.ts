@@ -11,6 +11,8 @@ import { stamp, writeQuick, writeTown, type TownSave } from './data/save';
 import { NEIGHBOUR_WALK_SPEED, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
 import { GrumbleLife } from './grumbles/grumble-life';
 import { PetLife } from './pets/pet-life';
+import { openOutfits } from './outfits/outfit-sheet';
+import { newlyEarned } from './outfits/outfits';
 import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
 import { installDebugHooks } from './debug';
@@ -45,6 +47,7 @@ import { FEET, REACH, type Pt } from './world/nav';
 import { setIconBank, type SpriteBank } from './world/sprites';
 import { GrumbleLayer } from './world/grumble-layer';
 import { PetLayer } from './world/pet-layer';
+import { OutfitLayer } from './world/outfit-layer';
 import { TownAreas } from './world/town-areas';
 import { World } from './world/world';
 
@@ -75,6 +78,7 @@ export class TownGame {
   private grumbleLayer: GrumbleLayer;
   private pet: PetLife;
   private petLayer: PetLayer;
+  private outfitLayer: OutfitLayer;
   private carry: Carry;
   private hudLive: HudLive;
   private sweep: Sweep;
@@ -134,6 +138,7 @@ export class TownGame {
       targeted: () => { const t = this.puff.swing ?? this.puff.action; return t?.kind === 'grumble' ? t.id : null; }, refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.petLayer = new PetLayer(this.world.actors);
+    this.outfitLayer = new OutfitLayer(this.world.actors);
     this.pet = new PetLife({
       state: this.state, view: this.view, content: this.content, world: this.world, layer: this.petLayer, arrived: (k) => this.arrived(k),
       puff: () => this.puff.feet, day: () => this.clock.state.day, refreshHud: () => this.refreshHud(), save: () => void this.save(false)
@@ -374,6 +379,7 @@ export class TownGame {
       },
       openFriends: () => this.talk.openFriends(),
       openNames: () => this.openNames(),
+      openOutfits: () => openOutfits(this.view, this.content, this.state, () => void this.save(false)),
       townLine: `🌸 Town Bloom: ${this.content.line(`bloom.${this.state.bloom}`)} · ${this.state.finds.found.length} of ${this.content.pack.finds?.length ?? 0} finds`,
       skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null
     });
@@ -412,6 +418,7 @@ export class TownGame {
       if (this.autosaveMs > TUNING.autosaveSeconds * 1000) { this.autosaveMs = 0; void this.save(false); }
     }
     this.world.drawPuff({ x: p.fx, y: p.fy + FEET_TO_BASE, dir: p.dir, pose: p.pose, tool: this.selected }, dt);
+    this.outfitLayer.draw(this.state.outfit, p.fx, p.fy + FEET_TO_BASE, this.world.puffHeight, p.dir);
     this.world.drawNeighbours(this.neighbours.visible(this.areaId).map((n) => {
       const d = this.content.neighbour(n.id)!;
       return { id: n.id, species: d.species, colours: d.colours, x: n.fx, y: n.fy + FEET_TO_BASE, dir: n.dir, pose: n.pose };
@@ -433,6 +440,7 @@ export class TownGame {
     const step = this.state.onboarding.current;
     const up = bloomUp(this.state, this.places.restoredCount());
     if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }
+    for (const o of newlyEarned(this.state, this.content.pack.outfits ?? [])) this.view.banner(`👒 New outfit: ${o.name}! (Pause → Outfits)`);
     const next = this.content.line(nudge(this.state, (k) => this.arrived(k)) ?? undefined);
     this.hud.setTracker(this.content.named(step ? step.hint : this.jobs.tracker() ?? next ?? 'Explore {town} and tidy what you find.'));
   }

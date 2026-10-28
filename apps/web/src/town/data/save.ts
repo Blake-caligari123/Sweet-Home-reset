@@ -53,6 +53,8 @@ export interface TownSave {
   bloom?: number;
   /** Cleans counted per place, and the surprise finds collected. */
   finds?: Finds;
+  /** The outfit Puff is wearing. */
+  outfit?: string | null;
   /** What the player called Puff and the town. */
   names: Names;
   /** The tool in Puff's paws. */
