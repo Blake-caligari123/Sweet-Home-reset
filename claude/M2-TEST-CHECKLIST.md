@@ -153,6 +153,14 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Pause → 👒 Outfits: earned ones say "Tap to wear". The rest show "???" with how to earn them.
 - [ ] Puff wears it in the world, facing every way. Tap it again to take it off. It stays after a reload.
 
+## 11l. Phase 2f: decor
+- [ ] The General Store sells stone paths (5 for 15 ✨), flower pots, little fences and, from day 4, lanterns.
+- [ ] Outside (yard, square, Lane, Riverside), tap one in the bag: "Where shall it go?" Tap the ground to place it, again while you have more. Tap Puff or press Back to stop.
+- [ ] Hedges, water, doors, garden soil and plots say no. A pot that would block a door or path says "That would block the way."
+- [ ] Stone paths change the ground. Tap a path tile while placing paths to pick it up.
+- [ ] Tap a placed pot, fence or lantern: "Pick up the …?" and it goes back to the bag.
+- [ ] Indoors: "Decor goes outside…". Everything stays after a reload.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

@@ -16,6 +16,7 @@ import type { RecipeDef } from '../craft/recipes';
 import type { CropDef } from '../play/crops';
 import type { FindDef } from '../bloom/bloom';
 import type { OutfitDef } from '../outfits/outfits';
+import type { DecorKind } from '../decor/decor';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 /** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
@@ -36,7 +37,7 @@ export interface AreaPack {
   alive?: AliveStage[];
 }
 
-export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string; sell?: number }>; neighbours?: NeighbourDef[];
+export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string; sell?: number; decor?: DecorKind }>; neighbours?: NeighbourDef[];
   /** Talk pools per neighbour id; the text is in `strings`, by language. */
   dialogue?: Record<string, Line[]>; strings?: Record<string, Record<string, string>>;
   heartEvents?: HeartEvent[]; requests?: RequestTemplate[]; shops?: ShopDef[];

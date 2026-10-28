@@ -200,6 +200,12 @@ One new thing every couple of days, each with one tip or letter:
   - Each new one gets a banner. Wear one from Pause → 👒 Outfits, and it's drawn on Puff, with the badge hidden from behind.
   - Code-drawn for now; the Grok prompt is in SPRITE-SHEETS.
   - `game.ts` split: the per-frame HUD moved to `ui/hud-live.ts`.
+- **Phase 2f (overnight):**
+  - Free decor outdoors (yard, square, Lane, Riverside): flower pots, lanterns, a little fence and stone path tiles, from the General Store (lanterns from day 4).
+  - Tap one in the bag, then tap the ground, as many times as you have pieces. Tap Puff (or Back) to stop.
+  - A placed piece can be tapped to pick it up. A path tile is picked up by tapping it while placing paths.
+  - A piece is never allowed to block a door, something usable or a pickup (tested).
+  - Painted rooms keep their painting, so there's no decor indoors yet.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

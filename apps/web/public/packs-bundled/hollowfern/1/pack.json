@@ -159,6 +159,30 @@
    "name": "Pea fritters",
    "snack": 45,
    "sell": 50
+  },
+  "flower_pot": {
+   "name": "Flower pot",
+   "decor": {
+    "prop": "flower_pot"
+   }
+  },
+  "lantern": {
+   "name": "Lantern",
+   "decor": {
+    "prop": "lantern"
+   }
+  },
+  "fence_post": {
+   "name": "Little fence",
+   "decor": {
+    "prop": "fence_post"
+   }
+  },
+  "stone_path": {
+   "name": "Stone path",
+   "decor": {
+    "ground": "path"
+   }
   }
  },
  "areas": [
@@ -5058,7 +5082,15 @@
    "bloom.5": "Glowing",
    "find.any": "Ooh, a little treasure! Moss will love this.",
    "find.thimble": "A thimble... like the old Keeper's name.",
-   "find.tiny_key": "A tiny key. What could it open?"
+   "find.tiny_key": "A tiny key. What could it open?",
+   "decor.where": "Where shall it go? Tap the ground.",
+   "decor.done": "All done! Looks lovely.",
+   "decor.outside": "Decor goes outside: the yard, square, Lane or Riverside.",
+   "decor.blocked": "Not there. Somewhere open?",
+   "decor.taken": "Something's already there.",
+   "decor.cuts_off": "That would block the way. Somewhere else?",
+   "decor.picked": "Back in the bag.",
+   "decor.tracker": "Tap the ground to place it. Tap Puff to stop."
   }
  },
  "heartEvents": [
@@ -6679,6 +6711,28 @@
      "item": "copper_rake",
      "price": 100,
      "fromDay": 7
+    },
+    {
+     "item": "stone_path",
+     "price": 15,
+     "qty": 5,
+     "fromDay": 2
+    },
+    {
+     "item": "flower_pot",
+     "price": 25,
+     "fromDay": 2
+    },
+    {
+     "item": "fence_post",
+     "price": 15,
+     "qty": 2,
+     "fromDay": 2
+    },
+    {
+     "item": "lantern",
+     "price": 40,
+     "fromDay": 4
     }
    ],
    "buys": [
