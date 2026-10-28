@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
 import { AreaMess } from '../play/mess';
-import { dashResult, dashSpots, festivalToday, type FestivalDef } from './festivals';
+import { dashResult, dashSpots, festivalToday, litFlag, withLanterns, type FestivalDef } from './festivals';
 
 const fair: FestivalDef = { id: 'spring_fair', name: 'Spring Clean Fair', season: 'Spring', area: 'square', seconds: 60, spots: 20, perSpot: 5, mess: ['weeds', 'dust', 'crumbs'], outfit: 'fair_ribbon' };
 
@@ -31,12 +31,25 @@ describe('festivals', () => {
     expect(new Set(dashSpots(area, m, 42, 20, ['leaves']).map((s) => s.type))).toEqual(new Set(['leaves']));
   });
 
-  it('has a festival for spring, summer and autumn, each with its own mess, ribbon or hat, intro and lines', () => {
+  it('sets out Winter Lights lanterns only on its day, lit once Puff lights them', () => {
+    const lights: FestivalDef = { ...fair, id: 'winter_lights', season: 'Winter', game: 'lights', lanterns: [{ x: 5, y: 9 }, { x: 24, y: 9 }] };
+    const square = pack.areas.find((a) => a.id === 'square')!;
+    expect(withLanterns(square, null, [], 56)).toBe(square);
+    const out = withLanterns(square, lights, [litFlag(lights, 56, 5, 9)], 56).props.slice(-2);
+    expect(out).toEqual([{ type: 'festival_lantern_lit', x: 5, y: 9 }, { type: 'festival_lantern', x: 24, y: 9, action: 'light' }]);
+    expect(withLanterns(pack.areas.find((a) => a.id === 'yard')!, lights, [], 56).props).toEqual(pack.areas.find((a) => a.id === 'yard')!.props);
+  });
+
+  it('has a festival every season, each with its own game, prize, intro and lines', () => {
     const fests = pack.festivals ?? [];
-    expect(fests.map((f) => f.season)).toEqual(['Spring', 'Summer', 'Autumn']);
+    expect(fests.map((f) => f.season)).toEqual(['Spring', 'Summer', 'Autumn', 'Winter']);
+    const winter = fests[3];
+    expect(winter.game).toBe('lights');
+    const square = new Area(pack.areas.find((a) => a.id === 'square')!);
+    for (const l of winter.lanterns!) expect(square.walkable(l.x, l.y), `${l.x},${l.y}`).toBe(true);
     const text = pack.strings!['en-AU'];
     for (const f of fests) {
-      expect(f.mess.length, f.id).toBeGreaterThan(0);
+      if (f.game !== 'lights') expect(f.mess.length, f.id).toBeGreaterThan(0);
       expect(pack.outfits!.some((o) => o.id === f.outfit && o.earn.flag === `festival_${f.id}`), f.id).toBe(true);
       expect(text[`festival.${f.id}.intro`], f.id).toBeTruthy();
       for (const n of pack.neighbours!) expect(pack.dialogue![n.id].some((l) => l.festival === f.id), `${n.id} ${f.id}`).toBe(true);

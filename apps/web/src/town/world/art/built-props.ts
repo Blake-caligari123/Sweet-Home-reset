@@ -38,6 +38,14 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       for (const wx of [x + 8, x + w - 20]) { pc.box(wx, y + 20, 12, 10, P.butterLight, P.outline); pc.vline(wx + 6, y + 20, 10, P.brownLight); pc.hline(wx, y + 25, 12, P.brownLight); pc.rect(wx, y + 30, 12, 3, P.sage); pc.set(wx + 3, y + 30, P.peach); pc.set(wx + 9, y + 31, P.butter); }
       break;
     }
+    case 'festival_lantern': case 'festival_lantern_lit': { // a lantern on a post, dark until Puff lights it
+      const lit = p.type === 'festival_lantern_lit';
+      pc.rect(x + 7, y + 2, 2, 13, P.brownShade);
+      pc.box(x + 4, y - 7, 8, 9, lit ? P.butterLight : P.greyShade, P.outline);
+      pc.rect(x + 6, y - 5, 4, 5, lit ? P.white : P.grey);
+      pc.hline(x + 3, y - 8, 10, P.ink);
+      break;
+    }
     case 'fair_stall': // a little booth with a striped awning and a ribbon pinned up
       pc.rect(x + 2, y + 2, 2, h + 2, P.brownShade); pc.rect(x + w - 4, y + 2, 2, h + 2, P.brownShade);
       pc.box(x + 1, y + 8, w - 2, 8, P.brownLight, P.outline);

@@ -52,7 +52,7 @@ export function vignetteTexture() {
   return vignetteTex;
 }
 
-const LIGHTS: Record<string, [number, number, number]> = { lamppost: [8.5, -2, 44], lamp: [8, 2, 34] };
+const LIGHTS: Record<string, [number, number, number]> = { lamppost: [8.5, -2, 44], lamp: [8, 2, 34], festival_lantern_lit: [8, -3, 38] };
 
 export class Ambience {
   readonly container = new Container();

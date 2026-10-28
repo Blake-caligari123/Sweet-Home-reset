@@ -9,6 +9,7 @@ import { Content } from './data/content';
 import { restoreGame } from './data/restore';
 import { stamp, writeQuick, writeTown, type TownSave } from './data/save';
 import { NEIGHBOUR_WALK_SPEED, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
+import { Lanterns } from './festivals/lanterns';
 import { TidyDash } from './festivals/tidy-dash';
 import { GrumbleLife } from './grumbles/grumble-life';
 import { PetLife } from './pets/pet-life';
@@ -85,6 +86,7 @@ export class TownGame {
   private carry: Carry;
   private mining: Mining;
   private dash: TidyDash;
+  private lanterns: Lanterns;
   private placing: Placing;
   private hudLive: HudLive;
   private sweep: Sweep;
@@ -102,7 +104,7 @@ export class TownGame {
     public settings: Settings,
     saved: TownSave | null
   ) {
-    this.places = new TownAreas(pack);
+    this.places = new TownAreas(pack, () => this.clock.state.day);
     this.content = new Content(pack, () => this.state.names);
     this.neighbours = new Neighbours(pack.neighbours ?? [], pack.areas, (id) => (this.places.has(id) ? this.places.nav(id) : null), NEIGHBOUR_WALK_SPEED, (id) => this.arrived(id), () => this.clock.state.day);
     this.world = new World(app);
@@ -114,6 +116,8 @@ export class TownGame {
       tracker: () => this.view.uiTap()
     });
     this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress, () => this.state.names.puff);
+    /** What most parts of the game share. */
+    const core = { state: this.state, view: this.view, content: this.content, clock: this.clock, world: this.world, refreshHud: () => this.refreshHud(), save: () => void this.save(false) };
     this.talk = new Conversations({
       state: this.state, view: this.view, content: this.content, clock: this.clock, neighbours: this.neighbours,
       area: () => this.areaId,
@@ -135,37 +139,23 @@ export class TownGame {
       highlight: (tiles) => this.world.setHighlight(tiles), refreshHud: () => this.refreshHud()
     });
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
-    this.placing = new Placing({
-      state: this.state, view: this.view, content: this.content, places: this.places, world: this.world, area: () => this.areaId,
-      refreshArea: () => { this.places.rebuild(this.state); this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet); },
-      refreshHud: () => this.refreshHud(), save: () => void this.save(false)
-    });
-    this.mining = new Mining({
-      state: this.state, view: this.view, content: this.content, world: this.world, puff: this.puff, settings, area: () => this.areaId, day: () => this.clock.state.day,
-      refreshArea: () => { this.places.rebuild(this.state); this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet); },
-      refreshHud: () => this.refreshHud(), save: () => void this.save(false)
-    });
-    this.dash = new TidyDash({
-      state: this.state, view: this.view, content: this.content, clock: this.clock, area: () => this.areaId, areaOf: (id) => this.places.get(id)!,
-      messFor: (id) => this.places.mess(id), syncMess: (i) => this.world.syncMess(i), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
-    });
+    this.placing = new Placing({ ...core, places: this.places, area: () => this.areaId, refreshArea: () => this.refreshArea() });
+    this.mining = new Mining({ ...core, puff: this.puff, settings, area: () => this.areaId, day: () => this.clock.state.day, refreshArea: () => this.refreshArea() });
+    this.dash = new TidyDash({ ...core, area: () => this.areaId, areaOf: (id) => this.places.get(id)!, messFor: (id) => this.places.mess(id), syncMess: (i) => this.world.syncMess(i) });
+    this.lanterns = new Lanterns({ ...core, refreshArea: () => this.refreshArea() });
     this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.tap(x, y) });
     this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.scrub({ x, y }, MAX_RUB) });
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
     this.grumbles = new GrumbleLife({
-      state: this.state, view: this.view, content: this.content, world: this.world, places: this.places, layer: this.grumbleLayer,
-      arrived: (k) => this.arrived(k), area: () => this.areaId, puff: () => this.puff.feet,
-      targeted: () => { const t = this.puff.swing ?? this.puff.action; return t?.kind === 'grumble' ? t.id : null; }, refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+      ...core, places: this.places, layer: this.grumbleLayer, arrived: (k) => this.arrived(k), area: () => this.areaId, puff: () => this.puff.feet,
+      targeted: () => { const t = this.puff.swing ?? this.puff.action; return t?.kind === 'grumble' ? t.id : null; }
     });
     this.petLayer = new PetLayer(this.world.actors);
     this.outfitLayer = new OutfitLayer(this.world.actors);
-    this.pet = new PetLife({
-      state: this.state, view: this.view, content: this.content, world: this.world, layer: this.petLayer, arrived: (k) => this.arrived(k),
-      puff: () => this.puff.feet, day: () => this.clock.state.day, refreshHud: () => this.refreshHud(), save: () => void this.save(false)
-    });
+    this.pet = new PetLife({ ...core, layer: this.petLayer, arrived: (k) => this.arrived(k), puff: () => this.puff.feet, day: () => this.clock.state.day });
     this.actions = new PuffActions({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
-      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, grumbles: this.grumbles, mining: this.mining, dash: this.dash, arrived: (k) => this.arrived(k),
+      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, grumbles: this.grumbles, mining: this.mining, dash: this.dash, lanterns: this.lanterns, arrived: (k) => this.arrived(k),
       here: () => ({ id: this.areaId, area: this.area, mess: this.mess, nav: this.nav }),
       selected: () => this.selected,
       select: (t) => { this.selected = t; },
@@ -238,6 +228,9 @@ export class TownGame {
     this.guide.updateHighlight();
     if (announce) { this.hud.announce(this.content.named(this.area.pack.name)); this.guide.handle({ type: 'entered', area: id }); }
   }
+
+  /** Something in this area changed (a rock broke, a lantern lit): rebuild it and show it again where Puff stands. */
+  private refreshArea() { this.places.rebuild(this.state); this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet); }
 
   private async travel(to: string, x: number, y: number) {
     if (this.fading) return;
