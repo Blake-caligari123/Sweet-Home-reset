@@ -19,7 +19,7 @@ export function promptFor(t: Target | null, here: Here, crops: Crop[], content: 
     }
     case 'soil': return crops.some((c) => c.area === here.area.pack.id && c.x === t.x && c.y === t.y) ? 'Tend the crop' : 'Plant seeds';
     case 'door': return 'Go through';
-    case 'pickup': { const p = here.pickups.find((x) => x.id === t.id); return p ? `Take the ${name(p.item)}` : ''; }
+    case 'pickup': { const p = here.pickups.find((x) => x.id === t.id); return p?.letter ? 'Read the letter' : p ? `Take the ${name(p.item)}` : ''; }
     case 'neighbour': return `Say hello to ${content.neighbour(t.id)?.name ?? 'them'}`;
     case 'grumble': return 'Brighten the Grumble';
     case 'prop': return USE[t.action] ?? '';

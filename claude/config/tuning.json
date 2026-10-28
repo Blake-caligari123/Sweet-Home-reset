@@ -41,7 +41,8 @@
     "liked": 3,
     "loved": 8,
     "request": 10,
-    "pointsPerHeart": 10
+    "pointsPerHeart": 10,
+    "letter": 3
   },
   "requestsPerDay": [
     1,

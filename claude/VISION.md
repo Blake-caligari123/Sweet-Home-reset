@@ -213,6 +213,11 @@ One new thing every couple of days, each with one tip or letter:
   - A greenhouse on a new yard plot beside the garden (300 ✨, two nights, Town Bloom 2).
   - Once it's finished, every crop in the yard counts as watered each night.
   - Growing spring crops in other seasons comes with seasons (Phase 4).
+- **Phase 3a (29 Oct):**
+  - Mabel's bottle letters. On days 10, 13, 17, 23 and 31, a bottle washes up by the fountain, one at a time and waiting until it's read. Each letter is signed "M.", and the tracker points to it.
+  - Puff writes back by choosing one of two replies. That sets a flag and gives Mabel +3 friendship before she's met.
+  - The first letter brings the shore-map leaf (`cave_leaf_1`) for the caves.
+  - The letter text is proposed and in DIALOGUE-REVIEW.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

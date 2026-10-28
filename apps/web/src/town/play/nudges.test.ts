@@ -8,6 +8,7 @@ describe('nudges', () => {
   it('points to the next new thing, one at a time, until it has been tried', () => {
     const s = new TownState();
     expect(nudge(s, open([]))).toBeNull();
+    expect(nudge(s, open(['building']), true)).toBe('letter.hint'); // a bottle waiting comes first
     expect(nudge(s, open(['building', 'grumble_dust']))).toBe('build.hint');
     s.plots.p1 = { buildingId: 'bench', stage: 0, startedDay: 2, readyDay: 3 };
     expect(nudge(s, open(['building', 'grumble_dust']))).toBe('grumble.hint');

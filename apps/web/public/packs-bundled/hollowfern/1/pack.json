@@ -183,6 +183,9 @@
    "decor": {
     "ground": "path"
    }
+  },
+  "bottle": {
+   "name": "Bottle"
   }
  },
  "areas": [
@@ -5090,7 +5093,30 @@
    "decor.taken": "Something's already there.",
    "decor.cuts_off": "That would block the way. Somewhere else?",
    "decor.picked": "Back in the bag.",
-   "decor.tracker": "Tap the ground to place it. Tap Puff to stop."
+   "decor.tracker": "Tap the ground to place it. Tap Puff to stop.",
+   "letter.mabel_1.l1": "To whoever is bringing the colour back:",
+   "letter.mabel_1.l2": "I saw it from far off, over the water. Hoo!",
+   "letter.mabel_1.l3": "Here's an old map leaf. It shows the way down. M.",
+   "letter.mabel_1.r1": "Thank you, M.! I'll keep tidying.",
+   "letter.mabel_1.r2": "Who are you?",
+   "letter.mabel_2.l1": "The Glimmerwell hums when it's happy.",
+   "letter.mabel_2.l2": "Listen to it at dawn, little Keeper. M.",
+   "letter.mabel_2.r1": "I heard it hum!",
+   "letter.mabel_2.r2": "I'll listen tomorrow.",
+   "letter.mabel_3.l1": "Long ago, the town met at the fountain each spring.",
+   "letter.mabel_3.l2": "They called it Many Paws. I loved the dancing. M.",
+   "letter.mabel_3.r1": "Let's dance again one day!",
+   "letter.mabel_3.r2": "Tell me more, please.",
+   "letter.mabel_4.l1": "A friend is a lamp that stays lit, even far away.",
+   "letter.mabel_4.l2": "Thank you for writing back. It means a lot. M.",
+   "letter.mabel_4.r1": "You're my friend too, M.",
+   "letter.mabel_4.r2": "Will we meet?",
+   "letter.mabel_5.l1": "The water under the town remembers everything.",
+   "letter.mabel_5.l2": "When the cold comes, look for me by the sea. M.",
+   "letter.mabel_5.r1": "I'll find you, M.!",
+   "letter.mabel_5.r2": "By the sea? I'll look.",
+   "letter.hint": "A bottle's washed up by the fountain.",
+   "letter.sent": "Off it floats. I hope M. reads it soon."
   }
  },
  "heartEvents": [
@@ -7212,6 +7238,122 @@
    "earn": {
     "finds": 4
    }
+  }
+ ],
+ "letters": [
+  {
+   "id": "mabel_1",
+   "from": "mabel",
+   "day": 10,
+   "area": "square",
+   "x": 17,
+   "y": 12,
+   "lines": [
+    "letter.mabel_1.l1",
+    "letter.mabel_1.l2",
+    "letter.mabel_1.l3"
+   ],
+   "replies": [
+    {
+     "label": "letter.mabel_1.r1",
+     "flag": "reply_mabel_1_thanks"
+    },
+    {
+     "label": "letter.mabel_1.r2",
+     "flag": "reply_mabel_1_who"
+    }
+   ],
+   "gives": [
+    "cave_leaf_1"
+   ]
+  },
+  {
+   "id": "mabel_2",
+   "from": "mabel",
+   "day": 13,
+   "area": "square",
+   "x": 17,
+   "y": 12,
+   "lines": [
+    "letter.mabel_2.l1",
+    "letter.mabel_2.l2"
+   ],
+   "replies": [
+    {
+     "label": "letter.mabel_2.r1",
+     "flag": "reply_mabel_2_heard"
+    },
+    {
+     "label": "letter.mabel_2.r2",
+     "flag": "reply_mabel_2_later"
+    }
+   ]
+  },
+  {
+   "id": "mabel_3",
+   "from": "mabel",
+   "day": 17,
+   "area": "square",
+   "x": 17,
+   "y": 12,
+   "lines": [
+    "letter.mabel_3.l1",
+    "letter.mabel_3.l2"
+   ],
+   "replies": [
+    {
+     "label": "letter.mabel_3.r1",
+     "flag": "reply_mabel_3_dance"
+    },
+    {
+     "label": "letter.mabel_3.r2",
+     "flag": "reply_mabel_3_more"
+    }
+   ]
+  },
+  {
+   "id": "mabel_4",
+   "from": "mabel",
+   "day": 23,
+   "area": "square",
+   "x": 17,
+   "y": 12,
+   "lines": [
+    "letter.mabel_4.l1",
+    "letter.mabel_4.l2"
+   ],
+   "replies": [
+    {
+     "label": "letter.mabel_4.r1",
+     "flag": "reply_mabel_4_friend"
+    },
+    {
+     "label": "letter.mabel_4.r2",
+     "flag": "reply_mabel_4_meet"
+    }
+   ]
+  },
+  {
+   "id": "mabel_5",
+   "from": "mabel",
+   "day": 31,
+   "area": "square",
+   "x": 17,
+   "y": 12,
+   "lines": [
+    "letter.mabel_5.l1",
+    "letter.mabel_5.l2"
+   ],
+   "replies": [
+    {
+     "label": "letter.mabel_5.r1",
+     "flag": "reply_mabel_5_find"
+    },
+    {
+     "label": "letter.mabel_5.r2",
+     "flag": "reply_mabel_5_look"
+    }
+   ]
   }
  ]
 }

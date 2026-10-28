@@ -100,6 +100,7 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'lantern': b(4, 3, 6, 8, P.butterLight, 1); pc.rect(ox + 6, oy + 5, 2, 4, P.white); pc.hline(ox + 3, oy + 2, 8, P.ink); pc.hline(ox + 5, oy + 12, 4, P.ink); break;
     case 'fence_post': for (const x of [3, 9]) b(x, 3, 2, 10, P.brownLight); b(1, 5, 12, 2, P.brownLight); b(1, 9, 12, 2, P.brown); break;
     case 'stone_path': for (const [x, y] of [[2, 3], [7, 2], [3, 8], [8, 7]]) { pc.ellipseBox(ox + x + 2, oy + y + 2, 2, 2, P.greyLight, P.outline); } break;
+    case 'bottle': b(5, 2, 4, 3, P.brownLight, 1); b(3, 5, 8, 8, P.blueLight, 2); pc.rect(ox + 5, oy + 7, 4, 4, P.cream); pc.hline(ox + 6, oy + 8, 2, P.greyShade); pc.set(ox + 4, oy + 6, P.white); break;
     case 'twig':
       pc.line(ox + 2, oy + 11, ox + 12, oy + 3, P.brown); pc.line(ox + 3, oy + 11, ox + 12, oy + 4, P.brownShade);
       pc.line(ox + 7, oy + 7, ox + 5, oy + 3, P.brown); pc.ellipseBox(ox + 4, oy + 3, 1, 1, P.sage, P.outline); break;

@@ -85,6 +85,19 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 - "Not there. Somewhere open?" · "Something's already there." · "That would block the way. Somewhere else?"
 - Indoors: "Decor goes outside: the yard, square, Lane or Riverside." · Tracker: "Tap the ground to place it. Tap Puff to stop."
 
+## New in Phase 3a (29 Oct): Mabel's bottle letters (proposed, please review)
+- **Day 10:** To whoever is bringing the colour back: / I saw it from far off, over the water. Hoo! / Here's an old map leaf. It shows the way down. M.  
+  Replies: Thank you, M.! I'll keep tidying. · Who are you?
+- **Day 13:** The Glimmerwell hums when it's happy. / Listen to it at dawn, little Keeper. M.  
+  Replies: I heard it hum! · I'll listen tomorrow.
+- **Day 17:** Long ago, the town met at the fountain each spring. / They called it Many Paws. I loved the dancing. M.  
+  Replies: Let's dance again one day! · Tell me more, please.
+- **Day 23:** A friend is a lamp that stays lit, even far away. / Thank you for writing back. It means a lot. M.  
+  Replies: You're my friend too, M. · Will we meet?
+- **Day 31:** The water under the town remembers everything. / When the cold comes, look for me by the sea. M.  
+  Replies: I'll find you, M.! · By the sea? I'll look.
+- Hint: "A bottle's washed up by the fountain." · After replying: "Off it floats. I hope M. reads it soon."
+
 ## Hazel
 
 **First hello**
