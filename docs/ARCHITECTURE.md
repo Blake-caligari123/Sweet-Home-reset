@@ -41,7 +41,6 @@ town/
   main.ts       entry: loads the pack, save, paintings and sprites, then starts TownGame
   game.ts       TownGame, the coordinator: wires the features together; areas, input, the day,
                 the main loop and the save
-  debug.ts      the `?debug` test hooks (`window.__town`) for browser playthroughs
   state.ts      TownState: Puff's saved progress (Sparkles, bag, Fluff, tools, flags, friends, jobs…)
                 and how it saves and loads
   data/         the pack schema and validation (area.ts), save format and migrations (save.ts),
@@ -60,10 +59,6 @@ town/
                 Friends UI)
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
   shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
-  rewards/      the rewards overhaul (claude/REWARDS-PLAN.md). Rules, each tested: chain.ts (sparkle
-                chain), milestones.ts (progress pips), finds.ts (hidden finds), golden.ts (golden dust),
-                level.ts (sparkle level), goals.ts (today's goals). rewards.ts applies them to play
-                events; reward-hud.ts (progress bar, chips, pop-ups), sheets.ts (Finds book, Today)
   plus/         plus.ts: the M2 Plus stub (test builds have everything; `?plus=0` shows the free
                 game, with Otto, Moss and Mabel as silhouettes); real entitlement comes in M5
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
@@ -80,7 +75,6 @@ town/
   2. Add it to `TownSave` in `data/save.ts`.
   3. Add a migration if old saves need a value.
   4. Add it to `toSave()` and `load()` in `state.ts`.
-- **Play events** (`play/events.ts`): what Puff does (cleared, met, talked, gifted, found…) goes to `TownGame.notify`, which hands it to the onboarding guide and the rewards. Features that do things call their host's `notify`.
 - **`View`** owns everything over the world: speech boxes (`ask`), sheets, banners, Puff's bubble, sounds and haptics. While a box or sheet is open the game is held (`view.busy`), so the clock, Puff and the neighbours wait.
 - **`Content`** answers questions about the pack: text by id (`line`), item names, neighbours, requests.
 

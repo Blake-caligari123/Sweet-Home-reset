@@ -3,11 +3,10 @@ import type { Friend, TownSave } from './data/save';
 import { Bag } from './play/bag';
 import { Fluff } from './play/fluff';
 import { Onboarding } from './play/onboarding';
-import { newRewardState, type RewardState } from './rewards/rewards';
 import type { Taken } from './play/pickups';
 
 /** The parts of a save that hold Puff's progress. */
-export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'rewards'>;
+export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean'>;
 
 export interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
 
@@ -31,8 +30,6 @@ export class TownState {
   lastClean = 'none';
   /** Snacks and the like taken today; back each morning. */
   picked: Taken = { day: 0, ids: [] };
-  /** Finds, levels and goals (the rewards overhaul). */
-  rewards: RewardState = newRewardState();
 
   has(flag: string) { return this.flags.includes(flag); }
   /** Set a save flag (once). */
@@ -44,7 +41,7 @@ export class TownState {
       fluff: { value: this.fluff.value, max: this.fluff.max, boost: this.fluff.boost }, sparkles: this.sparkles,
       bag: this.bag.slots, tools: this.tools, crops: this.crops, flags: this.flags, friends: this.friends,
       onboarding: this.onboarding.step, onboardingAhead: this.onboarding.ahead, chores: this.chores,
-      requests: this.requests, picked: this.picked, lastClean: this.lastClean, rewards: this.rewards
+      requests: this.requests, picked: this.picked, lastClean: this.lastClean
     };
   }
 
@@ -62,6 +59,5 @@ export class TownState {
     if (save.requests && typeof save.requests === 'object') this.requests = save.requests;
     this.lastClean = typeof save.lastClean === 'string' ? save.lastClean : 'none';
     this.picked = save.picked ?? { day: 0, ids: [] };
-    this.rewards = { ...newRewardState(), ...save.rewards };
   }
 }

@@ -72,19 +72,6 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
       pc.set(ox + 5, oy + 6, P.white); break;
     case 'bag': b(2, 4, 10, 9, P.brownLight, 2); pc.line(ox + 4, oy + 4, ox + 6, oy + 1, P.outline); pc.line(ox + 10, oy + 4, ox + 8, oy + 1, P.outline); pc.hline(ox + 4, oy + 7, 6, P.brown); break;
     case 'copper_sponge': b(1, 2, 12, 10, P.cream, 1); pc.hline(ox + 3, oy + 5, 8, P.greyShade); pc.hline(ox + 3, oy + 8, 6, P.greyShade); pc.ellipseBox(ox + 10, oy + 10, 2, 2, P.peachShade, P.outline); break;
-    // Finds (the rewards overhaul).
-    case 'button': pc.ellipseBox(ox + 7, oy + 7, 5, 5, P.peach, P.outline); for (const [x, y] of [[5, 5], [8, 5], [5, 8], [8, 8]]) pc.set(ox + x, oy + y, P.peachShade); pc.set(ox + 4, oy + 3, P.white); break;
-    case 'ribbon': pc.ellipseBox(ox + 4, oy + 5, 3, 2, P.peach, P.outline); pc.ellipseBox(ox + 10, oy + 5, 3, 2, P.peach, P.outline); pc.line(ox + 6, oy + 7, ox + 3, oy + 12, P.peachShade); pc.line(ox + 8, oy + 7, ox + 11, oy + 12, P.peachShade); pc.ellipseBox(ox + 7, oy + 6, 1, 1, P.peachShade, P.outline); break;
-    case 'old_coin': pc.ellipseBox(ox + 7, oy + 7, 5, 5, P.butterShade, P.outline); pc.ellipse(ox + 7, oy + 7, 3, 3, P.butter); pc.vline(ox + 7, oy + 5, 5, P.butterShade); pc.set(ox + 5, oy + 4, P.white); break;
-    case 'pebble': pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.blueLight, P.outline); pc.ellipse(ox + 6, oy + 7, 2, 1, P.white); pc.set(ox + 10, oy + 10, P.blue); break;
-    case 'river_stone': pc.ellipseBox(ox + 7, oy + 8, 6, 3, P.greyLight, P.outline); pc.hline(ox + 4, oy + 8, 7, P.grey); pc.set(ox + 5, oy + 6, P.white); break;
-    case 'acorn': pc.ellipseBox(ox + 7, oy + 9, 4, 4, P.brownLight, P.outline); b(2, 3, 10, 4, P.brownShade, 2); pc.vline(ox + 7, oy + 1, 2, P.outline); pc.set(ox + 5, oy + 9, P.white); break;
-    case 'feather': pc.line(ox + 2, oy + 12, ox + 11, oy + 2, P.outline); for (let k = 0; k < 6; k += 1) { pc.line(ox + 4 + k, oy + 10 - k, ox + 2 + k, oy + 7 - k, P.blueLight); pc.line(ox + 4 + k, oy + 10 - k, ox + 7 + k, oy + 11 - k, P.blueLight); } break;
-    case 'marble': pc.ellipseBox(ox + 7, oy + 7, 5, 5, P.blueLight, P.outline); pc.line(ox + 4, oy + 9, ox + 10, oy + 5, P.sage); pc.ellipse(ox + 5, oy + 5, 1, 1, P.white); break;
-    case 'thimble': b(3, 4, 8, 8, P.greyLight, 2); for (const y of [6, 8, 10]) for (let x = 5; x < 10; x += 2) pc.set(ox + x, oy + y, P.greyShade); pc.hline(ox + 3, oy + 11, 8, P.grey); break;
-    case 'tiny_key': pc.ellipseBox(ox + 4, oy + 5, 3, 3, P.butterShade, P.outline); pc.set(ox + 4, oy + 5, P.cream); b(6, 5, 7, 2, P.butterShade); b(10, 7, 2, 3, P.butterShade); break;
-    case 'glimmer_drop': pc.ellipseBox(ox + 7, oy + 9, 4, 4, P.blueLight, P.outline); pc.line(ox + 7, oy + 2, ox + 4, oy + 7, P.outline); pc.line(ox + 7, oy + 2, ox + 10, oy + 7, P.outline); pc.ellipse(ox + 7, oy + 8, 2, 3, P.blueLight); pc.set(ox + 6, oy + 7, P.white); pc.set(ox + 11, oy + 2, P.butter); pc.set(ox + 2, oy + 4, P.butter); break;
-    case 'golden_dust': pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.butter, P.outline); pc.ellipse(ox + 6, oy + 7, 2, 2, P.butterLight); pc.set(ox + 5, oy + 7, P.ink); pc.set(ox + 9, oy + 7, P.ink); for (const [x, y] of [[1, 2], [12, 1], [13, 9], [0, 10]]) pc.set(ox + x, oy + y, P.butterShade); break;
     default: b(3, 3, 8, 8, P.butter, 1);
   }
 }

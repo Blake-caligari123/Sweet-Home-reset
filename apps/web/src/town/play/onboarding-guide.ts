@@ -4,8 +4,7 @@ import { TOOL_NAMES } from '../ui/hud';
 import type { View } from '../ui/view';
 import type { Tile } from '../world/pathfind';
 import type { AreaMess, ToolId } from './mess';
-import type { PlayEvent } from './events';
-import type { Step } from './onboarding';
+import type { OnboardEvent, Step } from './onboarding';
 
 export interface GuideHost {
   state: TownState;
@@ -28,7 +27,7 @@ const TIP_MESS: Record<string, [string, number]> = { dust: ['dust', 4], stain: [
 export class OnboardingGuide {
   constructor(private host: GuideHost) {}
 
-  handle(e: PlayEvent) { this.finish(this.host.state.onboarding.handle(e)); }
+  handle(e: OnboardEvent) { this.finish(this.host.state.onboarding.handle(e)); }
 
   /** Steps the save already shows done (met before the tip, an older save) finish too. */
   private catchUp() {
