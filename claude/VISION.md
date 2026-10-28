@@ -223,6 +223,11 @@ One new thing every couple of days, each with one tip or letter:
   - 8 rocks (small, medium, large) take 2–4 swings at 2 Fluff each and drop colour shards and copper ore (fixed drops, no randomness).
   - Mined rocks come back a week after the first one is mined (`tuning.caves`). A ladder leads back up to the square.
   - Code-drawn stone and rock walls until a cave painting arrives. Floor 2 comes next.
+- **Phase 3c (29 Oct):**
+  - Sorrel, the first newcomer: a red squirrel. Her envelope by the Lane sign on day 8 is the invite; replying opens the "Lane end" plot.
+  - Puff builds Sorrel's cottage there (200 ✨, two nights). When it's finished, she moves in (`home_sorrel`), with her own schedule, talk lines, tastes and two jobs.
+  - Letters now wait one at a time per writer, so Sorrel's and Mabel's never hold each other up.
+  - Her heart scenes (2–10) come in a later step. A Grok sheet for her can replace the code-drawn placeholder.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

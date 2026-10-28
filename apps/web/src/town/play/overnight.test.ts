@@ -13,7 +13,7 @@ describe('overnight', () => {
       s.sparkles = 100;
       startBuild(s, plot, bench, 2);
       s.crops = [{ area: 'yard', x: 1, y: 1, crop: 'radish', days: 0, watered: true }, { area: 'yard', x: 2, y: 1, crop: 'radish', days: 0, watered: false }];
-      expect(overnight(s, { buildings: [bench], plots: [plot] }, 2, dozed)).toEqual(['Bench']);
+      expect(overnight(s, { buildings: [bench], plots: [plot] }, 2, dozed)).toEqual([bench]);
       expect(s.plots.p1.stage).toBe(2);
       expect(s.crops.map((c) => [c.days, c.watered])).toEqual([[1, false], [0, false]]);
       expect(s.fluff.value).toBeGreaterThan(0);
@@ -31,5 +31,15 @@ describe('overnight', () => {
     expect(s.crops.map((c) => c.days)).toEqual([0, 0]);
     overnight(s, pack, 2, false);
     expect(s.crops.map((c) => c.days)).toEqual([1, 0]);
+  });
+
+  it("sets the newcomer's home flag once their cottage is finished", () => {
+    const cottage: BuildingDef = { id: 'cottage_sorrel', name: "Sorrel's cottage", nights: 1, cost: { sparkles: 0 }, prop: { type: 'cottage', w: 4, h: 3 }, effect: 'home', home: 'sorrel' };
+    const cp: PlotDef = { id: 'c1', name: 'Lane end', area: 'lane', x: 20, y: 11, w: 4, h: 3, allow: ['cottage_sorrel'] };
+    const s = new TownState();
+    startBuild(s, cp, cottage, 8);
+    expect(s.has('home_sorrel')).toBe(false);
+    overnight(s, { buildings: [cottage], plots: [cp] }, 8, false);
+    expect(s.has('home_sorrel')).toBe(true);
   });
 });

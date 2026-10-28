@@ -14,8 +14,10 @@ export interface BuildingDef { id: string; name: string; nights: number; cost: {
   bloom?: number;
   /** What finished building this upgrades (a bench into a cosy bench). */
   upgradeOf?: string;
-  /** What it does once finished: a greenhouse waters the garden overnight. */
-  effect?: 'waters_garden' }
+  /** What it does once finished: a greenhouse waters the garden overnight; a cottage is a newcomer's home. */
+  effect?: 'waters_garden' | 'home';
+  /** For a home: the newcomer who moves in once it's finished. */
+  home?: string }
 
 /** A plot with something on it. Stages: 0 scaffold, 1 frame, 2 done. */
 export interface PlotState { buildingId: string; stage: number; startedDay: number; readyDay: number }

@@ -5,7 +5,7 @@ import { T } from './texture';
 
 /**
  * What the town builds and places (code-drawn): the Keeper's plans board, scaffolding and frames,
- * the buildings and their upgrades, the greenhouse, and decor (flower pots, lanterns, fences).
+ * the buildings and their upgrades, the greenhouse, a newcomer's cottage, and decor (flower pots, lanterns, fences).
  */
 export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
   const x = p.x * T; const y = p.y * T; const w = (p.w ?? 1) * T; const h = (p.h ?? 1) * T;
@@ -28,6 +28,16 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       for (const px of [x + 1, x + w - 3]) pc.rect(px, y - 4, 2, h + 3, P.brown);
       pc.box(x, y - 5, w, 3, P.brownLight, P.outline); pc.hline(x + 2, y + h - 3, w - 4, P.brownShade);
       break;
+    case 'cottage': { // a newcomer's home: cream walls, a peach roof, a round green door and a chimney
+      pc.box(x + 2, y + 14, w - 4, h - 14, P.cream, P.outline);
+      pc.rect(x + w - 16, y - 2, 6, 10, P.peachShade); pc.box(x + w - 17, y - 4, 8, 3, P.peach, P.outline);
+      for (let i = 0; i < 16; i += 1) pc.hline(x + w / 2 - 4 - i * 2, y + i, 8 + i * 4, i % 4 === 3 ? P.peachShade : P.peach);
+      pc.hline(x - 1, y + 15, w + 2, P.outline);
+      pc.box(x + w / 2 - 6, y + h - 16, 12, 16, P.sageShade, P.outline); pc.ellipse(x + w / 2, y + h - 16, 6, 3, P.sageShade);
+      pc.set(x + w / 2 + 3, y + h - 8, P.butter);
+      for (const wx of [x + 8, x + w - 20]) { pc.box(wx, y + 20, 12, 10, P.butterLight, P.outline); pc.vline(wx + 6, y + 20, 10, P.brownLight); pc.hline(wx, y + 25, 12, P.brownLight); pc.rect(wx, y + 30, 12, 3, P.sage); pc.set(wx + 3, y + 30, P.peach); pc.set(wx + 9, y + 31, P.butter); }
+      break;
+    }
     case 'greenhouse': {
       // Glass panes on a wooden frame, a peaked roof, plants showing through.
       pc.box(x, y + 6, w, h - 6, P.blueLight, P.outline);

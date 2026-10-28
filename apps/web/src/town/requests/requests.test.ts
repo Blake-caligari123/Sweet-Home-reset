@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
-import { AreaMess } from '../play/mess';
+import { AreaMess, MESS_TYPES } from '../play/mess';
 import { FEET, navFor, REACH } from '../world/nav';
 import { accept, cleanDone, freshMess, newDay, type RequestState, type RequestTemplate } from './requests';
 import type { MessSpot } from '../play/mess';
@@ -146,6 +146,7 @@ describe('Hollowfern requests', () => {
       const a = pack.areas.find((x) => x.id === r.area)!;
       const area = new Area(a); const nav = navFor(area);
       const spots = freshMess(r, area, new AreaMess(area.w, area.h, [], false));
+      expect(MESS_TYPES, r.id).toContain(r.mess);
       expect(spots.length, r.id).toBeGreaterThan(1);
       const from = nav.nearestOpen({ x: a.spawn.x * T + T / 2, y: a.spawn.y * T + FEET })!;
       for (const s of spots) expect(nav.findPathNear(from, { x0: s.x * T, y0: s.y * T, x1: (s.x + 1) * T, y1: (s.y + 1) * T }, REACH), `${r.id} ${s.x},${s.y}`).not.toBeNull();

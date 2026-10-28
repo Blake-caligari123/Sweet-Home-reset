@@ -180,6 +180,13 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Mined rocks stay gone for a week, then all come back. The ladder at the bottom takes Puff back up to the square.
 - [ ] Copper ore and shards show in the bag and sell at the General Store.
 
+## 11q. Phase 3c: Sorrel moves in
+- [ ] Day 8: the tracker says "There's a letter by the Lane sign." Tap the envelope: Sorrel asks for a home. Reply either way.
+- [ ] The tracker then says "Sorrel needs a home. See the Keeper's plans." The plans show "Lane end" with Sorrel's cottage (200 ✨, two nights).
+- [ ] Two mornings later: "Sorrel's moved in! Say hello on the Lane." A cream cottage with a green door stands at the Lane end, and Sorrel (a red squirrel) is outside.
+- [ ] Talk to her (her lines are in DIALOGUE-REVIEW), give a gift, and from day 10 she posts jobs (flowers, weeds by her door).
+- [ ] Mabel's bottle still washes up on day 10 even if Sorrel's letter is unread.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

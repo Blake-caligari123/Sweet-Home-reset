@@ -101,6 +101,13 @@
     "cave_1": {
       "day": 10,
       "flag": "cave_leaf_1"
+    },
+    "invite_sorrel": {
+      "day": 8,
+      "flag": "invite_sorrel"
+    },
+    "sorrel": {
+      "flag": "home_sorrel"
     }
   },
   "grumbles": {

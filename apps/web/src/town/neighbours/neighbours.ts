@@ -7,7 +7,7 @@ import { FEET, type NavGrid, type Pt } from '../world/nav';
 // Puff can see walk between stops and through doors; everyone else simply is where their routine
 // says. An area that isn't built yet but has a door to it (Neighbour Lane, the General Store) is a
 // place like any other: neighbours walk out through its door and are offstage until they return.
-export type Species = 'hedgehog' | 'bee' | 'mouse' | 'otter' | 'mole' | 'owl';
+export type Species = 'hedgehog' | 'bee' | 'mouse' | 'otter' | 'mole' | 'owl' | 'squirrel';
 /** From `at` (game minutes from midnight) until the next stop, stand at this tile. */
 export interface Stop { at: number; area: string; x: number; y: number; dir?: Dir; sleep?: boolean }
 export interface NeighbourDef {

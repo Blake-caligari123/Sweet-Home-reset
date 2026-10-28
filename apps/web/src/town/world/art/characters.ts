@@ -95,7 +95,14 @@ export function drawNeighbour24(species: string, c: { fur: string; belly: string
   }
   if (species === 'owl') for (const ex of side ? [10] : [7, 17]) { pc.set(ex, cy - 8, c.fur); pc.rect(ex - 1, cy - 7, 3, 2, c.fur); }
   if (species === 'otter' || species === 'hedgehog') for (const ex of side ? [11] : [8, 16]) pc.ellipse(ex, cy - 5, 2, 2, c.fur);
+  // A squirrel's ear tufts and big tail, curled up behind (in front, seen from the back).
+  const tail = () => { pc.ellipse(side ? 6 : 18, cy - 4, 4, 6, c.fur); pc.ellipse(side ? 5 : 19, cy - 8, 3, 3, c.fur); };
+  if (species === 'squirrel') {
+    for (const ex of side ? [11] : [8, 16]) { pc.rect(ex - 1, cy - 8, 3, 3, c.fur); pc.set(ex, cy - 9, c.fur); }
+    if (dir !== 'up') tail();
+  }
   pc.ellipse(12, cy, species === 'mole' ? 8 : 7, 6, c.fur);
+  if (species === 'squirrel' && dir === 'up') { pc.ellipse(12, cy - 1, 5, 6, c.fur); pc.ellipse(12, cy - 7, 3, 2, c.fur); for (let y = cy - 8; y <= cy + 4; y += 2) pc.mul(12, y, 0.85); }
   if (species === 'hedgehog') {
     // Spines round the top and back, darker than the face.
     for (let a = 0; a < 13; a += 1) {

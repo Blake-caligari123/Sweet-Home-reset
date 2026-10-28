@@ -43,7 +43,7 @@ Left is always the right sheet mirrored, so there are no `_left` sheets. In orde
 Later (not wired yet): `puff_yawn`, `puff_pickup_<dir>`, and the 48 px menu Puff.
 
 ## Neighbours (after the Puff set; cell size set per neighbour, e.g. `--frame 16x28`)
-Ids: `hazel` (hedgehog), `bea` (bee), `pip` (mouse), `otto` (otter), `moss` (mole), `mabel` (owl). For each: `<id>_idle_down` (4), `<id>_walk_down`, `<id>_walk_up`, `<id>_walk_right` (6 each). The 48 px portraits with 3 expressions (happy, thinking, tired) are a separate later set.
+Ids: `hazel` (hedgehog), `bea` (bee), `pip` (mouse), `otto` (otter), `moss` (mole), `mabel` (owl), and the first newcomer `sorrel` (a red squirrel with a big curled tail, ear tufts, a cream tummy and a little sage-green scarf). For each: `<id>_idle_down` (4), `<id>_walk_down`, `<id>_walk_up`, `<id>_walk_right` (6 each). The 48 px portraits with 3 expressions (happy, thinking, tired) are a separate later set.
 
 ## Grumbles (Phase 1c; cell 16×15 world px, `--frame 16x15`)
 The dust family first (cobweb, mud and soot follow with their days). Two sheets, one per row in one image:
