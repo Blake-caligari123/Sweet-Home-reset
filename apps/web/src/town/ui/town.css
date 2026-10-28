@@ -111,3 +111,10 @@
   position: absolute; top: calc(140px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); padding: 6px 16px; border: 3px solid var(--line); border-radius: 18px;
   background: rgba(255, 248, 236, 0.96); font-weight: 900; font-size: 1.05rem; font-variant-numeric: tabular-nums; pointer-events: none;
 }
+/* Accessibility (FRONTEND-PLAN §11): bigger text scales the UI a step; high contrast darkens text and makes panels solid. */
+html.big-text { font-size: 19px; }
+html.big-text .tracker, html.big-text .clock-line .time { font-size: 1rem; }
+html.big-text .tool span { font-size: 0.62rem; }
+html.high-contrast { --ink: #2a1f1a; --line: #2a1f1a; }
+html.high-contrast .tracker, html.high-contrast .clock-line, html.high-contrast .sheet, html.high-contrast .dialogue, html.high-contrast .dash-timer { background: #fffaf2; border-color: #2a1f1a; color: #2a1f1a; }
+html.high-contrast .muted { color: #4a3a32; }

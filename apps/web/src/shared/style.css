@@ -183,7 +183,7 @@ p { margin: 0; line-height: 1.4; }
 /* ---------- dialogs ---------- */
 .scrim { position: absolute; inset: 0; display: grid; place-items: end center; padding: 16px 16px max(16px, env(safe-area-inset-bottom)); background: rgba(83, 66, 57, 0.28); }
 .scrim.center { place-items: center; }
-.sheet { width: 100%; max-width: 440px; padding: 20px 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; animation: rise 260ms ease; }
+.sheet { width: 100%; max-width: 440px; max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; padding: 20px 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; animation: rise 260ms ease; }
 @keyframes rise { from { transform: translateY(24px); opacity: 0; } }
 .sheet h2 { font-size: 1.35rem; }
 .reward { display: flex; flex-direction: column; gap: 4px; font-weight: 800; }

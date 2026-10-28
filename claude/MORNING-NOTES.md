@@ -77,6 +77,9 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **4i (#66):** Sorrel's five heart scenes (her acorn, her sister Bramble, becoming a helper). Checklist §12i.
 - **4j (#66):** a practice tidy dash at the fair stall on any day, with a best score. **That completes Phase 4.** Checklist §12j.
 
+## Phase 5 so far (only what doesn't need you)
+- **5a (#67):** accessibility options: tap-only, bigger text, high contrast. Tall sheets scroll now. Checklist §13a.
+
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
 2. **Sorrel:** I made her a chatty, slightly shy red squirrel who loves acorns. Is that the newcomer you pictured? Her lines are in DIALOGUE-REVIEW.
@@ -91,7 +94,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 ## Next, unless you say otherwise
 Phase 5 (release) needs you for most of it, so I'll stop before anything that touches accounts, money or stores:
 - **Things I can do without you:**
-  - accessibility options (bigger text, colour-blind-friendly highlights, hold-to-tap)
+  - more accessibility (shape cues for mess, screen-reader announcements)
   - polish passes
   - more tests
 - **Things that need your yes:**

@@ -286,6 +286,11 @@ One new thing every couple of days, each with one tip or letter:
   - **Year soak:** `tools/year-soak.cjs` slept through 57 days, visiting eight places each morning, with no errors. Day 57 is spring of year two. This meets Phase 4's "done when", apart from the timed tidy mini-game and Sorrel's arc.
   - Also: `play/night.ts` takes the night and the morning messages out of `game.ts`.
 
+- **Phase 5a (29 Oct):**
+  - Accessibility options in Pause: tap-only (one tap tidies a whole spot), bigger text and high contrast (`ui/a11y.ts`, saved in settings). They join reduce motion, relaxed mode, haptics off and auto tool.
+  - Tall sheets now scroll within the screen.
+  - Colour-blind-friendly mess (shape cues) and screen-reader announcements are still to come.
+
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
 |---|---|
