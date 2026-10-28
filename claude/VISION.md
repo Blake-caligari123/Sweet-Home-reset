@@ -281,6 +281,7 @@ One new thing every couple of days, each with one tip or letter:
 - **Phase 4h (29 Oct):**
   - Caves floors 3 (the Glow Garden, from Mabel's day-17 leaf) and 4 (the Old Spring, from her day-31 leaf). They bring new silver ore and Thimble's second carving, which leads into the Spring Heart (floor 5, v1.1).
   - The store now buys everything with a sell price (there's a test), and every item has an icon (also a test). Silver tools are for later.
+  - **Year soak:** `tools/year-soak.cjs` slept through 57 days, visiting eight places each morning, with no errors. Day 57 is spring of year two. This meets Phase 4's "done when", apart from the timed tidy mini-game and Sorrel's arc.
   - Also: `play/night.ts` takes the night and the morning messages out of `game.ts`.
 
 ## 14. Blake's answers (28 Oct 2026)

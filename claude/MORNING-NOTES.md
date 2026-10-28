@@ -73,6 +73,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **4f (#63):** the sea steps (day 43) open the Beach, with Mabel's lighthouse. Checklist §12f.
 - **4g (#64):** the overgrown path (day 26) opens the Woodland Edge and its orchard, with apples every morning. Checklist §12g.
 - **4h (#65):** caves floors 3 and 4 (silver ore, Thimble's second carving). The store buys ore and gems now, and every item has an icon. Checklist §12h.
+- **Year soak:** I ran a 57-day browser run (sleep, then visit eight places each morning), and it finished with no errors. Year two carries on. The script is `tools/year-soak.cjs`.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
