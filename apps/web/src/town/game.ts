@@ -4,7 +4,7 @@ import type { NativeBridge } from '../shared/native';
 import { h } from '../shared/ui/dom';
 import { Area, type TownPack } from './data/area';
 import { Content } from './data/content';
-import { stamp, writeTown, type TownSave } from './data/save';
+import { stamp, writeQuick, writeTown, type TownSave } from './data/save';
 import { NEIGHBOUR_WALK_SPEED, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
 import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
@@ -470,6 +470,9 @@ export class TownGame {
   }
 
   async save(bedtime: boolean) { await writeTown(this.snapshot(), bedtime); }
+
+  /** Leaving the page: a quick copy that can't be cut off, as well as the usual save. */
+  saveNow() { const s = this.snapshot(); writeQuick(s); void writeTown(s, false); }
 
   /** Load a save; returns Puff's exact saved feet position when there is one. */
   private restore(save: TownSave): Pt | undefined {

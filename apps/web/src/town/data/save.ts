@@ -73,9 +73,18 @@ export function isSave(s: Record<string, unknown>) {
     && !!s.fluff && typeof s.sparkles === 'number' && Array.isArray(s.bag) && !!s.areas && typeof s.areas === 'object';
 }
 
-/** Main if it loads cleanly, else the backup, else nothing (a fresh game). */
-export function pickSave(main: unknown, backup: unknown) {
-  return migrate(main) ?? migrate(backup);
+/**
+ * The newest of the slots that load cleanly (the earlier slot on a tie: main, backup, quick),
+ * else nothing (a fresh game). Autosaves write only the backup and leaving the page writes the
+ * quick copy, so after a bedtime main is usually the oldest.
+ */
+export function pickSave(...slots: unknown[]) {
+  let best: TownSave | null = null;
+  for (const raw of slots) {
+    const s = migrate(raw);
+    if (s && (!best || Date.parse(s.savedAt) > Date.parse(best.savedAt))) best = s;
+  }
+  return best;
 }
 
 export function stamp(save: Omit<TownSave, 'savedAt' | 'localDate' | 'schemaVersion' | 'catalogueVersion'> & Partial<TownSave>): TownSave {
@@ -117,19 +126,34 @@ async function put(db: IDBDatabase, key: string, value: unknown) {
   });
 }
 
+/** A slot kept in localStorage (the quick copy, or the fallback when IndexedDB is unavailable). */
+function stored(key: string): unknown {
+  try { return JSON.parse(localStorage.getItem(`shr:${key}`) ?? 'null'); } catch { return null; }
+}
+
 export async function loadTown(): Promise<TownSave | null> {
   try {
     const db = await open();
     const [main, backup] = await Promise.all([get(db, 'main'), get(db, 'backup')]);
     db.close();
-    return pickSave(main, backup);
+    return pickSave(main, backup, stored('quick'));
   } catch {
-    try { return pickSave(JSON.parse(localStorage.getItem('shr:main') ?? 'null'), JSON.parse(localStorage.getItem('shr:backup') ?? 'null')); } catch { return null; }
+    return pickSave(stored('main'), stored('backup'), stored('quick'));
   }
+}
+
+/**
+ * Leaving the page: IndexedDB writes can be cut off as the page closes, so keep a quick copy in
+ * localStorage, which is written at once. Loading takes whichever copy is newest.
+ */
+export function writeQuick(save: TownSave) {
+  if (erased) return;
+  try { localStorage.setItem('shr:quick', JSON.stringify(save)); } catch { /* storage full or blocked: the autosave still stands */ }
 }
 
 /** Bedtime writes both slots; autosaves write only the backup. Backup always goes first. */
 export async function writeTown(save: TownSave, bedtime: boolean) {
+  if (erased) return;
   const plain = JSON.parse(JSON.stringify(save));
   try {
     const db = await open();
@@ -141,7 +165,11 @@ export async function writeTown(save: TownSave, bedtime: boolean) {
   }
 }
 
+/** Set once the save is erased: nothing is written again before the page reloads into a new game. */
+let erased = false;
+
 export async function eraseTown() {
+  erased = true;
   try { indexedDB.deleteDatabase(DB); } catch { /* ignore */ }
-  try { localStorage.removeItem('shr:main'); localStorage.removeItem('shr:backup'); } catch { /* ignore */ }
+  try { for (const k of ['main', 'backup', 'quick']) localStorage.removeItem(`shr:${k}`); } catch { /* ignore */ }
 }

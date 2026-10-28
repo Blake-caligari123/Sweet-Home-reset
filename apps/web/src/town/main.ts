@@ -69,7 +69,7 @@ async function start() {
   void sprites.then((bank) => game.setSprites(bank));
   if (new URLSearchParams(location.search).has('fps')) showFrameStats();
   void native.onBack(() => game.back());
-  const flush = () => void game.save(false);
+  const flush = () => game.saveNow();
   document.addEventListener('visibilitychange', () => { if (document.hidden) { flush(); sound.stopMusic(); } else sound.startMusic(); });
   window.addEventListener('pagehide', flush);
 }

@@ -32,6 +32,23 @@ describe('town save', () => {
     expect(migrate(fixture(), {}, SCHEMA_VERSION + 1)).toBeNull();
   });
 
+  it('loads the newer of the two slots, so a mid-day autosave survives a reload after bedtime', () => {
+    // Bedtime wrote both slots on day 3; the autosave later that day wrote only the backup.
+    const bedtime = { ...fixture(), savedAt: '2026-10-28T08:00:00+11:00' };
+    const midday = { ...fixture(), minutes: 900, sparkles: 300, savedAt: '2026-10-28T08:20:00+11:00' };
+    expect(pickSave(bedtime, midday)?.sparkles).toBe(300);
+    expect(pickSave(midday, bedtime)?.sparkles).toBe(300);
+    // Saves made in different time zones still compare by the real moment.
+    const earlier = { ...fixture(), sparkles: 7, savedAt: '2026-10-28T09:10:00+12:00' }; // 21:10 UTC, before the 21:20 UTC autosave
+    expect(pickSave(earlier, midday)?.sparkles).toBe(300);
+    // The quick copy written as the page closes counts too, when it's the newest.
+    const leaving = { ...fixture(), sparkles: 450, savedAt: '2026-10-28T08:25:00+11:00' };
+    expect(pickSave(bedtime, midday, leaving)?.sparkles).toBe(450);
+    expect(pickSave(bedtime, midday, '{oops')?.sparkles).toBe(300);
+    // A tie keeps main.
+    expect(pickSave({ ...bedtime, sparkles: 1 }, { ...bedtime, sparkles: 2 })?.sparkles).toBe(1);
+  });
+
   it('falls back to the backup when main is corrupt', () => {
     const backup = fixture();
     expect(pickSave('{oops', backup)?.day).toBe(3);
