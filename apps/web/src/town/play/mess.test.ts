@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { AreaMess, FULL_COLOUR, hitsFor } from './mess';
+import { AreaMess, FULL_COLOUR, hitsFor, matchingAround } from './mess';
 import { TUNING } from '../data/tuning';
 
 const spots = [
@@ -70,5 +70,16 @@ describe('area mess', () => {
     expect(restored.progress).toBe(1);
     expect([...restored.colour].every((c) => c === FULL_COLOUR)).toBe(true);
     expect([...restored.type].every((t) => t === 0)).toBe(true);
+  });
+});
+
+describe('charged swings', () => {
+  it('find matching mess around a spot: two for Copper, the whole patch for Silver, never clutter', () => {
+    const patch = [];
+    for (let y = 0; y < 3; y += 1) for (let x = 0; x < 3; x += 1) patch.push({ type: 'dust' as const, x, y });
+    const m = new AreaMess(4, 4, [...patch, { type: 'clutter' as const, x: 3, y: 1, item: 'sock' }], true);
+    expect(matchingAround(m, 1, 1, 2)).toHaveLength(2);
+    expect(matchingAround(m, 1, 1, 8)).toHaveLength(8);
+    expect(matchingAround(m, 2, 1, 8).some((p) => p.x === 3)).toBe(false);
   });
 });

@@ -22,7 +22,7 @@ import { FEET, type NavGrid } from '../world/nav';
 import { standTiles } from '../world/pathfind';
 import type { World } from '../world/world';
 import type { Clock } from './clock';
-import { TOOL_FOR, type AreaMess, type MessType, type ToolId } from './mess';
+import { matchingAround, TOOL_FOR, type AreaMess, type MessType, type ToolId } from './mess';
 import type { OnboardingGuide } from './onboarding-guide';
 import { available, take } from './pickups';
 import type { Puff } from './puff';
@@ -176,14 +176,12 @@ export class PuffActions {
     return true;
   }
 
-  /** Up to two spots next to this one with mess the same tool cleans, nearest first. */
+  /** The spots a charged swing also lands on: two beside it with Copper, the whole 3×3 patch with Silver. */
   private alike(x: number, y: number) {
     const { mess } = this.host.here();
     const type = mess.typeAt(x, y);
     if (type === 'none' || type === 'clutter') return [];
-    const tool = TOOL_FOR[type].tool;
-    const around = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]].map(([dx, dy]) => ({ x: x + dx, y: y + dy }));
-    return around.filter((p) => { const t = mess.typeAt(p.x, p.y); return t !== 'none' && t !== 'clutter' && TOOL_FOR[t].tool === tool; }).slice(0, 2);
+    return matchingAround(mess, x, y, (this.host.state.tools[TOOL_FOR[type].tool] ?? 1) >= 3 ? 8 : 2);
   }
 
   /** One tidy landing on a mess tile, with its colour, effects and rewards. Null if nothing happened. */

@@ -79,6 +79,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 
 ## Phase 5 so far (only what doesn't need you)
 - **5a (#67):** accessibility options: tap-only, bigger text, high contrast. Tall sheets scroll now. Checklist §13a.
+- **Silver tools (#68):** Silver duster, squeegee and rake from cave silver (after Copper). A charged swing tidies a whole 3×3 patch. Checklist §13b.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.

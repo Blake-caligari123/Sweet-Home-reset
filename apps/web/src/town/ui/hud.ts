@@ -126,13 +126,15 @@ export class Hud {
 
   setPrompt(text: string) { this.prompt.textContent = text; this.prompt.hidden = !text; }
 
-  /** `tiers`: each tool's tier; Copper (2) gets a copper rim and says so to screen readers. */
+  /** `tiers`: each tool's tier; Copper (2) and Silver (3) get a rim and say so to screen readers. */
   setTools(owned: ToolId[], selected: ToolId, tiers: Record<string, number>) {
     for (const [t, b] of this.toolButtons) {
       b.hidden = !owned.includes(t);
-      const copper = (tiers[t] ?? 1) >= 2;
-      b.classList.toggle('copper', copper);
-      b.setAttribute('aria-label', copper ? `Copper ${TOOL_NAMES[t].toLowerCase()}` : TOOL_NAMES[t]);
+      const tier = tiers[t] ?? 1;
+      const metal = tier >= 3 ? 'Silver' : tier >= 2 ? 'Copper' : '';
+      b.classList.toggle('copper', tier === 2);
+      b.classList.toggle('silver', tier >= 3);
+      b.setAttribute('aria-label', metal ? `${metal} ${TOOL_NAMES[t].toLowerCase()}` : TOOL_NAMES[t]);
       b.classList.toggle('selected', t === selected);
       b.setAttribute('aria-pressed', String(t === selected));
     }
