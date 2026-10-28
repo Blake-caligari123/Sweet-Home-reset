@@ -99,3 +99,4 @@
 .pet-card:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 .tool.copper { box-shadow: inset 0 0 0 2px #d08a5c; }
 .tool.copper.selected { box-shadow: 0 3px 0 var(--line), inset 0 0 0 2px #d08a5c; }
+.town-line { font-weight: 800; text-align: center; }

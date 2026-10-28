@@ -141,6 +141,13 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Veggie soup (radish + carrot) and pea fritters (2 peas make 2) are there from the start. The Berry tart (2 strawberries) appears after Hazel's 2-heart scene.
 - [ ] Cooking: "Mm! That smells lovely." and the dish goes in the bag. Eat it for lots of Fluff, sell it, or gift it (Hazel, Moss and Mabel like soup; Otto and Pip like fritters).
 
+## 11j. Phase 2d: Town Bloom, finds, Moss's collection
+- [ ] Pause shows "🌸 Town Bloom: Sleepy · 0 of 8 finds".
+- [ ] Restoring places, finishing builds, making friends and helpers raise it. A banner says "🌸 Town Bloom: Waking!", and it never goes down.
+- [ ] The lamppost on the Keeper's plans says "Town Bloom 2" until then.
+- [ ] Every 8th clean in a place turns up a treasure: "A lucky find: Lost button!"
+- [ ] In Moss's library, tap the table: Moss's collection shows what you've found, with "?" for the rest.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

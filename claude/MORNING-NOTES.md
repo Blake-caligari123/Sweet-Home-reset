@@ -7,6 +7,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 |---|---|---|
 | #40 | **Phase 1 finished:** hold, circle and sweep gestures; light mess drifting back into restored rooms overnight | checklist §11f |
 | #41 | **Phase 2a:** twigs and pebbles to forage; Pip's workbench; Copper duster, sponge and rake; charged hold clean | checklist §11g |
+| #44 | **Phase 2d:** Town Bloom levels (pause menu, banners, the lamppost needs Bloom 2); surprise finds every 8 cleans; Moss's collection on his library table | checklist §11j |
 | #43 | **Phase 2c:** cooking in the burrow kitchen: veggie soup, pea fritters, and a Berry tart after Hazel's 2-heart scene | checklist §11i |
 | #42 | **Phase 2b:** carrots, peas and strawberries (strawberries grow back); pick your seeds; sell them all | checklist §11h |
 
@@ -21,6 +22,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
   - seeds: 30–60 ✨ for 3
   - sell prices: 15–30 ✨
   - These are all in `tuning.json` and the pack, so they're easy to tune after you play.
+- **Town Bloom points:** restore 3, build 2, each heart 1, each helper 1. Levels at 0/6/15/30/50 (`tuning.bloomLevels`).
 - **Kitchen:** it's the burrow counter to the right of the sink. The painting doesn't show a stove there, so a stove in the next burrow painting would be nice.
 
 ## Art to ask Grok for (prompts in `claude/SPRITE-SHEETS.md`)

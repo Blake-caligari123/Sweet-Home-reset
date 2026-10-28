@@ -1,6 +1,8 @@
 import type { Area, TownPack } from '../data/area';
 import type { Content } from '../data/content';
-import { PUTAWAY_SPARKLES, SWING_MS } from '../data/tuning';
+import { PUTAWAY_SPARKLES, SWING_MS, TUNING } from '../data/tuning';
+import { nextFind } from '../bloom/bloom';
+import { openCollection } from '../bloom/collection-sheet';
 import { harvest, seedsIn, stageOf, type CropDef } from './crops';
 import type { GrumbleLife } from '../grumbles/grumble-life';
 import type { Conversations } from '../neighbours/conversations';
@@ -194,8 +196,20 @@ export class PuffActions {
       this.host.guide.handle({ type: 'cleared', mess: type, area: id });
     }
     if (!wasRestored && mess.restored) this.onRestored();
-    if (result.cleared) this.host.jobs.checkTidy();
+    if (result.cleared) { this.host.jobs.checkTidy(); this.luckyFind(id, x, y); }
     return result;
+  }
+
+  /** Every few cleans in a place, a little treasure turns up for Moss's collection. */
+  private luckyFind(area: string, x: number, y: number) {
+    const { state, view, content, world } = this.host;
+    const found = nextFind(state.finds, area, content.pack.finds ?? [], TUNING.findEveryCleans);
+    const def = found && content.pack.finds?.find((f) => f.id === found);
+    if (!def) return;
+    world.sparkleBurst(x, y, 12);
+    view.feedback('chime', 'success');
+    view.banner(`A lucky find: ${def.name}!`);
+    view.say(content.line(`find.${def.id}`) ?? content.line('find.any') ?? '');
   }
 
   private useProp(t: Extract<Target, { kind: 'prop' }>) {
@@ -231,6 +245,9 @@ export class PuffActions {
         return;
       case 'cook':
         this.host.openWorkbench('kitchen');
+        return;
+      case 'museum':
+        openCollection(view, content, state);
         return;
       case 'shop': {
         const shop = content.pack.shops?.find((s) => s.id === t.shop);

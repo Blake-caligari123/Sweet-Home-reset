@@ -53,6 +53,9 @@ export class TownAreas {
     for (const [id, m] of this.messes) m.scatter(returningMess(this.areas.get(id)!, m, day, TUNING.messReturn));
   }
 
+  /** How many places are restored (for Town Bloom). */
+  restoredCount() { let n = 0; for (const m of this.messes.values()) if (m.restored) n += 1; return n; }
+
   /** The mess of every area visited, for the save. */
   snapshot() {
     const out: TownSave['areas'] = {};

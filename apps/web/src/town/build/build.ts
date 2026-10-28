@@ -9,7 +9,9 @@ import type { PropDef } from '../world/art/props';
 export interface PlotDef { id: string; name: string; area: string; x: number; y: number; w: number; h: number; allow: string[]; unlock?: string }
 
 /** Something the town can build. `prop`: how it stands on its plot once finished. */
-export interface BuildingDef { id: string; name: string; nights: number; cost: { sparkles: number }; prop: { type: string; w?: number; h?: number } }
+export interface BuildingDef { id: string; name: string; nights: number; cost: { sparkles: number }; prop: { type: string; w?: number; h?: number };
+  /** The Town Bloom level it needs (VISION §5: Bloom unlocks building types). */
+  bloom?: number }
 
 /** A plot with something on it. Stages: 0 scaffold, 1 frame, 2 done. */
 export interface PlotState { buildingId: string; stage: number; startedDay: number; readyDay: number }

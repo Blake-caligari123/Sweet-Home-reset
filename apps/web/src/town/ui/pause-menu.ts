@@ -11,6 +11,8 @@ export interface PauseHost {
   settingsChanged(): void;
   openFriends(): void;
   openNames(): void;
+  /** "Town Bloom: Waking · 3 of 8 finds". */
+  townLine: string;
   /** Offered while onboarding can be skipped; skips the remaining tips. */
   skipTips: (() => void) | null;
 }
@@ -46,6 +48,7 @@ export function openPause(d: PauseHost) {
   }
   const restart = h('button', { class: 'btn small', type: 'button' }, 'Start over on this device');
   restart.addEventListener('click', async () => { if (!window.confirm('Start a new game? This clears the town save on this device.')) return; await eraseTown(); location.reload(); });
+  body.unshift(h('p', { class: 'town-line' }, d.townLine));
   body.push(h('p', { class: 'muted', style: { fontSize: '0.85rem' } }, 'Test build'), restart);
   view.sheet('Paused', body);
 }
