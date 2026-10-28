@@ -7,7 +7,7 @@ import { drawOutfit } from './art/outfits';
 const ON_PUFF: Record<string, { up: number; across: number; front?: boolean }> = {
   peach_bow: { up: 0.8, across: 4 }, star_clip: { up: 0.8, across: 4 },
   berry_hat: { up: 0.84, across: 0 }, sun_hat: { up: 0.86, across: 0 }, acorn_cap: { up: 0.86, across: 0 }, flower_crown: { up: 0.8, across: 0 },
-  leaf_scarf: { up: 0.39, across: 0 }, keeper_badge: { up: 0.28, across: 3, front: true }, fair_ribbon: { up: 0.3, across: -3, front: true }
+  leaf_scarf: { up: 0.39, across: 0 }, keeper_badge: { up: 0.28, across: 3, front: true }, fair_ribbon: { up: 0.3, across: -3, front: true }, lantern_pin: { up: 0.3, across: -3, front: true }
 };
 
 const textures = new Map<string, Texture>();

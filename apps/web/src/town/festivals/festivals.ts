@@ -1,11 +1,12 @@
 import { seeded } from '../../shared/art/pixel-canvas';
-import type { Area } from '../data/area';
+import type { Area, AreaPack } from '../data/area';
 import { DAYS_PER_SEASON, seasonOf } from '../play/clock';
 import type { AreaMess, MessSpot } from '../play/mess';
 
 // Festivals (VISION §7): the last day of each season is a festival, with everyone gathered and a
 // mini-game. The Spring Clean Fair's is the tidy dash: a burst of light mess in the square to tidy
-// before the timer runs out. Summer's picnic is crumbs, autumn's leaf fest is leaf piles. A fun score, never a fail: every spot tidied is Sparkles, and the
+// before the timer runs out. Summer's picnic is crumbs, autumn's leaf fest is leaf piles. Winter
+// Lights is calm, with no timer: lanterns stand round the square, and lighting them all ends the year's chapter. A fun score, never a fail: every spot tidied is Sparkles, and the
 // first go each fair day earns its prize (a ribbon). Replays are just for fun.
 
 export interface FestivalDef {
@@ -16,6 +17,10 @@ export interface FestivalDef {
   mess: MessSpot['type'][];
   /** An outfit earned by joining in (earned with the flag `festival_<id>`). */
   outfit?: string;
+  /** The tidy dash (default), or lighting lanterns. */
+  game?: 'dash' | 'lights';
+  /** For lights: where the lanterns stand. */
+  lanterns?: { x: number; y: number }[];
 }
 
 /** Today's festival, if today is one: the last day of a season with a festival. */
@@ -40,4 +45,17 @@ export function dashSpots(area: Area, m: AreaMess, day: number, n: number, kinds
     out.push({ type: kinds[out.length % kinds.length], x, y });
   }
   return out;
+}
+
+/** Set once Puff lights this lantern on this festival day. */
+export const litFlag = (def: FestivalDef, day: number, x: number, y: number) => `lit_${def.id}_${day}_${x}_${y}`;
+
+/** The lanterns still to light today. */
+export const lanternsLeft = (def: FestivalDef, flags: readonly string[], day: number) => (def.lanterns ?? []).filter((l) => !flags.includes(litFlag(def, day, l.x, l.y)));
+
+/** An area with today's festival lanterns standing in it, lit or waiting to be lit. */
+export function withLanterns(pack: AreaPack, def: FestivalDef | null, flags: readonly string[], day: number): AreaPack {
+  if (def?.game !== 'lights' || pack.id !== def.area) return pack;
+  const lanterns = (def.lanterns ?? []).map((l) => (flags.includes(litFlag(def, day, l.x, l.y)) ? { type: 'festival_lantern_lit', x: l.x, y: l.y } : { type: 'festival_lantern', x: l.x, y: l.y, action: 'light' }));
+  return { ...pack, props: [...pack.props, ...lanterns] };
 }

@@ -269,6 +269,19 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `sorrel.festival.autumn_leaf_fest`: Leaf Fest is MY festival. I'm a squirrel!
 - `festival.prize`: Something new to wear: the {outfit}!
 
+## New in Phase 4e (29 Oct): Winter Lights (proposed)
+- `festival.winter_lights.intro`: It's Winter Lights! Light every lantern round the square.
+- `festival.winter_lights.lit`: Glow, little lantern.
+- `festival.winter_lights.done`: The Glimmerwell is shining! Year one's chapter closes.
+- `festival.winter_lights.next`: And tomorrow, a new spring begins in {town}.
+- `hazel.festival.winter_lights`: Winter Lights! Every window glowing. Like old times, petal.
+- `bea.festival.winter_lights`: Bzz... so glowy. The bees are dreaming of spring.
+- `pip.festival.winter_lights`: I wired up the lanterns! {puff} gets to light them!
+- `otto.festival.winter_lights`: Lights on the water... two skies again. Heh.
+- `moss.festival.winter_lights`: Winter Lights. The oldest story in town. Listen.
+- `mabel.festival.winter_lights`: Hoo... the lights. I've waited so long to see them.
+- `sorrel.festival.winter_lights`: My first Winter Lights! I'm not crying. It's snow.
+
 ## Hazel
 
 **First hello**

@@ -5,6 +5,7 @@ import { nextFind } from '../bloom/bloom';
 import { areasWith } from '../build/build';
 import { openCollection } from '../bloom/collection-sheet';
 import type { Mining } from '../caves/mining';
+import type { Lanterns } from '../festivals/lanterns';
 import type { TidyDash } from '../festivals/tidy-dash';
 import { openLetter } from '../letters/letter-sheet';
 import { lettersWaiting } from '../letters/letters';
@@ -29,7 +30,7 @@ import type { Target } from './targets';
 
 export interface ActionsHost {
   state: TownState; view: View; content: Content; clock: Clock; settings: Settings;
-  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide; grumbles: GrumbleLife; mining: Mining; dash: TidyDash;
+  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide; grumbles: GrumbleLife; mining: Mining; dash: TidyDash; lanterns: Lanterns;
   /** Whether something in the year-one schedule has arrived (the caves on day 10). */
   arrived(key: string): boolean;
   /** The area Puff is in. */
@@ -273,6 +274,9 @@ export class PuffActions {
         return;
       case 'festival':
         this.host.dash.open();
+        return;
+      case 'light':
+        this.host.lanterns.light(t.x, t.y);
         return;
       case 'hatch': {
         const prop = this.host.here().area.tapPropAt(t.x, t.y);

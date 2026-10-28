@@ -266,6 +266,10 @@ One new thing every couple of days, each with one tip or letter:
 - **Phase 4d (29 Oct):**
   - The Summer Picnic (day 28, crumbs) and the Autumn Leaf Fest (day 42, a new `leaves` mess, raked) use the dash with their own mess, Sparkles, a sun hat or acorn cap, and lines for each neighbour (`festival` lines are now keyed by festival).
   - Winter Lights (day 56) will be a lantern-lighting game, coming next.
+- **Phase 4e (29 Oct):**
+  - Winter Lights: on day 56, eight lanterns stand round the square (`withLanterns`, rebuilt each day). Puff lights each one, with no timer.
+  - The last one makes the Glimmerwell shine and closes year one's chapter, with +100 ✨ and a lantern pin. Day 57 carries on into spring.
+  - All four festivals are in. `game.ts` now builds its hosts from one shared `core` (482 lines).
   - Also: `play/night.ts` takes the night and the morning messages out of `game.ts`.
 
 ## 14. Blake's answers (28 Oct 2026)

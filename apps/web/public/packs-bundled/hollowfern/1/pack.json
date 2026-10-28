@@ -4721,6 +4721,10 @@
    {
     "id": "hazel.festival.autumn_leaf_fest",
     "festival": "autumn_leaf_fest"
+   },
+   {
+    "id": "hazel.festival.winter_lights",
+    "festival": "winter_lights"
    }
   ],
   "bea": [
@@ -4888,6 +4892,10 @@
    {
     "id": "bea.festival.autumn_leaf_fest",
     "festival": "autumn_leaf_fest"
+   },
+   {
+    "id": "bea.festival.winter_lights",
+    "festival": "winter_lights"
    }
   ],
   "pip": [
@@ -5051,6 +5059,10 @@
    {
     "id": "pip.festival.autumn_leaf_fest",
     "festival": "autumn_leaf_fest"
+   },
+   {
+    "id": "pip.festival.winter_lights",
+    "festival": "winter_lights"
    }
   ],
   "otto": [
@@ -5214,6 +5226,10 @@
    {
     "id": "otto.festival.autumn_leaf_fest",
     "festival": "autumn_leaf_fest"
+   },
+   {
+    "id": "otto.festival.winter_lights",
+    "festival": "winter_lights"
    }
   ],
   "moss": [
@@ -5377,6 +5393,10 @@
    {
     "id": "moss.festival.autumn_leaf_fest",
     "festival": "autumn_leaf_fest"
+   },
+   {
+    "id": "moss.festival.winter_lights",
+    "festival": "winter_lights"
    }
   ],
   "mabel": [
@@ -5536,6 +5556,10 @@
    {
     "id": "mabel.festival.autumn_leaf_fest",
     "festival": "autumn_leaf_fest"
+   },
+   {
+    "id": "mabel.festival.winter_lights",
+    "festival": "winter_lights"
    }
   ],
   "sorrel": [
@@ -5698,6 +5722,10 @@
    {
     "id": "sorrel.festival.autumn_leaf_fest",
     "festival": "autumn_leaf_fest"
+   },
+   {
+    "id": "sorrel.festival.winter_lights",
+    "festival": "winter_lights"
    }
   ]
  },
@@ -6388,7 +6416,18 @@
    "mabel.festival.summer_picnic": "Hoo! A summer picnic, like the old days.",
    "mabel.festival.autumn_leaf_fest": "Hoo! The wind brought every leaf to the square.",
    "sorrel.festival.summer_picnic": "I brought acorn cakes! Don't ask what's in them.",
-   "sorrel.festival.autumn_leaf_fest": "Leaf Fest is MY festival. I'm a squirrel!"
+   "sorrel.festival.autumn_leaf_fest": "Leaf Fest is MY festival. I'm a squirrel!",
+   "festival.winter_lights.intro": "It's Winter Lights! Light every lantern round the square.",
+   "festival.winter_lights.lit": "Glow, little lantern.",
+   "festival.winter_lights.done": "The Glimmerwell is shining! Year one's chapter closes.",
+   "festival.winter_lights.next": "And tomorrow, a new spring begins in {town}.",
+   "hazel.festival.winter_lights": "Winter Lights! Every window glowing. Like old times, petal.",
+   "bea.festival.winter_lights": "Bzz... so glowy. The bees are dreaming of spring.",
+   "pip.festival.winter_lights": "I wired up the lanterns! {puff} gets to light them!",
+   "otto.festival.winter_lights": "Lights on the water... two skies again. Heh.",
+   "moss.festival.winter_lights": "Winter Lights. The oldest story in town. Listen.",
+   "mabel.festival.winter_lights": "Hoo... the lights. I've waited so long to see them.",
+   "sorrel.festival.winter_lights": "My first Winter Lights! I'm not crying. It's snow."
   }
  },
  "heartEvents": [
@@ -8829,6 +8868,14 @@
    "earn": {
     "flag": "festival_autumn_leaf_fest"
    }
+  },
+  {
+   "id": "lantern_pin",
+   "name": "Lantern pin",
+   "hint": "Light up Winter Lights",
+   "earn": {
+    "flag": "festival_winter_lights"
+   }
   }
  ],
  "letters": [
@@ -9022,6 +9069,52 @@
     "leaves"
    ],
    "outfit": "acorn_cap"
+  },
+  {
+   "id": "winter_lights",
+   "name": "Winter Lights",
+   "season": "Winter",
+   "area": "square",
+   "seconds": 0,
+   "spots": 0,
+   "perSpot": 0,
+   "mess": [],
+   "game": "lights",
+   "lanterns": [
+    {
+     "x": 4,
+     "y": 7
+    },
+    {
+     "x": 25,
+     "y": 7
+    },
+    {
+     "x": 4,
+     "y": 14
+    },
+    {
+     "x": 25,
+     "y": 14
+    },
+    {
+     "x": 10,
+     "y": 8
+    },
+    {
+     "x": 19,
+     "y": 8
+    },
+    {
+     "x": 10,
+     "y": 13
+    },
+    {
+     "x": 20,
+     "y": 13
+    }
+   ],
+   "outfit": "lantern_pin"
   }
  ]
 }

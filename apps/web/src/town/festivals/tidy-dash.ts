@@ -35,6 +35,7 @@ export class TidyDash {
     const def = festivalToday(content.pack.festivals ?? [], clock.state.day);
     if (!def) { view.say(content.line('festival.closed') ?? ''); return; }
     if (this.run) return;
+    if (def.game === 'lights') { view.say(content.line(`festival.${def.id}.intro`) ?? def.name); return; }
     view.ask(content.line(`festival.${def.id}.intro`) ?? def.name, [
       { label: 'Start the dash!', primary: true, onClick: () => this.start(def) },
       { label: 'Not yet', onClick: () => {} }
@@ -90,7 +91,7 @@ export class TidyDash {
     const ribbon = !!r.def.outfit && !state.has(`festival_${r.def.id}`);
     if (first) { state.flag(today); state.sparkles += sparkles; }
     state.flag(`festival_${r.def.id}`);
-    const lines = [(content.line(cheer) ?? '').replace('{puff}', state.names.puff), `${done} of ${r.tiles.length} tidied${first ? ` · +${sparkles} ✨` : ''}`];
+    const lines = [content.line(cheer) ?? '', `${done} of ${r.tiles.length} tidied${first ? ` · +${sparkles} ✨` : ''}`];
     if (ribbon) lines.push((content.line('festival.prize') ?? '').replace('{outfit}', (content.pack.outfits?.find((o) => o.id === r.def.outfit)?.name ?? '').toLowerCase()));
     view.feedback('fanfare', 'success');
     view.showDialogue(lines.join(' '));

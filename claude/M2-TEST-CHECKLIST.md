@@ -252,6 +252,12 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Day 42, the Autumn Leaf Fest: the dash is leaf piles to rake (24 spots, 6 ✨ each). Prize: an acorn cap.
 - [ ] Each neighbour has a line for each festival, and the spring lines don't come back in summer.
 
+## 12e. Phase 4e: Winter Lights (day 56)
+- [ ] On the last day of winter, eight dark lanterns stand round the square, and everyone gathers there. The stall says to light every lantern. There's no timer.
+- [ ] Tap each lantern to light it. It glows, more so after dusk.
+- [ ] When the last one is lit: "The Glimmerwell is shining! Year one's chapter closes.", +100 ✨ and a lantern pin to wear.
+- [ ] Sleep, and day 57 is spring again in a new year, with no ending.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

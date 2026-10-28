@@ -33,8 +33,8 @@ export function passNight(h: NightHost, dozed: boolean): BuildingDef[] {
 
 /** Awake: the morning letter, then a new season or rain, then what was built overnight. */
 export function morning(h: { state: TownState; view: View; clock: Clock; content: Content; refreshHud(): void }, built: BuildingDef[]) {
-  const { state, view, content } = h;
+  const { view, content } = h;
   morningLetter(h);
-  for (const [kind, id] of morningNews(h.clock)) (kind === 'banner' ? view.banner : view.say).call(view, (content.line(id) ?? '').replace('{town}', state.names.town));
+  for (const [kind, id] of morningNews(h.clock)) (kind === 'banner' ? view.banner : view.say).call(view, content.line(id) ?? '');
   for (const b of built) view.banner(b.home ? content.line(`home.${b.home}`) ?? '' : (content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
 }
