@@ -2,6 +2,13 @@
 
 You said to carry on without asking. I've merged each slice to the test link once its tests, browser checks and Android build were green. Nothing went to production, and there was no spending and no accounts. Reload the test link once to pick up the latest.
 
+## Highlights (if you only try a few things)
+- **Day 8:** Sorrel's letter by the Lane sign. Build her cottage, and she moves in two nights later.
+- **Day 10:** Mabel's first bottle by the fountain. It opens the caves under the Glimmerwell, so go mining.
+- **Day 12:** mend the footbridge at Riverside and cross to the Far Bank.
+- **Day 14:** the Spring Clean Fair and its tidy dash in the square.
+- **Day 15 onward:** summer, then golden autumn (day 29) and snowy winter (day 43). Rain on some days, first on day 6.
+
 ## What's new on the test link
 | PR | What | Test steps |
 |---|---|---|
@@ -63,7 +70,14 @@ You said to carry on without asking. I've merged each slice to the test link onc
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
-2. Anything you'd like changed from tonight, just say.
+2. **Sorrel:** I made her a chatty, slightly shy red squirrel who loves acorns. Is that the newcomer you pictured? Her lines are in DIALOGUE-REVIEW.
+3. **Festival mini-games:** spring is a 60-second tidy dash. My plans for the rest:
+   - summer: a picnic set-up, placing things on the blanket
+   - autumn: a leaf-pile sweep
+   - winter: lantern lighting
+
+   Happy with those?
+4. Anything you'd like changed from tonight, just say.
 
 ## Next, unless you say otherwise
 Phase 4 (seasons and sharing):
