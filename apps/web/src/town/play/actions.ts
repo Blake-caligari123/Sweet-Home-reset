@@ -3,6 +3,7 @@ import type { Content } from '../data/content';
 import { cropDays, PUTAWAY_SPARKLES, SWING_MS } from '../data/tuning';
 import type { Conversations } from '../neighbours/conversations';
 import type { Jobs } from '../requests/jobs';
+import { GOLDEN } from '../rewards/golden';
 import type { TownState } from '../state';
 import { TOOL_NAMES, type Hud } from '../ui/hud';
 import { offerClip } from '../ui/reveal';
@@ -12,9 +13,9 @@ import { FEET, type NavGrid } from '../world/nav';
 import { standTiles } from '../world/pathfind';
 import type { World } from '../world/world';
 import type { Clock } from './clock';
-import { TOOL_FOR, type AreaMess, type MessType, type ToolId } from './mess';
 import type { PlayEvent } from './events';
-import { available, take } from './pickups';
+import { TOOL_FOR, type AreaMess, type MessType, type ToolId } from './mess';
+import { available, take, type PickupDef } from './pickups';
 import type { Puff } from './puff';
 import type { Target } from './targets';
 
@@ -25,6 +26,8 @@ export interface ActionsHost {
   notify(e: PlayEvent): void;
   /** The area Puff is in. */
   here(): { id: string; area: Area; mess: AreaMess; nav: NavGrid };
+  /** Pickups that come and go (today's golden dust). */
+  extraPickups(area: string): PickupDef[];
   /** The tool in Puff's paws. */
   selected(): ToolId;
   /** Swap tools (auto-tool and the watering can do this). */
@@ -53,7 +56,11 @@ export class PuffActions {
     else if (t.kind === 'prop') this.useProp(t);
   }
 
-  pickupsHere() { const { state, clock } = this.host; return available(this.host.here().area.pack.pickups ?? [], state.picked, clock.state.day); }
+  pickupsHere() {
+    const { state, clock } = this.host;
+    const { id, area } = this.host.here();
+    return available([...(area.pack.pickups ?? []), ...this.host.extraPickups(id)], state.picked, clock.state.day);
+  }
 
   cropsHere() {
     const id = this.host.here().id;
@@ -184,15 +191,19 @@ export class PuffActions {
     const { state, view, content, clock } = this.host;
     const p = this.pickupsHere().find((x) => x.id === id);
     if (!p) return;
-    if (!state.bag.add(p.item)) { view.say('Bag\'s full! Put things away first.'); return; }
+    const golden = p.item === GOLDEN;
+    if (!golden && !state.bag.add(p.item)) { view.say('Bag\'s full! Put things away first.'); return; }
     state.picked = take(state.picked, id, clock.state.day);
+    this.host.world.setPickups(this.pickupsHere());
+    this.host.notify({ type: 'took', item: p.item, x: p.x, y: p.y });
+    if (golden) return; // the rewards cheer for it
     const name = content.itemName(p.item).toLowerCase();
     const snack = !!content.pack.items[p.item]?.snack;
     view.say(`${/^[aeiou]/.test(name) ? 'An' : 'A'} ${name}! ${snack ? 'Snack for later.' : 'Into the bag it goes.'}`);
     view.feedback('coin', 'light');
-    this.host.world.setPickups(this.pickupsHere());
     this.host.refreshHud();
   }
+
 
   /** After bumping a closed door, step back one tile so the next tap isn't swallowed. */
   private stepOff(x: number, y: number) {

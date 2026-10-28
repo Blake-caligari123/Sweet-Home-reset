@@ -18,6 +18,7 @@ import { Puff } from './play/puff';
 import { distTo, FEET_TO_BASE, neighbourAt, rectOf, targetAt, type Here, type Target } from './play/targets';
 import { isLocked, plusFromUrl } from './plus/plus';
 import { Jobs } from './requests/jobs';
+import { openFindsBook } from './rewards/finds-sheet';
 import { RewardHud } from './rewards/reward-hud';
 import { Rewards } from './rewards/rewards';
 import { openShop } from './shops/shop-sheet';
@@ -110,6 +111,7 @@ export class TownGame {
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
       puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, notify: (e) => this.notify(e),
       here: () => ({ id: this.areaId, area: this.area, mess: this.mess, nav: this.nav }),
+      extraPickups: (id) => this.rewards.goldenHere(id),
       selected: () => this.selected,
       select: (t) => { this.selected = t; },
       travel: (to, x, y) => void this.travel(to, x, y),
@@ -119,10 +121,12 @@ export class TownGame {
       save: () => void this.save(false)
     });
     this.rewards = new Rewards({
-      state: this.state, view: this.view, hud: new RewardHud(this.hud.root, () => this.settings.reducedMotion),
+      state: this.state, view: this.view, content: this.content, clock: this.clock, areas: this.areas,
+      hud: new RewardHud(this.hud.root, () => this.settings.reducedMotion),
       here: () => ({ id: this.areaId, name: this.area.pack.name, progress: this.mess.progress, bar: this.mess.total > 0 && !this.mess.restored }),
       tileToScreen: (x, y) => this.world.toScreen((x + 0.5) * T, (y + 0.5) * T),
       hopPuff: () => this.puff.hop(),
+      sparkle: (x, y, n) => this.world.sparkleBurst(x, y, n),
       refreshHud: () => this.refreshHud()
     });
     this.fade = h('div', { class: 'fade', 'aria-hidden': 'true' });
@@ -172,6 +176,8 @@ export class TownGame {
       friends: () => s.friends,
       flags: () => s.flags,
       requests: () => s.requests,
+      golden: () => this.rewards.goldenToday(),
+      rewards: () => s.rewards,
       addItem: (id: string, n = 1) => { s.bag.add(id, n); this.refreshHud(); },
       /** Friendship points straight in, to reach heart events in tests. */
       addPoints: (id: string, n: number) => { s.friendOf(id).points += Math.max(0, n); }
@@ -339,7 +345,7 @@ export class TownGame {
     view.release();
     this.notify({ type: 'slept' });
     this.refreshHud();
-    morningLetter({ state, view, clock: this.clock, refreshHud: () => this.refreshHud() });
+    morningLetter({ state, view, clock: this.clock, golden: this.rewards.goldenHint(), refreshHud: () => this.refreshHud() });
   }
 
   // ---- sheets ------------------------------------------------------------------------------
@@ -367,6 +373,7 @@ export class TownGame {
         void this.save(false);
       },
       openFriends: () => this.talk.openFriends(),
+      openFinds: () => openFindsBook({ state: this.state, view: this.view, content: this.content }),
       skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null
     });
   }

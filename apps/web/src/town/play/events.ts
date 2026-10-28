@@ -13,6 +13,8 @@ export type PlayEvent =
   | { type: 'talked'; id: string }
   | { type: 'gifted'; id: string; item: string }
   | { type: 'ate'; item: string }
+  /** Something picked up off the ground or a counter (a snack, a shell, golden dust). */
+  | { type: 'took'; item: string; x: number; y: number }
   | { type: 'found'; item: string }
   | { type: 'accepted'; id: string }
   | { type: 'jobDone'; id: string }

@@ -7,6 +7,7 @@ import type { RequestTemplate } from '../requests/requests';
 import type { ShopDef } from '../shops/shops';
 import type { HeartEvent } from '../neighbours/heart-events';
 import type { PickupDef } from '../play/pickups';
+import type { FindDef } from '../rewards/finds';
 import type { Line } from '../neighbours/talk';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
@@ -29,7 +30,9 @@ export interface AreaPack {
 export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string; sell?: number }>; neighbours?: NeighbourDef[];
   /** Talk pools per neighbour id; the text is in `strings`, by language. */
   dialogue?: Record<string, Line[]>; strings?: Record<string, Record<string, string>>;
-  heartEvents?: HeartEvent[]; requests?: RequestTemplate[]; shops?: ShopDef[] }
+  heartEvents?: HeartEvent[]; requests?: RequestTemplate[]; shops?: ShopDef[];
+  /** What cleaning can turn up (rewards). */
+  finds?: FindDef[] }
 
 export class Area {
   readonly w: number;
@@ -129,6 +132,7 @@ export function validateTownPack(input: unknown): TownPack {
       if ((e.kind ?? 'item') === 'item' && !p.items[e.item]) throw new Error(`shop ${sh.id}: unknown item ${e.item}`);
     }
   }
+  for (const f of p.finds ?? []) if (!p.items[f.item] || !isNum(f.weight) || f.weight <= 0) throw new Error(`find ${f.item}: shape`);
   for (const e of p.heartEvents ?? []) {
     if (!who.has(e.neighbourId) || !isNum(e.hearts) || !Array.isArray(e.scene) || !e.scene.length) throw new Error(`heart event ${e.id}: shape`);
     for (const s of e.scene) {
