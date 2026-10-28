@@ -100,5 +100,9 @@
     "helpersMax": 12,
     "driftTilesPerSecond": 0.75
   },
-  "petFollowPx": 18
+  "petFollowPx": 18,
+  "messReturn": {
+    "perNight": 2,
+    "maxFresh": 4
+  }
 }

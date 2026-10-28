@@ -167,6 +167,13 @@ One new thing every couple of days, each with one tip or letter:
   - It trails behind Puff along Puff's own path, everywhere. A tap gives a happy wiggle and a line.
   - Its bed and treats come with the burrow growing (Phase 2).
   - Code-drawn for now; the Grok prompts are in SPRITE-SHEETS, and the sheets go in with no code change.
+- **Phase 1e (28 Oct), finishing Phase 1:**
+  - New gestures, and tapping still does everything:
+    - **hold** keeps scrubbing until the mess (or a Grumble) is gone
+    - **circle** gives two scrubs a loop
+    - **sweep** is a swipe along a row of mess, each tile finished in turn
+  - Mess gently returns: overnight, restored places Puff has visited get up to 2 light bits (dust indoors, weeds outside), never more than 4. It's "fresh" mess, so a restore is never undone.
+  - `game.ts` was split again: Puff's walking moved to `Puff.walk`, and loading moved to `data/restore.ts`.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

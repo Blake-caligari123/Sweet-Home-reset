@@ -5,6 +5,7 @@ import { h } from '../shared/ui/dom';
 import { openBuildBoard } from './build/build-sheet';
 import type { TownPack } from './data/area';
 import { Content } from './data/content';
+import { restoreGame } from './data/restore';
 import { stamp, writeQuick, writeTown, type TownSave } from './data/save';
 import { NEIGHBOUR_WALK_SPEED, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
 import { GrumbleLife } from './grumbles/grumble-life';
@@ -13,8 +14,9 @@ import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
 import { installDebugHooks } from './debug';
 import { PuffActions } from './play/actions';
-import { Clock, DAY_END, DAY_START, formatTime, LATE_AT } from './play/clock';
+import { Clock, DAY_START, formatTime, LATE_AT } from './play/clock';
 import { Carry } from './play/carry';
+import { Sweep } from './play/sweep';
 import { HomeLife } from './play/home-life';
 import { morningLetter } from './play/letter';
 import type { ToolId } from './play/mess';
@@ -72,6 +74,7 @@ export class TownGame {
   private pet: PetLife;
   private petLayer: PetLayer;
   private carry: Carry;
+  private sweep: Sweep;
   private fading = false;
   private autosaveMs = 0;
   private fade: HTMLElement;
@@ -119,6 +122,7 @@ export class TownGame {
       highlight: (tiles) => this.world.setHighlight(tiles), refreshHud: () => this.refreshHud()
     });
     this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.tap(x, y) });
+    this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.scrub({ x, y }, MAX_RUB) });
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
     this.grumbles = new GrumbleLife({
       state: this.state, view: this.view, content: this.content, world: this.world, places: this.places, layer: this.grumbleLayer,
@@ -148,7 +152,11 @@ export class TownGame {
     ui.append(this.fade);
     this.deviceId = (saved?.deviceId as string) ?? (crypto.randomUUID?.() ?? String(Math.random()).slice(2));
     let feet: Pt | undefined;
-    if (saved) feet = this.restore(saved);
+    if (saved) {
+      const r = restoreGame(saved, { clock: this.clock, state: this.state, places: this.places, puff: this.puff });
+      this.areaId = r.area; this.selected = r.selected ?? this.selected; feet = r.feet;
+      if (this.clock.state.minutes >= LATE_AT) this.hud.setLate(true);
+    }
     else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
     this.places.rebuild(this.state.plots);
     this.grumbles.newDay(this.clock.state.day);
@@ -189,6 +197,7 @@ export class TownGame {
     this.homeLife.enter(id, this.area.pack.alive ?? [], this.tidiness);
     this.grumbles.entered();
     this.pet.entered(id);
+    this.sweep.stop();
     this.neighbours.place(this.clock.state.minutes);
     this.world.setCrops(this.actions.cropsHere());
     this.world.setPickups(this.actions.pickupsHere());
@@ -214,10 +223,13 @@ export class TownGame {
     new PointerInput(this.world.root, ui, {
       toWorld: (x, y) => this.world.toWorld(x, y),
       unlock: () => this.sound.unlock(),
-      tap: (p) => this.tap(p.x, p.y),
-      // Each pass of a rub is another scrub, so a stain comes up in one go.
-      rub: (p, passes) => { this.tap(p.x, p.y); if (this.puff.action?.kind === 'mess' || this.puff.swing) this.puff.repeat = Math.min(MAX_RUB, passes - 1); },
-      drag: (from, to) => this.carry.drag(from, to),
+      tap: (p) => { this.sweep.stop(); this.tap(p.x, p.y); },
+      // Each pass of a rub (or loop of a circle) is another scrub; a hold keeps going until it's gone.
+      rub: (p, passes) => this.scrub(p, passes - 1),
+      circle: (p, passes) => this.scrub(p, passes * 2),
+      hold: (p) => this.scrub(p, MAX_RUB),
+      // Clutter carried home, or a row of mess swept; otherwise walk to where the finger stopped.
+      drag: (from, to) => { this.sweep.stop(); if (!this.carry.drag(from, to) && !this.sweep.drag(from, to)) this.tap(to.x, to.y); },
       carryable: (p) => this.carry.clutterAt(Math.floor(p.x / T), Math.floor(p.y / T)) ?? null
     });
     bindKeyboard({
@@ -225,6 +237,13 @@ export class TownGame {
       selectSlot: (n) => { const t = TOOL_SLOTS[n - 1]; if (this.state.tools[t]) { this.selected = t; this.refreshHud(); } },
       openBag: () => this.openBag()
     });
+  }
+
+  /** A tap on mess or a Grumble with extra scrubs queued (from a rub, circle or hold). */
+  private scrub(p: Pt, extra: number) {
+    this.tap(p.x, p.y);
+    const kind = (this.puff.swing ?? this.puff.action)?.kind;
+    if (kind === 'mess' || kind === 'grumble') this.puff.repeat = Math.min(MAX_RUB, extra);
   }
 
   /** Android back / Escape: close the top sheet, else open pause. */
@@ -291,6 +310,7 @@ export class TownGame {
     this.jobs.post();
     const built = overnight(state, this.content.pack.buildings ?? [], this.clock.state.day - 1, dozed);
     this.places.rebuild(this.state.plots);
+    this.places.driftBack(this.clock.state.day);
     this.grumbles.newDay(this.clock.state.day);
     this.hud.setLate(false);
     // Wake up beside the bed: the burrow's spawn tile.
@@ -367,26 +387,17 @@ export class TownGame {
         if (e === 'late') { this.hud.setLate(true); this.view.say(`${this.state.names.puff}'s getting sleepy. Head home to bed.`); }
         if (e === 'doze' && !this.settings.relaxed) void this.endDay(true);
       }
-      // Walk the waypoints at walking speed; the tile under the feet drives mess, doors and onboarding.
-      if (p.path.length) {
-        let budget = dt * ((this.state.fluff.tired ? WALK_SPEED_TIRED : WALK_SPEED) * T / 1000);
-        while (budget > 0 && p.path.length) {
-          const n = p.path[0]; const dx = n.x - p.fx; const dy = n.y - p.fy; const d = Math.hypot(dx, dy);
-          p.faceAlong(dx, dy);
-          if (d <= budget) { p.fx = n.x; p.fy = n.y; p.path.shift(); budget -= d; } else { p.fx += (dx / d) * budget; p.fy += (dy / d) * budget; budget = 0; }
-          const tx = Math.floor(p.fx / T); const ty = Math.floor(p.fy / T);
-          if (tx !== p.x || ty !== p.y) { p.x = tx; p.y = ty; this.guide.handle({ type: 'stood', ground: this.area.groundAt(tx, ty), area: this.areaId }); }
-        }
-        if (!p.path.length) {
-          p.pose = 'idle';
-          const a = p.action; p.action = null;
-          if (this.area.doorAt(p.x, p.y)) this.actions.useDoor(p.x, p.y);
-          else if (a && a.kind !== 'door') this.actions.act(a);
-        } else p.pose = 'walk';
+      // The tile under the feet drives onboarding; arriving uses the door or the thing tapped.
+      const speed = ((this.state.fluff.tired ? WALK_SPEED_TIRED : WALK_SPEED) * T) / 1000;
+      if (p.walk(dt, speed, () => this.guide.handle({ type: 'stood', ground: this.area.groundAt(p.x, p.y), area: this.areaId }))) {
+        const a = p.action; p.action = null;
+        if (this.area.doorAt(p.x, p.y)) this.actions.useDoor(p.x, p.y);
+        else if (a && a.kind !== 'door') this.actions.act(a);
       }
       this.neighbours.update(this.clock.state.minutes, this.areaId, dt);
       this.homeLife.tick(this.areaId, this.tidiness);
       this.carry.tick();
+      this.sweep.tick();
       if (p.swingMs > 0) { p.swingMs -= dt; if (p.swingMs <= 0) this.actions.finishSwing(); }
       if (p.hopMs > 0) { p.hopMs -= dt; if (p.hopMs <= 0 && p.pose === 'hop') p.pose = 'idle'; }
       this.autosaveMs += dt;
@@ -468,26 +479,6 @@ export class TownGame {
 
   /** Leaving the page: a quick copy that can't be cut off, as well as the usual save. */
   saveNow() { const s = this.snapshot(); writeQuick(s); void writeTown(s, false); }
-
-  /** Load a save; returns Puff's exact saved feet position when there is one. */
-  private restore(save: TownSave): Pt | undefined {
-    this.clock.state = { day: save.day, minutes: Math.min(DAY_END, Math.max(DAY_START, save.minutes)) };
-    this.state.load(save);
-    if (typeof save.selected === 'string') this.selected = save.selected as ToolId;
-    for (const [id, snap] of Object.entries(save.areas ?? {})) {
-      if (!this.places.has(id)) continue;
-      const m = this.places.mess(id);
-      try { m.load(snap); } catch { /* a bad area snapshot just starts that area fresh */ }
-    }
-    const area = this.places.get(save.area) ? save.area : 'burrow';
-    this.areaId = area;
-    const a = this.places.get(area)!;
-    const ok = a.walkable(save.puff.x, save.puff.y);
-    this.puff.x = ok ? save.puff.x : a.pack.spawn.x; this.puff.y = ok ? save.puff.y : a.pack.spawn.y;
-    this.puff.dir = save.puff.facing ?? 'down';
-    if (this.clock.state.minutes >= LATE_AT) this.hud?.setLate(true);
-    return ok && typeof save.puff.fx === 'number' && typeof save.puff.fy === 'number' ? { x: save.puff.fx, y: save.puff.fy } : undefined;
-  }
 }
 
 function wait(ms: number) { return new Promise((r) => window.setTimeout(r, ms)); }

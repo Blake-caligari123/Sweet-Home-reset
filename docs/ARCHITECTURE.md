@@ -47,7 +47,8 @@ town/
   unlocks.ts    the year-one schedule: whether something (a neighbour, a place) has arrived yet, from
                 the day and story flags only (`tuning.unlocks`); never a purchase
   data/         the pack schema and validation (area.ts), save format and migrations (save.ts),
-                tuning.json access (tuning.ts), pack lookups (content.ts), the test pack loader
+                tuning.json access (tuning.ts), pack lookups (content.ts), loading a save into the game
+                (restore.ts), the test pack loader
   world/        drawing and walking: world.ts (Pixi stage), alive.ts (lamps, sunbeams, the cat…),
                 sprites.ts, backgrounds.ts (paintings),
                 bake.ts, ambience.ts, nav.ts (free movement), pathfind.ts, town-areas.ts (every
@@ -58,7 +59,8 @@ town/
                 pickups.ts, onboarding.ts (tip rules), letter.ts (morning letter and real chore),
                 names.ts (the player's names for Puff and the town: `{puff}`, `{town}` in text),
                 overnight.ts (what happens while Puff sleeps: Fluff, crops, builds), nudges.ts (the tracker's
-                "try this next"), carry.ts (dragging clutter home);
+                "try this next"), carry.ts (dragging clutter home), sweep.ts (swiping along a row of mess),
+                mess-return.ts (light mess drifting back into restored places overnight);
                 Puff in play: puff.ts (position, facing), targets.ts (what a tap lands on),
                 actions.ts (cleaning, furniture, soil, pickups, doors), onboarding-guide.ts
                 (runs the tips: tools, highlights); gestures.ts (tap, rub, drag); a home coming

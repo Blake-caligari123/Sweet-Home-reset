@@ -13,13 +13,17 @@ export interface PointerHost {
   tap(at: Pt): void;
   /** Back and forth over a spot: scrub it, once per pass. */
   rub(at: Pt, passes: number): void;
+  /** A finger held still: keep scrubbing. */
+  hold(at: Pt, ms: number): void;
+  /** Round and round a spot: suds, once per loop. */
+  circle(at: Pt, passes: number): void;
   drag(from: Pt, to: Pt): void;
   /** The item that can be carried from this world point (clutter), if any. */
   carryable(at: Pt): string | null;
 }
 
 /**
- * Fingers on the world: taps, rubs and drags (play/gestures.ts reads them). While clutter is being
+ * Fingers on the world: taps, holds, rubs, circles and drags (play/gestures.ts reads them). While clutter is being
  * dragged, its icon follows the finger. Tapping alone still does everything.
  */
 export class PointerInput {
@@ -58,6 +62,8 @@ export class PointerInput {
     const world = (p: Pt) => this.host.toWorld(p.x, p.y);
     if (g.kind === 'tap') this.host.tap(world(g));
     else if (g.kind === 'rub') this.host.rub(world(g), g.passes);
+    else if (g.kind === 'hold') this.host.hold(world(g), g.ms);
+    else if (g.kind === 'circle') this.host.circle(world(g), g.passes);
     else this.host.drag(world(g.from), world(g.to));
   }
 

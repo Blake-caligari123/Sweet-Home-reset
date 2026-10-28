@@ -53,6 +53,8 @@ export function installDebugHooks(g: DebugTarget) {
     requests: () => s.requests,
     /** Skip the tips (hands over every tool), for tests of later play. */
     skipTips: () => g.guide.skip(),
+    /** Mark this area restored (for testing what happens after), as if the last mess had gone. */
+    restoreHere: () => { g.mess().restore(); },
     /** Every coming-alive stage of this area at once, for screenshots. */
     showAlive: () => { const st = g.area().pack.alive ?? []; g.world.alive.load(st, st.length); },
     /** Fluff straight to a value, to see the sleepy bar. */

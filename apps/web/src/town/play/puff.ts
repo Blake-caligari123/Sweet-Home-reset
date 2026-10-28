@@ -36,6 +36,24 @@ export class Puff {
 
   hop() { this.pose = 'hop'; this.hopMs = 900; }
 
+  /**
+   * Walk the waypoints for `dt` ms at `speed` world px per ms. `stepped` runs on each new tile under
+   * the feet. True on the frame Puff arrives.
+   */
+  walk(dt: number, speed: number, stepped: () => void) {
+    if (!this.path.length) return false;
+    let budget = dt * speed;
+    while (budget > 0 && this.path.length) {
+      const n = this.path[0]; const dx = n.x - this.fx; const dy = n.y - this.fy; const d = Math.hypot(dx, dy);
+      this.faceAlong(dx, dy);
+      if (d <= budget) { this.fx = n.x; this.fy = n.y; this.path.shift(); budget -= d; } else { this.fx += (dx / d) * budget; this.fy += (dy / d) * budget; budget = 0; }
+      const tx = Math.floor(this.fx / T); const ty = Math.floor(this.fy / T);
+      if (tx !== this.x || ty !== this.y) { this.x = tx; this.y = ty; stepped(); }
+    }
+    this.pose = this.path.length ? 'walk' : 'idle';
+    return !this.path.length;
+  }
+
   /** Turn toward a tile. */
   face(x: number, y: number) { this.faceAlong((x + 0.5) * T - this.fx, (y + 0.5) * T - this.fy); }
 

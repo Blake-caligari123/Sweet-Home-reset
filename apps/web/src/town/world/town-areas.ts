@@ -1,7 +1,9 @@
 import { withBuilds, type PlotState } from '../build/build';
 import { Area, type TownPack } from '../data/area';
 import type { TownSave } from '../data/save';
+import { TUNING } from '../data/tuning';
 import { AreaMess } from '../play/mess';
+import { returningMess } from '../play/mess-return';
 import { navFor, type NavGrid } from './nav';
 
 /**
@@ -44,6 +46,11 @@ export class TownAreas {
       this.areas.set(a.id, new Area(withBuilds(a, defs, plots, buildings)));
       this.navs.delete(a.id);
     }
+  }
+
+  /** Overnight: a little light mess drifts back into the restored places Puff has been. */
+  driftBack(day: number) {
+    for (const [id, m] of this.messes) m.scatter(returningMess(this.areas.get(id)!, m, day, TUNING.messReturn));
   }
 
   /** The mess of every area visited, for the save. */
