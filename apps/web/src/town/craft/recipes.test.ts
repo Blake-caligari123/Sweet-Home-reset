@@ -45,3 +45,25 @@ describe('Hollowfern crafting', () => {
     }
   });
 });
+
+describe('cooking', () => {
+  const soup: RecipeDef = { id: 'veggie_soup', name: 'Veggie soup', station: 'kitchen', makes: { item: 'veggie_soup', qty: 1 }, cost: { items: { radish: 1, carrot: 1 } } };
+  it('turns ingredients into a dish, any number of times, if the bag has room', () => {
+    const s = new TownState(); s.bag.add('radish', 2); s.bag.add('carrot', 2);
+    expect(canCraft(s, soup)).toBe('ok');
+    expect(craft(s, soup)).toBe(true);
+    expect(s.bag.count('veggie_soup')).toBe(1);
+    expect(craft(s, soup)).toBe(true);
+    expect(s.bag.count('veggie_soup')).toBe(2);
+    expect(canCraft(s, soup)).toBe('short');
+  });
+
+  it('has kitchen recipes from what the farm grows, each dish a snack', () => {
+    const kitchen = (pack.recipes ?? []).filter((r) => r.station === 'kitchen');
+    expect(kitchen.length).toBeGreaterThanOrEqual(3);
+    for (const r of kitchen) {
+      expect('item' in r.makes && pack.items[r.makes.item]?.snack, r.id).toBeTruthy();
+      for (const id of Object.keys(r.cost.items ?? {})) expect((pack.crops ?? []).some((c) => c.id === id) || pack.items[id], id).toBeTruthy();
+    }
+  });
+});

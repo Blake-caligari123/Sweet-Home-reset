@@ -149,6 +149,16 @@
   },
   "strawberry_seeds": {
    "name": "Strawberry seeds"
+  },
+  "veggie_soup": {
+   "name": "Veggie soup",
+   "snack": 60,
+   "sell": 60
+  },
+  "pea_fritters": {
+   "name": "Pea fritters",
+   "snack": 45,
+   "sell": 50
   }
  },
  "areas": [
@@ -314,7 +324,14 @@
      "type": "counter",
      "x": 24,
      "y": 5,
-     "colour": "#A9CDA0"
+     "colour": "#A9CDA0",
+     "action": "cook",
+     "tap": [
+      24,
+      3,
+      1,
+      3
+     ]
     },
     {
      "type": "chair",
@@ -3369,7 +3386,8 @@
    "likes": [
     "berries",
     "honey",
-    "radish"
+    "radish",
+    "veggie_soup"
    ],
    "dislikes": [
     "clay",
@@ -3423,7 +3441,8 @@
    "likes": [
     "flowers",
     "string",
-    "radish_seeds"
+    "radish_seeds",
+    "strawberry"
    ],
    "dislikes": [
     "weeds",
@@ -3499,7 +3518,8 @@
     "silk_thread",
     "shell",
     "clay",
-    "tart"
+    "tart",
+    "pea_fritters"
    ],
    "dislikes": [
     "soap"
@@ -3560,7 +3580,8 @@
    "likes": [
     "bread",
     "fibre",
-    "river_stone"
+    "river_stone",
+    "pea_fritters"
    ],
    "dislikes": [
     "cobweb",
@@ -3621,7 +3642,8 @@
    "likes": [
     "tea",
     "old_map",
-    "lint"
+    "lint",
+    "veggie_soup"
    ],
    "dislikes": [
     "flowers",
@@ -3683,7 +3705,8 @@
    "likes": [
     "book",
     "honey",
-    "silk_thread"
+    "silk_thread",
+    "veggie_soup"
    ],
    "dislikes": [
     "mud",
@@ -5024,7 +5047,9 @@
    "crop.carrot.harvest": "A carrot! Long and orange.",
    "crop.peas.harvest": "Peas! Pop, pop, pop.",
    "crop.strawberry.harvest": "A strawberry! More will grow back.",
-   "crop.which": "Which seeds?"
+   "crop.which": "Which seeds?",
+   "cook.none": "Nothing to cook yet. Grow something first!",
+   "cook.made": "Mm! That smells lovely."
   }
  },
  "heartEvents": [
@@ -6873,6 +6898,50 @@
     }
    },
    "learn": "recipe_copper_rake"
+  },
+  {
+   "id": "veggie_soup",
+   "name": "Veggie soup",
+   "station": "kitchen",
+   "makes": {
+    "item": "veggie_soup",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "radish": 1,
+     "carrot": 1
+    }
+   }
+  },
+  {
+   "id": "pea_fritters",
+   "name": "Pea fritters",
+   "station": "kitchen",
+   "makes": {
+    "item": "pea_fritters",
+    "qty": 2
+   },
+   "cost": {
+    "items": {
+     "peas": 2
+    }
+   }
+  },
+  {
+   "id": "berry_tart",
+   "name": "Berry tart",
+   "station": "kitchen",
+   "makes": {
+    "item": "tart",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "strawberry": 2
+    }
+   },
+   "learn": "he_hazel_02_done"
   }
  ],
  "crops": [

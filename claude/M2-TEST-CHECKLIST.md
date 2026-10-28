@@ -136,6 +136,11 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Each crop looks different when ready. Picking it gives its own line. Strawberries grow back (ready again 3 days later).
 - [ ] The General Store buys radishes, carrots, peas and strawberries.
 
+## 11i. Phase 2c: cooking
+- [ ] In the burrow, tap the counter to the right of the sink to open the kitchen.
+- [ ] Veggie soup (radish + carrot) and pea fritters (2 peas make 2) are there from the start. The Berry tart (2 strawberries) appears after Hazel's 2-heart scene.
+- [ ] Cooking: "Mm! That smells lovely." and the dish goes in the bag. Eat it for lots of Fluff, sell it, or gift it (Hazel, Moss and Mabel like soup; Otto and Pip like fritters).
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

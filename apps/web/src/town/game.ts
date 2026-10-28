@@ -144,7 +144,7 @@ export class TownGame {
       travel: (to, x, y) => void this.travel(to, x, y),
       sleep: () => void this.endDay(false),
       openBuild: () => this.openBuild(),
-      openWorkbench: () => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false) }),
+      openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false) }, station),
       openShop: (shop) => this.openShop(shop),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)

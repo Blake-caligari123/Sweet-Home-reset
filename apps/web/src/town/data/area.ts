@@ -147,7 +147,9 @@ export function validateTownPack(input: unknown): TownPack {
     for (const b of pl.allow ?? []) if (!built.has(b)) throw new Error(`plot ${pl.id}: unknown building ${b}`);
   }
   for (const r of p.recipes ?? []) {
-    if (!r.id || !r.name || !r.makes?.tool || !isNum(r.makes.tier)) throw new Error(`recipe ${r.id}: shape`);
+    const makes = r.makes ?? {};
+    const ok = 'tool' in makes ? isNum(makes.tier) : 'item' in makes && !!p.items[makes.item] && isNum(makes.qty);
+    if (!r.id || !r.name || !ok) throw new Error(`recipe ${r.id}: shape`);
     for (const id of Object.keys(r.cost?.items ?? {})) if (!p.items[id]) throw new Error(`recipe ${r.id}: unknown item ${id}`);
   }
   for (const c of p.crops ?? []) if (!p.items[c.id] || !p.items[c.seed]) throw new Error(`crop ${c.id}: unknown item`);

@@ -71,6 +71,10 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 - "Which seeds?" (then each seed name, and "Not now")
 - Harvest: "A radish! Crunchy." · "A carrot! Long and orange." · "Peas! Pop, pop, pop." · "A strawberry! More will grow back."
 
+## New in Phase 2c (overnight): cooking
+- Kitchen note: "Cook what you grow. Dishes are hearty snacks and lovely gifts."
+- With no recipe: "Nothing to cook yet. Grow something first!" · Cooked: "Mm! That smells lovely."
+
 ## Hazel
 
 **First hello**
