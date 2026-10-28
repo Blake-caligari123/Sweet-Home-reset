@@ -56,6 +56,8 @@ Prompt (no reference image needed; attach the code placeholder screenshot if Gro
 
 Process: `... process_asset.py grumble_dust --sheet 4 --rows grumble_dust_grumpy,grumble_dust_bright --hires 6 --frame 16x15 --log`
 
+**Landed 28 Oct 2026** (`art/sprites/raw/grumble_dust.jpg`). Grok gave the grey row four moods instead of one idle loop, so they're used as the Grumble cheering up while it's tidied: droopy (frame 1), then wide-eyed (4), then winking (2), then the bright row. Frame 3 (happy grey) isn't used. The bob is in code (`grumbles.ts` `faceFor`). For the cobweb, mud and soot families, ask for the same four-mood row on purpose.
+
 ## Prompt template (Grok Imagine)
 Swap in the sheet line from the table above. Attach Puff's model sheet as the reference image so Puff stays on-model.
 

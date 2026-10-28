@@ -18,6 +18,8 @@ export interface GrumbleHost {
   arrived(key: string): boolean;
   area(): string;
   puff(): Pt;
+  /** The Grumble Puff is heading for or tidying right now, if any. */
+  targeted(): string | null;
   refreshHud(): void;
   save(): void;
 }
@@ -69,19 +71,23 @@ export class GrumbleLife {
     return g ? { kind: 'grumble', id: g.id, x: Math.floor(g.fx / T), y: Math.floor(g.fy / T) } : null;
   }
 
-  /** Each frame: amble (unless the game's held), then draw. */
+  /**
+   * Each frame: amble (unless the game's held), then draw. The one Puff is heading for or tidying
+   * holds still, and once tidied a little a Grumble has warmed to Puff and stops shuffling off.
+   */
   tick(dt: number, held: boolean) {
     const here = this.here();
     if (!held) {
       const nav = this.host.places.nav(this.host.area());
       const speed = (TUNING.grumbles.driftTilesPerSecond * T) / 1000;
       const pick = (from: Pt) => { const p = { x: from.x + (Math.random() - 0.5) * 3 * T, y: from.y + (Math.random() - 0.5) * 3 * T }; return nav.openAt(p.x, p.y) ? p : null; };
-      for (const g of here) {
+      const busy = this.host.targeted();
+      for (const g of here.filter((x) => x.id !== busy && (x.hits === 0 || x.state === 'helper'))) {
         let d = this.drifts.get(g.id); if (!d) { d = { to: null, waitMs: Math.random() * 2000 }; this.drifts.set(g.id, d); }
         drift(g, d, dt, { speed, clear: (a, b) => nav.clear(a, b), pick, puff: this.host.puff(), rng: Math.random });
       }
     }
-    this.host.layer.draw(here.map((g) => ({ id: g.id, x: g.fx, y: g.fy + FEET_TO_BASE, helper: g.state === 'helper', pips: g.hits, of: this.familyOf(g)?.hits ?? 1 })), dt);
+    this.host.layer.draw(here.map((g) => ({ id: g.id, family: g.family, x: g.fx, y: g.fy + FEET_TO_BASE, helper: g.state === 'helper', pips: g.hits, of: this.familyOf(g)?.hits ?? 1 })), dt);
   }
 
   /** A tidy lands on a Grumble: the pip ring fills; full, it brightens into a helper. */

@@ -47,6 +47,14 @@ export function newDay(g: GrumbleState, o: DayOptions): GrumbleState {
   return { day: o.day, list };
 }
 
+/** The grumpy sheet's frames in the order a Grumble cheers up: droopy, wide-eyed, winking. */
+const CHEERING = [0, 3, 1];
+
+/** Which grumpy face to show after `hits` of the `of` tidies it needs. */
+export function faceFor(hits: number, of: number) {
+  return CHEERING[Math.min(CHEERING.length - 1, Math.floor((hits / of) * CHEERING.length))];
+}
+
 /** One tidy: `friend` when it brightens into a helper, `done` if it already has. */
 export function tidyOne(g: Grumble, f: FamilyDef): 'more' | 'friend' | 'done' {
   if (g.state === 'helper') return 'done';

@@ -118,7 +118,8 @@ export class TownGame {
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
     this.grumbles = new GrumbleLife({
       state: this.state, view: this.view, content: this.content, world: this.world, places: this.places, layer: this.grumbleLayer,
-      arrived: (k) => this.arrived(k), area: () => this.areaId, puff: () => this.puff.feet, refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+      arrived: (k) => this.arrived(k), area: () => this.areaId, puff: () => this.puff.feet,
+      targeted: () => { const t = this.puff.swing ?? this.puff.action; return t?.kind === 'grumble' ? t.id : null; }, refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.actions = new PuffActions({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
@@ -160,7 +161,7 @@ export class TownGame {
   }
 
   /** Character sprite sheets loaded after start; Puff stays code-drawn until they arrive. */
-  setSprites(bank: SpriteBank) { setIconBank(bank); this.world.setSprites(bank); this.hud.refreshIcons(); }
+  setSprites(bank: SpriteBank) { setIconBank(bank); this.world.setSprites(bank); this.grumbleLayer.setSprites(bank); this.hud.refreshIcons(); }
 
   // ---- areas -------------------------------------------------------------------------------
 

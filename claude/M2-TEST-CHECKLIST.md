@@ -101,7 +101,7 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Before day 3: no Grumbles anywhere.
 - [ ] Day 3: the tracker says something grey is grumbling on Neighbour Lane. Walk in and Puff says "You look like me!"
 - [ ] There are 1–3 Grumbles each on the Lane, in Pip's workshop and in Moss's library. They amble slowly and shuffle away if Puff gets close.
-- [ ] Tap one: Puff dusts it (1 Fluff) and a pip fills. Three goes and it turns butter-yellow, with "Friend made! ✨". Tapping it again says "Pff! Ooh!"
+- [ ] Tap one: Puff dusts it from beside it (1 Fluff) and a pip fills. Its face cheers up with each go: droopy, then wide-eyed, then winking. It holds still while you tidy it. Three goes and it turns butter-yellow, with "Friend made! ✨". Tapping it again says "Pff! Ooh!"
 - [ ] Sleep: untidied ones are gone and new ones arrive. Your helpers stay. Nothing is lost.
 - [ ] Reload mid-tidy: the pips, positions and helpers are all kept.
 - [ ] Dragging the sock to its basket still works.

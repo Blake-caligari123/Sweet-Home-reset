@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
-import { newDay, tidyOne, type FamilyDef, type GrumbleState } from './grumbles';
+import { faceFor, newDay, tidyOne, type FamilyDef, type GrumbleState } from './grumbles';
 
 const dust: FamilyDef = { id: 'dust', tool: 'duster', hits: 3, areas: ['lane', 'library'], unlock: 'grumble_dust' };
 const spot = (area: string, k: number) => ({ x: 40 + k * 16, y: 60 });
@@ -31,6 +31,11 @@ describe('grumbles', () => {
     expect(one.state).toBe('helper');
     expect(tidyOne(one, dust)).toBe('done');
     expect(one.hits).toBe(3);
+  });
+
+  it('cheers up as it is tidied: droopy, then wide-eyed, then winking (Blake\'s grumpy sheet frames 1, 4, 2)', () => {
+    expect([0, 1, 2].map((p) => faceFor(p, 3))).toEqual([0, 3, 1]);
+    expect([0, 1, 2, 3, 4].map((p) => faceFor(p, 5))).toEqual([0, 0, 3, 3, 1]);
   });
 
   it('lets the untidied drift away overnight, with nothing lost, and keeps helpers (up to the cap)', () => {
