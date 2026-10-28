@@ -86,6 +86,7 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
       const c = item === 'carrot_seeds' || item === 'tomato_seeds' ? P.peachShade : item === 'pea_seeds' ? P.sage : item === 'corn_seeds' ? P.butter : P.peach;
       pc.ellipseBox(ox + 7, oy + 6, 2, 2, c, P.outline); pc.vline(ox + 7, oy + 2, 2, P.sage); break;
     }
+    case 'apple': pc.ellipseBox(ox + 7, oy + 8, 4, 4, P.peachShade, P.outline); pc.set(ox + 5, oy + 6, P.peachLight); pc.vline(ox + 7, oy + 2, 2, P.brownShade); pc.ellipse(ox + 9, oy + 3, 2, 1, P.sage); break;
     case 'tomato': pc.ellipseBox(ox + 7, oy + 8, 4, 4, P.peachShade, P.outline); pc.set(ox + 5, oy + 6, P.peachLight); pc.hline(ox + 6, oy + 3, 3, P.sageShade); pc.set(ox + 7, oy + 2, P.sageShade); break;
     case 'corn': pc.ellipseBox(ox + 7, oy + 7, 2, 5, P.butter, P.outline); for (let y = 4; y < 11; y += 2) pc.set(ox + 7, oy + y, P.butterShade); pc.line(ox + 5, oy + 12, ox + 3, oy + 6, P.sage); pc.line(ox + 9, oy + 12, ox + 11, oy + 6, P.sage); break;
     case 'pumpkin': pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.peach, P.outline); pc.vline(ox + 5, oy + 5, 6, P.peachShade); pc.vline(ox + 9, oy + 5, 6, P.peachShade); pc.rect(ox + 7, oy + 2, 1, 2, P.sageShade); break;

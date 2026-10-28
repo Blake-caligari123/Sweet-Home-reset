@@ -121,6 +121,15 @@ describe('Hollowfern plots', () => {
     expect(pack.areas.some((a) => a.id === 'far_bank')).toBe(true);
   });
 
+  it('clears the overgrown path off the Far Bank in summer (day 26), opening the Woodland Edge and its orchard', () => {
+    const p = plots.find((x) => x.id === 'plot_overgrown_path')!;
+    expect([p.area, p.unlock]).toEqual(['far_bank', 'overgrown_path']);
+    const b = buildings.find((d) => d.id === 'woodland_path')!;
+    expect(b.doors?.every((d) => d.to === 'woodland')).toBe(true);
+    const woods = pack.areas.find((a) => a.id === 'woodland')!;
+    expect((woods.pickups ?? []).filter((k) => k.item === 'apple').length).toBeGreaterThanOrEqual(3);
+  });
+
   it('mends the sea steps in winter (day 43), opening the Beach where Mabel lives', () => {
     const p = plots.find((x) => x.id === 'plot_sea_steps')!;
     expect(p.unlock).toBe('sea_steps');

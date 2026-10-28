@@ -24,6 +24,7 @@ describe('nudges', () => {
     s.plots.plot_footbridge = { buildingId: 'footbridge', stage: 0, startedDay: 12, readyDay: 14 };
     expect(nudge(s, open(['building', 'grumble_dust', 'pet', 'invite_sorrel', 'footbridge']))).toBeNull();
     expect(nudge(s, open(['sea_steps']))).toBe('repair.sea_steps.hint');
+    expect(nudge(s, open(['overgrown_path']))).toBe('repair.overgrown_path.hint');
     expect(nudge(s, open(['grumble_dust', 'grumble_cobweb']))).toBe('grumble.cobweb.hint');
     s.flag('grumble_friend_cobweb');
     expect(nudge(s, open(['grumble_dust', 'grumble_cobweb']))).toBeNull();

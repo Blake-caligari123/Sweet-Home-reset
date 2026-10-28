@@ -10,7 +10,7 @@ export function propShadow(pc: PixelCanvas, p: PropDef) {
   const x = p.x * T; const y = p.y * T; const w = (p.w ?? 1) * T; const h = (p.h ?? 1) * T;
   const strip = (k: number[]) => k.forEach((m, i) => { for (let dx = 0; dx < w; dx += 1) pc.mul(x + dx, y + h + i, m); });
   switch (p.type) {
-    case 'tree': pc.shadowEllipse(x + w / 2 + 3, y + h - 3, w / 2 + 3, 5, 0.7); break;
+    case 'tree': case 'fruit_tree': pc.shadowEllipse(x + w / 2 + 3, y + h - 3, w / 2 + 3, 5, 0.7); break;
     case 'burrow': pc.shadowEllipse(x + w / 2 + 4, y + h - 4, w / 2 + 1, 6, 0.74); break;
     case 'fountain': pc.shadowEllipse(x + w / 2 + 2, y + h / 2 + 4, w / 2, h / 2 - 2, 0.78); break;
     case 'bush': pc.shadowEllipse(x + 9, y + 14, 7, 2, 0.72); break;
@@ -181,12 +181,13 @@ export function drawProp(pc: PixelCanvas, p: PropDef) {
       pc.ellipse(x + 6, y + 1, 2, 1, P.sage); pc.ellipse(x + 10, y + 1, 2, 1, P.peach);
       break;
     // ---- outdoor ----
-    case 'tree':
+    case 'tree': case 'fruit_tree':
       cutout(pc, x - 5, y - 14, w + 10, h + 14, (k) => {
         const cx = (w + 10) / 2;
         k.rect(cx - 3, h - 4, 6, 16, P.brown); k.vline(cx + 2, h - 4, 15, P.brownShade); k.vline(cx - 2, h - 2, 12, P.brownLight);
         k.rect(cx - 5, h + 10, 3, 2, P.brown); k.rect(cx + 3, h + 10, 3, 2, P.brownShade);
         foliage(k, [[cx, 14, 13, 10], [cx - 9, 20, 8, 7], [cx + 9, 20, 8, 7], [cx, 24, 11, 6], [cx - 6, 8, 7, 6], [cx + 6, 8, 7, 6]], x * 7 + y, P.peachLight);
+        if (p.type === 'fruit_tree') for (const [ax, ay] of [[-7, 18], [5, 12], [8, 22], [-2, 25], [-9, 10], [1, 6]]) { k.ellipse(cx + ax, ay, 1, 1, P.peachShade); k.set(cx + ax, ay - 1, P.peach); }
       });
       break;
     case 'bush':

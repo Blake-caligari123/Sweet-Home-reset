@@ -4,7 +4,7 @@ import type { TownState } from '../state';
 const LATER_GRUMBLES = ['cobweb', 'mud', 'soot'];
 
 /** Repairs as they come due: [unlock key, plot, tracker hint]. */
-const REPAIRS = [['footbridge', 'plot_footbridge', 'repair.hint'], ['sea_steps', 'plot_sea_steps', 'repair.sea_steps.hint']];
+const REPAIRS = [['footbridge', 'plot_footbridge', 'repair.hint'], ['overgrown_path', 'plot_overgrown_path', 'repair.overgrown_path.hint'], ['sea_steps', 'plot_sea_steps', 'repair.sea_steps.hint']];
 
 /**
  * When there's no tip or job to show, the tracker points to the newest thing to try (VISION §8: a

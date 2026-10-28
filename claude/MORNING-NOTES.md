@@ -71,6 +71,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **4d (#61):** the Summer Picnic (day 28, crumbs, a sun hat) and the Autumn Leaf Fest (day 42, leaf piles, an acorn cap). Checklist §12d.
 - **4e (#62):** Winter Lights on day 56. Light eight lanterns round the square, and the Glimmerwell shines to close year one's chapter. Spring carries on after. Checklist §12e.
 - **4f (#63):** the sea steps (day 43) open the Beach, with Mabel's lighthouse. Checklist §12f.
+- **4g (#64):** the overgrown path (day 26) opens the Woodland Edge and its orchard, with apples every morning. Checklist §12g.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
@@ -86,6 +87,5 @@ You said to carry on without asking. I've merged each slice to the test link onc
 ## Next, unless you say otherwise
 Phase 4 (seasons and sharing):
 - the timed tidy mini-game any day (a fun score)
-- the Woodland/Orchard repair
 - caves floors 3 and 4
 - Sorrel's heart scenes

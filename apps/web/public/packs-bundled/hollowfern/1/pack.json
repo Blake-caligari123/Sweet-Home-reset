@@ -225,6 +225,11 @@
   },
   "pumpkin_seeds": {
    "name": "Pumpkin seeds"
+  },
+  "apple": {
+   "name": "Apple",
+   "snack": 25,
+   "sell": 20
   }
  },
  "areas": [
@@ -3635,7 +3640,7 @@
     "hgggggggggggfgggggggppgggggggh",
     "hgggggggggggggggggggppgggggfgh",
     "hgggggggggggggggggggppgggggggh",
-    "hggppppppppppppppppppppppppggh",
+    "hggppppppppppppppppppppppppggp",
     "hggggggggggggggggggggggggggggh",
     "hgggwwwwwwgggggggggggggggggggh",
     "hgggwwwwwwgfgggggggggggggggfgh",
@@ -3695,6 +3700,14 @@
      "type": "sign",
      "x": 22,
      "y": 2
+    },
+    {
+     "type": "brambles",
+     "x": 27,
+     "y": 8,
+     "w": 2,
+     "h": 1,
+     "action": "repair"
     }
    ],
    "doors": [
@@ -3711,6 +3724,14 @@
      "to": "riverside",
      "toX": 21,
      "toY": 14
+    },
+    {
+     "x": 29,
+     "y": 8,
+     "to": "woodland",
+     "toX": 1,
+     "toY": 8,
+     "closedText": "Brambles block the way east. Maybe in summer."
     }
    ],
    "mess": [
@@ -4169,6 +4190,281 @@
        "type": "bird",
        "x": 6,
        "y": 4.2
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "woodland",
+   "name": "Woodland Edge",
+   "kind": "outdoor",
+   "drained": true,
+   "edge": "#79B176",
+   "theme": {
+    "wall": "#F7D2BF",
+    "wallAccent": "#F4C2A8",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#A9CDA0",
+    "rugShade": "#79B176"
+   },
+   "legend": {
+    "h": "hedge",
+    "g": "grass",
+    "p": "path",
+    "f": "flowers",
+    "~": "water",
+    "j": "wood"
+   },
+   "map": [
+    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+    "hgggggggg~gggggggggggggggggggh",
+    "hgggggggg~gggggpgggggggggggggh",
+    "hggfggggg~gggggpggggfggggggggh",
+    "hgggggggg~ggfggpgggggggggggggh",
+    "hgggggggg~gggggpgggggggggggggh",
+    "hgggggggg~gggggpggggggggggfggh",
+    "hgggggggg~gggggpgggggggggggggh",
+    "pppppppppjppppppgggggggggggggh",
+    "hgggggggg~gggggpgggggggggggggh",
+    "hgggggggg~gggggpgggggggggggggh",
+    "hgggggggg~gggggppppppppppppggh",
+    "hggggfggg~gggggpgggggggggggggh",
+    "hgggggggg~gggggpgggggggggggggh",
+    "hgggggggg~gggggpggggggggfggggh",
+    "hggggggfg~gggggggggggggggggggh",
+    "hgggggggg~gggggggggggggggggggh",
+    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+   ],
+   "props": [
+    {
+     "type": "tree",
+     "x": 2,
+     "y": 1,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 5,
+     "y": 4,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 2,
+     "y": 13,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 6,
+     "y": 10,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 11,
+     "y": 14,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "fruit_tree",
+     "x": 18,
+     "y": 4,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "fruit_tree",
+     "x": 22,
+     "y": 4,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "fruit_tree",
+     "x": 18,
+     "y": 13,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "fruit_tree",
+     "x": 22,
+     "y": 13,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "fruit_tree",
+     "x": 26,
+     "y": 9,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "sign",
+     "x": 14,
+     "y": 7
+    },
+    {
+     "type": "bench",
+     "x": 20,
+     "y": 9,
+     "w": 2
+    }
+   ],
+   "signs": [
+    {
+     "x": 14,
+     "y": 7,
+     "text": "Woodland Edge. The orchard trees are waking up."
+    }
+   ],
+   "doors": [
+    {
+     "x": 0,
+     "y": 8,
+     "to": "far_bank",
+     "toX": 28,
+     "toY": 8
+    }
+   ],
+   "mess": [
+    {
+     "type": "weeds",
+     "rect": [
+      1,
+      1,
+      28,
+      16
+     ],
+     "density": 0.07,
+     "seed": 151
+    },
+    {
+     "type": "leaves",
+     "rect": [
+      10,
+      1,
+      18,
+      16
+     ],
+     "density": 0.06,
+     "seed": 153
+    }
+   ],
+   "pickups": [
+    {
+     "id": "wood_apple_1",
+     "x": 19,
+     "y": 6,
+     "item": "apple"
+    },
+    {
+     "id": "wood_apple_2",
+     "x": 23,
+     "y": 6,
+     "item": "apple"
+    },
+    {
+     "id": "wood_apple_3",
+     "x": 19,
+     "y": 12,
+     "item": "apple"
+    },
+    {
+     "id": "wood_apple_4",
+     "x": 23,
+     "y": 12,
+     "item": "apple"
+    },
+    {
+     "id": "wood_mushroom_1",
+     "x": 4,
+     "y": 6,
+     "item": "mushroom"
+    },
+    {
+     "id": "wood_mushroom_2",
+     "x": 12,
+     "y": 12,
+     "item": "mushroom"
+    },
+    {
+     "id": "wood_twig_1",
+     "x": 7,
+     "y": 2,
+     "item": "twig"
+    },
+    {
+     "id": "wood_twig_2",
+     "x": 13,
+     "y": 3,
+     "item": "twig"
+    }
+   ],
+   "spawn": {
+    "x": 2,
+    "y": 8
+   },
+   "alive": [
+    {
+     "at": 0.34,
+     "say": "alive.woodland.birds",
+     "effects": [
+      {
+       "type": "bird",
+       "x": 6,
+       "y": 4.2
+      }
+     ]
+    },
+    {
+     "at": 0.67,
+     "say": "alive.woodland.flowers",
+     "effects": [
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 16,
+       "y": 6.5
+      },
+      {
+       "type": "decor",
+       "item": "flowers",
+       "x": 13,
+       "y": 10.5
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.woodland.home",
+     "effects": [
+      {
+       "type": "bird",
+       "x": 19,
+       "y": 4.2
+      },
+      {
+       "type": "bird",
+       "x": 23,
+       "y": 13.2
       },
       {
        "type": "music",
@@ -6630,7 +6926,12 @@
    "repair.sea_steps.hint": "The sea steps could be mended. See the Keeper's plans.",
    "alive.beach.lamp": "The lighthouse is lit! Hello, sea!",
    "alive.beach.flowers": "Sea pinks in the dunes. So bright!",
-   "alive.beach.home": "Gulls on the sand. The beach is awake!"
+   "alive.beach.home": "Gulls on the sand. The beach is awake!",
+   "repair.wait.plot_overgrown_path": "Brambles everywhere. Maybe in summer, when they're softer.",
+   "repair.overgrown_path.hint": "The overgrown path could be cleared. See the Keeper's plans.",
+   "alive.woodland.birds": "Birdsong in the woods! Hello up there!",
+   "alive.woodland.flowers": "Wildflowers along the path. So many!",
+   "alive.woodland.home": "Apples on every branch. The orchard is awake!"
   }
  },
  "heartEvents": [
@@ -8414,7 +8715,8 @@
     "strawberry",
     "tomato",
     "corn",
-    "pumpkin"
+    "pumpkin",
+    "apple"
    ]
   },
   {
@@ -8582,6 +8884,19 @@
     "sea_steps"
    ],
    "unlock": "sea_steps"
+  },
+  {
+   "id": "plot_overgrown_path",
+   "name": "The overgrown path",
+   "area": "far_bank",
+   "x": 27,
+   "y": 8,
+   "w": 2,
+   "h": 1,
+   "allow": [
+    "woodland_path"
+   ],
+   "unlock": "overgrown_path"
   }
  ],
  "buildings": [
@@ -8748,6 +9063,32 @@
      "to": "beach",
      "toX": 1,
      "toY": 7
+    }
+   ]
+  },
+  {
+   "id": "woodland_path",
+   "name": "Woodland path",
+   "nights": 2,
+   "cost": {
+    "sparkles": 250,
+    "items": {
+     "twig": 8,
+     "ore_copper": 3
+    }
+   },
+   "prop": {
+    "type": "stepping_stones",
+    "walkable": true
+   },
+   "paves": "p",
+   "doors": [
+    {
+     "x": 29,
+     "y": 8,
+     "to": "woodland",
+     "toX": 1,
+     "toY": 8
     }
    ]
   }

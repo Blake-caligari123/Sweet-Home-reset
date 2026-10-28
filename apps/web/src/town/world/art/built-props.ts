@@ -54,6 +54,13 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       pc.hline(x, y + 2, w, P.outline); pc.hline(x, y - 5, w, P.outline);
       pc.ellipse(x + w / 2, y + 11, 2, 2, P.blue); pc.set(x + w / 2, y + 11, P.white);
       break;
+    case 'brambles': // a thorny tangle across the path
+      for (let i = 0; i < 9; i += 1) { const bx = x + 2 + ((i * 7) % (w - 4)); pc.line(bx, y + 14, bx + 4 - (i % 3) * 3, y + 2, P.brownShade); pc.ellipse(bx + 1, y + 6 + (i % 3) * 2, 2, 1, P.sageShade); }
+      for (const [bx, by] of [[x + 6, y + 5], [x + 20, y + 9], [x + 13, y + 3]]) pc.set(bx, by, P.peachShade);
+      break;
+    case 'stepping_stones': // the path cleared: flat stones set in the earth
+      for (const [sx, sy] of [[3, 5], [12, 9], [20, 4], [27, 10]]) if (sx < w) { pc.ellipseBox(x + sx, y + sy, 3, 2, P.greyLight, P.outline); pc.set(x + sx - 1, y + sy - 1, P.white); }
+      break;
     case 'steps_broken': // stone steps lost under brambles
       for (let i = 0; i < 3; i += 1) pc.box(x + 2 + i * 4, y + 3 + i * 3, w - 4 - i * 8, 4, P.greyLight, P.outline);
       for (const [bx, by] of [[x + 4, y + 4], [x + 14, y + 6], [x + 22, y + 3], [x + 9, y + 10]]) { pc.ellipse(bx, by, 3, 2, P.sageShade); pc.set(bx + 1, by - 1, P.peachShade); }
