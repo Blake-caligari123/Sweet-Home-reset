@@ -277,6 +277,14 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] The General Store buys ore, shards, gems, soup and fritters.
 - [ ] Every item has its own icon, including bread, berries, honey, the mushroom and the old map (some were plain squares).
 
+## 12i. Phase 4i: Sorrel's heart scenes
+- [ ] At 2, 4, 6, 8 and 10 hearts with Sorrel, talking plays her scenes in order:
+  - 2: planting her acorn by the door
+  - 4: missing the hills and her sister Bramble
+  - 6: becoming a helper
+  - 8: the acorn's first leaves
+  - 10: home is where friends are, plus an acorn charm and +100 ✨
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.
