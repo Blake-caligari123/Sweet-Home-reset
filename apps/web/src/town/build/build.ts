@@ -11,7 +11,9 @@ export interface PlotDef { id: string; name: string; area: string; x: number; y:
 /** Something the town can build. `prop`: how it stands on its plot once finished. */
 export interface BuildingDef { id: string; name: string; nights: number; cost: { sparkles: number }; prop: { type: string; w?: number; h?: number };
   /** The Town Bloom level it needs (VISION §5: Bloom unlocks building types). */
-  bloom?: number }
+  bloom?: number;
+  /** What finished building this upgrades (a bench into a cosy bench). */
+  upgradeOf?: string }
 
 /** A plot with something on it. Stages: 0 scaffold, 1 frame, 2 done. */
 export interface PlotState { buildingId: string; stage: number; startedDay: number; readyDay: number }
@@ -32,6 +34,21 @@ export function canBuild(s: Builder, plot: PlotDef, b: BuildingDef): 'ok' | 'tak
 /** Start a build on `day`, paying for it; all or nothing. */
 export function startBuild(s: Builder, plot: PlotDef, b: BuildingDef, day: number) {
   if (canBuild(s, plot, b) !== 'ok') return false;
+  s.sparkles -= b.cost.sparkles;
+  s.plots[plot.id] = { buildingId: b.id, stage: 0, startedDay: day, readyDay: day + b.nights };
+  return true;
+}
+
+/** Whether a finished building on this plot can be upgraded: `not_yet` (nothing finished to upgrade), `short`. */
+export function canUpgrade(s: Builder, plot: PlotDef, b: BuildingDef): 'ok' | 'not_yet' | 'short' {
+  const now = s.plots[plot.id];
+  if (!now || now.stage < DONE || now.buildingId !== b.upgradeOf) return 'not_yet';
+  return s.sparkles < b.cost.sparkles ? 'short' : 'ok';
+}
+
+/** Start the upgrade on `day`, paying for it; the town builds it overnight like anything else. */
+export function upgrade(s: Builder, plot: PlotDef, b: BuildingDef, day: number) {
+  if (canUpgrade(s, plot, b) !== 'ok') return false;
   s.sparkles -= b.cost.sparkles;
   s.plots[plot.id] = { buildingId: b.id, stage: 0, startedDay: day, readyDay: day + b.nights };
   return true;

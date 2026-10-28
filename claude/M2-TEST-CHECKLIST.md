@@ -161,6 +161,10 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Tap a placed pot, fence or lantern: "Pick up the …?" and it goes back to the bag.
 - [ ] Indoors: "Decor goes outside…". Everything stays after a reload.
 
+## 11m. Phase 2g: upgrades
+- [ ] Once something on a plot is finished, its card in the Keeper's plans offers "Upgrade: …": bench → cosy bench, flower bed → big flower bed, lamppost → twin lamp (needs Town Bloom 3).
+- [ ] The upgrade builds overnight (scaffold first) and is there in the morning.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

@@ -231,6 +231,23 @@ export function drawProp(pc: PixelCanvas, p: PropDef) {
       for (const px of [x + 1, x + w - 3]) pc.rect(px, y - 4, 2, h + 3, P.brown);
       pc.box(x, y - 5, w, 3, P.brownLight, P.outline); pc.hline(x + 2, y + h - 3, w - 4, P.brownShade);
       break;
+    case 'bench_cosy':
+      pc.rect(x + 3, y + 10, 2, 5, P.outline); pc.rect(x + w - 5, y + 10, 2, 5, P.outline);
+      pc.box(x, y + 1, w, 4, P.brownLight, P.outline); pc.box(x, y + 6, w, 5, P.brownLight, P.outline);
+      pc.box(x + 3, y + 3, 9, 5, P.peach, P.outline, 2); pc.box(x + w - 12, y + 3, 9, 5, P.blueLight, P.outline, 2);
+      pc.hline(x + 1, y + 9, w - 2, P.brown);
+      break;
+    case 'flower_bed_big': {
+      pc.box(x, y + 4, w, 11, P.brownShade, P.outline, 1);
+      const blooms = [P.peach, P.butter, P.blueLight, P.peachLight, P.white];
+      for (let i = 2; i < w - 2; i += 2) for (const dy of [2, 6]) { pc.vline(x + i, y + dy + 3, 3, P.sageShade); pc.set(x + i, y + dy + 2, blooms[(i + dy) % blooms.length]); }
+      break;
+    }
+    case 'lamppost_twin':
+      pc.box(x + 5, y + 12, 7, 3, P.ink, P.outline); pc.rect(x + 7, y - 2, 3, 15, P.ink);
+      pc.hline(x + 1, y - 2, 15, P.ink);
+      for (const lx of [x, x + 11]) { pc.box(lx, y - 9, 6, 7, P.butterLight, P.ink, 1); pc.rect(lx + 2, y - 7, 2, 3, P.white); }
+      break;
     case 'flower_pot':
       pc.box(x + 4, y + 8, 8, 7, P.peachShade, P.outline, 1); pc.hline(x + 4, y + 9, 8, P.peach);
       pc.ellipse(x + 8, y + 6, 4, 3, P.sage); pc.ellipse(x + 7, y + 5, 2, 2, P.sageLight);

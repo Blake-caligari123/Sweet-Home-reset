@@ -3,7 +3,7 @@ import type { Content } from '../data/content';
 import type { Clock } from '../play/clock';
 import type { TownState } from '../state';
 import type { View } from '../ui/view';
-import { canBuild, DONE, startBuild, type PlotDef } from './build';
+import { canBuild, canUpgrade, DONE, startBuild, upgrade, type BuildingDef, type PlotDef } from './build';
 
 export interface BuildHost {
   state: TownState; view: View; content: Content; clock: Clock;
@@ -23,24 +23,32 @@ export function openBuildBoard(host: BuildHost) {
   const list = h('div', { class: 'board' }, ...plots.map((plot) => {
     const built = state.plots[plot.id];
     const b = built && content.pack.buildings?.find((d) => d.id === built.buildingId);
-    if (b) return h('div', { class: 'note' }, h('p', { class: 'friend-name' }, plot.name),
-      h('p', { class: 'muted' }, built.stage >= DONE ? `${b.name} ✓` : `${b.name} · being built, finished by morning`));
-    const options = plot.allow.map((id) => content.pack.buildings!.find((d) => d.id === id)!).map((def) => {
+    if (b) {
+      const ups = built.stage >= DONE ? (content.pack.buildings ?? []).filter((d) => d.upgradeOf === b.id) : [];
+      return h('div', { class: 'note' }, h('p', { class: 'friend-name' }, plot.name),
+        h('p', { class: 'muted' }, built.stage >= DONE ? `${b.name} ✓` : `${b.name} · being built, finished by morning`),
+        ...(ups.length ? [h('div', { class: 'btn-row' }, ...ups.map((u) => offer(u, true)))] : []));
+    }
+    return h('div', { class: 'note' }, h('p', { class: 'friend-name' }, plot.name),
+      h('p', { class: 'muted' }, 'Finishes overnight'), h('div', { class: 'btn-row' }, ...plot.allow.map((id) => offer(content.pack.buildings!.find((d) => d.id === id)!, false))));
+
+    /** A Build (or Upgrade) button: greyed until Puff can afford it and the town has bloomed enough. */
+    function offer(def: BuildingDef, isUpgrade: boolean) {
       const waits = (def.bloom ?? 1) > state.bloom;
-      const btn = h('button', { class: 'btn small', type: 'button' }, waits ? `${def.name} · Town Bloom ${def.bloom}` : `${def.name} · ${def.cost.sparkles} ✨`);
-      if (waits || canBuild(state, plot, def) === 'short') btn.setAttribute('disabled', '');
+      const label = waits ? `${def.name} · Town Bloom ${def.bloom}` : `${isUpgrade ? 'Upgrade: ' : ''}${def.name} · ${def.cost.sparkles} ✨`;
+      const btn = h('button', { class: 'btn small', type: 'button' }, label);
+      if (waits || (isUpgrade ? canUpgrade(state, plot, def) : canBuild(state, plot, def)) !== 'ok') btn.setAttribute('disabled', '');
       btn.addEventListener('click', () => {
         view.uiTap();
-        if (!startBuild(state, plot, def, host.clock.state.day)) return;
+        const day = host.clock.state.day;
+        if (!(isUpgrade ? upgrade(state, plot, def, day) : startBuild(state, plot, def, day))) return;
         close();
         host.started(plot);
         view.feedback('thunk', 'success');
         view.say(content.line('build.place') ?? '');
       });
       return btn;
-    });
-    return h('div', { class: 'note' }, h('p', { class: 'friend-name' }, plot.name),
-      h('p', { class: 'muted' }, 'Finishes overnight'), h('div', { class: 'btn-row' }, ...options));
+    }
   }));
   close = view.sheet('Keeper\'s plans', [h('p', {}, `You have ${state.sparkles} ✨`), list]);
 }

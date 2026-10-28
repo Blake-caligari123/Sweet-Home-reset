@@ -7,6 +7,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 |---|---|---|
 | #40 | **Phase 1 finished:** hold, circle and sweep gestures; light mess drifting back into restored rooms overnight | checklist §11f |
 | #41 | **Phase 2a:** twigs and pebbles to forage; Pip's workbench; Copper duster, sponge and rake; charged hold clean | checklist §11g |
+| #47 | **Phase 2g:** building upgrades (cosy bench, big flower bed, twin lamp) | checklist §11m |
 | #46 | **Phase 2f:** free decor outdoors: flower pots, lanterns, little fences, stone paths. Place from the bag, pick up any time; never blocks the way | checklist §11l |
 | #45 | **Phase 2e:** six earned outfits (bow, Keeper's badge, scarf, berry hat, flower crown, star clip), worn on Puff; pick them in Pause → 👒 Outfits | checklist §11k |
 | #44 | **Phase 2d:** Town Bloom levels (pause menu, banners, the lamppost needs Bloom 2); surprise finds every 8 cleans; Moss's collection on his library table | checklist §11j |
