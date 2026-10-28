@@ -57,6 +57,24 @@ Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Progress is ticked in the Steps tab
 - **Jobs:** 6 new jobs, two each. A job can now wait for its place to open (`fromDay`), so Otto's don't go up before the river path opens on day 3.
 - **Tidied first (post-feature cleanup):** `game.ts` split from 778 to 480 lines (Puff, tap targets, actions, the onboarding guide, the prompt line, save/load in TownState); `world/art.ts` split by subject into `world/art/`; dead code removed.
 
+**Step 8 notes (the first 30 minutes):**
+- **After the garden, the tips carry on into town (A6 9:00–20:00):**
+  1. The square. Puff wonders why the fountain is so quiet.
+  2. Say hello to Hazel, who gives Puff a Berry tart.
+  3. Eat it.
+  4. Take her counter job from the notice board.
+  5. Dust her counter.
+  6. Meet Bea and Pip on the Lane.
+  7. Bed when Puff gets sleepy.
+
+  The old "restore the bakery" tip is gone; A6's 30:00 target doesn't need it.
+- **Done early still counts.** Anything done before its tip came up counts. The tips also catch up from the save (neighbours met, jobs taken or done), so a save from the old tips never sticks.
+- **Day 1 runs for 20 real minutes** (`firstDayRealMinutes` in tuning.json), so A6's beats fit before bed. Every later day is `dayRealMinutes` (10). Proposed; easy to change.
+- **The late-night hint** is A6's: "Puff's getting sleepy. Head home to bed."
+- **The Day 2 letter** knows every kind of mess. After Hazel's counter it says "yesterday I cleaned a counter... wipe one counter of yours".
+- **Fixed on the way:** the planting tip gave its 3 seeds twice (once at the start, once when done). Now it's once.
+- **Scripted check:** a Playwright run plays a new game with real taps from "Let's tidy!" to Day 2 and checks the A6 target state.
+
 **Pass test (A9):** onboarding to 30:00 completes; playtesters befriend neighbours and restore 3 homes within 14 days; a home restores at 95% and triggers the reveal; hearts never drop. FRONTEND-PLAN adds: onboarding to 30:00 by script, and 30 area changes without a memory leak.
 
 **Before M2 starts:** M1 passes on Blake's iPhone (a full day from waking to bed, Hazel's bakery restored, `?fps` holding 60, save survives a reload). The yard and square paintings can land during M2.
@@ -77,7 +95,7 @@ Milestone 2 of GDD v3 A9 (FRONTEND-PLAN F8). Progress is ticked in the Steps tab
 | 5 ✅ | **Notice board and requests** | 1–3 requests a day (clean a spot, find an item, deliver a snack), soft deadline 2–3 days, an expired one just goes ("no worries"). The one-line request tracker at the top of the HUD. Request done = +10 points and Sparkles. | Request generation is deterministic per day; expiry never costs anything; tracker updates. |
 | 6 ✅ | **Shops and Sparkles** | Shop screen with fixed prices from the pack and opening hours. General Store (tools, snacks, bag upgrades; the Copper recipe listed from day 5 for M3), Bea's flower shop (seeds, plants), Pip's workshop (decor). Closed shops say when they open. | Can't buy when closed or short of Sparkles; nothing random for sale; prices only from pack data. |
 | 7 ✅ | **New areas** (7a ✅ Lane; 7b ✅ Riverside; 7c ✅ Otto, Moss and Mabel) | Neighbour Lane (open from day 1) with Bea's flower shop and Pip's workshop; Riverside (opens day 3) with Otto's bathhouse; the General Store off the square; Moss's library and Mabel's home per the decision below. Each home has mess, a 95% restore and the reveal. | Pack reachability tests for every area (walk to every door, mess spot and usable prop); a restored home stays restored after reload. |
-| 8 | **Onboarding 6:30–30:00** | GDD A6 / story §5: meet Hazel at the bakery door, Berry tart, eat it, first notice-board request (dust Hazel's counter), meet Bea and Pip on the Lane, evening hint, bed, Day 2 letter, General Store opens. | A scripted run reaches the 30:00 target state: burrow restored, 3 neighbours met, 1 request done, 1 crop growing, 1 day completed. |
+| 8 ✅ | **Onboarding 6:30–30:00** | GDD A6 / story §5: meet Hazel at the bakery door, Berry tart, eat it, first notice-board request (dust Hazel's counter), meet Bea and Pip on the Lane, evening hint, bed, Day 2 letter, General Store opens. | A scripted run reaches the 30:00 target state: burrow restored, 3 neighbours met, 1 request done, 1 crop growing, 1 day completed. |
 | 9 | **Plus gate stub** | Otto, Moss and Mabel check one `hasPlus()` stub; test builds unlock everything. Real Plus arrives in M5. | Stub on: all six playable. Stub off: the three are silhouettes with a kind "later" line, no paywall. |
 | 10 | **M2 check** | Full playthrough at 390×844 and the QA Group pass, then Blake's phone test. | A9 M2 pass test. |
 

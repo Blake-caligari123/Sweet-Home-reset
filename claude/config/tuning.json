@@ -1,5 +1,6 @@
 {
   "dayRealMinutes": 10,
+  "firstDayRealMinutes": 20,
   "dayRealMinutesTest": [
     8,
     10

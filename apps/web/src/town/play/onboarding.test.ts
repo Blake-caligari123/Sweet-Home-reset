@@ -47,6 +47,52 @@ describe('onboarding', () => {
     expect(o.current?.id).toBe('yard');
   });
 
+  it('carries on into town: Hazel and her tart, the board, her counter, Bea and Pip, then bed (A6 9:00–20:00)', () => {
+    const o = new Onboarding(STEPS.findIndex((x) => x.id === 'town'));
+    const ids = (e: Parameters<Onboarding['handle']>[0]) => o.handle(e).map((x) => x.id);
+    expect(ids({ type: 'entered', area: 'square' })).toEqual(['town']);
+    const hazel = o.handle({ type: 'met', id: 'hazel' });
+    expect(hazel.map((x) => x.id)).toEqual(['hazel']);
+    expect(hazel[0].gift).toEqual({ tart: 1 });
+    expect(ids({ type: 'ate', item: 'biscuit' })).toEqual([]);
+    expect(ids({ type: 'ate', item: 'tart' })).toEqual(['eat']);
+    expect(ids({ type: 'accepted', id: 'hazel_counter' })).toEqual(['board']);
+    expect(ids({ type: 'jobDone', id: 'hazel_counter' })).toEqual(['counter']);
+    expect(ids({ type: 'met', id: 'bea' })).toEqual([]);
+    expect(ids({ type: 'met', id: 'pip' })).toEqual(['lane']);
+    expect(ids({ type: 'slept' })).toEqual(['bed']);
+    expect(o.done).toBe(true);
+  });
+
+  it('counts town beats done early too: Bea met on the way, the counter job taken before the tart', () => {
+    const o = new Onboarding(STEPS.findIndex((x) => x.id === 'town'));
+    o.handle({ type: 'met', id: 'bea' });
+    o.handle({ type: 'accepted', id: 'hazel_counter' });
+    o.handle({ type: 'entered', area: 'square' });
+    o.handle({ type: 'met', id: 'hazel' });
+    o.handle({ type: 'ate', item: 'tart' });
+    expect(o.current?.id).toBe('counter');
+    o.handle({ type: 'jobDone', id: 'hazel_counter' });
+    o.handle({ type: 'met', id: 'pip' });
+    expect(o.current?.id).toBe('bed');
+  });
+
+  it('catches up from the save, so a tip about something already done never sticks', () => {
+    const o = new Onboarding(STEPS.findIndex((x) => x.id === 'hazel'));
+    expect(o.catchUp({ met: [], flags: [], accepted: [] })).toEqual([]);
+    const done = o.catchUp({ met: ['hazel', 'bea'], flags: [], accepted: ['hazel_counter'] });
+    expect(done.map((x) => x.id)).toEqual(['hazel']);
+    expect(o.current?.id).toBe('eat');
+    o.handle({ type: 'ate', item: 'tart' });
+    expect(o.current?.id).toBe('counter');
+    // Catching up again never counts the same neighbour twice.
+    o.catchUp({ met: ['hazel', 'bea'], flags: ['onboard_counter_done'], accepted: [] });
+    o.catchUp({ met: ['hazel', 'bea'], flags: ['onboard_counter_done'], accepted: [] });
+    expect(o.current?.id).toBe('lane');
+    o.catchUp({ met: ['hazel', 'bea', 'pip'], flags: ['onboard_counter_done'], accepted: [] });
+    expect(o.current?.id).toBe('bed');
+  });
+
   it('can be skipped only after the first clean, handing over what it would have given', () => {
     const o = new Onboarding();
     expect(o.skippable).toBe(false);

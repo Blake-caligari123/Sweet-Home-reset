@@ -3,6 +3,8 @@ import raw from '../../../../../claude/config/tuning.json';
 
 export interface Tuning {
   dayRealMinutes: number;
+  /** Day 1 runs slower so the first half hour (A6) fits in it. */
+  firstDayRealMinutes: number;
   gameMinutesPerTick: number;
   fluffStart: number;
   fluffMaxStep: number;

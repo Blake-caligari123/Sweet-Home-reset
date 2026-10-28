@@ -27,7 +27,7 @@ export class Clock {
   advance(realMs: number): ClockEvent[] {
     const events: ClockEvent[] = [];
     if (this.state.minutes >= DAY_END) return events;
-    this.carry += (realMs * this.speed) / realMsPerGameMinute();
+    this.carry += (realMs * this.speed) / realMsPerGameMinute(this.state.day === 1 ? TUNING.firstDayRealMinutes : TUNING.dayRealMinutes);
     const whole = Math.floor(this.carry);
     if (!whole) return events;
     this.carry -= whole;

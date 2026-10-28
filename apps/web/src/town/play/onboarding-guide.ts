@@ -4,7 +4,7 @@ import { TOOL_NAMES } from '../ui/hud';
 import type { View } from '../ui/view';
 import type { Tile } from '../world/pathfind';
 import type { AreaMess, ToolId } from './mess';
-import type { OnboardEvent } from './onboarding';
+import type { OnboardEvent, Step } from './onboarding';
 
 export interface GuideHost {
   state: TownState;
@@ -21,19 +21,29 @@ export interface GuideHost {
 const TIP_MESS: Record<string, [string, number]> = { dust: ['dust', 4], stain: ['stain', 3], sock: ['clutter', 3] };
 
 /**
- * Runs the onboarding tips in play: hands out each step's tools and items, lights up what to clean,
+ * Runs the onboarding tips in play: hands out each step's tools, items and gifts, lights up what to clean,
  * and moves on when Puff does the thing (in any order). The step rules live in onboarding.ts.
  */
 export class OnboardingGuide {
   constructor(private host: GuideHost) {}
 
-  handle(e: OnboardEvent) {
+  handle(e: OnboardEvent) { this.finish(this.host.state.onboarding.handle(e)); }
+
+  /** Steps the save already shows done (met before the tip, an older save) finish too. */
+  private catchUp() {
     const { state } = this.host;
-    const done = state.onboarding.handle(e);
+    const met = Object.entries(state.friends).filter(([, f]) => f.met).map(([id]) => id);
+    const accepted = state.requests.list.filter((r) => r.accepted).map((r) => r.id);
+    this.finish(state.onboarding.catchUp({ met, flags: state.flags, accepted }));
+  }
+
+  private finish(done: Step[]) {
+    const { state } = this.host;
     if (!done.length) return;
     for (const step of done) {
       for (const t of step.grant ?? []) this.grantTool(t);
-      for (const [id, n] of Object.entries(step.items ?? {})) state.bag.add(id, n);
+      for (const [id, n] of Object.entries(step.gift ?? {})) state.bag.add(id, n);
+      if (step.say) this.host.view.say(step.say);
     }
     const next = state.onboarding.current;
     if (next?.grant) for (const t of next.grant) this.grantTool(t);
@@ -48,15 +58,19 @@ export class OnboardingGuide {
     const { state } = this.host;
     for (const step of state.onboarding.skip()) {
       for (const t of step.grant ?? []) state.tools[t] = 1;
-      for (const [id, n] of Object.entries(step.items ?? {})) state.bag.add(id, n);
+      for (const [id, n] of Object.entries({ ...step.items, ...step.gift })) state.bag.add(id, n);
     }
     this.updateHighlight();
     this.host.refreshHud();
   }
 
-  /** The sock tip can't be done if the sock is gone another way (given as a gift): count it done. */
+  /**
+   * A tip that can't be done any more counts as done: the sock gone another way (given as a gift),
+   * or a neighbour or job already seen to (see catchUp).
+   */
   unstick() {
     const { state } = this.host;
+    this.catchUp();
     if (state.onboarding.current?.id !== 'sock' || state.bag.count('sock') > 0) return;
     if (!this.host.messFor('burrow').item.includes('sock')) this.handle({ type: 'putaway', item: 'sock' });
   }

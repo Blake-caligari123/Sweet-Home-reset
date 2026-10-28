@@ -2,6 +2,7 @@ import { h } from '../../shared/ui/dom';
 import type { Content } from '../data/content';
 import { TUNING } from '../data/tuning';
 import type { Clock } from '../play/clock';
+import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import { itemIcon } from '../ui/hud';
 import type { Button, View } from '../ui/view';
@@ -30,6 +31,8 @@ export interface ConversationHost {
   sparkleAtPuff(count: number): void;
   /** Buttons other features add to a neighbour's speech box (requests to hand over). */
   extraButtons(id: string): Button[];
+  /** Tell the onboarding tips Puff met someone. */
+  onboard(e: OnboardEvent): void;
   refreshHud(): void;
   save(): void;
 }
@@ -76,7 +79,7 @@ export class Conversations {
 
   private meet(id: string) {
     const f = this.host.state.friendOf(id);
-    if (!f.met) { f.met = true; this.host.state.flag(`met_${id}`); }
+    if (!f.met) { f.met = true; this.host.state.flag(`met_${id}`); this.host.onboard({ type: 'met', id }); }
   }
 
   /** A neighbour's speech box; Bye lets them get on with their day. */

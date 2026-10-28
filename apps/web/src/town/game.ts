@@ -85,13 +85,14 @@ export class TownGame {
       hopPuff: () => this.puff.hop(),
       sparkleAtPuff: (n) => this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), n),
       extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.shopButtonsFor(id)],
+      onboard: (e) => this.guide.handle(e),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
     });
     this.jobs = new Jobs({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings, talk: this.talk, areas: this.areas,
       messFor: (id) => this.messFor(id), area: () => this.areaId, syncMess: (i) => this.world.syncMess(i),
-      refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+      onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.guide = new OnboardingGuide({
       state: this.state, view: this.view, hud: this.hud, area: () => this.areaId, messFor: (id) => this.messFor(id),
@@ -316,6 +317,7 @@ export class TownGame {
     this.fade.classList.remove('on', 'night');
     this.fading = false;
     view.release();
+    this.guide.handle({ type: 'slept' });
     this.refreshHud();
     morningLetter({ state, view, clock: this.clock, refreshHud: () => this.refreshHud() });
   }
@@ -332,7 +334,7 @@ export class TownGame {
       .map((s) => ({ label: `Browse ${s.name.replace(/^.*'s /, '')}`, onClick: () => this.openShop(s) }));
   }
 
-  private openBag() { openBag({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud() }); }
+  private openBag() { openBag({ state: this.state, view: this.view, content: this.content, onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud() }); }
 
   private openPause() {
     openPause({
@@ -357,7 +359,7 @@ export class TownGame {
     if (!this.view.busy && !this.fading) {
       for (const e of this.clock.advance(dt)) {
         if (e === 'tick') this.world.setTint(this.clock.state.minutes);
-        if (e === 'late') { this.hud.setLate(true); this.view.say('Getting fluffy-sleepy...'); }
+        if (e === 'late') { this.hud.setLate(true); this.view.say('Puff\'s getting sleepy. Head home to bed.'); }
         if (e === 'doze' && !this.settings.relaxed) void this.endDay(true);
       }
       // Walk the waypoints at walking speed; the tile under the feet drives mess, doors and onboarding.
