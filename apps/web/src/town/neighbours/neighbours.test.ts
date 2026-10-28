@@ -137,7 +137,7 @@ describe('visits', () => {
 
 describe('Hollowfern neighbours', () => {
   it('visit Puff in the yard and each other, each with a hello for where they are', () => {
-    const visits = (pack.neighbours ?? []).flatMap((n) => (n.visits ?? []).map((v) => ({ n, v })));
+    const visits = (pack.neighbours ?? []).flatMap((n) => (n.visits ?? []).filter((v) => v.every === 7).map((v) => ({ n, v })));
     expect(visits.filter(({ v }) => v.area === 'yard').length).toBeGreaterThanOrEqual(3);
     for (const { n, v } of visits) {
       expect(v.until, n.id).toBeGreaterThan(v.at);

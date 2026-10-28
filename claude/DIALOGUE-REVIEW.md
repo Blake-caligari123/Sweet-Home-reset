@@ -234,6 +234,22 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `sorrel.autumn.1`: Acorn season! I'm SO busy. Happy busy!
 - `sorrel.winter.1`: I've stored enough acorns for ten winters!
 
+## New in Phase 4c (29 Oct): the Spring Clean Fair (proposed)
+- `hazel.festival.1`: Fair day! I baked a hundred buns. Maybe more, petal!
+- `bea.festival.1`: Bzz! Every flower in town came to the fair!
+- `pip.festival.1`: I fixed the fair bell! Ding! Ding! Okay, I'll stop.
+- `otto.festival.1`: The tidy dash! I'd cheer, but I'd splash someone. Heh.
+- `moss.festival.1`: I came out for the fair. Just this once. Hmm.
+- `mabel.festival.1`: Hoo! The whole town at the fountain. Like old times.
+- `sorrel.festival.1`: My first fair! Is the dash hard? I'll cheer loud!
+- `festival.spring_fair.intro`: It's the Spring Clean Fair! Tidy all you can in 60 seconds.
+- `festival.closed`: The fair stall. Packed away till the last day of the season.
+- `festival.cheer.all`: Every last spot! The whole town is cheering!
+- `festival.cheer.lots`: So much sparkle! The town loved watching.
+- `festival.cheer.some`: What fun! Everyone clapped for {puff}.
+- `festival.start`: Ready, set, tidy!
+- `festival.prize`: A fair ribbon, just for joining in!
+
 ## Hazel
 
 **First hello**

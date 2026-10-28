@@ -59,6 +59,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 ## Phase 4 so far
 - **4a (#58):** rain. Fixed rainy days (first on day 6) water the outdoor crops, bring a little mud, and look cooler, with rain falling. Checklist §12a.
 - **4b (#59):** the seasons turn every 14 days. Golden autumn, snowy winter, new summer and autumn crops, seeds by season, and season lines for everyone. Checklist §12b.
+- **4c (#60):** the Spring Clean Fair on day 14. Everyone's in the square; the fair stall starts a 60-second tidy dash, with Sparkles and a fair ribbon. Checklist §12c.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
@@ -66,5 +67,5 @@ You said to carry on without asking. I've merged each slice to the test link onc
 
 ## Next, unless you say otherwise
 Phase 4 (seasons and sharing):
-- the Spring Clean Fair on day 14 and its mini-game
+- the Summer Picnic, Autumn Leaf Fest and Winter Lights, each with a mini-game
 - Sorrel's heart scenes

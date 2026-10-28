@@ -1198,6 +1198,13 @@
      "y": 6,
      "w": 2,
      "action": "build"
+    },
+    {
+     "type": "fair_stall",
+     "x": 11,
+     "y": 6,
+     "w": 2,
+     "action": "festival"
     }
    ],
    "signs": [
@@ -4031,6 +4038,16 @@
    ],
    "visits": [
     {
+     "every": 14,
+     "on": 0,
+     "at": 600,
+     "until": 960,
+     "area": "square",
+     "x": 11,
+     "y": 10,
+     "dir": "down"
+    },
+    {
      "every": 7,
      "on": 3,
      "at": 900,
@@ -4119,6 +4136,16 @@
    ],
    "visits": [
     {
+     "every": 14,
+     "on": 0,
+     "at": 600,
+     "until": 960,
+     "area": "square",
+     "x": 19,
+     "y": 10,
+     "dir": "down"
+    },
+    {
      "every": 7,
      "on": 5,
      "at": 600,
@@ -4194,6 +4221,16 @@
    ],
    "visits": [
     {
+     "every": 14,
+     "on": 0,
+     "at": 600,
+     "until": 960,
+     "area": "square",
+     "x": 11,
+     "y": 13,
+     "dir": "down"
+    },
+    {
      "every": 7,
      "on": 1,
      "at": 1020,
@@ -4267,6 +4304,16 @@
     }
    ],
    "visits": [
+    {
+     "every": 14,
+     "on": 0,
+     "at": 600,
+     "until": 960,
+     "area": "square",
+     "x": 19,
+     "y": 13,
+     "dir": "down"
+    },
     {
      "every": 7,
      "on": 6,
@@ -4343,6 +4390,16 @@
    ],
    "visits": [
     {
+     "every": 14,
+     "on": 0,
+     "at": 600,
+     "until": 960,
+     "area": "square",
+     "x": 7,
+     "y": 9,
+     "dir": "down"
+    },
+    {
      "every": 7,
      "on": 4,
      "at": 780,
@@ -4398,6 +4455,18 @@
      "x": 1,
      "y": 1,
      "sleep": true
+    }
+   ],
+   "visits": [
+    {
+     "every": 14,
+     "on": 0,
+     "at": 600,
+     "until": 960,
+     "area": "square",
+     "x": 22,
+     "y": 9,
+     "dir": "down"
     }
    ]
   },
@@ -4463,6 +4532,16 @@
     }
    ],
    "visits": [
+    {
+     "every": 14,
+     "on": 0,
+     "at": 600,
+     "until": 960,
+     "area": "square",
+     "x": 15,
+     "y": 14,
+     "dir": "down"
+    },
     {
      "every": 7,
      "on": 0,
@@ -4630,6 +4709,10 @@
    {
     "id": "hazel.winter.1",
     "season": "winter"
+   },
+   {
+    "id": "hazel.festival.1",
+    "festival": true
    }
   ],
   "bea": [
@@ -4785,6 +4868,10 @@
    {
     "id": "bea.winter.1",
     "season": "winter"
+   },
+   {
+    "id": "bea.festival.1",
+    "festival": true
    }
   ],
   "pip": [
@@ -4936,6 +5023,10 @@
    {
     "id": "pip.winter.1",
     "season": "winter"
+   },
+   {
+    "id": "pip.festival.1",
+    "festival": true
    }
   ],
   "otto": [
@@ -5087,6 +5178,10 @@
    {
     "id": "otto.winter.1",
     "season": "winter"
+   },
+   {
+    "id": "otto.festival.1",
+    "festival": true
    }
   ],
   "moss": [
@@ -5238,6 +5333,10 @@
    {
     "id": "moss.winter.1",
     "season": "winter"
+   },
+   {
+    "id": "moss.festival.1",
+    "festival": true
    }
   ],
   "mabel": [
@@ -5385,6 +5484,10 @@
    {
     "id": "mabel.winter.1",
     "season": "winter"
+   },
+   {
+    "id": "mabel.festival.1",
+    "festival": true
    }
   ],
   "sorrel": [
@@ -5535,6 +5638,10 @@
    {
     "id": "sorrel.winter.1",
     "season": "winter"
+   },
+   {
+    "id": "sorrel.festival.1",
+    "festival": true
    }
   ]
  },
@@ -6195,7 +6302,21 @@
    "mabel.winter.1": "The sea is grey and grand in winter. Hoo.",
    "sorrel.summer.1": "My first summer here! Is it always this sunny?",
    "sorrel.autumn.1": "Acorn season! I'm SO busy. Happy busy!",
-   "sorrel.winter.1": "I've stored enough acorns for ten winters!"
+   "sorrel.winter.1": "I've stored enough acorns for ten winters!",
+   "hazel.festival.1": "Fair day! I baked a hundred buns. Maybe more, petal!",
+   "bea.festival.1": "Bzz! Every flower in town came to the fair!",
+   "pip.festival.1": "I fixed the fair bell! Ding! Ding! Okay, I'll stop.",
+   "otto.festival.1": "The tidy dash! I'd cheer, but I'd splash someone. Heh.",
+   "moss.festival.1": "I came out for the fair. Just this once. Hmm.",
+   "mabel.festival.1": "Hoo! The whole town at the fountain. Like old times.",
+   "sorrel.festival.1": "My first fair! Is the dash hard? I'll cheer loud!",
+   "festival.spring_fair.intro": "It's the Spring Clean Fair! Tidy all you can in 60 seconds.",
+   "festival.closed": "The fair stall. Packed away till the last day of the season.",
+   "festival.cheer.all": "Every last spot! The whole town is cheering!",
+   "festival.cheer.lots": "So much sparkle! The town loved watching.",
+   "festival.cheer.some": "What fun! Everyone clapped for {puff}.",
+   "festival.start": "Ready, set, tidy!",
+   "festival.prize": "A fair ribbon, just for joining in!"
   }
  },
  "heartEvents": [
@@ -8612,6 +8733,14 @@
    "earn": {
     "finds": 4
    }
+  },
+  {
+   "id": "fair_ribbon",
+   "name": "Fair ribbon",
+   "hint": "Join the Spring Clean Fair",
+   "earn": {
+    "flag": "festival_spring_fair"
+   }
   }
  ],
  "letters": [
@@ -8762,6 +8891,18 @@
      "flag": "reply_mabel_5_look"
     }
    ]
+  }
+ ],
+ "festivals": [
+  {
+   "id": "spring_fair",
+   "name": "Spring Clean Fair",
+   "season": "Spring",
+   "area": "square",
+   "seconds": 60,
+   "spots": 20,
+   "perSpot": 5,
+   "outfit": "fair_ribbon"
   }
  ]
 }

@@ -49,6 +49,12 @@ describe('picking a line', () => {
     expect(pickLine(lines, ctx({ hearts: 5, season: 'summer', minutes: 13 * 60 }), first)?.id).toBe('generic');
   });
 
+  it('says a festival line first on a festival day, and never on another day', () => {
+    const withFair = [...lines, { id: 'fair', festival: true }];
+    expect(pickLine(withFair, ctx({ festival: true, flags: ['restored_bakery'] }), first)?.id).toBe('fair');
+    expect(pickLine(withFair, ctx({ flags: ['restored_bakery'] }), first)?.id).toBe('flag');
+  });
+
   it('greets with a visit line first when met somewhere they are only visiting', () => {
     const withVisit = [...lines, { id: 'visit', area: 'yard' }];
     expect(pickLine(withVisit, ctx({ area: 'yard', flags: ['restored_bakery'] }), first)?.id).toBe('visit');

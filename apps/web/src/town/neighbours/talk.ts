@@ -9,6 +9,8 @@ export type TimeBand = 'morning' | 'day' | 'evening' | 'night';
 export interface Line {
   id: string;
   time?: TimeBand; season?: string; weather?: string; area?: string;
+  /** Only on a festival day. */
+  festival?: boolean;
   heartsMin?: number; heartsMax?: number;
   /** Only while this save flag is set. */
   flag?: string;
@@ -23,6 +25,8 @@ export interface Line {
 export interface TalkContext {
   minutes: number; season: string; weather: string; hearts: number; area: string;
   flags: string[]; met: boolean; talkedToday: boolean; recent: string[];
+  /** Today is a festival. */
+  festival?: boolean;
 }
 
 /** How many talks back a line stays unheard. */
@@ -38,6 +42,7 @@ export function heartsOf(points: number) {
 }
 
 function fits(l: Line, c: TalkContext) {
+  if (l.festival && !c.festival) return false;
   if (l.flag && !c.flags.includes(l.flag)) return false;
   if (l.once && c.flags.includes(`said_${l.id}`)) return false;
   if (l.time && l.time !== timeBand(c.minutes)) return false;
@@ -50,6 +55,7 @@ function fits(l: Line, c: TalkContext) {
 }
 
 function tier(l: Line) {
+  if (l.festival) return 7; // a festival day's hello beats everything
   if (l.area) return 6; // met somewhere they're only visiting: that hello first
   if (l.flag) return 5;
   if (l.heartsMin !== undefined || l.heartsMax !== undefined) return 4;

@@ -1,3 +1,4 @@
+import { festivalToday } from '../festivals/festivals';
 import { h } from '../../shared/ui/dom';
 import type { Content } from '../data/content';
 import { TUNING } from '../data/tuning';
@@ -63,7 +64,8 @@ export class Conversations {
     }
     const line = pickLine(content.pack.dialogue?.[id] ?? [], {
       minutes: clock.state.minutes, season: clock.season.toLowerCase(), weather: clock.weather, hearts: heartsOf(f.points),
-      area: this.host.area(), flags: state.flags, met: f.met, talkedToday: f.talkedDay === day, recent: f.recent ?? []
+      area: this.host.area(), flags: state.flags, met: f.met, talkedToday: f.talkedDay === day, recent: f.recent ?? [],
+      festival: !!festivalToday(content.pack.festivals ?? [], day)
     });
     const text = content.line(line?.id) ?? '...';
     // The first chat of the day counts toward friendship (hearts never go down).

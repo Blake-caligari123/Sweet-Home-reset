@@ -259,6 +259,11 @@ One new thing every couple of days, each with one tip or letter:
   - New crops: summer tomato (grows back) and corn, autumn pumpkin. Shops stock seeds by season.
   - Outdoors: autumn greens turn golden, winter is snowy (`world/art/seasons.ts`), with seasonal light, falling leaves and snow.
   - Every neighbour has summer, autumn and winter lines.
+- **Phase 4c (29 Oct):**
+  - The Spring Clean Fair on day 14 (`festivals/`). Everyone gathers in the square (a 14-day `visits` entry), with a fair-day line each (`festival` lines rank first).
+  - The fair stall starts the tidy dash: 20 spots in 60 seconds, Fluff topped up, a kind cheer for any score. The first go each fair day pays 5 ✨ a spot; the first ever earns the fair ribbon outfit.
+  - The Summer Picnic, Autumn Leaf Fest and Winter Lights reuse the same festival day, each with its own mini-game.
+  - Also: `play/night.ts` takes the night and the morning messages out of `game.ts`.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

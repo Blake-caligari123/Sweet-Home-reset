@@ -9,6 +9,7 @@ import { Content } from './data/content';
 import { restoreGame } from './data/restore';
 import { stamp, writeQuick, writeTown, type TownSave } from './data/save';
 import { NEIGHBOUR_WALK_SPEED, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
+import { TidyDash } from './festivals/tidy-dash';
 import { GrumbleLife } from './grumbles/grumble-life';
 import { PetLife } from './pets/pet-life';
 import { openOutfits } from './outfits/outfit-sheet';
@@ -23,11 +24,10 @@ import { Mining } from './caves/mining';
 import { Placing } from './decor/placing';
 import { Sweep } from './play/sweep';
 import { HomeLife } from './play/home-life';
-import { morningLetter } from './play/letter';
+import { morning, passNight } from './play/night';
 import type { ToolId } from './play/mess';
 import { OnboardingGuide } from './play/onboarding-guide';
 import { nudge } from './play/nudges';
-import { overnight } from './play/overnight';
 import { bloomUp } from './bloom/bloom';
 import { lettersWaiting } from './letters/letters';
 import { Puff } from './play/puff';
@@ -45,7 +45,6 @@ import { openPause } from './ui/pause-menu';
 import { PointerInput } from './ui/pointer-input';
 import { View, type Settings } from './ui/view';
 import { isUnlocked } from './unlocks';
-import { morningNews } from './play/weather';
 import { T } from './world/art/texture';
 import { FEET, REACH, type Pt } from './world/nav';
 import { setIconBank, type SpriteBank } from './world/sprites';
@@ -85,6 +84,7 @@ export class TownGame {
   private outfitLayer: OutfitLayer;
   private carry: Carry;
   private mining: Mining;
+  private dash: TidyDash;
   private placing: Placing;
   private hudLive: HudLive;
   private sweep: Sweep;
@@ -145,6 +145,10 @@ export class TownGame {
       refreshArea: () => { this.places.rebuild(this.state); this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet); },
       refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
+    this.dash = new TidyDash({
+      state: this.state, view: this.view, content: this.content, clock: this.clock, area: () => this.areaId, areaOf: (id) => this.places.get(id)!,
+      messFor: (id) => this.places.mess(id), syncMess: (i) => this.world.syncMess(i), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+    });
     this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.tap(x, y) });
     this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.scrub({ x, y }, MAX_RUB) });
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
@@ -161,7 +165,7 @@ export class TownGame {
     });
     this.actions = new PuffActions({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
-      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, grumbles: this.grumbles, mining: this.mining, arrived: (k) => this.arrived(k),
+      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, grumbles: this.grumbles, mining: this.mining, dash: this.dash, arrived: (k) => this.arrived(k),
       here: () => ({ id: this.areaId, area: this.area, mess: this.mess, nav: this.nav }),
       selected: () => this.selected,
       select: (t) => { this.selected = t; },
@@ -339,12 +343,7 @@ export class TownGame {
     await wait(dozed ? 1400 : 300);
     this.fade.classList.add('on', 'night');
     await wait(this.settings.reducedMotion ? 200 : 900);
-    this.clock.nextDay();
-    this.jobs.post();
-    const built = overnight(state, { buildings: this.content.pack.buildings ?? [], plots: this.content.pack.plots ?? [], outdoor: new Set(this.content.pack.areas.filter((a) => a.kind === 'outdoor').map((a) => a.id)), crops: this.content.pack.crops }, this.clock.state.day - 1, dozed, this.clock.weather === 'rainy');
-    this.places.rebuild(this.state);
-    this.places.driftBack(this.clock.state.day, this.clock.weather === 'rainy');
-    this.grumbles.newDay(this.clock.state.day);
+    const built = passNight({ state, clock: this.clock, content: this.content, jobs: this.jobs, places: this.places, grumbles: this.grumbles }, dozed);
     this.hud.setLate(false);
     // Wake up beside the bed: the burrow's spawn tile.
     const bed = this.places.get('burrow')!.pack.spawn;
@@ -356,9 +355,7 @@ export class TownGame {
     view.release();
     this.guide.handle({ type: 'slept' });
     this.refreshHud();
-    morningLetter({ state, view, clock: this.clock, refreshHud: () => this.refreshHud() });
-    for (const [kind, id] of morningNews(this.clock)) (kind === 'banner' ? view.banner : view.say).call(view, (this.content.line(id) ?? '').replace('{town}', state.names.town));
-    for (const b of built) view.banner(b.home ? this.content.line(`home.${b.home}`) ?? '' : (this.content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
+    morning({ state, view, clock: this.clock, content: this.content, refreshHud: () => this.refreshHud() }, built);
   }
 
   // ---- sheets ------------------------------------------------------------------------------
@@ -436,6 +433,7 @@ export class TownGame {
       this.homeLife.tick(this.areaId, this.tidiness);
       this.carry.tick();
       this.sweep.tick();
+      this.dash.update(dt);
       if (p.swingMs > 0) { p.swingMs -= dt; if (p.swingMs <= 0) this.actions.finishSwing(); }
       if (p.hopMs > 0) { p.hopMs -= dt; if (p.hopMs <= 0 && p.pose === 'hop') p.pose = 'idle'; }
       this.autosaveMs += dt;
