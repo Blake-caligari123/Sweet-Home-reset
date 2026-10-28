@@ -1,9 +1,23 @@
-import type { PlayEvent } from './events';
 import type { ToolId } from './mess';
 
 // GDD v3 A6, the first 30 minutes: the burrow, the yard, then into town to meet Hazel, Bea and
 // Pip, a first job and a first night's sleep. One hint at a time; each disappears once done, and
 // anything done early counts. Skippable after the first clean.
+export type OnboardEvent =
+  | { type: 'stood'; ground: string; area: string }
+  | { type: 'cleared'; mess: string; area: string }
+  | { type: 'putaway'; item: string }
+  | { type: 'restored'; area: string }
+  | { type: 'planted' }
+  | { type: 'watered' }
+  | { type: 'entered'; area: string }
+  | { type: 'timer' }
+  | { type: 'met'; id: string }
+  | { type: 'ate'; item: string }
+  | { type: 'accepted'; id: string }
+  | { type: 'jobDone'; id: string }
+  | { type: 'slept' };
+
 export interface Step {
   id: string;
   hint: string;
@@ -16,7 +30,7 @@ export interface Step {
   gift?: Record<string, number>;
   /** What Puff says when the step is done. */
   say?: string;
-  match: (e: PlayEvent) => boolean;
+  match: (e: OnboardEvent) => boolean;
   /** Restoring this area finishes the step (its last mess sparkles away, so it can't be done by hand). */
   doneByRestore?: string;
 }
@@ -64,7 +78,7 @@ export class Onboarding {
   get skippable() { return this.step >= 2 && !this.done; }
 
   /** Feed a game event; returns the steps it completed (so the game can grant their rewards). */
-  handle(e: PlayEvent): Step[] {
+  handle(e: OnboardEvent): Step[] {
     for (let i = this.step; i < STEPS.length; i += 1) {
       const s = STEPS[i];
       if (s.match(e)) this.ahead[s.id] = (this.ahead[s.id] ?? 0) + 1;

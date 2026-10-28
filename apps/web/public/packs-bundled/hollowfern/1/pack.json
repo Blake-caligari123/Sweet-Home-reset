@@ -116,36 +116,6 @@
   },
   "cobweb": {
    "name": "Cobweb"
-  },
-  "ribbon": {
-   "name": "Ribbon"
-  },
-  "old_coin": {
-   "name": "Old coin"
-  },
-  "pebble": {
-   "name": "Pretty pebble"
-  },
-  "acorn": {
-   "name": "Acorn"
-  },
-  "feather": {
-   "name": "Feather"
-  },
-  "marble": {
-   "name": "Marble"
-  },
-  "thimble": {
-   "name": "Thimble"
-  },
-  "tiny_key": {
-   "name": "Tiny brass key"
-  },
-  "glimmer_drop": {
-   "name": "Glimmer drop"
-  },
-  "golden_dust": {
-   "name": "Golden dust"
   }
  },
  "areas": [
@@ -2520,8 +2490,7 @@
    "likes": [
     "berries",
     "honey",
-    "radish",
-    "acorn"
+    "radish"
    ],
    "dislikes": [
     "clay",
@@ -2575,8 +2544,7 @@
    "likes": [
     "flowers",
     "string",
-    "radish_seeds",
-    "ribbon"
+    "radish_seeds"
    ],
    "dislikes": [
     "weeds",
@@ -2776,8 +2744,7 @@
    "likes": [
     "tea",
     "old_map",
-    "lint",
-    "tiny_key"
+    "lint"
    ],
    "dislikes": [
     "flowers",
@@ -2840,8 +2807,7 @@
    "likes": [
     "book",
     "honey",
-    "silk_thread",
-    "old_coin"
+    "silk_thread"
    ],
    "dislikes": [
     "mud",
@@ -4106,17 +4072,7 @@
    "req.moss_book": "Moss would like a book. Any book. Quietly.",
    "req.moss_cobwebs": "Dust the cobwebs in Moss's reading corner.",
    "req.mabel_mud": "Clear the mud by Mabel's evening bench.",
-   "req.mabel_biscuit": "Mabel fancies a biscuit with her evening tea.",
-   "title.1": "Little Dust Bunny",
-   "title.2": "Tidy Paws",
-   "title.3": "Sparkle Scout",
-   "title.4": "Polish Pal",
-   "title.5": "Shine Seeker",
-   "title.6": "Gleam Keeper",
-   "title.7": "Colour Bringer",
-   "title.8": "Hollowfern Helper",
-   "title.9": "Glimmer Friend",
-   "title.10": "Keeper of Sparkles"
+   "req.mabel_biscuit": "Mabel fancies a biscuit with her evening tea."
   }
  },
  "heartEvents": [
@@ -5720,88 +5676,6 @@
      "price": 50
     }
    ]
-  }
- ],
- "finds": [
-  {
-   "item": "button",
-   "weight": 3
-  },
-  {
-   "item": "ribbon",
-   "weight": 3
-  },
-  {
-   "item": "marble",
-   "weight": 2
-  },
-  {
-   "item": "thimble",
-   "weight": 2,
-   "areas": [
-    "burrow",
-    "bakery",
-    "bea_shop",
-    "pip_workshop",
-    "library",
-    "bathhouse"
-   ]
-  },
-  {
-   "item": "old_coin",
-   "weight": 1.5
-  },
-  {
-   "item": "tiny_key",
-   "weight": 1
-  },
-  {
-   "item": "pebble",
-   "weight": 3,
-   "areas": [
-    "yard",
-    "square",
-    "lane",
-    "riverside"
-   ]
-  },
-  {
-   "item": "acorn",
-   "weight": 3,
-   "areas": [
-    "yard",
-    "square",
-    "lane"
-   ]
-  },
-  {
-   "item": "feather",
-   "weight": 2,
-   "areas": [
-    "yard",
-    "square",
-    "lane",
-    "riverside"
-   ]
-  },
-  {
-   "item": "shell",
-   "weight": 3,
-   "areas": [
-    "riverside",
-    "bathhouse"
-   ]
-  },
-  {
-   "item": "river_stone",
-   "weight": 2,
-   "areas": [
-    "riverside"
-   ]
-  },
-  {
-   "item": "glimmer_drop",
-   "weight": 0.3
   }
  ]
 }

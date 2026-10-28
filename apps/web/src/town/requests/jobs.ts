@@ -6,7 +6,7 @@ import type { Conversations } from '../neighbours/conversations';
 import { heartsOf } from '../neighbours/talk';
 import type { Clock } from '../play/clock';
 import type { AreaMess } from '../play/mess';
-import type { PlayEvent } from '../play/events';
+import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import type { Button, Settings, View } from '../ui/view';
 import { accept, cleanDone, finish, freshMess, MAX_ACCEPTED, newDay, withTiles, type RequestTemplate } from './requests';
@@ -26,8 +26,8 @@ export interface JobsHost {
   syncMess(i: number): void;
   /** A Plus neighbour without Plus (M2 stub): their jobs stay off the board. */
   locked(id: string): boolean;
-  /** Tell the tips and rewards what Puff did. */
-  notify(e: PlayEvent): void;
+  /** Tell the onboarding tips a job was taken or done. */
+  onboard(e: OnboardEvent): void;
   refreshHud(): void;
   save(): void;
 }
@@ -72,7 +72,7 @@ export class Jobs {
         if (!next) { view.say(`Puff can take ${MAX_ACCEPTED} jobs at a time.`); return; }
         state.requests = next;
         this.start(t);
-        this.host.notify({ type: 'accepted', id: r.id });
+        this.host.onboard({ type: 'accepted', id: r.id });
         close(); this.host.refreshHud();
         view.say('On it!');
       });
@@ -122,7 +122,7 @@ export class Jobs {
     f.points += TUNING.friendship.request;
     state.sparkles += t.sparkles;
     if (t.setFlag) state.flag(t.setFlag);
-    this.host.notify({ type: 'jobDone', id: t.id });
+    this.host.onboard({ type: 'jobDone', id: t.id });
     view.feedback('coin', 'success');
     view.banner(`Job done! +${t.sparkles} ✨`);
     const up = heartsOf(f.points) > hearts;
