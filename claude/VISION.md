@@ -179,6 +179,11 @@ One new thing every couple of days, each with one tip or letter:
   - Pip's workbench, in his workshop, makes Copper tools from Sparkles and forage. The recipes are learned at the General Store: the duster and sponge from day 5, the rake from day 7.
   - This also fixes a gap: the Copper sponge recipe never made a sponge before.
   - A Copper tool cleans faster, shows a copper rim on the toolbar, and a hold charges a swing that cleans the spot plus up to two matching neighbours (5 Fluff, `fluffCharged`).
+- **Phase 2b (overnight):**
+  - Four spring crops: radish (3 days), carrot (4), peas (5) and strawberries (6, which grow back every 3 days).
+  - Seeds come from the General Store (carrot from day 3, peas from day 6) and from Bea (strawberries from day 8).
+  - With more than one kind of seed, Puff asks which to plant. Each crop has its own look and harvest line, and the General Store buys them all.
+  - Seasons for crops come with Phase 4.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

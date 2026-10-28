@@ -125,6 +125,30 @@
   },
   "pebble": {
    "name": "Pebble"
+  },
+  "carrot": {
+   "name": "Carrot",
+   "snack": 25,
+   "sell": 25
+  },
+  "carrot_seeds": {
+   "name": "Carrot seeds"
+  },
+  "peas": {
+   "name": "Peas",
+   "snack": 20,
+   "sell": 30
+  },
+  "pea_seeds": {
+   "name": "Pea seeds"
+  },
+  "strawberry": {
+   "name": "Strawberry",
+   "snack": 30,
+   "sell": 20
+  },
+  "strawberry_seeds": {
+   "name": "Strawberry seeds"
   }
  },
  "areas": [
@@ -4995,7 +5019,12 @@
    "craft.made": "{tool}! Hold on mess to clean a little patch at once.",
    "craft.charged": "Whoosh! A big clean!",
    "stock.copper_duster": "Copper duster recipe",
-   "stock.copper_rake": "Copper rake recipe"
+   "stock.copper_rake": "Copper rake recipe",
+   "crop.radish.harvest": "A radish! Crunchy.",
+   "crop.carrot.harvest": "A carrot! Long and orange.",
+   "crop.peas.harvest": "Peas! Pop, pop, pop.",
+   "crop.strawberry.harvest": "A strawberry! More will grow back.",
+   "crop.which": "Which seeds?"
   }
  },
  "heartEvents": [
@@ -6571,6 +6600,18 @@
      "qty": 3
     },
     {
+     "item": "carrot_seeds",
+     "price": 30,
+     "qty": 3,
+     "fromDay": 3
+    },
+    {
+     "item": "pea_seeds",
+     "price": 40,
+     "qty": 3,
+     "fromDay": 6
+    },
+    {
      "item": "biscuit",
      "price": 15
     },
@@ -6607,7 +6648,10 @@
     }
    ],
    "buys": [
-    "radish"
+    "radish",
+    "carrot",
+    "peas",
+    "strawberry"
    ]
   },
   {
@@ -6625,6 +6669,12 @@
     {
      "item": "flowers",
      "price": 40
+    },
+    {
+     "item": "strawberry_seeds",
+     "price": 60,
+     "qty": 3,
+     "fromDay": 8
     }
    ]
   },
@@ -6823,6 +6873,28 @@
     }
    },
    "learn": "recipe_copper_rake"
+  }
+ ],
+ "crops": [
+  {
+   "id": "radish",
+   "seed": "radish_seeds",
+   "look": "round"
+  },
+  {
+   "id": "carrot",
+   "seed": "carrot_seeds",
+   "look": "long"
+  },
+  {
+   "id": "peas",
+   "seed": "pea_seeds",
+   "look": "pod"
+  },
+  {
+   "id": "strawberry",
+   "seed": "strawberry_seeds",
+   "look": "berry"
   }
  ]
 }

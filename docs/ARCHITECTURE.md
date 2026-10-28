@@ -60,6 +60,7 @@ town/
                 names.ts (the player's names for Puff and the town: `{puff}`, `{town}` in text),
                 overnight.ts (what happens while Puff sleeps: Fluff, crops, builds), nudges.ts (the tracker's
                 "try this next"), carry.ts (dragging clutter home), sweep.ts (swiping along a row of mess),
+                crops.ts (crop kinds, growth stages, picking and growing back),
                 mess-return.ts (light mess drifting back into restored places overnight);
                 Puff in play: puff.ts (position, facing), targets.ts (what a tap lands on),
                 actions.ts (cleaning, furniture, soil, pickups, doors), onboarding-guide.ts

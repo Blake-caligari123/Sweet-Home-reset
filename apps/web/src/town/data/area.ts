@@ -13,6 +13,7 @@ import type { BuildingDef, PlotDef } from '../build/build';
 import type { FamilyDef } from '../grumbles/grumbles';
 import type { PetDef } from '../pets/pets';
 import type { RecipeDef } from '../craft/recipes';
+import type { CropDef } from '../play/crops';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 /** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
@@ -44,7 +45,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** The pets Puff can choose from on day 4. */
   pets?: PetDef[];
   /** What Pip's workbench can make (VISION §7). */
-  recipes?: RecipeDef[] }
+  recipes?: RecipeDef[];
+  /** What grows in soil (VISION §7). */
+  crops?: CropDef[] }
 
 export class Area {
   readonly w: number;
@@ -147,6 +150,7 @@ export function validateTownPack(input: unknown): TownPack {
     if (!r.id || !r.name || !r.makes?.tool || !isNum(r.makes.tier)) throw new Error(`recipe ${r.id}: shape`);
     for (const id of Object.keys(r.cost?.items ?? {})) if (!p.items[id]) throw new Error(`recipe ${r.id}: unknown item ${id}`);
   }
+  for (const c of p.crops ?? []) if (!p.items[c.id] || !p.items[c.seed]) throw new Error(`crop ${c.id}: unknown item`);
   for (const pet of p.pets ?? []) if (!pet.id || !pet.name || !pet.defaultName || typeof text[pet.line] !== 'string') throw new Error(`pet ${pet.id}: shape`);
   for (const sh of p.shops ?? []) {
     if (!sh.id || ![sh.opens, sh.closes].every(isNum) || !Array.isArray(sh.stock)) throw new Error(`shop ${sh.id}: shape`);

@@ -63,10 +63,10 @@ function toolTexture(tool: string) {
 }
 
 const cropTextures = new Map<string, Texture>();
-function cropTexture(stage: number, watered: boolean) {
-  const key = `${stage}:${watered}`;
+function cropTexture(stage: number, watered: boolean, look: string) {
+  const key = `${stage}:${watered}:${look}`;
   let t = cropTextures.get(key);
-  if (!t) { t = toTexture(drawCrop(stage, watered)); cropTextures.set(key, t); }
+  if (!t) { t = toTexture(drawCrop(stage, watered, look)); cropTextures.set(key, t); }
   return t;
 }
 
@@ -227,14 +227,14 @@ export class World {
     }
   }
 
-  setCrops(crops: { x: number; y: number; stage: number; watered: boolean }[]) {
+  setCrops(crops: { x: number; y: number; stage: number; watered: boolean; look: string }[]) {
     if (!this.area) return;
     const seen = new Set<number>();
     for (const c of crops) {
       const i = c.y * this.area.w + c.x; seen.add(i);
       let s = this.cropSprites.get(i);
       if (!s) { s = new Sprite(); s.position.set(c.x * T, c.y * T); this.cropLayer.addChild(s); this.cropSprites.set(i, s); }
-      s.texture = cropTexture(c.stage, c.watered);
+      s.texture = cropTexture(c.stage, c.watered, c.look);
     }
     for (const [i, s] of this.cropSprites) if (!seen.has(i)) { s.destroy(); this.cropSprites.delete(i); }
   }
