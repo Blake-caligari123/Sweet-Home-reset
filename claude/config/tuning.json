@@ -134,6 +134,14 @@
     },
     "overgrown_path": {
       "day": 26
+    },
+    "cave_3": {
+      "day": 17,
+      "flag": "cave_leaf_3"
+    },
+    "cave_4": {
+      "day": 31,
+      "flag": "cave_leaf_4"
     }
   },
   "grumbles": {

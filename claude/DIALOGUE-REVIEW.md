@@ -299,6 +299,16 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `alive.woodland.home`: Apples on every branch. The orchard is awake!
 - Far Bank closed path: Brambles block the way east. Maybe in summer. · Sign: Woodland Edge. The orchard trees are waking up.
 
+## New in Phase 4h (29 Oct): caves floors 3–4 (proposed)
+- `letter.mabel_3.l3`: Here's a leaf of the old map. Deeper still. M.
+- `letter.mabel_5.l3`: The last map leaf. The deepest place of all. M.
+- `cave.closed.cave_3`: Another ladder, even deeper. Not yet.
+- `cave.enter.cave_3`: Ooh, it's glowing down here! Little lights everywhere.
+- `cave.closed.cave_4`: The last ladder. Warm air comes up it. Not yet.
+- `cave.enter.cave_4`: So warm... is that a spring? Shh, something sleeps here.
+- `cave.silver`: Silver ore! It shines like the moon.
+- Floor 4 carving: Carved deep: 'I'll sleep by the warm spring. Wake me when the town is bright. T.'
+
 ## Hazel
 
 **First hello**

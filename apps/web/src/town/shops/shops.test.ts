@@ -97,4 +97,8 @@ describe('Hollowfern shops', () => {
     const door = pack.areas.find((a) => a.id === 'square')!.doors.find((d) => d.to === 'store')!;
     expect(door.opensDay).toBe(2);
   });
+  it('buys back everything that has a sell price, somewhere in town', () => {
+    const buys = (pack.shops ?? []).flatMap((sh) => sh.buys ?? []);
+    for (const [id, item] of Object.entries(pack.items)) if ((item as { sell?: number }).sell) expect(buys, id).toContain(id);
+  });
 });

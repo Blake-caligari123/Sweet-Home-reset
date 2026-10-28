@@ -87,6 +87,24 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
       pc.ellipseBox(ox + 7, oy + 6, 2, 2, c, P.outline); pc.vline(ox + 7, oy + 2, 2, P.sage); break;
     }
     case 'apple': pc.ellipseBox(ox + 7, oy + 8, 4, 4, P.peachShade, P.outline); pc.set(ox + 5, oy + 6, P.peachLight); pc.vline(ox + 7, oy + 2, 2, P.brownShade); pc.ellipse(ox + 9, oy + 3, 2, 1, P.sage); break;
+    case 'bread': b(2, 5, 11, 7, P.butterShade, 3); pc.hline(ox + 4, oy + 6, 7, P.butterLight); for (const x of [5, 8, 11]) pc.set(ox + x, oy + 8, P.brownLight); break;
+    case 'berries': for (const [x, y] of [[5, 8], [9, 8], [7, 5], [7, 10]]) pc.ellipseBox(ox + x, oy + y, 2, 2, P.blueShade, P.outline); pc.set(ox + 6, oy + 4, P.white); pc.line(ox + 7, oy + 3, ox + 9, oy + 1, P.sageShade); break;
+    case 'honey': b(3, 4, 8, 9, P.butter, 2); b(4, 2, 6, 3, P.brownLight, 1); pc.rect(ox + 5, oy + 7, 4, 3, P.butterShade); pc.set(ox + 4, oy + 6, P.white); break;
+    case 'rare_seeds': b(3, 1, 8, 12, P.blueLight, 1); pc.ellipseBox(ox + 7, oy + 6, 2, 2, P.butter, P.outline); pc.set(ox + 7, oy + 6, P.white); pc.vline(ox + 7, oy + 2, 2, P.sage); break;
+    case 'button': pc.ellipseBox(ox + 7, oy + 7, 4, 4, P.peach, P.outline); for (const [x, y] of [[6, 6], [8, 6], [6, 8], [8, 8]]) pc.set(ox + x, oy + y, P.peachShade); break;
+    case 'silk_thread': b(4, 3, 6, 9, P.brownLight, 1); pc.rect(ox + 5, oy + 5, 4, 5, P.white); pc.line(ox + 9, oy + 7, ox + 12, oy + 11, P.white); break;
+    case 'clay': pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.peachShade, P.outline); pc.set(ox + 5, oy + 6, P.peach); break;
+    case 'mud': pc.ellipseBox(ox + 7, oy + 9, 5, 3, P.brownShade, P.outline); pc.set(ox + 5, oy + 8, P.brown); break;
+    case 'weeds': for (const x of [4, 7, 10]) { pc.line(ox + x, oy + 12, ox + x - 2, oy + 4, P.sageShade); pc.line(ox + x, oy + 12, ox + x + 2, oy + 5, P.sage); } break;
+    case 'crumbs': for (const [x, y] of [[4, 8], [7, 6], [10, 9], [6, 10], [9, 4]]) { pc.rect(ox + x, oy + y, 2, 1, P.butterShade); pc.set(ox + x, oy + y + 1, P.brownLight); } break;
+    case 'soap': b(2, 5, 10, 6, P.blueLight, 2); pc.hline(ox + 4, oy + 6, 6, P.white); pc.ellipse(ox + 11, oy + 3, 1, 1, P.white); pc.set(ox + 9, oy + 2, P.white); break;
+    case 'fibre': for (let i = 0; i < 4; i += 1) pc.line(ox + 3 + i * 2, oy + 12, ox + 6 + i * 2, oy + 2, i % 2 ? P.butterShade : P.butter); break;
+    case 'river_stone': pc.ellipseBox(ox + 7, oy + 8, 5, 3, P.greyLight, P.outline); pc.hline(ox + 5, oy + 7, 3, P.white); pc.set(ox + 9, oy + 9, P.blueLight); break;
+    case 'mushroom': b(6, 7, 3, 6, P.cream); pc.ellipseBox(ox + 7, oy + 6, 5, 3, P.peachShade, P.outline); for (const [x, y] of [[5, 5], [9, 6]]) pc.set(ox + x, oy + y, P.white); break;
+    case 'tea': b(3, 5, 8, 7, P.peach, 2); b(10, 7, 3, 3, P.peach); pc.rect(ox + 4, oy + 5, 6, 1, P.brownShade); pc.line(ox + 6, oy + 3, ox + 7, oy + 1, P.greyLight); break;
+    case 'old_map': b(2, 3, 11, 9, P.cream, 1); pc.line(ox + 4, oy + 9, ox + 10, oy + 5, P.brownLight); pc.set(ox + 10, oy + 5, P.peachShade); pc.set(ox + 9, oy + 4, P.peachShade); break;
+    case 'lint': for (const [x, y] of [[5, 7], [8, 6], [9, 9], [6, 9]]) pc.ellipse(ox + x, oy + y, 2, 1, P.greyLight); pc.set(ox + 7, oy + 7, P.blueLight); break;
+    case 'cobweb': pc.line(ox + 2, oy + 2, ox + 12, oy + 12, P.greyLight); pc.line(ox + 2, oy + 2, ox + 12, oy + 6, P.greyLight); pc.line(ox + 2, oy + 2, ox + 6, oy + 12, P.greyLight); pc.line(ox + 8, oy + 3, ox + 3, oy + 8, P.greyLight); break;
     case 'tomato': pc.ellipseBox(ox + 7, oy + 8, 4, 4, P.peachShade, P.outline); pc.set(ox + 5, oy + 6, P.peachLight); pc.hline(ox + 6, oy + 3, 3, P.sageShade); pc.set(ox + 7, oy + 2, P.sageShade); break;
     case 'corn': pc.ellipseBox(ox + 7, oy + 7, 2, 5, P.butter, P.outline); for (let y = 4; y < 11; y += 2) pc.set(ox + 7, oy + y, P.butterShade); pc.line(ox + 5, oy + 12, ox + 3, oy + 6, P.sage); pc.line(ox + 9, oy + 12, ox + 11, oy + 6, P.sage); break;
     case 'pumpkin': pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.peach, P.outline); pc.vline(ox + 5, oy + 5, 6, P.peachShade); pc.vline(ox + 9, oy + 5, 6, P.peachShade); pc.rect(ox + 7, oy + 2, 1, 2, P.sageShade); break;
@@ -109,6 +127,7 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'stone_path': for (const [x, y] of [[2, 3], [7, 2], [3, 8], [8, 7]]) { pc.ellipseBox(ox + x + 2, oy + y + 2, 2, 2, P.greyLight, P.outline); } break;
     case 'bottle': b(5, 2, 4, 3, P.brownLight, 1); b(3, 5, 8, 8, P.blueLight, 2); pc.rect(ox + 5, oy + 7, 4, 4, P.cream); pc.hline(ox + 6, oy + 8, 2, P.greyShade); pc.set(ox + 4, oy + 6, P.white); break;
     case 'envelope': b(2, 4, 10, 7, P.cream, 1); pc.line(ox + 3, oy + 5, ox + 7, oy + 8, P.creamShade); pc.line(ox + 11, oy + 5, ox + 7, oy + 8, P.creamShade); pc.ellipseBox(ox + 7, oy + 8, 1, 1, P.peachShade, P.peachShade); break;
+    case 'ore_silver': pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.greyShade, P.outline); for (const [x, y] of [[5, 7], [8, 9], [9, 6]]) { pc.set(ox + x, oy + y, P.greyLight); pc.set(ox + x + 1, oy + y, P.white); } break;
     case 'ore_copper': pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.greyShade, P.outline); for (const [x, y] of [[5, 7], [8, 9], [9, 6]]) { pc.set(ox + x, oy + y, P.peachShade); pc.set(ox + x + 1, oy + y, P.peach); } break;
     case 'gem_blue': pc.ellipseBox(ox + 7, oy + 8, 4, 4, P.blue, P.outline); pc.rect(ox + 5, oy + 6, 2, 2, P.blueLight); pc.set(ox + 5, oy + 6, P.white); pc.set(ox + 9, oy + 10, P.blueShade); break;
     case 'shard_colour': pc.line(ox + 4, oy + 12, ox + 7, oy + 2, P.blueLight); pc.ellipseBox(ox + 7, oy + 7, 3, 5, P.blueLight, P.outline); pc.set(ox + 6, oy + 5, P.white); pc.set(ox + 8, oy + 9, P.peach); break;

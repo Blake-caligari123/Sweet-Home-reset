@@ -67,3 +67,7 @@ tools/.venv/bin/python tools/process_asset.py hazel_walk_right --sheet 6 --frame
 - Output: `apps/web/public/sprites/<name>.png` (one row, 1x, the engine copy), `art/sprites/<name>_x4.png` (preview),
   `apps/web/public/sprites/manifest.json` updated, and with `--log` a row in `claude/LICENCES.md`.
 - The game loads every sheet in the manifest and falls back to the code-drawn character for anything missing.
+
+## Year soak (`year-soak.cjs`)
+- Sleeps through 57 days in the browser (`?debug`), visiting the main places each morning, and stops at the first page or console error. Day 57 checks that year two carries on.
+- With the dev server up (`npx vite --port 5199` in `apps/web`): `NODE_PATH=$(npm root -g) node tools/year-soak.cjs` (or set `URL`).

@@ -178,7 +178,7 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Before Mabel's day-10 letter, tapping the fountain hatch says it's closed. After reading the letter, "Climb down" takes Puff into the cave under the Glimmerwell.
 - [ ] Tap a rock: Puff swings (2 Fluff each, 1 in relaxed mode). Small rocks take 2 swings, medium 3, large 4. They give a colour shard, copper ore, or both.
 - [ ] Mined rocks stay gone for a week, then all come back. The ladder at the bottom takes Puff back up to the square.
-- [ ] Copper ore and shards show in the bag and sell at the General Store.
+- [ ] Copper ore and shards show in the bag and sell at the General Store (fixed in 4h: before, the store didn't buy them).
 
 ## 11q. Phase 3c: Sorrel moves in
 - [ ] Day 8: the tracker says "There's a letter by the Lane sign." Tap the envelope: Sorrel asks for a home. Reply either way.
@@ -269,6 +269,13 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] On the Far Bank, the path east ends in brambles. Before day 26: "Brambles everywhere. Maybe in summer…"
 - [ ] From day 26, clear the overgrown path from the Keeper's plans for 250 ✨, 8 twigs and 3 copper ore, over two nights. It becomes stepping stones and the way east opens.
 - [ ] The Woodland Edge has trees, a stream with a little bridge, and an orchard. Apples (fresh every morning) are a snack or sell for 20 ✨ at the General Store. There are mushrooms, twigs, weeds and leaves.
+
+## 12h. Phase 4h: caves floors 3 and 4, and every item drawn
+- [ ] Mabel's day-17 letter ends with a map leaf, and a ladder hole on floor 2 leads down to the Glow Garden (floor 3), which is green-lit, with silver ore (sells for 50 ✨) and glowing mushrooms.
+- [ ] Mabel's day-31 letter has the last leaf. The ladder on floor 3 leads to the Old Spring (floor 4): warm, with silver, gems, and a carving: "I'll sleep by the warm spring. Wake me when the town is bright. T."
+- [ ] Without the leaf, each ladder says "Not yet". Each floor's ladder goes back up.
+- [ ] The General Store buys ore, shards, gems, soup and fritters.
+- [ ] Every item has its own icon, including bread, berries, honey, the mushroom and the old map (some were plain squares).
 
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
