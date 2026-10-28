@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
 import { FEET, navFor, type NavGrid } from '../world/nav';
-import { firstDoor, Neighbours, stopAt, type NeighbourDef } from './neighbours';
+import { firstDoor, Neighbours, stopAt, wakesAt, type NeighbourDef } from './neighbours';
 
 const T = 16;
 const navs = new Map<string, NavGrid>();
@@ -138,6 +138,12 @@ describe('Hollowfern neighbours', () => {
       d.schedule.forEach((s, i) => { if (pack.areas.some((a) => a.id === s.area)) minutes += (d.schedule[i + 1]?.at ?? 26 * 60) - s.at; });
       expect(minutes, id).toBeGreaterThanOrEqual(150);
     }
+  });
+
+  it('knows when a dozing neighbour is up again today', () => {
+    const pip = pack.neighbours!.find((n) => n.id === 'pip')!;
+    expect(wakesAt(pip.schedule, 9 * 60)).toBe(10 * 60);
+    expect(wakesAt(pip.schedule, 25 * 60 + 10)).toBeNull();
   });
 
   it('Otto, Moss and Mabel keep their routines', () => {

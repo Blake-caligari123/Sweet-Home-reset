@@ -1,7 +1,7 @@
 import { h } from '../../shared/ui/dom';
 import type { Content } from '../data/content';
 import { TUNING } from '../data/tuning';
-import type { Clock } from '../play/clock';
+import { formatTime, type Clock } from '../play/clock';
 import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import { itemIcon } from '../ui/hud';
@@ -10,7 +10,7 @@ import { drawNeighbour24, type Dir } from '../world/art/characters';
 import { spriteIcon } from '../world/sprites';
 import { canGift, chat, give } from './friends';
 import { doneFlag, eventDue, stepsOf, type HeartEvent } from './heart-events';
-import type { NeighbourDef, Neighbours } from './neighbours';
+import { wakesAt, type NeighbourDef, type Neighbours } from './neighbours';
 import { heartsOf, pickLine, RECENT } from './talk';
 
 const OPPOSITE: Record<Dir, Dir> = { down: 'up', up: 'down', left: 'right', right: 'left' };
@@ -46,7 +46,11 @@ export class Conversations {
     const def = content.neighbour(id); const n = neighbours.states.get(id);
     if (!def || !n || n.area !== this.host.area()) { neighbours.releaseAll(); return; }
     const dir = this.host.facePuff(n.fx, n.fy);
-    if (n.pose === 'sleep') { this.host.view.say(`Shh... ${def.name}'s having a doze.`); neighbours.releaseAll(); return; }
+    if (n.pose === 'sleep') {
+      const up = wakesAt(def.schedule, clock.state.minutes);
+      this.host.view.say(`Shh... ${def.name}'s having a doze.${up ? ` Up at ${formatTime(up)}.` : ''}`);
+      neighbours.releaseAll(); return;
+    }
     n.dir = OPPOSITE[dir];
     const f = state.friendOf(id);
     const day = clock.state.day;

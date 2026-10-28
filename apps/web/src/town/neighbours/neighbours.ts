@@ -35,6 +35,11 @@ export function stopAt(schedule: Stop[], minutes: number) {
   return i;
 }
 
+/** When a dozing neighbour's next waking stop starts today, or null if they sleep till morning. */
+export function wakesAt(schedule: Stop[], minutes: number) {
+  return schedule.slice(stopAt(schedule, minutes) + 1).find((s) => s.at > minutes && !s.sleep)?.at ?? null;
+}
+
 const nodeOf = (areas: AreaPack[], id: string) => (areas.some((a) => a.id === id || a.doors.some((d) => d.to === id)) ? id : OFFSTAGE);
 
 /** The areas on the shortest trip between two places (doors work both ways), ends included. */
