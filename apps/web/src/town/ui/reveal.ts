@@ -6,7 +6,7 @@ import { drawMess } from '../world/art/items';
 import { T } from '../world/art/texture';
 import type { View } from './view';
 
-/** After a home is restored: offer a before-and-after clip, made on the device (GDD v3 A2, A11.5). */
+/** After an area is restored (a home, the yard, the square): offer a before-and-after clip, made on the device (GDD v3 A2, A11.5). */
 export function offerClip(view: View, area: Area, first: boolean) {
   let file: File | null = null;
   view.hold();
