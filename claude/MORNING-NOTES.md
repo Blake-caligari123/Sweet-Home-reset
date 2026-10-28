@@ -49,6 +49,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **3a (#50):** Mabel's letters. The text is my proposal (see DIALOGUE-REVIEW), so please tweak anything that isn't her voice.
 - **3b (#51):** the caves, floor 1. Mabel's first letter opens the fountain hatch; mine rocks for copper ore and colour shards; they grow back weekly. Code-drawn for now (a Grok cave painting would be lovely later). Checklist §11p.
 - **3c (#52):** Sorrel moves in. Her letter comes on day 8, you build her cottage on the Lane (two nights), and she's there on day 10. She's a code-drawn red squirrel, and all her lines are my proposal (DIALOGUE-REVIEW). Checklist §11q.
+- **3d (#53):** the footbridge. From day 12, mend it at Riverside with Sparkles, twigs, pebbles and copper ore from the caves. Two nights later you can cross to the Far Bank, a new grey orchard to restore. Checklist §11r.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
@@ -56,4 +57,6 @@ You said to carry on without asking. I've merged each slice to the test link onc
 
 ## Next, unless you say otherwise
 Phase 3:
-- the footbridge repair
+- town jobs and neighbours visiting
+- cobweb, mud and soot Grumbles
+- caves floor 2

@@ -108,6 +108,9 @@
     },
     "sorrel": {
       "flag": "home_sorrel"
+    },
+    "footbridge": {
+      "day": 12
     }
   },
   "grumbles": {

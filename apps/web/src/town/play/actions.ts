@@ -252,6 +252,9 @@ export class PuffActions {
       case 'build':
         this.host.openBuild();
         return;
+      case 'repair': // something broken on a repair plot (the footbridge): the Keeper's plans, once it's due
+        if (this.host.arrived('footbridge')) this.host.openBuild(); else view.say(content.line('repair.wait') ?? '');
+        return;
       case 'craft':
         this.host.openWorkbench('bench');
         return;

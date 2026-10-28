@@ -9,6 +9,7 @@ export function nudge(state: TownState, arrived: (key: string) => boolean, lette
   if (arrived('building') && !Object.keys(state.plots).length) return 'build.hint';
   if (arrived('grumble_dust') && !state.has('grumble_friend')) return 'grumble.hint';
   if (arrived('pet') && !state.pet) return 'pet.hint';
+  if (arrived('footbridge') && !state.plots.plot_footbridge) return 'repair.hint';
   if (arrived('invite_sorrel') && !Object.values(state.plots).some((p) => p.buildingId === 'cottage_sorrel')) return 'invite.hint';
   return null;
 }

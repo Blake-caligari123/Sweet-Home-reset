@@ -77,7 +77,8 @@ town/
   bloom/        bloom.ts (Town Bloom points and levels; surprise finds every few cleans),
                 collection-sheet.ts (Moss's collection)
   build/        build.ts (plots and buildings: start, overnight finish, the props they put in an
-                area), build-sheet.ts (the Keeper's plans screen)
+                area; repairs like the footbridge pave their plot and open doors), build-sheet.ts
+                (the Keeper's plans screen)
   craft/        recipes.ts (what a recipe needs, making a tool or a dish), craft-sheet.ts (Pip's
                 workbench and Puff's kitchen)
   decor/        decor.ts (placing rules: open ground, never blocking a way; areas with decor),
