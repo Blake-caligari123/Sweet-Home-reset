@@ -5,7 +5,8 @@ import { T } from './texture';
 
 /**
  * What the town builds and places (code-drawn): the Keeper's plans board, scaffolding and frames,
- * the buildings and their upgrades, the greenhouse, a newcomer's cottage, the footbridge (broken, then mended), and decor (flower pots, lanterns, fences).
+ * the buildings and their upgrades, the greenhouse, a newcomer's cottage, the footbridge and sea steps (broken,
+ * then mended), the lighthouse, and decor (flower pots, lanterns, fences).
  */
 export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
   const x = p.x * T; const y = p.y * T; const w = (p.w ?? 1) * T; const h = (p.h ?? 1) * T;
@@ -53,6 +54,22 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       pc.hline(x, y + 2, w, P.outline); pc.hline(x, y - 5, w, P.outline);
       pc.ellipse(x + w / 2, y + 11, 2, 2, P.blue); pc.set(x + w / 2, y + 11, P.white);
       break;
+    case 'steps_broken': // stone steps lost under brambles
+      for (let i = 0; i < 3; i += 1) pc.box(x + 2 + i * 4, y + 3 + i * 3, w - 4 - i * 8, 4, P.greyLight, P.outline);
+      for (const [bx, by] of [[x + 4, y + 4], [x + 14, y + 6], [x + 22, y + 3], [x + 9, y + 10]]) { pc.ellipse(bx, by, 3, 2, P.sageShade); pc.set(bx + 1, by - 1, P.peachShade); }
+      break;
+    case 'sea_steps': // mended: three clean stone steps down toward the sea
+      for (let i = 0; i < 3; i += 1) { pc.box(x + 2 + i * 3, y + 2 + i * 4, w - 4 - i * 6, 5, i % 2 ? P.greyLight : P.cream, P.outline); pc.hline(x + 3 + i * 3, y + 3 + i * 4, w - 6 - i * 6, P.white); }
+      break;
+    case 'lighthouse': { // Mabel's lighthouse by the sea: a striped tower, a lamp room on top
+      const cx = x + w / 2;
+      for (let i = 0; i < h - 12; i += 1) { const half = 7 - Math.floor(i / 12); pc.hline(cx - half, y + 12 + i, half * 2, Math.floor(i / 8) % 2 ? P.peach : P.cream); }
+      pc.vline(cx - 7, y + 12, h - 12, P.outline); pc.vline(cx + 6, y + 12, h - 12, P.outline);
+      pc.box(cx - 6, y + 2, 12, 10, P.butterLight, P.outline); pc.rect(cx - 3, y + 4, 6, 6, P.white);
+      pc.hline(cx - 8, y + 1, 16, P.peachShade); pc.hline(cx - 5, y - 1, 10, P.peachShade); pc.set(cx, y - 3, P.ink);
+      pc.box(cx - 3, y + h - 9, 6, 9, P.blueShade, P.outline);
+      break;
+    }
     case 'bridge_broken': // two snapped planks and a leaning post over the water
       pc.box(x + 2, y + 2, 12, 4, P.brownLight, P.outline); pc.line(x + 14, y + 3, x + 19, y + 9, P.brown);
       pc.box(x + w - 10, y + 6, 8, 3, P.brownLight, P.outline);

@@ -2,7 +2,7 @@ import { P } from '../../../shared/art/palette';
 import { seeded, type PixelCanvas } from '../../../shared/art/pixel-canvas';
 import { T, hash, noise, mottle, flower, dither } from './texture';
 
-export type Ground = 'void' | 'wood' | 'rug' | 'tile' | 'wall' | 'grass' | 'path' | 'cobble' | 'soil' | 'water' | 'flowers' | 'fence' | 'hedge' | 'mat' | 'stone' | 'rock';
+export type Ground = 'void' | 'wood' | 'rug' | 'tile' | 'wall' | 'grass' | 'path' | 'cobble' | 'soil' | 'water' | 'flowers' | 'fence' | 'hedge' | 'mat' | 'stone' | 'rock' | 'sand';
 
 const BLOCKED: Ground[] = ['void', 'wall', 'water', 'fence', 'hedge', 'rock'];
 export const isBlockedGround = (g: Ground) => BLOCKED.includes(g);
@@ -112,6 +112,11 @@ export function drawGround(pc: PixelCanvas, g: Ground, px: number, py: number, t
       }
       break;
     case 'grass': drawGrass(pc, px, py, r); break;
+    case 'sand': // the beach: warm sand, a ripple or two, now and then a tiny shell
+      mottle(pc, px, py, P.butterLight, P.butter, P.cream, 64, 1, 0.3);
+      if (r() < 0.3) pc.hline(px + 3 + Math.floor(r() * 6), py + 4 + Math.floor(r() * 8), 4, P.butterShade);
+      if (r() < 0.08) { const x = px + 4 + Math.floor(r() * 8); const y = py + 4 + Math.floor(r() * 8); pc.set(x, y, P.peachLight); pc.set(x + 1, y, P.white); }
+      break;
     case 'rock': {
       // A cave wall: dark rough rock, lit where it meets the floor below, with the odd crack.
       mottle(pc, px, py, theme.floorShade, P.ink, theme.floor, 64, 1, 0.35);

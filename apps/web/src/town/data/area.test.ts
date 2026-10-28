@@ -9,8 +9,8 @@ const T = 16;
 
 
 describe('Hollowfern spring pack', () => {
-  it('has the M1 areas, the M2 ones, two cave floors and the far bank', () => {
-    expect(pack.areas.map((a) => a.id)).toEqual(['burrow', 'yard', 'square', 'bakery', 'store', 'lane', 'bea_shop', 'pip_workshop', 'library', 'riverside', 'bathhouse', 'cave_1', 'far_bank', 'cave_2']);
+  it('has the M1 areas, the M2 ones, two cave floors, the far bank and the beach', () => {
+    expect(pack.areas.map((a) => a.id)).toEqual(['burrow', 'yard', 'square', 'bakery', 'store', 'lane', 'bea_shop', 'pip_workshop', 'library', 'riverside', 'bathhouse', 'cave_1', 'far_bank', 'cave_2', 'beach']);
   });
 
   it('can reach every open door and every mess tile from the spawn', () => {
@@ -55,6 +55,16 @@ describe('Hollowfern spring pack', () => {
       for (const m of new Area(a).spots.filter((s) => s.type === 'clutter')) {
         expect(MESS_TYPES).toContain(m.type);
         expect(a.props.some((p) => p.accepts?.includes(m.item!)), `${a.id} ${m.item}`).toBe(true);
+      }
+    }
+  });
+
+  it('never scatters mess over something Puff can use (it would hide it)', () => {
+    for (const a of pack.areas) {
+      const placed = new Set(a.mess.filter((d) => !('rect' in d)).map((d) => `${(d as { x: number }).x},${(d as { y: number }).y}`));
+      for (const m of new Area(a).spots.filter((s) => !placed.has(`${s.x},${s.y}`))) {
+        const under = a.props.find((p) => p.action && m.x >= p.x && m.x < p.x + (p.w ?? 1) && m.y >= p.y && m.y < p.y + (p.h ?? 1));
+        expect(under, `${a.id} ${m.type} at ${m.x},${m.y}`).toBeUndefined();
       }
     }
   });

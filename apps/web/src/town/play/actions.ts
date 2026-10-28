@@ -255,9 +255,11 @@ export class PuffActions {
       case 'build':
         this.host.openBuild();
         return;
-      case 'repair': // something broken on a repair plot (the footbridge): the Keeper's plans, once it's due
-        if (this.host.arrived('footbridge')) this.host.openBuild(); else view.say(content.line('repair.wait') ?? '');
+      case 'repair': { // something broken on a repair plot (the footbridge, the sea steps): the Keeper's plans, once it's due
+        const plot = content.pack.plots?.find((p) => p.area === this.host.here().id && t.x >= p.x && t.x < p.x + p.w && t.y >= p.y && t.y < p.y + p.h);
+        if (!plot?.unlock || this.host.arrived(plot.unlock)) this.host.openBuild(); else view.say(content.line(`repair.wait.${plot.id}`) ?? content.line('repair.wait') ?? '');
         return;
+      }
       case 'craft':
         this.host.openWorkbench('bench');
         return;

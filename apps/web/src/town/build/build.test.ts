@@ -80,6 +80,15 @@ describe('repairs', () => {
     expect(fixed.props).toEqual([{ type: 'tree', x: 0, y: 3 }, { type: 'footbridge', x: 1, y: 1, w: 1, h: 3, walkable: true }]);
     expect(river.map[1]).toBe('gwg'); // the pack itself is untouched
   });
+
+  it('opens a way that was closed: the mended door replaces the closed one on its tile', () => {
+    const steps: BuildingDef = { ...bridge, paves: undefined, doors: [{ x: 2, y: 0, to: 'beach', toX: 1, toY: 1 }] };
+    const shut = { ...river, doors: [{ x: 2, y: 0, to: 'beach', toX: 1, toY: 1, closedText: 'Overgrown.' }] };
+    const s = fresh(500); s.bag.add('twig', 4); s.bag.add('pebble', 2);
+    startBuild(s, spot, steps, 40);
+    resolveBuilds(s.plots, [steps], 41);
+    expect(withBuilds(shut, [spot], s.plots, [steps]).doors).toEqual([{ x: 2, y: 0, to: 'beach', toX: 1, toY: 1 }]);
+  });
 });
 
 describe('upgrades', () => {
@@ -110,6 +119,14 @@ describe('Hollowfern plots', () => {
     expect(Object.keys(b.cost.items ?? {}).sort()).toEqual(['ore_copper', 'pebble', 'twig']);
     expect(b.doors?.every((d) => d.to === 'far_bank')).toBe(true);
     expect(pack.areas.some((a) => a.id === 'far_bank')).toBe(true);
+  });
+
+  it('mends the sea steps in winter (day 43), opening the Beach where Mabel lives', () => {
+    const p = plots.find((x) => x.id === 'plot_sea_steps')!;
+    expect(p.unlock).toBe('sea_steps');
+    const b = buildings.find((d) => d.id === 'sea_steps')!;
+    expect(b.doors?.every((d) => d.to === 'beach')).toBe(true);
+    expect(pack.neighbours!.find((n) => n.id === 'mabel')!.schedule.some((s) => s.area === 'beach')).toBe(true);
   });
 
   it('has a bench plot by the fountain to start, and fitting buildings for every plot', () => {

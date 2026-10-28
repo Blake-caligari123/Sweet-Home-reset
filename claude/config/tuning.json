@@ -128,6 +128,9 @@
     "cave_2": {
       "day": 13,
       "flag": "cave_leaf_2"
+    },
+    "sea_steps": {
+      "day": 43
     }
   },
   "grumbles": {

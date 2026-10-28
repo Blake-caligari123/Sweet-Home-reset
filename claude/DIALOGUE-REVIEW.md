@@ -282,6 +282,15 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `mabel.festival.winter_lights`: Hoo... the lights. I've waited so long to see them.
 - `sorrel.festival.winter_lights`: My first Winter Lights! I'm not crying. It's snow.
 
+## New in Phase 4f (29 Oct): the sea steps and the Beach (proposed)
+- `repair.wait.plot_sea_steps`: The sea steps are all overgrown. Maybe in winter.
+- `repair.sea_steps.hint`: The sea steps could be mended. See the Keeper's plans.
+- `alive.beach.lamp`: The lighthouse is lit! Hello, sea!
+- `alive.beach.flowers`: Sea pinks in the dunes. So bright!
+- `alive.beach.home`: Gulls on the sand. The beach is awake!
+- `build.done`: All done: the new {building}! Come see.
+- Beach sign: The Beach. Mind the owl, she naps by day.
+
 ## Hazel
 
 **First hello**
