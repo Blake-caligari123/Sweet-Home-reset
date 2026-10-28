@@ -32,6 +32,13 @@ describe('shops', () => {
     expect(stockToday(shop, 5, s.flags).map((e) => e.item)).toEqual(['radish_seeds', 'copper_sponge', 'bag_big']);
   });
 
+  it('stock seeds only in the seasons they grow', () => {
+    const seasonal: ShopDef = { ...shop, stock: [{ item: 'radish_seeds', price: 20, seasons: ['Spring'] }, { item: 'tomato_seeds', price: 40, seasons: ['Summer'] }] };
+    expect(stockToday(seasonal, 3, []).map((e) => e.item)).toEqual(['radish_seeds']);
+    expect(stockToday(seasonal, 15, []).map((e) => e.item)).toEqual(['tomato_seeds']);
+    expect(stockToday(seasonal, 43, [])).toEqual([]); // winter: grow under glass from saved seeds
+  });
+
   it('sell at fixed prices: Sparkles go down by exactly the price and the item lands in the bag', () => {
     const s = rich();
     expect(buy(shop, shop.stock[0], ctx(s))).toEqual({ ok: true });

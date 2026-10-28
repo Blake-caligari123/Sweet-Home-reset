@@ -82,7 +82,10 @@
     "radish": 3,
     "carrot": 4,
     "peas": 5,
-    "strawberry": 6
+    "strawberry": 6,
+    "tomato": 5,
+    "corn": 6,
+    "pumpkin": 7
   },
   "unlocks": {
     "mabel": {
@@ -137,7 +140,8 @@
     "maxFresh": 4
   },
   "cropRegrowDays": {
-    "strawberry": 3
+    "strawberry": 3,
+    "tomato": 3
   },
   "bloomLevels": [
     0,

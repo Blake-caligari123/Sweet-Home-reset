@@ -201,6 +201,30 @@
   "gem_blue": {
    "name": "Blue gem",
    "sell": 60
+  },
+  "tomato": {
+   "name": "Tomato",
+   "snack": 25,
+   "sell": 35
+  },
+  "tomato_seeds": {
+   "name": "Tomato seeds"
+  },
+  "corn": {
+   "name": "Corn",
+   "snack": 30,
+   "sell": 40
+  },
+  "corn_seeds": {
+   "name": "Corn seeds"
+  },
+  "pumpkin": {
+   "name": "Pumpkin",
+   "snack": 35,
+   "sell": 60
+  },
+  "pumpkin_seeds": {
+   "name": "Pumpkin seeds"
   }
  },
  "areas": [
@@ -4594,6 +4618,18 @@
    {
     "id": "hazel.visit.2",
     "area": "yard"
+   },
+   {
+    "id": "hazel.summer.1",
+    "season": "summer"
+   },
+   {
+    "id": "hazel.autumn.1",
+    "season": "autumn"
+   },
+   {
+    "id": "hazel.winter.1",
+    "season": "winter"
    }
   ],
   "bea": [
@@ -4737,6 +4773,18 @@
    {
     "id": "bea.visit.2",
     "area": "yard"
+   },
+   {
+    "id": "bea.summer.1",
+    "season": "summer"
+   },
+   {
+    "id": "bea.autumn.1",
+    "season": "autumn"
+   },
+   {
+    "id": "bea.winter.1",
+    "season": "winter"
    }
   ],
   "pip": [
@@ -4876,6 +4924,18 @@
    {
     "id": "pip.visit.1",
     "area": "library"
+   },
+   {
+    "id": "pip.summer.1",
+    "season": "summer"
+   },
+   {
+    "id": "pip.autumn.1",
+    "season": "autumn"
+   },
+   {
+    "id": "pip.winter.1",
+    "season": "winter"
    }
   ],
   "otto": [
@@ -5015,6 +5075,18 @@
    {
     "id": "otto.visit.1",
     "area": "bakery"
+   },
+   {
+    "id": "otto.summer.1",
+    "season": "summer"
+   },
+   {
+    "id": "otto.autumn.1",
+    "season": "autumn"
+   },
+   {
+    "id": "otto.winter.1",
+    "season": "winter"
    }
   ],
   "moss": [
@@ -5154,6 +5226,18 @@
    {
     "id": "moss.visit.1",
     "area": "square"
+   },
+   {
+    "id": "moss.summer.1",
+    "season": "summer"
+   },
+   {
+    "id": "moss.autumn.1",
+    "season": "autumn"
+   },
+   {
+    "id": "moss.winter.1",
+    "season": "winter"
    }
   ],
   "mabel": [
@@ -5289,6 +5373,18 @@
     "id": "mabel.restored.1",
     "flag": "restored_bathhouse",
     "once": true
+   },
+   {
+    "id": "mabel.summer.1",
+    "season": "summer"
+   },
+   {
+    "id": "mabel.autumn.1",
+    "season": "autumn"
+   },
+   {
+    "id": "mabel.winter.1",
+    "season": "winter"
    }
   ],
   "sorrel": [
@@ -5427,6 +5523,18 @@
    {
     "id": "sorrel.visit.2",
     "area": "yard"
+   },
+   {
+    "id": "sorrel.summer.1",
+    "season": "summer"
+   },
+   {
+    "id": "sorrel.autumn.1",
+    "season": "autumn"
+   },
+   {
+    "id": "sorrel.winter.1",
+    "season": "winter"
    }
   ]
  },
@@ -6058,7 +6166,36 @@
    "req.town_river_mud": "Rake the mud off the riverside path.",
    "req.town_lane_weeds": "Tidy the Lane's grass for the walkers.",
    "req.town_square_east": "Clear the weeds round the square's east side.",
-   "weather.rain": "Rain today! The garden gets a drink. No watering."
+   "weather.rain": "Rain today! The garden gets a drink. No watering.",
+   "crop.tomato.harvest": "A tomato! Warm from the sun. More will grow back.",
+   "crop.corn.harvest": "Corn! Tall and golden.",
+   "crop.pumpkin.harvest": "A pumpkin! So round and orange.",
+   "crop.offseason": "These seeds rest till their season. Or try a greenhouse!",
+   "season.summer": "Summer in {town}! New seeds at the shops.",
+   "season.autumn": "Autumn in {town}! Leaves and pumpkins.",
+   "season.winter": "Winter in {town}! Snug and snowy.",
+   "season.spring": "Spring again! A new year in {town}.",
+   "hazel.summer.1": "Too hot for the oven! I'm baking anyway, petal.",
+   "hazel.autumn.1": "Pumpkin buns season! My favourite, petal.",
+   "hazel.winter.1": "Warm bread on a cold day. Nothing better, petal.",
+   "bea.summer.1": "Bzz! The flowers are showing off today.",
+   "bea.autumn.1": "Bzz... the bees are getting sleepy. Me too.",
+   "bea.winter.1": "Winter flowers are brave little things. Bzz.",
+   "pip.summer.1": "Too hot to tinker! I'm tinkering in the shade.",
+   "pip.autumn.1": "Leaves in my gears again! Every autumn.",
+   "pip.winter.1": "Cold fingers, warm workshop. I've got a stove!",
+   "otto.summer.1": "Summer swims! Well, paddles. Heh.",
+   "otto.autumn.1": "The river's full of leaves. Little boats! Heh.",
+   "otto.winter.1": "The bathhouse is the warmest place in town. Heh.",
+   "moss.summer.1": "Sun! Too much. I'll stay with my books.",
+   "moss.autumn.1": "Autumn is for reading. So is everything.",
+   "moss.winter.1": "Snow outside, stories inside. Perfect.",
+   "mabel.summer.1": "Long summer evenings. Hoo. Good for stars.",
+   "mabel.autumn.1": "The wind's turning. Hoo. Hold on to your hat.",
+   "mabel.winter.1": "The sea is grey and grand in winter. Hoo.",
+   "sorrel.summer.1": "My first summer here! Is it always this sunny?",
+   "sorrel.autumn.1": "Acorn season! I'm SO busy. Happy busy!",
+   "sorrel.winter.1": "I've stored enough acorns for ten winters!"
   }
  },
  "heartEvents": [
@@ -7736,19 +7873,46 @@
     {
      "item": "radish_seeds",
      "price": 20,
-     "qty": 3
+     "qty": 3,
+     "seasons": [
+      "Spring"
+     ]
     },
     {
      "item": "carrot_seeds",
      "price": 30,
      "qty": 3,
-     "fromDay": 3
+     "fromDay": 3,
+     "seasons": [
+      "Spring",
+      "Autumn"
+     ]
     },
     {
      "item": "pea_seeds",
      "price": 40,
      "qty": 3,
-     "fromDay": 6
+     "fromDay": 6,
+     "seasons": [
+      "Spring",
+      "Summer"
+     ]
+    },
+    {
+     "item": "corn_seeds",
+     "price": 50,
+     "qty": 3,
+     "seasons": [
+      "Summer"
+     ]
+    },
+    {
+     "item": "pumpkin_seeds",
+     "price": 70,
+     "qty": 3,
+     "seasons": [
+      "Autumn"
+     ]
     },
     {
      "item": "biscuit",
@@ -7812,7 +7976,10 @@
     "radish",
     "carrot",
     "peas",
-    "strawberry"
+    "strawberry",
+    "tomato",
+    "corn",
+    "pumpkin"
    ]
   },
   {
@@ -7825,7 +7992,10 @@
     {
      "item": "radish_seeds",
      "price": 20,
-     "qty": 3
+     "qty": 3,
+     "seasons": [
+      "Spring"
+     ]
     },
     {
      "item": "flowers",
@@ -7835,7 +8005,19 @@
      "item": "strawberry_seeds",
      "price": 60,
      "qty": 3,
-     "fromDay": 8
+     "fromDay": 8,
+     "seasons": [
+      "Spring",
+      "Summer"
+     ]
+    },
+    {
+     "item": "tomato_seeds",
+     "price": 45,
+     "qty": 3,
+     "seasons": [
+      "Summer"
+     ]
     }
    ]
   },
@@ -8267,17 +8449,53 @@
   {
    "id": "carrot",
    "seed": "carrot_seeds",
-   "look": "long"
+   "look": "long",
+   "seasons": [
+    "Spring",
+    "Autumn"
+   ]
   },
   {
    "id": "peas",
    "seed": "pea_seeds",
-   "look": "pod"
+   "look": "pod",
+   "seasons": [
+    "Spring",
+    "Summer"
+   ]
   },
   {
    "id": "strawberry",
    "seed": "strawberry_seeds",
-   "look": "berry"
+   "look": "berry",
+   "seasons": [
+    "Spring",
+    "Summer"
+   ]
+  },
+  {
+   "id": "tomato",
+   "seed": "tomato_seeds",
+   "look": "berry",
+   "seasons": [
+    "Summer"
+   ]
+  },
+  {
+   "id": "corn",
+   "seed": "corn_seeds",
+   "look": "stalk",
+   "seasons": [
+    "Summer"
+   ]
+  },
+  {
+   "id": "pumpkin",
+   "seed": "pumpkin_seeds",
+   "look": "pumpkin",
+   "seasons": [
+    "Autumn"
+   ]
   }
  ],
  "finds": [

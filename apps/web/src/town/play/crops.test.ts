@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import type { Crop } from '../state';
-import { harvest, seedsIn, stageOf, type CropDef } from './crops';
+import { grows, harvest, seedsIn, stageOf, type CropDef } from './crops';
 
 const radish: CropDef = { id: 'radish', seed: 'radish_seeds', look: 'round' };
 const berry: CropDef = { id: 'strawberry', seed: 'strawberry_seeds', look: 'berry' };
@@ -24,14 +24,24 @@ describe('crops', () => {
     expect(stageOf(s)).toBe(1);
   });
 
-  it('lists the kinds of seed in the bag, in pack order', () => {
-    const bag = { count: (id: string) => ({ carrot_seeds: 2, radish_seeds: 1 } as Record<string, number>)[id] ?? 0 };
-    expect(seedsIn(bag, pack.crops ?? []).map((c) => c.id)).toEqual(['radish', 'carrot']);
+  it('lists the kinds of seed in the bag that grow now, in pack order (any, under glass)', () => {
+    const bag = { count: (id: string) => ({ carrot_seeds: 2, radish_seeds: 1, pumpkin_seeds: 1 } as Record<string, number>)[id] ?? 0 };
+    expect(seedsIn(bag, pack.crops ?? [], 'Spring', false).map((c) => c.id)).toEqual(['radish', 'carrot']);
+    expect(seedsIn(bag, pack.crops ?? [], 'Autumn', false).map((c) => c.id)).toEqual(['carrot', 'pumpkin']);
+    expect(seedsIn(bag, pack.crops ?? [], 'Winter', true).map((c) => c.id)).toEqual(['radish', 'carrot', 'pumpkin']);
   });
 
-  it('has four spring crops, each with seeds a shop sells, a harvest line, and the crop itself sellable', () => {
+  it('grows only in its seasons (spring if none given), or any time with a greenhouse; out of season it rests', () => {
+    expect(grows(radish, 'Spring', false)).toBe(true);
+    expect(grows(radish, 'Summer', false)).toBe(false);
+    expect(grows(radish, 'Winter', true)).toBe(true);
+    expect(grows({ ...radish, seasons: ['Summer', 'Autumn'] }, 'Autumn', false)).toBe(true);
+  });
+
+  it('has crops for spring, summer and autumn, each with seeds a shop sells that season, a harvest line, and sellable', () => {
     const crops = pack.crops ?? [];
-    expect(crops.map((c) => c.id)).toEqual(['radish', 'carrot', 'peas', 'strawberry']);
+    expect(crops.map((c) => c.id)).toEqual(['radish', 'carrot', 'peas', 'strawberry', 'tomato', 'corn', 'pumpkin']);
+    for (const s of ['Spring', 'Summer', 'Autumn']) expect(crops.some((c) => (c.seasons ?? ['Spring']).includes(s)), s).toBe(true);
     const stock = (pack.shops ?? []).flatMap((s) => s.stock.map((e) => e.item));
     const buys = (pack.shops ?? []).flatMap((s) => s.buys ?? []);
     for (const c of crops) {

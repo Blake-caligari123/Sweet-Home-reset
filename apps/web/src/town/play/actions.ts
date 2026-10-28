@@ -2,6 +2,7 @@ import type { Area, TownPack } from '../data/area';
 import type { Content } from '../data/content';
 import { PUTAWAY_SPARKLES, SWING_MS, TUNING } from '../data/tuning';
 import { nextFind } from '../bloom/bloom';
+import { areasWith } from '../build/build';
 import { openCollection } from '../bloom/collection-sheet';
 import type { Mining } from '../caves/mining';
 import { openLetter } from '../letters/letter-sheet';
@@ -313,8 +314,11 @@ export class PuffActions {
         this.host.guide.handle({ type: 'watered' });
       } else view.say('Growing. No rush.');
     } else {
-      const kinds = seedsIn(state.bag, content.pack.crops ?? []);
-      if (!kinds.length) view.say('Seeds would grow here.');
+      const here = this.host.here().id;
+      const glass = areasWith('waters_garden', state.plots, content.pack.plots ?? [], content.pack.buildings ?? []).has(here);
+      const kinds = seedsIn(state.bag, content.pack.crops ?? [], this.host.clock.season, glass);
+      const resting = seedsIn(state.bag, content.pack.crops ?? [], '', true).length > 0;
+      if (!kinds.length) view.say(resting ? content.line('crop.offseason') ?? '' : 'Seeds would grow here.');
       else if (kinds.length === 1) this.plant(x, y, kinds[0]);
       else view.ask(content.line('crop.which') ?? '', [...kinds.map((k) => ({ label: content.itemName(k.seed), onClick: () => this.plant(x, y, k) })), { label: 'Not now', onClick: () => {} }]);
       return;

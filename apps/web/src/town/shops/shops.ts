@@ -1,3 +1,4 @@
+import { seasonOf } from '../play/clock';
 import type { TownPack } from '../data/area';
 import type { TownState } from '../state';
 
@@ -14,6 +15,8 @@ export interface StockEntry {
   fromDay?: number;
   /** Only once this save flag is set (the big bag after the small one). */
   requires?: string;
+  /** Only in these seasons (seeds for what grows now). */
+  seasons?: string[];
 }
 
 export interface ShopDef {
@@ -41,7 +44,7 @@ export function isOpen(shop: ShopDef, minutes: number, day: number) {
 
 /** What's on the shelf today. */
 export function stockToday(shop: ShopDef, day: number, flags: string[]) {
-  return shop.stock.filter((e) => day >= (e.fromDay ?? 1) && (!e.requires || flags.includes(e.requires)) && !(once(e) && flags.includes(boughtFlag(shop, e))));
+  return shop.stock.filter((e) => day >= (e.fromDay ?? 1) && (!e.seasons || e.seasons.includes(seasonOf(day))) && (!e.requires || flags.includes(e.requires)) && !(once(e) && flags.includes(boughtFlag(shop, e))));
 }
 
 export function buy(shop: ShopDef, e: StockEntry, c: ShopContext): ShopResult {

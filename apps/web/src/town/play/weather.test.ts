@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { TUNING } from '../data/tuning';
 import { DAYS_PER_SEASON } from './clock';
-import { weatherFor } from './weather';
+import { Clock } from './clock';
+import { morningNews, weatherFor } from './weather';
 
 describe('weather', () => {
   it('is the same for the same day, on every device', () => {
@@ -20,5 +21,13 @@ describe('weather', () => {
       expect(rainy, `season ${s}`).toBeGreaterThan(0.05);
       expect(rainy, `season ${s}`).toBeLessThan(0.5);
     }
+  });
+
+  it('greets each new season with a banner (not the very first morning), and says when it rains', () => {
+    const on = (day: number) => morningNews(new Clock({ day, minutes: 360 }));
+    expect(on(1)).toEqual([]);
+    expect(on(15)).toEqual([['banner', 'season.summer']]);
+    expect(on(57)[0]).toEqual(['banner', 'season.spring']); // a new year
+    expect(on(6)).toEqual([['say', 'weather.rain']]);
   });
 });

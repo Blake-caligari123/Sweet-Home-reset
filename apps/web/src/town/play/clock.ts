@@ -8,6 +8,9 @@ export const LATE_AT = 25 * 60;
 export const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const;
 export const DAYS_PER_SEASON = 14;
 
+/** The season a day falls in (14 days each, around the year). */
+export const seasonOf = (day: number) => SEASONS[Math.floor((day - 1) / DAYS_PER_SEASON) % 4];
+
 export function realMsPerGameMinute(dayRealMinutes = TUNING.dayRealMinutes) {
   return (dayRealMinutes * 60_000) / (DAY_END - DAY_START);
 }
@@ -20,7 +23,7 @@ export class Clock {
   speed = 1;
   constructor(public state: ClockState = { day: 1, minutes: DAY_START }) {}
 
-  get season() { return SEASONS[Math.floor((this.state.day - 1) / DAYS_PER_SEASON) % 4]; }
+  get season() { return seasonOf(this.state.day); }
   get weather() { return weatherFor(this.state.day); }
   get dayOfSeason() { return ((this.state.day - 1) % DAYS_PER_SEASON) + 1; }
   /** Time shown in 10-minute steps, as the HUD does. */
