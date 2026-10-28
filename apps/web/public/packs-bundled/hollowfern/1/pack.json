@@ -230,6 +230,10 @@
    "name": "Apple",
    "snack": 25,
    "sell": 20
+  },
+  "ore_silver": {
+   "name": "Silver ore",
+   "sell": 50
   }
  },
  "areas": [
@@ -3899,6 +3903,13 @@
      "x": 13,
      "y": 2,
      "action": "sign"
+    },
+    {
+     "type": "ladder_down",
+     "x": 17,
+     "y": 10,
+     "action": "hatch",
+     "to": "cave_3"
     }
    ],
    "signs": [
@@ -4471,6 +4482,317 @@
        "bloom": 2
       }
      ]
+    }
+   ]
+  },
+  {
+   "id": "cave_3",
+   "name": "The Glow Garden",
+   "kind": "cave",
+   "drained": false,
+   "edge": "#26302b",
+   "theme": {
+    "wall": "#8AA393",
+    "wallAccent": "#A3BAAA",
+    "floor": "#66796E",
+    "floorShade": "#566A5F",
+    "rug": "#BFE3C2",
+    "rugShade": "#9FCBA4"
+   },
+   "legend": {
+    "#": "rock",
+    ".": "stone",
+    "~": "water",
+    " ": "void"
+   },
+   "map": [
+    "####################",
+    "####################",
+    "##.......###......##",
+    "#.........#........#",
+    "#..~~...........~..#",
+    "#..~~.....#......~.#",
+    "#..........###.....#",
+    "##.................#",
+    "#....#.........~~..#",
+    "#....##........~~..#",
+    "#..................#",
+    "#########.##########",
+    "####################"
+   ],
+   "props": [
+    {
+     "type": "ladder",
+     "x": 9,
+     "y": 11,
+     "walkable": true
+    },
+    {
+     "type": "ladder_down",
+     "x": 3,
+     "y": 10,
+     "action": "hatch",
+     "to": "cave_4"
+    }
+   ],
+   "doors": [
+    {
+     "x": 9,
+     "y": 11,
+     "to": "cave_2",
+     "toX": 17,
+     "toY": 9
+    }
+   ],
+   "mess": [],
+   "spawn": {
+    "x": 9,
+    "y": 10
+   },
+   "pickups": [
+    {
+     "id": "glow_mushroom_1",
+     "x": 5,
+     "y": 6,
+     "item": "mushroom"
+    },
+    {
+     "id": "glow_mushroom_2",
+     "x": 14,
+     "y": 4,
+     "item": "mushroom"
+    }
+   ],
+   "rocks": [
+    {
+     "id": "cave_3_r1",
+     "x": 2,
+     "y": 3,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_3_r2",
+     "x": 6,
+     "y": 3,
+     "size": "medium",
+     "drop": {
+      "ore_silver": 1
+     }
+    },
+    {
+     "id": "cave_3_r3",
+     "x": 13,
+     "y": 3,
+     "size": "large",
+     "drop": {
+      "ore_silver": 1,
+      "gem_blue": 1
+     }
+    },
+    {
+     "id": "cave_3_r4",
+     "x": 16,
+     "y": 6,
+     "size": "medium",
+     "drop": {
+      "ore_copper": 1
+     }
+    },
+    {
+     "id": "cave_3_r5",
+     "x": 7,
+     "y": 7,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_3_r6",
+     "x": 12,
+     "y": 8,
+     "size": "large",
+     "drop": {
+      "ore_silver": 2
+     }
+    },
+    {
+     "id": "cave_3_r7",
+     "x": 2,
+     "y": 7,
+     "size": "medium",
+     "drop": {
+      "ore_copper": 1,
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_3_r8",
+     "x": 17,
+     "y": 9,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_3_r9",
+     "x": 6,
+     "y": 10,
+     "size": "medium",
+     "drop": {
+      "ore_silver": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "cave_4",
+   "name": "The Old Spring",
+   "kind": "cave",
+   "drained": false,
+   "edge": "#33282b",
+   "theme": {
+    "wall": "#A48E8A",
+    "wallAccent": "#BBA6A1",
+    "floor": "#7D6A69",
+    "floorShade": "#6C5A59",
+    "rug": "#F0C7B4",
+    "rugShade": "#DDAA93"
+   },
+   "legend": {
+    "#": "rock",
+    ".": "stone",
+    "~": "water",
+    " ": "void"
+   },
+   "map": [
+    "####################",
+    "####################",
+    "###..............###",
+    "##....~~~~~~~.....##",
+    "#....~~~~~~~~~.....#",
+    "#.....~~~~~~~......#",
+    "#..................#",
+    "#...#..........#...#",
+    "#..................#",
+    "##................##",
+    "###..............###",
+    "#########.##########",
+    "####################"
+   ],
+   "props": [
+    {
+     "type": "ladder",
+     "x": 9,
+     "y": 11,
+     "walkable": true
+    },
+    {
+     "type": "carving",
+     "x": 16,
+     "y": 2,
+     "action": "sign"
+    }
+   ],
+   "signs": [
+    {
+     "x": 16,
+     "y": 2,
+     "text": "Carved deep: 'I'll sleep by the warm spring. Wake me when the town is bright. T.'"
+    }
+   ],
+   "doors": [
+    {
+     "x": 9,
+     "y": 11,
+     "to": "cave_3",
+     "toX": 3,
+     "toY": 9
+    }
+   ],
+   "mess": [],
+   "spawn": {
+    "x": 9,
+    "y": 10
+   },
+   "rocks": [
+    {
+     "id": "cave_4_r1",
+     "x": 3,
+     "y": 3,
+     "size": "medium",
+     "drop": {
+      "ore_silver": 1
+     }
+    },
+    {
+     "id": "cave_4_r2",
+     "x": 15,
+     "y": 4,
+     "size": "large",
+     "drop": {
+      "ore_silver": 2,
+      "gem_blue": 1
+     }
+    },
+    {
+     "id": "cave_4_r3",
+     "x": 2,
+     "y": 6,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_4_r4",
+     "x": 17,
+     "y": 6,
+     "size": "medium",
+     "drop": {
+      "ore_silver": 1
+     }
+    },
+    {
+     "id": "cave_4_r5",
+     "x": 7,
+     "y": 8,
+     "size": "large",
+     "drop": {
+      "gem_blue": 2
+     }
+    },
+    {
+     "id": "cave_4_r6",
+     "x": 12,
+     "y": 8,
+     "size": "medium",
+     "drop": {
+      "ore_copper": 2
+     }
+    },
+    {
+     "id": "cave_4_r7",
+     "x": 3,
+     "y": 9,
+     "size": "small",
+     "drop": {
+      "shard_colour": 1
+     }
+    },
+    {
+     "id": "cave_4_r8",
+     "x": 15,
+     "y": 9,
+     "size": "large",
+     "drop": {
+      "ore_silver": 2,
+      "shard_colour": 1
+     }
     }
    ]
   }
@@ -6750,7 +7072,7 @@
    "letter.mabel_2.r1": "I heard it hum!",
    "letter.mabel_2.r2": "I'll listen tomorrow.",
    "letter.mabel_3.l1": "Long ago, the town met at the fountain each spring.",
-   "letter.mabel_3.l2": "They called it Many Paws. I loved the dancing. M.",
+   "letter.mabel_3.l2": "They called it Many Paws. I loved the dancing.",
    "letter.mabel_3.r1": "Let's dance again one day!",
    "letter.mabel_3.r2": "Tell me more, please.",
    "letter.mabel_4.l1": "A friend is a lamp that stays lit, even far away.",
@@ -6758,7 +7080,7 @@
    "letter.mabel_4.r1": "You're my friend too, M.",
    "letter.mabel_4.r2": "Will we meet?",
    "letter.mabel_5.l1": "The water under the town remembers everything.",
-   "letter.mabel_5.l2": "When the cold comes, look for me by the sea. M.",
+   "letter.mabel_5.l2": "When the cold comes, look for me by the sea.",
    "letter.mabel_5.r1": "I'll find you, M.!",
    "letter.mabel_5.r2": "By the sea? I'll look.",
    "letter.hint": "A bottle's washed up by the fountain.",
@@ -6931,7 +7253,14 @@
    "repair.overgrown_path.hint": "The overgrown path could be cleared. See the Keeper's plans.",
    "alive.woodland.birds": "Birdsong in the woods! Hello up there!",
    "alive.woodland.flowers": "Wildflowers along the path. So many!",
-   "alive.woodland.home": "Apples on every branch. The orchard is awake!"
+   "alive.woodland.home": "Apples on every branch. The orchard is awake!",
+   "letter.mabel_3.l3": "Here's a leaf of the old map. Deeper still. M.",
+   "letter.mabel_5.l3": "The last map leaf. The deepest place of all. M.",
+   "cave.closed.cave_3": "Another ladder, even deeper. Not yet.",
+   "cave.enter.cave_3": "Ooh, it's glowing down here! Little lights everywhere.",
+   "cave.closed.cave_4": "The last ladder. Warm air comes up it. Not yet.",
+   "cave.enter.cave_4": "So warm... is that a spring? Shh, something sleeps here.",
+   "cave.silver": "Silver ore! It shines like the moon."
   }
  },
  "heartEvents": [
@@ -8716,7 +9045,13 @@
     "tomato",
     "corn",
     "pumpkin",
-    "apple"
+    "apple",
+    "ore_copper",
+    "ore_silver",
+    "shard_colour",
+    "gem_blue",
+    "veggie_soup",
+    "pea_fritters"
    ]
   },
   {
@@ -9552,7 +9887,8 @@
    "y": 12,
    "lines": [
     "letter.mabel_3.l1",
-    "letter.mabel_3.l2"
+    "letter.mabel_3.l2",
+    "letter.mabel_3.l3"
    ],
    "replies": [
     {
@@ -9563,6 +9899,9 @@
      "label": "letter.mabel_3.r2",
      "flag": "reply_mabel_3_more"
     }
+   ],
+   "gives": [
+    "cave_leaf_3"
    ]
   },
   {
@@ -9596,7 +9935,8 @@
    "y": 12,
    "lines": [
     "letter.mabel_5.l1",
-    "letter.mabel_5.l2"
+    "letter.mabel_5.l2",
+    "letter.mabel_5.l3"
    ],
    "replies": [
     {
@@ -9607,6 +9947,9 @@
      "label": "letter.mabel_5.r2",
      "flag": "reply_mabel_5_look"
     }
+   ],
+   "gives": [
+    "cave_leaf_4"
    ]
   }
  ],

@@ -28,7 +28,7 @@ describe('caves', () => {
     expect(p.props.filter((q) => q.action === 'mine').map((q) => [q.x, q.y])).toEqual([[3, 3]]);
   });
 
-  for (const id of ['cave_1', 'cave_2']) it(`${id} is open to walk, every rock, ladder and the way up reachable, with fixed drops`, () => {
+  for (const id of ['cave_1', 'cave_2', 'cave_3', 'cave_4']) it(`${id} is open to walk, every rock, ladder and the way up reachable, with fixed drops`, () => {
     const cave = pack.areas.find((a) => a.id === id)!;
     const defs = cave.rocks ?? [];
     expect(defs.length).toBeGreaterThanOrEqual(6);
@@ -51,5 +51,14 @@ describe('caves', () => {
     const floor2 = pack.areas.find((a) => a.id === 'cave_2')!;
     expect(floor2.rocks!.some((r) => r.drop.gem_blue)).toBe(true);
     expect(floor2.signs?.length).toBeGreaterThan(0);
+  });
+
+  it('goes deeper with each map leaf: floor 3 from letter 3, floor 4 from letter 5, with silver ore and the second carving', () => {
+    const down = (from: string) => pack.areas.find((a) => a.id === from)!.props.find((p) => p.action === 'hatch')?.to;
+    expect([down('cave_2'), down('cave_3')]).toEqual(['cave_3', 'cave_4']);
+    expect(pack.letters!.find((l) => l.id === 'mabel_3')?.gives).toContain('cave_leaf_3');
+    expect(pack.letters!.find((l) => l.id === 'mabel_5')?.gives).toContain('cave_leaf_4');
+    for (const id of ['cave_3', 'cave_4']) expect(pack.areas.find((a) => a.id === id)!.rocks!.some((r) => r.drop.ore_silver), id).toBe(true);
+    expect(pack.areas.find((a) => a.id === 'cave_4')!.signs?.length).toBeGreaterThan(0);
   });
 });
