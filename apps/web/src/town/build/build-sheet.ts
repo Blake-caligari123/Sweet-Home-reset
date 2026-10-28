@@ -26,8 +26,9 @@ export function openBuildBoard(host: BuildHost) {
     if (b) return h('div', { class: 'note' }, h('p', { class: 'friend-name' }, plot.name),
       h('p', { class: 'muted' }, built.stage >= DONE ? `${b.name} ✓` : `${b.name} · being built, finished by morning`));
     const options = plot.allow.map((id) => content.pack.buildings!.find((d) => d.id === id)!).map((def) => {
-      const btn = h('button', { class: 'btn small', type: 'button' }, `${def.name} · ${def.cost.sparkles} ✨`);
-      if (canBuild(state, plot, def) === 'short') btn.setAttribute('disabled', '');
+      const waits = (def.bloom ?? 1) > state.bloom;
+      const btn = h('button', { class: 'btn small', type: 'button' }, waits ? `${def.name} · Town Bloom ${def.bloom}` : `${def.name} · ${def.cost.sparkles} ✨`);
+      if (waits || canBuild(state, plot, def) === 'short') btn.setAttribute('disabled', '');
       btn.addEventListener('click', () => {
         view.uiTap();
         if (!startBuild(state, plot, def, host.clock.state.day)) return;

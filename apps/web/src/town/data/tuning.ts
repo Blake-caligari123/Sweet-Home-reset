@@ -42,6 +42,10 @@ export interface Tuning {
   petFollowPx: number;
   /** Light mess drifting back into restored places overnight: how much a night, and the most there can be. */
   messReturn: { perNight: number; maxFresh: number };
+  /** Town Bloom: points needed for each level (level 1 at 0). */
+  bloomLevels: number[];
+  /** A surprise find turns up every this many cleans in a place. */
+  findEveryCleans: number;
 }
 
 /** Open on or after `day`, once story flag `flag` is set (either may be left out). */

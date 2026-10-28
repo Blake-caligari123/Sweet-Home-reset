@@ -110,5 +110,13 @@
   },
   "cropRegrowDays": {
     "strawberry": 3
-  }
+  },
+  "bloomLevels": [
+    0,
+    6,
+    15,
+    30,
+    50
+  ],
+  "findEveryCleans": 8
 }

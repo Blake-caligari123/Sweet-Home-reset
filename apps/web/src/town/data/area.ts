@@ -14,6 +14,7 @@ import type { FamilyDef } from '../grumbles/grumbles';
 import type { PetDef } from '../pets/pets';
 import type { RecipeDef } from '../craft/recipes';
 import type { CropDef } from '../play/crops';
+import type { FindDef } from '../bloom/bloom';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 /** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
@@ -47,7 +48,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** What Pip's workbench can make (VISION §7). */
   recipes?: RecipeDef[];
   /** What grows in soil (VISION §7). */
-  crops?: CropDef[] }
+  crops?: CropDef[];
+  /** Little treasures that turn up while tidying, for Moss's collection. */
+  finds?: FindDef[] }
 
 export class Area {
   readonly w: number;

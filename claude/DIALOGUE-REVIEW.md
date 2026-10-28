@@ -75,6 +75,11 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 - Kitchen note: "Cook what you grow. Dishes are hearty snacks and lovely gifts."
 - With no recipe: "Nothing to cook yet. Grow something first!" · Cooked: "Mm! That smells lovely."
 
+## New in Phase 2d (overnight): Town Bloom and finds
+- Levels: Sleepy · Waking · Blooming · Thriving · Glowing. Banner: "🌸 Town Bloom: Waking!"
+- Finds: "A lucky find: [name]!" then "Ooh, a little treasure! Moss will love this." (Thimble: "A thimble... like the old Keeper's name." Tiny key: "A tiny key. What could it open?")
+- Finds: Lost button, Tiny thimble, Glass marble, Old coin, Tiny brass key, Pressed flower, Sea glass, Blue feather.
+
 ## Hazel
 
 **First hello**

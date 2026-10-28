@@ -2763,7 +2763,8 @@
      "type": "table",
      "x": 6,
      "y": 6,
-     "w": 3
+     "w": 3,
+     "action": "museum"
     },
     {
      "type": "chair",
@@ -5049,7 +5050,15 @@
    "crop.strawberry.harvest": "A strawberry! More will grow back.",
    "crop.which": "Which seeds?",
    "cook.none": "Nothing to cook yet. Grow something first!",
-   "cook.made": "Mm! That smells lovely."
+   "cook.made": "Mm! That smells lovely.",
+   "bloom.1": "Sleepy",
+   "bloom.2": "Waking",
+   "bloom.3": "Blooming",
+   "bloom.4": "Thriving",
+   "bloom.5": "Glowing",
+   "find.any": "Ooh, a little treasure! Moss will love this.",
+   "find.thimble": "A thimble... like the old Keeper's name.",
+   "find.tiny_key": "A tiny key. What could it open?"
   }
  },
  "heartEvents": [
@@ -6814,7 +6823,8 @@
    "prop": {
     "type": "lamppost",
     "w": 1
-   }
+   },
+   "bloom": 2
   }
  ],
  "grumbleFamilies": [
@@ -6964,6 +6974,72 @@
    "id": "strawberry",
    "seed": "strawberry_seeds",
    "look": "berry"
+  }
+ ],
+ "finds": [
+  {
+   "id": "lost_button",
+   "name": "Lost button",
+   "areas": [
+    "burrow",
+    "pip_workshop"
+   ]
+  },
+  {
+   "id": "thimble",
+   "name": "Tiny thimble",
+   "areas": [
+    "bakery",
+    "burrow"
+   ]
+  },
+  {
+   "id": "glass_marble",
+   "name": "Glass marble",
+   "areas": [
+    "lane",
+    "yard"
+   ]
+  },
+  {
+   "id": "old_coin",
+   "name": "Old coin",
+   "areas": [
+    "square",
+    "store"
+   ]
+  },
+  {
+   "id": "tiny_key",
+   "name": "Tiny brass key",
+   "areas": [
+    "library"
+   ]
+  },
+  {
+   "id": "pressed_flower",
+   "name": "Pressed flower",
+   "areas": [
+    "bea_shop",
+    "yard"
+   ]
+  },
+  {
+   "id": "sea_glass",
+   "name": "Sea glass",
+   "areas": [
+    "riverside",
+    "bathhouse"
+   ]
+  },
+  {
+   "id": "blue_feather",
+   "name": "Blue feather",
+   "areas": [
+    "square",
+    "lane",
+    "riverside"
+   ]
   }
  ]
 }

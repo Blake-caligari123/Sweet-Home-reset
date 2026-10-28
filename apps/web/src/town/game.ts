@@ -24,6 +24,7 @@ import type { ToolId } from './play/mess';
 import { OnboardingGuide } from './play/onboarding-guide';
 import { nudge } from './play/nudges';
 import { overnight } from './play/overnight';
+import { bloomUp } from './bloom/bloom';
 import { Puff } from './play/puff';
 import { distTo, FEET_TO_BASE, neighbourAt, rectOf, targetAt, type Here, type Target } from './play/targets';
 import { Jobs } from './requests/jobs';
@@ -371,6 +372,7 @@ export class TownGame {
       },
       openFriends: () => this.talk.openFriends(),
       openNames: () => this.openNames(),
+      townLine: `🌸 Town Bloom: ${this.content.line(`bloom.${this.state.bloom}`)} · ${this.state.finds.found.length} of ${this.content.pack.finds?.length ?? 0} finds`,
       skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null
     });
   }
@@ -452,6 +454,8 @@ export class TownGame {
     this.hud.setSparkles(this.state.sparkles);
     this.guide.unstick();
     const step = this.state.onboarding.current;
+    const up = bloomUp(this.state, this.places.restoredCount());
+    if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }
     const next = this.content.line(nudge(this.state, (k) => this.arrived(k)) ?? undefined);
     this.hud.setTracker(this.content.named(step ? step.hint : this.jobs.tracker() ?? next ?? 'Explore {town} and tidy what you find.'));
   }

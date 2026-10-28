@@ -188,6 +188,13 @@ One new thing every couple of days, each with one tip or letter:
   - Cooking at the burrow kitchen (the counter right of the sink). Veggie soup (radish + carrot) and pea fritters (2 peas → 2) from the start; the Berry tart (2 strawberries) once Hazel's 2-heart scene has played.
   - Dishes are big snacks, sell well, and several neighbours like them as gifts.
   - Recipes now make a tool or an item, each at its station.
+- **Phase 2d (overnight):**
+  - Town Bloom, levels 1–5: Sleepy, Waking, Blooming, Thriving, Glowing.
+    - Points: a restored place 3, a finished build 2, each heart 1, each Grumble helper 1. Thresholds are in `tuning.bloomLevels`.
+    - It only rises, with a banner. It shows in the pause menu, and the lamppost needs Bloom 2.
+  - Surprise finds: every 8 cleans in a place (`findEveryCleans`), that place's next treasure turns up. There are 8 to collect, including a tiny thimble (a nod to Thimble, the old Keeper).
+  - Moss's collection is on his library table and shows the ones still to find as "?".
+  - Bloom-driven extras come later: birds, lit windows, visitors.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
