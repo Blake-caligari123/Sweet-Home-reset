@@ -87,7 +87,7 @@ export class GrumbleLife {
         drift(g, d, dt, { speed, clear: (a, b) => nav.clear(a, b), pick, puff: this.host.puff(), rng: Math.random });
       }
     }
-    this.host.layer.draw(here.map((g) => ({ id: g.id, family: g.family, x: g.fx, y: g.fy + FEET_TO_BASE, helper: g.state === 'helper', pips: g.hits, of: this.familyOf(g)?.hits ?? 1 })), dt);
+    this.host.layer.draw(here.map((g) => ({ id: g.id, family: g.family, x: g.fx, y: g.fy + FEET_TO_BASE, helper: g.state === 'helper', pips: g.hits, of: this.familyOf(g)?.hits ?? 1, tint: this.familyOf(g)?.tint })), dt);
   }
 
   /** A tidy lands on a Grumble: the pip ring fills; full, it brightens into a helper. */
@@ -104,7 +104,7 @@ export class GrumbleLife {
       view.feedback('fanfare', 'success');
       view.banner('Friend made! ✨');
       view.say(content.line('grumble.puff.helper') ?? '');
-      state.flag('grumble_friend');
+      state.flag('grumble_friend'); state.flag(`grumble_friend_${g.family}`);
       this.host.refreshHud();
       this.host.save();
     } else if (result === 'more') {

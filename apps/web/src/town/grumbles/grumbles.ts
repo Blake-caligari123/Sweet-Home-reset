@@ -6,8 +6,8 @@ import type { Pt } from '../world/nav';
 // stirred awake by the sparkle that made Puff. Tidying one brightens it into a helper. Nothing is
 // harmed and nothing is lost: the untidied simply drift away overnight and others come by.
 
-/** A family: the tool that tidies it, how many tidies it takes, where it gathers, when it arrives. */
-export interface FamilyDef { id: string; tool: ToolId; hits: number; areas: string[]; unlock: string }
+/** A family: the tool that tidies it, how many tidies it takes, where it gathers, when it arrives. `tint`: its grumpy colour on the dust art. */
+export interface FamilyDef { id: string; tool: ToolId; hits: number; areas: string[]; unlock: string; tint?: string }
 
 /** `fx`, `fy`: feet position in world px. `hits`: tidies so far (the pip ring). */
 export interface Grumble { id: string; family: string; area: string; fx: number; fy: number; hits: number; state: 'grumpy' | 'helper' }
@@ -39,7 +39,7 @@ export function newDay(g: GrumbleState, o: DayOptions): GrumbleState {
       const r = seeded(o.day * 97 + area.length * 13 + area.charCodeAt(0));
       const count = 1 + Math.floor(r() * o.perArea);
       for (let k = 0; k < count; k += 1) {
-        const p = o.spot(area, k);
+        const p = o.spot(area, list.filter((x) => x.area === area).length); // the area's next spot, whatever the family
         if (p) list.push({ id: `${area}:${o.day}:${f.id}${k}`, family: f.id, area, fx: p.x, fy: p.y, hits: 0, state: 'grumpy' });
       }
     }

@@ -159,6 +159,20 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `alive.far_bank.home`: Birds in the orchard trees. It sings again!
 - Far Bank sign: The Far Bank. An old orchard, waiting for spring.
 
+## New in Phase 3e (29 Oct): cobweb, mud and soot Grumbles (proposed)
+- `grumble.cobweb.before.1`: Mm. Tangly.
+- `grumble.cobweb.before.2`: Hrm... sticky.
+- `grumble.cobweb.after.1`: Wheee! So light!
+- `grumble.cobweb.hint`: Something wispy is grumbling in Moss's library.
+- `grumble.mud.before.1`: Blorp.
+- `grumble.mud.before.2`: Hmph... squelchy.
+- `grumble.mud.after.1`: Splish! All fresh!
+- `grumble.mud.hint`: Something squelchy is grumbling by the river.
+- `grumble.soot.before.1`: Kff. Smudgy.
+- `grumble.soot.before.2`: Mmrf... sooty.
+- `grumble.soot.after.1`: Ahh! Sparkly clean!
+- `grumble.soot.hint`: Something smudgy is grumbling at Otto's bathhouse.
+
 ## Hazel
 
 **First hello**

@@ -6,7 +6,7 @@ import { drawGrumble } from './art/grumbles';
 import type { SpriteBank } from './sprites';
 
 /** A Grumble to draw: feet at x, y (world px); `pips` filled of `of` while still grumpy. */
-export interface GrumbleView { id: string; family: string; x: number; y: number; helper: boolean; pips: number; of: number }
+export interface GrumbleView { id: string; family: string; x: number; y: number; helper: boolean; pips: number; of: number; tint?: string }
 
 const frames = new Map<string, Texture>();
 function grumbleTexture(frame: number, helper: boolean) {
@@ -19,7 +19,8 @@ function grumbleTexture(frame: number, helper: boolean) {
 /**
  * Grumbles in the world, sorted in with Puff and the neighbours, each with its pip ring of tidies.
  * With Blake's sheets (`grumble_<family>_grumpy` / `_bright`) a Grumble cheers up face by face as it's
- * tidied, with a gentle bob in code; until they load, the code-drawn puff stands in.
+ * tidied, with a gentle bob in code; until they load, the code-drawn puff stands in. A family without
+ * its own sheets (cobweb, mud, soot) wears the dust art in its own grumpy tint; every helper is bright.
  */
 export class GrumbleLayer {
   private shown = new Map<string, { sprite: Sprite; pips: Graphics }>();
@@ -44,8 +45,10 @@ export class GrumbleLayer {
         this.shown.set(v.id, s);
       }
       const bob = this.reducedMotion ? 0 : Math.floor((this.clock + v.id.length * 170) / 450) % 2;
-      const sheet = `grumble_${v.family}_${v.helper ? 'bright' : 'grumpy'}`;
+      const own = `grumble_${v.family}_${v.helper ? 'bright' : 'grumpy'}`;
+      const sheet = this.bank?.frames(own) ? own : `grumble_dust_${v.helper ? 'bright' : 'grumpy'}`;
       const art = this.bank?.frames(sheet);
+      s.sprite.tint = !v.helper && v.tint && sheet !== own ? v.tint : 0xffffff;
       if (art && this.bank) {
         s.sprite.texture = art[v.helper ? 0 : faceFor(v.pips, v.of)] ?? art[0];
         s.sprite.scale.set(1 / this.bank.scale(sheet));

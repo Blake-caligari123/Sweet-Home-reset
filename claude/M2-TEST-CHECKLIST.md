@@ -193,6 +193,12 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Mend it: scaffolding goes up, and two mornings later "The new footbridge is finished." Planks and rails cross the river.
 - [ ] Walk across to the Far Bank: a grey old orchard with a pond to restore, plus twigs, a pebble and a mushroom to pick up. Walk back up the bridge.
 
+## 11s. Phase 3e: cobweb, mud and soot Grumbles
+- [ ] Day 9: lilac cobweb Grumbles in Moss's library and Bea's shop; the tracker points to the library. Duster, 3 tidies.
+- [ ] Day 13: brown mud Grumbles at Riverside, the yard and the Far Bank. Rake, 4 tidies.
+- [ ] Day 16: soot-grey Grumbles at the bathhouse and the General Store. Sponge, 4 tidies.
+- [ ] Each one turns into the same bright helper, and two Grumbles never stand on the same spot.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

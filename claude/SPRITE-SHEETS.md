@@ -58,6 +58,8 @@ Process: `... process_asset.py grumble_dust --sheet 4 --rows grumble_dust_grumpy
 
 **Landed 28 Oct 2026** (`art/sprites/raw/grumble_dust.jpg`). Grok gave the grey row four moods instead of one idle loop, so they're used as the Grumble cheering up while it's tidied: droopy (frame 1), then wide-eyed (4), then winking (2), then the bright row. Frame 3 (happy grey) isn't used. The bob is in code (`grumbles.ts` `faceFor`). For the cobweb, mud and soot families, ask for the same four-mood row on purpose.
 
+**Cobweb, mud and soot (Phase 3e, optional):** until their sheets land, they wear the dust art tinted lilac, brown and soot-grey (`tint` in the pack). To give each its own look, make `grumble_cobweb`, `grumble_mud` and `grumble_soot` the same way (grumpy row of four moods, then bright row): a wispy, tangly cobweb puff; a round, squelchy mud puff with a drip; a smudgy soot puff with a little smoke curl. They load with no code change.
+
 ## Pets (Phase 1d; cell 16×13 world px, `--frame 16x13`)
 Three pets, chosen on day 4. Each needs two sheets, side view **facing right** (the game mirrors them for left):
 - `pet_<id>_walk`: a 4-frame trot
