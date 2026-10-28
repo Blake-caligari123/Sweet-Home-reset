@@ -46,6 +46,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 
 ## Phase 3 so far
 - **3a (#50):** Mabel's letters. The text is my proposal (see DIALOGUE-REVIEW), so please tweak anything that isn't her voice.
+- **3b (#51):** the caves, floor 1. Mabel's first letter opens the fountain hatch; mine rocks for copper ore and colour shards; they grow back weekly. Code-drawn for now (a Grok cave painting would be lovely later). Checklist §11p.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
@@ -53,7 +54,5 @@ You said to carry on without asking. I've merged each slice to the test link onc
 
 ## Next, unless you say otherwise
 Phase 3:
-- Mabel's bottle letters from day 10
-- the caves under the fountain
 - Sorrel's invite
 - the footbridge repair

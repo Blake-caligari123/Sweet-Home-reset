@@ -4,6 +4,7 @@ import type { GrumbleState } from '../grumbles/grumbles';
 import type { Pet } from '../pets/pets';
 import type { Finds } from '../bloom/bloom';
 import type { Placed } from '../decor/decor';
+import type { CaveState } from '../caves/caves';
 import type { AreaMess } from '../play/mess';
 import { DEFAULT_NAMES, type Names } from '../play/names';
 import type { RequestState } from '../requests/requests';
@@ -54,6 +55,8 @@ export interface TownSave {
   bloom?: number;
   /** Cleans counted per place, and the surprise finds collected. */
   finds?: Finds;
+  /** Rocks broken in the caves this week. */
+  caves?: CaveState;
   /** Decor placed around town. */
   decor?: Placed[];
   /** The outfit Puff is wearing. */

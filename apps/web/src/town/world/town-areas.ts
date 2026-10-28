@@ -1,6 +1,7 @@
 import { withBuilds, type PlotState } from '../build/build';
 import { Area, type AreaPack, type TownPack } from '../data/area';
 import { withDecor, type Placed } from '../decor/decor';
+import { withRocks, type CaveState } from '../caves/caves';
 import type { TownSave } from '../data/save';
 import { TUNING } from '../data/tuning';
 import { AreaMess } from '../play/mess';
@@ -42,11 +43,12 @@ export class TownAreas {
     return g;
   }
 
-  /** Areas as they stand today: what's built on their plots, then the decor placed in them. */
-  rebuild(plots: Record<string, PlotState>, decor: Placed[]) {
+  /** Areas as they stand today: what's built on their plots, rocks still standing, then the decor placed in them. */
+  rebuild(s: { plots: Record<string, PlotState>; decor: Placed[]; caves: CaveState }) {
     const { areas, plots: defs = [], buildings = [], items } = this.pack;
-    for (const a of areas.filter((x) => defs.some((p) => p.area === x.id) || decor.some((d) => d.area === x.id) || this.built.has(x.id))) {
-      const built = withBuilds(a, defs, plots, buildings);
+    const { plots, decor } = s;
+    for (const a of areas.filter((x) => defs.some((p) => p.area === x.id) || decor.some((d) => d.area === x.id) || x.rocks?.length || this.built.has(x.id))) {
+      const built = withRocks(withBuilds(a, defs, plots, buildings), a.rocks ?? [], s.caves);
       this.built.set(a.id, built);
       this.areas.set(a.id, new Area(withDecor(built, decor, items)));
       this.navs.delete(a.id);

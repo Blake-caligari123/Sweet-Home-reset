@@ -2,9 +2,9 @@ import { P } from '../../../shared/art/palette';
 import { seeded, type PixelCanvas } from '../../../shared/art/pixel-canvas';
 import { T, hash, noise, mottle, flower, dither } from './texture';
 
-export type Ground = 'void' | 'wood' | 'rug' | 'tile' | 'wall' | 'grass' | 'path' | 'cobble' | 'soil' | 'water' | 'flowers' | 'fence' | 'hedge' | 'mat';
+export type Ground = 'void' | 'wood' | 'rug' | 'tile' | 'wall' | 'grass' | 'path' | 'cobble' | 'soil' | 'water' | 'flowers' | 'fence' | 'hedge' | 'mat' | 'stone' | 'rock';
 
-const BLOCKED: Ground[] = ['void', 'wall', 'water', 'fence', 'hedge'];
+const BLOCKED: Ground[] = ['void', 'wall', 'water', 'fence', 'hedge', 'rock'];
 export const isBlockedGround = (g: Ground) => BLOCKED.includes(g);
 
 export interface Theme { wall: string; wallAccent: string; floor: string; floorShade: string; rug: string; rugShade: string }
@@ -112,6 +112,21 @@ export function drawGround(pc: PixelCanvas, g: Ground, px: number, py: number, t
       }
       break;
     case 'grass': drawGrass(pc, px, py, r); break;
+    case 'rock': {
+      // A cave wall: dark rough rock, lit where it meets the floor below, with the odd crack.
+      mottle(pc, px, py, theme.floorShade, P.ink, theme.floor, 64, 1, 0.35);
+      if (around(0, 1) !== 'rock' && around(0, 1) !== 'void') {
+        for (let x = px; x < px + T; x += 1) { pc.set(x, py + T - 3, theme.wall); pc.set(x, py + T - 2, theme.wallAccent); pc.set(x, py + T - 1, P.outline); }
+      }
+      if (r() < 0.25) { const x = px + 3 + Math.floor(r() * 10); pc.line(x, py + 2, x + 2, py + 7, P.ink); }
+      break;
+    }
+    case 'stone':
+      // A cave floor: cool mottled stone, a few pebbles, now and then a glint of colour.
+      mottle(pc, px, py, theme.floor, theme.floorShade, P.greyShade, 64, 1, 0.3);
+      if (r() < 0.3) { const x = px + 2 + Math.floor(r() * 11); const y = py + 2 + Math.floor(r() * 11); pc.set(x, y, P.greyLight); pc.set(x + 1, y, P.grey); }
+      if (r() < 0.08) { const x = px + 3 + Math.floor(r() * 9); const y = py + 3 + Math.floor(r() * 9); pc.set(x, y, [P.peach, P.butter, P.blueLight][Math.floor(r() * 3)]); }
+      break;
     case 'flowers': {
       drawGrass(pc, px, py, r);
       const colours = [P.peach, P.butterLight, P.blueLight, P.white, P.peachShade];

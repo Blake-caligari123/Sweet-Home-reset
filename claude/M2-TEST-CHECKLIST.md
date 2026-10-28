@@ -174,6 +174,12 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Choose a reply: "Off it floats…" Mabel gets friendship (Pause → Friends once you've met her). The letter is gone.
 - [ ] More come on days 13, 17, 23 and 31, one at a time, each waiting until you read it. "Later" leaves it there.
 
+## 11p. Phase 3b: caves floor 1
+- [ ] Before Mabel's day-10 letter, tapping the fountain hatch says it's closed. After reading the letter, "Climb down" takes Puff into the cave under the Glimmerwell.
+- [ ] Tap a rock: Puff swings (2 Fluff each, 1 in relaxed mode). Small rocks take 2 swings, medium 3, large 4. They give a colour shard, copper ore, or both.
+- [ ] Mined rocks stay gone for a week, then all come back. The ladder at the bottom takes Puff back up to the square.
+- [ ] Copper ore and shards show in the bag and sell at the General Store.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

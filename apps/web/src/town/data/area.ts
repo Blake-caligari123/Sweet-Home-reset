@@ -18,6 +18,7 @@ import type { FindDef } from '../bloom/bloom';
 import type { OutfitDef } from '../outfits/outfits';
 import type { DecorKind } from '../decor/decor';
 import type { LetterDef } from '../letters/letters';
+import type { RockDef } from '../caves/caves';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 /** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
@@ -25,7 +26,7 @@ export interface Door { x: number; y: number; to: string; toX: number; toY: numb
 export type MessDef = MessSpot | { type: MessSpot['type']; rect: [number, number, number, number]; density: number; seed: number };
 
 export interface AreaPack {
-  id: string; name: string; kind: 'home' | 'outdoor'; drained: boolean; edge: string; theme: Theme;
+  id: string; name: string; kind: 'home' | 'outdoor' | 'cave'; drained: boolean; edge: string; theme: Theme;
   legend: Record<string, Ground>; map: string[]; props: PropDef[]; doors: Door[]; mess: MessDef[];
   spawn: { x: number; y: number }; restoreReward?: number; signs?: { x: number; y: number; text: string }[];
   /** A painted background (Blake's art) instead of code-drawn tiles: `scale` painting px per world px. */
@@ -36,6 +37,8 @@ export interface AreaPack {
   pickups?: PickupDef[];
   /** Things that switch on as the room gets tidier (homes coming alive). */
   alive?: AliveStage[];
+  /** A cave floor's rocks to mine. */
+  rocks?: RockDef[];
 }
 
 export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string; sell?: number; decor?: DecorKind }>; neighbours?: NeighbourDef[];
