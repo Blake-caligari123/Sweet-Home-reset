@@ -42,6 +42,8 @@ A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the 
 - Precedence: BACKEND-PLAN wins on API/data; FRONTEND-PLAN on client; GAME-DESIGN on rules and feel.
 
 ## Conventions
+- **Before building** any feature, step, area or sizeable fix: follow the `factorisation-and-organisation` skill (`.claude/skills/`). Write a file plan, keep files within budget, and `game.ts` only wires.
+- **After building**, before committing: run the `post-feature-cleanup` skill every time, without being asked. That means its checker (`node .claude/skills/post-feature-cleanup/check.mjs`), a self-review of the diff, then all checks and the docs.
 - Tests first; each step ends with `npm test` green. Lowercase snake_case asset names; pack room ids use `-`.
 - Copy is a kind friend: never "failed", "lost", "overdue"; no body, weight or appearance talk. Puff is never sad because of the player.
 - Secrets only in Worker secrets / `.dev.vars` / `.env` (gitignored, chmod 600). Never in code or chat.
