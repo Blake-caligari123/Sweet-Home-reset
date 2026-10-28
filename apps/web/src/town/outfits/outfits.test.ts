@@ -23,9 +23,9 @@ describe('outfits', () => {
     expect(newlyEarned(s, [bow, crown])).toEqual([]);
   });
 
-  it('has seven to earn (one from the Spring Clean Fair), each with a name and a hint, and none for sale', () => {
+  it('has nine to earn (three from festivals), each with a name and a hint, and none for sale', () => {
     const o = pack.outfits ?? [];
-    expect(o.length).toBe(7);
+    expect(o.length).toBe(9);
     for (const x of o) { expect(x.name).toBeTruthy(); expect(x.hint).toBeTruthy(); expect(Object.keys(x.earn).length).toBeGreaterThan(0); }
     const sold = (pack.shops ?? []).flatMap((sh) => sh.stock.map((e) => e.item));
     for (const x of o) expect(sold).not.toContain(x.id);

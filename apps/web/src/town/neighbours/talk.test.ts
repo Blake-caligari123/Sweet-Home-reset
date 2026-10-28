@@ -50,8 +50,9 @@ describe('picking a line', () => {
   });
 
   it('says a festival line first on a festival day, and never on another day', () => {
-    const withFair = [...lines, { id: 'fair', festival: true }];
-    expect(pickLine(withFair, ctx({ festival: true, flags: ['restored_bakery'] }), first)?.id).toBe('fair');
+    const withFair = [...lines, { id: 'fair', festival: 'spring_fair' }];
+    expect(pickLine(withFair, ctx({ festival: 'spring_fair', flags: ['restored_bakery'] }), first)?.id).toBe('fair');
+    expect(pickLine(withFair, ctx({ festival: 'summer_picnic', flags: ['restored_bakery'] }), first)?.id).toBe('flag');
     expect(pickLine(withFair, ctx({ flags: ['restored_bakery'] }), first)?.id).toBe('flag');
   });
 

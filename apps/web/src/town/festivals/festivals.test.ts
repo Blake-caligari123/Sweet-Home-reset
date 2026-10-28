@@ -4,7 +4,7 @@ import { Area } from '../data/area';
 import { AreaMess } from '../play/mess';
 import { dashResult, dashSpots, festivalToday, type FestivalDef } from './festivals';
 
-const fair: FestivalDef = { id: 'spring_fair', name: 'Spring Clean Fair', season: 'Spring', area: 'square', seconds: 60, spots: 20, perSpot: 5, outfit: 'fair_ribbon' };
+const fair: FestivalDef = { id: 'spring_fair', name: 'Spring Clean Fair', season: 'Spring', area: 'square', seconds: 60, spots: 20, perSpot: 5, mess: ['weeds', 'dust', 'crumbs'], outfit: 'fair_ribbon' };
 
 describe('festivals', () => {
   it('fall on the last day of their season, every year', () => {
@@ -23,11 +23,24 @@ describe('festivals', () => {
   it('puts the dash mess on open, empty tiles away from doors, the same for the same day', () => {
     const area = new Area(pack.areas.find((a) => a.id === 'square')!);
     const m = new AreaMess(area.w, area.h, [], false);
-    const spots = dashSpots(area, m, 14, 20);
+    const spots = dashSpots(area, m, 14, 20, fair.mess);
     expect(spots).toHaveLength(20);
     expect(new Set(spots.map((s) => `${s.x},${s.y}`)).size).toBe(20);
     for (const s of spots) { expect(area.walkable(s.x, s.y)).toBe(true); expect(area.doorAt(s.x, s.y)).toBeFalsy(); }
-    expect(dashSpots(area, m, 14, 20)).toEqual(spots);
+    expect(dashSpots(area, m, 14, 20, fair.mess)).toEqual(spots);
+    expect(new Set(dashSpots(area, m, 42, 20, ['leaves']).map((s) => s.type))).toEqual(new Set(['leaves']));
+  });
+
+  it('has a festival for spring, summer and autumn, each with its own mess, ribbon or hat, intro and lines', () => {
+    const fests = pack.festivals ?? [];
+    expect(fests.map((f) => f.season)).toEqual(['Spring', 'Summer', 'Autumn']);
+    const text = pack.strings!['en-AU'];
+    for (const f of fests) {
+      expect(f.mess.length, f.id).toBeGreaterThan(0);
+      expect(pack.outfits!.some((o) => o.id === f.outfit && o.earn.flag === `festival_${f.id}`), f.id).toBe(true);
+      expect(text[`festival.${f.id}.intro`], f.id).toBeTruthy();
+      for (const n of pack.neighbours!) expect(pack.dialogue![n.id].some((l) => l.festival === f.id), `${n.id} ${f.id}`).toBe(true);
+    }
   });
 
   it('has the Spring Clean Fair in the square, with its stall, a ribbon to earn and every line', () => {

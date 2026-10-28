@@ -5,13 +5,15 @@ import type { AreaMess, MessSpot } from '../play/mess';
 
 // Festivals (VISION §7): the last day of each season is a festival, with everyone gathered and a
 // mini-game. The Spring Clean Fair's is the tidy dash: a burst of light mess in the square to tidy
-// before the timer runs out. A fun score, never a fail: every spot tidied is Sparkles, and the
+// before the timer runs out. Summer's picnic is crumbs, autumn's leaf fest is leaf piles. A fun score, never a fail: every spot tidied is Sparkles, and the
 // first go each fair day earns its prize (a ribbon). Replays are just for fun.
 
 export interface FestivalDef {
   id: string; name: string; season: string; area: string;
   /** The tidy dash: how long (real seconds), how many spots, Sparkles per spot tidied. */
   seconds: number; spots: number; perSpot: number;
+  /** What pops up for the dash (picnic crumbs, autumn leaves), in turn. */
+  mess: MessSpot['type'][];
   /** An outfit earned by joining in (earned with the flag `festival_<id>`). */
   outfit?: string;
 }
@@ -28,16 +30,14 @@ export function dashResult(def: FestivalDef, cleaned: number) {
   return { sparkles: cleaned * def.perSpot, cheer: `festival.cheer.${cheer}` };
 }
 
-const DASH_MESS: MessSpot['type'][] = ['weeds', 'dust', 'crumbs'];
-
-/** Where the dash mess goes: open, empty floor away from doors, fixed for the day. */
-export function dashSpots(area: Area, m: AreaMess, day: number, n: number): MessSpot[] {
+/** Where the dash mess goes: open, empty floor away from doors, fixed for the day; its kinds in turn. */
+export function dashSpots(area: Area, m: AreaMess, day: number, n: number, kinds: MessSpot['type'][]): MessSpot[] {
   const r = seeded(day * 977 + 7);
   const out: MessSpot[] = [];
   for (let tries = 0; tries < 400 && out.length < n; tries += 1) {
     const x = Math.floor(r() * area.w); const y = Math.floor(r() * area.h);
     if (!area.walkable(x, y) || area.doorAt(x, y) || m.typeAt(x, y) !== 'none' || out.some((s) => s.x === x && s.y === y)) continue;
-    out.push({ type: DASH_MESS[out.length % DASH_MESS.length], x, y });
+    out.push({ type: kinds[out.length % kinds.length], x, y });
   }
   return out;
 }

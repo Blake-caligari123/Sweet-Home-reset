@@ -250,6 +250,25 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `festival.start`: Ready, set, tidy!
 - `festival.prize`: A fair ribbon, just for joining in!
 
+## New in Phase 4d (29 Oct): Summer Picnic and Autumn Leaf Fest (proposed)
+- `festival.summer_picnic.intro`: It's the Summer Picnic! Sweep up the crumbs in 60 seconds.
+- `festival.autumn_leaf_fest.intro`: It's the Autumn Leaf Fest! Rake every leaf pile you can.
+- `hazel.festival.summer_picnic`: Picnic day! I packed scones. And more scones, petal.
+- `hazel.festival.autumn_leaf_fest`: Leaf Fest! I baked pumpkin buns, petal. Warm ones!
+- `bea.festival.summer_picnic`: Bzz! Honey sandwiches for everyone! Mind the crumbs.
+- `bea.festival.autumn_leaf_fest`: Bzz! Leaf piles everywhere. Jump in one for me!
+- `pip.festival.summer_picnic`: I built a picnic table! It only wobbles a bit.
+- `pip.festival.autumn_leaf_fest`: I made a leaf blower! It blows... a little.
+- `otto.festival.summer_picnic`: Picnic by the fountain! Second best to the river. Heh.
+- `otto.festival.autumn_leaf_fest`: Leaves on the fountain like tiny boats. Heh!
+- `moss.festival.summer_picnic`: I brought a book to the picnic. And a sandwich.
+- `moss.festival.autumn_leaf_fest`: Leaves make lovely bookmarks. I'm collecting.
+- `mabel.festival.summer_picnic`: Hoo! A summer picnic, like the old days.
+- `mabel.festival.autumn_leaf_fest`: Hoo! The wind brought every leaf to the square.
+- `sorrel.festival.summer_picnic`: I brought acorn cakes! Don't ask what's in them.
+- `sorrel.festival.autumn_leaf_fest`: Leaf Fest is MY festival. I'm a squirrel!
+- `festival.prize`: Something new to wear: the {outfit}!
+
 ## Hazel
 
 **First hello**

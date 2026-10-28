@@ -35,6 +35,9 @@ export function drawMess(type: string, variant: number, item?: string) {
     case 'fog':
       pc.ellipse(8, 8, 6, 5, P.blueLight, 170); pc.ellipse(6, 6, 3, 2, P.white, 190); pc.ellipse(11, 10, 2, 2, P.white, 150);
       break;
+    case 'leaves': // an autumn leaf pile
+      for (let i = 0; i < 6; i += 1) { const cx = 3 + Math.floor(r() * 10); const cy = 4 + Math.floor(r() * 9); pc.ellipse(cx, cy, 2, 1, [P.peach, P.peachShade, P.butterShade][i % 3]); pc.set(cx + 2, cy, P.brownShade); }
+      break;
     case 'mud':
       pc.ellipse(8, 10, 6, 4, P.brownShade); pc.ellipse(6, 9, 3, 2, P.brown); pc.set(11, 8, P.brownLight); pc.set(4, 12, P.brownShade); pc.set(13, 13, P.brownShade);
       break;

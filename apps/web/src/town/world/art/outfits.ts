@@ -11,6 +11,8 @@ export function drawOutfit(id: string) {
     case 'berry_hat': pc.ellipse(5, 5, 3, 2, P.peachShade); pc.set(4, 4, P.butterLight); pc.set(6, 5, P.butterLight); pc.hline(4, 3, 3, P.sage); break;
     case 'flower_crown': pc.hline(1, 5, 8, P.sageShade); for (const [x, c] of [[2, P.peach], [5, P.butter], [8, P.blueLight]] as const) pc.set(x, 4, c); break;
     case 'fair_ribbon': pc.ellipse(5, 3, 2, 2, P.blue); pc.set(5, 3, P.white); pc.line(4, 5, 3, 7, P.blueShade); pc.line(6, 5, 7, 7, P.blueShade); break;
+    case 'sun_hat': pc.ellipse(5, 5, 4, 1, P.butterLight); pc.ellipse(5, 4, 2, 2, P.butterLight); pc.hline(3, 5, 5, P.peach); break;
+    case 'acorn_cap': pc.ellipse(5, 4, 3, 2, P.brown); for (const x of [3, 5, 7]) pc.set(x, 4, P.brownShade); pc.set(5, 1, P.brownShade); pc.set(5, 2, P.brownShade); break;
     case 'star_clip': for (const [x, y] of [[5, 2], [4, 4], [5, 4], [6, 4], [5, 3], [4, 5], [6, 5]]) pc.set(x, y, P.butter); break;
   }
   pc.outlineShapes(P.outline);

@@ -6,7 +6,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **Day 8:** Sorrel's letter by the Lane sign. Build her cottage, and she moves in two nights later.
 - **Day 10:** Mabel's first bottle by the fountain. It opens the caves under the Glimmerwell, so go mining.
 - **Day 12:** mend the footbridge at Riverside and cross to the Far Bank.
-- **Day 14:** the Spring Clean Fair and its tidy dash in the square.
+- **Day 14:** the Spring Clean Fair and its tidy dash in the square. There's a picnic on day 28 and a leaf fest on day 42.
 - **Day 15 onward:** summer, then golden autumn (day 29) and snowy winter (day 43). Rain on some days, first on day 6.
 
 ## What's new on the test link
@@ -67,6 +67,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **4a (#58):** rain. Fixed rainy days (first on day 6) water the outdoor crops, bring a little mud, and look cooler, with rain falling. Checklist §12a.
 - **4b (#59):** the seasons turn every 14 days. Golden autumn, snowy winter, new summer and autumn crops, seeds by season, and season lines for everyone. Checklist §12b.
 - **4c (#60):** the Spring Clean Fair on day 14. Everyone's in the square; the fair stall starts a 60-second tidy dash, with Sparkles and a fair ribbon. Checklist §12c.
+- **4d (#61):** the Summer Picnic (day 28, crumbs, a sun hat) and the Autumn Leaf Fest (day 42, leaf piles, an acorn cap). Checklist §12d.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
@@ -81,5 +82,5 @@ You said to carry on without asking. I've merged each slice to the test link onc
 
 ## Next, unless you say otherwise
 Phase 4 (seasons and sharing):
-- the Summer Picnic, Autumn Leaf Fest and Winter Lights, each with a mini-game
+- Winter Lights (day 56): light the lanterns round the square
 - Sorrel's heart scenes

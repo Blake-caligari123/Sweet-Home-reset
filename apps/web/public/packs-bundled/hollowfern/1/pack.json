@@ -4712,7 +4712,15 @@
    },
    {
     "id": "hazel.festival.1",
-    "festival": true
+    "festival": "spring_fair"
+   },
+   {
+    "id": "hazel.festival.summer_picnic",
+    "festival": "summer_picnic"
+   },
+   {
+    "id": "hazel.festival.autumn_leaf_fest",
+    "festival": "autumn_leaf_fest"
    }
   ],
   "bea": [
@@ -4871,7 +4879,15 @@
    },
    {
     "id": "bea.festival.1",
-    "festival": true
+    "festival": "spring_fair"
+   },
+   {
+    "id": "bea.festival.summer_picnic",
+    "festival": "summer_picnic"
+   },
+   {
+    "id": "bea.festival.autumn_leaf_fest",
+    "festival": "autumn_leaf_fest"
    }
   ],
   "pip": [
@@ -5026,7 +5042,15 @@
    },
    {
     "id": "pip.festival.1",
-    "festival": true
+    "festival": "spring_fair"
+   },
+   {
+    "id": "pip.festival.summer_picnic",
+    "festival": "summer_picnic"
+   },
+   {
+    "id": "pip.festival.autumn_leaf_fest",
+    "festival": "autumn_leaf_fest"
    }
   ],
   "otto": [
@@ -5181,7 +5205,15 @@
    },
    {
     "id": "otto.festival.1",
-    "festival": true
+    "festival": "spring_fair"
+   },
+   {
+    "id": "otto.festival.summer_picnic",
+    "festival": "summer_picnic"
+   },
+   {
+    "id": "otto.festival.autumn_leaf_fest",
+    "festival": "autumn_leaf_fest"
    }
   ],
   "moss": [
@@ -5336,7 +5368,15 @@
    },
    {
     "id": "moss.festival.1",
-    "festival": true
+    "festival": "spring_fair"
+   },
+   {
+    "id": "moss.festival.summer_picnic",
+    "festival": "summer_picnic"
+   },
+   {
+    "id": "moss.festival.autumn_leaf_fest",
+    "festival": "autumn_leaf_fest"
    }
   ],
   "mabel": [
@@ -5487,7 +5527,15 @@
    },
    {
     "id": "mabel.festival.1",
-    "festival": true
+    "festival": "spring_fair"
+   },
+   {
+    "id": "mabel.festival.summer_picnic",
+    "festival": "summer_picnic"
+   },
+   {
+    "id": "mabel.festival.autumn_leaf_fest",
+    "festival": "autumn_leaf_fest"
    }
   ],
   "sorrel": [
@@ -5641,7 +5689,15 @@
    },
    {
     "id": "sorrel.festival.1",
-    "festival": true
+    "festival": "spring_fair"
+   },
+   {
+    "id": "sorrel.festival.summer_picnic",
+    "festival": "summer_picnic"
+   },
+   {
+    "id": "sorrel.festival.autumn_leaf_fest",
+    "festival": "autumn_leaf_fest"
    }
   ]
  },
@@ -6316,7 +6372,23 @@
    "festival.cheer.lots": "So much sparkle! The town loved watching.",
    "festival.cheer.some": "What fun! Everyone clapped for {puff}.",
    "festival.start": "Ready, set, tidy!",
-   "festival.prize": "A fair ribbon, just for joining in!"
+   "festival.prize": "Something new to wear: the {outfit}!",
+   "festival.summer_picnic.intro": "It's the Summer Picnic! Sweep up the crumbs in 60 seconds.",
+   "festival.autumn_leaf_fest.intro": "It's the Autumn Leaf Fest! Rake every leaf pile you can.",
+   "hazel.festival.summer_picnic": "Picnic day! I packed scones. And more scones, petal.",
+   "hazel.festival.autumn_leaf_fest": "Leaf Fest! I baked pumpkin buns, petal. Warm ones!",
+   "bea.festival.summer_picnic": "Bzz! Honey sandwiches for everyone! Mind the crumbs.",
+   "bea.festival.autumn_leaf_fest": "Bzz! Leaf piles everywhere. Jump in one for me!",
+   "pip.festival.summer_picnic": "I built a picnic table! It only wobbles a bit.",
+   "pip.festival.autumn_leaf_fest": "I made a leaf blower! It blows... a little.",
+   "otto.festival.summer_picnic": "Picnic by the fountain! Second best to the river. Heh.",
+   "otto.festival.autumn_leaf_fest": "Leaves on the fountain like tiny boats. Heh!",
+   "moss.festival.summer_picnic": "I brought a book to the picnic. And a sandwich.",
+   "moss.festival.autumn_leaf_fest": "Leaves make lovely bookmarks. I'm collecting.",
+   "mabel.festival.summer_picnic": "Hoo! A summer picnic, like the old days.",
+   "mabel.festival.autumn_leaf_fest": "Hoo! The wind brought every leaf to the square.",
+   "sorrel.festival.summer_picnic": "I brought acorn cakes! Don't ask what's in them.",
+   "sorrel.festival.autumn_leaf_fest": "Leaf Fest is MY festival. I'm a squirrel!"
   }
  },
  "heartEvents": [
@@ -8741,6 +8813,22 @@
    "earn": {
     "flag": "festival_spring_fair"
    }
+  },
+  {
+   "id": "sun_hat",
+   "name": "Sun hat",
+   "hint": "Join the Summer Picnic",
+   "earn": {
+    "flag": "festival_summer_picnic"
+   }
+  },
+  {
+   "id": "acorn_cap",
+   "name": "Acorn cap",
+   "hint": "Join the Autumn Leaf Fest",
+   "earn": {
+    "flag": "festival_autumn_leaf_fest"
+   }
   }
  ],
  "letters": [
@@ -8902,7 +8990,38 @@
    "seconds": 60,
    "spots": 20,
    "perSpot": 5,
-   "outfit": "fair_ribbon"
+   "outfit": "fair_ribbon",
+   "mess": [
+    "weeds",
+    "dust",
+    "crumbs"
+   ]
+  },
+  {
+   "id": "summer_picnic",
+   "name": "Summer Picnic",
+   "season": "Summer",
+   "area": "square",
+   "seconds": 60,
+   "spots": 20,
+   "perSpot": 6,
+   "mess": [
+    "crumbs"
+   ],
+   "outfit": "sun_hat"
+  },
+  {
+   "id": "autumn_leaf_fest",
+   "name": "Autumn Leaf Fest",
+   "season": "Autumn",
+   "area": "square",
+   "seconds": 60,
+   "spots": 24,
+   "perSpot": 6,
+   "mess": [
+    "leaves"
+   ],
+   "outfit": "acorn_cap"
   }
  ]
 }
