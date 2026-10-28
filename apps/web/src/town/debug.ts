@@ -52,6 +52,8 @@ export function installDebugHooks(g: DebugTarget) {
     requests: () => s.requests,
     /** Skip the tips (hands over every tool), for tests of later play. */
     skipTips: () => g.guide.skip(),
+    /** Every coming-alive stage of this area at once, for screenshots. */
+    showAlive: () => { const st = g.area().pack.alive ?? []; g.world.alive.load(st, st.length); },
     /** Fluff straight to a value, to see the sleepy bar. */
     setFluff: (n: number) => { s.fluff.value = n; },
     addItem: (id: string, n = 1) => { s.bag.add(id, n); g.refreshHud(); },

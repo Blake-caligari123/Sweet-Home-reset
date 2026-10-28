@@ -1,5 +1,5 @@
 // A home coming alive (claude/ALIVE-PLAN.md): as a room gets tidier, things switch on in stages:
-// a lamp, sunlight, a sleepy cat. Each stage is pack data; progress only rises, so a stage once
+// a lamp, sunlight, a sleepy cat, a robin. Each stage is pack data; progress only rises, so a stage once
 // reached stays on.
 
 /** One thing that switches on, in tiles. */
@@ -7,6 +7,7 @@ export type AliveEffect =
   | { type: 'glow'; x: number; y: number; size: number }
   | { type: 'sunbeam'; x: number; y: number; w: number; h: number }
   | { type: 'cat'; x: number; y: number }
+  | { type: 'bird'; x: number; y: number }
   | { type: 'decor'; item: string; x: number; y: number }
   | { type: 'music'; bloom: number };
 

@@ -83,6 +83,13 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Below 20 Fluff, the bar turns peach and breathes gently, and Puff says "Feeling sleepy... a snack would help." With Reduce motion on, it stays still.
 - [ ] An old save loads with all its progress and the usual names.
 
+## 11b. Phase 1a: the Keeper and every place coming alive
+- [ ] The first time you talk to Hazel, she names Puff the Keeper. Four short boxes, skippable, then "🏅 [name], Keeper of [town]!". It only plays once.
+- [ ] Every home comes alive as you tidy it (about ¼, ½, ¾ and restored), each with a chime, a sparkle and a line from Puff:
+  - lamps, sunbeams, decor, the library cat, robins
+  - Outdoors: lamps, flowers and birds in the yard, square, Lane and Riverside.
+- [ ] Leave and come back: what's switched on stays on.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

@@ -13,6 +13,26 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 - A save from a newer version: "Your town was saved by a newer version of the game. Update the game to keep playing."
 - Gone: "Someone new! We'll say hello another day." (the Plus silhouettes). Mabel simply isn't in town until day 43.
 
+## New in Phase 1a (28 Oct 2026): the Keeper welcome and every place coming alive
+**Hazel names Puff the Keeper** (the first time Puff talks to her; older saves get it next chat; skippable):
+- Hazel: Oh! The colour's back. No mayor here, petal...
+- Hazel: ...but the Glimmerwell needs a Keeper. Will you be ours?
+- Puff: Me? I only just woke up... but yes. I'd love to.
+- Hazel: Here's the badge. Keeper of {town}! Now, a tart...
+- Banner: 🏅 {puff}, Keeper of {town}!
+
+**What Puff says as each place comes alive** (at about ¼, ½, ¾ tidy and when restored):
+- **{puff}'s yard:** Flowers! Right outside my door. · A robin on the mailbox. Hello! · Our yard is blooming!
+- **Town Square:** The lamps are back on! · Flowers by the fountain! · Birds at the fountain. A good sign. · {town} Square shines again!
+- **Hazel's bakery:** The bakery lamp! Cosy already. · Sunshine on the buns! · Fresh tarts on the display. Yum! · It smells like a real bakery again.
+- **General Store:** A lamp on the counter. Hello, shop! · Look at the light on the shelves. · Flowers and a robin. Open for business!
+- **Neighbour Lane:** Lamps along the lane! · The lane has flowers again. · Neighbour Lane looks so friendly.
+- **Bea's flower shop:** Oh! A flower popped up. · Sunlight for the flowers. · A robin's come to visit! · Bea's shop is blooming!
+- **Pip's toy workshop:** Pip's workbench lamp! · Sunbeams for tinkering. · A little boat! Did Pip make that? · Toys everywhere, in the best way.
+- **Moss's library:** The reading lamp's on. · Sunlight on the spines. So quiet. · A library cat! Of course. · A good book and a warm lamp. Perfect.
+- **Riverside:** Lamps by the water. So twinkly! · Flowers on the riverbank! · The river sparkles back at me.
+- **Otto's bathhouse:** Warm light in the steam. · Steam and sunshine! · Fluffy towels. Fluffy like me! · Otto's bathhouse sparkles!
+
 ## Hazel
 
 **First hello**

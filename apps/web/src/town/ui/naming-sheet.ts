@@ -9,7 +9,8 @@ import type { View } from './view';
 export function openNaming(view: View, names: Names, done: (names: Names) => void) {
   const field = (label: string, value: string) => {
     const input = h('input', { class: 'name-input', type: 'text', value, maxlength: NAME_MAX, autocomplete: 'off', spellcheck: 'false', enterkeyhint: 'done' });
-    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); view.closeTopSheet(); } });
+    // Enter and Escape finish here: the game's own keys leave text boxes alone.
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); view.closeTopSheet(); } });
     return { input, row: h('label', { class: 'name-field' }, h('span', { class: 'label' }, label), input) };
   };
   const puff = field('Your dust bunny', names.puff);

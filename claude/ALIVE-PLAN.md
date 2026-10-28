@@ -47,3 +47,10 @@ The burrow slice is in, as planned.
 - **Fixed on the way:** a drag ends over a different sprite, so Pixi sends "pointerupoutside" as well. Both now count as the release.
 - **Also:** the `?debug` hooks are in `debug.ts` again, and `skipTips` was added for tests.
 - **Next, once Blake has felt it on his phone:** stages for the other homes (pack data only), and gestures for cobwebs (hold) and weeds.
+
+## Every place (Phase 1a, 28 Oct 2026)
+Each home and outdoor area now has its own stages, all pack data:
+- the bakery, General Store, Bea's shop, Pip's workshop, Moss's library and Otto's bathhouse
+- the yard, square, Neighbour Lane and Riverside
+
+New effect: `bird`, a robin that bobs now and then (still with Reduce motion on). Outdoors, lamps glow, flowers come up and birds visit. Indoors, there are lamps, sunbeams, decor (tarts, towels, a toy boat), the library cat and robins. Every stage has its own Puff line (DIALOGUE-REVIEW). `?debug`'s `__town.showAlive()` shows every stage at once, for screenshots.

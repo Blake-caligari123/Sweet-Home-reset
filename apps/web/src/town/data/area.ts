@@ -135,6 +135,7 @@ export function validateTownPack(input: unknown): TownPack {
   }
   for (const e of p.heartEvents ?? []) {
     if (!who.has(e.neighbourId) || !isNum(e.hearts) || !Array.isArray(e.scene) || !e.scene.length) throw new Error(`heart event ${e.id}: shape`);
+    if (e.banner && typeof text[e.banner] !== 'string') throw new Error(`heart event ${e.id}: no text for ${e.banner}`);
     for (const s of e.scene) {
       const ids = 'line' in s ? [s.line] : [s.choice, ...s.options.map((o) => o.label)];
       for (const t of ids) if (typeof text[t] !== 'string') throw new Error(`heart event ${e.id}: no text for ${t}`);
