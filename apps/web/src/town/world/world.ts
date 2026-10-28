@@ -252,11 +252,12 @@ export class World {
     drawTapRing(this.marker, this.markerAt.x, this.markerAt.y, 0);
   }
 
-  /** Time-of-day tint over the world only (never the HUD). */
+  /** Time-of-day tint over the world only (never the HUD); a rainy day is cooler and greyer outdoors. */
   setTint(minutes: number) {
     this.ambience.minutes = minutes;
     const h = minutes / 60;
-    const [colour, alpha] = h < 8 ? [P.butter, 0.14] : h < 16 ? [P.white, 0] : h < 19 ? [P.peach, 0.16] : h < 21 ? [P.peachShade, 0.22] : [P.blueShade, 0.34];
+    const wet = this.ambience.rainy && this.area?.pack.kind === 'outdoor' && h < 19;
+    const [colour, alpha] = wet ? [P.blueShade, 0.24] : h < 8 ? [P.butter, 0.14] : h < 16 ? [P.white, 0] : h < 19 ? [P.peach, 0.16] : h < 21 ? [P.peachShade, 0.22] : [P.blueShade, 0.34];
     this.tint.clear();
     if (this.area && alpha > 0) this.tint.rect(0, 0, this.area.w * T, this.area.h * T).fill({ color: colour, alpha });
   }

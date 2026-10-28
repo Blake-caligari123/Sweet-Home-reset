@@ -155,5 +155,14 @@
       "medium": 3,
       "large": 4
     }
+  },
+  "weather": {
+    "dryFirstDays": 5,
+    "rainChance": [
+      0.25,
+      0.15,
+      0.3,
+      0.2
+    ]
   }
 }

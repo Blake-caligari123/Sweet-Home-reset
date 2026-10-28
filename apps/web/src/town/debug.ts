@@ -34,6 +34,8 @@ export function installDebugHooks(g: DebugTarget) {
     setMinutes: (m: number) => { g.clock.state.minutes = m; },
     setDay: (d: number) => { g.clock.state.day = d; g.jobs.post(); },
     sleep: () => g.sleep(),
+    /** Rain and motes drifting in the world right now. */
+    weather: () => ({ rainy: g.world.ambience.rainy, motes: g.world.ambience.container.children.length, reducedMotion: g.world.ambience.reducedMotion }),
     mess: () => { const m = g.mess(); const out: { x: number; y: number; type: string; hp: number; item?: string }[] = []; for (let i = 0; i < m.type.length; i += 1) if (m.type[i]) out.push({ x: i % m.w, y: Math.floor(i / m.w), type: m.typeAt(i % m.w, Math.floor(i / m.w)), hp: m.hp[i], item: m.item[i] }); return out; },
     props: () => g.area().pack.props.filter((p) => p.action).map((p) => ({ type: p.type, x: p.x, y: p.y, action: p.action, accepts: p.accepts })),
     doors: () => g.area().pack.doors.filter((d) => !d.closedText),

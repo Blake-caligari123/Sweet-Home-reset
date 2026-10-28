@@ -62,7 +62,7 @@ export class Conversations {
       return;
     }
     const line = pickLine(content.pack.dialogue?.[id] ?? [], {
-      minutes: clock.state.minutes, season: clock.season.toLowerCase(), weather: 'sunny', hearts: heartsOf(f.points),
+      minutes: clock.state.minutes, season: clock.season.toLowerCase(), weather: clock.weather, hearts: heartsOf(f.points),
       area: this.host.area(), flags: state.flags, met: f.met, talkedToday: f.talkedDay === day, recent: f.recent ?? []
     });
     const text = content.line(line?.id) ?? '...';

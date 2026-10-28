@@ -112,9 +112,9 @@ export class Hud {
     el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse');
   }
 
-  setClock(day: string, time: string, night: boolean) {
+  setClock(day: string, time: string, night: boolean, rainy = false) {
     this.dayText.textContent = day;
-    this.timeText.textContent = `${night ? '☾' : '☀'} ${time}`;
+    this.timeText.textContent = `${rainy ? '☂' : night ? '☾' : '☀'} ${time}`;
   }
 
   setSparkles(n: number) { this.sparkleText.textContent = `✨ ${n}`; }

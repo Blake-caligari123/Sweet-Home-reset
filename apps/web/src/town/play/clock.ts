@@ -1,4 +1,5 @@
 import { TUNING } from '../data/tuning';
+import { weatherFor } from './weather';
 
 // A day runs 6:00 to 2:00 (GDD v3 A8). Game minutes are counted from midnight, so 2:00 is 1560.
 export const DAY_START = 6 * 60;
@@ -20,6 +21,7 @@ export class Clock {
   constructor(public state: ClockState = { day: 1, minutes: DAY_START }) {}
 
   get season() { return SEASONS[Math.floor((this.state.day - 1) / DAYS_PER_SEASON) % 4]; }
+  get weather() { return weatherFor(this.state.day); }
   get dayOfSeason() { return ((this.state.day - 1) % DAYS_PER_SEASON) + 1; }
   /** Time shown in 10-minute steps, as the HUD does. */
   get shown() { return Math.floor(this.state.minutes / TUNING.gameMinutesPerTick) * TUNING.gameMinutesPerTick; }

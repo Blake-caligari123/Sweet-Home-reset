@@ -220,6 +220,13 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] From day 8 the notice board sometimes has a job from "All of Hollowfern" (your town name): weeds on the square, dust or grass on the Lane, mud on the riverside path. Each pays 60 ✨ and says "Town Bloom" instead of "friendship".
 - [ ] Take it, tidy the mess it puts down, and "Job done! +60 ✨ The town says thank you." Each town job done counts toward Town Bloom.
 
+## 12a. Phase 4a: rain
+- [ ] The first five days and every festival day (the last of each season) are always dry. In year one it first rains on day 6, then days 7, 12, 22, 24, 32, 38 and 47.
+- [ ] On a rainy morning: "Rain today! The garden gets a drink. No watering." The clock shows ☂ and outdoor places look cooler, with rain falling (none with Reduce motion on, none indoors or in the caves).
+- [ ] Crops outside start the day watered, so they grow that night without the watering can.
+- [ ] A little mud drifts into restored outdoor places overnight instead of weeds (rake it).
+- [ ] Neighbours use their rainy-day lines.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

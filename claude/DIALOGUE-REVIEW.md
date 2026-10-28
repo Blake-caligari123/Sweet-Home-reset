@@ -200,6 +200,9 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `req.town_square_east`: Clear the weeds round the square's east side.
 - Board: "All of {town}" · Done: "Job done! +60 ✨ The town says thank you."
 
+## New in Phase 4a (29 Oct): rain
+- `weather.rain`: Rain today! The garden gets a drink. No watering.
+
 ## Hazel
 
 **First hello**
