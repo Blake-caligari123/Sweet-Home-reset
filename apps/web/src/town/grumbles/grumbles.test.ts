@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { TUNING } from '../data/tuning';
 import { hollowfern as pack } from '../data/test-pack';
 import { faceFor, newDay, tidyOne, type FamilyDef, type GrumbleState } from './grumbles';
 
@@ -57,5 +58,25 @@ describe('grumbles', () => {
     const text = pack.strings!['en-AU'];
     for (const id of ['grumble.dust.before.1', 'grumble.dust.before.2', 'grumble.dust.after.1', 'grumble.puff.first', 'grumble.puff.helper', 'grumble.hint']) expect(text[id], id).toBeTruthy();
     for (const [id, t] of Object.entries(text).filter(([k]) => k.startsWith('grumble.'))) expect(t, id).not.toMatch(/\b(combat|hit|kill|damage|attack|fight)\b/i);
+  });
+
+  it('gives each Grumble in an area its own spot, across families', () => {
+    const two: FamilyDef[] = [{ id: 'dust', tool: 'duster', hits: 3, areas: ['lane'], unlock: 'a' }, { id: 'cobweb', tool: 'duster', hits: 3, areas: ['lane'], unlock: 'b' }];
+    const asked: number[] = [];
+    newDay({ day: 0, list: [] }, { day: 9, families: two, arrived: () => true, spot: (_a, k) => { asked.push(k); return { x: k, y: 0 }; }, perArea: 3, helpersMax: 12 });
+    expect(new Set(asked).size).toBe(asked.length);
+  });
+
+  it('adds cobweb, mud and soot families later on, each with its own look, lines and hint', () => {
+    const fam = pack.grumbleFamilies ?? [];
+    expect(fam.map((f) => f.id)).toEqual(['dust', 'cobweb', 'mud', 'soot']);
+    const text = pack.strings!['en-AU'];
+    const days = fam.map((f) => TUNING.unlocks[f.unlock]?.day ?? 0);
+    expect(days).toEqual([...days].sort((a, b) => a - b)); // one new family at a time
+    for (const f of fam.slice(1)) {
+      expect(f.tint, f.id).toMatch(/^#[0-9A-F]{6}$/i);
+      for (const a of f.areas) expect(pack.areas.some((x) => x.id === a), `${f.id} ${a}`).toBe(true);
+      for (const id of [`grumble.${f.id}.before.1`, `grumble.${f.id}.before.2`, `grumble.${f.id}.after.1`, `grumble.${f.id}.hint`]) expect(text[id], id).toBeTruthy();
+    }
   });
 });

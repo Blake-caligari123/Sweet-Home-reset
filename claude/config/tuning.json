@@ -111,6 +111,15 @@
     },
     "footbridge": {
       "day": 12
+    },
+    "grumble_cobweb": {
+      "day": 9
+    },
+    "grumble_mud": {
+      "day": 13
+    },
+    "grumble_soot": {
+      "day": 16
     }
   },
   "grumbles": {

@@ -232,6 +232,10 @@ One new thing every couple of days, each with one tip or letter:
   - The footbridge repair at Riverside, from day 12. A repair is a building on a plot that also costs materials (150 ✨, 10 twigs, 6 pebbles, 2 copper ore) and takes two nights.
   - Once mended, its plot becomes planks and its doors open. It leads to the **Far Bank**, a new grey area (an old orchard with a pond) to restore, with its own pickups.
   - The overgrown path and the sea steps can use the same pattern later.
+- **Phase 3e (29 Oct):**
+  - Three more Grumble families, one at a time: cobweb (day 9, duster, the library and Bea's shop), mud (day 13, rake, Riverside, the yard and the Far Bank) and soot (day 16, sponge, the bathhouse and the store).
+  - Each has its own lines and a tracker hint until the first one is befriended.
+  - They wear Blake's dust art in their own grumpy tint until their own sheets arrive; helpers are all bright.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
