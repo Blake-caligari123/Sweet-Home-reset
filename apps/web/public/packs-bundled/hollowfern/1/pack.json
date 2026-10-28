@@ -116,6 +116,9 @@
   },
   "cobweb": {
    "name": "Cobweb"
+  },
+  "cushion": {
+   "name": "Cushion"
   }
  },
  "areas": [
@@ -583,6 +586,70 @@
      "y": 5,
      "item": "biscuit",
      "drawDy": -1.1
+    }
+   ],
+   "alive": [
+    {
+     "at": 0.25,
+     "say": "alive.burrow.lamp",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 6.4,
+       "y": 4.3,
+       "size": 34
+      }
+     ]
+    },
+    {
+     "at": 0.5,
+     "say": "alive.burrow.sun",
+     "effects": [
+      {
+       "type": "sunbeam",
+       "x": 12.6,
+       "y": 3.4,
+       "w": 3,
+       "h": 5.6
+      },
+      {
+       "type": "music",
+       "bloom": 1
+      }
+     ]
+    },
+    {
+     "at": 0.75,
+     "say": "alive.burrow.cat",
+     "effects": [
+      {
+       "type": "cat",
+       "x": 11.6,
+       "y": 4.9
+      }
+     ]
+    },
+    {
+     "at": 1,
+     "say": "alive.burrow.home",
+     "effects": [
+      {
+       "type": "glow",
+       "x": 17.8,
+       "y": 4.1,
+       "size": 34
+      },
+      {
+       "type": "decor",
+       "item": "cushion",
+       "x": 4.6,
+       "y": 5.6
+      },
+      {
+       "type": "music",
+       "bloom": 2
+      }
+     ]
     }
    ]
   },
@@ -4072,7 +4139,11 @@
    "req.moss_book": "Moss would like a book. Any book. Quietly.",
    "req.moss_cobwebs": "Dust the cobwebs in Moss's reading corner.",
    "req.mabel_mud": "Clear the mud by Mabel's evening bench.",
-   "req.mabel_biscuit": "Mabel fancies a biscuit with her evening tea."
+   "req.mabel_biscuit": "Mabel fancies a biscuit with her evening tea.",
+   "alive.burrow.lamp": "Ooh! The lamp works!",
+   "alive.burrow.sun": "Sunshine! It's getting cosy.",
+   "alive.burrow.cat": "A visitor! Hello, puss.",
+   "alive.burrow.home": "It's... a home. Is it mine?|It's mine."
   }
  },
  "heartEvents": [

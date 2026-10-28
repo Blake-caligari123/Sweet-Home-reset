@@ -6,6 +6,7 @@ import { PixelCanvas } from '../../shared/art/pixel-canvas';
 import { drawNeighbour24, drawPuff24, drawToolMini, silhouette, type Dir } from './art/characters';
 import { drawCrop, drawItemIcon, drawMess } from './art/items';
 import { T } from './art/texture';
+import { AliveLayer, daylight } from './alive';
 import { Ambience, drawTapRing, vignetteTexture } from './ambience';
 import type { Area } from '../data/area';
 import { bakeArea } from './bake';
@@ -99,6 +100,8 @@ export class World {
   private highlight = new Graphics();
   private vignette = new Sprite(vignetteTexture());
   readonly ambience = new Ambience();
+  /** A home coming alive: lamps, sunlight, a cat (claude/ALIVE-PLAN.md). */
+  readonly alive = new AliveLayer();
   private markerAt = { x: 0, y: 0 };
   private sprites: SpriteBank | null = null;
   private blink = { nextMs: 3000, playMs: 0, again: false };
@@ -123,7 +126,7 @@ export class World {
     this.puff.anchor.set(0.5, 1);
     this.toolSprite.anchor.set(0.5);
     for (const c of [this.base, this.drained, this.messLayer, this.cropLayer, this.actors, this.particles.container, this.tint, this.marker, this.highlight, this.vignette]) c.eventMode = 'none';
-    this.stage.addChild(this.base, this.drained, this.cropLayer, this.messLayer, this.pickupLayer, this.highlight, this.marker, this.actors, this.particles.container, this.ambience.container, this.tint, this.ambience.lights);
+    this.stage.addChild(this.base, this.drained, this.cropLayer, this.messLayer, this.pickupLayer, this.alive.under, this.highlight, this.marker, this.actors, this.particles.container, this.ambience.container, this.tint, this.ambience.lights, this.alive.lights);
     this.root.addChild(this.vignette);
     this.puffShadow.ellipse(0, 0, 7, 2.5).fill({ color: P.ink, alpha: 0.28 });
     this.actors.addChild(this.puffShadow, this.puff, this.toolSprite);
@@ -267,6 +270,11 @@ export class World {
     this.particles.burst('sparkle', x * T + T / 2, y * T + T / 2, count, [P.white, P.butterLight, P.butter], 40, 10);
   }
 
+  /** Soap bubbles off a scrubbed spot. */
+  suds(x: number, y: number) {
+    this.particles.burst('suds', x * T + T / 2, y * T + T / 2, 7, [P.white, P.blueLight], 22, -16);
+  }
+
   dustPuff(x: number, y: number) {
     this.particles.burst('puff', x * T + T / 2, y * T + T / 2, 6, [P.greyLight, P.white], 24, -10);
   }
@@ -408,6 +416,8 @@ export class World {
     this.particles.update(dt);
     this.ambience.reducedMotion = this.reducedMotion;
     this.ambience.update(dt);
+    this.alive.reducedMotion = this.reducedMotion;
+    this.alive.update(dt, daylight(this.ambience.minutes));
     if (this.markerMs > 0) {
       this.markerMs -= dt;
       if (this.markerMs <= 0) this.marker.clear();

@@ -54,6 +54,8 @@ export class Sound {
   private nextBeat = 0;
   private beat = 0;
   musicOn = true;
+  /** Extra layers for a room coming alive: 1 adds a music-box melody, 2 soft bells too. 0 is the plain loop. */
+  bloom = 0;
 
   /** Start (or resume) the background loop. Safe to call repeatedly. */
   startMusic() {
@@ -99,6 +101,8 @@ export class Sound {
       if (step === 0 || step === 4) this.note(chord[0] / 2, t, eighth * 3, 'sine', 0.09, 0.02);
       if (step % 2 === 1) this.hissAt(t, 0.04, 6000, 0.012);
       if (Math.random() < (step % 2 ? 0.18 : 0.32)) this.note(scale[Math.floor(Math.random() * scale.length)], t, 0.6, 'sine', 0.035);
+      if (this.bloom >= 1 && step % 2 === 0) this.note(chord[(step / 2 + 1) % 4] * 2, t, 0.5, 'triangle', 0.022);
+      if (this.bloom >= 2 && step === 0) this.note(chord[3] * 4, t, 2.2, 'sine', 0.018, 0.02);
       this.nextBeat += eighth;
       this.beat += 1;
     }

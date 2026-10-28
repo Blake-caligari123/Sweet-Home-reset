@@ -6,6 +6,7 @@ import type { NeighbourDef } from '../neighbours/neighbours';
 import type { RequestTemplate } from '../requests/requests';
 import type { ShopDef } from '../shops/shops';
 import type { HeartEvent } from '../neighbours/heart-events';
+import type { AliveStage } from '../play/alive';
 import type { PickupDef } from '../play/pickups';
 import type { Line } from '../neighbours/talk';
 
@@ -24,6 +25,8 @@ export interface AreaPack {
   nav?: { floor: number[][]; blockers: number[][] };
   /** Things Puff can take, back each morning (a snack on the counter). */
   pickups?: PickupDef[];
+  /** Things that switch on as the room gets tidier (homes coming alive). */
+  alive?: AliveStage[];
 }
 
 export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string; sell?: number }>; neighbours?: NeighbourDef[];
@@ -96,6 +99,7 @@ export function validateTownPack(input: unknown): TownPack {
       if (!ids.has(d.to) && !d.closedText) throw new Error(`area ${a.id}: door to unknown area ${d.to}`);
       if (![d.x, d.y, d.toX, d.toY].every(isNum)) throw new Error(`area ${a.id}: door coords`);
     }
+    (a.alive ?? []).forEach((st, i, all) => { if (!isNum(st.at) || st.at <= 0 || st.at > 1 || (i && st.at <= all[i - 1].at) || !Array.isArray(st.effects)) throw new Error(`area ${a.id}: alive stage ${i}`); });
     for (const pk of a.pickups ?? []) if (!pk.id || !p.items?.[pk.item] || ![pk.x, pk.y].every(isNum)) throw new Error(`area ${a.id}: pickup ${pk.id}`);
     for (const pr of a.props) if (pr.tap && !(pr.tap.length === 4 && pr.tap.every(isNum))) throw new Error(`area ${a.id}: ${pr.type} tap area`);
     if (a.background && (typeof a.background.src !== 'string' || !isNum(a.background.scale) || a.background.scale <= 0)) throw new Error(`area ${a.id}: background`);
