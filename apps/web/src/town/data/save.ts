@@ -29,6 +29,8 @@ export interface TownSave {
   onboarding: number;
   /** Onboarding progress already made on later steps (done out of order). */
   onboardingAhead?: Record<string, number>;
+  /** Pickups taken today (they're back each morning). */
+  picked?: { day: number; ids: string[] };
   chores: { day: string; keys: string[]; total: number };
   settings: { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; relaxed: boolean; autoTool: boolean };
   [extra: string]: unknown;

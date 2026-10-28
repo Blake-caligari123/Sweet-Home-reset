@@ -5,6 +5,7 @@ import type { NeighbourDef } from '../neighbours/neighbours';
 import type { RequestTemplate } from '../requests/requests';
 import type { ShopDef } from '../shops/shops';
 import type { HeartEvent } from '../neighbours/heart-events';
+import type { PickupDef } from '../play/pickups';
 import type { Line } from '../neighbours/talk';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
@@ -20,6 +21,8 @@ export interface AreaPack {
   background?: { src: string; scale: number };
   /** Free-movement outlines traced over a painting (world px polygons): where feet may go, and furniture. */
   nav?: { floor: number[][]; blockers: number[][] };
+  /** Things Puff can take, back each morning (a snack on the counter). */
+  pickups?: PickupDef[];
 }
 
 export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string; sell?: number }>; neighbours?: NeighbourDef[];
@@ -92,6 +95,7 @@ export function validateTownPack(input: unknown): TownPack {
       if (!ids.has(d.to) && !d.closedText) throw new Error(`area ${a.id}: door to unknown area ${d.to}`);
       if (![d.x, d.y, d.toX, d.toY].every(isNum)) throw new Error(`area ${a.id}: door coords`);
     }
+    for (const pk of a.pickups ?? []) if (!pk.id || !p.items?.[pk.item] || ![pk.x, pk.y].every(isNum)) throw new Error(`area ${a.id}: pickup ${pk.id}`);
     for (const pr of a.props) if (pr.tap && !(pr.tap.length === 4 && pr.tap.every(isNum))) throw new Error(`area ${a.id}: ${pr.type} tap area`);
     if (a.background && (typeof a.background.src !== 'string' || !isNum(a.background.scale) || a.background.scale <= 0)) throw new Error(`area ${a.id}: background`);
     const area = new Area(a);

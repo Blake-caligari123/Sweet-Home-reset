@@ -2,7 +2,8 @@ import { Application, Container, Graphics, Rectangle, Sprite, Texture } from 'pi
 import { P } from '../../shared/art/palette';
 import { Particles } from '../../shared/render/particles';
 import { toTexture } from '../../shared/render/textures';
-import { drawCrop, drawMess, drawNeighbour24, drawPuff24, drawToolMini, T, type Dir } from './art';
+import { PixelCanvas } from '../../shared/art/pixel-canvas';
+import { drawCrop, drawItemIcon, drawMess, drawNeighbour24, drawPuff24, drawToolMini, T, type Dir } from './art';
 import { Ambience, drawTapRing, vignetteTexture } from './ambience';
 import type { Area } from '../data/area';
 import { bakeArea } from './bake';
@@ -44,6 +45,13 @@ function npcTexture(v: NeighbourView, frame: number) {
   return t;
 }
 
+const itemTextures = new Map<string, Texture>();
+function itemTexture(item: string) {
+  let t = itemTextures.get(item);
+  if (!t) { const pc = new PixelCanvas(14, 14); drawItemIcon(pc, item); t = toTexture(pc); itemTextures.set(item, t); }
+  return t;
+}
+
 const toolMinis = new Map<string, Texture>();
 function toolTexture(tool: string) {
   let t = toolMinis.get(tool);
@@ -76,6 +84,7 @@ export class World {
   private owned: Texture[] = [];
   private messLayer = new Container();
   private cropLayer = new Container();
+  private pickupLayer = new Container();
   readonly actors = new Container();
   readonly particles = new Particles();
   private tint = new Graphics();
@@ -107,7 +116,7 @@ export class World {
     this.puff.anchor.set(0.5, 1);
     this.toolSprite.anchor.set(0.5);
     for (const c of [this.base, this.drained, this.messLayer, this.cropLayer, this.actors, this.particles.container, this.tint, this.marker, this.highlight, this.vignette]) c.eventMode = 'none';
-    this.stage.addChild(this.base, this.drained, this.cropLayer, this.messLayer, this.highlight, this.marker, this.actors, this.particles.container, this.ambience.container, this.tint, this.ambience.lights);
+    this.stage.addChild(this.base, this.drained, this.cropLayer, this.messLayer, this.pickupLayer, this.highlight, this.marker, this.actors, this.particles.container, this.ambience.container, this.tint, this.ambience.lights);
     this.root.addChild(this.vignette);
     this.puffShadow.ellipse(0, 0, 7, 2.5).fill({ color: P.ink, alpha: 0.28 });
     this.actors.addChild(this.puffShadow, this.puff, this.toolSprite);
@@ -147,6 +156,7 @@ export class World {
     this.messSprites.clear();
     for (let i = 0; i < mess.type.length; i += 1) this.syncMess(i);
     this.cropLayer.removeChildren().forEach((c) => c.destroy());
+    this.pickupLayer.removeChildren().forEach((c) => c.destroy());
     this.cropSprites.clear();
     this.particles.clear();
     this.ambience.load(area);
@@ -196,6 +206,20 @@ export class World {
   /** A fully coloured area needs no grey overlay: skip drawing that full-screen layer. */
   private syncDrainedVisible() {
     this.drained.visible = this.shownColour.some((v) => v < FULL_COLOUR);
+  }
+
+  /** Things Puff can take here (a snack on the counter), drawn with the item's art or icon. */
+  setPickups(list: { x: number; y: number; item: string; drawDy?: number }[]) {
+    this.pickupLayer.removeChildren().forEach((c) => c.destroy());
+    for (const p of list) {
+      const art = this.sprites?.has(`item_${p.item}`);
+      const sprite = new Sprite(art ? this.sprites!.frames(`item_${p.item}`)![0] : itemTexture(p.item));
+      sprite.anchor.set(0.5);
+      sprite.scale.set(art ? 12 / sprite.texture.width : 1);
+      sprite.position.set((p.x + 0.5) * T, (p.y + 0.5 + (p.drawDy ?? 0)) * T);
+      sprite.eventMode = 'none';
+      this.pickupLayer.addChild(sprite);
+    }
   }
 
   setCrops(crops: { x: number; y: number; stage: number; watered: boolean }[]) {

@@ -3,6 +3,7 @@ import type { Friend } from './data/save';
 import { Bag } from './play/bag';
 import { Fluff } from './play/fluff';
 import { Onboarding } from './play/onboarding';
+import type { Taken } from './play/pickups';
 
 export interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
 
@@ -24,6 +25,8 @@ export class TownState {
   chores = { day: '', keys: [] as string[], total: 0 };
   /** The last kind of mess cleaned today, for the morning letter. */
   lastClean = 'none';
+  /** Snacks and the like taken today; back each morning. */
+  picked: Taken = { day: 0, ids: [] };
 
   has(flag: string) { return this.flags.includes(flag); }
   /** Set a save flag (once). */

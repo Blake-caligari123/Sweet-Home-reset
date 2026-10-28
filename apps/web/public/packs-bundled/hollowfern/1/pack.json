@@ -550,7 +550,16 @@
       180.5
      ]
     ]
-   }
+   },
+   "pickups": [
+    {
+     "id": "burrow_biscuit",
+     "x": 20,
+     "y": 5,
+     "item": "biscuit",
+     "drawDy": -1.1
+    }
+   ]
   },
   {
    "id": "yard",

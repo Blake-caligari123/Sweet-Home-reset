@@ -28,7 +28,7 @@ export const STEPS: Step[] = [
   { id: 'dust', hint: 'Tap the dust to clean it.', count: 3, doneByRestore: 'burrow', match: (e) => e.type === 'cleared' && e.mess === 'dust' },
   { id: 'sock', hint: 'Pick up the sock, then tap the basket.', match: (e) => e.type === 'putaway' && e.item === 'sock' },
   { id: 'stain', hint: 'Sponge a stain in the Kitchen Nook. It takes 3 hits.', grant: ['sponge'], doneByRestore: 'burrow', match: (e) => e.type === 'cleared' && e.mess === 'stain' },
-  { id: 'fluff', hint: 'Cleaning uses Fluff. Snacks and sleep refill it.', match: (e) => e.type === 'timer' },
+  { id: 'fluff', hint: 'Cleaning uses Fluff. Try the snack on the counter!', match: (e) => e.type === 'timer' },
   { id: 'burrow', hint: 'Tidy the rest of the burrow.', match: (e) => e.type === 'restored' && e.area === 'burrow' },
   { id: 'yard', hint: 'Head outside and rake the weeds.', grant: ['rake'], count: 3, match: (e) => e.type === 'cleared' && e.mess === 'weeds' },
   { id: 'plant', hint: 'Plant 3 radish seeds in the garden plot.', grant: ['can'], items: { radish_seeds: 3 }, count: 3, match: (e) => e.type === 'planted' },
