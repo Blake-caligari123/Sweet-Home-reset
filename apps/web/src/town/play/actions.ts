@@ -1,6 +1,7 @@
 import type { Area, TownPack } from '../data/area';
 import type { Content } from '../data/content';
-import { cropDays, PUTAWAY_SPARKLES, SWING_MS } from '../data/tuning';
+import { PUTAWAY_SPARKLES, SWING_MS } from '../data/tuning';
+import { harvest, seedsIn, stageOf, type CropDef } from './crops';
 import type { GrumbleLife } from '../grumbles/grumble-life';
 import type { Conversations } from '../neighbours/conversations';
 import type { Jobs } from '../requests/jobs';
@@ -64,7 +65,8 @@ export class PuffActions {
 
   cropsHere() {
     const id = this.host.here().id;
-    return this.host.state.crops.filter((c) => c.area === id).map((c) => ({ x: c.x, y: c.y, stage: c.days >= cropDays(c.crop) ? 2 : c.days > 0 ? 1 : 0, watered: c.watered }));
+    const look = (crop: string) => this.cropDef(crop)?.look ?? 'round';
+    return this.host.state.crops.filter((c) => c.area === id).map((c) => ({ x: c.x, y: c.y, stage: stageOf(c), watered: c.watered, look: look(c.crop) }));
   }
 
   useDoor(x: number, y: number) {
@@ -238,27 +240,43 @@ export class PuffActions {
     }
   }
 
+  private cropDef(id: string) { return this.host.content.pack.crops?.find((c) => c.id === id); }
+
   private useSoil(x: number, y: number) {
-    const { state, view } = this.host;
+    const { state, view, content } = this.host;
     const id = this.host.here().id;
     const crop = state.crops.find((c) => c.area === id && c.x === x && c.y === y);
-    if (crop) {
-      if (crop.days >= cropDays(crop.crop)) {
-        if (!state.bag.add(crop.crop)) { view.say('Bag\'s full!'); return; }
-        state.crops.splice(state.crops.indexOf(crop), 1);
-        view.say('A radish! Crunchy.'); view.feedback('coin', 'medium');
+    const def = crop && this.cropDef(crop.crop);
+    if (crop && !def) return; // a crop this version doesn't know: left as it is
+    if (crop && def) {
+      if (stageOf(crop) === 2) {
+        if (!state.bag.canAdd(crop.crop)) { view.say('Bag\'s full!'); return; }
+        state.bag.add(crop.crop);
+        if (harvest(crop, def) === 'picked') state.crops.splice(state.crops.indexOf(crop), 1);
+        view.say(content.line(`crop.${def.id}.harvest`) ?? ''); view.feedback('coin', 'medium');
       } else if (!crop.watered) {
         if (!state.tools.can) { view.say('Seeds need water. A can would help.'); return; }
         crop.watered = true; this.host.select('can');
         view.feedback('wipe', 'light');
         this.host.guide.handle({ type: 'watered' });
       } else view.say('Growing. No rush.');
-    } else if (state.bag.count('radish_seeds') > 0) {
-      state.bag.remove('radish_seeds');
-      state.crops.push({ area: id, x, y, crop: 'radish', days: 0, watered: false });
-      view.say('Grow big. No rush.'); view.feedback('thunk', 'light');
-      this.host.guide.handle({ type: 'planted' });
-    } else view.say('Seeds would grow here.');
+    } else {
+      const kinds = seedsIn(state.bag, content.pack.crops ?? []);
+      if (!kinds.length) view.say('Seeds would grow here.');
+      else if (kinds.length === 1) this.plant(x, y, kinds[0]);
+      else view.ask(content.line('crop.which') ?? '', [...kinds.map((k) => ({ label: content.itemName(k.seed), onClick: () => this.plant(x, y, k) })), { label: 'Not now', onClick: () => {} }]);
+      return;
+    }
+    this.host.world.setCrops(this.cropsHere());
+    this.host.refreshHud();
+  }
+
+  private plant(x: number, y: number, def: CropDef) {
+    const { state, view } = this.host;
+    if (!state.bag.remove(def.seed)) return;
+    state.crops.push({ area: this.host.here().id, x, y, crop: def.id, days: 0, watered: false });
+    view.say('Grow big. No rush.'); view.feedback('thunk', 'light');
+    this.host.guide.handle({ type: 'planted' });
     this.host.world.setCrops(this.cropsHere());
     this.host.refreshHud();
   }

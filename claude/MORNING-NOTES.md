@@ -7,6 +7,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 |---|---|---|
 | #40 | **Phase 1 finished:** hold, circle and sweep gestures; light mess drifting back into restored rooms overnight | checklist §11f |
 | #41 | **Phase 2a:** twigs and pebbles to forage; Pip's workbench; Copper duster, sponge and rake; charged hold clean | checklist §11g |
+| #42 | **Phase 2b:** carrots, peas and strawberries (strawberries grow back); pick your seeds; sell them all | checklist §11h |
 
 ## Decisions I made (easy to change)
 - **Copper tools:** crafted at Pip's table in his workshop. Pip's the tinkerer, and the workshop is code-drawn, so it was easy to add.
@@ -14,6 +15,11 @@ You said to carry on without asking. I've merged each slice to the test link onc
   - recipes are 100 ✨ each at the General Store (the sponge was 150)
   - making a tool takes 40–50 ✨ plus 4–6 twigs and pebbles
 - **Fixed gap:** the Copper sponge recipe used to do nothing when bought.
+- **Crop numbers:**
+  - growing time: radish 3 days, carrot 4, peas 5, strawberry 6 (grows back every 3)
+  - seeds: 30–60 ✨ for 3
+  - sell prices: 15–30 ✨
+  - These are all in `tuning.json` and the pack, so they're easy to tune after you play.
 
 ## Art to ask Grok for (prompts in `claude/SPRITE-SHEETS.md`)
 - **Pets:** cat, pup, hedgehoglet (walk and idle sheets each).

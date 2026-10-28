@@ -67,6 +67,10 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 - Made: "[Copper duster]! Hold on mess to clean a little patch at once."
 - Charged clean: "Whoosh! A big clean!"
 
+## New in Phase 2b (overnight): crops
+- "Which seeds?" (then each seed name, and "Not now")
+- Harvest: "A radish! Crunchy." · "A carrot! Long and orange." · "Peas! Pop, pop, pop." · "A strawberry! More will grow back."
+
 ## Hazel
 
 **First hello**

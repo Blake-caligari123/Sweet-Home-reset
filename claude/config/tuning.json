@@ -78,7 +78,10 @@
   "toolSwingMs": 260,
   "putAwaySparkles": 5,
   "cropDays": {
-    "radish": 3
+    "radish": 3,
+    "carrot": 4,
+    "peas": 5,
+    "strawberry": 6
   },
   "unlocks": {
     "mabel": {
@@ -104,5 +107,8 @@
   "messReturn": {
     "perNight": 2,
     "maxFresh": 4
+  },
+  "cropRegrowDays": {
+    "strawberry": 3
   }
 }

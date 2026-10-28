@@ -57,6 +57,8 @@ export function installDebugHooks(g: DebugTarget) {
     restoreHere: () => { g.mess().restore(); },
     /** Every coming-alive stage of this area at once, for screenshots. */
     showAlive: () => { const st = g.area().pack.alive ?? []; g.world.alive.load(st, st.length); },
+    /** Grow every crop by some days (as if that many nights passed, watered). */
+    growCrops: (days: number) => { for (const c of s.crops) c.days += days; },
     /** Fluff straight to a value, to see the sleepy bar. */
     setFluff: (n: number) => { s.fluff.value = n; },
     addItem: (id: string, n = 1) => { s.bag.add(id, n); g.refreshHud(); },

@@ -130,6 +130,12 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] A Copper tool gets a copper rim on the toolbar and cleans in fewer goes. The Copper sponge cleans grime.
 - [ ] Hold on mess with a Copper tool: "Whoosh! A big clean!" and the spot plus up to 2 matching spots beside it clear. It costs 5 Fluff.
 
+## 11h. Phase 2b: more crops
+- [ ] Seeds: carrot at the General Store from day 3, peas from day 6, strawberries at Bea's from day 8.
+- [ ] Carrying more than one kind of seed, tapping soil asks "Which seeds?" ("Not now" closes it).
+- [ ] Each crop looks different when ready. Picking it gives its own line. Strawberries grow back (ready again 3 days later).
+- [ ] The General Store buys radishes, carrots, peas and strawberries.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

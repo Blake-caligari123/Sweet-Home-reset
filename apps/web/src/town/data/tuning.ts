@@ -32,6 +32,8 @@ export interface Tuning {
   toolSwingMs?: number;
   putAwaySparkles?: number;
   cropDays?: Record<string, number>;
+  /** Crops that grow back after picking: days from picked to ready again. */
+  cropRegrowDays?: Record<string, number>;
   /** The year-one schedule (VISION §8): when each thing arrives. Read only through `isUnlocked`. */
   unlocks: Record<string, UnlockRule>;
   /** Grumbles (VISION §7): how many gather per area, helpers kept, how fast they amble. */

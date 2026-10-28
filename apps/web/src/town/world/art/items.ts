@@ -78,6 +78,14 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'copper_rake':
       pc.line(ox + 3, oy + 12, ox + 9, oy + 4, P.brownShade); pc.hline(ox + 6, oy + 3, 7, P.peachShade);
       for (const x of [6, 8, 10, 12]) pc.set(ox + x, oy + 4, P.peachShade); break;
+    case 'carrot_seeds': case 'pea_seeds': case 'strawberry_seeds': {
+      b(3, 1, 8, 12, P.butterLight, 1);
+      const c = item === 'carrot_seeds' ? P.peachShade : item === 'pea_seeds' ? P.sage : P.peach;
+      pc.ellipseBox(ox + 7, oy + 6, 2, 2, c, P.outline); pc.vline(ox + 7, oy + 2, 2, P.sage); break;
+    }
+    case 'carrot': pc.ellipseBox(ox + 7, oy + 8, 2, 5, P.peachShade, P.outline); pc.set(ox + 6, oy + 6, P.peach); pc.line(ox + 7, oy + 3, ox + 5, oy + 0, P.sageShade); pc.line(ox + 7, oy + 3, ox + 9, oy + 0, P.sageShade); break;
+    case 'peas': pc.ellipseBox(ox + 7, oy + 7, 5, 2, P.sage, P.outline); for (const x of [4, 7, 10]) pc.ellipse(ox + x, oy + 7, 1, 1, P.sageLight); break;
+    case 'strawberry': pc.ellipseBox(ox + 7, oy + 8, 4, 4, P.peachShade, P.outline); for (const [x, y] of [[5, 7], [8, 9], [9, 6]]) pc.set(ox + x, oy + y, P.butterLight); pc.hline(ox + 5, oy + 3, 5, P.sageShade); break;
     case 'twig':
       pc.line(ox + 2, oy + 11, ox + 12, oy + 3, P.brown); pc.line(ox + 3, oy + 11, ox + 12, oy + 4, P.brownShade);
       pc.line(ox + 7, oy + 7, ox + 5, oy + 3, P.brown); pc.ellipseBox(ox + 4, oy + 3, 1, 1, P.sage, P.outline); break;
@@ -87,11 +95,24 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
   }
 }
 
-export function drawCrop(stage: number, watered: boolean) {
+/** A crop in soil: seed, sprout, then ready, drawn by its look (round root, long root, pods, berries). */
+export function drawCrop(stage: number, watered: boolean, look = 'round') {
   const pc = new PixelCanvas(T, T);
   if (watered) for (let y = 3; y < T; y += 5) pc.hline(1, y, 14, P.brownShade);
-  if (stage === 0) { pc.set(7, 9, P.butterShade); pc.set(9, 8, P.butterShade); }
-  else if (stage === 1) { pc.line(8, 12, 8, 8, P.sageShade); pc.ellipse(6, 7, 2, 1, P.sage); pc.ellipse(10, 7, 2, 1, P.sage); }
-  else { pc.ellipseBox(8, 11, 3, 3, P.peach, P.outline); pc.line(8, 8, 5, 3, P.sageShade); pc.line(8, 8, 11, 3, P.sageShade); pc.ellipse(5, 3, 2, 1, P.sage); pc.ellipse(11, 3, 2, 1, P.sage); }
+  if (stage === 0) { pc.set(7, 9, P.butterShade); pc.set(9, 8, P.butterShade); return pc; }
+  if (stage === 1) { pc.line(8, 12, 8, 8, P.sageShade); pc.ellipse(6, 7, 2, 1, P.sage); pc.ellipse(10, 7, 2, 1, P.sage); return pc; }
+  const leaves = () => { pc.line(8, 8, 5, 3, P.sageShade); pc.line(8, 8, 11, 3, P.sageShade); pc.ellipse(5, 3, 2, 1, P.sage); pc.ellipse(11, 3, 2, 1, P.sage); };
+  switch (look) {
+    case 'long': leaves(); pc.ellipseBox(8, 11, 2, 4, P.peachShade, P.outline); pc.set(7, 9, P.peach); break;
+    case 'pod':
+      pc.vline(8, 3, 11, P.sageShade);
+      for (const [x, y] of [[5, 6], [11, 8], [5, 11]]) { pc.ellipseBox(x, y, 2, 1, P.sage, P.outline); pc.set(x, y, P.sageLight); }
+      break;
+    case 'berry':
+      pc.ellipse(8, 9, 5, 3, P.sage); pc.ellipse(7, 8, 3, 2, P.sageLight);
+      for (const [x, y] of [[4, 11], [9, 12], [12, 10]]) { pc.ellipseBox(x, y, 1, 1, P.peachShade, P.outline); pc.set(x, y - 1, P.white); }
+      break;
+    default: leaves(); pc.ellipseBox(8, 11, 3, 3, P.peach, P.outline);
+  }
   return pc;
 }
