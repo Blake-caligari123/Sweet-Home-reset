@@ -91,7 +91,8 @@ export function builtProps(area: string, defs: PlotDef[], plots: Record<string, 
 
 /**
  * An area as it stands today, with what's been built in it. Whatever stood on a plot before (the
- * broken bridge) gives way to what's built there; a mended repair paves its plot and opens its doors.
+ * broken bridge) gives way to what's built there; a mended repair paves its plot and opens its doors
+ * (replacing a closed door on the same tile, like the overgrown way to the beach).
  */
 export function withBuilds(pack: AreaPack, defs: PlotDef[], plots: Record<string, PlotState>, catalogue: BuildingDef[]): AreaPack {
   const extra = builtProps(pack.id, defs, plots, catalogue);
@@ -103,7 +104,9 @@ export function withBuilds(pack: AreaPack, defs: PlotDef[], plots: Record<string
     return b && (b.paves || b.doors) ? [{ d, b }] : [];
   });
   const map = pack.map.map((row, y) => [...row].map((ch, x) => mended.find(({ d, b }) => b.paves && on(x, y, d))?.b.paves ?? ch).join(''));
-  return { ...pack, map, props: [...pack.props.filter((p) => !used.some((d) => on(p.x, p.y, d))), ...extra], doors: [...pack.doors, ...mended.flatMap(({ b }) => b.doors ?? [])] };
+  const opened = mended.flatMap(({ b }) => b.doors ?? []);
+  const doors = pack.doors.filter((d) => !(d.closedText && opened.some((o) => o.x === d.x && o.y === d.y))); // a way that was shut is open now
+  return { ...pack, map, props: [...pack.props.filter((p) => !used.some((d) => on(p.x, p.y, d))), ...extra], doors: [...doors, ...opened] };
 }
 
 /** The areas with a finished building that has this effect (a greenhouse's garden). */

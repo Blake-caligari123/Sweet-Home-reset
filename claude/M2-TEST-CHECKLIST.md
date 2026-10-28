@@ -258,6 +258,13 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] When the last one is lit: "The Glimmerwell is shining! Year one's chapter closes.", +100 ✨ and a lantern pin to wear.
 - [ ] Sleep, and day 57 is spring again in a new year, with no ending.
 
+## 12f. Phase 4f: the sea steps and the Beach
+- [ ] At Riverside, by the far-right path, the sea steps are lost under brambles. Before day 43: "The sea steps are all overgrown. Maybe in winter."
+- [ ] From day 43 the tracker says they could be mended. In the Keeper's plans they cost 200 ✨, 8 pebbles, 6 twigs and 2 colour shards, over two nights.
+- [ ] Once mended, the beach path opens to the Beach: sand, the sea, shells and seaweed to tidy, and a striped lighthouse where Mabel naps by day (she's in the square from 6 pm).
+- [ ] Mess never hides something to use (the broken steps were under a weed before).
+- [ ] The morning line for anything built now reads "All done: the new …! Come see."
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

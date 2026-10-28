@@ -7,6 +7,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **Day 10:** Mabel's first bottle by the fountain. It opens the caves under the Glimmerwell, so go mining.
 - **Day 12:** mend the footbridge at Riverside and cross to the Far Bank.
 - **Day 14:** the Spring Clean Fair and its tidy dash in the square. There's a picnic on day 28, a leaf fest on day 42 and Winter Lights on day 56.
+- **Day 43:** mend the sea steps at Riverside to reach the Beach and Mabel's lighthouse.
 - **Day 15 onward:** summer, then golden autumn (day 29) and snowy winter (day 43). Rain on some days, first on day 6.
 
 ## What's new on the test link
@@ -69,6 +70,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 - **4c (#60):** the Spring Clean Fair on day 14. Everyone's in the square; the fair stall starts a 60-second tidy dash, with Sparkles and a fair ribbon. Checklist §12c.
 - **4d (#61):** the Summer Picnic (day 28, crumbs, a sun hat) and the Autumn Leaf Fest (day 42, leaf piles, an acorn cap). Checklist §12d.
 - **4e (#62):** Winter Lights on day 56. Light eight lanterns round the square, and the Glimmerwell shines to close year one's chapter. Spring carries on after. Checklist §12e.
+- **4f (#63):** the sea steps (day 43) open the Beach, with Mabel's lighthouse. Checklist §12f.
 
 ## Questions for you
 1. **Burrow growing:** would you like a Grok painting for a second burrow room? A bedroom or a cosy den, attached through a door from the main room. That unlocks the burrow growing, indoor decor and a pet bed.
@@ -84,6 +86,6 @@ You said to carry on without asking. I've merged each slice to the test link onc
 ## Next, unless you say otherwise
 Phase 4 (seasons and sharing):
 - the timed tidy mini-game any day (a fun score)
-- the Woodland/Orchard and Beach repairs
+- the Woodland/Orchard repair
 - caves floors 3 and 4
 - Sorrel's heart scenes

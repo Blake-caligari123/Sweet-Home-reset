@@ -270,6 +270,11 @@ One new thing every couple of days, each with one tip or letter:
   - Winter Lights: on day 56, eight lanterns stand round the square (`withLanterns`, rebuilt each day). Puff lights each one, with no timer.
   - The last one makes the Glimmerwell shine and closes year one's chapter, with +100 ✨ and a lantern pin. Day 57 carries on into spring.
   - All four festivals are in. `game.ts` now builds its hosts from one shared `core` (482 lines).
+- **Phase 4f (29 Oct):**
+  - The sea steps repair (day 43, the same repair system). Repairs can now open a way that was closed (the mended door replaces the closed one), and any repair plot checks its own unlock and has its own "not yet" line.
+  - The Beach: a new sand ground, the sea, shells, seaweed, and Mabel's lighthouse, where she sleeps by day.
+  - Scattered mess never lands on something Puff can use.
+  - The Woodland/Orchard repair and caves floors 3–4 are still to come.
   - Also: `play/night.ts` takes the night and the morning messages out of `game.ts`.
 
 ## 14. Blake's answers (28 Oct 2026)

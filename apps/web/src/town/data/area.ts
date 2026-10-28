@@ -84,8 +84,9 @@ export class Area {
       for (let dy = 0; dy < (p.h ?? 1); dy += 1) for (let dx = 0; dx < (p.w ?? 1); dx += 1) this.setBlocked(p.x + dx, p.y + dy);
     }
     for (const d of pack.doors) if (this.inside(d.x, d.y)) this.blocked[d.y * this.w + d.x] = 0;
-    // Scattered mess only lands where Puff can stand on it or beside it.
-    this.spots = expandMess(pack.mess).filter((m) => this.walkable(m.x, m.y) || [[0, 1], [0, -1], [1, 0], [-1, 0]].some(([dx, dy]) => this.walkable(m.x + dx, m.y + dy)));
+    // Scattered mess only lands where Puff can stand on it or beside it, and never hides something to use.
+    const used = (x: number, y: number) => pack.props.some((p) => p.action && x >= p.x && x < p.x + (p.w ?? 1) && y >= p.y && y < p.y + (p.h ?? 1));
+    this.spots = expandMess(pack.mess, used).filter((m) => this.walkable(m.x, m.y) || [[0, 1], [0, -1], [1, 0], [-1, 0]].some(([dx, dy]) => this.walkable(m.x + dx, m.y + dy)));
   }
 
   inside(x: number, y: number) { return x >= 0 && y >= 0 && x < this.w && y < this.h; }
@@ -102,7 +103,8 @@ export class Area {
 }
 
 /** Placed spots first, then scattered ones on whatever tiles are left: a placed item is never lost. */
-export function expandMess(defs: MessDef[]): MessSpot[] {
+/** Every mess spot: placed ones as given, scattered ones from their rect (never on a `skip` tile; the dice still roll there, so the rest stay put). */
+export function expandMess(defs: MessDef[], skip: (x: number, y: number) => boolean = () => false): MessSpot[] {
   const out: MessSpot[] = defs.filter((d): d is MessSpot => !('rect' in d));
   const taken = new Set(out.map((m) => `${m.x},${m.y}`));
   for (const d of defs) {
@@ -110,7 +112,7 @@ export function expandMess(defs: MessDef[]): MessSpot[] {
     const rand = seeded(d.seed);
     const [x0, y0, w, h] = d.rect;
     for (let y = y0; y < y0 + h; y += 1) for (let x = x0; x < x0 + w; x += 1) {
-      if (rand() < d.density && !taken.has(`${x},${y}`)) { out.push({ type: d.type, x, y }); taken.add(`${x},${y}`); }
+      if (rand() < d.density && !taken.has(`${x},${y}`) && !skip(x, y)) { out.push({ type: d.type, x, y }); taken.add(`${x},${y}`); }
     }
   }
   return out;
