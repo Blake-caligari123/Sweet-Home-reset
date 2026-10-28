@@ -263,6 +263,9 @@ One new thing every couple of days, each with one tip or letter:
   - The Spring Clean Fair on day 14 (`festivals/`). Everyone gathers in the square (a 14-day `visits` entry), with a fair-day line each (`festival` lines rank first).
   - The fair stall starts the tidy dash: 20 spots in 60 seconds, Fluff topped up, a kind cheer for any score. The first go each fair day pays 5 ✨ a spot; the first ever earns the fair ribbon outfit.
   - The Summer Picnic, Autumn Leaf Fest and Winter Lights reuse the same festival day, each with its own mini-game.
+- **Phase 4d (29 Oct):**
+  - The Summer Picnic (day 28, crumbs) and the Autumn Leaf Fest (day 42, a new `leaves` mess, raked) use the dash with their own mess, Sparkles, a sun hat or acorn cap, and lines for each neighbour (`festival` lines are now keyed by festival).
+  - Winter Lights (day 56) will be a lantern-lighting game, coming next.
   - Also: `play/night.ts` takes the night and the morning messages out of `game.ts`.
 
 ## 14. Blake's answers (28 Oct 2026)

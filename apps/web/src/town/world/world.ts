@@ -12,7 +12,7 @@ import type { Area } from '../data/area';
 import { bakeArea } from './bake';
 import { seasonal } from './art/seasons';
 import { paintedArea } from './backgrounds';
-import { FULL_COLOUR, type AreaMess } from '../play/mess';
+import { FULL_COLOUR, MESS_TYPES, type AreaMess } from '../play/mess';
 import { blinkClip, breathScale, CLIP_FPS, messSprite, neighbourClip, puffClip, type SpriteBank } from './sprites';
 import { RIPPLE_MS } from '../data/tuning';
 
@@ -188,7 +188,7 @@ export class World {
       if (existing) { existing.destroy(); this.messSprites.delete(i); }
       return;
     }
-    const name = ['none', 'dust', 'stain', 'grime', 'cobweb', 'crumbs', 'fog', 'clutter', 'weeds', 'mud'][type];
+    const name = MESS_TYPES[type];
     // Blake's art when its sheet has loaded (drawn at world size), else the code-drawn placeholder.
     const bank = this.sprites;
     const art = bank && messSprite(name, i, this.mess.item[i], bank.has, (n) => bank.frames(n)!.length);

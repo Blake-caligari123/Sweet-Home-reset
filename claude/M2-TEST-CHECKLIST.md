@@ -247,6 +247,11 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] When every spot is tidied, time runs out, or you leave the square, the leftover dash mess vanishes and the town cheers. Any score gets a kind cheer.
 - [ ] The first go that day pays 5 ✨ a spot, and the first ever gives the fair ribbon (Pause → Outfits). Another go is just for fun.
 
+## 12d. Phase 4d: the Summer Picnic and the Autumn Leaf Fest
+- [ ] Day 28, the Summer Picnic: the same stall and gathering, and the dash is picnic crumbs (20 spots, 6 ✨ each). Prize: a sun hat.
+- [ ] Day 42, the Autumn Leaf Fest: the dash is leaf piles to rake (24 spots, 6 ✨ each). Prize: an acorn cap.
+- [ ] Each neighbour has a line for each festival, and the spring lines don't come back in summer.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

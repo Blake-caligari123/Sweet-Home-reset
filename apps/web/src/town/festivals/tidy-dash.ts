@@ -45,7 +45,7 @@ export class TidyDash {
     const { state, view, content, clock } = this.host;
     if (this.host.area() !== def.area) return;
     const m = this.host.messFor(def.area);
-    const tiles = m.scatter(dashSpots(this.host.areaOf(def.area), m, clock.state.day, def.spots));
+    const tiles = m.scatter(dashSpots(this.host.areaOf(def.area), m, clock.state.day, def.spots, def.mess));
     for (const i of tiles) this.host.syncMess(i);
     state.fluff.value = Math.max(state.fluff.value, state.fluff.max);
     const el = h('div', { class: 'dash-timer', role: 'status' });
@@ -91,7 +91,7 @@ export class TidyDash {
     if (first) { state.flag(today); state.sparkles += sparkles; }
     state.flag(`festival_${r.def.id}`);
     const lines = [(content.line(cheer) ?? '').replace('{puff}', state.names.puff), `${done} of ${r.tiles.length} tidied${first ? ` · +${sparkles} ✨` : ''}`];
-    if (ribbon) lines.push(content.line('festival.prize') ?? '');
+    if (ribbon) lines.push((content.line('festival.prize') ?? '').replace('{outfit}', (content.pack.outfits?.find((o) => o.id === r.def.outfit)?.name ?? '').toLowerCase()));
     view.feedback('fanfare', 'success');
     view.showDialogue(lines.join(' '));
     this.host.refreshHud();

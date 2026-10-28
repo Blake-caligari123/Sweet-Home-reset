@@ -25,7 +25,8 @@
     "grime": 6,
     "crumbs": 1,
     "fog": 1,
-    "clutter": 1
+    "clutter": 1,
+    "leaves": 1
   },
   "bagSlotsStart": 12,
   "gardenPlotStart": [

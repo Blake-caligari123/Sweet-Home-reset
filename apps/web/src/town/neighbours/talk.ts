@@ -9,8 +9,8 @@ export type TimeBand = 'morning' | 'day' | 'evening' | 'night';
 export interface Line {
   id: string;
   time?: TimeBand; season?: string; weather?: string; area?: string;
-  /** Only on a festival day. */
-  festival?: boolean;
+  /** Only on this festival's day. */
+  festival?: string;
   heartsMin?: number; heartsMax?: number;
   /** Only while this save flag is set. */
   flag?: string;
@@ -25,8 +25,8 @@ export interface Line {
 export interface TalkContext {
   minutes: number; season: string; weather: string; hearts: number; area: string;
   flags: string[]; met: boolean; talkedToday: boolean; recent: string[];
-  /** Today is a festival. */
-  festival?: boolean;
+  /** Today's festival, if any. */
+  festival?: string;
 }
 
 /** How many talks back a line stays unheard. */
@@ -42,7 +42,7 @@ export function heartsOf(points: number) {
 }
 
 function fits(l: Line, c: TalkContext) {
-  if (l.festival && !c.festival) return false;
+  if (l.festival && l.festival !== c.festival) return false;
   if (l.flag && !c.flags.includes(l.flag)) return false;
   if (l.once && c.flags.includes(`said_${l.id}`)) return false;
   if (l.time && l.time !== timeBand(c.minutes)) return false;
