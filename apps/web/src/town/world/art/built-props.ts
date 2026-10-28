@@ -5,7 +5,7 @@ import { T } from './texture';
 
 /**
  * What the town builds and places (code-drawn): the Keeper's plans board, scaffolding and frames,
- * the buildings and their upgrades, the greenhouse, a newcomer's cottage, and decor (flower pots, lanterns, fences).
+ * the buildings and their upgrades, the greenhouse, a newcomer's cottage, the footbridge (broken, then mended), and decor (flower pots, lanterns, fences).
  */
 export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
   const x = p.x * T; const y = p.y * T; const w = (p.w ?? 1) * T; const h = (p.h ?? 1) * T;
@@ -38,6 +38,17 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       for (const wx of [x + 8, x + w - 20]) { pc.box(wx, y + 20, 12, 10, P.butterLight, P.outline); pc.vline(wx + 6, y + 20, 10, P.brownLight); pc.hline(wx, y + 25, 12, P.brownLight); pc.rect(wx, y + 30, 12, 3, P.sage); pc.set(wx + 3, y + 30, P.peach); pc.set(wx + 9, y + 31, P.butter); }
       break;
     }
+    case 'bridge_broken': // two snapped planks and a leaning post over the water
+      pc.box(x + 2, y + 2, 12, 4, P.brownLight, P.outline); pc.line(x + 14, y + 3, x + 19, y + 9, P.brown);
+      pc.box(x + w - 10, y + 6, 8, 3, P.brownLight, P.outline);
+      pc.line(x + 1, y + 1, x + 4, y + 13, P.brownShade); pc.line(x + w - 2, y + 1, x + w - 5, y + 12, P.brownShade);
+      break;
+    case 'footbridge': // mended: rails down both sides of the new planks, a post every tile
+      for (const rx of [x, x + w - 2]) {
+        pc.rect(rx, y, 2, h, P.brownLight); pc.vline(rx + (rx === x ? 0 : 1), y, h, P.outline);
+        for (let py = y; py < y + h; py += T) pc.box(rx - 1, py, 4, 4, P.brown, P.outline);
+      }
+      break;
     case 'greenhouse': {
       // Glass panes on a wooden frame, a peaked roof, plants showing through.
       pc.box(x, y + 6, w, h - 6, P.blueLight, P.outline);

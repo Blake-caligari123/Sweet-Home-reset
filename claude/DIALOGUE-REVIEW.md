@@ -150,6 +150,15 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `req.sorrel_weeds`: Pull the weeds by Sorrel's front door.
 - `home.sorrel`: Sorrel's moved in! Say hello on the Lane.
 
+## New in Phase 3d (29 Oct): the footbridge and the Far Bank (proposed)
+- `repair.wait`: The footbridge is too wobbly to cross. One day!
+- `repair.hint`: The footbridge could be mended. See the Keeper's plans.
+- `repair.start`: Everyone's pitching in. Two nights, and it's mended!
+- `alive.far_bank.lamp`: A lamp on the Far Bank! Hello over there!
+- `alive.far_bank.flowers`: Flowers by the old pond. It remembers spring.
+- `alive.far_bank.home`: Birds in the orchard trees. It sings again!
+- Far Bank sign: The Far Bank. An old orchard, waiting for spring.
+
 ## Hazel
 
 **First hello**

@@ -20,5 +20,8 @@ describe('nudges', () => {
     expect(nudge(s, open(['building', 'grumble_dust', 'pet', 'invite_sorrel']))).toBe('invite.hint');
     s.plots.c1 = { buildingId: 'cottage_sorrel', stage: 0, startedDay: 8, readyDay: 10 };
     expect(nudge(s, open(['building', 'grumble_dust', 'pet', 'invite_sorrel']))).toBeNull();
+    expect(nudge(s, open(['building', 'grumble_dust', 'pet', 'invite_sorrel', 'footbridge']))).toBe('repair.hint');
+    s.plots.plot_footbridge = { buildingId: 'footbridge', stage: 0, startedDay: 12, readyDay: 14 };
+    expect(nudge(s, open(['building', 'grumble_dust', 'pet', 'invite_sorrel', 'footbridge']))).toBeNull();
   });
 });

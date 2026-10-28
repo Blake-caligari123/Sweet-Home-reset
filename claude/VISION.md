@@ -228,6 +228,10 @@ One new thing every couple of days, each with one tip or letter:
   - Puff builds Sorrel's cottage there (200 ✨, two nights). When it's finished, she moves in (`home_sorrel`), with her own schedule, talk lines, tastes and two jobs.
   - Letters now wait one at a time per writer, so Sorrel's and Mabel's never hold each other up.
   - Her heart scenes (2–10) come in a later step. A Grok sheet for her can replace the code-drawn placeholder.
+- **Phase 3d (29 Oct):**
+  - The footbridge repair at Riverside, from day 12. A repair is a building on a plot that also costs materials (150 ✨, 10 twigs, 6 pebbles, 2 copper ore) and takes two nights.
+  - Once mended, its plot becomes planks and its doors open. It leads to the **Far Bank**, a new grey area (an old orchard with a pond) to restore, with its own pickups.
+  - The overgrown path and the sea steps can use the same pattern later.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

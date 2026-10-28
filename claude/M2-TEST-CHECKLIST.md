@@ -187,6 +187,12 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Talk to her (her lines are in DIALOGUE-REVIEW), give a gift, and from day 10 she posts jobs (flowers, weeds by her door).
 - [ ] Mabel's bottle still washes up on day 10 even if Sorrel's letter is unread.
 
+## 11r. Phase 3d: the footbridge and the Far Bank
+- [ ] At Riverside there's a broken footbridge over the water (east of the jetty). Before day 12, tapping it says it's too wobbly.
+- [ ] From day 12 the tracker says the footbridge could be mended. Tapping it opens the Keeper's plans: "The footbridge" needs 150 ✨, 10 twigs, 6 pebbles and 2 copper ore (the button shows what you have).
+- [ ] Mend it: scaffolding goes up, and two mornings later "The new footbridge is finished." Planks and rails cross the river.
+- [ ] Walk across to the Far Bank: a grey old orchard with a pond to restore, plus twigs, a pebble and a mushroom to pick up. Walk back up the bridge.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

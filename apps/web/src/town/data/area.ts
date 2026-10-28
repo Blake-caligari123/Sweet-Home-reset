@@ -133,9 +133,11 @@ export function validateTownPack(input: unknown): TownPack {
     if (a.background && (typeof a.background.src !== 'string' || !isNum(a.background.scale) || a.background.scale <= 0)) throw new Error(`area ${a.id}: background`);
     const area = new Area(a);
     if (!area.walkable(a.spawn.x, a.spawn.y)) throw new Error(`area ${a.id}: spawn is blocked`);
+    // A way back over a repair (the far bank's, onto the footbridge) lands on ground the repair paves.
+    const paved = (t: string, x: number, y: number) => (p.plots ?? []).some((pl) => pl.area === t && x >= pl.x && x < pl.x + pl.w && y >= pl.y && y < pl.y + pl.h && pl.allow.some((id) => p.buildings?.find((b) => b.id === id)?.paves));
     for (const d of a.doors) {
       const target = p.areas.find((t) => t.id === d.to);
-      if (target && !new Area(target).walkable(d.toX, d.toY)) throw new Error(`area ${a.id}: door lands on a blocked tile in ${d.to}`);
+      if (target && !paved(target.id, d.toX, d.toY) && !new Area(target).walkable(d.toX, d.toY)) throw new Error(`area ${a.id}: door lands on a blocked tile in ${d.to}`);
     }
   }
   const places = new Set([...ids, ...p.areas.flatMap((a) => a.doors.map((d) => d.to))]);

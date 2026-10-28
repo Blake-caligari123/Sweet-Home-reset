@@ -1,15 +1,18 @@
-import type { AreaPack } from '../data/area';
+import type { AreaPack, Door } from '../data/area';
+import type { Bag } from '../play/bag';
 import type { PropDef } from '../world/art/props';
 
 // Building on plots (VISION §5, NEW-FEATURES F1): the Keeper picks a plot on the Town Hall board
 // and a building that fits it; the cost is paid up front and the town builds it overnight. Builds
 // only move on at the end of a day (sleep or dozing off alike), never by the wall clock.
+// Repairs (VISION §5: repair to expand) are buildings too: they take materials as well as
+// Sparkles, and once mended they pave their plot and open a way on (the footbridge, the far bank).
 
 /** A fixed place in town where something can be built. `unlock`: a key in the year-one schedule. */
 export interface PlotDef { id: string; name: string; area: string; x: number; y: number; w: number; h: number; allow: string[]; unlock?: string }
 
 /** Something the town can build. `prop`: how it stands on its plot once finished. */
-export interface BuildingDef { id: string; name: string; nights: number; cost: { sparkles: number }; prop: { type: string; w?: number; h?: number };
+export interface BuildingDef { id: string; name: string; nights: number; cost: { sparkles: number; items?: Record<string, number> }; prop: { type: string; w?: number; h?: number; walkable?: boolean };
   /** The Town Bloom level it needs (VISION §5: Bloom unlocks building types). */
   bloom?: number;
   /** What finished building this upgrades (a bench into a cosy bench). */
@@ -17,7 +20,9 @@ export interface BuildingDef { id: string; name: string; nights: number; cost: {
   /** What it does once finished: a greenhouse waters the garden overnight; a cottage is a newcomer's home. */
   effect?: 'waters_garden' | 'home';
   /** For a home: the newcomer who moves in once it's finished. */
-  home?: string }
+  home?: string;
+  /** For a repair: the ground its plot becomes once mended (a map char), and the doors it opens. */
+  paves?: string; doors?: Door[] }
 
 /** A plot with something on it. Stages: 0 scaffold, 1 frame, 2 done. */
 export interface PlotState { buildingId: string; stage: number; startedDay: number; readyDay: number }
@@ -26,19 +31,24 @@ export const DONE = 2;
 const IN_PROGRESS = ['scaffold', 'frame'];
 
 /** What building needs from Puff's progress. */
-export interface Builder { sparkles: number; plots: Record<string, PlotState> }
+export interface Builder { sparkles: number; plots: Record<string, PlotState>; bag: Pick<Bag, 'count' | 'remove'> }
+
+const affords = (s: Builder, b: BuildingDef) => s.sparkles >= b.cost.sparkles && Object.entries(b.cost.items ?? {}).every(([id, n]) => s.bag.count(id) >= n);
+function pay(s: Builder, b: BuildingDef) {
+  s.sparkles -= b.cost.sparkles;
+  for (const [id, n] of Object.entries(b.cost.items ?? {})) s.bag.remove(id, n);
+}
 
 export function canBuild(s: Builder, plot: PlotDef, b: BuildingDef): 'ok' | 'taken' | 'not_here' | 'short' {
   if (s.plots[plot.id]) return 'taken';
   if (!plot.allow.includes(b.id)) return 'not_here';
-  if (s.sparkles < b.cost.sparkles) return 'short';
-  return 'ok';
+  return affords(s, b) ? 'ok' : 'short';
 }
 
 /** Start a build on `day`, paying for it; all or nothing. */
 export function startBuild(s: Builder, plot: PlotDef, b: BuildingDef, day: number) {
   if (canBuild(s, plot, b) !== 'ok') return false;
-  s.sparkles -= b.cost.sparkles;
+  pay(s, b);
   s.plots[plot.id] = { buildingId: b.id, stage: 0, startedDay: day, readyDay: day + b.nights };
   return true;
 }
@@ -47,13 +57,13 @@ export function startBuild(s: Builder, plot: PlotDef, b: BuildingDef, day: numbe
 export function canUpgrade(s: Builder, plot: PlotDef, b: BuildingDef): 'ok' | 'not_yet' | 'short' {
   const now = s.plots[plot.id];
   if (!now || now.stage < DONE || now.buildingId !== b.upgradeOf) return 'not_yet';
-  return s.sparkles < b.cost.sparkles ? 'short' : 'ok';
+  return affords(s, b) ? 'ok' : 'short';
 }
 
 /** Start the upgrade on `day`, paying for it; the town builds it overnight like anything else. */
 export function upgrade(s: Builder, plot: PlotDef, b: BuildingDef, day: number) {
   if (canUpgrade(s, plot, b) !== 'ok') return false;
-  s.sparkles -= b.cost.sparkles;
+  pay(s, b);
   s.plots[plot.id] = { buildingId: b.id, stage: 0, startedDay: day, readyDay: day + b.nights };
   return true;
 }
@@ -75,12 +85,23 @@ export function builtProps(area: string, defs: PlotDef[], plots: Record<string, 
     const b = p && catalogue.find((c) => c.id === p.buildingId);
     if (d.area !== area || !p || !b) return [];
     if (p.stage < DONE) return [{ type: IN_PROGRESS[p.stage], x: d.x, y: d.y, w: d.w, h: d.h }];
-    return [{ type: b.prop.type, x: d.x, y: d.y, w: b.prop.w ?? d.w, h: b.prop.h ?? d.h }];
+    return [{ type: b.prop.type, x: d.x, y: d.y, w: b.prop.w ?? d.w, h: b.prop.h ?? d.h, ...(b.prop.walkable ? { walkable: true } : {}) }];
   });
 }
 
-/** An area as it stands today, with what's been built in it. */
+/**
+ * An area as it stands today, with what's been built in it. Whatever stood on a plot before (the
+ * broken bridge) gives way to what's built there; a mended repair paves its plot and opens its doors.
+ */
 export function withBuilds(pack: AreaPack, defs: PlotDef[], plots: Record<string, PlotState>, catalogue: BuildingDef[]): AreaPack {
   const extra = builtProps(pack.id, defs, plots, catalogue);
-  return extra.length ? { ...pack, props: [...pack.props, ...extra] } : pack;
+  if (!extra.length) return pack;
+  const used = defs.filter((d) => d.area === pack.id && plots[d.id]);
+  const on = (x: number, y: number, d: PlotDef) => x >= d.x && x < d.x + d.w && y >= d.y && y < d.y + d.h;
+  const mended = used.flatMap((d) => {
+    const b = plots[d.id].stage >= DONE && catalogue.find((c) => c.id === plots[d.id].buildingId);
+    return b && (b.paves || b.doors) ? [{ d, b }] : [];
+  });
+  const map = pack.map.map((row, y) => [...row].map((ch, x) => mended.find(({ d, b }) => b.paves && on(x, y, d))?.b.paves ?? ch).join(''));
+  return { ...pack, map, props: [...pack.props.filter((p) => !used.some((d) => on(p.x, p.y, d))), ...extra], doors: [...pack.doors, ...mended.flatMap(({ b }) => b.doors ?? [])] };
 }
