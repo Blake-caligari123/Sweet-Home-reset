@@ -38,6 +38,35 @@ Puff, a dust bunny born from the fountain's last sparkle, becomes the Keeper of 
 | The Beach and the lighthouse | Winter (day 43) | Mabel's home and the lamp. |
 | Newcomers' homes | As built | Sorrel's ramp cottage, Fig's pond porch, Wren's nest-loft. |
 
+## 4a. Town building and expansion (Blake, 28 Oct 2026)
+Hollowfern is restored, then built, then grown. Cosy throughout: no upkeep, no running costs, no unhappiness meters, nothing decays.
+1. **Repair to expand.** New areas open because Puff fixes the way there. Each repair is a small project: gather materials, then the town fixes it overnight, and in the morning the camera pans to a new grey area waiting. That replaces "opens on day X".
+
+   | Repair | Opens |
+   |---|---|
+   | The broken footbridge | The far bank of the river |
+   | The overgrown path past the library | The Woodland edge |
+   | The collapsed sea steps | The Beach |
+
+   The season days in §4 become the earliest each repair can be done.
+2. **Build on plots, then upgrade** (NEW-FEATURES F1).
+   - **Plots:** homes, stalls and workshops.
+   - **Upgrades:** a bench becomes a gazebo; a stall becomes a shop; a cottage becomes a two-storey home.
+   - **Buildings do things:**
+     - Hazel's snack stall sells food.
+     - Bea's garden plots grow flowers.
+     - A lantern post lights the street at night.
+3. **Decorate freely.** Off the plots, place decor anywhere on a grid: paths, fences, lamps, flower beds, benches, signs. Move it or store it any time. This is where Hollowfern becomes the player's own, and it's a strong screenshot and sharing moment.
+4. **The town grows in rings,** each opened by a repair and bringing new plots, newcomers and a Grumble family:
+
+   | Ring | Places |
+   |---|---|
+   | Old Hollowfern | Where we are now |
+   | The waterfront | Riverside, the far bank, Fig's ferry |
+   | Woodland edge and Orchard Hill | New plots and foraging |
+   | The Beach and the harbour | The lighthouse, and visiting boats in later years |
+5. **Town Bloom.** A level that rises with restores, buildings and newcomers. It shows in the world rather than as a number: more birds and butterflies, lit windows, neighbours chatting in the street, market days, visitors by boat. Each level unlocks new building types and decor sets.
+
 ## 5. People
 - **The six:** Hazel, Bea, Pip, Otto, Moss, Mabel. All playable from year 1 with no gates. Each has hearts 0–10, 5 heart scenes, gifts, routines and a town job at 6 hearts.
 - **Newcomers:** Sorrel (spring, week 2), Fig (summer), Wren (autumn, after Pip 8). Three more to be written for year 2 and later.
@@ -64,7 +93,10 @@ Puff, a dust bunny born from the fountain's last sparkle, becomes the Keeper of 
 | Saves | **Fixed (PR #35)** | Save v2 next (schemaVersion 3) |
 | **Wipe to reveal, Spotless rooms, straighten things** | Next | The "oddly satisfying" layer |
 | **Tool upgrades** | Next | Copper (3-spot swipe), broom (a row), Sparkle burst (3×3); ore tiers above Copper |
-| **Keeper and building** | Next | Town Hall board, plots, overnight builds, morning reveal |
+| **Keeper and building** | Next | Town Hall board, plots, overnight builds, morning reveal; upgrades (§4a) |
+| **Repairs that expand the town** | Then | Bridge, paths and steps open new rings (§4a) |
+| **Free decorating in town** | Then | Grid placement off the plots; move and store |
+| **Town Bloom** | Then | The town visibly thrives; unlocks building types and decor sets |
 | **Grumbles and helpers** | Next | Four families, pip ring, helpers |
 | **Garden, foraging, crafting, cooking** | Next | Seeds by season, materials, bench, snack recipes |
 | **Invites and town jobs** | Then | Who'd love this home? Prepare it, then they move in |
@@ -159,9 +191,9 @@ Each phase ends playable on Blake's phone and passes its "done when" before the 
 |---|---|---|
 | **0. Foundations** | Save fix (#35); save v2 + `unlocks.ts`; remove the Plus stub; the peach Fluff bar; "no ending" docs; banned words in the copy test | Old saves migrate; nothing reads entitlement |
 | **1. The Keeper's first week** | Keeper beat on day 1; Town Hall + first build (day 2); dust Grumbles (day 3); wipe to reveal, Spotless and straightening; every current home comes alive | A new player's first week has a new moment every day or two, and they feel it |
-| **2. Grow, craft and get stronger** | Tool tiers and charged use; foraging and materials; crafting bench; garden and seasonal crops; cooking; full build mode with stages and the morning reveal; helpers | A Copper tool by day 7, a crop by day 7, three buildings by day 14 |
-| **3. Newcomers and the caves** | Invites + Sorrel; town jobs; cave map type, floors 1–2, ore; cobweb Grumbles; Mabel's bottle letters | Sorrel moves in during week 2; floor 1 opens on day 10 |
-| **4. A full year** | Seasons, weather and palettes; Woodland edge; Beach and lighthouse; 4 festivals; Fig and Wren; floors 3–4; mud and soot Grumbles; decorating; collections; the first Winter Lights; year 2 begins (floor 5) | A scripted 56-day run plays with no soft-locks, and day 57 carries on |
+| **2. Grow, craft and get stronger** | Tool tiers and charged use; foraging and materials; crafting bench; garden and seasonal crops; cooking; full build mode with stages, the morning reveal and upgrades; free town decorating; Town Bloom; helpers | A Copper tool by day 7, a crop by day 7, three buildings by day 14 |
+| **3. Newcomers, repairs and the caves** | Invites + Sorrel; town jobs; the footbridge repair (the far bank); cave map type, floors 1–2, ore; cobweb Grumbles; Mabel's bottle letters | Sorrel moves in during week 2; floor 1 opens on day 10 |
+| **4. A full year** | Seasons, weather and palettes; the path and sea-steps repairs (Woodland edge, Orchard Hill, Beach and lighthouse); 4 festivals; Fig and Wren; floors 3–4; mud and soot Grumbles; decorating; collections; the first Winter Lights; year 2 begins (floor 5) | A scripted 56-day run plays with no soft-locks, and day 57 carries on |
 | **5. Release** | Monetisation as decided; optional accounts and sync; store builds; accessibility pass; music; credits; IARC; privacy; store listing; playtest rounds | Blake approves the store submissions |
 | **6. Live** | Content updates as packs: chapters, newcomers 4–6, new festivals, seasonal events | Ongoing |
 
