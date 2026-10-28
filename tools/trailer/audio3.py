@@ -160,6 +160,15 @@ def section(m, t0, beats, style, alt=False):
         m.kick(tf, 1.2); m.music.add(tf, a.bell(48, 2.5, 1.4))
     elif style == 'silence':
         pass
+    elif style == 'lofi':
+        a.play_lullaby(m.music, t0, beats, 0.9)
+        for k in range(int(beats)):
+            t = t0 + k * B
+            if k % 4 == 0: m.drums.add(t, kick808(0.45))
+            if k % 4 == 2: m.drums.add(t, clap(0.35), 1.0, 0.5)
+            m.drums.add(t + B / 2, a.hat(0.35), 1.0, 0.65)
+        n = int(beats * B * SR)
+        m.music.add(t0, a.hp_fast(a.lp_fast(rng.uniform(-1, 1, n), 5000), 2500) * 0.008)  # vinyl hiss
     elif style == 'roomtone':
         n = int(beats * B * SR)
         m.music.add(t0, a.lp_fast(rng.uniform(-1, 1, n), 400) * 0.012)
@@ -187,7 +196,11 @@ ARR['C4'] = [(0, 2, 'groove'), (2, 5.5, 'build'), (5.5, 6, 'silence'), (6, 10, '
 ARR['G5'] = [(0, 4, 'cute'), (4, 7, 'silence'), (7, 15, 'groove'), (15, 21, 'groove2'), (21, 25, 'build'), (25, 26, 'silence'), (26, 30, 'drop'), (30, 38, 'cute'), (38, 48, 'outro')]
 ARR['T5'] = [(0, 4, 'cute'), (4, 6, 'groove'), (6, 14, 'groove'), (14, 20, 'groove2'), (20, 24, 'build'), (24, 25, 'silence'), (25, 33, 'drop'), (33, 41, 'groove'), (41, 48, 'outro')]
 ARR['M5'] = [(0, 40, 'roomtone'), (40, 41, 'chime'), (41, 50, 'roomtone')]
-BEATS = {'G5': 48, 'T5': 48, 'M5': 50, 'A': 35, 'H': 37, 'B': 25, 'C': 22, 'A4': 70, 'H4': 70, 'B4': 70, 'C4': 70}
+ARR['N6'] = [(0, 40, 'lofi'), (40, 41, 'chime'), (41, 56, 'lofi')]
+ARR['R6'] = [(0, 2, 'hook'), (2, 10, 'groove'), (10, 18, 'groove2'), (18, 26, 'build'), (26, 27, 'silence'), (27, 31, 'drop'), (31, 36, 'outro')]
+ARR['D6'] = [(0, 4, 'cute'), (4, 8, 'groove'), (8, 16, 'groove'), (16, 24, 'groove2'), (24, 32, 'drop', True), (32, 40, 'groove'), (40, 48, 'lofi'), (48, 52, 'groove'), (52, 58, 'outro')]
+ARR['B6'] = [(0, 13, 'groove'), (13, 16, 'build'), (16, 17, 'silence'), (17, 22, 'drop'), (22, 28, 'outro')]
+BEATS = {'N6': 56, 'R6': 36, 'D6': 58, 'B6': 28, 'G5': 48, 'T5': 48, 'M5': 50, 'A': 35, 'H': 37, 'B': 25, 'C': 22, 'A4': 70, 'H4': 70, 'B4': 70, 'C4': 70}
 
 
 def render(fmt, sfx_path=None):
