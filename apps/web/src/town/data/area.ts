@@ -9,6 +9,7 @@ import type { HeartEvent } from '../neighbours/heart-events';
 import type { AliveStage } from '../play/alive';
 import type { PickupDef } from '../play/pickups';
 import type { Line } from '../neighbours/talk';
+import type { BuildingDef, PlotDef } from '../build/build';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 /** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
@@ -32,7 +33,9 @@ export interface AreaPack {
 export interface TownPack { schemaVersion: 1; id: string; version: number; areas: AreaPack[]; items: Record<string, { name: string; snack?: number; home?: string; sell?: number }>; neighbours?: NeighbourDef[];
   /** Talk pools per neighbour id; the text is in `strings`, by language. */
   dialogue?: Record<string, Line[]>; strings?: Record<string, Record<string, string>>;
-  heartEvents?: HeartEvent[]; requests?: RequestTemplate[]; shops?: ShopDef[] }
+  heartEvents?: HeartEvent[]; requests?: RequestTemplate[]; shops?: ShopDef[];
+  /** Where the town can build, and what (VISION §5). */
+  plots?: PlotDef[]; buildings?: BuildingDef[] }
 
 export class Area {
   readonly w: number;
@@ -124,6 +127,12 @@ export function validateTownPack(input: unknown): TownPack {
   for (const [id, lines] of Object.entries(p.dialogue ?? {})) {
     if (!who.has(id)) throw new Error(`dialogue for unknown neighbour ${id}`);
     for (const l of lines) if (!l.id || typeof text[l.id] !== 'string') throw new Error(`dialogue ${id}: no text for ${l.id}`);
+  }
+  const built = new Set((p.buildings ?? []).map((b) => b.id));
+  for (const b of p.buildings ?? []) if (!b.id || !b.name || !isNum(b.nights) || b.nights < 1 || !isNum(b.cost?.sparkles) || !b.prop?.type) throw new Error(`building ${b.id}: shape`);
+  for (const pl of p.plots ?? []) {
+    if (!pl.id || !pl.name || !ids.has(pl.area) || ![pl.x, pl.y, pl.w, pl.h].every(isNum)) throw new Error(`plot ${pl.id}: shape`);
+    for (const b of pl.allow ?? []) if (!built.has(b)) throw new Error(`plot ${pl.id}: unknown building ${b}`);
   }
   for (const sh of p.shops ?? []) {
     if (!sh.id || ![sh.opens, sh.closes].every(isNum) || !Array.isArray(sh.stock)) throw new Error(`shop ${sh.id}: shape`);

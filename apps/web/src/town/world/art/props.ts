@@ -213,6 +213,36 @@ export function drawProp(pc: PixelCanvas, p: PropDef) {
       pc.box(x + 12, y + 3, 7, 6, P.butterLight, P.outlineLight); pc.box(x + 21, y + 2, 8, 6, P.peachLight, P.outlineLight);
       pc.set(x + 6, y + 2, P.peachShade); pc.set(x + 15, y + 3, P.blueShade); pc.set(x + 25, y + 2, P.sageShade);
       break;
+    case 'plans': // the Keeper's board: building plans on blue paper, the Keeper's badge pinned on
+      pc.rect(x + 3, y + 9, 2, 6, P.brownShade); pc.rect(x + w - 5, y + 9, 2, 6, P.brownShade);
+      pc.box(x + 1, y - 2, w - 2, 13, P.brownLight, P.outline);
+      pc.box(x + 3, y, w - 10, 9, P.blueLight, P.outlineLight);
+      pc.hline(x + 5, y + 2, w - 15, P.white); pc.rect(x + 5, y + 4, 5, 3, P.blue); pc.hline(x + 12, y + 5, 6, P.white);
+      pc.ellipse(x + w - 5, y + 3, 2, 2, P.butter); pc.set(x + w - 5, y + 3, P.butterShade);
+      pc.vline(x + w - 6, y + 5, 3, P.peachShade); pc.vline(x + w - 4, y + 5, 3, P.peachShade);
+      break;
+    case 'scaffold': // something being built: poles, planks and a sack of sand
+      for (const px of [x + 1, x + w - 3]) pc.rect(px, y - 5, 2, h + 4, P.brownShade);
+      pc.box(x, y - 3, w, 3, P.brownLight, P.outline); pc.box(x, y + h - 7, w, 3, P.brownLight, P.outline);
+      pc.line(x + 3, y + h - 4, x + w - 4, y - 1, P.brown);
+      pc.box(x + w / 2 - 3, y + h - 5, 6, 5, P.creamShade, P.outline, 1);
+      break;
+    case 'frame': // the frame up: a top rail on posts
+      for (const px of [x + 1, x + w - 3]) pc.rect(px, y - 4, 2, h + 3, P.brown);
+      pc.box(x, y - 5, w, 3, P.brownLight, P.outline); pc.hline(x + 2, y + h - 3, w - 4, P.brownShade);
+      break;
+    case 'flower_bed': {
+      pc.box(x, y + 6, w, 9, P.brownShade, P.outline, 1);
+      pc.rect(x + 2, y + 8, w - 4, 5, P.brown);
+      const r = seeded(p.x * 31 + p.y);
+      const blooms = [P.peach, P.butter, P.blueLight, P.peachLight];
+      for (let i = 2; i < w - 2; i += 3) {
+        const fy = y + 4 + Math.floor(r() * 4);
+        pc.vline(x + i + 1, fy + 2, 4, P.sageShade);
+        pc.ellipse(x + i + 1, fy + 1, 1, 1, blooms[Math.floor(r() * blooms.length)]); pc.set(x + i + 1, fy + 1, P.white);
+      }
+      break;
+    }
     case 'bench':
       pc.rect(x + 3, y + 10, 2, 5, P.outline); pc.rect(x + w - 5, y + 10, 2, 5, P.outline);
       pc.box(x, y + 1, w, 4, P.brownLight, P.outline); lit(x + 1, y + 2, w - 2, 0.35);

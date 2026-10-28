@@ -29,6 +29,8 @@ export interface ActionsHost {
   select(tool: ToolId): void;
   travel(to: string, x: number, y: number): void;
   sleep(): void;
+  /** The Keeper's plans: building on plots. */
+  openBuild(): void;
   openShop(shop: NonNullable<TownPack['shops']>[number]): void;
   refreshHud(): void;
   save(): void;
@@ -145,6 +147,9 @@ export class PuffActions {
         return;
       case 'board':
         this.host.jobs.openBoard();
+        return;
+      case 'build':
+        this.host.openBuild();
         return;
       case 'shop': {
         const shop = content.pack.shops?.find((s) => s.id === t.shop);

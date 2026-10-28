@@ -1,5 +1,4 @@
 import { h } from '../../shared/ui/dom';
-import type { Area } from '../data/area';
 import type { Content } from '../data/content';
 import { TUNING } from '../data/tuning';
 import type { Conversations } from '../neighbours/conversations';
@@ -9,6 +8,7 @@ import type { AreaMess } from '../play/mess';
 import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import type { Button, Settings, View } from '../ui/view';
+import type { TownAreas } from '../world/town-areas';
 import { accept, cleanDone, finish, freshMess, MAX_ACCEPTED, newDay, withTiles, type RequestTemplate } from './requests';
 
 /** What the notice board and jobs need from the game around them. */
@@ -19,7 +19,7 @@ export interface JobsHost {
   clock: Clock;
   settings: Settings;
   talk: Conversations;
-  areas: Map<string, Area>;
+  areas: TownAreas;
   messFor(area: string): AreaMess;
   area(): string;
   /** Redraw one mess tile of the current area. */

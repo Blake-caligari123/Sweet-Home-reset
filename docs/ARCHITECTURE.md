@@ -50,12 +50,14 @@ town/
                 tuning.json access (tuning.ts), pack lookups (content.ts), the test pack loader
   world/        drawing and walking: world.ts (Pixi stage), alive.ts (lamps, sunbeams, the cat…),
                 sprites.ts, backgrounds.ts (paintings),
-                bake.ts, ambience.ts, nav.ts (free movement), pathfind.ts
+                bake.ts, ambience.ts, nav.ts (free movement), pathfind.ts, town-areas.ts (every
+                area with its mess and walking grid, rebuilt as things get built)
     art/          code-drawn placeholders: texture.ts (tile size, noise, dither), ground.ts,
                   props.ts, items.ts (mess, item icons, crops), characters.ts (Puff, neighbours)
   play/         core rules: mess.ts (mess, colour, restore), bag.ts, fluff.ts, clock.ts,
                 pickups.ts, onboarding.ts (tip rules), letter.ts (morning letter and real chore),
-                names.ts (the player's names for Puff and the town: `{puff}`, `{town}` in text);
+                names.ts (the player's names for Puff and the town: `{puff}`, `{town}` in text),
+                overnight.ts (what happens while Puff sleeps: Fluff, crops, builds);
                 Puff in play: puff.ts (position, facing), targets.ts (what a tap lands on),
                 actions.ts (cleaning, furniture, soil, pickups, doors), onboarding-guide.ts
                 (runs the tips: tools, highlights); gestures.ts (tap, rub, drag); a home coming
@@ -64,6 +66,8 @@ town/
                 gifts), heart-events.ts (scene rules), conversations.ts (the talk/gift/scene/
                 Friends UI)
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
+  build/        build.ts (plots and buildings: start, overnight finish, the props they put in an
+                area), build-sheet.ts (the Keeper's plans screen)
   shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
                 the tool bar), pointer-input.ts (fingers on the world), keyboard.ts, bag-sheet.ts,

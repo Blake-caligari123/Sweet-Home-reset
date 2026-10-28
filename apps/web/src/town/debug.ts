@@ -57,6 +57,7 @@ export function installDebugHooks(g: DebugTarget) {
     /** Fluff straight to a value, to see the sleepy bar. */
     setFluff: (n: number) => { s.fluff.value = n; },
     addItem: (id: string, n = 1) => { s.bag.add(id, n); g.refreshHud(); },
+    addSparkles: (n: number) => { s.sparkles += n; g.refreshHud(); },
     /** Friendship points straight in, to reach heart events in tests. */
     addPoints: (id: string, n: number) => { s.friendOf(id).points += Math.max(0, n); }
   };

@@ -1044,6 +1044,13 @@
      "x": 22,
      "y": 6,
      "action": "sign"
+    },
+    {
+     "type": "plans",
+     "x": 19,
+     "y": 6,
+     "w": 2,
+     "action": "build"
     }
    ],
    "signs": [
@@ -4865,7 +4872,12 @@
    "keeper.day1.hazel.2": "...but the Glimmerwell needs a Keeper. Will you be ours?",
    "keeper.day1.puff.1": "Me? I only just woke up... but yes. I'd love to.",
    "keeper.day1.hazel.3": "Here's the badge. Keeper of {town}! Now, a tart...",
-   "keeper.banner": "🏅 {puff}, Keeper of {town}!"
+   "keeper.banner": "🏅 {puff}, Keeper of {town}!",
+   "build.wanted": "A notice: 'Keeper wanted. Kind paws only.'",
+   "build.tomorrow": "Plans start tomorrow, Keeper!",
+   "build.place": "Here, I think. It'll be cosy here.",
+   "build.done": "The new {building} is finished. Come see!",
+   "build.hint": "Check the Keeper's plans in the square."
   }
  },
  "heartEvents": [
@@ -6502,6 +6514,102 @@
      "price": 50
     }
    ]
+  }
+ ],
+ "plots": [
+  {
+   "id": "plot_square_fountain",
+   "name": "By the fountain",
+   "area": "square",
+   "x": 14,
+   "y": 13,
+   "w": 2,
+   "h": 1,
+   "allow": [
+    "bench"
+   ],
+   "unlock": "building"
+  },
+  {
+   "id": "plot_square_west",
+   "name": "West lawn",
+   "area": "square",
+   "x": 1,
+   "y": 8,
+   "w": 2,
+   "h": 1,
+   "allow": [
+    "flower_bed",
+    "lamppost"
+   ],
+   "unlock": "building"
+  },
+  {
+   "id": "plot_square_east",
+   "name": "East lawn",
+   "area": "square",
+   "x": 26,
+   "y": 8,
+   "w": 2,
+   "h": 1,
+   "allow": [
+    "flower_bed",
+    "lamppost"
+   ],
+   "unlock": "building"
+  },
+  {
+   "id": "plot_square_south",
+   "name": "South lawn",
+   "area": "square",
+   "x": 14,
+   "y": 17,
+   "w": 2,
+   "h": 1,
+   "allow": [
+    "bench",
+    "flower_bed",
+    "lamppost"
+   ],
+   "unlock": "building"
+  }
+ ],
+ "buildings": [
+  {
+   "id": "bench",
+   "name": "Bench",
+   "nights": 1,
+   "cost": {
+    "sparkles": 40
+   },
+   "prop": {
+    "type": "bench",
+    "w": 2
+   }
+  },
+  {
+   "id": "flower_bed",
+   "name": "Flower bed",
+   "nights": 1,
+   "cost": {
+    "sparkles": 30
+   },
+   "prop": {
+    "type": "flower_bed",
+    "w": 2
+   }
+  },
+  {
+   "id": "lamppost",
+   "name": "Lamppost",
+   "nights": 1,
+   "cost": {
+    "sparkles": 60
+   },
+   "prop": {
+    "type": "lamppost",
+    "w": 1
+   }
   }
  ]
 }
