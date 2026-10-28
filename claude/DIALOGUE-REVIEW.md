@@ -291,6 +291,14 @@ Sorrel is a red squirrel from over the hills: chatty, a little shy, very excited
 - `build.done`: All done: the new {building}! Come see.
 - Beach sign: The Beach. Mind the owl, she naps by day.
 
+## New in Phase 4g (29 Oct): the Woodland Edge (proposed)
+- `repair.wait.plot_overgrown_path`: Brambles everywhere. Maybe in summer, when they're softer.
+- `repair.overgrown_path.hint`: The overgrown path could be cleared. See the Keeper's plans.
+- `alive.woodland.birds`: Birdsong in the woods! Hello up there!
+- `alive.woodland.flowers`: Wildflowers along the path. So many!
+- `alive.woodland.home`: Apples on every branch. The orchard is awake!
+- Far Bank closed path: Brambles block the way east. Maybe in summer. · Sign: Woodland Edge. The orchard trees are waking up.
+
 ## Hazel
 
 **First hello**

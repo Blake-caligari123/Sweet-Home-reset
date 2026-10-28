@@ -275,6 +275,9 @@ One new thing every couple of days, each with one tip or letter:
   - The Beach: a new sand ground, the sea, shells, seaweed, and Mabel's lighthouse, where she sleeps by day.
   - Scattered mess never lands on something Puff can use.
   - The Woodland/Orchard repair and caves floors 3–4 are still to come.
+- **Phase 4g (29 Oct):**
+  - The overgrown path off the Far Bank (day 26, summer) opens the **Woodland Edge**: woods, a stream, and an orchard of fruit trees with apples every morning (snack or sell).
+  - That's all three repairs. Caves floors 3–4 are next.
   - Also: `play/night.ts` takes the night and the morning messages out of `game.ts`.
 
 ## 14. Blake's answers (28 Oct 2026)

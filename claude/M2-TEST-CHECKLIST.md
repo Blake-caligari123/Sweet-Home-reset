@@ -265,6 +265,11 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Mess never hides something to use (the broken steps were under a weed before).
 - [ ] The morning line for anything built now reads "All done: the new …! Come see."
 
+## 12g. Phase 4g: the overgrown path and the Woodland Edge
+- [ ] On the Far Bank, the path east ends in brambles. Before day 26: "Brambles everywhere. Maybe in summer…"
+- [ ] From day 26, clear the overgrown path from the Keeper's plans for 250 ✨, 8 twigs and 3 copper ore, over two nights. It becomes stepping stones and the way east opens.
+- [ ] The Woodland Edge has trees, a stream with a little bridge, and an orchard. Apples (fresh every morning) are a snack or sell for 20 ✨ at the General Store. There are mushrooms, twigs, weeds and leaves.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.
