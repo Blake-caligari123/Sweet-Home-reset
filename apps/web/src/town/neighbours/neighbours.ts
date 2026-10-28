@@ -15,7 +15,12 @@ export interface NeighbourDef {
   colours: { fur: string; belly: string; accent: string };
   loves: string[]; likes: string[]; dislikes: string[];
   schedule: Stop[];
+  /** Popping round (VISION §6: they visit Puff and each other): every `every` days, on days where day % every === on. */
+  visits?: Visit[];
 }
+
+/** A visit: somewhere else from `at` until `until` (minutes), then back to the usual routine. */
+export interface Visit extends Stop { every: number; on: number; until: number }
 
 export interface NeighbourState {
   id: string; area: string; fx: number; fy: number; dir: Dir; pose: 'idle' | 'walk' | 'sleep';
@@ -33,6 +38,15 @@ export function stopAt(schedule: Stop[], minutes: number) {
   let i = schedule.length - 1;
   for (let k = 0; k < schedule.length; k += 1) if (schedule[k].at <= minutes) i = k;
   return i;
+}
+
+/** Today's routine: the usual one, with a visit spliced in on a visiting day. */
+export function scheduleFor(d: NeighbourDef, day: number): Stop[] {
+  const v = d.visits?.find((x) => day % x.every === x.on);
+  if (!v) return d.schedule;
+  const { every: _e, on: _o, until, ...stop } = v;
+  const back = { ...d.schedule[stopAt(d.schedule, until)], at: until };
+  return [...d.schedule.filter((s) => s.at < v.at), stop, back, ...d.schedule.filter((s) => s.at > until)];
 }
 
 /** When a dozing neighbour's next waking stop starts today, or null if they sleep till morning. */
@@ -78,8 +92,12 @@ export class Neighbours {
     /** Walking speed in tiles per second. */
     private speed: number,
     /** Whether a neighbour has arrived in town yet (the year-one schedule); until then nobody sees them. */
-    private arrived: (id: string) => boolean = () => true
+    private arrived: (id: string) => boolean = () => true,
+    /** Today's day number, for visiting days. */
+    private day: () => number = () => 1
   ) {}
+
+  private routine(d: NeighbourDef) { return scheduleFor(d, this.day()); }
 
   /** The feet point for a tile: its usual spot, nudged onto open floor. */
   private spot(area: string, x: number, y: number): Pt {
@@ -95,10 +113,11 @@ export class Neighbours {
   /** Everyone where their routine says, standing still: a new game, a new day, Puff entering an area. */
   place(minutes: number) {
     for (const d of this.defs) {
-      const i = stopAt(d.schedule, minutes);
+      const schedule = this.routine(d);
+      const i = stopAt(schedule, minutes);
       const st: NeighbourState = this.states.get(d.id) ?? { id: d.id, area: '', fx: 0, fy: 0, dir: 'down', pose: 'idle', path: [], exit: null, stop: i, held: false };
       st.stop = i; st.held = false;
-      this.settle(st, d.schedule[i]);
+      this.settle(st, schedule[i]);
       this.states.set(d.id, st);
     }
   }
@@ -112,9 +131,10 @@ export class Neighbours {
     for (const d of this.defs) {
       const st = this.states.get(d.id);
       if (!st || st.held) continue;
-      const i = stopAt(d.schedule, minutes);
-      if (i !== st.stop) { st.stop = i; this.head(st, d.schedule[i], view); }
-      if (st.path.length) this.walk(st, d.schedule[st.stop], dt);
+      const schedule = this.routine(d);
+      const i = stopAt(schedule, minutes);
+      if (i !== st.stop) { st.stop = i; this.head(st, schedule[i], view); }
+      if (st.path.length) this.walk(st, schedule[st.stop], dt);
     }
   }
 

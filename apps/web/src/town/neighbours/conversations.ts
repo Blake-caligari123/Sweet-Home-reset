@@ -10,7 +10,7 @@ import { drawNeighbour24, type Dir } from '../world/art/characters';
 import { spriteIcon } from '../world/sprites';
 import { canGift, chat, give } from './friends';
 import { doneFlag, eventDue, stepsOf, type HeartEvent } from './heart-events';
-import { wakesAt, type NeighbourDef, type Neighbours } from './neighbours';
+import { scheduleFor, wakesAt, type NeighbourDef, type Neighbours } from './neighbours';
 import { heartsOf, pickLine, RECENT } from './talk';
 
 const OPPOSITE: Record<Dir, Dir> = { down: 'up', up: 'down', left: 'right', right: 'left' };
@@ -47,7 +47,7 @@ export class Conversations {
     if (!def || !n || n.area !== this.host.area()) { neighbours.releaseAll(); return; }
     const dir = this.host.facePuff(n.fx, n.fy);
     if (n.pose === 'sleep') {
-      const up = wakesAt(def.schedule, clock.state.minutes);
+      const up = wakesAt(scheduleFor(def, clock.state.day), clock.state.minutes);
       this.host.view.say(`Shh... ${def.name}'s having a doze.${up ? ` Up at ${formatTime(up)}.` : ''}`);
       neighbours.releaseAll(); return;
     }

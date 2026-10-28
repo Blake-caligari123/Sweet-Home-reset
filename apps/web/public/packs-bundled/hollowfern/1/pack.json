@@ -4004,6 +4004,18 @@
      "dir": "right",
      "sleep": true
     }
+   ],
+   "visits": [
+    {
+     "every": 7,
+     "on": 3,
+     "at": 900,
+     "until": 990,
+     "area": "yard",
+     "x": 14,
+     "y": 7,
+     "dir": "down"
+    }
    ]
   },
   {
@@ -4080,6 +4092,18 @@
      "dir": "down",
      "sleep": true
     }
+   ],
+   "visits": [
+    {
+     "every": 7,
+     "on": 5,
+     "at": 600,
+     "until": 690,
+     "area": "yard",
+     "x": 18,
+     "y": 7,
+     "dir": "down"
+    }
    ]
   },
   {
@@ -4143,6 +4167,18 @@
      "dir": "down",
      "sleep": true
     }
+   ],
+   "visits": [
+    {
+     "every": 7,
+     "on": 1,
+     "at": 1020,
+     "until": 1110,
+     "area": "library",
+     "x": 9,
+     "y": 6,
+     "dir": "down"
+    }
    ]
   },
   {
@@ -4204,6 +4240,18 @@
      "y": 8,
      "dir": "left",
      "sleep": true
+    }
+   ],
+   "visits": [
+    {
+     "every": 7,
+     "on": 6,
+     "at": 480,
+     "until": 540,
+     "area": "bakery",
+     "x": 13,
+     "y": 9,
+     "dir": "down"
     }
    ]
   },
@@ -4267,6 +4315,18 @@
      "y": 8,
      "dir": "down",
      "sleep": true
+    }
+   ],
+   "visits": [
+    {
+     "every": 7,
+     "on": 4,
+     "at": 780,
+     "until": 870,
+     "area": "square",
+     "x": 10,
+     "y": 12,
+     "dir": "down"
     }
    ]
   },
@@ -4376,6 +4436,18 @@
      "y": 14,
      "dir": "up",
      "sleep": true
+    }
+   ],
+   "visits": [
+    {
+     "every": 7,
+     "on": 0,
+     "at": 660,
+     "until": 720,
+     "area": "yard",
+     "x": 11,
+     "y": 7,
+     "dir": "down"
     }
    ]
   }
@@ -4514,6 +4586,14 @@
     "id": "hazel.restored.1",
     "flag": "restored_bakery",
     "once": true
+   },
+   {
+    "id": "hazel.visit.1",
+    "area": "yard"
+   },
+   {
+    "id": "hazel.visit.2",
+    "area": "yard"
    }
   ],
   "bea": [
@@ -4649,6 +4729,14 @@
     "id": "bea.restored.1",
     "flag": "restored_bakery",
     "once": true
+   },
+   {
+    "id": "bea.visit.1",
+    "area": "yard"
+   },
+   {
+    "id": "bea.visit.2",
+    "area": "yard"
    }
   ],
   "pip": [
@@ -4784,6 +4872,10 @@
     "id": "pip.restored.1",
     "flag": "restored_bakery",
     "once": true
+   },
+   {
+    "id": "pip.visit.1",
+    "area": "library"
    }
   ],
   "otto": [
@@ -4919,6 +5011,10 @@
     "id": "otto.restored.1",
     "flag": "restored_bathhouse",
     "once": true
+   },
+   {
+    "id": "otto.visit.1",
+    "area": "bakery"
    }
   ],
   "moss": [
@@ -5054,6 +5150,10 @@
     "id": "moss.restored.1",
     "flag": "restored_library",
     "once": true
+   },
+   {
+    "id": "moss.visit.1",
+    "area": "square"
    }
   ],
   "mabel": [
@@ -5319,6 +5419,14 @@
     "id": "sorrel.h9.3",
     "heartsMin": 9,
     "heartsMax": 10
+   },
+   {
+    "id": "sorrel.visit.1",
+    "area": "yard"
+   },
+   {
+    "id": "sorrel.visit.2",
+    "area": "yard"
    }
   ]
  },
@@ -5935,7 +6043,16 @@
    "letter.mabel_2.l3": "Here's another map leaf. It goes deeper. M.",
    "cave.closed.cave_2": "The ladder goes down into the dark. Not yet.",
    "cave.enter.cave_2": "Deeper... and warm! The water's warm down here.",
-   "cave.gem": "A blue gem! It glows like the fountain."
+   "cave.gem": "A blue gem! It glows like the fountain.",
+   "hazel.visit.1": "Just popping by with a warm bun, Keeper!",
+   "hazel.visit.2": "Your yard's looking lovely! I can't stay long.",
+   "bea.visit.1": "Bzz! Checking on your flowers, Keeper!",
+   "bea.visit.2": "Your garden hums nicely. I approve!",
+   "sorrel.visit.1": "Hi, neighbour! Just saying hello. Hello!",
+   "sorrel.visit.2": "Your burrow's so round! I love it.",
+   "otto.visit.1": "Hazel's buns! Worth leaving the river for. Heh.",
+   "moss.visit.1": "A little sun now and then. Don't tell my books.",
+   "pip.visit.1": "Moss lends me gear books. Shh, I'm reading!"
   }
  },
  "heartEvents": [

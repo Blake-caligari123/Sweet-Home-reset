@@ -50,11 +50,12 @@ function fits(l: Line, c: TalkContext) {
 }
 
 function tier(l: Line) {
+  if (l.area) return 6; // met somewhere they're only visiting: that hello first
   if (l.flag) return 5;
   if (l.heartsMin !== undefined || l.heartsMax !== undefined) return 4;
   if (l.weather) return 3;
   if (l.season) return 2;
-  if (l.time || l.area) return 1;
+  if (l.time) return 1;
   return 0;
 }
 

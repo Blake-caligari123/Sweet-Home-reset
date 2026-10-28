@@ -49,6 +49,12 @@ describe('picking a line', () => {
     expect(pickLine(lines, ctx({ hearts: 5, season: 'summer', minutes: 13 * 60 }), first)?.id).toBe('generic');
   });
 
+  it('greets with a visit line first when met somewhere they are only visiting', () => {
+    const withVisit = [...lines, { id: 'visit', area: 'yard' }];
+    expect(pickLine(withVisit, ctx({ area: 'yard', flags: ['restored_bakery'] }), first)?.id).toBe('visit');
+    expect(pickLine(withVisit, ctx({ flags: ['restored_bakery'] }), first)?.id).toBe('flag');
+  });
+
   it('skips lines heard in the last 5 talks, falling to the next tier', () => {
     expect(pickLine(lines, ctx({ recent: ['hearts'] }), first)?.id).toBe('spring');
     expect(pickLine(lines, ctx({ recent: ['hearts', 'spring', 'morning', 'generic'] }), first)?.id).toBe('hearts');
