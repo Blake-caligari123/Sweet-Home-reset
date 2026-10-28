@@ -51,13 +51,14 @@ town/
   world/        drawing and walking: world.ts (Pixi stage), alive.ts (lamps, sunbeams, the cat…),
                 sprites.ts, backgrounds.ts (paintings),
                 bake.ts, ambience.ts, nav.ts (free movement), pathfind.ts, town-areas.ts (every
-                area with its mess and walking grid, rebuilt as things get built)
+                area with its mess and walking grid, rebuilt as things get built), grumble-layer.ts, pet-layer.ts
     art/          code-drawn placeholders: texture.ts (tile size, noise, dither), ground.ts,
                   props.ts, items.ts (mess, item icons, crops), characters.ts (Puff, neighbours)
   play/         core rules: mess.ts (mess, colour, restore), bag.ts, fluff.ts, clock.ts,
                 pickups.ts, onboarding.ts (tip rules), letter.ts (morning letter and real chore),
                 names.ts (the player's names for Puff and the town: `{puff}`, `{town}` in text),
-                overnight.ts (what happens while Puff sleeps: Fluff, crops, builds);
+                overnight.ts (what happens while Puff sleeps: Fluff, crops, builds), nudges.ts (the tracker's
+                "try this next"), carry.ts (dragging clutter home);
                 Puff in play: puff.ts (position, facing), targets.ts (what a tap lands on),
                 actions.ts (cleaning, furniture, soil, pickups, doors), onboarding-guide.ts
                 (runs the tips: tools, highlights); gestures.ts (tap, rub, drag); a home coming
@@ -68,6 +69,11 @@ town/
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
   build/        build.ts (plots and buildings: start, overnight finish, the props they put in an
                 area), build-sheet.ts (the Keeper's plans screen)
+  grumbles/     grumbles.ts (families, setting them out each day, tidying into helpers), drift.ts
+                (the slow amble, shy of Puff), grumble-life.ts (Grumbles in play: spawn spots, taps,
+                tidies, hellos)
+  pets/         pets.ts (pet kinds, the trail the pet follows), pet-sheet.ts (choose and name),
+                pet-life.ts (the pet in play: the doorstep offer, following, pats)
   shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
                 the tool bar), pointer-input.ts (fingers on the world), keyboard.ts, bag-sheet.ts,

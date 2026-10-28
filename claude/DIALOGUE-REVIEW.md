@@ -41,6 +41,24 @@ Players name Puff and the town at the start (and from Pause → Names). Lines sa
 - Next morning: "The new bench is finished. Come see!"
 - Plots: By the fountain, West lawn, East lawn, South lawn. Buildings: Bench (40 ✨), Flower bed (30 ✨), Lamppost (60 ✨), each finished overnight.
 
+## New in Phase 1c (28 Oct 2026): dust Grumbles
+- Tracker from day 3 until the first friend: "Something grey is grumbling on Neighbour Lane."
+- First sight: "Oh! A little grey puff. You look like me!"
+- First tidy: "Hello, grumbly. Let's brighten you up." Then the Grumble: "Hrmph." / "Mmf... dusty."
+- Brightened: banner "Friend made! ✨", Puff: "Friend made! Want to help?" Tapping a helper: "Pff! Ooh!"
+- Prompt line over a Grumble: "Brighten the Grumble".
+
+## New in Phase 1d (28 Oct 2026): picking a pet
+- From day 4, stepping out into the yard (once a day until chosen), Puff says: "Someone's at the door! Three little visitors."
+- Sheet: **Who'd like to live with you?**
+  - Cat: "A sleepy cat who loves sunbeams."
+  - Pup: "A waggy pup who loves walks."
+  - Hedgehoglet: "A shy hedgehoglet who loves crunchy leaves."
+  - Close button: "Maybe later"
+- Then **Name your cat/pup/hedgehoglet** (Mochi, Biscuit or Bramble filled in) → banner "Welcome home, [name]!"
+- Patting, in turn: "Hello, [name]!" · "[name] does a happy wiggle." · "Best friends, you and me."
+- Tracker until chosen: "Someone's waiting at your burrow door."
+
 ## Hazel
 
 **First hello**

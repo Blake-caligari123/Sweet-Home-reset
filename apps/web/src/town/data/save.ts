@@ -1,5 +1,7 @@
 import { localDate } from '../../shared/date';
 import type { PlotState } from '../build/build';
+import type { GrumbleState } from '../grumbles/grumbles';
+import type { Pet } from '../pets/pets';
 import type { AreaMess } from '../play/mess';
 import { DEFAULT_NAMES, type Names } from '../play/names';
 import type { RequestState } from '../requests/requests';
@@ -42,6 +44,10 @@ export interface TownSave {
   lastClean?: string;
   /** What's built (or being built) on each plot. */
   plots?: Record<string, PlotState>;
+  /** Today's Grumbles and the helpers made so far. */
+  grumbles?: GrumbleState;
+  /** Puff's pet, once chosen. */
+  pet?: Pet | null;
   /** What the player called Puff and the town. */
   names: Names;
   /** The tool in Puff's paws. */

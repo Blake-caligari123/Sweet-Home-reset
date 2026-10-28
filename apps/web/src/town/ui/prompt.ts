@@ -21,6 +21,7 @@ export function promptFor(t: Target | null, here: Here, crops: Crop[], content: 
     case 'door': return 'Go through';
     case 'pickup': { const p = here.pickups.find((x) => x.id === t.id); return p ? `Take the ${name(p.item)}` : ''; }
     case 'neighbour': return `Say hello to ${content.neighbour(t.id)?.name ?? 'them'}`;
+    case 'grumble': return 'Brighten the Grumble';
     case 'prop': return USE[t.action] ?? '';
     default: return '';
   }

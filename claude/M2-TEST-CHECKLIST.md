@@ -97,6 +97,24 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Sleep (or doze off). Next morning, "The new bench is finished. Come see!", and the bench is there. You can sit beside it, and nothing blocks the doors or the board.
 - [ ] Reload mid-build: the scaffolding and the Sparkles stay as they were.
 
+## 11d. Phase 1c: dust Grumbles
+- [ ] Before day 3: no Grumbles anywhere.
+- [ ] Day 3: the tracker says something grey is grumbling on Neighbour Lane. Walk in and Puff says "You look like me!"
+- [ ] There are 1–3 Grumbles each on the Lane, in Pip's workshop and in Moss's library. They amble slowly and shuffle away if Puff gets close.
+- [ ] Tap one: Puff dusts it from beside it (1 Fluff) and a pip fills. Its face cheers up with each go: droopy, then wide-eyed, then winking. It holds still while you tidy it. Three goes and it turns butter-yellow, with "Friend made! ✨". Tapping it again says "Pff! Ooh!"
+- [ ] Sleep: untidied ones are gone and new ones arrive. Your helpers stay. Nothing is lost.
+- [ ] Reload mid-tidy: the pips, positions and helpers are all kept.
+- [ ] Dragging the sock to its basket still works.
+
+## 11e. Phase 1d: your pet
+- [ ] Before day 4, nothing happens at the door.
+- [ ] Day 4: step out of the burrow into the yard. "Someone's at the door!" and a choice of cat, pup or hedgehoglet appears.
+- [ ] "Maybe later" closes it. The tracker says someone's waiting, and it comes back the next day.
+- [ ] Choose one and name it (its usual name is filled in). You get "Welcome home, [name]!"
+- [ ] It follows Puff everywhere, round corners and through doors, and faces the way it's going.
+- [ ] Tap it: sparkles and a happy line.
+- [ ] Reload: your pet and its name are still there.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

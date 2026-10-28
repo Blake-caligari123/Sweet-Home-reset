@@ -45,6 +45,35 @@ Later (not wired yet): `puff_yawn`, `puff_pickup_<dir>`, and the 48 px menu Puff
 ## Neighbours (after the Puff set; cell size set per neighbour, e.g. `--frame 16x28`)
 Ids: `hazel` (hedgehog), `bea` (bee), `pip` (mouse), `otto` (otter), `moss` (mole), `mabel` (owl). For each: `<id>_idle_down` (4), `<id>_walk_down`, `<id>_walk_up`, `<id>_walk_right` (6 each). The 48 px portraits with 3 expressions (happy, thinking, tired) are a separate later set.
 
+## Grumbles (Phase 1c; cell 16×15 world px, `--frame 16x15`)
+The dust family first (cobweb, mud and soot follow with their days). Two sheets, one per row in one image:
+- `grumble_dust_grumpy`: 4 frames, idle, grey and droopy
+- `grumble_dust_bright`: 4 frames, idle, bright and happy
+
+Prompt (no reference image needed; attach the code placeholder screenshot if Grok drifts):
+
+> Pixel art sprite sheet, two rows of four frames. A Grumble: a tiny round puff of soft fluffy dust, the size of a dumpling, with a few wispy tufts on top and no arms or legs. **Row 1:** grey and sleepy, droopy half-closed eyes, a tiny pout, gently bobbing up and down across the 4 frames. **Row 2:** the same creature brightened to soft butter yellow with rosy peach cheeks, happy closed-arc eyes and a small smile, bobbing cheerfully across the 4 frames. Cute and harmless: no teeth, no glowing eyes, no slime. Frames evenly spaced, identical size and scale, not touching, all on the same ground line, a clear gap between the rows. Plain flat bright magenta background (#FF00FF), no floor, no shadow, no text. Cosy top-down game sprite, chunky readable shapes, crisp hard-edged square pixels, flat colour with one shade step, soft top-left light, 1-pixel warm-brown outline (#8A6E5E), limited warm pastel palette. No anti-aliasing, no blur, no gradients, no dithering. Original character. Negative: photorealism, watercolour, 3D render, text, watermark, background scenery.
+
+Process: `... process_asset.py grumble_dust --sheet 4 --rows grumble_dust_grumpy,grumble_dust_bright --hires 6 --frame 16x15 --log`
+
+**Landed 28 Oct 2026** (`art/sprites/raw/grumble_dust.jpg`). Grok gave the grey row four moods instead of one idle loop, so they're used as the Grumble cheering up while it's tidied: droopy (frame 1), then wide-eyed (4), then winking (2), then the bright row. Frame 3 (happy grey) isn't used. The bob is in code (`grumbles.ts` `faceFor`). For the cobweb, mud and soot families, ask for the same four-mood row on purpose.
+
+## Pets (Phase 1d; cell 16×13 world px, `--frame 16x13`)
+Three pets, chosen on day 4. Each needs two sheets, side view **facing right** (the game mirrors them for left):
+- `pet_<id>_walk`: a 4-frame trot
+- `pet_<id>_idle`: a 4-frame breathing or tail loop
+
+Ids: `cat`, `pup`, `hedgehoglet`. One image per pet, two rows (walk on top, idle below).
+
+> Pixel art sprite sheet, two rows of four frames, side view facing right. **[PET]**. **Row 1:** a happy 4-frame trotting walk cycle, legs alternating. **Row 2:** the same pet standing still, a gentle 4-frame idle (soft breathing, a small tail or ear twitch). Small, round and friendly, a companion for a tiny dust bunny: about three-quarters the dust bunny's height. Frames evenly spaced, identical size and scale, not touching, all on the same ground line, a clear gap between the rows. Plain flat bright magenta background (#FF00FF), no floor, no shadow, no text. Cosy top-down game sprite, chunky readable shapes, crisp hard-edged square pixels, flat colour with one shade step, soft top-left light, 1-pixel warm-brown outline (#8A6E5E), limited warm pastel palette. No anti-aliasing, no blur, no gradients, no dithering. Original character. Negative: photorealism, watercolour, 3D render, text, watermark, background scenery.
+
+**[PET]** lines:
+- Cat: "A small peach-and-cream kitten with a curled tail, sleepy half-moon eyes and pink nose"
+- Pup: "A small cream puppy with floppy brown ears, a wagging tail and a tiny black nose"
+- Hedgehoglet: "A tiny brown baby hedgehog with soft rounded spines, a cream face and a little black nose"
+
+Process (per pet): `... process_asset.py pet_cat --sheet 4 --rows pet_cat_walk,pet_cat_idle --hires 6 --frame 16x13 --log`. The game picks them up with no code change.
+
 ## Prompt template (Grok Imagine)
 Swap in the sheet line from the table above. Attach Puff's model sheet as the reference image so Puff stays on-model.
 

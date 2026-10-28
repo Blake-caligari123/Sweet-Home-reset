@@ -44,3 +44,5 @@ Allowed instead:
 | item_cup (cropped from `art/sprites/raw/items_cup_book.jpg`) | `apps/web/public/sprites/item_cup.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (crop excludes the mark; jpg kept) |
 | item_book (cropped from `art/sprites/raw/items_cup_book.jpg`) | `apps/web/public/sprites/item_book.png` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (crop excludes the mark; jpg kept) |
 | bakery | `apps/web/public/areas/bakery.webp` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+| grumble_dust_grumpy | `apps/web/public/sprites/grumble_dust_grumpy.png` | `claude/SPRITE-SHEETS.md` | 2026-10-28 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+| grumble_dust_bright | `apps/web/public/sprites/grumble_dust_bright.png` | `claude/SPRITE-SHEETS.md` | 2026-10-28 | Grok Imagine (mark removed per Blake overrule; jpg kept) |

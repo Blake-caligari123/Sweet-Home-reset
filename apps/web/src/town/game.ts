@@ -7,15 +7,19 @@ import type { TownPack } from './data/area';
 import { Content } from './data/content';
 import { stamp, writeQuick, writeTown, type TownSave } from './data/save';
 import { NEIGHBOUR_WALK_SPEED, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './data/tuning';
+import { GrumbleLife } from './grumbles/grumble-life';
+import { PetLife } from './pets/pet-life';
 import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
 import { installDebugHooks } from './debug';
 import { PuffActions } from './play/actions';
 import { Clock, DAY_END, DAY_START, formatTime, LATE_AT } from './play/clock';
+import { Carry } from './play/carry';
 import { HomeLife } from './play/home-life';
 import { morningLetter } from './play/letter';
 import type { ToolId } from './play/mess';
 import { OnboardingGuide } from './play/onboarding-guide';
+import { nudge } from './play/nudges';
 import { overnight } from './play/overnight';
 import { Puff } from './play/puff';
 import { distTo, FEET_TO_BASE, neighbourAt, rectOf, targetAt, type Here, type Target } from './play/targets';
@@ -34,8 +38,9 @@ import { View, type Settings } from './ui/view';
 import { isUnlocked } from './unlocks';
 import { T } from './world/art/texture';
 import { FEET, REACH, type Pt } from './world/nav';
-import type { Tile } from './world/pathfind';
 import { setIconBank, type SpriteBank } from './world/sprites';
+import { GrumbleLayer } from './world/grumble-layer';
+import { PetLayer } from './world/pet-layer';
 import { TownAreas } from './world/town-areas';
 import { World } from './world/world';
 
@@ -62,8 +67,11 @@ export class TownGame {
   private guide: OnboardingGuide;
   private actions: PuffActions;
   private homeLife: HomeLife;
-  /** Clutter being carried home by a drag: its tile, and where it goes once Puff has it. */
-  private carrying: { from: Tile; to: Pt } | null = null;
+  private grumbles: GrumbleLife;
+  private grumbleLayer: GrumbleLayer;
+  private pet: PetLife;
+  private petLayer: PetLayer;
+  private carry: Carry;
   private fading = false;
   private autosaveMs = 0;
   private fade: HTMLElement;
@@ -110,9 +118,21 @@ export class TownGame {
       state: this.state, view: this.view, hud: this.hud, area: () => this.areaId, messFor: (id) => this.places.mess(id),
       highlight: (tiles) => this.world.setHighlight(tiles), refreshHud: () => this.refreshHud()
     });
+    this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.tap(x, y) });
+    this.grumbleLayer = new GrumbleLayer(this.world.actors);
+    this.grumbles = new GrumbleLife({
+      state: this.state, view: this.view, content: this.content, world: this.world, places: this.places, layer: this.grumbleLayer,
+      arrived: (k) => this.arrived(k), area: () => this.areaId, puff: () => this.puff.feet,
+      targeted: () => { const t = this.puff.swing ?? this.puff.action; return t?.kind === 'grumble' ? t.id : null; }, refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+    });
+    this.petLayer = new PetLayer(this.world.actors);
+    this.pet = new PetLife({
+      state: this.state, view: this.view, content: this.content, world: this.world, layer: this.petLayer, arrived: (k) => this.arrived(k),
+      puff: () => this.puff.feet, day: () => this.clock.state.day, refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+    });
     this.actions = new PuffActions({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
-      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide,
+      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, grumbles: this.grumbles,
       here: () => ({ id: this.areaId, area: this.area, mess: this.mess, nav: this.nav }),
       selected: () => this.selected,
       select: (t) => { this.selected = t; },
@@ -131,7 +151,8 @@ export class TownGame {
     if (saved) feet = this.restore(saved);
     else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
     this.places.rebuild(this.state.plots);
-    this.world.reducedMotion = settings.reducedMotion;
+    this.grumbles.newDay(this.clock.state.day);
+    this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = settings.reducedMotion;
     if (this.state.requests.day !== this.clock.state.day) this.jobs.post();
     this.enterArea(this.areaId, this.puff.x, this.puff.y, false, feet);
     this.bindInput(ui);
@@ -149,7 +170,7 @@ export class TownGame {
   }
 
   /** Character sprite sheets loaded after start; Puff stays code-drawn until they arrive. */
-  setSprites(bank: SpriteBank) { setIconBank(bank); this.world.setSprites(bank); this.hud.refreshIcons(); }
+  setSprites(bank: SpriteBank) { setIconBank(bank); this.world.setSprites(bank); this.grumbleLayer.setSprites(bank); this.petLayer.setSprites(bank); this.hud.refreshIcons(); }
 
   // ---- areas -------------------------------------------------------------------------------
 
@@ -166,6 +187,8 @@ export class TownGame {
     this.puff.standAt(spot);
     this.world.load(this.area, this.mess);
     this.homeLife.enter(id, this.area.pack.alive ?? [], this.tidiness);
+    this.grumbles.entered();
+    this.pet.entered(id);
     this.neighbours.place(this.clock.state.minutes);
     this.world.setCrops(this.actions.cropsHere());
     this.world.setPickups(this.actions.pickupsHere());
@@ -194,34 +217,14 @@ export class TownGame {
       tap: (p) => this.tap(p.x, p.y),
       // Each pass of a rub is another scrub, so a stain comes up in one go.
       rub: (p, passes) => { this.tap(p.x, p.y); if (this.puff.action?.kind === 'mess' || this.puff.swing) this.puff.repeat = Math.min(MAX_RUB, passes - 1); },
-      drag: (from, to) => this.carry(from, to),
-      carryable: (p) => this.clutterAt(Math.floor(p.x / T), Math.floor(p.y / T)) ?? null
+      drag: (from, to) => this.carry.drag(from, to),
+      carryable: (p) => this.carry.clutterAt(Math.floor(p.x / T), Math.floor(p.y / T)) ?? null
     });
     bindKeyboard({
       puff: this.puff, nav: () => this.nav, busy: () => this.view.busy, back: () => this.back(), tap: (x, y) => this.tap(x, y),
       selectSlot: (n) => { const t = TOOL_SLOTS[n - 1]; if (this.state.tools[t]) { this.selected = t; this.refreshHud(); } },
       openBag: () => this.openBag()
     });
-  }
-
-  private clutterAt(x: number, y: number) { return this.mess.typeAt(x, y) === 'clutter' ? this.mess.item[y * this.area.w + x] : undefined; }
-
-  /** A drag: clutter dropped on where it lives is picked up, then carried there; anything else walks to the drop. */
-  private carry(from: Pt, to: Pt) {
-    const tile = { x: Math.floor(from.x / T), y: Math.floor(from.y / T) };
-    const item = this.clutterAt(tile.x, tile.y);
-    const home = item ? this.area.tapPropAt(Math.floor(to.x / T), Math.floor(to.y / T)) : null;
-    if (!item || !home?.accepts?.includes(item)) { this.tap(to.x, to.y); return; }
-    this.carrying = { from: tile, to: { x: (home.x + 0.5) * T, y: (home.y + 0.5) * T } };
-    this.tap(from.x, from.y);
-  }
-
-  /** Once Puff has picked up the carried clutter, off it goes to where it lives (or the carry is dropped). */
-  private carryOn() {
-    const c = this.carrying; const p = this.puff;
-    if (!c || p.path.length || p.swingMs > 0) return;
-    this.carrying = null;
-    if (!this.clutterAt(c.from.x, c.from.y)) this.tap(c.to.x, c.to.y);
   }
 
   /** Android back / Escape: close the top sheet, else open pause. */
@@ -235,8 +238,9 @@ export class TownGame {
   private tap(px: number, py: number) {
     const tile = { x: Math.floor(px / T), y: Math.floor(py / T) };
     if (this.view.busy || this.fading || !this.area.inside(tile.x, tile.y)) return;
+    if (this.pet.at(px, py)) { this.pet.pat(); return; }
     this.neighbours.releaseAll();
-    const target = neighbourAt(this.neighbours.visible(this.areaId), px, py) ?? targetAt(this.here, tile.x, tile.y);
+    const target = neighbourAt(this.neighbours.visible(this.areaId), px, py) ?? this.grumbles.at(px, py) ?? targetAt(this.here, tile.x, tile.y);
     if (target.kind === 'neighbour') this.neighbours.hold(target.id);
     this.world.showMarker(px, py);
     const p = this.puff; const feet = p.feet;
@@ -266,7 +270,7 @@ export class TownGame {
    */
   private arrived(key: string) { return isUnlocked(key, { day: this.clock.state.day, flags: this.state.flags }) || !!this.state.friends[key]?.met; }
 
-  private rectOf(t: Target) { return rectOf(t, this.area, t.kind === 'neighbour' ? this.neighbours.states.get(t.id) : undefined); }
+  private rectOf(t: Target) { return rectOf(t, this.area, t.kind === 'neighbour' ? this.neighbours.states.get(t.id) : t.kind === 'grumble' ? this.grumbles.find(t.id) : undefined); }
 
   /** What's around Puff in the current area, for working out taps and prompts. */
   private get here(): Here { return { area: this.area, mess: this.mess, pickups: this.actions.pickupsHere(), bag: this.state.bag }; }
@@ -287,6 +291,7 @@ export class TownGame {
     this.jobs.post();
     const built = overnight(state, this.content.pack.buildings ?? [], this.clock.state.day - 1, dozed);
     this.places.rebuild(this.state.plots);
+    this.grumbles.newDay(this.clock.state.day);
     this.hud.setLate(false);
     // Wake up beside the bed: the burrow's spawn tile.
     const bed = this.places.get('burrow')!.pack.spawn;
@@ -336,7 +341,7 @@ export class TownGame {
         const s = this.settings;
         this.sound.enabled = s.sound; this.sound.musicOn = s.music;
         if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
-        this.world.reducedMotion = s.reducedMotion;
+        this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = s.reducedMotion;
         document.documentElement.classList.toggle('reduce-motion', s.reducedMotion);
         void this.save(false);
       },
@@ -381,7 +386,7 @@ export class TownGame {
       }
       this.neighbours.update(this.clock.state.minutes, this.areaId, dt);
       this.homeLife.tick(this.areaId, this.tidiness);
-      this.carryOn();
+      this.carry.tick();
       if (p.swingMs > 0) { p.swingMs -= dt; if (p.swingMs <= 0) this.actions.finishSwing(); }
       if (p.hopMs > 0) { p.hopMs -= dt; if (p.hopMs <= 0 && p.pose === 'hop') p.pose = 'idle'; }
       this.autosaveMs += dt;
@@ -392,6 +397,8 @@ export class TownGame {
       const d = this.content.neighbour(n.id)!;
       return { id: n.id, species: d.species, colours: d.colours, x: n.fx, y: n.fy + FEET_TO_BASE, dir: n.dir, pose: n.pose };
     }));
+    this.grumbles.tick(dt, this.view.busy || this.fading);
+    this.pet.tick(dt);
     this.world.follow(p.fx, p.fy - 8);
     this.world.update(dt);
     this.placeBubble(p.fx, p.fy + FEET_TO_BASE);
@@ -430,8 +437,8 @@ export class TownGame {
     this.hud.setSparkles(this.state.sparkles);
     this.guide.unstick();
     const step = this.state.onboarding.current;
-    const firstBuild = this.arrived('building') && !Object.keys(this.state.plots).length ? this.content.line('build.hint') : undefined;
-    this.hud.setTracker(this.content.named(step ? step.hint : this.jobs.tracker() ?? firstBuild ?? 'Explore {town} and tidy what you find.'));
+    const next = this.content.line(nudge(this.state, (k) => this.arrived(k)) ?? undefined);
+    this.hud.setTracker(this.content.named(step ? step.hint : this.jobs.tracker() ?? next ?? 'Explore {town} and tidy what you find.'));
   }
 
   /** x, y: the bottom-centre of Puff's sprite in world px. */

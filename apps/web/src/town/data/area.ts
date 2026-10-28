@@ -10,6 +10,8 @@ import type { AliveStage } from '../play/alive';
 import type { PickupDef } from '../play/pickups';
 import type { Line } from '../neighbours/talk';
 import type { BuildingDef, PlotDef } from '../build/build';
+import type { FamilyDef } from '../grumbles/grumbles';
+import type { PetDef } from '../pets/pets';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 /** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
@@ -35,7 +37,11 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   dialogue?: Record<string, Line[]>; strings?: Record<string, Record<string, string>>;
   heartEvents?: HeartEvent[]; requests?: RequestTemplate[]; shops?: ShopDef[];
   /** Where the town can build, and what (VISION §5). */
-  plots?: PlotDef[]; buildings?: BuildingDef[] }
+  plots?: PlotDef[]; buildings?: BuildingDef[];
+  /** Grumble families: their tool, tidies needed, where they gather (VISION §7). */
+  grumbleFamilies?: FamilyDef[];
+  /** The pets Puff can choose from on day 4. */
+  pets?: PetDef[] }
 
 export class Area {
   readonly w: number;
@@ -134,6 +140,7 @@ export function validateTownPack(input: unknown): TownPack {
     if (!pl.id || !pl.name || !ids.has(pl.area) || ![pl.x, pl.y, pl.w, pl.h].every(isNum)) throw new Error(`plot ${pl.id}: shape`);
     for (const b of pl.allow ?? []) if (!built.has(b)) throw new Error(`plot ${pl.id}: unknown building ${b}`);
   }
+  for (const pet of p.pets ?? []) if (!pet.id || !pet.name || !pet.defaultName || typeof text[pet.line] !== 'string') throw new Error(`pet ${pet.id}: shape`);
   for (const sh of p.shops ?? []) {
     if (!sh.id || ![sh.opens, sh.closes].every(isNum) || !Array.isArray(sh.stock)) throw new Error(`shop ${sh.id}: shape`);
     if (sh.keeper && !who.has(sh.keeper)) throw new Error(`shop ${sh.id}: unknown keeper ${sh.keeper}`);

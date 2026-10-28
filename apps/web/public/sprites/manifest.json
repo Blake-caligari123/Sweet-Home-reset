@@ -1,6 +1,18 @@
 {
  "version": 1,
  "sheets": {
+  "grumble_dust_bright": {
+   "frames": 4,
+   "w": 96,
+   "h": 90,
+   "scale": 6
+  },
+  "grumble_dust_grumpy": {
+   "frames": 4,
+   "w": 96,
+   "h": 90,
+   "scale": 6
+  },
   "item_book": {
    "frames": 1,
    "w": 64,

@@ -15,7 +15,8 @@ export type Target =
   | { kind: 'door'; x: number; y: number }
   | { kind: 'prop'; x: number; y: number; action: string; accepts?: string[]; text?: string; shop?: string }
   | { kind: 'neighbour'; x: number; y: number; id: string }
-  | { kind: 'pickup'; x: number; y: number; id: string };
+  | { kind: 'pickup'; x: number; y: number; id: string }
+  | { kind: 'grumble'; x: number; y: number; id: string };
 
 export interface Rect { x0: number; y0: number; x1: number; y1: number }
 
@@ -50,9 +51,13 @@ export function neighbourAt(visible: NeighbourState[], px: number, py: number): 
   return null;
 }
 
-/** The world-px rect of a target: its tile, the whole prop, or the space a neighbour stands in. */
-export function rectOf(t: Target, area: Area, neighbour?: NeighbourState): Rect {
-  if (t.kind === 'neighbour' && neighbour) { const n = neighbour; return { x0: n.fx - 6, y0: n.fy - 4, x1: n.fx + 6, y1: n.fy + 2 }; }
+/** The world-px rect of a target: its tile, the whole prop, or the space a neighbour or Grumble stands in. */
+export function rectOf(t: Target, area: Area, standing?: { fx: number; fy: number }): Rect {
+  if ((t.kind === 'neighbour' || t.kind === 'grumble') && standing) {
+    // A Grumble is round and low: Puff tidies from beside it, not on top of it.
+    const n = standing; const w = t.kind === 'grumble' ? 13 : 6;
+    return { x0: n.fx - w, y0: n.fy - 4, x1: n.fx + w, y1: n.fy + 2 };
+  }
   const prop = t.kind === 'prop' ? area.tapPropAt(t.x, t.y) : null;
   const x = prop ? prop.x : t.x; const y = prop ? prop.y : t.y;
   return { x0: x * T, y0: y * T, x1: (x + (prop?.w ?? 1)) * T, y1: (y + (prop?.h ?? 1)) * T };
