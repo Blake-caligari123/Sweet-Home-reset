@@ -273,6 +273,7 @@ export class PuffActions {
         if (!state.bag.canAdd(crop.crop)) { view.say('Bag\'s full!'); return; }
         state.bag.add(crop.crop);
         if (harvest(crop, def) === 'picked') state.crops.splice(state.crops.indexOf(crop), 1);
+        state.flag(`grown_${def.id}`);
         view.say(content.line(`crop.${def.id}.harvest`) ?? ''); view.feedback('coin', 'medium');
       } else if (!crop.watered) {
         if (!state.tools.can) { view.say('Seeds need water. A can would help.'); return; }

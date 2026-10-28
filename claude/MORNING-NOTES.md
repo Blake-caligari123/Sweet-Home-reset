@@ -7,6 +7,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 |---|---|---|
 | #40 | **Phase 1 finished:** hold, circle and sweep gestures; light mess drifting back into restored rooms overnight | checklist §11f |
 | #41 | **Phase 2a:** twigs and pebbles to forage; Pip's workbench; Copper duster, sponge and rake; charged hold clean | checklist §11g |
+| #45 | **Phase 2e:** six earned outfits (bow, Keeper's badge, scarf, berry hat, flower crown, star clip), worn on Puff; pick them in Pause → 👒 Outfits | checklist §11k |
 | #44 | **Phase 2d:** Town Bloom levels (pause menu, banners, the lamppost needs Bloom 2); surprise finds every 8 cleans; Moss's collection on his library table | checklist §11j |
 | #43 | **Phase 2c:** cooking in the burrow kitchen: veggie soup, pea fritters, and a Berry tart after Hazel's 2-heart scene | checklist §11i |
 | #42 | **Phase 2b:** carrots, peas and strawberries (strawberries grow back); pick your seeds; sell them all | checklist §11h |
@@ -27,6 +28,7 @@ You said to carry on without asking. I've merged each slice to the test link onc
 
 ## Art to ask Grok for (prompts in `claude/SPRITE-SHEETS.md`)
 - **Pets:** cat, pup, hedgehoglet (walk and idle sheets each).
+- **Outfits** (optional): six small accessories in one image (prompt in SPRITE-SHEETS → Outfits).
 - **Small items** (optional; the code-drawn ones work fine):
   - twig
   - pebble

@@ -74,6 +74,11 @@ Ids: `cat`, `pup`, `hedgehoglet`. One image per pet, two rows (walk on top, idle
 
 Process (per pet): `... process_asset.py pet_cat --sheet 4 --rows pet_cat_walk,pet_cat_idle --hires 6 --frame 16x13 --log`. The game picks them up with no code change.
 
+## Outfits (Phase 2e; optional, one image, each piece about 10×8 world px)
+`outfit_peach_bow`, `outfit_keeper_badge`, `outfit_leaf_scarf`, `outfit_berry_hat`, `outfit_flower_crown`, `outfit_star_clip`. They're code-drawn for now and work fine. Grok versions would look nicer.
+
+> Pixel art sprite sheet, one row of six small accessories for a tiny grey dust bunny, evenly spaced, not touching: a small peach ribbon bow; a round gold Keeper's badge with two short blue ribbons; a soft green knitted leaf scarf; a little strawberry-shaped hat with a green stalk; a flower crown of tiny peach, butter and blue flowers on a green vine; a small gold star hair clip. Each accessory on its own, no character. Plain flat bright magenta background (#FF00FF), no floor, no shadow, no text. Crisp hard-edged square pixels, flat colour with one shade step, soft top-left light, 1-pixel warm-brown outline (#8A6E5E), limited warm pastel palette. No anti-aliasing, no blur, no gradients. Negative: photorealism, 3D render, text, watermark.
+
 ## Prompt template (Grok Imagine)
 Swap in the sheet line from the table above. Attach Puff's model sheet as the reference image so Puff stays on-model.
 

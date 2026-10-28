@@ -195,6 +195,11 @@ One new thing every couple of days, each with one tip or letter:
   - Surprise finds: every 8 cleans in a place (`findEveryCleans`), that place's next treasure turns up. There are 8 to collect, including a tiny thimble (a nod to Thimble, the old Keeper).
   - Moss's collection is on his library table and shows the ones still to find as "?".
   - Bloom-driven extras come later: birds, lit windows, visitors.
+- **Phase 2e (overnight):**
+  - Six outfits, all earned and never sold: peach bow (restore the burrow), Keeper's badge, leaf scarf (a Grumble friend), berry hat (pick a strawberry), flower crown (Town Bloom 2) and star clip (4 finds).
+  - Each new one gets a banner. Wear one from Pause → 👒 Outfits, and it's drawn on Puff, with the badge hidden from behind.
+  - Code-drawn for now; the Grok prompt is in SPRITE-SHEETS.
+  - `game.ts` split: the per-frame HUD moved to `ui/hud-live.ts`.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

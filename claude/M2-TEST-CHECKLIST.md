@@ -148,6 +148,11 @@ Test link: https://blake-caligari123.github.io/Sweet-Home-reset/test/. Reload on
 - [ ] Every 8th clean in a place turns up a treasure: "A lucky find: Lost button!"
 - [ ] In Moss's library, tap the table: Moss's collection shows what you've found, with "?" for the rest.
 
+## 11k. Phase 2e: outfits
+- [ ] Earning one (becoming the Keeper, restoring the burrow, a Grumble friend, picking a strawberry, Town Bloom 2, 4 finds) shows "👒 New outfit: …! (Pause → Outfits)".
+- [ ] Pause → 👒 Outfits: earned ones say "Tap to wear". The rest show "???" with how to earn them.
+- [ ] Puff wears it in the world, facing every way. Tap it again to take it off. It stays after a reload.
+
 ## 12. Also check
 - [ ] The burrow counter snack comes back every morning.
 - [ ] The book goes on the bookshelf, and other put-aways work.

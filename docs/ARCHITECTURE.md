@@ -52,7 +52,8 @@ town/
   world/        drawing and walking: world.ts (Pixi stage), alive.ts (lamps, sunbeams, the cat…),
                 sprites.ts, backgrounds.ts (paintings),
                 bake.ts, ambience.ts, nav.ts (free movement), pathfind.ts, town-areas.ts (every
-                area with its mess and walking grid, rebuilt as things get built), grumble-layer.ts, pet-layer.ts
+                area with its mess and walking grid, rebuilt as things get built), grumble-layer.ts, pet-layer.ts,
+                outfit-layer.ts (the piece Puff is wearing)
     art/          code-drawn placeholders: texture.ts (tile size, noise, dither), ground.ts,
                   props.ts, items.ts (mess, item icons, crops), characters.ts (Puff, neighbours)
   play/         core rules: mess.ts (mess, colour, restore), bag.ts, fluff.ts, clock.ts,
@@ -79,11 +80,13 @@ town/
   grumbles/     grumbles.ts (families, setting them out each day, tidying into helpers), drift.ts
                 (the slow amble, shy of Puff), grumble-life.ts (Grumbles in play: spawn spots, taps,
                 tidies, hellos)
+  outfits/      outfits.ts (what's earned and how), outfit-sheet.ts (choosing what Puff wears)
   pets/         pets.ts (pet kinds, the trail the pet follows), pet-sheet.ts (choose and name),
                 pet-life.ts (the pet in play: the doorstep offer, following, pats)
   shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
-                the tool bar), pointer-input.ts (fingers on the world), keyboard.ts, bag-sheet.ts,
+                the tool bar), pointer-input.ts (fingers on the world), keyboard.ts, hud-live.ts (clock,
+                Fluff, prompt and bubble each frame), bag-sheet.ts,
                 naming-sheet.ts, pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css
 ```
 
