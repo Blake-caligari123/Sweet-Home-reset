@@ -236,4 +236,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Every neighbour has a happy and a low line, and the five with homes have a line for when it's restored.
   - Still to come: routines that change with mood and weather, opinions about each other, more dramas, and more lines.
   - `game.ts` is 524 lines; the next step pulls the setup of every feature out of it.
+- **Finds 2.0 (30 Oct, Blake: finds need a section and a use):**
+  - **Pause → 📖 Collection** shows every find, with its story, whose it is and whether it's been shown to them. The ones still out there show "?" and a hint of where to look. The find banner says it went to the Collection.
+  - **Showing a find:** seven of the eight belong to someone. Their talk box offers "Show the …", they tell its story and friendship grows (a loved gift's worth).
+  - The thimble belongs to no one: it's a clue to Thimble, the keeper before Puff.
+  - **Finishing the set:** Moss sends 200 ✨ (`findSetSparkles`).
 

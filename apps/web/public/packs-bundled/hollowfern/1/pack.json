@@ -7481,7 +7481,22 @@
    "drama.noise.1": "... I can't read with the hammering. I don't like to say.",
    "drama.noise.2": "Too loud? Oh no! I'll hammer in the mornings only. Promise!",
    "drama.noise.3": "... Mornings only? Then afternoons are for quiet. Lovely.",
-   "drama.noise.mended": "🤝 Pip and Moss are friends again!"
+   "drama.noise.mended": "🤝 Pip and Moss are friends again!",
+   "find.lost_button.about": "A peach button, a bit floury. Whose could it be?",
+   "find.lost_button.owner": "My cardigan button! I've missed it for weeks. Thank you!",
+   "find.thimble.about": "Tiny, silver, with a T scratched inside. Very old.",
+   "find.glass_marble.about": "A swirly glass marble, perfect for rolling.",
+   "find.glass_marble.owner": "My lucky marble! I thought the drain ate it!",
+   "find.old_coin.about": "A coin from long ago, with a fountain on one side.",
+   "find.old_coin.owner": "... A town coin. Older than me. I'll keep it safe.",
+   "find.tiny_key.about": "A tiny brass key with a fish on the tag.",
+   "find.tiny_key.owner": "My old locker key! Ha! Now what was in there?",
+   "find.pressed_flower.about": "A flower pressed flat in paper. Still smells sweet.",
+   "find.pressed_flower.owner": "Gran's flower! She pressed it the year I was born.",
+   "find.sea_glass.about": "Smooth green glass, worn soft by the water.",
+   "find.sea_glass.owner": "Sea glass! I'll put it on my map, right where you found it.",
+   "find.blue_feather.about": "A long blue feather, soft as a whisper.",
+   "find.blue_feather.owner": "Hoo! One of mine, from a younger, bluer year."
   }
  },
  "heartEvents": [
@@ -10264,7 +10279,8 @@
    "areas": [
     "burrow",
     "pip_workshop"
-   ]
+   ],
+   "owner": "hazel"
   },
   {
    "id": "thimble",
@@ -10280,7 +10296,8 @@
    "areas": [
     "lane",
     "yard"
-   ]
+   ],
+   "owner": "pip"
   },
   {
    "id": "old_coin",
@@ -10288,14 +10305,16 @@
    "areas": [
     "square",
     "store"
-   ]
+   ],
+   "owner": "moss"
   },
   {
    "id": "tiny_key",
    "name": "Tiny brass key",
    "areas": [
     "library"
-   ]
+   ],
+   "owner": "otto"
   },
   {
    "id": "pressed_flower",
@@ -10303,7 +10322,8 @@
    "areas": [
     "bea_shop",
     "yard"
-   ]
+   ],
+   "owner": "bea"
   },
   {
    "id": "sea_glass",
@@ -10311,7 +10331,8 @@
    "areas": [
     "riverside",
     "bathhouse"
-   ]
+   ],
+   "owner": "sorrel"
   },
   {
    "id": "blue_feather",
@@ -10320,7 +10341,8 @@
     "square",
     "lane",
     "riverside"
-   ]
+   ],
+   "owner": "mabel"
   }
  ],
  "outfits": [

@@ -1,3 +1,4 @@
+import { findsFor, showFind } from '../bloom/finds';
 import { festivalToday } from '../festivals/festivals';
 import type { DramaDef } from '../life/dramas';
 import type { Mood } from '../life/mood';
@@ -90,6 +91,7 @@ export class Conversations {
     const gifts = canGift(f, day) && state.bag.slots.some(Boolean);
     this.says(def, text, gained, heartsOf(f.points) > hearts, [
       ...this.host.extraButtons(id),
+      ...findsFor(content.pack.finds ?? [], state.finds, id).map((find) => ({ label: `Show the ${find.name.toLowerCase()}`, onClick: () => this.showFind(def, find.id) })),
       ...(gifts ? [{ label: 'Give a gift', onClick: () => this.openGifts(def) }] : [])
     ]);
   }
@@ -106,6 +108,19 @@ export class Conversations {
     for (const id of mended.between) state.friendOf(id).points += TUNING.friendship.request;
     this.host.view.banner(content.line(mended.banner) ?? 'Friends again!');
     this.host.view.feedback('fanfare', 'success');
+    this.host.save();
+  }
+
+  /** Showing a find to whoever it belongs to: they tell its story, and the friendship grows. */
+  private showFind(def: NeighbourDef, id: string) {
+    const { state, content } = this.host;
+    state.finds = showFind(state.finds, id);
+    const f = state.friendOf(def.id);
+    const hearts = heartsOf(f.points);
+    f.points += TUNING.friendship.loved;
+    this.host.sparkleAtPuff(10);
+    this.host.view.feedback('chime', 'success');
+    this.says(def, content.line(`find.${id}.owner`) ?? 'Oh! Thank you!', TUNING.friendship.loved, heartsOf(f.points) > hearts);
     this.host.save();
   }
 

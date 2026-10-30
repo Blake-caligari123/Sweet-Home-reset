@@ -5,6 +5,7 @@ import { PUTAWAY_SPARKLES, SWING_MS, TUNING } from '../data/tuning';
 import { nextFind } from '../bloom/bloom';
 import { areasWith } from '../build/build';
 import { openCollection } from '../bloom/collection-sheet';
+import { setDone } from '../bloom/finds';
 import type { Mining } from '../caves/mining';
 import type { Lanterns } from '../festivals/lanterns';
 import type { TidyDash } from '../festivals/tidy-dash';
@@ -222,8 +223,13 @@ export class PuffActions {
     if (!def) return;
     world.sparkleBurst(x, y, 12);
     view.feedback('chime', 'success');
-    view.banner(`A lucky find: ${def.name}!`);
+    // It goes to the Collection (Pause), where its story and owner are, so it can always be seen again.
+    view.banner(`A lucky find: ${def.name}! 📖 Added to your Collection`);
     view.say(content.line(`find.${def.id}`) ?? content.line('find.any') ?? '');
+    if (setDone(content.pack.finds ?? [], state.finds)) {
+      state.sparkles += TUNING.findSetSparkles;
+      window.setTimeout(() => view.banner(`📖 Every find found! Moss sends ${TUNING.findSetSparkles} ✨ and a thank-you.`), 1800);
+    }
   }
 
   private useProp(t: Extract<Target, { kind: 'prop' }>) {

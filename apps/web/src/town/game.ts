@@ -24,6 +24,7 @@ import { openMap } from './travel/map-sheet';
 import { stickTarget } from './play/stick';
 import { Joystick } from './ui/joystick';
 import { TownLife } from './life/town-life';
+import { openCollection } from './bloom/collection-sheet';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
 import { PuffActions } from './play/actions';
@@ -423,6 +424,7 @@ export class TownGame {
       openFriends: () => this.talk.openFriends(),
       openNames: () => this.openNames(),
       openOutfits: () => openOutfits(this.view, this.content, this.state, () => void this.save(false)),
+      openCollection: () => openCollection(this.view, this.content, this.state),
       townLine: `🌸 Town Bloom: ${this.content.line(`bloom.${this.state.bloom}`)} · ${this.state.finds.found.length} of ${this.content.pack.finds?.length ?? 0} finds`,
       skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null,
       restore: this.unlocker.gate ? () => void this.unlocker.restore() : null,

@@ -76,6 +76,7 @@
   "walkTilesPerSecond": 5,
   "walkTilesPerSecondTired": 3.5,
   "mapTravelMinutesPerHop": 5,
+  "findSetSparkles": 200,
   "zoomTiles": [
     7,
     16

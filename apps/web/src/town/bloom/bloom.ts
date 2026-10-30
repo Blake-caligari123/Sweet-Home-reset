@@ -39,10 +39,14 @@ export function bloomUp(s: TownState, restored: number) {
 }
 
 /** A little treasure that turns up while tidying in these places. */
-export interface FindDef { id: string; name: string; areas: string[] }
+export interface FindDef { id: string; name: string; areas: string[];
+  /** Who it belongs to: found, it can be shown to them (bloom/finds.ts). */
+  owner?: string }
 
 /** Cleans counted per place, and what's been found (for the collection). */
-export interface Finds { cleans: Record<string, number>; found: string[] }
+export interface Finds { cleans: Record<string, number>; found: string[];
+  /** Finds already shown to their owner. */
+  shown?: string[] }
 
 /** A clean in an area: every `every`th turns up that place's next unfound treasure (or nothing). */
 export function nextFind(s: Finds, area: string, finds: FindDef[], every: number) {
