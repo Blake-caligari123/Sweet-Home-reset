@@ -75,6 +75,8 @@ export interface TownSave {
   puffDay?: PuffDay;
   /** The town fund, and the town needs met (needs/). */
   fund?: number; needsMet?: string[];
+  /** Thank-you notes from each neighbour. */
+  tokens?: Record<string, number>;
   /** The cloud save's version this device last matched (sync asks the player when it differs). */
   cloudVersion?: number;
   /** Cleans counted per place, and the surprise finds collected. */

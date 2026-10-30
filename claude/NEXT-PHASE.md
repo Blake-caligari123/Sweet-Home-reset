@@ -330,4 +330,10 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - The first time Puff goes somewhere outdoors each day, the pet sniffs out a present for the bag. That's up to 3 places a day (`petFindsPerDay`).
   - Each kind finds its own things: the cat twigs and shells, the pup pebbles and twigs, the hedgehoglet mushrooms and berries.
   - What it finds is fixed by day and place, so it never feels like a slot machine. Today's places are saved with the pet.
+- **6b.6 Thank-you notes, the neighbour tokens (30 Oct):** `neighbours/tokens.ts`.
+  - Each job done for a neighbour earns one of their thank-you notes (💌): "Job done! +20 ✨ +1 💌 from Hazel".
+  - Puff trades them in that neighbour's chat box for something special (pack `thanks`, fixed prices):
+    - Hazel: bread, a lantern. Bea: honey, a flower pot, rare seeds. Pip: fences, a toy boat.
+    - Otto: soap, stone path. Moss: tea, a book. Mabel: silk thread, an old map. Sorrel: berries, strawberry seeds.
+  - The Friends page shows how many notes each friend has given.
 

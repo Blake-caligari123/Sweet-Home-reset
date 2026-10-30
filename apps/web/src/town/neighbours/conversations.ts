@@ -17,6 +17,7 @@ import { canGift, chat, give } from './friends';
 import { doneFlag, eventDue, stepsOf, type HeartEvent } from './heart-events';
 import { scheduleFor, wakesAt, type NeighbourDef, type Neighbours } from './neighbours';
 import { heartsOf, pickLine, RECENT } from './talk';
+import { tokensOf } from './tokens';
 
 const OPPOSITE: Record<Dir, Dir> = { down: 'up', up: 'down', left: 'right', right: 'left' };
 /** Moods in kind words for the Friends page (never blaming Puff). */
@@ -229,7 +230,8 @@ export class Conversations {
           h('p', { class: 'hearts', 'aria-label': `${hearts} of 10 hearts` }, '♥'.repeat(hearts) + '♡'.repeat(10 - hearts)),
           hearts < 10 ? h('div', { class: 'heart-bar', 'aria-hidden': 'true' }, h('span', { style: { width: `${((f.points % per) / per) * 100}%` } })) : '',
           h('p', { class: 'muted' }, `${f.talkedDay === day ? 'Chatted today ✓' : 'Say hello today'} · ${f.giftDay === day ? 'Gift given ✓' : 'Gift: any time today'}`),
-          (f.known ?? []).length ? h('p', { class: 'muted' }, `Likes: ${(f.known ?? []).map((i) => content.itemName(i)).join(', ')}`) : '')));
+          (f.known ?? []).length ? h('p', { class: 'muted' }, `Likes: ${(f.known ?? []).map((i) => content.itemName(i)).join(', ')}`) : '',
+          tokensOf(state, d.id) ? h('p', { class: 'muted' }, `💌 ${tokensOf(state, d.id)} thank-you note${tokensOf(state, d.id) === 1 ? '' : 's'}: trade them with ${d.name}`) : '')));
     }
     const more = content.neighbours.size - met.length;
     const body: Node[] = met.length ? [list] : [h('p', {}, `${this.host.state.names.puff} hasn't met anyone yet. Say hello around town!`)];

@@ -4917,6 +4917,18 @@
      "y": 10,
      "dir": "down"
     }
+   ],
+   "thanks": [
+    {
+     "item": "bread",
+     "qty": 2,
+     "tokens": 2
+    },
+    {
+     "item": "lantern",
+     "qty": 1,
+     "tokens": 3
+    }
    ]
   },
   {
@@ -5037,6 +5049,23 @@
      "y": 7,
      "dir": "down"
     }
+   ],
+   "thanks": [
+    {
+     "item": "honey",
+     "qty": 1,
+     "tokens": 2
+    },
+    {
+     "item": "flower_pot",
+     "qty": 1,
+     "tokens": 2
+    },
+    {
+     "item": "rare_seeds",
+     "qty": 1,
+     "tokens": 4
+    }
    ]
   },
   {
@@ -5135,6 +5164,18 @@
      "y": 13,
      "dir": "down"
     }
+   ],
+   "thanks": [
+    {
+     "item": "fence_post",
+     "qty": 4,
+     "tokens": 2
+    },
+    {
+     "item": "toy_boat",
+     "qty": 1,
+     "tokens": 3
+    }
    ]
   },
   {
@@ -5231,6 +5272,18 @@
      "x": 20,
      "y": 7,
      "dir": "down"
+    }
+   ],
+   "thanks": [
+    {
+     "item": "soap",
+     "qty": 2,
+     "tokens": 2
+    },
+    {
+     "item": "stone_path",
+     "qty": 6,
+     "tokens": 3
     }
    ]
   },
@@ -5330,6 +5383,18 @@
      "y": 12,
      "dir": "down"
     }
+   ],
+   "thanks": [
+    {
+     "item": "tea",
+     "qty": 2,
+     "tokens": 2
+    },
+    {
+     "item": "book",
+     "qty": 1,
+     "tokens": 3
+    }
    ]
   },
   {
@@ -5400,6 +5465,18 @@
      "x": 22,
      "y": 9,
      "dir": "down"
+    }
+   ],
+   "thanks": [
+    {
+     "item": "silk_thread",
+     "qty": 2,
+     "tokens": 2
+    },
+    {
+     "item": "old_map",
+     "qty": 1,
+     "tokens": 4
     }
    ]
   },
@@ -5496,6 +5573,18 @@
      "x": 13,
      "y": 9,
      "dir": "down"
+    }
+   ],
+   "thanks": [
+    {
+     "item": "berries",
+     "qty": 3,
+     "tokens": 2
+    },
+    {
+     "item": "strawberry_seeds",
+     "qty": 2,
+     "tokens": 2
     }
    ]
   }

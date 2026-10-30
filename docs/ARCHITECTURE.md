@@ -82,7 +82,7 @@ town/
                 stall, the timer, the cheer and the prize)
   neighbours/   neighbours.ts (routines, walking), talk.ts (line choice), friends.ts (points,
                 gifts), heart-events.ts (scene rules), conversations.ts (the talk/gift/scene/
-                Friends UI)
+                Friends UI), tokens.ts (thank-you notes and what each neighbour trades for them)
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
   connect.ts    builds the unlock's store and the optional account from what this build is set up for
   life/         mood.ts (how a neighbour feels today), memory.ts (what they remember Puff did), dramas.ts (falling-outs

@@ -1,6 +1,7 @@
 import type { Content } from './data/content';
 import { CardHunt } from './craft/cards';
 import { Helpers } from './life/helpers';
+import { tradeButtons } from './neighbours/tokens';
 import type { TownLife } from './life/town-life';
 import { openNeeds } from './needs/needs-sheet';
 import { TownNeeds } from './needs/town-needs';
@@ -24,7 +25,7 @@ export interface SystemsHost {
 /**
  * The Phase 6 systems that listen to play and speak in the morning: skills, Puff's mood, tidy
  * chains, recipe cards, town needs and neighbours helping. They hear what Puff does through the
- * guide; game.ts only asks them for the morning's news and opens their sheets.
+ * guide; game.ts only asks them for the morning's news, neighbours' trades and opens their sheets.
  */
 export class TownSystems {
   readonly moods: PuffMoods;
@@ -45,6 +46,9 @@ export class TownSystems {
 
   /** After the night: town needs met, then who helped tidy. */
   morningNews() { return [...this.needs.morning(), ...this.helpers.morning()]; }
+
+  /** What this neighbour trades for their thank-you notes, as chat-box buttons. */
+  tradesFor(id: string) { const { state, content, view } = this.host; return tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id); }
 
   openSkills() { openSkills(this.host.view, this.host.state, this.moods.line()); }
   openNeeds() { openNeeds(this.host.view, this.host.state, this.needs.known()); }
