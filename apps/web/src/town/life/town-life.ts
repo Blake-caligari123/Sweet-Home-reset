@@ -37,6 +37,13 @@ export class TownLife {
     });
   }
 
+  /** How everyone else in town feels, for what `id` thinks of them. */
+  others(id: string) {
+    const out: Record<string, Mood> = {};
+    for (const n of this.host.content.pack.neighbours ?? []) if (n.id !== id && this.host.neighbours.arrived(n.id)) out[n.id] = this.mood(n.id);
+    return out;
+  }
+
   /** What they remember (their own and the town's), newest first. */
   recalls(id: string) { return recalls(this.host.state.memories, id, this.day); }
 

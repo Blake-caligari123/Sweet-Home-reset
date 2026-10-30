@@ -270,4 +270,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Each change has its own line for where they are.
   - "Happy" here leaves out who's nearby, so plans don't flip as people walk about. Tidying someone's home and a chat is usually enough.
   - A visit wins over a change at the same time. The pack check validates changes.
+- **6a.7 Opinions and more dramas (30 Oct):**
+  - **Opinions:** a line can be about another neighbour (`about`, optionally `aboutMood`). It's said only once they're in town, and in that mood: Hazel notices when Pip looks glum, and Bea when Hazel's baking happily. Opinions rank just above the speaker's own mood.
+  - **The town:** lines with `bloomMin` are opinions of the town once Town Bloom reaches that level.
+  - Every neighbour has at least one of each. The pack check makes sure `about` names a real neighbour.
+  - **Two more dramas:**
+    - Hazel and Bea fall out over a borrowed honey jar (day 16).
+    - Otto and Mabel fall out over a splashed sea chart (day 48, after Mabel arrives).
+  - Each drama has its brewing lines, the talks that mend it, a banner, and a line for afterwards. A test makes sure no drama starts before both neighbours have arrived.
 

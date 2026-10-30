@@ -5670,6 +5670,29 @@
      "happy",
      "glowing"
     ]
+   },
+   {
+    "id": "hazel.about_bea.1",
+    "about": "bea",
+    "aboutMood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "hazel.about_pip.1",
+    "about": "pip",
+    "aboutMood": [
+     "low"
+    ]
+   },
+   {
+    "id": "hazel.town.1",
+    "bloomMin": 3
+   },
+   {
+    "id": "hazel.drama.jar",
+    "drama": "jar"
    }
   ],
   "bea": [
@@ -5879,6 +5902,33 @@
      "glowing"
     ],
     "time": "day"
+   },
+   {
+    "id": "bea.about_hazel.1",
+    "about": "hazel",
+    "aboutMood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "bea.about_otto.1",
+    "about": "otto",
+    "aboutMood": [
+     "low"
+    ]
+   },
+   {
+    "id": "bea.town.1",
+    "bloomMin": 3
+   },
+   {
+    "id": "bea.drama.jar",
+    "drama": "jar"
+   },
+   {
+    "id": "bea.jar_mended.1",
+    "flag": "jar_mended"
    }
   ],
   "pip": [
@@ -6076,6 +6126,22 @@
      "happy",
      "glowing"
     ]
+   },
+   {
+    "id": "pip.about_moss.1",
+    "about": "moss",
+    "aboutMood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "pip.about_sorrel.1",
+    "about": "sorrel"
+   },
+   {
+    "id": "pip.town.1",
+    "bloomMin": 3
    }
   ],
   "otto": [
@@ -6267,6 +6333,29 @@
     "weather": "rainy",
     "area": "riverside",
     "time": "day"
+   },
+   {
+    "id": "otto.about_mabel.1",
+    "about": "mabel",
+    "aboutMood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "otto.about_bea.1",
+    "about": "bea",
+    "aboutMood": [
+     "low"
+    ]
+   },
+   {
+    "id": "otto.town.1",
+    "bloomMin": 4
+   },
+   {
+    "id": "otto.drama.splash",
+    "drama": "splash"
    }
   ],
   "moss": [
@@ -6464,6 +6553,30 @@
      "happy",
      "glowing"
     ]
+   },
+   {
+    "id": "moss.about_pip.1",
+    "about": "pip",
+    "aboutMood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "moss.about_hazel.1",
+    "about": "hazel",
+    "aboutMood": [
+     "low"
+    ]
+   },
+   {
+    "id": "moss.town.1",
+    "bloomMin": 3
+   },
+   {
+    "id": "moss.noise_mended.1",
+    "flag": "noise_mended",
+    "time": "day"
    }
   ],
   "mabel": [
@@ -6649,6 +6762,33 @@
      "glowing"
     ],
     "time": "day"
+   },
+   {
+    "id": "mabel.about_sorrel.1",
+    "about": "sorrel",
+    "aboutMood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "mabel.about_moss.1",
+    "about": "moss",
+    "aboutMood": [
+     "low"
+    ]
+   },
+   {
+    "id": "mabel.town.1",
+    "bloomMin": 4
+   },
+   {
+    "id": "mabel.drama.splash",
+    "drama": "splash"
+   },
+   {
+    "id": "mabel.splash_mended.1",
+    "flag": "splash_mended"
    }
   ],
   "sorrel": [
@@ -6833,6 +6973,25 @@
     "id": "sorrel.shelter.1",
     "weather": "rainy",
     "area": "bakery"
+   },
+   {
+    "id": "sorrel.about_hazel.1",
+    "about": "hazel",
+    "aboutMood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "sorrel.about_pip.1",
+    "about": "pip",
+    "aboutMood": [
+     "low"
+    ]
+   },
+   {
+    "id": "sorrel.town.1",
+    "bloomMin": 3
    }
   ]
  },
@@ -7649,7 +7808,43 @@
    "otto.rain_out.1": "Rain on the river! Best day for a paddle, isn't it?",
    "moss.stroll.1": "Reading in the square this evening. It just feels right.",
    "mabel.early.1": "Up early! Feeling too sparky to stay at the beach.",
-   "sorrel.shelter.1": "Hiding from the rain at Hazel's. Warm, and smells of bread."
+   "sorrel.shelter.1": "Hiding from the rain at Hazel's. Warm, and smells of bread.",
+   "hazel.about_bea.1": "Bea's humming again. Means the bees are happy too.",
+   "hazel.about_pip.1": "Pip looked a bit glum. A warm bun might help. Or a chat!",
+   "hazel.town.1": "Folk are smiling in the street again. You did that, petal.",
+   "bea.about_hazel.1": "Hazel's in a baking mood! You can smell it from here.",
+   "bea.about_otto.1": "Otto's been quiet lately. Maybe pop by the bathhouse?",
+   "bea.town.1": "My flowers like the town better now. So do I!",
+   "pip.about_moss.1": "Moss smiled at me today! Well, I think it was a smile.",
+   "pip.about_sorrel.1": "Sorrel asked how my gears work. Nobody ever asks!",
+   "pip.town.1": "The town's ticking nicely now. Like a well-oiled clock!",
+   "otto.about_mabel.1": "Mabel told me a sea story today. Best one yet!",
+   "otto.about_bea.1": "Bea seems a bit droopy. Flowers always cheer Bea up.",
+   "otto.town.1": "Whole town feels like a warm bath these days. Ahh.",
+   "moss.about_pip.1": "... Pip's whistling through the wall. It's... nice.",
+   "moss.about_hazel.1": "... Hazel seemed tired. A tidy kitchen might help.",
+   "moss.town.1": "... {town} reads like a happier story now.",
+   "mabel.about_sorrel.1": "Hoo! Young Sorrel is all bounce today. Lovely to see.",
+   "mabel.about_moss.1": "Moss has gone extra quiet. Hoo. Worth a gentle hello.",
+   "mabel.town.1": "Hoo, {town} hasn't looked this bright in years.",
+   "sorrel.about_hazel.1": "Hazel gave me a free bun! Is everyone here this kind?",
+   "sorrel.about_pip.1": "Pip seems down. Shall we cheer Pip up together?",
+   "sorrel.town.1": "This town gets brighter every time I look!",
+   "drama.jar.1": "My gran's honey jar! Hazel borrowed it weeks ago.",
+   "drama.jar.2": "The jar! It's on my shelf. I'll fill it with buns for Bea!",
+   "drama.jar.3": "A jar full of buns? Oh, I can't stay cross at that!",
+   "drama.jar.mended": "🤝 Hazel and Bea are friends again!",
+   "drama.splash.1": "Hoo. My best sea chart got soaked. Not a word of sorry.",
+   "drama.splash.2": "Mabel's chart? Oh no. I'll dry it on the warm bath stones!",
+   "drama.splash.3": "Dried and pressed? Hoo, it's better than before. Thanks.",
+   "drama.splash.mended": "🤝 Otto and Mabel are friends again!",
+   "hazel.drama.jar": "Bea's been short with me. Was it something I did? Oh dear.",
+   "bea.drama.jar": "Hazel still has my best honey jar. Not that I mind. Much.",
+   "otto.drama.splash": "Mabel won't look at me. I only splashed a little!",
+   "mabel.drama.splash": "Hoo. Some folk don't watch where they splash.",
+   "bea.jar_mended.1": "Hazel filled my jar with buns! Best trade I ever made.",
+   "mabel.splash_mended.1": "Otto and I fish together now. Well, Otto fishes. I watch.",
+   "moss.noise_mended.1": "... Quiet afternoons now. Pip kept the promise."
   }
  },
  "heartEvents": [
@@ -10853,6 +11048,54 @@
    ],
    "mendedFlag": "noise_mended",
    "banner": "drama.noise.mended"
+  },
+  {
+   "id": "jar",
+   "between": [
+    "hazel",
+    "bea"
+   ],
+   "fromDay": 16,
+   "steps": [
+    {
+     "talkTo": "bea",
+     "line": "drama.jar.1"
+    },
+    {
+     "talkTo": "hazel",
+     "line": "drama.jar.2"
+    },
+    {
+     "talkTo": "bea",
+     "line": "drama.jar.3"
+    }
+   ],
+   "mendedFlag": "jar_mended",
+   "banner": "drama.jar.mended"
+  },
+  {
+   "id": "splash",
+   "between": [
+    "otto",
+    "mabel"
+   ],
+   "fromDay": 48,
+   "steps": [
+    {
+     "talkTo": "mabel",
+     "line": "drama.splash.1"
+    },
+    {
+     "talkTo": "otto",
+     "line": "drama.splash.2"
+    },
+    {
+     "talkTo": "mabel",
+     "line": "drama.splash.3"
+    }
+   ],
+   "mendedFlag": "splash_mended",
+   "banner": "drama.splash.mended"
   }
  ]
 }

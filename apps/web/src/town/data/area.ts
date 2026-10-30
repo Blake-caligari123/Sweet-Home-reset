@@ -165,7 +165,10 @@ export function validateTownPack(input: unknown): TownPack {
   const text = p.strings?.['en-AU'] ?? {};
   for (const [id, lines] of Object.entries(p.dialogue ?? {})) {
     if (!who.has(id)) throw new Error(`dialogue for unknown neighbour ${id}`);
-    for (const l of lines) if (!l.id || typeof text[l.id] !== 'string') throw new Error(`dialogue ${id}: no text for ${l.id}`);
+    for (const l of lines) {
+      if (!l.id || typeof text[l.id] !== 'string') throw new Error(`dialogue ${id}: no text for ${l.id}`);
+      if (l.about && (l.about === id || !who.has(l.about))) throw new Error(`dialogue ${l.id}: about an unknown neighbour`);
+    }
   }
   const built = new Set((p.buildings ?? []).map((b) => b.id));
   for (const b of p.buildings ?? []) if (!b.id || !b.name || !isNum(b.nights) || b.nights < 1 || !isNum(b.cost?.sparkles) || !b.prop?.type) throw new Error(`building ${b.id}: shape`);
