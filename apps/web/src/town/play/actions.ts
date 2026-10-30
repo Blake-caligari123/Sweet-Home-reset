@@ -26,6 +26,7 @@ import type { World } from '../world/world';
 import type { Clock } from './clock';
 import { matchingAround, TOOL_FOR, type AreaMess, type MessType, type ToolId } from './mess';
 import type { OnboardingGuide } from './onboarding-guide';
+import type { PuffMood } from '../skills/puff-mood';
 import { available, take } from './pickups';
 import type { Puff } from './puff';
 import type { Target } from './targets';
@@ -39,6 +40,8 @@ export interface ActionsHost {
   here(): { id: string; area: Area; mess: AreaMess; nav: NavGrid };
   /** The tool in Puff's paws. */
   selected(): ToolId;
+  /** Puff's mood: happy swings quicker, curious finds more. */
+  mood(): PuffMood;
   /** Swap tools (auto-tool and the watering can do this). */
   select(tool: ToolId): void;
   travel(to: string, x: number, y: number): void;
@@ -130,7 +133,7 @@ export class PuffActions {
     const { puff, view } = this.host;
     puff.swing = t;
     puff.pose = 'swing';
-    puff.swingMs = SWING_MS;
+    puff.swingMs = this.host.mood() === 'happy' ? Math.round(SWING_MS * TUNING.puffMood.happySwingShare) : SWING_MS;
     view.feedback(tool === 'hands' ? 'tap' : 'scrub', 'light');
     this.host.refreshHud();
   }
@@ -222,10 +225,15 @@ export class PuffActions {
     return result;
   }
 
+  private findEvery() {
+    const every = TUNING.findEveryCleans;
+    return this.host.mood() === 'curious' ? Math.max(1, Math.round(every * TUNING.puffMood.curiousFindShare)) : every;
+  }
+
   /** Every few cleans in a place, a little treasure turns up for Moss's collection. */
   private luckyFind(area: string, x: number, y: number) {
     const { state, view, content, world } = this.host;
-    const found = nextFind(state.finds, area, content.pack.finds ?? [], TUNING.findEveryCleans);
+    const found = nextFind(state.finds, area, content.pack.finds ?? [], this.findEvery());
     const def = found && content.pack.finds?.find((f) => f.id === found);
     if (!def) return;
     world.sparkleBurst(x, y, 12);

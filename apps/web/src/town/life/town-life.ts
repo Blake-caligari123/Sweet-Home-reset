@@ -21,7 +21,8 @@ export class TownLife {
 
   private get day() { return this.host.clock.state.day; }
 
-  mood(id: string): Mood {
+  /** How they feel. `steady` leaves out who happens to be nearby, so plans made from it don't flip as people walk about. */
+  mood(id: string, steady = false): Mood {
     const { state, content, clock, neighbours } = this.host;
     const def = content.neighbour(id);
     const here = neighbours.states.get(id)?.area;
@@ -30,7 +31,7 @@ export class TownLife {
       homeTidy: def?.home ? this.host.tidiness(def.home) : 0.5,
       talkedToday: state.friendOf(id).talkedDay === this.day,
       gift: giftToday === 'gift_loved' ? 'loved' : giftToday === 'gift_liked' ? 'liked' : null,
-      friendNear: !!here && neighbours.visible(here).some((n) => n.id !== id),
+      friendNear: !steady && !!here && neighbours.visible(here).some((n) => n.id !== id),
       likesWeather: def?.weather === clock.weather,
       drama: this.brewing(id).length > 0
     });

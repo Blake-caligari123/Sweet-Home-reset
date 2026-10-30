@@ -4875,7 +4875,18 @@
     }
    ],
    "home": "bakery",
-   "weather": "sunny"
+   "weather": "sunny",
+   "changes": [
+    {
+     "when": "happy",
+     "at": 1020,
+     "until": 1140,
+     "area": "square",
+     "x": 11,
+     "y": 10,
+     "dir": "down"
+    }
+   ]
   },
   {
    "id": "bea",
@@ -4975,7 +4986,27 @@
     }
    ],
    "home": "bea_shop",
-   "weather": "sunny"
+   "weather": "sunny",
+   "changes": [
+    {
+     "when": "rain",
+     "at": 1080,
+     "until": 1200,
+     "area": "bea_shop",
+     "x": 12,
+     "y": 8,
+     "dir": "down"
+    },
+    {
+     "when": "happy",
+     "at": 780,
+     "until": 840,
+     "area": "bakery",
+     "x": 13,
+     "y": 7,
+     "dir": "down"
+    }
+   ]
   },
   {
    "id": "pip",
@@ -5062,7 +5093,18 @@
     }
    ],
    "home": "pip_workshop",
-   "weather": "sunny"
+   "weather": "sunny",
+   "changes": [
+    {
+     "when": "happy",
+     "at": 960,
+     "until": 1080,
+     "area": "square",
+     "x": 11,
+     "y": 13,
+     "dir": "down"
+    }
+   ]
   },
   {
    "id": "otto",
@@ -5148,7 +5190,18 @@
     }
    ],
    "home": "bathhouse",
-   "weather": "rainy"
+   "weather": "rainy",
+   "changes": [
+    {
+     "when": "rain",
+     "at": 600,
+     "until": 960,
+     "area": "riverside",
+     "x": 20,
+     "y": 7,
+     "dir": "down"
+    }
+   ]
   },
   {
    "id": "moss",
@@ -5235,7 +5288,18 @@
     }
    ],
    "home": "library",
-   "weather": "rainy"
+   "weather": "rainy",
+   "changes": [
+    {
+     "when": "happy",
+     "at": 1020,
+     "until": 1140,
+     "area": "square",
+     "x": 10,
+     "y": 12,
+     "dir": "down"
+    }
+   ]
   },
   {
    "id": "mabel",
@@ -5295,7 +5359,18 @@
      "dir": "down"
     }
    ],
-   "weather": "rainy"
+   "weather": "rainy",
+   "changes": [
+    {
+     "when": "happy",
+     "at": 900,
+     "until": 1080,
+     "area": "square",
+     "x": 22,
+     "y": 9,
+     "dir": "down"
+    }
+   ]
   },
   {
    "id": "sorrel",
@@ -5380,7 +5455,18 @@
      "dir": "down"
     }
    ],
-   "weather": "sunny"
+   "weather": "sunny",
+   "changes": [
+    {
+     "when": "rain",
+     "at": 1020,
+     "until": 1260,
+     "area": "bakery",
+     "x": 13,
+     "y": 9,
+     "dir": "down"
+    }
+   ]
   }
  ],
  "dialogue": {
@@ -5576,6 +5662,14 @@
     "id": "hazel.remember.square",
     "remembers": "restored_square",
     "once": true
+   },
+   {
+    "id": "hazel.stroll.1",
+    "area": "square",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
    }
   ],
   "bea": [
@@ -5770,6 +5864,21 @@
     "id": "bea.remember.square",
     "remembers": "restored_square",
     "once": true
+   },
+   {
+    "id": "bea.rain_in.1",
+    "weather": "rainy",
+    "area": "bea_shop",
+    "time": "evening"
+   },
+   {
+    "id": "bea.lunch.1",
+    "area": "bakery",
+    "mood": [
+     "happy",
+     "glowing"
+    ],
+    "time": "day"
    }
   ],
   "pip": [
@@ -5959,6 +6068,14 @@
    {
     "id": "pip.drama.noise",
     "drama": "noise"
+   },
+   {
+    "id": "pip.outside.1",
+    "area": "square",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
    }
   ],
   "otto": [
@@ -6144,6 +6261,12 @@
     "id": "otto.remember.home",
     "remembers": "tidied_home",
     "once": true
+   },
+   {
+    "id": "otto.rain_out.1",
+    "weather": "rainy",
+    "area": "riverside",
+    "time": "day"
    }
   ],
   "moss": [
@@ -6333,6 +6456,14 @@
    {
     "id": "moss.drama.noise",
     "drama": "noise"
+   },
+   {
+    "id": "moss.stroll.1",
+    "area": "square",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
    }
   ],
   "mabel": [
@@ -6509,6 +6640,15 @@
     "mood": [
      "low"
     ]
+   },
+   {
+    "id": "mabel.early.1",
+    "area": "square",
+    "mood": [
+     "happy",
+     "glowing"
+    ],
+    "time": "day"
    }
   ],
   "sorrel": [
@@ -6688,6 +6828,11 @@
     "mood": [
      "low"
     ]
+   },
+   {
+    "id": "sorrel.shelter.1",
+    "weather": "rainy",
+    "area": "bakery"
    }
   ]
  },
@@ -7496,7 +7641,15 @@
    "find.sea_glass.about": "Smooth green glass, worn soft by the water.",
    "find.sea_glass.owner": "Sea glass! I'll put it on my map, right where you found it.",
    "find.blue_feather.about": "A long blue feather, soft as a whisper.",
-   "find.blue_feather.owner": "Hoo! One of mine, from a younger, bluer year."
+   "find.blue_feather.owner": "Hoo! One of mine, from a younger, bluer year.",
+   "hazel.stroll.1": "Such a lovely day for a stroll, I had to get out!",
+   "bea.rain_in.1": "No river walk in this rain. Tea and seed packets instead.",
+   "bea.lunch.1": "Treating myself to lunch at Hazel's. I'm in a good mood!",
+   "pip.outside.1": "Tinkering in the fresh air! Ideas come quicker out here.",
+   "otto.rain_out.1": "Rain on the river! Best day for a paddle, isn't it?",
+   "moss.stroll.1": "Reading in the square this evening. It just feels right.",
+   "mabel.early.1": "Up early! Feeling too sparky to stay at the beach.",
+   "sorrel.shelter.1": "Hiding from the rain at Hazel's. Warm, and smells of bread."
   }
  },
  "heartEvents": [
