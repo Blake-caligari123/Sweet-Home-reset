@@ -1,0 +1,25 @@
+/* Pixel-style menus (NEXT-PHASE §5.12, Blake: pixel menus to match the world). Town only:
+   square corners, a notched corner pixel on framed boxes (as pixel art rounds a corner), and
+   depth from a thicker bottom edge rather than a soft shadow (the notch would clip a shadow). */
+*, *::before, *::after { border-radius: 0 !important; }
+
+.btn, .icon-btn, .panel, .dialogue, .fluff, .tracker, .clock-line, .context, .toolbar, .tool.selected,
+.bubble, .toast, .banner, .meter-box, .switch, .name-input, .dash-timer, .note, .stat {
+  --n: 3px;
+  clip-path: polygon(var(--n) 0, calc(100% - var(--n)) 0, calc(100% - var(--n)) var(--n), 100% var(--n), 100% calc(100% - var(--n)),
+    calc(100% - var(--n)) calc(100% - var(--n)), calc(100% - var(--n)) 100%, var(--n) 100%, var(--n) calc(100% - var(--n)),
+    0 calc(100% - var(--n)), 0 var(--n), var(--n) var(--n));
+}
+.note, .stat { --n: 2px; }
+
+/* Raised things: the drop becomes part of the box. */
+.btn, .icon-btn, .panel { box-shadow: none; border-bottom-width: 7px; }
+.tool.selected { box-shadow: none; border-bottom-width: 6px; }
+.btn:active, .icon-btn:active { box-shadow: none; border-bottom-width: 4px; }
+.btn[disabled] { box-shadow: none; }
+
+/* Bubble tails stay square pixels too. */
+.bubble { clip-path: none; }
+
+/* Crisp icons and pictures, never smoothed. */
+img, canvas { image-rendering: pixelated; }

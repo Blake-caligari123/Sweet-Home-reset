@@ -57,7 +57,8 @@ town/
                 sprites.ts, backgrounds.ts (paintings),
                 bake.ts, ambience.ts, nav.ts (free movement), pathfind.ts, town-areas.ts (every
                 area with its mess and walking grid, rebuilt as things get built), grumble-layer.ts, pet-layer.ts,
-                outfit-layer.ts (the piece Puff is wearing)
+                outfit-layer.ts (the piece Puff is wearing), lighting.ts (the shade through the day),
+                fronts.ts (tall things standing among the actors, so Puff walks behind them)
     art/          code-drawn placeholders: texture.ts (tile size, noise, dither), ground.ts,
                   props.ts, built-props.ts (the plans board, builds, upgrades, decor), items.ts (mess, item icons,
                   crops), characters.ts (Puff, neighbours), grumbles.ts, pets.ts, outfits.ts
@@ -113,7 +114,7 @@ town/
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
                 the tool bar), pointer-input.ts (fingers on the world, pinch zoom), joystick.ts (the on-screen stick), keyboard.ts, hud-live.ts (clock,
                 Fluff, prompt and bubble each frame), bag-sheet.ts,
-                naming-sheet.ts, pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css
+                naming-sheet.ts, pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css, pixel.css (pixel-style menus)
 ```
 
 ### How the pieces talk

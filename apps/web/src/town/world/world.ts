@@ -7,7 +7,9 @@ import { drawNeighbour24, drawPuff24, drawToolMini, type Dir } from './art/chara
 import { drawCrop, drawItemIcon, drawMess } from './art/items';
 import { T } from './art/texture';
 import { AliveLayer, daylight } from './alive';
-import { Ambience, drawTapRing, vignetteTexture } from './ambience';
+import { Ambience, drawTapRing, glowTexture, vignetteTexture } from './ambience';
+import { Fronts } from './fronts';
+import { brightness, skyAt } from './lighting';
 import type { Area } from '../data/area';
 import { bakeArea } from './bake';
 import { seasonal } from './art/seasons';
@@ -78,7 +80,6 @@ export interface PuffView { x: number; y: number; dir: Dir; pose: 'walk' | 'idle
 export interface NeighbourView { id: string; species: string; colours: { fur: string; belly: string; accent: string }; x: number; y: number; dir: Dir; pose: 'walk' | 'idle' | 'sleep' }
 
 /** Midday light outdoors per season (spring is the plain day). */
-const SEASON_LIGHT: Record<string, [string, number]> = { Summer: [P.butterLight, 0.1], Autumn: [P.peach, 0.12], Winter: [P.blueLight, 0.16] };
 
 export class World {
   readonly root = new Container();
@@ -95,6 +96,9 @@ export class World {
   readonly actors = new Container();
   readonly particles = new Particles();
   private tint = new Graphics();
+  /** A soft light around Puff after dark. */
+  private puffGlow = new Sprite(glowTexture());
+  private fronts = new Fronts(this.actors);
   private marker = new Graphics();
   private highlight = new Graphics();
   private vignette = new Sprite(vignetteTexture());
@@ -127,7 +131,9 @@ export class World {
     this.puff.anchor.set(0.5, 1);
     this.toolSprite.anchor.set(0.5);
     for (const c of [this.base, this.drained, this.messLayer, this.cropLayer, this.actors, this.particles.container, this.tint, this.marker, this.highlight, this.vignette]) c.eventMode = 'none';
-    this.stage.addChild(this.base, this.drained, this.cropLayer, this.messLayer, this.pickupLayer, this.alive.under, this.highlight, this.marker, this.actors, this.particles.container, this.ambience.container, this.tint, this.ambience.lights, this.alive.lights);
+    this.stage.addChild(this.base, this.drained, this.cropLayer, this.messLayer, this.pickupLayer, this.alive.under, this.highlight, this.marker, this.actors, this.particles.container, this.ambience.container, this.tint, this.ambience.lights, this.alive.lights, this.puffGlow);
+    this.tint.blendMode = 'multiply';
+    this.puffGlow.blendMode = 'add'; this.puffGlow.anchor.set(0.5); this.puffGlow.width = this.puffGlow.height = 56; this.puffGlow.alpha = 0; this.puffGlow.eventMode = 'none';
     this.root.addChild(this.vignette);
     this.puffShadow.ellipse(0, 0, 7, 2.5).fill({ color: P.ink, alpha: 0.28 });
     this.actors.addChild(this.puffShadow, this.puff, this.toolSprite);
@@ -171,6 +177,8 @@ export class World {
     this.cropSprites.clear();
     this.particles.clear();
     this.ambience.load(area);
+    this.fronts.load(area, this.ambience.season);
+    this.fronts.shade((i) => this.shownColour[i]);
     this.resize();
   }
 
@@ -212,6 +220,7 @@ export class World {
   private redrawTiles(tiles: number[]) {
     for (const i of tiles) this.paintDrainTile(i, this.shownColour[i]);
     this.syncDrainedVisible();
+    this.fronts.shade((i) => this.shownColour[i]);
   }
 
   /** A fully coloured area needs no grey overlay: skip drawing that full-screen layer. */
@@ -261,15 +270,14 @@ export class World {
   /** The season and whether it's raining, for the outdoor tint and what drifts through the air. */
   setSky(season: string, rainy: boolean) { this.ambience.season = season; this.ambience.rainy = rainy; }
 
-  /** Time-of-day tint over the world only (never the HUD); outdoors, rain is cooler and each season has its light. */
+  /** Time-of-day shade over the world only (never the HUD), eased through the day (lighting.ts); Puff glows a little after dark. */
   setTint(minutes: number) {
     this.ambience.minutes = minutes;
-    const h = minutes / 60;
-    const out = this.area?.pack.kind === 'outdoor' && h >= 8 && h < 16;
-    const wet = this.ambience.rainy && this.area?.pack.kind === 'outdoor' && h < 19;
-    const [colour, alpha] = wet ? [P.blueShade, 0.24] : out && SEASON_LIGHT[this.ambience.season] ? SEASON_LIGHT[this.ambience.season] : h < 8 ? [P.butter, 0.14] : h < 16 ? [P.white, 0] : h < 19 ? [P.peach, 0.16] : h < 21 ? [P.peachShade, 0.22] : [P.blueShade, 0.34];
+    const shade = skyAt(minutes, { kind: this.area?.pack.kind ?? 'outdoor', rainy: this.ambience.rainy, season: this.ambience.season });
     this.tint.clear();
-    if (this.area && alpha > 0) this.tint.rect(0, 0, this.area.w * T, this.area.h * T).fill({ color: colour, alpha });
+    if (this.area && shade !== 0xffffff) this.tint.rect(0, 0, this.area.w * T, this.area.h * T).fill({ color: shade });
+    this.backdrop.tint = shade; // the ground beyond the edge darkens too
+    this.puffGlow.alpha = Math.max(0, 0.7 - brightness(shade)) * 0.9;
   }
 
   sparkleBurst(x: number, y: number, count = 14) {
@@ -358,6 +366,7 @@ export class World {
     }
     const px = Math.round(v.x); const py = Math.round(v.y);
     this.puff.position.set(px, py - lift);
+    this.puffGlow.position.set(px, py - 10);
     this.puff.zIndex = py;
     this.puffShadow.position.set(px, py - 1);
     this.puffShadow.zIndex = py - 1;

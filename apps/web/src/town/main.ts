@@ -14,6 +14,7 @@ import { SpriteBank } from './world/sprites';
 import { TUNING } from './data/tuning';
 import '../shared/style.css';
 import './ui/town.css';
+import './ui/pixel.css';
 
 // Milestone 1 test build of the GDD v3 town game, served at /test/ while the room game
 // keeps the main link (GDD v3 A1).
