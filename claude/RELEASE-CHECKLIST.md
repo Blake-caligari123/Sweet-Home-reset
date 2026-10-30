@@ -27,7 +27,7 @@ What's left before v1.0 (VISION §12–13, Phase 5 "done when Blake approves the
 ## 5. Store pages
 - [ ] Copy: `claude/STORE-LISTING.md`. Ratings and privacy forms: `claude/IARC-ANSWERS.md`.
 - [ ] Fill `{SUPPORT_EMAIL}`, `{SUPPORT_URL}`, `{SITE}` and `{API_DOMAIN}` in the listing and in `apps/web/public/privacy.html`, and have the policy reviewed.
-- [ ] Screenshots: `art/store/` (iPhone 6.9" and Android phone). Make fresh ones with `node tools/store-screenshots.cjs` while the dev server runs.
+- [ ] Screenshots: `art/store/iphone/` (6.9", 1320 × 2868) and `art/store/android-phone/` (1080 × 2400). Make fresh ones with `node tools/store-screenshots.cjs` while the dev server runs.
 - [ ] Check frame time on a real iPhone (the recheck's open item).
 
 ## 6. Testing rounds, then submit

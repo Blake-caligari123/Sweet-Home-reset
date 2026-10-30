@@ -360,7 +360,7 @@ One new thing every couple of days, each with one tip or letter:
   - Pause → About shows the version, PixelVortex Games and "Some art created with Grok Imagine" (the credit the Grok terms ask for, tested). A draft privacy policy is at `public/privacy.html`.
   - Anonymous play counts (day started, unlock offered and bought) are sent only in server builds, with a "Share anonymous play counts" switch in Pause, so the privacy policy is true.
   - `claude/STORE-LISTING.md` (both stores' copy), `claude/IARC-ANSWERS.md` (ratings, App Privacy, Data safety) and `claude/RELEASE-CHECKLIST.md` (every Blake-only step, in order).
-  - Store screenshots: `tools/store-screenshots.cjs` writes six scenes at iPhone 6.9" and Android sizes to `art/store/`.
+  - Store screenshots: `tools/store-screenshots.cjs` writes six scenes to `art/store/iphone/` and `art/store/android-phone/`.
   - **That's every vision stage the code can do.** What's left is in RELEASE-CHECKLIST: accounts and money, keys, deploying, the price point, TestFlight and Play testing, and Blake's approval.
 
 ## 14. Blake's answers (28 Oct 2026)
