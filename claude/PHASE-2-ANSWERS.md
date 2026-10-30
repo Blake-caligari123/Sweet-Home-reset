@@ -79,3 +79,19 @@ The 100 questions behind the next phase document. Raw answers, in Blake's words 
 | 74 | Sharing | Photo mode, before/after clips, town postcards |
 | 75 | Comparing | Friendly only (festival dash scores with friends) |
 | 76 | Community events | Yes, later |
+| 77 | Reading level | A simple-words setting for young players |
+| 78 | Learning | Short guided start, then tips the first time you meet each thing |
+| 79 | What next | A clear tracker players can hide |
+| 80 | Year length | Dealer's choice |
+| 81 | Release | Early access: release earlier as "in development" and grow it in public |
+| 82 | Places | Dealer's choice |
+| 83 | Items | 300+ |
+| 84 | Townsfolk | About 20 |
+| 85 | Real chores | Keep and grow (more kinds, a cosy log) |
+| 86 | Chore reward | Both cosmetics and a small boost |
+| 87 | Calm extras | Sit-and-watch spots, a breathing moment, a lo-fi radio |
+| 88 | Notifications | Gentle and opt-in, never guilt |
+| 89 | Early-access money | Blake asked what Claude recommends |
+| 90 | Cosmetic packs | Yes, later, never affecting play |
+| 91 | Price | Lower in early access, higher at full release |
+| 92 | Expansions | Free updates |
