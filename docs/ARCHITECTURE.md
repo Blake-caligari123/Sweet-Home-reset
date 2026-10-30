@@ -45,6 +45,8 @@ town/
   main.ts       entry: loads the pack, save, paintings and sprites, then starts TownGame
   game.ts       TownGame, the coordinator: wires the features together; areas, input, the day,
                 the main loop and the save
+  systems.ts    TownSystems: the Phase 6 systems that hear play through the guide (skills, Puff's mood, tidy
+                chains, recipe cards) and bring the morning's news (town needs, helpers)
   debug.ts      the `?debug` test hooks (`window.__town`) for browser playthroughs
   state.ts      TownState: Puff's saved progress (Sparkles, bag, Fluff, tools, flags, friends, jobs,
                 names…) and how it saves and loads
@@ -143,6 +145,7 @@ Areas, mess, neighbours, routines, dialogue, gift reactions, heart events, reque
 2. Add its content to the pack, with validation and a pack test.
 3. Write its UI as a class or function with a host interface, in the same folder.
 4. Wire it into `game.ts`: construct it, give it its host, and call it from taps, the loop or the day.
+   A system that only needs to hear what Puff does (`guide.listen`) or add morning news goes in `systems.ts` instead.
 5. Add a `?debug` hook if a browser test needs one (`installDebugHooks` in `game.ts`).
 
 ### Keeping it clean
