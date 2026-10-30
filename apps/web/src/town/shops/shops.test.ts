@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { TownState } from '../state';
-import { buy, isOpen, sell, stockToday, type ShopDef } from './shops';
+import { TUNING } from '../data/tuning';
+import { buy, isOpen, sell, sellPrice, stockToday, type ShopDef } from './shops';
 
 const shop: ShopDef = {
   id: 'general', name: 'General Store', opens: 480, closes: 1080, openFromDay: 2,
@@ -74,6 +75,12 @@ describe('shops', () => {
     expect(s.sparkles).toBe(pack.items.radish.sell);
     expect(s.bag.count('radish')).toBe(1);
     expect(sell(shop, 'sock', ctx(s))).toEqual({ ok: false, reason: 'gone' });
+  });
+
+  it('pays more as Puff\'s farming grows', () => {
+    const s = new TownState();
+    s.skills.xp.farming = TUNING.skills.levelXp[4]; // level 5
+    expect(sellPrice('radish', ctx(s))).toBe(Math.round(pack.items.radish.sell! * (1 + 4 * TUNING.skills.perks.farming)));
   });
 });
 

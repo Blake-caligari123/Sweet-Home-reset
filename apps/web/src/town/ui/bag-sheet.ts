@@ -1,6 +1,7 @@
 import { clear, h } from '../../shared/ui/dom';
 import type { Content } from '../data/content';
 import type { OnboardEvent } from '../play/onboarding';
+import { perkIn } from '../skills/skills';
 import type { TownState } from '../state';
 import { itemIcon } from './hud';
 import type { View } from './view';
@@ -18,8 +19,9 @@ export function openBag(d: { state: TownState; view: View; content: Content; onb
         const item = content.pack.items[s.id];
         if (item?.decor) { view.closeTopSheet(); d.place(s.id); return; }
         if (item?.snack) {
-          state.bag.remove(s.id); state.fluff.eat(item.snack);
-          info.textContent = `Yum! +${item.snack} Fluff.`; view.feedback('coin', 'light'); render();
+          const fluff = Math.round(item.snack * (1 + perkIn(state.skills, 'cooking')));
+          state.bag.remove(s.id); state.fluff.eat(fluff);
+          info.textContent = `Yum! +${fluff} Fluff.`; view.feedback('coin', 'light'); render();
           d.onboard({ type: 'ate', item: s.id }); d.refreshHud();
         } else info.textContent = item?.home ? `${item.name}: it lives in the ${item.home}.` : `${item?.name ?? s.id}.`;
       });

@@ -77,6 +77,19 @@
   "walkTilesPerSecondTired": 3.5,
   "mapTravelMinutesPerHop": 5,
   "findSetSparkles": 200,
+  "skills": {
+    "xp": 4,
+    "fullXpPerDay": 12,
+    "tiredXpShare": 0.25,
+    "levelXp": [0, 40, 110, 210, 350, 530, 760, 1040, 1380, 1780],
+    "perks": {
+      "tidying": 5,
+      "farming": 0.05,
+      "cooking": 0.1,
+      "crafting": 0.05,
+      "exploring": 0.03
+    }
+  },
   "zoomTiles": [
     7,
     16

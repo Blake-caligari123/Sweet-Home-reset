@@ -4,7 +4,7 @@ import { formatTime, type Clock } from '../play/clock';
 import type { TownState } from '../state';
 import { itemIcon } from '../ui/hud';
 import type { View } from '../ui/view';
-import { buy, isOpen, sell, stockToday, type ShopDef, type ShopResult, type StockEntry } from './shops';
+import { buy, isOpen, sell, sellPrice, stockToday, type ShopDef, type ShopResult, type StockEntry } from './shops';
 
 export interface ShopHost { state: TownState; view: View; content: Content; clock: Clock; refreshHud(): void; save(): void }
 
@@ -49,7 +49,7 @@ export function openShop(host: ShopHost, shop: ShopDef) {
     const selling = (shop.buys ?? []).filter((id) => state.bag.count(id) > 0);
     if (selling.length) list.append(h('p', { class: 'friend-name' }, 'We buy'));
     for (const id of selling) {
-      const btn = h('button', { class: 'btn small', type: 'button', 'aria-label': `Sell a ${content.itemName(id).toLowerCase()} for ${content.pack.items[id].sell} Sparkles` }, `Sell +${content.pack.items[id].sell} ✨`);
+      const btn = h('button', { class: 'btn small', type: 'button', 'aria-label': `Sell a ${content.itemName(id).toLowerCase()} for ${sellPrice(id, ctx())} Sparkles` }, `Sell +${sellPrice(id, ctx())} ✨`);
       btn.addEventListener('click', () => {
         view.uiTap();
         const r = sell(shop, id, ctx());

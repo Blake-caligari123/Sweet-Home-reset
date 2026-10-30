@@ -3,7 +3,7 @@ import type { Content } from '../data/content';
 import type { TownState } from '../state';
 import { itemIcon } from '../ui/hud';
 import type { View } from '../ui/view';
-import { canCraft, craft, type RecipeDef } from './recipes';
+import { canCraft, craft, sparkleCost, type RecipeDef } from './recipes';
 
 const STATIONS = {
   bench: { title: 'Pip\'s workbench', note: 'Twigs and pebbles turn up outside each morning.', none: 'craft.none' },
@@ -11,7 +11,7 @@ const STATIONS = {
 };
 
 /** Pip's workbench or Puff's kitchen: each recipe known there, what it needs (and how many Puff has), and Make. */
-export function openWorkbench(d: { state: TownState; view: View; content: Content; refreshHud(): void; save(): void }, station: NonNullable<RecipeDef['station']> = 'bench') {
+export function openWorkbench(d: { state: TownState; view: View; content: Content; refreshHud(): void; save(): void; made(station: 'bench' | 'kitchen'): void }, station: NonNullable<RecipeDef['station']> = 'bench') {
   const { state, view, content } = d;
   const where = STATIONS[station];
   const known = (content.pack.recipes ?? []).filter((r) => (r.station ?? 'bench') === station && canCraft(state, r) !== 'unknown');
@@ -19,7 +19,7 @@ export function openWorkbench(d: { state: TownState; view: View; content: Conten
   let close = () => {};
   const rows = known.map((r) => {
     const status = canCraft(state, r);
-    const needs = [...(r.cost.sparkles ? [`${r.cost.sparkles} ✨`] : []), ...Object.entries(r.cost.items ?? {}).map(([id, n]) => `${content.itemName(id)} ${Math.min(state.bag.count(id), n)}/${n}`)].join(' · ');
+    const needs = [...(r.cost.sparkles ? [`${sparkleCost(state, r)} ✨`] : []), ...Object.entries(r.cost.items ?? {}).map(([id, n]) => `${content.itemName(id)} ${Math.min(state.bag.count(id), n)}/${n}`)].join(' · ');
     const btn = h('button', { class: 'btn small primary', type: 'button' }, status === 'have' ? 'Made ✓' : status === 'full' ? 'Bag\'s full' : station === 'kitchen' ? 'Cook' : 'Make');
     if (status !== 'ok') btn.setAttribute('disabled', '');
     btn.addEventListener('click', () => {
@@ -29,7 +29,7 @@ export function openWorkbench(d: { state: TownState; view: View; content: Conten
       view.feedback('fanfare', 'success');
       view.banner(`${r.name}!`);
       view.say(station === 'kitchen' ? (content.line('cook.made') ?? '') : (content.line('craft.made') ?? '').replace('{tool}', r.name));
-      d.refreshHud(); d.save();
+      d.made(station); d.refreshHud(); d.save();
     });
     return h('div', { class: 'note' }, h('div', { class: 'shop-row' }, itemIcon('item' in r.makes ? r.makes.item : r.id), h('span', { class: 'shop-name' }, r.name)), h('p', { class: 'muted' }, needs), btn);
   });

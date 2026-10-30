@@ -1,4 +1,5 @@
 import { seasonOf } from '../play/clock';
+import { perkIn } from '../skills/skills';
 import type { TownPack } from '../data/area';
 import type { TownState } from '../state';
 
@@ -63,8 +64,14 @@ export function buy(shop: ShopDef, e: StockEntry, c: ShopContext): ShopResult {
 }
 
 /** Sell one of a crop back to the shop. */
+/** What the shop pays for one: the item's price, plus Puff's farming perk. */
+export function sellPrice(item: string, c: ShopContext) {
+  const base = c.items[item]?.sell;
+  return base ? Math.round(base * (1 + perkIn(c.state.skills, 'farming'))) : 0;
+}
+
 export function sell(shop: ShopDef, item: string, c: ShopContext): ShopResult {
-  const price = c.items[item]?.sell;
+  const price = sellPrice(item, c);
   if (!isOpen(shop, c.minutes, c.day)) return { ok: false, reason: 'closed' };
   if (!price || !(shop.buys ?? []).includes(item) || !c.state.bag.remove(item)) return { ok: false, reason: 'gone' };
   c.state.sparkles += price;

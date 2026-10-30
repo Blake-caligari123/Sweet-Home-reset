@@ -233,6 +233,7 @@ export class PuffActions {
     // It goes to the Collection (Pause), where its story and owner are, so it can always be seen again.
     view.banner(`A lucky find: ${def.name}! 📖 Added to your Collection`);
     view.say(content.line(`find.${def.id}`) ?? content.line('find.any') ?? '');
+    this.host.guide.handle({ type: 'found' });
     if (setDone(content.pack.finds ?? [], state.finds)) {
       state.sparkles += TUNING.findSetSparkles;
       window.setTimeout(() => view.banner(`📖 Every find found! Moss sends ${TUNING.findSetSparkles} ✨ and a thank-you.`), 1800);
@@ -330,7 +331,7 @@ export class PuffActions {
         if (!state.bag.canAdd(crop.crop)) { view.say('Bag\'s full!'); return; }
         state.bag.add(crop.crop);
         if (harvest(crop, def) === 'picked') state.crops.splice(state.crops.indexOf(crop), 1);
-        state.flag(`grown_${def.id}`);
+        state.flag(`grown_${def.id}`); this.host.guide.handle({ type: 'picked', crop: def.id });
         view.say(content.line(`crop.${def.id}.harvest`) ?? ''); view.feedback('coin', 'medium');
       } else if (!crop.watered) {
         if (!state.tools.can) { view.say('Seeds need water. A can would help.'); return; }

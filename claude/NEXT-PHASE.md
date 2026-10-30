@@ -246,4 +246,15 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Days are 10 real minutes (the first 12).
   - Fluff is paid when a spot is **cleared**, not on every hit: a three-hit stain costs 1 instead of 3. A charged swing pays its whole cost up front, covering every spot it clears. Grumble tidies and mining still cost per go.
   - Decided without asking: seasons stay 14 days for now. All of today's content (letters, arrivals, repairs, festivals) is timed for 14-day seasons. Stretching them before the deep slice adds content would only spread the same events thinly. They go to 28 days when there's enough to fill them.
+- **6a.4 Skills (30 Oct):** `skills/`.
+  - **Five skills**, each with ten levels: tidying, farming, cooking, crafting and exploring. Doing something earns XP in its skill (`skills` in tuning).
+  - **Variety, not grinding:** the first 12 of one kind of action in a day earn full XP, then a quarter. Entering a place counts once per place a day.
+  - **Perks for each level above 1:**
+    - Tidying: the Fluff bar holds 5 more, for good.
+    - Farming: crops sell for 5% more.
+    - Cooking: snacks give 10% more Fluff.
+    - Crafting: making costs 5% fewer Sparkles.
+    - Exploring: Puff walks 3% quicker.
+  - A banner cheers each new level. **Pause → ✨ Skills** shows each level, the bar to the next and the perk.
+  - The onboarding guide is now the hub for moments in play. Picking a crop, making something and a lucky find are announced there too, and skills listen.
 

@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { TownState } from '../state';
-import { canCraft, craft, type RecipeDef } from './recipes';
+import { TUNING } from '../data/tuning';
+import { canCraft, craft, sparkleCost, type RecipeDef } from './recipes';
 
 const sponge: RecipeDef = { id: 'copper_sponge', name: 'Copper sponge', makes: { tool: 'sponge', tier: 2 }, cost: { sparkles: 50, items: { pebble: 4, twig: 2 } }, learn: 'recipe_copper_sponge' };
 const ready = () => { const s = new TownState(); s.sparkles = 60; s.tools.sponge = 1; s.bag.add('pebble', 4); s.bag.add('twig', 2); s.flag('recipe_copper_sponge'); return s; };
@@ -87,5 +88,12 @@ describe('cooking', () => {
       expect('item' in r.makes && pack.items[r.makes.item]?.snack, r.id).toBeTruthy();
       for (const id of Object.keys(r.cost.items ?? {})) expect((pack.crops ?? []).some((c) => c.id === id) || pack.items[id], id).toBeTruthy();
     }
+  });
+
+  it('costs fewer Sparkles as Puff\'s crafting grows', () => {
+    const s = ready(); s.skills.xp.crafting = TUNING.skills.levelXp[2]; // level 3
+    expect(sparkleCost(s, sponge)).toBe(Math.round(50 * (1 - 2 * TUNING.skills.perks.crafting)));
+    craft(s, sponge);
+    expect(s.sparkles).toBe(60 - sparkleCost(s, sponge));
   });
 });
