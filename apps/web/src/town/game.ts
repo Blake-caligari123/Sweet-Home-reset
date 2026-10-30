@@ -3,6 +3,7 @@ import type { Sound } from '../shared/audio/sound';
 import type { NativeBridge } from '../shared/native';
 import { h } from '../shared/ui/dom';
 import { openBuildBoard } from './build/build-sheet';
+import { CardHunt } from './craft/cards';
 import { openWorkbench } from './craft/craft-sheet';
 import type { TownPack } from './data/area';
 import { Content } from './data/content';
@@ -172,7 +173,8 @@ export class TownGame {
     const skills = new SkillBook({ state: this.state, view: this.view, day: () => this.clock.state.day });
     this.moods = new PuffMoods({ state: this.state, view: this.view, hud: this.hud, day: () => this.clock.state.day, burrowTidy: () => this.places.mess('burrow').progress });
     const chain = new TidyChain({ state: this.state, view: this.view, world: this.world, feet: () => this.puff.feet, refreshHud: () => this.refreshHud() });
-    this.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); });
+    const cards = new CardHunt({ state: this.state, content: this.content, view: this.view });
+    this.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); });
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
     this.placing = new Placing({ ...core, places: this.places, area: () => this.areaId, refreshArea: () => this.refreshArea() });
     this.mining = new Mining({ ...core, puff: this.puff, settings, area: () => this.areaId, day: () => this.clock.state.day, refreshArea: () => this.refreshArea() });
