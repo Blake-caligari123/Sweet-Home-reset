@@ -1186,3 +1186,9 @@ Heard only with a screen reader, never shown on screen.
   - Otto: "Picnic by the river soon! Fancy helping me get ready?"
   - Pip: "Blankets! Patched and ready. Mind the buttons!"
   - Otto at the end: "Picnic by the river! Best day of the summer!"
+
+**Grumble jobs (6b.9)**
+- "A dust Grumble's in a huff. Help it feel better for Hazel?"
+- "Pip wants to meet Grumbles! Befriend 2 of any kind."
+- "Moss asks: befriend a cobweb Grumble, gently."
+- "Otto's bath is muddy again. Befriend a mud Grumble?"

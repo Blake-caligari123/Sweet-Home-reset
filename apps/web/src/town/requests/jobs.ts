@@ -10,7 +10,7 @@ import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import type { Button, Settings, View } from '../ui/view';
 import type { TownAreas } from '../world/town-areas';
-import { accept, cleanDone, finish, freshMess, MAX_ACCEPTED, newDay, TOWN, withTiles, type RequestTemplate } from './requests';
+import { accept, befriended, cleanDone, finish, freshMess, MAX_ACCEPTED, newDay, TOWN, withTiles, type RequestTemplate } from './requests';
 
 /** What the notice board and jobs need from the game around them. */
 export interface JobsHost {
@@ -54,7 +54,9 @@ export class Jobs {
   /** The tracker line: Puff's first job, if any. */
   tracker() {
     const job = this.host.state.requests.list.find((r) => r.accepted);
-    return job && this.host.content.line(this.host.content.request(job.id)?.text);
+    const t = job && this.host.content.request(job.id);
+    const text = t && this.host.content.line(t.text);
+    return text && t.kind === 'grumble' && (t.count ?? 1) > 1 ? `${text} (${job.count ?? 0}/${t.count})` : text;
   }
 
   openBoard() {
@@ -104,6 +106,14 @@ export class Jobs {
       const t = this.host.content.request(r.id);
       if (t?.kind === 'clean' && t.area === area && cleanDone(t, m, r.tiles)) this.complete(t, false);
     }
+  }
+
+  /** A Grumble befriended: Grumble jobs it finishes are done (in person, they thank Puff next chat). */
+  hear(e: OnboardEvent) {
+    if (e.type !== 'befriended') return;
+    const r = befriended(this.host.state.requests, this.host.content.pack.requests ?? [], e.family);
+    this.host.state.requests = r.state;
+    for (const id of r.done) { const t = this.host.content.request(id); if (t) this.complete(t, false); }
   }
 
   /** "Give the radish" buttons for this neighbour's bring jobs Puff can hand over now. */

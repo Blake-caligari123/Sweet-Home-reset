@@ -20,7 +20,9 @@ export type OnboardEvent =
   // Also heard by skills (skills/skills.ts): a crop picked, something made, a lucky find.
   | { type: 'picked'; crop: string }
   | { type: 'made'; station: 'bench' | 'kitchen' }
-  | { type: 'found' };
+  | { type: 'found' }
+  // A Grumble turned friend (Grumble jobs on the board listen).
+  | { type: 'befriended'; family: string };
 
 export interface Step {
   id: string;

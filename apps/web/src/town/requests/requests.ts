@@ -13,7 +13,7 @@ export interface RequestTemplate {
   id: string;
   /** Who asks: a neighbour's id, or TOWN. */
   neighbourId: string;
-  kind: 'clean' | 'bring';
+  kind: 'clean' | 'bring' | 'grumble';
   /** Text id in the string table. */
   text: string;
   sparkles: number;
@@ -21,6 +21,8 @@ export interface RequestTemplate {
   area?: string; rect?: [number, number, number, number]; mess?: Exclude<MessType, 'none'>;
   /** bring: the item to hand over. */
   item?: string;
+  /** grumble: how many Grumbles to befriend (of this family, or any). */
+  count?: number; family?: string;
   /** Not posted before this day (a job in a place that opens later). */
   fromDay?: number;
   /** Always on the board on day 1 (the onboarding request). */
@@ -29,8 +31,8 @@ export interface RequestTemplate {
   setFlag?: string;
 }
 
-/** `until`: the last day it's up (inclusive); `tiles`: a tidy job's mess, as area tile indexes. */
-export interface PostedRequest { id: string; until: number; accepted: boolean; tiles?: number[] }
+/** `until`: the last day it's up (inclusive); `tiles`: a tidy job's mess, as area tile indexes; `count`: Grumbles befriended so far. */
+export interface PostedRequest { id: string; until: number; accepted: boolean; tiles?: number[]; count?: number }
 export interface RequestState { day: number; list: PostedRequest[] }
 
 export const MAX_ACCEPTED = 3;
@@ -88,4 +90,17 @@ export function cleanDone(t: RequestTemplate, m: AreaMess, tiles?: number[]) {
   const [x0, y0, w, h] = t.rect;
   for (let y = y0; y < y0 + h; y += 1) for (let x = x0; x < x0 + w; x += 1) if (m.typeAt(x, y) !== 'none') return false;
   return true;
+}
+
+/** A Grumble befriended: each accepted Grumble job it counts for moves on. Returns the jobs it finished. */
+export function befriended(s: RequestState, templates: RequestTemplate[], family: string) {
+  const done: string[] = [];
+  const list = s.list.map((r) => {
+    const t = templates.find((x) => x.id === r.id);
+    if (!r.accepted || t?.kind !== 'grumble' || (t.family && t.family !== family)) return r;
+    const count = (r.count ?? 0) + 1;
+    if (count >= (t.count ?? 1)) done.push(t.id);
+    return { ...r, count };
+  });
+  return { state: { ...s, list }, done };
 }

@@ -3,7 +3,8 @@ import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
 import { AreaMess, MESS_TYPES } from '../play/mess';
 import { FEET, navFor, REACH } from '../world/nav';
-import { accept, cleanDone, freshMess, newDay, TOWN, type RequestState, type RequestTemplate } from './requests';
+import { TUNING } from '../data/tuning';
+import { accept, befriended, cleanDone, freshMess, newDay, TOWN, type RequestState, type RequestTemplate } from './requests';
 import type { MessSpot } from '../play/mess';
 
 const T = 16;
@@ -159,6 +160,35 @@ describe('Hollowfern requests', () => {
       expect(spots.length, r.id).toBeGreaterThan(1);
       const from = nav.nearestOpen({ x: a.spawn.x * T + T / 2, y: a.spawn.y * T + FEET })!;
       for (const s of spots) expect(nav.findPathNear(from, { x0: s.x * T, y0: s.y * T, x1: (s.x + 1) * T, y1: (s.y + 1) * T }, REACH), `${r.id} ${s.x},${s.y}`).not.toBeNull();
+    }
+  });
+});
+
+describe('Grumble jobs', () => {
+  const dust = tpl('dust_job', { kind: 'grumble', family: 'dust', count: 1, item: undefined });
+  const any2 = tpl('any_job', { kind: 'grumble', count: 2, item: undefined });
+  const state = (): RequestState => ({ day: 1, list: [{ id: 'dust_job', until: 9, accepted: true }, { id: 'any_job', until: 9, accepted: true }] });
+
+  it('count each Grumble befriended toward the jobs it fits, and finish them', () => {
+    let r = befriended(state(), [dust, any2], 'cobweb');
+    expect(r.done).toEqual([]);
+    r = befriended(r.state, [dust, any2], 'dust');
+    expect(r.done).toEqual(['dust_job', 'any_job']);
+  });
+
+  it('never count for a job not yet taken', () => {
+    const s: RequestState = { day: 1, list: [{ id: 'dust_job', until: 9, accepted: false }] };
+    expect(befriended(s, [dust], 'dust').done).toEqual([]);
+  });
+
+  it('Hollowfern\'s Grumble jobs only go up once their Grumbles are about', () => {
+    const jobs = (pack.requests ?? []).filter((r) => r.kind === 'grumble');
+    expect(jobs.length).toBeGreaterThan(0);
+    const families = new Set(pack.grumbleFamilies!.map((g) => g.id));
+    for (const j of jobs) {
+      if (!j.family) { expect(j.fromDay ?? 1, j.id).toBeGreaterThanOrEqual(TUNING.unlocks.grumble_dust.day!); continue; }
+      expect(families.has(j.family), j.id).toBe(true);
+      expect(j.fromDay ?? 1, j.id).toBeGreaterThanOrEqual(TUNING.unlocks[`grumble_${j.family}`].day!);
     }
   });
 });

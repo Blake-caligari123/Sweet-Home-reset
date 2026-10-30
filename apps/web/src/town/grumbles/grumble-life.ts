@@ -11,6 +11,7 @@ import type { TownAreas } from '../world/town-areas';
 import type { World } from '../world/world';
 import { drift, type Drift } from './drift';
 import { newDay, tidyOne, type Grumble } from './grumbles';
+import type { OnboardEvent } from '../play/onboarding';
 
 export interface GrumbleHost {
   state: TownState; view: View; content: Content; world: World; places: TownAreas; layer: GrumbleLayer;
@@ -18,6 +19,8 @@ export interface GrumbleHost {
   arrived(key: string): boolean;
   area(): string;
   puff(): Pt;
+  /** Something Puff did (a Grumble befriended), for the guide's listeners. */
+  onboard(e: OnboardEvent): void;
   /** The Grumble Puff is heading for or tidying right now, if any. */
   targeted(): string | null;
   refreshHud(): void;
@@ -105,6 +108,7 @@ export class GrumbleLife {
       view.banner('Friend made! ✨');
       view.say(content.line('grumble.puff.helper') ?? '');
       state.flag('grumble_friend'); state.flag(`grumble_friend_${g.family}`);
+      this.host.onboard({ type: 'befriended', family: g.family });
       this.host.refreshHud();
       this.host.save();
     } else if (result === 'more') {
