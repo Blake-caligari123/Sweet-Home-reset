@@ -1,6 +1,8 @@
 # Sweet Home Reset: full vision and the road to release
 *Blake and Claude Code, 28 Oct 2026. Built from Blake's answers to 44 questions (the log is in §14). This sits above the GDD, NEW-FEATURES.md, STORY.md and the plans. Where they disagree with this file, this file wins.*
 
+> **30 Oct 2026: `claude/NEXT-PHASE.md` (from Blake's 100 answers) extends this file and wins where they differ:** early access after a deep slice, 10-minute days, 28-day seasons, about 20 townsfolk, animals, fishing and critters at 1.0, town needs and districts, and skills.
+
 ## 1. The game in one breath
 Puff, a dust bunny born from the fountain's last sparkle, becomes the Keeper of a grey little town and brings it back to life: tidying homes until they glow, farming, building, repairing the way to new places, befriending a growing cast of neighbours and uncovering the mystery under the fountain. **It never ends.** Seasons turn, festivals return, the town keeps growing and new chapters keep arriving.
 
