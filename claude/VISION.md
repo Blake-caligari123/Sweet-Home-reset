@@ -326,7 +326,7 @@ One new thing every couple of days, each with one tip or letter:
   - Text size is 100, 125 or 150% from Pause (an old Bigger text switch reads as 125%).
   - The hedgehoglet's default name is Clover (Bramble is Sorrel's sister), with a test that a default name never matches someone in the story.
   - Pause shows the keys on a computer.
-  - Decided without Blake (he said keep going): there's no lasting trickle drawn on the fountain yet, and Sorrel isn't in the finale.
+  - Decided without asking (Blake said keep going): there's no lasting trickle drawn on the fountain yet, and Sorrel isn't in the finale.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
