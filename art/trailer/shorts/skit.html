@@ -1,0 +1,147 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Puff at 2am</title>
+<style>
+@font-face{font-family:Fredoka;src:url(../fonts/fredoka.woff2) format('woff2');font-weight:700}
+@font-face{font-family:Cormorant;src:url(../fonts/cormorant.woff2) format('woff2');font-weight:600}
+@font-face{font-family:CormorantI;src:url(../fonts/cormorant_italic.woff2) format('woff2');font-weight:600}
+html,body{margin:0;background:#000}
+canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script src="../lib/kit.js"></script>
+<script>
+// "me at 2am deciding to clean my whole room": a meme-style comedy skit.
+// The idea → the mess reveal → a fast-forward speedrun → record-scratch freeze frame → Puff dozes off in the last pile.
+// Times here match skit.py.
+const DURATION = 17;
+const SC_B = 2.4, SC_C = 4.4, SC_D = 11, SC_E = 12.6, SC_F = 15.4;   // scene starts (the first, the idea, starts at 0)
+const MOUNT = (() => { const out = []; let k = 0; for (let row = 0; row < 7; row++) for (let j = 0; j < 7 - row; j++) out.push({ x: 900 + (j - (6 - row) / 2) * 120, y: 820 - row * 78, f: (k++ * 3) % 8 }); return out; })();
+const LAST = 3;                                              // the bottom-middle pile is kept for the nap
+const ORDER = MOUNT.map((_, i) => i).filter(i => i !== LAST).reverse();
+const REMOVE_AT = i => { const n = ORDER.indexOf(i); return n < 0 ? Infinity : SC_C + .3 + n * (6.2 / ORDER.length); };
+const BLOOMS = (() => { const r = rng(5); return ORDER.map((i, n) => ({ x: 200 + r() * 1400, y: 300 + r() * 560, t: REMOVE_AT(i) })); })();
+
+function nightTint(a) { ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = `rgba(70,80,150,${a})`; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+function clockWidget(str, x, y, s = 1, glowA = .6) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  ctx.fillStyle = '#1b1a2a'; ctx.beginPath(); ctx.roundRect(-170, -62, 340, 124, 26); ctx.fill();
+  ctx.strokeStyle = '#3d3b5c'; ctx.lineWidth = 6; ctx.stroke();
+  ctx.shadowColor = `rgba(255,90,90,${glowA})`; ctx.shadowBlur = 24; ctx.fillStyle = '#ff6b6b';
+  ctx.font = '700 84px Fredoka'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(str, 0, 4);
+  ctx.restore();
+}
+function bubble(str, x, y, a, size = 60) {
+  if (a <= 0) return;
+  ctx.save(); ctx.globalAlpha = Math.min(1, a * 3); ctx.translate(x, y); const k = backOut(clamp(a * 3)); ctx.scale(k, k);
+  ctx.font = `700 ${size}px Fredoka`; const lines = str.split('\n'), w = Math.max(...lines.map(l => ctx.measureText(l).width)) + 80, h = lines.length * size * 1.2 + 50;
+  ctx.fillStyle = 'rgba(0,0,0,.3)'; ctx.beginPath(); ctx.roundRect(-w / 2 + 8, -h / 2 + 10, w, h, 44); ctx.fill();
+  ctx.fillStyle = '#fffaf0'; ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, 44); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(-30, h / 2 - 4); ctx.lineTo(-60, h / 2 + 50); ctx.lineTo(10, h / 2 - 4); ctx.fill();
+  ctx.fillStyle = '#3d2219'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  lines.forEach((l, i) => ctx.fillText(l, 0, (i - (lines.length - 1) / 2) * size * 1.2));
+  ctx.restore();
+}
+function meme(str, y, a, col = '#fff', size = 84) { if (a > 0) bold(str, W / 2, y, size, { color: col, scale: backOut(clamp(a * 4)), lw: size * .24 }); }
+function clockAt(t) {
+  if (t < SC_B) return t < .9 ? '1:58' : '1:59';
+  if (t < SC_C) return '2:00';
+  if (t < SC_D) { const mins = Math.floor(lerp(0, 167, seg(t, SC_C, SC_D - .2))); return `${2 + Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`; }
+  return '4:47';
+}
+
+window.draw = function (t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none'; ctx.globalCompositeOperation = 'source-over';
+  const removed = i => t >= REMOVE_AT(i);
+  const blooms = BLOOMS.map(b => ({ x: b.x, y: b.y, r: easeOut(seg(t, b.t, b.t + .5)) * 380, k: seg(t, b.t, b.t + .5) }));
+  const flood = easeInOut(seg(t, SC_D - .5, SC_D));
+
+  if (t < SC_B) {
+    // A: close-up, the idea strikes
+    const punch = t > 1.15 ? 1.22 : 1;
+    pc.z = 2.7 * punch; pc.x = 330; pc.y = 420;
+    interior('burrow', [], 0);
+    nightTint(.55);
+    glow(W * .25, 600, 500, 'rgba(160,180,255,A)', .25);
+    const [sx, sy] = P(330, 470);
+    puff(t < .9 ? 'closed' : 'idle', sx, sy, 1.6 * punch, t, { hop: [1.15] });
+    if (t > 1.15) { const k = seg(t, 1.15, 1.35); bold('!', sx + 190, sy - 520, 200, { color: '#ffd84d', scale: backOut(k), rot: .15 }); }
+    bubble('what if I clean...\nEVERYTHING', W / 2, 1450, seg(t, 1.35, 2.3) , 62);
+    meme('me at 2am:', 230, seg(t, 0, .25));
+    clockWidget(clockAt(t), 820, 420, .8);
+  } else if (t < SC_C) {
+    // SC_B: the mess reveal
+    const k = easeInOut(seg(t, SC_B, SC_B + 1.1));
+    pc.z = lerp(3.2, 1.95, k); pc.x = 900; pc.y = lerp(860, 520, k);
+    if (t > SC_B + 1.1 && t < SC_B + 1.25) pc.z += .05 * Math.sin(t * 120);
+    interior('burrow', [], 0);
+    MOUNT.forEach(p => pspr('mess_dust', p.f, p.x, p.y, 2.3));
+    ppuff('idle', 900, 950, .45, t);
+    nightTint(.5);
+    meme('the mess:', 300, seg(t, SC_B + 1.1, SC_B + 1.3), '#fff', 100);
+    if (t > SC_B + 1.4) { const [sx, sy] = P(900, 860); meme('me:', 1540, seg(t, SC_B + 1.4, SC_B + 1.55), '#ffd84d', 90); ctx.strokeStyle = '#ffd84d'; ctx.lineWidth = 12; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(W / 2, 1480); ctx.lineTo(sx + 20, sy + 70); ctx.stroke(); }
+    clockWidget(clockAt(t), 820, 560, .6);
+  } else if (t < SC_D) {
+    // SC_C: the speedrun (fast-forward look)
+    pc.z = 1.95 + .04 * Math.sin(t * 9); pc.x = 900 + Math.sin(t * 1.3) * 260; pc.y = 520;
+    interior('burrow', blooms, flood, 900, 600);
+    MOUNT.forEach((p, i) => { if (!removed(i)) pspr('mess_dust', p.f, p.x, p.y + Math.sin(t * 20 + i) * 2, 2.3); });
+    // Puff zips round the mountain, leaving ghosts
+    for (let g = 4; g >= 0; g--) {
+      const tg = t - g * .03, a = tg * 9, x = 900 + Math.cos(a) * 520, y = 640 + Math.sin(a) * 260;
+      ctx.save(); ctx.globalAlpha = g ? .18 * (5 - g) / 5 : 1; ppuff(Math.sin(a) > 0 ? 'walkL' : 'walk', x, y, .8, t * 3); ctx.restore();
+    }
+    MOUNT.forEach((p, i) => { const [sx, sy] = P(p.x, p.y - 60); poof(sx, sy, REMOVE_AT(i), t, 40 + i, .7); });
+    nightTint(.5 * (1 - flood));
+    // VHS fast-forward dressing
+    ctx.fillStyle = 'rgba(0,0,0,.08)'; for (let y = (t * 300) % 6; y < H; y += 6) ctx.fillRect(0, y, W, 2);
+    if (Math.floor(t * 4) % 2 === 0) bold('▶▶ x16', 210, 200, 76, { color: '#fff', lw: 14 });
+    meme('*speedrun music intensifies*', 1600, seg(t, SC_C + .4, SC_C + .6), '#fff', 56);
+    // Fluff meter drains
+    const fluff = lerp(1, .03, seg(t, SC_C + .2, SC_D - .3));
+    ctx.fillStyle = 'rgba(30,20,30,.75)'; ctx.beginPath(); ctx.roundRect(110, 290, 420, 56, 28); ctx.fill();
+    ctx.fillStyle = fluff > .25 ? '#b8ff8f' : '#ff8f8f'; ctx.beginPath(); ctx.roundRect(118, 298, Math.max(40, 404 * fluff), 40, 20); ctx.fill();
+    bold(`Fluff ${Math.round(fluff * 100)}%`, 320, 318, 32, { lw: 7 });
+    clockWidget(clockAt(t), 820, 210, .7);
+  } else {
+    // SC_D + SC_E: freeze frame, then the nap
+    const zin = easeInOut(seg(t, SC_E, SC_E + 1.2));
+    pc.z = lerp(1.95, 2.6, zin); pc.x = lerp(820, 900, zin); pc.y = lerp(560, 700, zin);
+    interior('burrow', [], 1);
+    glow(...P(1150, 300), 600 * pc.z, WARM, .35);
+    const last = MOUNT[LAST];
+    const sleeping = t > SC_E + 1.1;
+    pspr('mess_dust', last.f, last.x, last.y, sleeping ? 2.6 : 2.3, { sqx: sleeping ? 1.1 + .03 * Math.sin(t * 2) : 1, sqy: sleeping ? .95 - .03 * Math.sin(t * 2) : 1 });
+    if (t < SC_E + 1.1) {
+      const k = easeInOut(seg(t, SC_E + .1, SC_E + 1.0)), [sx, sy] = P(lerp(700, last.x, k), lerp(840, 800, k));
+      puff(t < SC_E || k <= 0 || k >= 1 ? 'idle' : 'walk', sx, sy, .85 * pc.z, t, { hop: [SC_E + .95] });
+    } else {
+      // Puff curled up in the fluff: only the ears and closed eyes peek out
+      const [sx, sy] = P(last.x, last.y - 20);
+      ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, sy); ctx.clip(); spr('puff_blink_down', 1, sx, sy + 70 * pc.z, .8 * pc.z * (1 + .02 * Math.sin(t * 2))); ctx.restore();
+      pspr('mess_dust', last.f, last.x + 30, last.y + 14, 1.6);
+      for (let i = 0; i < 3; i++) { const d = ((t - SC_E) * .6 + i / 3) % 1; bold('z', sx + 120 + d * 120 + i * 10, sy - 260 - d * 260, 50 + 40 * d, { alpha: Math.sin(d * Math.PI), color: '#cfe3ff', lw: 10 }); }
+    }
+    if (t < SC_E) {
+      // record-scratch freeze frame
+      const [sx, sy] = P(700, 840); puff('closed', sx, sy, .85 * pc.z, t);
+      ctx.fillStyle = 'rgba(255,240,200,.18)'; ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 30; ctx.strokeRect(15, 15, W - 30, H - 30);
+      meme('yep. that\'s me.', 280, seg(t, SC_D + .15, SC_D + .35), '#fff', 92);
+      meme('0% fluff left', 400, seg(t, SC_D + .6, SC_D + .8), '#ff8f8f', 80);
+    } else {
+      meme('worth it.', 300, seg(t, SC_E + 1.2, SC_E + 1.4), '#ffd84d', 120);
+    }
+    if (t > SC_F) {
+      const k = seg(t, SC_F, SC_F + .3);
+      ctx.fillStyle = `rgba(30,18,30,${.55 * k})`; ctx.fillRect(0, 1380, W, 540);
+      bold('in Sweet Home Reset,', W / 2, 1530, 62, { alpha: k, color: '#fff4dc' });
+      bold('dozing off is free 💤', W / 2, 1630, 70, { alpha: seg(t, SC_F + .2, SC_F + .5), color: '#ffd84d' });
+    }
+    clockWidget(clockAt(t), 820, 560, .6, .9);
+  }
+  if (t > SC_D - .05 && t < SC_D + .08) { ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillRect(0, 0, W, H); }
+  vignette(.3);
+};
+window.ready = loadKit();
+if (!navigator.webdriver) { const s = performance.now(); (function loop() { window.draw(((performance.now() - s) / 1000) % DURATION); requestAnimationFrame(loop); })(); }
+</script></body></html>

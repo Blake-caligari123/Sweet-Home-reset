@@ -1,0 +1,166 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Slow Clean ASMR</title>
+<style>
+@font-face{font-family:Fredoka;src:url(../fonts/fredoka.woff2) format('woff2');font-weight:700}
+@font-face{font-family:Cormorant;src:url(../fonts/cormorant.woff2) format('woff2');font-weight:600}
+@font-face{font-family:CormorantI;src:url(../fonts/cormorant_italic.woff2) format('woff2');font-weight:600}
+html,body{margin:0;background:#000}
+canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script src="../lib/kit.js"></script>
+<script>
+// Slow-clean ASMR: four macro close-ups, slow strokes, colour bleeding in like watercolour, soft focus, crossfades.
+// Made to be heard: the sound (asmr.py) is foley only, timed to the strokes below.
+const DURATION = 20;
+const SHOTS = [[0, 5.6], [5.6, 10.2], [10.2, 14.6], [14.6, 20]];
+const XF = .6;                                   // crossfade length
+const BRUSH = [[.6, 1.9, 1], [2.1, 3.4, -1], [3.6, 5.0, 1]];      // [start, end, direction]
+const WIPES = [[6.1, 7.5, 1, 470], [7.8, 9.2, -1, 640]];          // [start, end, direction, y in painting px]
+const DROPS = [[10.5, 420, 900], [11.2, 700, 1150], [11.9, 330, 1320], [12.5, 760, 760], [13.0, 540, 1050], [13.4, 860, 1380]];
+const BLINK = 15.7, SNEEZE = 17.2;
+
+// organic watercolour edge: a wobbly circle path
+function inkPath(x, y, r, seed, t) {
+  const rr = rng(seed), ph = [rr() * 6, rr() * 6, rr() * 6];
+  ctx.moveTo(x + r, y);
+  for (let a = 0; a <= 6.3; a += .08) {
+    const k = 1 + .07 * Math.sin(a * 3 + ph[0] + t * .4) + .05 * Math.sin(a * 7 + ph[1]) + .03 * Math.sin(a * 13 + ph[2]);
+    ctx.lineTo(x + Math.cos(a) * r * k, y + Math.sin(a) * r * k);
+  }
+}
+function caption(str, y, a, size = 52) {
+  if (a <= 0) return;
+  ctx.save(); ctx.globalAlpha = a; ctx.font = `700 ${size}px Fredoka, "Noto Color Emoji"`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = 18; ctx.fillStyle = '#fffaf0'; ctx.fillText(str, W / 2, y); ctx.restore();
+}
+function broom(x, y, rot, s) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(s, s);
+  ctx.fillStyle = '#8a5a3c'; ctx.fillRect(-14, -900, 28, 820);
+  ctx.fillStyle = '#c0392b'; ctx.fillRect(-60, -110, 120, 30);
+  for (let i = -16; i <= 16; i++) { ctx.strokeStyle = i % 3 ? '#e2b85c' : '#c99a3e'; ctx.lineWidth = 9; ctx.beginPath(); ctx.moveTo(i * 4, -82); ctx.quadraticCurveTo(i * 7, 0, i * 10 + Math.sin(i) * 6, 70); ctx.stroke(); }
+  ctx.restore();
+}
+function cloth(x, y, rot) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+  ctx.fillStyle = 'rgba(40,20,20,.25)'; ctx.beginPath(); ctx.roundRect(-150, -90, 320, 200, 50); ctx.fill();
+  ctx.fillStyle = '#ffb3c7'; ctx.beginPath(); ctx.roundRect(-160, -110, 320, 200, 50); ctx.fill();
+  ctx.strokeStyle = '#f08aa8'; ctx.lineWidth = 6; for (let i = -2; i <= 2; i++) { ctx.beginPath(); ctx.moveTo(-130, i * 34 - 10); ctx.quadraticCurveTo(0, i * 34 + 10, 130, i * 34 - 14); ctx.stroke(); }
+  ctx.restore();
+}
+
+// ---- the four shots ----
+function shotRug(t) {
+  pc.z = lerp(4.2, 4.6, seg(t, 0, 5.6)); pc.x = 920; pc.y = 500;
+  const done = BRUSH.map(([a, b]) => seg(t, a, b));
+  const amount = done.reduce((s, v) => s + v, 0) / 3;
+  // grey rug, colour bleeding in behind the brush
+  const img = IMG.burrow, [x0, y0] = P(0, 0);
+  ctx.drawImage(GREY.burrow, x0, y0, img.width * pc.z, img.height * pc.z);
+  ctx.save(); ctx.beginPath();
+  BRUSH.forEach(([a, b, dir], i) => { const k = easeOut(seg(t, a + .3, b + 1.4)); if (k > 0) { const [cx, cy] = P(920 - dir * 40, 470 + (i - 1) * 40); inkPath(cx, cy, k * 520, 10 + i, t); } });
+  ctx.clip(); ctx.drawImage(img, x0, y0, img.width * pc.z, img.height * pc.z); ctx.restore();
+  // the dust pile thins with every stroke; motes lift off slowly
+  if (amount < 1) pspr('mess_dust', 4, 920, 520, 3.2 * (1 - amount * .9), { alpha: 1 - amount * .6 });
+  const r = rng(3);
+  for (let i = 0; i < 70; i++) {
+    const st = .6 + r() * 4.4, d = t - st; if (d < 0 || d > 3) continue;
+    const [sx, sy] = P(860 + r() * 120, 500 + r() * 30);
+    ctx.fillStyle = `rgba(245,240,232,${.8 * (1 - d / 3)})`; ctx.beginPath(); ctx.arc(sx + Math.sin(d * 2 + i) * 40 + (r() - .5) * 240 * d, sy - 120 * d - r() * 160 * d, 5 + r() * 9, 0, 7); ctx.fill();
+  }
+  // the broom sweeps in long, slow arcs
+  BRUSH.forEach(([a, b, dir]) => {
+    if (t < a - .3 || t > b + .3) return;
+    const k = easeInOut(seg(t, a, b)), x = W / 2 + dir * lerp(-420, 420, k), y = 1080 + Math.sin(k * Math.PI) * 30;
+    broom(x, y, dir * lerp(-.35, .35, k), 1.25);
+  });
+}
+function shotCounter(t) {
+  pc.z = 3.2; pc.x = lerp(560, 760, seg(t, 5.6, 10.2)); pc.y = 560;
+  const img = IMG.bakery, [x0, y0] = P(0, 0);
+  ctx.drawImage(GREY.bakery, x0, y0, img.width * pc.z, img.height * pc.z);
+  ctx.save(); ctx.beginPath();
+  WIPES.forEach(([a, b, dir, wy]) => {
+    const k = easeInOut(seg(t, a, b)); if (k <= 0) return;
+    const [, sy] = P(0, wy), x = dir > 0 ? 0 : W * (1 - k), w = W * k;
+    ctx.rect(x, sy - 330, w, 660);
+  });
+  if (t > 9.2) { const k = easeOut(seg(t, 9.2, 10.4)); inkPath(W / 2, 1000, k * 1400, 77, t); }
+  ctx.clip(); ctx.drawImage(img, x0, y0, img.width * pc.z, img.height * pc.z); ctx.restore();
+  WIPES.forEach(([a, b, dir, wy]) => {
+    if (t < a - .2 || t > b + .2) return;
+    const k = easeInOut(seg(t, a, b)), [, sy] = P(0, wy), x = dir > 0 ? lerp(-150, W + 150, k) : lerp(W + 150, -150, k);
+    cloth(x, sy + Math.sin(k * 18) * 18, Math.sin(k * 9) * .12);
+  });
+  // a glint runs along the clean glass
+  const g = seg(t, 9.3, 10.0);
+  if (g > 0 && g < 1) { ctx.save(); ctx.globalCompositeOperation = 'lighter'; const x = lerp(-200, W + 200, g); const gr = ctx.createLinearGradient(x - 90, 0, x + 90, 0); gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(.5, 'rgba(255,255,240,.6)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); ctx.fillStyle = gr; ctx.translate(x, 960); ctx.rotate(.3); ctx.fillRect(-90, -1100, 180, 2200); ctx.restore(); star(lerp(100, 980, g), 900, 40, 'rgba(255,255,255,.9)', g * 4); }
+}
+function shotWater(t) {
+  const lt = t - 10.2;
+  const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#2c3346'); g.addColorStop(1, '#1b2030'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  // colour diffusing from every drop, like ink in water
+  DROPS.forEach(([te, x, y], i) => {
+    const d = t - te; if (d < 0) return;
+    const k = easeOut(clamp(d / 2.4)), col = ['111,214,242', '255,170,200', '255,216,120', '170,240,190', '190,170,255', '111,214,242'][i];
+    const rad = 120 + k * 520, gr = ctx.createRadialGradient(x, y, 0, x, y, rad);
+    gr.addColorStop(0, `rgba(${col},${.75 - .3 * k})`); gr.addColorStop(.6, `rgba(${col},${.35 - .15 * k})`); gr.addColorStop(1, `rgba(${col},0)`);
+    ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = gr; ctx.beginPath(); inkPath(x, y, rad, 200 + i, t); ctx.fill(); ctx.restore();
+  });
+  // ripples and the falling drop
+  DROPS.forEach(([te, x, y], i) => {
+    const d = t - te;
+    if (d > -.35 && d < 0) { const k = 1 + d / .35; ctx.fillStyle = 'rgba(230,245,255,.9)'; ctx.beginPath(); ctx.ellipse(x, lerp(y - 700, y, k * k), 10, 16, 0, 0, 7); ctx.fill(); }
+    if (d >= 0 && d < 2.6) for (let r = 0; r < 3; r++) { const dd = d - r * .25; if (dd < 0) continue; const k = dd / 2.6; ctx.strokeStyle = `rgba(230,245,255,${.55 * (1 - k)})`; ctx.lineWidth = 4; ctx.beginPath(); ctx.ellipse(x, y, 30 + k * 420, (30 + k * 420) * .45, 0, 0, 7); ctx.stroke(); }
+    if (d >= 0 && d < .5) star(x, y - 20, 30 * (1 - d / .5), 'rgba(255,255,255,.9)', d * 6);
+  });
+  // caustic shimmer
+  const r = rng(9);
+  for (let i = 0; i < 40; i++) { const x = r() * W, y = r() * H, tw = Math.max(0, Math.sin(t * (1 + r() * 2) + i)); ctx.fillStyle = `rgba(255,255,255,${.12 * tw})`; ctx.beginPath(); ctx.ellipse(x, y, 40 * tw, 8 * tw, r() * 3, 0, 7); ctx.fill(); }
+}
+function shotPuff(t) {
+  const g = ctx.createRadialGradient(W / 2, 900, 0, W / 2, 900, 1300); g.addColorStop(0, '#ffe7c7'); g.addColorStop(1, '#e9b9a6'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  bokeh(t, 1.2, 4);
+  const blinking = Math.abs(t - BLINK) < .12 || (t > SNEEZE - .25 && t < SNEEZE);
+  const s = 5.6 + .15 * seg(t, 14.6, 20);
+  let sq = 1; const d = t - SNEEZE; if (d > -.25 && d < 0) sq = 1 - .05 * (d + .25) / .25; if (d >= 0 && d < .3) sq = 1 + .08 * Math.sin(d / .3 * Math.PI);
+  spr(blinking ? 'puff_blink_down' : 'puff_idle_down', blinking ? 1 : Math.floor(t * 5), W / 2, 1680, s, { sqx: 2 - sq, sqy: sq });
+  if (d >= 0) { poof(W / 2 - 40, 1020, SNEEZE, t, 8, .6); if (d < 1.4) bold('pff!', W / 2 + 280, 760 - d * 50, 90, { alpha: 1 - seg(d, 1, 1.4), color: '#ffd84d', scale: backOut(seg(d, 0, .2)) }); }
+}
+const SHOT_FNS = [shotRug, shotCounter, shotWater, shotPuff];
+
+// render a shot into a buffer so shots can crossfade
+const BUF = document.createElement('canvas'); BUF.width = W; BUF.height = H;
+function renderShot(i, t) { const main = ctx; ctx = BUF.getContext('2d'); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none'; ctx.globalCompositeOperation = 'source-over'; SHOT_FNS[i](t); ctx = main; return BUF; }
+// shallow depth of field: blur the edges of the frame
+const SOFT = document.createElement('canvas'); SOFT.width = W; SOFT.height = H;
+function softEdges(amount) {
+  const g = SOFT.getContext('2d'); g.globalCompositeOperation = 'source-over'; g.clearRect(0, 0, W, H);
+  g.filter = `blur(${amount}px)`; g.drawImage(cv, 0, 0); g.filter = 'none';
+  g.globalCompositeOperation = 'destination-in';
+  const m = g.createRadialGradient(W / 2, H * .52, H * .18, W / 2, H * .52, H * .62); m.addColorStop(0, 'rgba(0,0,0,0)'); m.addColorStop(1, 'rgba(0,0,0,1)');
+  g.fillStyle = m; g.fillRect(0, 0, W, H);
+  ctx.drawImage(SOFT, 0, 0);
+}
+
+window.draw = function (t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none'; ctx.globalCompositeOperation = 'source-over';
+  LOOK.sat = 1; LOOK.bright = 1; LOOK.night = 0; LOOK.warm = 0;
+  const i = SHOTS.findIndex(([a, b]) => t >= a && t < b), cur = i < 0 ? 3 : i;
+  ctx.drawImage(renderShot(cur, t), 0, 0);
+  const next = SHOTS[cur + 1];
+  if (next && t > next[0] - XF) { ctx.globalAlpha = seg(t, next[0] - XF, next[0]); ctx.drawImage(renderShot(cur + 1, t), 0, 0); ctx.globalAlpha = 1; }
+  softEdges(14);
+  vignette(.45);
+  grain(t, .05);
+  // captions: few, quiet
+  caption('turn your sound on 🎧', 260, t < 2.7 ? 1 : 1 - seg(t, 2.7, 3.2), 58);
+  caption('slow cleaning', 260, fade(t, 6.0, 9.8, .5));
+  caption('just a little sparkle', 260, fade(t, 10.8, 14.2, .5));
+  caption('Sweet Home Reset', 300, fade(t, 18.2, 20.5, .5), 64);
+  caption('a cosy cleaning game', 380, fade(t, 18.5, 20.5, .5), 44);
+  if (t > DURATION - .4) { ctx.fillStyle = `rgba(0,0,0,${seg(t, DURATION - .4, DURATION)})`; ctx.fillRect(0, 0, W, H); }
+};
+window.ready = loadKit();
+if (!navigator.webdriver) { const s = performance.now(); (function loop() { window.draw(((performance.now() - s) / 1000) % DURATION); requestAnimationFrame(loop); })(); }
+</script></body></html>

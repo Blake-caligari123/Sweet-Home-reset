@@ -1,0 +1,154 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Hollowfern Timelapse</title>
+<style>
+@font-face{font-family:Fredoka;src:url(../fonts/fredoka.woff2) format('woff2');font-weight:700}
+@font-face{font-family:Cormorant;src:url(../fonts/cormorant.woff2) format('woff2');font-weight:600}
+@font-face{font-family:CormorantI;src:url(../fonts/cormorant_italic.woff2) format('woff2');font-weight:600}
+html,body{margin:0;background:#000}
+canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script src="../lib/kit.js"></script>
+<script>
+// "I spent 56 days restoring this town": a fixed-camera timelapse of Hollowfern going from grey to glowing.
+// Days tick by, the sun and moon race across the sky, each home is restored on its own day, the seasons turn,
+// and on day 56 the Glimmerwell relights. Times here match timelapse.py.
+const DURATION = 20;
+const DAY0 = .8, DAY56 = 17.4;                      // video seconds at which day 1 starts / day 56 arrives
+const dayAt = t => t < DAY0 ? 1 : t > DAY56 ? 56 : 1 + 55 * (t - DAY0) / (DAY56 - DAY0);
+const timeOfDay = d => 1 + (d - 1) * (DAY56 - DAY0) / 55 + DAY0 - 1;
+// restoration days: the five homes, the square, the bunting, the lighthouse and the fountain
+const HOME_DAYS = [6, 14, 22, 30, 38];
+const LIGHTHOUSE_DAY = 48, BUNTING_DAY = 18, WATER_DAY = 44;
+const PILES = [[700, 1300, 2], [1850, 1330, 5], [1000, 1560, 0], [1640, 1600, 7], [520, 1700, 3], [2100, 1720, 1], [1300, 1780, 6], [880, 1390, 4], [1950, 1480, 2]];
+const PILE_DAYS = [2, 3, 5, 8, 10, 13, 16, 20, 25];
+const CAM_PATH = [[1, 1300, .8], [3, 1300, .8], [5, 420, .98], [11, 420, .98], [13, 720, .98], [19, 720, .98], [21, 1000, .98], [27, 1000, .98],
+  [29, 1600, .98], [35, 1600, .98], [37, 1900, .98], [41, 1900, .98], [43, 1300, .9], [45.5, 1300, .9], [47, 2050, .95], [52, 2050, .95], [56, 1300, .8]];
+const SEASON_OF = d => d < 15 ? 'spring' : d < 29 ? 'summer' : d < 43 ? 'autumn' : 'winter';
+const SEASON_FX = { spring: 'petal', summer: 'firefly', autumn: 'leaf', winter: 'snow' };
+const SEASON_COL = { spring: '#ff8fb8', summer: '#ffd84d', autumn: '#ff9a4d', winter: '#8fe3ff' };
+const EVENTS = [
+  ...HOME_DAYS.map((d, i) => ({ day: d, label: `${HOUSES[i].name}'s home`, kind: 'home', i })),
+  { day: BUNTING_DAY, label: 'Festival bunting', kind: 'bunting' },
+  { day: WATER_DAY, label: 'The fountain flows', kind: 'water' },
+  { day: LIGHTHOUSE_DAY, label: "Mabel's lighthouse", kind: 'lighthouse' },
+];
+
+// screen position of a panorama point on parallax layer p (mirrors kit.js layer())
+function onScreen(x, y, p) { const z = 1 + (cam.z - 1) * p; return [W / 2 + (x - (PX + (cam.x - PX) * p)) * z, H / 2 + (y - (PY + (cam.y - PY) * p)) * z, z]; }
+
+function townState(t, d) {
+  const finale = seg(t, DAY56, DAY56 + .5);
+  const cyc = ((t - DAY0) / 2.1) % 1, night = t < DAY0 ? 0 : t > DAY56 ? 1 : .5 - .5 * Math.cos(cyc * 2 * Math.PI);
+  const nightNow = Math.max(night, finale);
+  return {
+    night: nightNow, sunArc: t > DAY56 ? .5 : cyc,
+    lights: HOME_DAYS.map(hd => (d >= hd ? 1 : 0) * clamp(nightNow * 1.6 - .3)),
+    lamps: (d >= 34 ? 1 : 0) * clamp(nightNow * 1.6 - .3),
+    fountain: seg(t, DAY56 + .1, DAY56 + .8), water: d >= WATER_DAY ? seg(d, WATER_DAY, WATER_DAY + 1) : 0,
+    lighthouse: d >= LIGHTHOUSE_DAY ? clamp(nightNow * 1.4) : 0,
+    season: SEASON_OF(d), smoke: 1, bunting: d >= BUNTING_DAY ? 1 : 0,
+  };
+}
+// a little ring + sparkle burst where something is restored
+function restoreBurst(x, y, te, t, big = 1) {
+  const d = t - te; if (d < 0 || d > 1) return;
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = (1 - d) * .9; ctx.strokeStyle = '#fff1b0'; ctx.lineWidth = 14 * (1 - d) + 2;
+  ctx.beginPath(); ctx.arc(x, y, easeOut(d) * 260 * big, 0, 7); ctx.stroke(); ctx.restore();
+  poof(x, y, te, t, Math.round(x + y), .8 * big);
+}
+function fireworks(t, list) {
+  list.forEach(([te, x, y], i) => {
+    const d = t - te; if (d < 0 || d > 1.4) return;
+    const cols = ['#ffd84d', '#ff8fb8', '#8fe3ff', '#b8ff8f', '#ffffff'], k = easeOut(d / 1.4);
+    glow(x, y, 280, GOLD, (1 - k) * .5);
+    for (let j = 0; j < 28; j++) { const a = j / 28 * 6.283; ctx.save(); ctx.globalAlpha = 1 - k; star(x + Math.cos(a) * 260 * k, y + Math.sin(a) * 260 * k + 110 * k * k, 16 * (1 - k * .5), cols[(j + i) % 5], d * 5); ctx.restore(); }
+  });
+}
+
+window.draw = function (t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none'; ctx.globalCompositeOperation = 'source-over';
+  const d = dayAt(t), T = townState(t, d), progress = clamp((d - 1) / 55);
+  // the camera visits each restoration a couple of days early, then pulls back wide for day 56
+  let i = CAM_PATH.findIndex(k => k[0] > d); if (i < 1) i = i === 0 ? 1 : CAM_PATH.length - 1;
+  const [d0, x0, z0] = CAM_PATH[i - 1], [d1, x1, z1] = CAM_PATH[i], k = easeInOut(seg(d, d0, d1));
+  const wide = easeInOut(seg(t, DAY56 - .4, DAY56 + 1.4));
+  cam.x = lerp(lerp(x0, x1, k), 1300, wide); cam.z = lerp(lerp(z0, z1, k), .72, wide); cam.y = lerp(1130, 1080, wide);
+
+  // 1. the town, still mostly grey: colour seeps in overall as the year goes on
+  LOOK.sat = lerp(.12, .55, progress); LOOK.bright = lerp(.78, .95, progress); LOOK.night = T.night * .55; LOOK.warm = 0;
+  drawTown(t, { ...T, lights: [0, 0, 0, 0, 0], lamps: 0 });
+  // 2. full colour, clipped to what has been restored so far
+  ctx.save(); ctx.beginPath();
+  HOME_DAYS.forEach((hd, i) => {
+    const k = easeOut(seg(d, hd, hd + 1.2)); if (k <= 0) return;
+    const h = HOUSES[i], [sx, sy, z] = onScreen(h.x, 1100, .75), w = (h.w + 90) * z, top = (h.h + 200) * z;
+    ctx.rect(sx - w / 2, sy - top * k, w, top * k + 4);
+  });
+  const sq = easeOut(clamp((d - 2) / 40)); if (sq > 0) { const [fx, fy] = onScreen(1300, 1500, 1); ctx.ellipse(fx, fy, 1500 * sq * cam.z, 700 * sq * cam.z, 0, 0, 7); }
+  if (d >= LIGHTHOUSE_DAY) { const [lx, ly, z] = onScreen(2290, 800, .25); ctx.rect(lx - 160 * z, ly - 330 * z, 320 * z, 340 * z); }
+  if (t > DAY56) { const [fx, fy] = onScreen(1300, 1100, 1); const r = easeOut(seg(t, DAY56 + .1, DAY56 + 1.6)) * 2600; ctx.moveTo(fx + r, fy); ctx.arc(fx, fy, r, 0, 7); }
+  ctx.clip();
+  LOOK.sat = 1; LOOK.bright = 1; LOOK.night = T.night * .4; LOOK.warm = .1;
+  drawTown(t, T);
+  ctx.restore();
+
+  // dust piles in the square, and Puff zipping between them (timelapse ghosts)
+  layer(1, () => {
+    PILES.forEach(([x, y, f], i) => { if (d < PILE_DAYS[i]) spr('mess_dust', f, x, y, 2.2, { filter: 'grayscale(.7)' }); });
+    const route = PILES.map(p => [p[0] - 80, p[1] + 20]).concat([[1300, 1700]]);
+    for (let g = 3; g >= 0; g--) {
+      const tg = t - g * .045, dd = dayAt(tg), seg_ = (dd * 1.7) % route.length, a = route[Math.floor(seg_)], b = route[(Math.floor(seg_) + 1) % route.length], k = seg_ % 1;
+      const x = t > DAY56 ? 1300 : lerp(a[0], b[0], easeInOut(k)), y = t > DAY56 ? 1720 : lerp(a[1], b[1], easeInOut(k));
+      ctx.save(); ctx.globalAlpha = g ? .25 / g : 1;
+      puff(t > DAY56 ? 'idle' : (b[0] < a[0] ? 'walkL' : 'walk'), x, y, 1.15, t, { hop: [DAY56 + .1, DAY56 + .8, DAY56 + 1.5] });
+      ctx.restore();
+    }
+  });
+  PILES.forEach(([x, y], i) => { const [sx, sy] = onScreen(x, y - 60, 1); poof(sx, sy, timeOfDay(PILE_DAYS[i]), t, 300 + i, .7); });
+  // restoration bursts
+  HOME_DAYS.forEach((hd, i) => { const [sx, sy] = onScreen(HOUSES[i].x, 950, .75); restoreBurst(sx, sy, timeOfDay(hd), t); });
+  { const [lx, ly] = onScreen(2290, 600, .25); restoreBurst(lx, ly, timeOfDay(LIGHTHOUSE_DAY), t, .8); }
+  { const [fx, fy] = onScreen(1300, 1300, 1); restoreBurst(fx, fy, timeOfDay(WATER_DAY), t, 1.2); }
+
+  fall(t, SEASON_FX[T.season], .75, 300 + ['spring', 'summer', 'autumn', 'winter'].indexOf(T.season));
+  if (t > DAY56) fireworks(t, [[DAY56 + .5, 260, 520], [DAY56 + .9, 820, 430], [DAY56 + 1.3, 540, 330], [DAY56 + 1.7, 300, 660], [DAY56 + 2.0, 790, 700]]);
+  if (t > DAY56 && t < DAY56 + .4) { ctx.fillStyle = `rgba(255,252,236,${1 - seg(t, DAY56, DAY56 + .4)})`; ctx.fillRect(0, 0, W, H); }
+  vignette(.35);
+
+  // ---- HUD ----
+  const top = ctx.createLinearGradient(0, 0, 0, 640); top.addColorStop(0, 'rgba(20,12,24,.55)'); top.addColorStop(1, 'rgba(20,12,24,0)'); ctx.fillStyle = top; ctx.fillRect(0, 0, W, 640);
+  const hook = 1 - seg(t, 2.6, 3.0);
+  if (hook > 0) { bold('I spent 56 days', W / 2, 200, 92, { alpha: hook }); bold('restoring this town', W / 2, 305, 92, { alpha: hook, color: '#ffd84d' }); }
+  const dayN = Math.floor(d);
+  const tick = t - timeOfDay(dayN); const bump = t < DAY56 + .01 ? 1 + .08 * Math.max(0, 1 - tick * 8) : 1 + .12 * Math.sin(seg(t, DAY56, DAY56 + .4) * Math.PI);
+  bold(`DAY ${dayN}`, W / 2, hook > 0 ? 440 : 230, hook > 0 ? 96 : 150, { scale: bump, color: '#fffaf0' });
+  if (hook <= 0) {
+    const sCol = SEASON_COL[T.season];
+    bold(T.season.toUpperCase(), W / 2, 340, 54, { color: sCol, lw: 10 });
+    const bx = 240, by = 400, bw = 600;
+    ctx.fillStyle = 'rgba(61,34,25,.85)'; ctx.beginPath(); ctx.roundRect(bx - 8, by - 8, bw + 16, 52, 30); ctx.fill();
+    const gg = ctx.createLinearGradient(bx, 0, bx + bw, 0); gg.addColorStop(0, '#ff8fb8'); gg.addColorStop(1, '#ffd84d');
+    const pr = t > DAY56 ? 1 : clamp((d - 1) / 56); ctx.fillStyle = gg; ctx.beginPath(); ctx.roundRect(bx, by, Math.max(36, bw * pr), 36, 18); ctx.fill();
+    bold(`town restored ${Math.round(pr * 100)}%`, W / 2, by + 19, 30, { lw: 7 });
+  }
+  // event toasts
+  EVENTS.forEach(ev => {
+    const te = timeOfDay(ev.day), dd = t - te; if (dd < 0 || dd > 1.3) return;
+    const k = backOut(seg(dd, 0, .25)), a = 1 - seg(dd, 1.0, 1.3);
+    ctx.save(); ctx.globalAlpha = a; ctx.translate(W / 2, 540); ctx.scale(k, k);
+    ctx.font = '700 46px Fredoka'; const w = ctx.measureText(ev.label + '  ✓').width + 70;
+    ctx.fillStyle = 'rgba(255,250,240,.95)'; ctx.beginPath(); ctx.roundRect(-w / 2, -40, w, 80, 40); ctx.fill();
+    ctx.fillStyle = '#3d2219'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(ev.label + '  ✓', 0, 2);
+    ctx.restore();
+  });
+  if (t > DAY56 + .6) {
+    const k = seg(t, DAY56 + .6, DAY56 + 1.0);
+    bold('the Glimmerwell relit', W / 2, 560, 64, { alpha: k, scale: backOut(k), color: '#ffd84d' });
+    bold('Sweet Home Reset', W / 2, 1450, 56, { alpha: seg(t, DAY56 + 1.2, DAY56 + 1.6), color: '#fff4dc', lw: 10 });
+  }
+  if (t > DURATION - .3) { ctx.fillStyle = `rgba(0,0,0,${seg(t, DURATION - .3, DURATION)})`; ctx.fillRect(0, 0, W, H); }
+};
+window.ready = loadKit();
+if (!navigator.webdriver) { const s = performance.now(); (function loop() { window.draw(((performance.now() - s) / 1000) % DURATION); requestAnimationFrame(loop); })(); }
+</script></body></html>

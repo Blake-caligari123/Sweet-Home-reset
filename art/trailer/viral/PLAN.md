@@ -27,6 +27,15 @@ No video can be guaranteed to go viral. This plan stacks the signals that short-
 - **b:** "wait for the colour flood at 100%" (promises a payoff, so people watch to the end)
 - **c:** "rate how satisfying this is from 1 to 10" (gets comments)
 
+## Three more formats (`../shorts/`)
+Each is a different kind of video, so the feeds treat them as different content, and each reaches a different audience.
+
+| Video | Format | Hook | Why it works |
+|---|---|---|---|
+| `shr_timelapse.mp4` (20 s) | Progress timelapse | "I spent 56 days restoring this town" + a day counter | A big transformation; a new restoration every ~1.5 s keeps people watching; the payoff lands at the end |
+| `shr_skit.mp4` (17 s) | Relatable comedy skit | "me at 2am:" + a sudden idea | Relatable humour gets shared; meme beats (the mess reveal, the speedrun, a freeze frame); ends on the game's gentle rule that dozing off is free |
+| `shr_asmr.mp4` (20 s) | Slow ASMR | "turn your sound on 🎧" | Sound-first and calm; macro close-ups; gets saves and rewatches; reaches the relaxing-video audience |
+
 ## How to post it
 1. Week 1: post **a** on YouTube Shorts, TikTok and Instagram Reels. Post **b** two to three days later, then **c**. Don't post them on the same day.
 2. After 48 hours, compare Viewed vs swiped away (YouTube Studio) and average % watched. Keep the winning hook and drop the rest.
@@ -39,7 +48,8 @@ No video can be guaranteed to go viral. This plan stacks the signals that short-
 No other games named. No prices (iOS rule). No release date. Grok credit goes in the description. The copy stays kind ("tidy", "sparkly"; never shaming mess).
 
 ## Re-render
+From `art/trailer/`:
 ```
-python3 music.py
-node render.js video a shr_loop_a.mp4 audio.wav   # or b / c
+(cd viral && python3 music.py)
+node lib/render.js viral/short.html?v=a video viral/shr_loop_a.mp4 viral/audio.wav   # or v=b / v=c
 ```

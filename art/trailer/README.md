@@ -1,18 +1,31 @@
-# Trailer
+# Trailers and shorts
 
-`sweet_home_reset_trailer.mp4`: 33 s vertical (1080×1920, 30 fps) social trailer.
+Every video here is drawn in code on a canvas from the game's own sprites and area paintings (`apps/web/public/`), with a score synthesised in Python. Re-render any of them after the art changes.
 
-- `trailer.html`: every scene, drawn on a canvas by `draw(t)`. It loads the game's sprites and area paintings from `apps/web/public/`. Open it in a browser to preview it live.
-- `music.py`: synthesises `audio.wav` (music and sound effects timed to the scenes). Needs numpy.
-- `render.js`: renders the frames with Playwright and encodes them with ffmpeg.
+| Video | Folder | Length | What it is |
+|---|---|---|---|
+| `sweet_home_reset_trailer.mp4` | `.` | 33 s | The first upbeat trailer |
+| `sweet_home_reset_cinematic.mp4` | `cinematic/` | 55 s | Cinematic story trailer (store page, press) |
+| `shr_loop_a/b/c.mp4` | `viral/` | 16 s | Seamless tidy loop in three hook captions (A/B test) |
+| `shr_timelapse.mp4` | `shorts/` | 20 s | "I spent 56 days restoring this town": a year-long timelapse |
+| `shr_skit.mp4` | `shorts/` | 17 s | "me at 2am": a comedy skit ending in a free doze |
+| `shr_asmr.mp4` | `shorts/` | 20 s | Slow-clean ASMR: macro close-ups, foley only |
 
+## Layout
+- `lib/kit.js`: the shared drawing kit (maths, colour grading, sprites, text, the Hollowfern panorama, painted interiors, grain, loading). Pages set `DURATION` and `window.draw(t)`.
+- `lib/synth.py`: the shared sound kit (instruments, effects, reverb, `Mix`).
+- `lib/render.js`: renders any page with Playwright and encodes it with ffmpeg. The audio is loudness-normalised to -14 LUFS.
+- `fonts/`: Fredoka, Pixelify Sans and Cormorant Garamond (SIL Open Font License, from Google Fonts).
+- `viral/PLAN.md`: the research and the posting/testing plan.
+
+## Commands (from `art/trailer/`)
 ```
-cd art/trailer
-python3 music.py
-node render.js video sweet_home_reset_trailer.mp4 audio.wav
-node render.js stills 4,9.2,27.3   # writes stills/t*.jpg for review (create stills/ first)
+python3 shorts/timelapse.py                                   # writes shorts/timelapse.wav
+node lib/render.js shorts/timelapse.html video shorts/shr_timelapse.mp4 shorts/timelapse.wav
+node lib/render.js shorts/timelapse.html stills 2,9.5,18      # review frames into shorts/stills/
+node lib/render.js viral/short.html?v=b video viral/shr_loop_b.mp4 viral/audio.wav
 ```
+Open any `.html` page in a browser to watch it play live.
 
-Fonts: Fredoka and Pixelify Sans (SIL Open Font License), from Google Fonts.
-Neighbour icons, the fountain and the town square are code-drawn placeholders.
+Neighbour icons, the town, the fountain and the lighthouse are code-drawn placeholders until their paintings arrive.
 Some art created with Grok Imagine.
