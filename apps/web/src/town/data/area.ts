@@ -157,6 +157,10 @@ export function validateTownPack(input: unknown): TownPack {
       if (![s.at, s.x, s.y].every(isNum) || (i && s.at < n.schedule[i - 1].at)) throw new Error(`neighbour ${n.id}: schedule`);
       if (!places.has(s.area)) throw new Error(`neighbour ${n.id}: unknown place ${s.area}`);
     });
+    for (const c of n.changes ?? []) {
+      if (!['rain', 'happy'].includes(c.when) || ![c.at, c.until, c.x, c.y].every(isNum) || c.until <= c.at) throw new Error(`neighbour ${n.id}: change`);
+      if (!places.has(c.area)) throw new Error(`neighbour ${n.id}: unknown place ${c.area}`);
+    }
   }
   const text = p.strings?.['en-AU'] ?? {};
   for (const [id, lines] of Object.entries(p.dialogue ?? {})) {

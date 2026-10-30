@@ -263,4 +263,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Curious** comes from 3 new places today. A curious Puff spots finds every 75% of the usual cleans.
   - **Sleepy** comes from low Fluff and comes first. It just says a snack or bed would help.
   - Puff is never sad; the plainest mood is content (`puffMood` in tuning).
+- **6a.6 Changes of plan (30 Oct):**
+  - Each neighbour now has **changes of plan** in the pack (`changes`): somewhere else for a while on rainy days, or while they're happy.
+    - Rain: Otto paddles at Riverside all day, Bea skips her river walk, and Sorrel shelters at the bakery.
+    - Happy: Hazel, Pip and Moss come out to the square, Bea has lunch at Hazel's, and Mabel comes to the square early.
+  - Each change has its own line for where they are.
+  - "Happy" here leaves out who's nearby, so plans don't flip as people walk about. Tidying someone's home and a chat is usually enough.
+  - A visit wins over a change at the same time. The pack check validates changes.
 

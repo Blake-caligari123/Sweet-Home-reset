@@ -128,7 +128,8 @@ export class TownGame {
   ) {
     this.places = new TownAreas(pack, () => this.clock.state.day);
     this.content = new Content(pack, () => this.state.names);
-    this.neighbours = new Neighbours(pack.neighbours ?? [], pack.areas, (id) => (this.places.has(id) ? this.places.nav(id) : null), NEIGHBOUR_WALK_SPEED, (id) => this.arrived(id), () => this.clock.state.day);
+    this.neighbours = new Neighbours(pack.neighbours ?? [], pack.areas, (id) => (this.places.has(id) ? this.places.nav(id) : null), NEIGHBOUR_WALK_SPEED, (id) => this.arrived(id), () => this.clock.state.day,
+      (id, when) => (when === 'rain' ? this.clock.weather === 'rainy' : ['happy', 'glowing'].includes(this.life.mood(id, true))));
     this.world = new World(app);
     app.stage.addChild(this.world.root);
     this.hud = new Hud(ui, {

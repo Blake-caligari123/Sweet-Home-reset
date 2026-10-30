@@ -19,7 +19,12 @@ export interface NeighbourDef {
   visits?: Visit[];
   /** Their home (its tidiness lifts their mood), and the weather they like best. */
   home?: string; weather?: string;
+  /** Changes of plan (NEXT-PHASE §5.3): somewhere else for a while when it rains, or when they're happy. */
+  changes?: Change[];
 }
+
+/** A change of plan: from `at` until `until`, here instead, on rainy days or while they're happy. */
+export interface Change extends Stop { when: 'rain' | 'happy'; until: number }
 
 /** A visit: somewhere else from `at` until `until` (minutes), then back to the usual routine. */
 export interface Visit extends Stop { every: number; on: number; until: number }
@@ -42,13 +47,26 @@ export function stopAt(schedule: Stop[], minutes: number) {
   return i;
 }
 
-/** Today's routine: the usual one, with a visit spliced in on a visiting day. */
-export function scheduleFor(d: NeighbourDef, day: number): Stop[] {
+/** `stop` from its time until `until`, then back to whatever the schedule had then. */
+function splice(schedule: Stop[], stop: Stop, until: number): Stop[] {
+  const back = { ...schedule[stopAt(schedule, until)], at: until };
+  return [...schedule.filter((s) => s.at < stop.at), stop, back, ...schedule.filter((s) => s.at > until)];
+}
+
+/**
+ * Today's routine: the usual one, with a visit spliced in on a visiting day, and any change of plan
+ * that holds today (`holds('rain')`, `holds('happy')`). A visit wins over a change at the same time.
+ */
+export function scheduleFor(d: NeighbourDef, day: number, holds: (when: Change['when']) => boolean = () => false): Stop[] {
+  let out = d.schedule;
   const v = d.visits?.find((x) => day % x.every === x.on);
-  if (!v) return d.schedule;
-  const { every: _e, on: _o, until, ...stop } = v;
-  const back = { ...d.schedule[stopAt(d.schedule, until)], at: until };
-  return [...d.schedule.filter((s) => s.at < v.at), stop, back, ...d.schedule.filter((s) => s.at > until)];
+  if (v) { const { every: _e, on: _o, until, ...stop } = v; out = splice(out, stop, until); }
+  for (const c of d.changes ?? []) {
+    if (v && c.at < v.until && c.until > v.at) continue;
+    const { when, until, ...stop } = c;
+    if (holds(when)) out = splice(out, stop, until);
+  }
+  return out;
 }
 
 /** When a dozing neighbour's next waking stop starts today, or null if they sleep till morning. */
@@ -96,10 +114,12 @@ export class Neighbours {
     /** Whether a neighbour has arrived in town yet (the year-one schedule); until then nobody sees them. */
     private arrived: (id: string) => boolean = () => true,
     /** Today's day number, for visiting days. */
-    private day: () => number = () => 1
+    private day: () => number = () => 1,
+    /** Whether a change of plan holds for this neighbour now (rain today, feeling happy). */
+    private holds: (id: string, when: Change['when']) => boolean = () => false
   ) {}
 
-  private routine(d: NeighbourDef) { return scheduleFor(d, this.day()); }
+  private routine(d: NeighbourDef) { return scheduleFor(d, this.day(), (when) => this.holds(d.id, when)); }
 
   /** The feet point for a tile: its usual spot, nudged onto open floor. */
   private spot(area: string, x: number, y: number): Pt {

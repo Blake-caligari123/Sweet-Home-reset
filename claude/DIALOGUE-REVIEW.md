@@ -1110,3 +1110,22 @@ Heard only with a screen reader, never shown on screen.
 | Sea glass (Sorrel) | Smooth green glass, worn soft by the water. | Sea glass! I'll put it on my map, right where you found it. |
 | Blue feather (Mabel) | A long blue feather, soft as a whisper. | Hoo! One of mine, from a younger, bluer year. |
 - Find banner: "A lucky find: {name}! 📖 Added to your Collection". The whole set: "📖 Every find found! Moss sends 200 ✨ and a thank-you."
+
+# Phase 6a (30 Oct): skills, Puff's moods, changes of plan (proposed)
+**Skill level-ups (banner):** "🧹 Tidying level 2! Now the Fluff bar holds 5 more." The other perks read: crops sell for 5% more / snacks give 10% more Fluff / making costs 5% fewer Sparkles / walks 3% quicker. Pause → Skills ends with "Skills grow from doing a bit of everything."
+
+**Puff's mood (tap the face):**
+- 😊 Puff feels happy: tidies a little quicker.
+- 🔍 Puff feels curious: spots finds more often.
+- 💤 Puff feels sleepy: a snack or bed would help.
+- 🙂 Puff feels content: a snack, a chat and a cosy burrow make a happy day.
+
+**Changes of plan, each with a line for where they go:**
+- Hazel, happy, strolls in the square at 5 pm: "Such a lovely day for a stroll, I had to get out!"
+- Bea, rainy, skips her river walk: "No river walk in this rain. Tea and seed packets instead."
+- Bea, happy, has lunch at Hazel's: "Treating myself to lunch at Hazel's. I'm in a good mood!"
+- Pip, happy, tinkers in the square: "Tinkering in the fresh air! Ideas come quicker out here."
+- Otto, rainy, paddles at Riverside all day: "Rain on the river! Best day for a paddle, isn't it?"
+- Moss, happy, reads in the square: "Reading in the square this evening. It just feels right."
+- Mabel, happy, comes to the square early: "Up early! Feeling too sparky to stay at the beach."
+- Sorrel, rainy, shelters at the bakery: "Hiding from the rain at Hazel's. Warm, and smells of bread."

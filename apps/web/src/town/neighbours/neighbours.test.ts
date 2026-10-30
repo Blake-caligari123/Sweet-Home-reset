@@ -135,7 +135,32 @@ describe('visits', () => {
   });
 });
 
+describe('changes of plan (rain, a happy day)', () => {
+  const d: NeighbourDef = { id: 'bea', name: 'Bea', species: 'bee', colours: { fur: '#000000', belly: '#000000', accent: '#000000' }, loves: [], likes: [], dislikes: [],
+    schedule: [{ at: 360, area: 'shop', x: 1, y: 1 }, { at: 1080, area: 'river', x: 2, y: 2 }, { at: 1200, area: 'shop', x: 3, y: 3, sleep: true }],
+    visits: [{ every: 7, on: 3, at: 700, until: 800, area: 'yard', x: 9, y: 9 }],
+    changes: [{ when: 'rain', at: 1080, until: 1200, area: 'shop', x: 4, y: 4 }, { when: 'happy', at: 720, until: 780, area: 'bakery', x: 5, y: 5 }] };
+  const plan = (day: number, rain: boolean, happy: boolean) => scheduleFor(d, day, (w) => (w === 'rain' ? rain : happy)).map((s) => [s.at, s.area]);
+
+  it('stays in out of the rain, and goes out when happy', () => {
+    expect(plan(1, true, false)).toEqual([[360, 'shop'], [1080, 'shop'], [1200, 'shop']]);
+    expect(plan(1, false, true)).toEqual([[360, 'shop'], [720, 'bakery'], [780, 'shop'], [1080, 'river'], [1200, 'shop']]);
+  });
+
+  it('keeps the usual day when nothing holds, and a visit beats a change at the same time', () => {
+    expect(plan(1, false, false)).toEqual(d.schedule.map((s) => [s.at, s.area]));
+    expect(plan(10, false, true)).toEqual([[360, 'shop'], [700, 'yard'], [800, 'shop'], [1080, 'river'], [1200, 'shop']]);
+  });
+});
+
 describe('Hollowfern neighbours', () => {
+  it('each change their plans on some days, with a line for where they go', () => {
+    for (const n of pack.neighbours ?? []) {
+      expect(n.changes?.length, n.id).toBeGreaterThan(0);
+      for (const c of n.changes ?? []) expect(pack.dialogue?.[n.id].some((l) => l.area === c.area && (c.when === 'rain' ? l.weather === 'rainy' : !!l.mood)), `${n.id} ${c.when}`).toBe(true);
+    }
+  });
+
   it('visit Puff in the yard and each other, each with a hello for where they are', () => {
     const visits = (pack.neighbours ?? []).flatMap((n) => (n.visits ?? []).filter((v) => v.every === 7).map((v) => ({ n, v })));
     expect(visits.filter(({ v }) => v.area === 'yard').length).toBeGreaterThanOrEqual(3);
