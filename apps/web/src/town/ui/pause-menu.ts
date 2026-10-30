@@ -20,6 +20,8 @@ export interface PauseHost {
   skipTips: (() => void) | null;
   /** Restore purchases, in builds that sell the unlock. */
   restore: (() => void) | null;
+  /** The optional account, in builds with a server. */
+  openAccount: (() => void) | null;
 }
 
 /** The settings that are plain on/off switches. */
@@ -66,6 +68,12 @@ export function openPause(d: PauseHost) {
     const skip = h('button', { class: 'btn small', type: 'button' }, 'Skip the tips');
     skip.addEventListener('click', () => { skipTips(); skip.remove(); });
     body.push(skip);
+  }
+  if (d.openAccount) {
+    const openAccount = d.openAccount;
+    const b = h('button', { class: 'btn small', type: 'button' }, 'Account');
+    b.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); openAccount(); });
+    body.push(b);
   }
   if (d.restore) {
     const restore = d.restore;

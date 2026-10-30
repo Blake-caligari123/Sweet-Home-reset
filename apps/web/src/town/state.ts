@@ -13,7 +13,7 @@ import { Onboarding } from './play/onboarding';
 import type { Taken } from './play/pickups';
 
 /** The parts of a save that hold Puff's progress. */
-export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights'>;
+export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights' | 'cloudVersion'>;
 
 export interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
 
@@ -50,6 +50,8 @@ export class TownState {
   /** The full game, once bought; nights rested at the end of the free spring. */
   unlock: Unlock = { owned: false };
   restNights = 0;
+  /** The cloud save version this device last matched, once signed in. */
+  cloudVersion: number | undefined = undefined;
   finds: Finds = { cleans: {}, found: [] };
   /** What Puff is wearing (an earned outfit), if anything. */
   outfit: string | null = null;
@@ -67,7 +69,7 @@ export class TownState {
       fluff: { value: this.fluff.value, max: this.fluff.max, boost: this.fluff.boost }, sparkles: this.sparkles,
       bag: this.bag.slots, tools: this.tools, crops: this.crops, flags: this.flags, friends: this.friends,
       onboarding: this.onboarding.step, onboardingAhead: this.onboarding.ahead, chores: this.chores,
-      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet, bloom: this.bloom, finds: this.finds, outfit: this.outfit, decor: this.decor, caves: this.caves, townJobs: this.townJobs, dashBest: this.dashBest, unlock: this.unlock, restNights: this.restNights
+      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet, bloom: this.bloom, finds: this.finds, outfit: this.outfit, decor: this.decor, caves: this.caves, townJobs: this.townJobs, dashBest: this.dashBest, unlock: this.unlock, restNights: this.restNights, cloudVersion: this.cloudVersion
     };
   }
 
@@ -94,6 +96,7 @@ export class TownState {
     this.dashBest = save.dashBest ?? 0;
     this.unlock = save.unlock?.owned ? save.unlock : { owned: false };
     this.restNights = save.restNights ?? 0;
+    this.cloudVersion = typeof save.cloudVersion === 'number' ? save.cloudVersion : undefined;
     this.finds = save.finds ?? { cleans: {}, found: [] };
     this.outfit = typeof save.outfit === 'string' ? save.outfit : null;
     this.decor = Array.isArray(save.decor) ? save.decor : [];

@@ -14,6 +14,8 @@ export interface Store {
   buy(): Promise<BuyResult>;
   /** Whether the unlock is already owned (Restore purchases, or back from checkout). */
   restore(): Promise<boolean>;
+  /** Signed in: tell the phone store which account buys, so the purchase reaches every device. */
+  identify?(userId: string): Promise<void>;
 }
 
 /** The RevenueCat entitlement that unlocks the full game. */
@@ -79,6 +81,7 @@ function nativeStore(apiKey: string): Store {
     },
     async restore() {
       try { return !!(await (await sdk()).restorePurchases()).customerInfo.entitlements.active[ENTITLEMENT]; } catch { return false; }
-    }
+    },
+    async identify(userId) { try { await (await sdk()).logIn({ appUserID: userId }); } catch { /* the store remembers on the next try */ } }
   };
 }

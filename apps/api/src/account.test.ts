@@ -7,7 +7,7 @@ describe('the account (AT-S7, AT-S14)', () => {
   it('says who is signed in and whether the full game is owned', async () => {
     const env = testEnv();
     const token = await signIn(env);
-    expect(await (await call(env, '/api/me', { token })).json()).toEqual({ email: 'kim@example.com', fullGame: false, appleLinked: false });
+    expect(await (await call(env, '/api/me', { token })).json()).toEqual({ id: expect.any(String), email: 'kim@example.com', fullGame: false, appleLinked: false });
     expect((await call(env, '/api/me')).status).toBe(401);
   });
 

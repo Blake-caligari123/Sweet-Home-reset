@@ -348,6 +348,14 @@ One new thing every couple of days, each with one tip or letter:
   - A daily Cron Trigger cleans up.
   - 28 tests run on the real migrations with no keys. Nothing is deployed: that needs Blake's yes, a D1 database id and the secrets.
 
+- **Phase 5e (30 Oct): accounts and sync in the game.**
+  - Pause → Account appears only in builds with a server (`VITE_API_ORIGIN`). Email sign-in has a 16+ box, and the emailed `?signin=` link signs in and is cleared from the address.
+  - After each bedtime the save goes up. If the cloud moved on elsewhere, "Two saves!" shows the day, season and time of each, and the player keeps one; the other stays in history.
+  - Export my data, and Delete account (two confirms; the save on the device stays until Start over).
+  - Signing in applies an unlock bought on another platform, and tells RevenueCat who the player is on phones.
+  - The store and account setup lives in `connect.ts`, so `game.ts` stays wiring (495 lines).
+  - Sign in with Apple's button waits for Blake's Apple Services ID; the server side is ready.
+
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
 |---|---|

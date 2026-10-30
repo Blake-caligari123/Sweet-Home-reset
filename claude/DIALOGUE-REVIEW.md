@@ -1068,3 +1068,11 @@ Heard only with a screen reader, never shown on screen.
 - **Bought:** banner "🌸 The full year is yours! Summer is on its way."
 - **Restore, nothing found:** "No unlock found for this account yet."
 - **Store down:** "The unlock isn't available right now. Spring carries on!"
+
+# Account and sync (Phase 5e)
+- **Signed out:** "An account is optional. It lets your town follow you to another device." [email] [I'm 16 or older] "Email me a sign-in link"
+  - Sent: "Sent! Open the link on this device to sign in." · No age box: "A new account needs the 16+ box ticked." · Bad email: "That email doesn't look quite right." · Down: "Sign-in isn't available right now. The game plays fully without it."
+- **Signed in:** "Signed in as {email}." Sync now / Export my data / Sign out / Delete account. Banner after a link: "Signed in! Your town can follow you now."
+- **Clash:** "Two saves! This device: Spring 3 · 30 Oct, 9:57 am. Cloud: Spring 9 · 30 Oct, 9:15 pm. Which should {puff} keep? The other stays safe in history for 30 days." (This device / Cloud save)
+- **Delete:** "Delete your account? Your cloud save and history go now, and the account within 30 days." then "Are you sure? This can't be undone." then "Your account is deleted. {store note} The save on this device is still here; Start over in Pause clears it."
+- Others: "Synced!", "Signed out. Your save stays on this device.", "Sync isn't reachable right now. Your save is safe on this device.", "That sign-in link has been used or has expired. Ask for a new one in Pause → Account."
