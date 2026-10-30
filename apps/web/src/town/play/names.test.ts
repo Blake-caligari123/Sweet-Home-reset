@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { hollowfern } from '../data/test-pack';
 import { cleanName, DEFAULT_NAMES, NAME_MAX, withNames } from './names';
 
 describe('names', () => {
@@ -16,5 +17,9 @@ describe('names', () => {
     expect(cleanName('Bartholomew the Brave', 'Puff')).toBe('Bartholomew');
     expect(cleanName('Abcdefghijklmnop', 'Puff')).toHaveLength(NAME_MAX);
     expect(cleanName('Zoë-Mae O\'Brien', 'Puff')).toBe('Zoë-Mae O\'Br');
+  });
+
+  it('never writes Puff or the town by name in the pack, only as {puff} and {town}', () => {
+    for (const [id, text] of Object.entries(hollowfern.strings!['en-AU'])) expect(text, id).not.toMatch(/\b(Puff|Hollowfern)\b/);
   });
 });

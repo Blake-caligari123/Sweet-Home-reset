@@ -10,7 +10,7 @@ export function isNeverCached(url: URL): boolean {
 export const pwaManifest: Partial<ManifestOptions> = {
   name: 'Sweet Home Reset',
   short_name: 'Sweet Home',
-  description: 'Scrub a little room back to sparkling with Puff the dust bunny.',
+  description: 'Tidy a grey little town back to colour, make friends and grow a cosy home.',
   lang: 'en-AU',
   display: 'standalone',
   orientation: 'portrait',
@@ -28,6 +28,9 @@ export const pwaManifest: Partial<ManifestOptions> = {
 export const workboxOptions: WorkboxOptions = {
   globPatterns: ['**/*.{js,css,html,png,webp,svg,json,webmanifest}'],
   navigateFallbackDenylist: [/\/api\//],
+  // Pages read their ?options in the browser, so any query still opens the cached page it names
+  // (by default only utm_ and fbclid are ignored, and /test/?debug fell back to the room game).
+  ignoreURLParametersMatching: [/.*/],
   cleanupOutdatedCaches: true,
   runtimeCaching: [
     {

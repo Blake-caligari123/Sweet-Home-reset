@@ -116,7 +116,7 @@ export class PuffActions {
     if (state.tools[tool] < minTier) { view.say('That needs a Copper sponge.'); return false; }
     if (settings.autoTool) this.host.select(tool);
     else if (this.host.selected() !== tool) { view.say(`Try the ${TOOL_NAMES[tool].toLowerCase()}.`); return false; }
-    if (tool !== 'hands' && !state.fluff.spend(false, settings.relaxed ? 0.5 : 1)) { view.say('Getting fluffy-sleepy... snack time?'); this.host.hud.pulseFluff(); return false; }
+    if (tool !== 'hands' && !state.fluff.spend(false, settings.relaxed ? 0.5 : 1)) { view.say('Feeling sleepy... a snack would help.'); this.host.hud.pulseFluff(); return false; }
     return true;
   }
 
@@ -241,9 +241,12 @@ export class PuffActions {
         this.host.refreshHud();
         return;
       }
-      case 'sleep':
-        view.confirm(`Go to bed? ${this.host.state.names.puff} saves the day and wakes up refreshed.`, 'Sleep', () => this.host.sleep());
+      case 'sleep': {
+        const puff = this.host.state.names.puff;
+        if (this.host.state.onboarding.moreBeforeBed) view.confirm(`Bed already? There's more to see today. ${puff} can sleep now, or explore a bit first.`, 'Sleep anyway', () => this.host.sleep());
+        else view.confirm(`Go to bed? ${puff} saves the day and wakes up refreshed.`, 'Sleep', () => this.host.sleep());
         return;
+      }
       case 'sign':
         view.showDialogue(t.text ?? 'A sign.');
         return;

@@ -308,6 +308,16 @@ One new thing every couple of days, each with one tip or letter:
     - Lines now queue instead of replacing each other, so a busy morning is heard in full.
   - That finishes the §12 accessibility options. The new lines are in DIALOGUE-REVIEW.
 
+- **Recheck fixes (30 Oct), from the 29 Oct recheck:**
+  - Mabel's 10-heart scene now plays after Winter Lights. It waited on a flag nothing set; a test now checks every scene waits only on flags the game can set.
+  - With the offline cache on, `/test/?debug` (or any `?…`) opened the room game. Any query now opens the page it names.
+  - The install description is the town game, not the old one-room line.
+  - "Tidy the rest of the burrow" moves on once Puff heads outside, so it never sticks for days.
+  - The bed asks "Bed already?" (Sleep anyway / Not yet) while the first-day tips still have more to show.
+  - The morning letter only claims what one clean shows ("did some dusting", not "dusted a whole room"), covers raked leaves, and a quiet day rotates through four cosy chores.
+  - One low-Fluff line everywhere ("Feeling sleepy... a snack would help.").
+  - The goal pill and settings switches are 44 px tall. Two signs were cut to 60 characters (signs are now tested too). "Tap {puff} to stop" uses the player's name, with a test that the pack never writes Puff or Hollowfern by name. A favicon stops the 404.
+
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
 |---|---|
