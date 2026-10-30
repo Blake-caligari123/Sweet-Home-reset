@@ -70,7 +70,7 @@ town/
                 crops.ts (crop kinds, growth stages, picking and growing back),
                 mess-return.ts (light mess drifting back into restored places overnight);
                 Puff in play: puff.ts (position, facing), targets.ts (what a tap lands on),
-                actions.ts (cleaning, furniture, soil, pickups, doors), onboarding-guide.ts
+                actions.ts (cleaning, furniture, soil, pickups, doors), taps.ts (a tap becomes walking or using what's there), onboarding-guide.ts
                 (runs the tips: tools, highlights); gestures.ts (tap, rub, drag); a home coming
                 alive: alive.ts (stage rules) and home-life.ts (switches stages on in play)
   letters/      letters.ts (which letter is waiting from each writer: Mabel's bottles, a newcomer's envelope), letter-sheet.ts (reading and writing back)

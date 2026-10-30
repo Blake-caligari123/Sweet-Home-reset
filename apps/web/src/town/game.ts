@@ -25,6 +25,7 @@ import { stickTarget } from './play/stick';
 import { Joystick } from './ui/joystick';
 import { TownLife } from './life/town-life';
 import { openCollection } from './bloom/collection-sheet';
+import { MAX_RUB, Taps } from './play/taps';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
 import { PuffActions } from './play/actions';
@@ -42,7 +43,7 @@ import { nudge } from './play/nudges';
 import { bloomUp } from './bloom/bloom';
 import { lettersWaiting } from './letters/letters';
 import { Puff } from './play/puff';
-import { distTo, FEET_TO_BASE, neighbourAt, rectOf, targetAt, type Here, type Target } from './play/targets';
+import { FEET_TO_BASE, type Here } from './play/targets';
 import { Jobs } from './requests/jobs';
 import { openShop } from './shops/shop-sheet';
 import { isOpen } from './shops/shops';
@@ -57,7 +58,7 @@ import { PointerInput } from './ui/pointer-input';
 import { View, type Settings } from './ui/view';
 import { isUnlocked } from './unlocks';
 import { T } from './world/art/texture';
-import { FEET, REACH, type Pt } from './world/nav';
+import { FEET, type Pt } from './world/nav';
 import { setIconBank, type SpriteBank } from './world/sprites';
 import { GrumbleLayer } from './world/grumble-layer';
 import { PetLayer } from './world/pet-layer';
@@ -66,7 +67,6 @@ import { TownAreas } from './world/town-areas';
 import { World } from './world/world';
 
 /** At most this many extra scrubs from one rub. */
-const MAX_RUB = 4;
 
 // The town game (GDD v3): it owns the areas, Puff, input, the day and the save, and hands the rest
 // to feature modules: neighbours/conversations (talk, gifts, heart events, Friends), requests/jobs
@@ -82,6 +82,7 @@ export class TownGame {
   private state = new TownState();
   private neighbours: Neighbours;
   private talk: Conversations;
+  private taps: Taps;
   private life: TownLife;
   private jobs: Jobs;
   private selected: ToolId = 'duster';
@@ -163,8 +164,8 @@ export class TownGame {
     this.lanterns = new Lanterns({ ...core, refreshArea: () => this.refreshArea(), playStory: (id) => this.talk.playStory(id) });
     // The unlock's store and the optional account, as this build is set up (connect.ts).
     ({ unlocker: this.unlocker, account: this.account, counts: this.counts } = connect({ state: this.state, view: this.view, settings, native, snapshot: () => this.snapshot(), save: () => this.save(false) }));
-    this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.tap(x, y) });
-    this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.scrub({ x, y }, MAX_RUB) });
+    this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.taps.tap(x, y) });
+    this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.taps.scrub({ x, y }, MAX_RUB) });
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
     this.grumbles = new GrumbleLife({
       ...core, places: this.places, layer: this.grumbleLayer, arrived: (k) => this.arrived(k), area: () => this.areaId, puff: () => this.puff.feet,
@@ -187,6 +188,10 @@ export class TownGame {
       openShop: (shop) => this.openShop(shop),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
+    });
+    this.taps = new Taps({
+      view: this.view, puff: this.puff, world: this.world, actions: this.actions, placing: this.placing, pet: this.pet, neighbours: this.neighbours, grumbles: this.grumbles,
+      area: () => this.area, areaId: () => this.areaId, nav: () => this.nav, here: () => this.here, fading: () => this.fading, refreshHud: () => this.refreshHud()
     });
     this.homeLife = new HomeLife({ world: this.world, view: this.view, sound, content: this.content });
     this.fade = h('div', { class: 'fade', 'aria-hidden': 'true' });
@@ -215,7 +220,7 @@ export class TownGame {
       installDebugHooks({
         world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide,
         areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
-        messFor: (id) => this.places.mess(id), enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), tap: (x, y) => this.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
+        messFor: (id) => this.places.mess(id), enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
       });
     }
   }
@@ -272,31 +277,24 @@ export class TownGame {
       toWorld: (x, y) => this.world.toWorld(x, y),
       unlock: () => this.sound.unlock(),
       // Tap-only play: one tap tidies a whole spot, as a hold would.
-      tap: (p) => { this.sweep.stop(); if (this.settings.tapOnly) this.scrub(p, MAX_RUB); else this.tap(p.x, p.y); },
+      tap: (p) => { this.sweep.stop(); if (this.settings.tapOnly) this.taps.scrub(p, MAX_RUB); else this.taps.tap(p.x, p.y); },
       // Each pass of a rub (or loop of a circle) is another scrub; a hold keeps going until it's gone.
-      rub: (p, passes) => this.scrub(p, passes - 1),
-      circle: (p, passes) => this.scrub(p, passes * 2),
+      rub: (p, passes) => this.taps.scrub(p, passes - 1),
+      circle: (p, passes) => this.taps.scrub(p, passes * 2),
       // With a Copper tool, a hold charges the swing instead.
-      hold: (p) => { this.scrub(p, MAX_RUB); if (this.actions.charge(Math.floor(p.x / T), Math.floor(p.y / T))) this.puff.repeat = 0; },
+      hold: (p) => { this.taps.scrub(p, MAX_RUB); if (this.actions.charge(Math.floor(p.x / T), Math.floor(p.y / T))) this.puff.repeat = 0; },
       // Clutter carried home, or a row of mess swept; otherwise walk to where the finger stopped.
-      drag: (from, to) => { this.sweep.stop(); if (!this.carry.drag(from, to) && !this.sweep.drag(from, to)) this.tap(to.x, to.y); },
+      drag: (from, to) => { this.sweep.stop(); if (!this.carry.drag(from, to) && !this.sweep.drag(from, to)) this.taps.tap(to.x, to.y); },
       carryable: (p) => this.carry.clutterAt(Math.floor(p.x / T), Math.floor(p.y / T)) ?? null,
       viewTiles: () => this.world.viewTiles,
       zoom: (tiles) => { this.world.zoomTo(tiles); this.settings.zoomTiles = tiles; }
     });
     this.stick.shown = !!this.settings.joystick;
     bindKeyboard({
-      puff: this.puff, nav: () => this.nav, busy: () => this.view.busy, back: () => this.back(), tap: (x, y) => this.tap(x, y),
+      puff: this.puff, nav: () => this.nav, busy: () => this.view.busy, back: () => this.back(), tap: (x, y) => this.taps.tap(x, y),
       selectSlot: (n) => { const t = TOOL_SLOTS[n - 1]; if (this.state.tools[t]) { this.selected = t; this.refreshHud(); } },
       openBag: () => this.openBag()
     });
-  }
-
-  /** A tap on mess or a Grumble with extra scrubs queued (from a rub, circle or hold). */
-  private scrub(p: Pt, extra: number) {
-    this.tap(p.x, p.y);
-    const kind = (this.puff.swing ?? this.puff.action)?.kind;
-    if (kind === 'mess' || kind === 'grumble') this.puff.repeat = Math.min(MAX_RUB, extra);
   }
 
   /** Android back / Escape: close the top sheet, else open pause. */
@@ -307,48 +305,12 @@ export class TownGame {
     this.openPause();
   }
 
-  /** A tap at a world point: walk there, or walk within reach of what's there and use it. */
-  private tap(px: number, py: number) {
-    const tile = { x: Math.floor(px / T), y: Math.floor(py / T) };
-    if (this.view.busy || this.fading || !this.area.inside(tile.x, tile.y)) return;
-    // Placing decor: taps go on the ground (tapping Puff stops).
-    if (this.placing.active) { if (Math.hypot(px - this.puff.fx, py - this.puff.fy + 8) < 10) this.placing.stop(); else this.placing.tap(tile); this.refreshHud(); return; }
-    if (this.pet.at(px, py)) { this.pet.pat(); return; }
-    this.neighbours.releaseAll();
-    this.puff.charged = false;
-    const target = neighbourAt(this.neighbours.visible(this.areaId), px, py) ?? this.grumbles.at(px, py) ?? targetAt(this.here, tile.x, tile.y);
-    if (target.kind === 'neighbour') this.neighbours.hold(target.id);
-    this.world.showMarker(px, py);
-    const p = this.puff; const feet = p.feet;
-    // Tapping the thing Puff is already working on queues another go.
-    if (p.swingMs > 0 && p.swing && target.kind === p.swing.kind && target.x === p.swing.x && target.y === p.swing.y) {
-      p.repeat = Math.min(3, p.repeat + 1);
-      return;
-    }
-    if (target.kind === 'walk') { this.go(this.nav.findPathTo(feet, { x: px, y: py }), null); return; }
-    if (target.kind === 'door') { this.go(this.nav.findPathNear(feet, this.rectOf(target), 0), target); return; } // feet inside the door tile
-    // Act from wherever is close enough to the target (any tile of a multi-tile prop).
-    const r = this.rectOf(target);
-    if (!p.path.length && distTo(r, feet) <= REACH) { this.actions.act(target); return; }
-    const path = this.nav.findPathNear(feet, r, REACH);
-    if (!path) { this.view.say('Hmm, can\'t reach that.'); return; }
-    this.go(path, target);
-  }
-
-  private go(path: Pt[] | null, action: Target | null) {
-    if (!path) return;
-    this.puff.path = path; this.puff.action = action;
-  }
-
   /**
    * Whether something in the year-one schedule (a neighbour, a place) has arrived yet. A neighbour
    * Puff has already met stays (older test saves met everyone early): nothing is ever taken away.
    */
   private arrived(key: string) { return isUnlocked(key, { day: this.clock.state.day, flags: this.state.flags }) || !!this.state.friends[key]?.met; }
 
-  private rectOf(t: Target) { return rectOf(t, this.area, t.kind === 'neighbour' ? this.neighbours.states.get(t.id) : t.kind === 'grumble' ? this.grumbles.find(t.id) : undefined); }
-
-  /** What's around Puff in the current area, for working out taps and prompts. */
   private get here(): Here { return { area: this.area, mess: this.mess, pickups: this.actions.pickupsHere(), bag: this.state.bag }; }
 
   // ---- days --------------------------------------------------------------------------------

@@ -241,4 +241,4 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Showing a find:** seven of the eight belong to someone. Their talk box offers "Show the …", they tell its story and friendship grows (a loved gift's worth).
   - The thimble belongs to no one: it's a clue to Thimble, the keeper before Puff.
   - **Finishing the set:** Moss sends 200 ✨ (`findSetSparkles`).
-
+- **Split (30 Oct):** tapping (walk there, or use what's there) moved from `game.ts` to `play/taps.ts`, with no change in behaviour. `game.ts` is now 488 lines.
