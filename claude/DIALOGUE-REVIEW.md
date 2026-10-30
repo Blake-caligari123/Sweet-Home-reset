@@ -1170,3 +1170,9 @@ Heard only with a screen reader, never shown on screen.
 - Job banner: "Job done! +20 ✨ +1 💌 from Hazel".
 - Chat button: "2 💌 for 2 × fresh bread". Trade banner: "💌 Traded for fresh bread! 1 💌 left with Hazel."
 - Friends page: "💌 1 thank-you note: trade them with Hazel".
+
+**Quest: Moss's reading club (6b.7)**
+- Moss's chat button "📜 A favour for Moss?" → "... I'd like a reading club. But the library's a mess." Banner "📜 New quest: Moss's reading club".
+- Tracker steps: Tidy 6 spots in the library for the reading club → Cook a dish for the reading club → Ask Pip about a reading lamp → Tell Moss the reading club is ready ("more tomorrow" between days).
+- Pip: "A lamp for Moss's club? I've got just the thing!" · Moss: "... A real club. Lamp, snacks, tidy shelves. Thank you."
+- Banner: "📜 Quest done: Moss's reading club! +150 ✨ and a lantern".

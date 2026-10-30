@@ -1,6 +1,7 @@
 import type { CardDef } from '../craft/cards';
 import type { DramaDef } from '../life/dramas';
 import type { NeedDef } from '../needs/needs';
+import type { QuestDef } from '../quests/quests';
 import type { FestivalDef } from '../festivals/festivals';
 import { seeded } from '../../shared/art/pixel-canvas';
 import { isBlockedGround, type Ground, type Theme } from '../world/art/ground';
@@ -72,7 +73,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** Small dramas between townsfolk (life/dramas.ts). */
   dramas?: DramaDef[];
   /** What the town needs (needs/needs.ts). */
-  needs?: NeedDef[] }
+  needs?: NeedDef[];
+  /** Quest chains (quests/quests.ts). */
+  quests?: QuestDef[] }
 
 export class Area {
   readonly w: number;
@@ -192,6 +195,11 @@ export function validateTownPack(input: unknown): TownPack {
     for (const id of Object.keys(r.cost?.items ?? {})) if (!p.items[id]) throw new Error(`recipe ${r.id}: unknown item ${id}`);
   }
   for (const c of p.crops ?? []) if (!p.items[c.id] || !p.items[c.seed]) throw new Error(`crop ${c.id}: unknown item`);
+  for (const q of p.quests ?? []) {
+    if (!q.id || !who.has(q.giver) || !q.steps?.length || !isNum(q.reward?.sparkles) || !q.reward.flag) throw new Error(`quest ${q.id}: shape`);
+    for (const st of q.steps) if (st.goal.type === 'talk' && (!who.has(st.goal.who) || typeof text[st.goal.line] !== 'string')) throw new Error(`quest ${q.id}: talk step`);
+    if (typeof text[q.intro] !== 'string') throw new Error(`quest ${q.id}: no intro text`);
+  }
   for (const l of p.letters ?? []) for (const id of [...l.lines, ...l.replies.map((r) => r.label)]) if (typeof text[id] !== 'string') throw new Error(`letter ${l.id}: no text for ${id}`);
   for (const pet of p.pets ?? []) if (!pet.id || !pet.name || !pet.defaultName || typeof text[pet.line] !== 'string') throw new Error(`pet ${pet.id}: shape`);
   for (const sh of p.shops ?? []) {

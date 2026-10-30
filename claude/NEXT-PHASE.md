@@ -336,4 +336,15 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Hazel: bread, a lantern. Bea: honey, a flower pot, rare seeds. Pip: fences, a toy boat.
     - Otto: soap, stone path. Moss: tea, a book. Mabel: silk thread, an old map. Sorrel: berries, strawberry seeds.
   - The Friends page shows how many notes each friend has given.
+- **6b.7 Quest chains (30 Oct):** `quests/`.
+  - A quest is pack data: who offers it and from when, its steps in order, and its reward.
+    - A step is done by doing things (tidying in a place, cooking, picking, finding) or by a talk, which shows as a button in that neighbour's chat box.
+    - A step can wait for the next day, so a quest unfolds over days.
+  - The tracker shows the step on now, or "more tomorrow". Quest progress is saved.
+  - **The first quest, Moss's reading club** (from day 6):
+    1. Tidy 6 spots in the library.
+    2. Next day: cook a dish.
+    3. Next day: ask Pip about a reading lamp.
+    4. Tell Moss it's ready.
+    - Reward: 150 ✨, a lantern and the `reading_club` flag.
 
