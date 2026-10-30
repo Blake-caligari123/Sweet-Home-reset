@@ -77,7 +77,8 @@ export class Conversations {
     const line = pickLine(content.pack.dialogue?.[id] ?? [], {
       minutes: clock.state.minutes, season: clock.season.toLowerCase(), weather: clock.weather, hearts: heartsOf(f.points),
       area: this.host.area(), flags: state.flags, met: f.met, talkedToday: f.talkedDay === day, recent: f.recent ?? [],
-      festival: festivalToday(content.pack.festivals ?? [], day)?.id, mood: life.mood(id), memories: life.recalls(id), dramas: life.brewing(id)
+      festival: festivalToday(content.pack.festivals ?? [], day)?.id, mood: life.mood(id), memories: life.recalls(id), dramas: life.brewing(id),
+      others: life.others(id), bloom: state.bloom
     });
     const text = content.line(line?.id) ?? '...';
     // The first chat of the day counts toward friendship (hearts never go down).

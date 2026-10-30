@@ -2,8 +2,8 @@ import type { Mood } from '../life/mood';
 import { TUNING } from '../data/tuning';
 
 // Talking (GDD v3 §6.1): each neighbour has pools of lines tagged by time, season, weather,
-// hearts, area, flags, mood, memories and dramas. The most specific line that fits wins (festival >
-// memory > drama > area > flag > hearts > mood > weather > season > time > anything), skipping the last 5 heard. The first chat of the day counts toward
+// hearts, area, flags, mood, memories, dramas and opinions. The most specific line that fits wins (festival >
+// memory > drama > area > flag > hearts > opinion of a friend > mood > weather > the town > season > time > anything), skipping the last 5 heard. The first chat of the day counts toward
 // friendship; after that, neighbours give a short "busy" line. Text lives in the string table.
 export type TimeBand = 'morning' | 'day' | 'evening' | 'night';
 
@@ -27,6 +27,10 @@ export interface Line {
   remembers?: string;
   /** Only while this drama is brewing. */
   drama?: string;
+  /** An opinion of another neighbour: only once they're in town (and, with `aboutMood`, feeling one of these). */
+  about?: string; aboutMood?: Mood[];
+  /** An opinion of the town: only once Town Bloom is at least this level. */
+  bloomMin?: number;
 }
 
 export interface TalkContext {
@@ -36,6 +40,8 @@ export interface TalkContext {
   festival?: string;
   /** How they feel, what they remember, and dramas they're in (life/). */
   mood?: Mood; memories?: string[]; dramas?: string[];
+  /** How everyone else in town feels (for opinions of each other), and the Town Bloom level. */
+  others?: Record<string, Mood>; bloom?: number;
 }
 
 /** How many talks back a line stays unheard. */
@@ -56,6 +62,8 @@ function fits(l: Line, c: TalkContext) {
   if (l.mood && (!c.mood || !l.mood.includes(c.mood))) return false;
   if (l.remembers && !c.memories?.includes(l.remembers)) return false;
   if (l.drama && !c.dramas?.includes(l.drama)) return false;
+  if (l.about && !(c.others?.[l.about] && (!l.aboutMood || l.aboutMood.includes(c.others[l.about])))) return false;
+  if (l.bloomMin !== undefined && (c.bloom ?? 1) < l.bloomMin) return false;
   if (l.once && c.flags.includes(`said_${l.id}`)) return false;
   if (l.time && l.time !== timeBand(c.minutes)) return false;
   if (l.season && l.season !== c.season) return false;
@@ -73,8 +81,10 @@ function tier(l: Line) {
   if (l.area) return 6; // met somewhere they're only visiting: that hello first
   if (l.flag) return 5;
   if (l.heartsMin !== undefined || l.heartsMax !== undefined) return 4;
+  if (l.about) return 3.7; // what they think of a friend, then how they feel
   if (l.mood) return 3.5;
   if (l.weather) return 3;
+  if (l.bloomMin !== undefined) return 2.5;
   if (l.season) return 2;
   if (l.time) return 1;
   return 0;

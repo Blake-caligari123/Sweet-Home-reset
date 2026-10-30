@@ -1129,3 +1129,23 @@ Heard only with a screen reader, never shown on screen.
 - Moss, happy, reads in the square: "Reading in the square this evening. It just feels right."
 - Mabel, happy, comes to the square early: "Up early! Feeling too sparky to stay at the beach."
 - Sorrel, rainy, shelters at the bakery: "Hiding from the rain at Hazel's. Warm, and smells of bread."
+
+**Opinions of each other (when that friend is happy, or low) and of the town (Town Bloom 3+ or 4+):**
+- Hazel: "Bea's humming again. Means the bees are happy too." / "Pip looked a bit glum. A warm bun might help. Or a chat!" / "Folk are smiling in the street again. You did that, petal."
+- Bea: "Hazel's in a baking mood! You can smell it from here." / "Otto's been quiet lately. Maybe pop by the bathhouse?" / "My flowers like the town better now. So do I!"
+- Pip: "Moss smiled at me today! Well, I think it was a smile." / (Sorrel in town) "Sorrel asked how my gears work. Nobody ever asks!" / "The town's ticking nicely now. Like a well-oiled clock!"
+- Otto: "Mabel told me a sea story today. Best one yet!" / "Bea seems a bit droopy. Flowers always cheer Bea up." / "Whole town feels like a warm bath these days. Ahh."
+- Moss: "... Pip's whistling through the wall. It's... nice." / "... Hazel seemed tired. A tidy kitchen might help." / "... {town} reads like a happier story now."
+- Mabel: "Hoo! Young Sorrel is all bounce today. Lovely to see." / "Moss has gone extra quiet. Hoo. Worth a gentle hello." / "Hoo, {town} hasn't looked this bright in years."
+- Sorrel: "Hazel gave me a free bun! Is everyone here this kind?" / "Pip seems down. Shall we cheer Pip up together?" / "This town gets brighter every time I look!"
+
+**Drama: the honey jar (Hazel and Bea, from day 16)**
+- While brewing: Hazel "Bea's been short with me. Was it something I did? Oh dear." · Bea "Hazel still has my best honey jar. Not that I mind. Much."
+- Mending: Bea "My gran's honey jar! Hazel borrowed it weeks ago." → Hazel "The jar! It's on my shelf. I'll fill it with buns for Bea!" → Bea "A jar full of buns? Oh, I can't stay cross at that!"
+- Banner: "🤝 Hazel and Bea are friends again!" Afterwards, Bea: "Hazel filled my jar with buns! Best trade I ever made."
+
+**Drama: the soggy sea chart (Otto and Mabel, from day 48)**
+- While brewing: Otto "Mabel won't look at me. I only splashed a little!" · Mabel "Hoo. Some folk don't watch where they splash."
+- Mending: Mabel "Hoo. My best sea chart got soaked. Not a word of sorry." → Otto "Mabel's chart? Oh no. I'll dry it on the warm bath stones!" → Mabel "Dried and pressed? Hoo, it's better than before. Thanks."
+- Banner: "🤝 Otto and Mabel are friends again!" Afterwards, Mabel: "Otto and I fish together now. Well, Otto fishes. I watch."
+- After the noisy workshop, Moss (daytime): "... Quiet afternoons now. Pip kept the promise."

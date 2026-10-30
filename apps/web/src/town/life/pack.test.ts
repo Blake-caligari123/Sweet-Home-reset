@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
+import { TUNING } from '../data/tuning';
 
 describe('Hollowfern townsfolk life (pack)', () => {
   const text = pack.strings!['en-AU'];
@@ -20,6 +21,8 @@ describe('Hollowfern townsfolk life (pack)', () => {
       for (const s of d.steps) { expect(d.between, d.id).toContain(s.talkTo); expect(text[s.line], s.line).toBeTruthy(); }
       expect(text[d.banner!], d.id).toBeTruthy();
       for (const who of d.between) expect(pack.dialogue![who].some((l) => l.drama === d.id), `${who} ${d.id}`).toBe(true);
+      // Never before both have arrived in town.
+      for (const who of d.between) expect(d.fromDay, `${d.id} ${who}`).toBeGreaterThanOrEqual(TUNING.unlocks[who]?.day ?? 1);
     }
   });
 });

@@ -112,7 +112,7 @@ export class Neighbours {
     /** Walking speed in tiles per second. */
     private speed: number,
     /** Whether a neighbour has arrived in town yet (the year-one schedule); until then nobody sees them. */
-    private arrived: (id: string) => boolean = () => true,
+    readonly arrived: (id: string) => boolean = () => true,
     /** Today's day number, for visiting days. */
     private day: () => number = () => 1,
     /** Whether a change of plan holds for this neighbour now (rain today, feeling happy). */

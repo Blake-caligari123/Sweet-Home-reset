@@ -87,9 +87,24 @@ describe('living lines (NEXT-PHASE §5.3)', () => {
     expect(pickLine(lines, ctx({ mood: 'happy', dramas: ['noise'] }))?.id).toBe('noise');
     expect(pickLine(lines, ctx({ mood: 'happy', dramas: ['noise'], memories: ['tidied_home'] }))?.id).toBe('tidy');
   });
+
+  it('has opinions of friends (once they are in town, in the right mood) and of the town', () => {
+    const said: Line[] = [{ id: 'plain' }, { id: 'pip_low', about: 'pip', aboutMood: ['low'] }, { id: 'sorrel', about: 'sorrel' }, { id: 'town', bloomMin: 3 }];
+    expect(pickLine(said, ctx({ others: { pip: 'low' } }))?.id).toBe('pip_low');
+    expect(pickLine(said, ctx({ others: { pip: 'happy' }, bloom: 3 }))?.id).toBe('town');
+    expect(pickLine(said, ctx({ others: { sorrel: 'okay' } }))?.id).toBe('sorrel');
+    expect(pickLine(said, ctx({ bloom: 2 }))?.id).toBe('plain');
+  });
 });
 
 describe('Hollowfern dialogue', () => {
+  it('everyone has a thought about a friend and about the town', () => {
+    for (const [id, lines] of Object.entries(pack.dialogue ?? {})) {
+      expect(lines.some((l) => l.about), id).toBe(true);
+      expect(lines.some((l) => l.bloomMin), id).toBe(true);
+    }
+  });
+
   const strings = pack.strings?.['en-AU'] ?? {};
   // GDD v3 §6.1: no guilt words, no body or appearance talk, no complaints about the player.
   const banned = /\b(fail(ed|ure)?|lost|overdue|lazy|late|dirty|filthy|gross|fat|thin|skinny|chubby|weight|diet|ugly|pretty|disappoint\w*|should have)\b/i;
