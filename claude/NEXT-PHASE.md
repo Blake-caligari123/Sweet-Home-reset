@@ -288,4 +288,15 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Each morning everyone in town chips in: 5 ✨ when happy, 2 otherwise (`townFund`).
     - Meeting a need adds its own gift and is cheered with a morning banner. The town remembers it (`need_<id>`), for lines later.
     - **Big projects** (`project` in the pack: greenhouse, Sorrel's cottage, the footbridge, sea steps, woodland path) take from the fund first. The Keeper's plans show the fund and how much it covers.
+- **6a.9 Lighting, layers and pixel menus (30 Oct):**
+  - **Day and night light** (`world/lighting.ts`): one shade is multiplied over the world. It eases through dawn, day, dusk and night instead of stepping between them.
+    - Nights are properly dark now, so lamps glow.
+    - Indoors stays a little lighter at night; caves are always dim. Rain greys the day, and each season has its own daylight.
+    - The ground beyond a place's edge darkens with it.
+  - **Puff's own soft glow** after dark.
+  - **Layers** (`world/fronts.ts`): trees, fruit trees and lampposts also stand among the characters, sorted by their foot. Walking behind a tree puts its leaves in front of Puff; walking in front puts Puff in front. The copies grey with the ground until it's restored. Painted places are one picture, so they're left as they are.
+  - **Pixel-style menus** (`ui/pixel.css`, town only):
+    - Square corners, with the corner pixel notched out on framed boxes.
+    - Raised buttons and panels get a thicker bottom edge instead of a soft shadow.
+    - Icons stay crisp.
 
