@@ -299,4 +299,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Square corners, with the corner pixel notched out on framed boxes.
     - Raised buttons and panels get a thicker bottom edge instead of a soft shadow.
     - Icons stay crisp.
+- **6b.1 Tidy chains (30 Oct), the first of tidying 2.0:** `play/chain.ts`.
+  - Spots cleared within 4 seconds of each other build a chain: "Tidy chain ×N" from the third spot, with a bigger sparkle each time.
+  - Every 5 spots gives a few Sparkles, a little more each time: 2, 4, 6… up to 10 (`tidyChain`).
+  - It's never needed, and nothing is lost when a chain ends; the next spot starts a new one.
+  - The chain listens to the guide's moments, so `actions.ts` didn't grow.
 

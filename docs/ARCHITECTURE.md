@@ -62,7 +62,7 @@ town/
     art/          code-drawn placeholders: texture.ts (tile size, noise, dither), ground.ts,
                   props.ts, built-props.ts (the plans board, builds, upgrades, decor), items.ts (mess, item icons,
                   crops), characters.ts (Puff, neighbours), grumbles.ts, pets.ts, outfits.ts
-  play/         core rules: mess.ts (mess, colour, restore), bag.ts, fluff.ts, clock.ts,
+  play/         core rules: mess.ts (mess, colour, restore), chain.ts (tidy chains), bag.ts, fluff.ts, clock.ts,
                 pickups.ts, onboarding.ts (tip rules), letter.ts (morning letter and real chore),
                 names.ts (the player's names for Puff and the town: `{puff}`, `{town}` in text),
                 overnight.ts (what happens while Puff sleeps: Fluff, crops, builds), night.ts (the night and

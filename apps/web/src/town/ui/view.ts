@@ -10,6 +10,8 @@ export type Speaker = { name: string; portrait: HTMLElement };
 
 /** How long a banner shows (its CSS animation runs this long). */
 const BANNER_MS = 1900;
+/** As long as the toast's CSS animation. */
+const TOAST_MS = 1600;
 
 // Everything on screen over the world that features share: speech boxes, sheets, banners, Puff's
 // bubble, sounds and haptics. While any box or sheet is open the game is held (`busy`): the clock,
@@ -19,6 +21,7 @@ export class View {
   private bubbleMs = 0;
   /** Banners waiting their turn, so two at once (a restore and a new tool) read one after another. */
   private banners: string[] = [];
+  private toastEl: HTMLElement | null = null;
 
   constructor(
     readonly root: HTMLElement,
@@ -50,6 +53,13 @@ export class View {
     if (this.bubbleMs > 0) { this.bubbleMs -= dt; if (this.bubbleMs <= 0) this.hud.bubble.classList.remove('show'); }
   }
 
+  /** A quick note that fades by itself (a tidy chain); a new one replaces the last. */
+  toast(text: string) {
+    this.toastEl?.remove();
+    const el = this.toastEl = h('div', { class: 'toast', 'aria-hidden': 'true' }, text);
+    this.root.append(el);
+    window.setTimeout(() => { if (this.toastEl === el) { el.remove(); this.toastEl = null; } }, TOAST_MS);
+  }
   banner(text: string) {
     this.banners.push(text);
     if (this.banners.length === 1) this.nextBanner();
