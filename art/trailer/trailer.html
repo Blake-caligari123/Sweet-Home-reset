@@ -1,0 +1,651 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Sweet Home Reset Trailer</title>
+<style>
+@font-face{font-family:Fredoka;src:url(fonts/fredoka.woff2) format('woff2');font-weight:700}
+@font-face{font-family:Pixelify;src:url(fonts/pixelify.woff2) format('woff2');font-weight:700}
+html,body{margin:0;background:#000}
+canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script>
+const W = 1080, H = 1920, DURATION = 33;
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const IMG = {};
+const SHEETS = {
+  puff_walk_down:[6,144,168], puff_walk_right:[4,144,168], puff_walk_up:[4,144,168],
+  puff_idle_down:[6,144,168], puff_blink_down:[2,144,168],
+  grumble_dust_grumpy:[4,96,90], grumble_dust_bright:[4,96,90], mess_dust:[8,64,64],
+  item_book:[1,64,64], item_cup:[1,64,64], item_pin:[1,64,64], item_sock:[1,64,64], item_tray:[1,64,64],
+};
+const GREY = {};
+
+// ---------- helpers ----------
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = k => 1 - Math.pow(1 - k, 3);
+const easeInOut = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const backOut = k => { const c = 1.9; return 1 + (c + 1) * Math.pow(k - 1, 3) + c * Math.pow(k - 1, 2); };
+const elastic = k => k <= 0 ? 0 : k >= 1 ? 1 : Math.pow(2, -10 * k) * Math.sin((k * 10 - .75) * (2 * Math.PI / 3)) + 1;
+function rng(seed) { let s = seed * 9301 + 49297; return () => { s = (s * 9301 + 49297) % 233280; return s / 233280; }; }
+
+let cam = { x: 896, y: 512, z: 1 };
+const toScreen = (wx, wy) => [(wx - cam.x) * cam.z + W / 2, (wy - cam.y) * cam.z + H / 2];
+
+function sprite(name, frame, wx, wy, scale, opts = {}) {
+  const [n, fw, fh] = SHEETS[name];
+  const [sx, sy] = toScreen(wx, wy);
+  const sc = scale * cam.z;
+  const sqx = opts.sqx || 1, sqy = opts.sqy || 1;
+  ctx.save();
+  ctx.globalAlpha = opts.alpha ?? 1;
+  ctx.translate(sx, sy);
+  if (opts.rot) ctx.rotate(opts.rot);
+  ctx.scale((opts.flip ? -1 : 1) * sc * sqx, sc * sqy);
+  ctx.imageSmoothingEnabled = false;
+  const img = opts.grey ? GREY[name] : IMG[name];
+  ctx.drawImage(img, (frame % n) * fw, 0, fw, fh, -fw / 2, -fh, fw, fh);
+  ctx.restore();
+}
+function shadow(wx, wy, rw, alpha = .22) {
+  const [sx, sy] = toScreen(wx, wy);
+  ctx.save(); ctx.globalAlpha = alpha; ctx.fillStyle = '#3b2418';
+  ctx.beginPath(); ctx.ellipse(sx, sy, rw * cam.z, rw * .32 * cam.z, 0, 0, 7); ctx.fill(); ctx.restore();
+}
+function star(x, y, r, color, rot = 0) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.fillStyle = color;
+  ctx.beginPath();
+  for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, rr = i % 2 ? r * .28 : r; ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); }
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function heart(x, y, s, color) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s / 32, s / 32); ctx.fillStyle = color;
+  ctx.beginPath(); ctx.moveTo(0, 10);
+  ctx.bezierCurveTo(-30, -12, -12, -34, 0, -16); ctx.bezierCurveTo(12, -34, 30, -12, 0, 10);
+  ctx.fill(); ctx.restore();
+}
+function roundRect(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+
+// painting with grey base and colour blooms
+function painting(name, blooms, full = 0, opts = {}) {
+  const img = IMG[name];
+  const [x0, y0] = toScreen(0, 0);
+  const w = img.width * cam.z, h = img.height * cam.z;
+  ctx.imageSmoothingEnabled = true;
+  if (full >= 1) { ctx.drawImage(img, x0, y0, w, h); return; }
+  ctx.drawImage(GREY[name], x0, y0, w, h);
+  ctx.save(); ctx.beginPath();
+  for (const b of blooms) { if (b.r <= 0) continue; const [bx, by] = toScreen(b.x, b.y); ctx.moveTo(bx + b.r * cam.z, by); ctx.arc(bx, by, b.r * cam.z, 0, 7); }
+  if (full > 0) { const [cx, cy] = toScreen(opts.fx ?? 896, opts.fy ?? 512); const r = full * 2400 * cam.z; ctx.moveTo(cx + r, cy); ctx.arc(cx, cy, r, 0, 7); }
+  ctx.clip(); ctx.drawImage(img, x0, y0, w, h); ctx.restore();
+  // glowing rims on growing blooms
+  for (const b of blooms) {
+    if (b.r <= 0 || b.k >= 1) continue;
+    const [bx, by] = toScreen(b.x, b.y);
+    ctx.save(); ctx.globalAlpha = (1 - b.k) * .8; ctx.strokeStyle = '#fff6c8'; ctx.lineWidth = 14 * (1 - b.k) + 2;
+    ctx.beginPath(); ctx.arc(bx, by, b.r * cam.z, 0, 7); ctx.stroke(); ctx.restore();
+  }
+  if (full > 0 && full < 1) {
+    const [cx, cy] = toScreen(opts.fx ?? 896, opts.fy ?? 512);
+    ctx.save(); ctx.globalAlpha = (1 - full) * .9; ctx.strokeStyle = '#fff6c8'; ctx.lineWidth = 30;
+    ctx.beginPath(); ctx.arc(cx, cy, full * 2400 * cam.z, 0, 7); ctx.stroke(); ctx.restore();
+  }
+}
+
+// stateless particle bursts
+function poof(wx, wy, te, t, seed, big = 1) {
+  const dt = t - te; if (dt < 0 || dt > 1.1) return;
+  const r = rng(seed); const [sx, sy] = toScreen(wx, wy - 30);
+  for (let i = 0; i < 12 * big; i++) {
+    const a = r() * Math.PI * 2, sp = (120 + r() * 240) * big, k = easeOut(clamp(dt / .9));
+    const x = sx + Math.cos(a) * sp * k, y = sy + Math.sin(a) * sp * k * .7 - 40 * k;
+    const rad = (26 + r() * 30) * (1 - k * .7) * Math.sqrt(big);
+    ctx.save(); ctx.globalAlpha = (1 - k) * .9; ctx.fillStyle = i % 3 ? '#f4ece4' : '#ffffff';
+    ctx.beginPath(); ctx.arc(x, y, rad, 0, 7); ctx.fill(); ctx.restore();
+  }
+  const cols = ['#ffd84d', '#ff8fb8', '#8fe3ff', '#ffffff', '#b8ff8f'];
+  for (let i = 0; i < 14 * big; i++) {
+    const a = r() * Math.PI * 2, sp = (180 + r() * 380) * big, k = easeOut(clamp(dt / 1.0));
+    const x = sx + Math.cos(a) * sp * k, y = sy + Math.sin(a) * sp * k - 80 * k + 160 * k * k;
+    ctx.save(); ctx.globalAlpha = 1 - k * k;
+    star(x, y, (16 + r() * 18) * (1 - k * .5), cols[i % cols.length], dt * 6 + i); ctx.restore();
+  }
+}
+function sparkleField(t, seed, n, area, cols = ['#fff6c8', '#ffd84d', '#ffffff']) {
+  const r = rng(seed);
+  for (let i = 0; i < n; i++) {
+    const x = area[0] + r() * area[2], y = area[1] + r() * area[3], ph = r() * 7, sp = 2 + r() * 3;
+    const tw = Math.max(0, Math.sin(t * sp + ph));
+    ctx.save(); ctx.globalAlpha = tw * .9; star(x, y, 6 + 14 * tw, cols[i % cols.length], t + i); ctx.restore();
+  }
+}
+
+// ---------- text ----------
+function text(str, x, y, size, opts = {}) {
+  ctx.save();
+  ctx.font = `700 ${size}px ${opts.font || 'Fredoka'}`;
+  ctx.textAlign = opts.align || 'center'; ctx.textBaseline = 'middle';
+  ctx.lineJoin = 'round';
+  ctx.globalAlpha = opts.alpha ?? 1;
+  ctx.translate(x, y); if (opts.rot) ctx.rotate(opts.rot); if (opts.scale) ctx.scale(opts.scale, opts.scale);
+  if (opts.shadow !== false) { ctx.fillStyle = opts.shadowColor || 'rgba(74,38,28,.55)'; ctx.fillText(str, 0, size * .09); }
+  if (opts.stroke !== false) { ctx.strokeStyle = opts.strokeColor || '#4a261c'; ctx.lineWidth = opts.lw || size * .2; ctx.strokeText(str, 0, 0); }
+  ctx.fillStyle = opts.color || '#fff'; ctx.fillText(str, 0, 0);
+  ctx.restore();
+}
+// caption: words pop in one by one; *word* is highlighted
+function caption(line, y, t, t0, t1, size = 84, hl = '#ffd84d') {
+  if (t < t0 || t > t1) return;
+  const words = line.split(' ');
+  ctx.font = `700 ${size}px Fredoka`;
+  const widths = words.map(w => ctx.measureText(w.replace(/\*/g, '') + ' ').width);
+  const total = widths.reduce((a, b) => a + b, 0) - ctx.measureText(' ').width;
+  let x = W / 2 - total / 2;
+  const out = seg(t, t1 - .18, t1);
+  let inHl = false;
+  words.forEach((w, i) => {
+    const isHl = inHl || w.startsWith('*');
+    inHl = isHl && !w.endsWith('*');
+    const k = seg(t, t0 + i * .09, t0 + i * .09 + .28);
+    if (k > 0) {
+      const s = backOut(k) * (1 - out) + (isHl ? Math.sin(t * 9) * .04 : 0);
+      text(w.replace(/\*/g, ''), x + widths[i] / 2 - ctx.measureText(' ').width / 2, y - (1 - k) * 30, size,
+        { scale: Math.max(0, s), color: isHl ? hl : '#fff', rot: isHl ? Math.sin(t * 5) * .04 : 0 });
+      ctx.font = `700 ${size}px Fredoka`;
+    }
+    x += widths[i];
+  });
+}
+
+// ---------- backdrops ----------
+function creamBackdrop(t, c1 = '#ffe9c2', c2 = '#ffc9d6') {
+  const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, c1); g.addColorStop(1, c2);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.save(); ctx.globalAlpha = .18; ctx.fillStyle = '#fff';
+  for (let y = -1; y < 22; y++) for (let x = -1; x < 12; x++) {
+    const ox = ((t * 30) % 100), oy = ((t * 30) % 100);
+    ctx.beginPath(); ctx.arc(x * 100 + ox + (y % 2) * 50, y * 100 + oy, 10, 0, 7); ctx.fill();
+  }
+  ctx.restore();
+}
+function greyBackdrop(t, k) {
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, mix('#9b9690', '#ffe3b3', k)); g.addColorStop(1, mix('#6f6a66', '#ffbfd0', k));
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+}
+function mix(a, b, k) {
+  const pa = [1, 3, 5].map(i => parseInt(a.substr(i, 2), 16)), pb = [1, 3, 5].map(i => parseInt(b.substr(i, 2), 16));
+  return `rgb(${pa.map((v, i) => Math.round(lerp(v, pb[i], k))).join(',')})`;
+}
+function vignette(a = .35) {
+  const g = ctx.createRadialGradient(W / 2, H / 2, H * .3, W / 2, H / 2, H * .75);
+  g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, `rgba(40,20,10,${a})`);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+}
+
+// ---------- Puff motion ----------
+// path: [{t, x, y}] keyframes; returns pos + facing
+function along(path, t) {
+  if (t <= path[0].t) return { x: path[0].x, y: path[0].y, vx: 0, vy: 0, moving: false };
+  for (let i = 0; i < path.length - 1; i++) {
+    const a = path[i], b = path[i + 1];
+    if (t >= a.t && t <= b.t) {
+      if (a.x === b.x && a.y === b.y) return { x: a.x, y: a.y, vx: 0, vy: 0, moving: false };
+      const k = easeInOut((t - a.t) / (b.t - a.t));
+      return { x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), vx: b.x - a.x, vy: b.y - a.y, moving: true };
+    }
+  }
+  const l = path[path.length - 1]; return { x: l.x, y: l.y, vx: 0, vy: 0, moving: false };
+}
+function drawPuff(p, t, scale, opts = {}) {
+  let name = 'puff_idle_down', frame = Math.floor(t * 8), flip = false;
+  if (p.moving) {
+    frame = Math.floor(t * 12);
+    if (Math.abs(p.vx) > Math.abs(p.vy) * .8) { name = 'puff_walk_right'; flip = p.vx < 0; }
+    else name = p.vy < 0 ? 'puff_walk_up' : 'puff_walk_down';
+  } else if (opts.face === 'up') { name = 'puff_walk_up'; frame = 0; }
+  else if ((t % 2.3) < .14) { name = 'puff_blink_down'; frame = 1; }
+  let hop = 0, sqx = 1, sqy = 1;
+  if (opts.hopAt !== undefined) {
+    for (const h of [].concat(opts.hopAt)) {
+      const d = t - h;
+      if (d > -.12 && d < 0) { const k = (d + .12) / .12; sqx = 1 + .25 * k; sqy = 1 - .2 * k; }
+      if (d >= 0 && d < .4) { const k = d / .4; hop = Math.sin(k * Math.PI) * 60; sqx = 1 - .12 * Math.sin(k * Math.PI); sqy = 1 + .15 * Math.sin(k * Math.PI); }
+    }
+  }
+  shadow(p.x, p.y, 44 * scale / .8 * (1 - hop / 200));
+  sprite(name, frame, p.x, p.y - hop, scale, { flip, sqx, sqy });
+}
+
+// ================= SCENES =================
+// Scene 1+2: the grey burrow and the cleaning combo (0 – 10s)
+const B_PILES = [
+  { x: 1010, y: 710, te: 4.0, f: 2, s: 1.6, word: 'TIDY!' },
+  { x: 1330, y: 760, te: 5.0, f: 4, s: 1.5, word: 'NICE!' },
+  { x: 1470, y: 470, te: 6.0, f: 0, s: 1.5, word: 'SPARKLY!' },
+  { x: 1040, y: 470, te: 7.0, f: 7, s: 1.6, word: 'SO CLEAN!' },
+  { x: 470, y: 600, te: 8.0, f: 5, s: 1.7, word: 'PERFECT!' },
+];
+const B_EXTRA = [[300, 760, 1], [600, 760, 3], [760, 560, 6], [1560, 700, 1], [1220, 420, 3], [380, 420, 6], [860, 830, 0], [1200, 860, 5]];
+const B_PATH = [
+  { t: 0, x: 860, y: 640 }, { t: 3.1, x: 860, y: 640 },
+  { t: 3.85, x: 960, y: 720 }, { t: 4.2, x: 960, y: 720 },
+  { t: 4.85, x: 1270, y: 780 }, { t: 5.2, x: 1270, y: 780 },
+  { t: 5.85, x: 1420, y: 500 }, { t: 6.2, x: 1420, y: 500 },
+  { t: 6.85, x: 1100, y: 490 }, { t: 7.2, x: 1100, y: 490 },
+  { t: 7.85, x: 530, y: 620 }, { t: 8.2, x: 530, y: 620 },
+  { t: 8.85, x: 800, y: 680 },
+];
+function sceneBurrow(t) {
+  const flood = seg(t, 9.0, 9.7);
+  greyBackdrop(t, easeOut(flood));
+  // camera: start tight on Puff, pull out, then follow Puff
+  const p = along(B_PATH, t);
+  const zIn = lerp(3.4, 1.25, easeInOut(seg(t, .2, 2.6)));
+  const zFlood = 1.25 - .14 * Math.sin(seg(t, 8.9, 9.9) * Math.PI);
+  cam.z = t < 3 ? zIn : zFlood;
+  const half = W / 2 / cam.z;
+  const tx = t < 3 ? lerp(p.x, 896, easeInOut(seg(t, 1, 2.8))) : p.x;
+  cam.x = clamp(tx, half - 40, 1792 - half + 40);
+  cam.y = t < 3 ? lerp(p.y - 60, 560, easeInOut(seg(t, .2, 2.6))) : 560;
+  // shake on mega clean
+  if (t > 9 && t < 9.4) { cam.x += Math.sin(t * 90) * 10 * (9.4 - t); cam.y += Math.cos(t * 77) * 10 * (9.4 - t); }
+
+  const blooms = B_PILES.map(pl => { const k = seg(t, pl.te, pl.te + .7); return { x: pl.x, y: pl.y - 20, r: easeOut(k) * 230, k }; });
+  painting('burrow', blooms, easeInOut(flood), { fx: 800, fy: 640 });
+
+  // dust piles
+  B_EXTRA.forEach(([x, y, f], i) => {
+    const te = 9.0 + Math.hypot(x - 800, y - 640) / 2400 * .6;
+    const k = seg(t, te, te + .2);
+    if (k < 1) sprite('mess_dust', f, x, y, 1.4 * (1 - k), { grey: false, sqy: 1 + Math.sin(t * 3 + i) * .03 });
+  });
+  B_PILES.forEach((pl, i) => {
+    const k = seg(t, pl.te - .05, pl.te + .15);
+    const wob = t > pl.te - .4 && t < pl.te ? Math.sin(t * 50) * .06 : 0;
+    if (k < 1) sprite('mess_dust', pl.f, pl.x, pl.y, pl.s * (1 - easeOut(k)) , { sqx: 1 + wob, sqy: 1 - wob });
+  });
+  drawPuff(p, t, .85, { hopAt: [...B_PILES.map(p => p.te), 9.0] });
+  B_PILES.forEach((pl, i) => poof(pl.x, pl.y, pl.te, t, 11 + i));
+  B_EXTRA.forEach(([x, y], i) => poof(x, y, 9.0 + Math.hypot(x - 800, y - 640) / 2400 * .6, t, 40 + i, .6));
+  poof(800, 640, 9.0, t, 99, 2);
+
+  // combo words
+  B_PILES.forEach((pl, i) => {
+    const d = t - pl.te; if (d < 0 || d > .85) return;
+    const [sx, sy] = toScreen(pl.x, pl.y - 200);
+    const k = seg(d, 0, .3);
+    text(pl.word, sx, sy - d * 90, 96, { scale: backOut(k) * (1 + i * .08), alpha: 1 - seg(d, .6, .85), color: ['#ffd84d', '#8fe3ff', '#ff8fb8', '#b8ff8f', '#ffd84d'][i], rot: (i % 2 ? .1 : -.1) });
+    text(`x${i + 1}`, sx + 190, sy - d * 90 - 70, 64, { scale: backOut(seg(d, .08, .35)), alpha: 1 - seg(d, .6, .85), color: '#fff' });
+  });
+
+  // top band captions
+  caption('POV: you\'re a', 250, t, .15, 2.9, 92);
+  caption('*dust bunny*', 370, t, .45, 2.9, 132, '#ffd84d');
+  caption('and the whole town', 1600, t, 1.4, 2.9, 78);
+  caption('lost its *colour*', 1700, t, 1.65, 2.9, 78, '#ff8fb8');
+  caption('tap to *tidy*...', 300, t, 3.2, 6.2, 96);
+  caption('and colour comes *back*', 300, t, 6.3, 8.95, 84, '#8fe3ff');
+  if (t > 9.0) {
+    const k = seg(t, 9.0, 9.3);
+    text('SPARKLE!', W / 2, 330, 150, { scale: backOut(k), color: '#ffd84d', rot: Math.sin(t * 6) * .05 });
+    sparkleField(t, 7, 18, [60, 150, 960, 380]);
+  }
+  // flash
+  if (t > 9 && t < 9.45) { ctx.fillStyle = `rgba(255,252,235,${(1 - seg(t, 9, 9.45)) * .85})`; ctx.fillRect(0, 0, W, H); }
+}
+
+// Scene 3: bakery and the Dust Grumble (10 – 15s)
+const K_ITEMS = [
+  { n: 'item_sock', from: [520, 780], to: [1250, 590], te: 13.15 },
+  { n: 'item_cup', from: [1320, 820], to: [470, 620], te: 13.35 },
+  { n: 'item_book', from: [700, 880], to: [920, 300], te: 13.55 },
+  { n: 'item_pin', from: [1500, 520], to: [1100, 570], te: 13.75 },
+  { n: 'item_tray', from: [380, 560], to: [1080, 300], te: 13.95 },
+];
+const K_PATH = [{ t: 10, x: 900, y: 1000 }, { t: 11.0, x: 900, y: 760 }, { t: 11.8, x: 1010, y: 760 }, { t: 15, x: 1010, y: 760 }];
+function sceneBakery(t) {
+  const flood = seg(t, 13.0, 13.7);
+  greyBackdrop(t, easeOut(flood));
+  cam.z = lerp(1.32, 1.18, easeInOut(seg(t, 10, 15)));
+  cam.x = lerp(940, 1000, easeInOut(seg(t, 10, 13))); cam.y = 600;
+  if (t > 12 && t < 12.3) cam.x += Math.sin(t * 80) * 8;
+  painting('bakery', [], easeInOut(flood), { fx: 1150, fy: 700 });
+
+  [[620, 700, 2], [1450, 760, 4], [320, 820, 6], [1300, 400, 1]].forEach(([x, y, f], i) => {
+    const te = 13.0 + i * .12, k = seg(t, te, te + .2);
+    if (k < 1) sprite('mess_dust', f, x, y, 1.4 * (1 - k));
+    poof(x, y, te, t, 60 + i, .7);
+  });
+  // items scattered then fly to their places
+  K_ITEMS.forEach((it, i) => {
+    const k = easeInOut(seg(t, it.te, it.te + .45));
+    const x = lerp(it.from[0], it.to[0], k), y = lerp(it.from[1], it.to[1], k) - Math.sin(k * Math.PI) * 220;
+    sprite(it.n, 0, x, y, 1.5, { rot: k < 1 ? (k * 6.28 * (i % 2 ? 1 : -1)) + (k === 0 ? (i - 2) * .4 : 0) : 0 });
+    if (t > it.te + .45 && t < it.te + 1.2) { const [sx, sy] = toScreen(it.to[0], it.to[1] - 40); const d = t - it.te - .45; ctx.save(); ctx.globalAlpha = 1 - d / .75; star(sx, sy, 50 * easeOut(d / .3), '#ffd84d', d * 4); ctx.restore(); }
+  });
+
+  // the Grumble: grumpy, shuffling; then bright and hopping
+  const happy = t >= 12.0;
+  const gx = happy ? 1180 : 1180 + Math.sin(t * 2.2) * 60;
+  let gy = 770, hop = 0;
+  if (happy) { const d = t - 12; hop = Math.abs(Math.sin(d * 7)) * 90 * Math.max(0, 1 - d / 3); }
+  shadow(gx, gy, 70 * (1 - hop / 300));
+  const gf = happy ? Math.floor(t * 6) % 4 : (t < 11.3 ? 0 : (t < 11.95 ? 3 : 0));
+  sprite(happy ? 'grumble_dust_bright' : 'grumble_dust_grumpy', gf, gx, gy - hop, 1.8, { sqx: 1 + Math.sin(t * 6) * .04, sqy: 1 - Math.sin(t * 6) * .04 });
+  if (!happy && t > 10.6) { // grumpy cloud
+    const [sx, sy] = toScreen(gx + 60, gy - 200);
+    ctx.save(); ctx.globalAlpha = .9; ctx.fillStyle = '#5b5560';
+    for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.arc(sx + i * 30 - 30, sy + Math.sin(t * 4 + i) * 6, 26, 0, 7); ctx.fill(); }
+    ctx.restore();
+    text('hmph', sx, sy - 70, 44, { color: '#c9c3cf' });
+  }
+  if (happy) for (let i = 0; i < 6; i++) {
+    const d = t - 12 - i * .25; if (d < 0 || d > 1.6) continue;
+    const [sx, sy] = toScreen(gx + Math.sin(i * 2.3) * 120, gy - 160 - d * 260);
+    ctx.save(); ctx.globalAlpha = 1 - d / 1.6; heart(sx + Math.sin(d * 6 + i) * 20, sy, 70 * backOut(seg(d, 0, .3)), i % 2 ? '#ff6f9c' : '#ff9fbf'); ctx.restore();
+  }
+  drawPuff(along(K_PATH, t), t, .85, { hopAt: [12.0, 13.0] });
+  poof(gx, gy, 12.0, t, 77, 1.2);
+
+  caption('meet the *Dust Grumbles*', 300, t, 10.2, 12.3, 80, '#c9c3cf');
+  caption('they just need', 260, t, 12.4, 14.95, 88);
+  caption('a little *care*', 370, t, 12.6, 14.95, 104, '#ff8fb8');
+  if (t > 13 && t < 13.35) { ctx.fillStyle = `rgba(255,252,235,${(1 - seg(t, 13, 13.35)) * .7})`; ctx.fillRect(0, 0, W, H); }
+}
+
+// Scene 4: Puff's morning letter (15 – 19.5s)
+const LETTER = ['Dear friend,', 'I polished Hazel\'s counter.', 'My paws sparkle!', 'Maybe wipe one counter', 'of yours? Or just have tea.', 'Both are lovely.'];
+function sceneLetter(t) {
+  cam.z = .62; cam.x = 896; cam.y = 512;
+  creamBackdrop(t);
+  ctx.save(); ctx.globalAlpha = .35; ctx.filter = 'blur(6px)';
+  const [x0, y0] = toScreen(0, 0); ctx.drawImage(IMG.burrow, x0, y0 + 500, 1792 * cam.z, 1024 * cam.z); ctx.restore();
+
+  const k = backOut(seg(t, 15.05, 15.55));
+  const cx = W / 2, cy = 1000 + (1 - k) * 900;
+  ctx.save(); ctx.translate(cx, cy); ctx.rotate(Math.sin(t * 1.4) * .015 - (1 - k) * .2);
+  // paper
+  ctx.fillStyle = 'rgba(74,38,28,.25)'; roundRect(-420 + 10, -480 + 16, 840, 960, 36); ctx.fill();
+  ctx.fillStyle = '#fffaf0'; roundRect(-420, -480, 840, 960, 36); ctx.fill();
+  ctx.strokeStyle = '#e8c9a0'; ctx.lineWidth = 6; ctx.stroke();
+  ctx.strokeStyle = '#f3dfc4'; ctx.lineWidth = 3;
+  for (let i = 0; i < 9; i++) { ctx.beginPath(); ctx.moveTo(-360, -340 + i * 72); ctx.lineTo(360, -340 + i * 72); ctx.stroke(); }
+  // stamp
+  ctx.save(); ctx.translate(300, -390); ctx.rotate(.15); ctx.fillStyle = '#ffd1dc'; roundRect(-60, -50, 120, 100, 10); ctx.fill(); heart(0, 6, 60, '#ff6f9c'); ctx.restore();
+  // typed lines
+  const chars = Math.floor(seg(t, 15.6, 17.6) * LETTER.join('').length);
+  let used = 0;
+  LETTER.forEach((ln, i) => {
+    const s = ln.slice(0, clamp(chars - used, 0, ln.length)); used += ln.length;
+    ctx.font = '700 50px Fredoka'; ctx.fillStyle = '#6a3a2c'; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText(s, -360, -360 + i * 72);
+  });
+  if (chars >= LETTER.join('').length) {
+    ctx.font = '700 56px Fredoka'; ctx.fillStyle = '#ff6f9c'; ctx.fillText('Puff', -280, 90); heart(-320, 72, 44, '#ff6f9c');
+  }
+  // buttons
+  const bk = backOut(seg(t, 17.5, 17.8));
+  const press = t > 18.0 && t < 18.15 ? .9 : 1;
+  [['I did it!', -190, '#8fd67a', press], ['Not today', 190, '#ffd59a', 1]].forEach(([lab, bx, col, pr]) => {
+    ctx.save(); ctx.translate(bx, 230); ctx.scale(bk * pr, bk * pr);
+    ctx.fillStyle = 'rgba(74,38,28,.25)'; roundRect(-165, -55, 330, 120, 60); ctx.fill();
+    ctx.fillStyle = col; roundRect(-165, -65, 330, 120, 60); ctx.fill();
+    ctx.font = '700 54px Fredoka'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#4a261c'; ctx.fillText(lab, 0, -3);
+    ctx.restore();
+  });
+  // sticker stamp
+  if (t > 18.15) {
+    const sk = elastic(seg(t, 18.15, 18.9));
+    ctx.save(); ctx.translate(230, 0); ctx.rotate(-.2); ctx.scale(sk * 1.0, sk * 1.0);
+    ctx.fillStyle = '#ffd84d'; star(0, 0, 150, '#ffd84d', 0); ctx.beginPath(); ctx.arc(0, 0, 100, 0, 7); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 8; ctx.stroke();
+    ctx.font = '700 40px Fredoka'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#4a261c';
+    ctx.fillText('cosy', 0, -20); ctx.fillText('day!', 0, 24);
+    ctx.restore();
+  }
+  ctx.restore();
+  // tapping finger (a soft round cursor)
+  if (t > 17.6 && t < 18.7) {
+    const m = easeInOut(seg(t, 17.6, 18.0));
+    const fx = lerp(820, cx - 190, m), fy = lerp(1700, cy + 250, m);
+    const pr = t > 18.0 && t < 18.15 ? .8 : 1;
+    ctx.save(); ctx.globalAlpha = 1 - seg(t, 18.4, 18.7);
+    ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.strokeStyle = '#4a261c'; ctx.lineWidth = 8;
+    ctx.beginPath(); ctx.arc(fx, fy, 44 * pr, 0, 7); ctx.fill(); ctx.stroke();
+    if (t > 18.0) { const d = seg(t, 18.0, 18.5); ctx.globalAlpha = 1 - d; ctx.beginPath(); ctx.arc(fx, fy, 44 + d * 120, 0, 7); ctx.stroke(); }
+    ctx.restore();
+  }
+  if (t > 18.1) poofScreen(cx + 230, cy, 18.15, t, 5);
+  // Puff peeking from below the letter
+  cam.z = 1; cam.x = W / 2; cam.y = H / 2;
+  const pk = backOut(seg(t, 15.4, 15.9));
+  drawPuff({ x: 540, y: 1920 - 40 + (1 - pk) * 400, moving: false }, t, 1.55, { hopAt: [18.15] });
+
+  caption('a cosy game that', 170, t, 15.1, 19.45, 76);
+  caption('cheers on your *REAL* home', 270, t, 15.3, 19.45, 76, '#ff6f9c');
+}
+function poofScreen(sx, sy, te, t, seed) { const c = { ...cam }; cam.z = 1; cam.x = W / 2; cam.y = H / 2; poof(sx, sy + 30, te, t, seed, 1.3); Object.assign(cam, c); }
+
+// Scene 5: four seasons (19.5 – 22.5s)
+const SEASONS = [
+  { name: 'SPRING', col: '#ff8fb8', img: 'burrow', tint: 'rgba(255,170,200,.18)', p: 'petal' },
+  { name: 'SUMMER', col: '#ffd84d', img: 'bakery', tint: 'rgba(255,200,80,.22)', p: 'sun' },
+  { name: 'AUTUMN', col: '#ff9a4d', img: 'burrow', tint: 'rgba(230,120,40,.25)', p: 'leaf' },
+  { name: 'WINTER', col: '#8fe3ff', img: 'bakery', tint: 'rgba(120,170,255,.28)', p: 'snow' },
+];
+function sceneSeasons(t) {
+  const i = Math.min(3, Math.floor((t - 19.5) / .75)), s = SEASONS[i], lt = (t - 19.5) - i * .75;
+  creamBackdrop(t, '#ffe9c2', mix('#ffe9c2', s.col, .5));
+  cam.z = 1.45 - lt * .12; cam.x = [700, 1000, 1100, 800][i] + lt * 60; cam.y = 560;
+  painting(s.img, [], 1);
+  drawPuff({ x: cam.x - 120 + lt * 260, y: 700, vx: 1, vy: 0, moving: true }, t, .85);
+  ctx.fillStyle = s.tint; ctx.fillRect(0, 0, W, H);
+  const r = rng(300 + i);
+  for (let j = 0; j < 40; j++) {
+    const x0 = r() * W, sp = 300 + r() * 400, ph = r();
+    const y = ((ph * H + (t - 19.5) * sp) % (H + 100)) - 50, x = x0 + Math.sin(t * 2 + j) * 40;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(t * 2 + j);
+    if (s.p === 'petal') { ctx.fillStyle = j % 2 ? '#ffb3cc' : '#fff0f5'; ctx.beginPath(); ctx.ellipse(0, 0, 16, 9, 0, 0, 7); ctx.fill(); }
+    if (s.p === 'leaf') { ctx.fillStyle = ['#e8742c', '#c94f2c', '#f2b13a'][j % 3]; ctx.beginPath(); ctx.ellipse(0, 0, 22, 11, 0, 0, 7); ctx.fill(); }
+    if (s.p === 'snow') { ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(0, 0, 6 + (j % 4) * 3, 0, 7); ctx.fill(); }
+    if (s.p === 'sun') { ctx.globalAlpha = .7 + Math.sin(t * 8 + j) * .3; star(0, 0, 12, '#fff6a8', 0); }
+    ctx.restore();
+  }
+  if (s.p === 'sun') { const g = ctx.createRadialGradient(W, 0, 0, W, 0, 1200); g.addColorStop(0, 'rgba(255,240,170,.6)'); g.addColorStop(1, 'rgba(255,240,170,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); }
+  vignette(.25);
+  const k = seg(lt, 0, .22);
+  text(s.name, W / 2, 330, 170, { scale: lerp(1.8, 1, easeOut(k)), color: s.col, alpha: k, rot: (i % 2 ? .05 : -.05) });
+  caption('4 seasons', 1650, t, 19.55, 22.45, 80);
+  // white flash on each cut
+  if (lt < .08) { ctx.fillStyle = `rgba(255,255,255,${(1 - lt / .08) * .6})`; ctx.fillRect(0, 0, W, H); }
+}
+
+// Scene 6: six neighbours (22.5 – 24.5s)
+const NEIGHBOURS = [
+  ['Hazel', 'hedgehog', '#c98b5a'], ['Bea', 'bee', '#ffcf3d'], ['Pip', 'mouse', '#b9b4c2'],
+  ['Otto', 'otter', '#8b6a4e'], ['Moss', 'mole', '#6f6575'], ['Mabel', 'owl', '#a77f5c'],
+];
+function animalIcon(kind, x, y, s, col, t) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  ctx.fillStyle = col;
+  if (kind === 'hedgehog') { for (let i = 0; i < 9; i++) { const a = -Math.PI + i * Math.PI / 8; ctx.beginPath(); ctx.moveTo(Math.cos(a) * 40, Math.sin(a) * 40); ctx.lineTo(Math.cos(a) * 64, Math.sin(a) * 64); ctx.lineTo(Math.cos(a + .2) * 40, Math.sin(a + .2) * 40); ctx.fill(); } }
+  if (kind === 'mouse' || kind === 'mole') { [-38, 38].forEach(ex => { ctx.beginPath(); ctx.arc(ex, -38, kind === 'mouse' ? 24 : 12, 0, 7); ctx.fill(); }); }
+  if (kind === 'otter') { [-34, 34].forEach(ex => { ctx.beginPath(); ctx.arc(ex, -36, 13, 0, 7); ctx.fill(); }); }
+  if (kind === 'owl') { [-30, 30].forEach(ex => { ctx.beginPath(); ctx.moveTo(ex - 14, -30); ctx.lineTo(ex + (ex > 0 ? 18 : -18), -66); ctx.lineTo(ex + 14, -30); ctx.fill(); }); }
+  if (kind === 'bee') { ctx.strokeStyle = '#4a261c'; ctx.lineWidth = 5; [-18, 18].forEach(ex => { ctx.beginPath(); ctx.moveTo(ex, -40); ctx.lineTo(ex * 1.8, -66); ctx.stroke(); ctx.beginPath(); ctx.arc(ex * 1.8, -66, 7, 0, 7); ctx.fill(); }); ctx.fillStyle = 'rgba(220,240,255,.85)'; [-1, 1].forEach(d => { ctx.beginPath(); ctx.ellipse(d * 52, -10, 26, 16, d * .5, 0, 7); ctx.fill(); }); ctx.fillStyle = col; }
+  ctx.beginPath(); ctx.arc(0, 0, 46, 0, 7); ctx.fill();
+  if (kind === 'bee') { ctx.fillStyle = '#4a261c'; ctx.fillRect(-46, 18, 92, 10); }
+  if (kind === 'hedgehog' || kind === 'owl') { ctx.fillStyle = '#f3dcc0'; ctx.beginPath(); ctx.ellipse(0, 8, 32, 28, 0, 0, 7); ctx.fill(); }
+  const blink = (t * 1.3 + x) % 3 < .12;
+  ctx.fillStyle = '#2e1a14';
+  [-16, 16].forEach(ex => { ctx.beginPath(); if (blink) ctx.rect(ex - 7, -4, 14, 4); else ctx.arc(ex, -4, kind === 'owl' ? 9 : 7, 0, 7); ctx.fill(); });
+  ctx.fillStyle = 'rgba(255,130,150,.6)'; [-28, 28].forEach(ex => { ctx.beginPath(); ctx.arc(ex, 12, 8, 0, 7); ctx.fill(); });
+  ctx.fillStyle = kind === 'owl' ? '#f2a43a' : '#2e1a14'; ctx.beginPath(); ctx.arc(0, 8, 5, 0, 7); ctx.fill();
+  ctx.restore();
+}
+function sceneNeighbours(t) {
+  creamBackdrop(t, '#fff1d6', '#d4f0d0');
+  caption('6 neighbours', 250, t, 22.5, 24.45, 104, '#ffd84d');
+  caption('to *befriend*', 370, t, 22.6, 24.45, 92, '#ff6f9c');
+  NEIGHBOURS.forEach(([name, kind, col], i) => {
+    const cx = 290 + (i % 2) * 500, cy = 700 + Math.floor(i / 2) * 400;
+    const k = backOut(seg(t, 22.55 + i * .1, 22.85 + i * .1));
+    if (k <= 0) return;
+    ctx.save(); ctx.translate(cx, cy + Math.sin(t * 3 + i) * 8); ctx.scale(k, k);
+    ctx.fillStyle = 'rgba(74,38,28,.2)'; roundRect(-220, -150 + 12, 440, 330, 40); ctx.fill();
+    ctx.fillStyle = '#fffaf0'; roundRect(-220, -150, 440, 330, 40); ctx.fill();
+    ctx.strokeStyle = '#e8c9a0'; ctx.lineWidth = 6; ctx.stroke();
+    animalIcon(kind, 0, -40, 1.15, col, t);
+    ctx.font = '700 54px Fredoka'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#4a261c'; ctx.fillText(name, 0, 70);
+    for (let h = 0; h < 5; h++) {
+      const on = t > 23.0 + i * .12 + h * .1;
+      const hk = on ? backOut(seg(t, 23.0 + i * .12 + h * .1, 23.2 + i * .12 + h * .1)) : 1;
+      heart(-120 + h * 60, 140, 40 * (on ? hk : .9), on ? '#ff6f9c' : '#ead7c4');
+    }
+    ctx.restore();
+  });
+}
+
+// Scene 7: the Glimmerwell relights (24.5 – 29s)
+function sceneFountain(t) {
+  const lit = seg(t, 26.5, 27.4), L = easeOut(lit);
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, mix('#1b1d3a', '#ff9fb8', L)); g.addColorStop(.55, mix('#2b2c4d', '#ffd9a0', L)); g.addColorStop(1, mix('#22233a', '#8fcf8a', L));
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  const shake = t > 26.5 && t < 27.0 ? (27.0 - t) * 26 : 0;
+  ctx.save(); ctx.translate(Math.sin(t * 90) * shake, Math.cos(t * 70) * shake);
+  const zoom = 1 + .08 * easeInOut(seg(t, 24.5, 26.5)) - .08 * L;
+  ctx.translate(W / 2, 1150); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -1150);
+  // stars in the night sky
+  sparkleField(t, 21, 30, [0, 0, W, 700], ['#ffffff', '#cfd8ff']);
+  // cobbles
+  for (let y = 0; y < 9; y++) for (let x = -1; x < 10; x++) {
+    const px = x * 130 + (y % 2) * 65, py = 1000 + y * 110;
+    ctx.fillStyle = mix('#3a3a55', '#e9c79a', L); roundRect(px + 6, py + 6, 118, 98, 26); ctx.fill();
+    ctx.fillStyle = mix('#45466a', '#f5dcb4', L); roundRect(px + 6, py, 118, 92, 26); ctx.fill();
+  }
+  // lamp posts
+  [[150, 1100], [930, 1100]].forEach(([x, y]) => {
+    ctx.fillStyle = mix('#23233a', '#5a3a2c', L); ctx.fillRect(x - 12, y - 360, 24, 360);
+    ctx.fillStyle = mix('#33334f', '#ffe9a8', L); roundRect(x - 44, y - 450, 88, 100, 22); ctx.fill();
+    if (L > 0) { const gg = ctx.createRadialGradient(x, y - 400, 0, x, y - 400, 320); gg.addColorStop(0, `rgba(255,230,150,${.75 * L})`); gg.addColorStop(1, 'rgba(255,230,150,0)'); ctx.fillStyle = gg; ctx.fillRect(x - 320, y - 720, 640, 640); }
+  });
+  // light rays behind the fountain
+  if (L > 0) {
+    ctx.save(); ctx.translate(540, 900); ctx.rotate(t * .4); ctx.globalAlpha = .35 * L;
+    for (let i = 0; i < 12; i++) { ctx.rotate(Math.PI / 6); ctx.fillStyle = i % 2 ? '#fff6c8' : '#ffd1dc'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-90, -1400); ctx.lineTo(90, -1400); ctx.fill(); }
+    ctx.restore();
+  }
+  // the fountain (stone basins)
+  const stone = mix('#5c5d78', '#f3e3c6', L), stoneD = mix('#45465e', '#d9bf98', L), water = mix('#2a3550', '#6fd6ff', L);
+  ctx.fillStyle = stoneD; ctx.beginPath(); ctx.ellipse(540, 1240, 400, 120, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = stone; ctx.beginPath(); ctx.ellipse(540, 1200, 400, 120, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = water; ctx.beginPath(); ctx.ellipse(540, 1195, 340, 88, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = stoneD; ctx.fillRect(500, 900, 80, 300);
+  ctx.fillStyle = stone; ctx.fillRect(510, 900, 60, 300);
+  ctx.fillStyle = stoneD; ctx.beginPath(); ctx.ellipse(540, 930, 180, 54, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = stone; ctx.beginPath(); ctx.ellipse(540, 910, 180, 54, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = water; ctx.beginPath(); ctx.ellipse(540, 906, 145, 36, 0, 0, 7); ctx.fill();
+  // water jets
+  if (L > 0) {
+    const r = rng(5);
+    for (let i = 0; i < 90; i++) {
+      const ph = (t * 1.2 + r()) % 1, side = r() < .5 ? -1 : 1, spread = 60 + r() * 240;
+      const x = 540 + side * spread * ph, y = 880 - 420 * ph + 520 * ph * ph;
+      ctx.save(); ctx.globalAlpha = L * (1 - ph * .5); ctx.fillStyle = i % 3 ? '#bff0ff' : '#ffffff';
+      ctx.beginPath(); ctx.arc(x, y, 9 + r() * 8, 0, 7); ctx.fill(); ctx.restore();
+    }
+    sparkleField(t, 31, 26, [200, 500, 680, 800]);
+  }
+  // fireworks of sparkles
+  [[27.0, 300, 450], [27.45, 780, 380], [27.9, 540, 260], [28.35, 260, 300], [28.6, 820, 520]].forEach(([te, x, y], i) => {
+    const d = t - te; if (d < 0 || d > 1.2) return;
+    const r = rng(500 + i), cols = ['#ffd84d', '#ff8fb8', '#8fe3ff', '#b8ff8f', '#ffffff'];
+    for (let j = 0; j < 26; j++) { const a = j / 26 * 6.28, k = easeOut(d / 1.2); ctx.save(); ctx.globalAlpha = 1 - k; star(x + Math.cos(a) * 260 * k, y + Math.sin(a) * 260 * k + 80 * k * k, 18 * (1 - k * .5), cols[(j + i) % 5], d * 5); ctx.restore(); }
+  });
+  ctx.restore();
+  // Puff facing the fountain, hop on the drop
+  cam.z = 1; cam.x = W / 2; cam.y = H / 2;
+  const pz = lerp(0, 1, backOut(seg(t, 24.6, 25.1)));
+  drawPuff({ x: 540, y: 1560 + (1 - pz) * 500, moving: false }, t, 1.4, { face: t < 26.5 ? 'up' : undefined, hopAt: [26.5, 27.2, 27.9] });
+  if (t > 26.15 && t < 26.6) { // spark rising from Puff into the fountain
+    const k = easeInOut(seg(t, 26.15, 26.5));
+    ctx.save(); ctx.globalAlpha = 1 - seg(t, 26.5, 26.6); star(540, lerp(1350, 900, k), 50, '#fff6c8', t * 10);
+    const gg = ctx.createRadialGradient(540, lerp(1350, 900, k), 0, 540, lerp(1350, 900, k), 120); gg.addColorStop(0, 'rgba(255,240,180,.8)'); gg.addColorStop(1, 'rgba(255,240,180,0)'); ctx.fillStyle = gg; ctx.fillRect(0, 0, W, H); ctx.restore();
+  }
+  caption('one sleepy fountain...', 300, t, 24.6, 26.45, 80);
+  caption('to *light up* again', 300, t, 26.55, 28.95, 96, '#ffd84d');
+  if (t > 26.5 && t < 27.0) { ctx.fillStyle = `rgba(255,252,235,${(1 - seg(t, 26.5, 27.0)) * .95})`; ctx.fillRect(0, 0, W, H); }
+}
+
+// Scene 8: title card (29 – 33s)
+function sceneTitle(t) {
+  creamBackdrop(t, '#ffe2ea', '#ffe9c2');
+  ctx.save(); ctx.translate(W / 2, 1150); ctx.rotate(t * .3); ctx.globalAlpha = .4;
+  for (let i = 0; i < 16; i++) { ctx.rotate(Math.PI / 8); ctx.fillStyle = i % 2 ? '#fff' : '#ffd1dc'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-120, -1500); ctx.lineTo(120, -1500); ctx.fill(); }
+  ctx.restore();
+  sparkleField(t, 9, 30, [40, 100, 1000, 1700]);
+  cam.z = 1; cam.x = W / 2; cam.y = H / 2;
+  const pk = backOut(seg(t, 29.0, 29.5));
+  drawPuff({ x: 540, y: 1480 + (1 - pk) * 700, moving: false }, t, 2.3, { hopAt: [30.0, 31.0, 32.0] });
+  // title letters drop in
+  const lines = [['Sweet', 330, 190, '#ffffff'], ['Home', 520, 190, '#ffffff'], ['Reset', 730, 230, '#ffd84d']];
+  let n = 0;
+  lines.forEach(([word, y, size, col]) => {
+    ctx.font = `700 ${size}px Fredoka`;
+    const wds = [...word].map(c => ctx.measureText(c).width), total = wds.reduce((a, b) => a + b, 0);
+    let x = W / 2 - total / 2;
+    [...word].forEach((c, i) => {
+      const te = 29.05 + n * .06; n++;
+      const k = seg(t, te, te + .35);
+      if (k > 0) text(c, x + wds[i] / 2, y - (1 - easeOut(k)) * 300 + Math.sin(t * 4 + n) * 6, size, { scale: backOut(k), color: col, lw: size * .22, rot: Math.sin(t * 3 + n) * .04 });
+      x += wds[i];
+    });
+  });
+  caption('one tidy spot at a time', 940, t, 30.0, 40, 64, '#ff6f9c');
+  const ck = backOut(seg(t, 30.6, 31.0));
+  if (ck > 0) {
+    ctx.save(); ctx.translate(W / 2, 1720); ctx.scale(ck, ck);
+    ctx.fillStyle = '#4a261c'; roundRect(-430, -60, 860, 120, 60); ctx.fill();
+    ctx.font = '700 54px Fredoka'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff';
+    ctx.fillText('Coming soon  ·  iOS · Android · Web', 0, 2);
+    ctx.restore();
+  }
+}
+
+// ---------- transitions ----------
+function iris(t, at, cx = W / 2, cy = H / 2) {
+  const d = Math.abs(t - at); if (d > .25) return;
+  const r = easeInOut(d / .25) * 1400;
+  ctx.save(); ctx.fillStyle = '#4a261c'; ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.moveTo(cx + r, cy); ctx.arc(cx, cy, r, 0, Math.PI * 2, true); ctx.fill(); ctx.restore();
+}
+
+window.draw = function (t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none';
+  if (t < 10) sceneBurrow(t);
+  else if (t < 15) sceneBakery(t);
+  else if (t < 19.5) sceneLetter(t);
+  else if (t < 22.5) sceneSeasons(t);
+  else if (t < 24.5) sceneNeighbours(t);
+  else if (t < 29) sceneFountain(t);
+  else sceneTitle(t);
+  vignette(.22);
+  iris(t, 10); iris(t, 15); iris(t, 24.5); iris(t, 29);
+  if (t < .2) { ctx.fillStyle = `rgba(0,0,0,${1 - t / .2})`; ctx.fillRect(0, 0, W, H); }
+};
+
+window.ready = (async () => {
+  await Promise.all(Object.keys(SHEETS).concat(['burrow', 'bakery']).map(n => new Promise(res => {
+    const im = new Image(); im.onload = () => { IMG[n] = im; res(); };
+    im.src = '../../apps/web/public/' + (n === 'burrow' || n === 'bakery' ? 'areas/' + n + '.webp' : 'sprites/' + n + '.png');
+  })));
+  for (const n of Object.keys(IMG)) {
+    const c = document.createElement('canvas'); c.width = IMG[n].width; c.height = IMG[n].height;
+    const g = c.getContext('2d'); g.filter = 'grayscale(1) brightness(.78) contrast(.85)'; g.drawImage(IMG[n], 0, 0); GREY[n] = c;
+  }
+  await document.fonts.load('700 50px Fredoka');
+  return true;
+})();
+if (!navigator.webdriver) { const s = performance.now(); (function loop() { window.draw(((performance.now() - s) / 1000) % DURATION); requestAnimationFrame(loop); })(); }
+</script></body></html>
