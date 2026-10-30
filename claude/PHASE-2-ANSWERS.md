@@ -51,3 +51,31 @@ The 100 questions behind the next phase document. Raw answers, in Blake's words 
 | 46 | Long goals | Very clear |
 | 47 | Most rewarding | New places, new friends, new things to make, seeing the town change |
 | 48 | Puff levels | Skill levels with perks |
+| 49 | Currencies | All of it: Sparkles and materials, neighbour tokens, and a town fund |
+| 50 | Shops | Rotating stock and upgrades as the town grows |
+| 51 | Selling | All: Puff's own market stall, selling to shops, and orders to fill |
+| 52 | Money | Saving up for big buys feels good; tight early, easier later |
+| 53 | Day length | 10 minutes, with stamina balanced to match |
+| 54 | Fluff | Dealer's choice (Claude's call: small actions free, big actions cost Fluff) |
+| 55 | Night | Night activities |
+| 56 | Real time | Real holidays and a small daily treat (never a streak); no real-time sky |
+| 57 | Seasons | Change play a lot |
+| 58 | Festivals | Four big festivals with prep days, plus small monthly events |
+| 59 | Weather | Many kinds, each with effects |
+| 60 | Personal days | Birthdays and anniversaries (town founding day, moving-in days) |
+| 61 | Grumbles | Collect them and give them jobs |
+| 62 | Grumble kinds | Many (10+) |
+| 63 | Wildlife | Yes, creatures that visit if the town suits them |
+| 64 | Pet | A companion that helps |
+| 65 | Less flat | All: light and shadow, more animation, richer detail, height and layers |
+| 66 | Camera | Pinch to zoom |
+| 67 | Feedback | Moderate |
+| 68 | UI style | Pixel |
+| 69 | Music | Per place and season, and growing with the town |
+| 70 | Ambience | Rich |
+| 71 | Voices | A babble per character |
+| 72 | Haptics | More, with an option to turn them off |
+| 73 | Visiting towns | First release |
+| 74 | Sharing | Photo mode, before/after clips, town postcards |
+| 75 | Comparing | Friendly only (festival dash scores with friends) |
+| 76 | Community events | Yes, later |
