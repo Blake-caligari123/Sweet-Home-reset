@@ -328,6 +328,16 @@ One new thing every couple of days, each with one tip or letter:
   - Pause shows the keys on a computer.
   - Decided without asking (Blake said keep going): there's no lasting trickle drawn on the fountain yet, and Sorrel isn't in the finale.
 
+- **Phase 5c (30 Oct): the unlock (§10).**
+  - Days 1–14 are free. Without the unlock, the night after day 14 is a rest night: morning comes, crops grow, builds finish and rocks come back, but the calendar stays on day 14. Nothing is taken away.
+  - The postcard shows on the first rest night and then every 7 rest nights (`freeDays`, `unlockOfferRepeatNights` in tuning; the old Plus settings are gone). "Not now" is an equal button, and Puff says "Best spring ever." either way.
+  - Buying goes through a grown-up question in words ("what is seven times nine?").
+    - The web buys through the API's Stripe checkout (sign-in needed).
+    - iOS and Android buy through RevenueCat's `full_game` entitlement (plugin pinned at 13.7.4, loaded only on phones). The phones show the store's own price, never a web price.
+  - Restore purchases is in Pause.
+  - The gate only switches on in a build that sells the unlock (`VITE_API_ORIGIN` on the web, `VITE_RC_IOS_KEY` or `VITE_RC_ANDROID_KEY` on phones), so the test link still plays the whole year. `?debug&store=fake` pretends, for playthroughs.
+  - Decided without asking: A$14.99, provisional in `config/pricing.json` until checked against a store price point.
+
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
 |---|---|

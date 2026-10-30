@@ -101,7 +101,7 @@ Town: Hollowfern; fountain: the Glimmerwell; Puff is "they". Heart events at 2, 
 | requestsPerDay / expiry | 1–3 / 2–3 days | expired request just goes |
 | earlyDaySparkles | 150–300 | target |
 | realChoreReward | 25 Sparkles + 30 max Fluff for the day | cap 5 per real day |
-| plusOfferDay | 14 (Spring Clean Fair) | then at most once per in-game week after a dismiss |
+| freeDays | 14 (Spring Clean Fair) | then at most once per in-game week after a dismiss |
 | beachUnlockDay | 43 | Beach and lighthouse open at start of winter; no heart condition |
 | copperRecipeShopDay | 5 | Copper tool recipe sold at the General Store |
 | relaxedMode | Fluff ×0.5, no doze, no expiry | |

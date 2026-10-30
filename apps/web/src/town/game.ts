@@ -18,6 +18,8 @@ import { newlyEarned } from './outfits/outfits';
 import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
 import { installDebugHooks } from './debug';
+import { pickStore } from './unlock/store';
+import { Unlocker } from './unlock/unlock-card';
 import { PuffActions } from './play/actions';
 import { Clock, LATE_AT } from './play/clock';
 import { Carry } from './play/carry';
@@ -88,6 +90,7 @@ export class TownGame {
   private mining: Mining;
   private dash: TidyDash;
   private lanterns: Lanterns;
+  private unlocker: Unlocker;
   private placing: Placing;
   private hudLive: HudLive;
   private sweep: Sweep;
@@ -144,6 +147,11 @@ export class TownGame {
     this.mining = new Mining({ ...core, puff: this.puff, settings, area: () => this.areaId, day: () => this.clock.state.day, refreshArea: () => this.refreshArea() });
     this.dash = new TidyDash({ ...core, area: () => this.areaId, areaOf: (id) => this.places.get(id)!, messFor: (id) => this.places.mess(id), syncMess: (i) => this.world.syncMess(i), playStory: (id) => this.talk.playStory(id) });
     this.lanterns = new Lanterns({ ...core, refreshArea: () => this.refreshArea(), playStory: (id) => this.talk.playStory(id) });
+    // The one unlock (VISION §10): a store only in builds set up to sell it; ?debug&store=fake pretends.
+    const params = new URLSearchParams(location.search);
+    const store = pickStore({ platform: native.platform, env: import.meta.env, fake: params.has('debug') && params.get('store') === 'fake' });
+    this.unlocker = new Unlocker({ state: this.state, view: this.view, via: native.platform, save: () => void this.save(false) }, store);
+    if (params.has('unlocked')) void this.unlocker.checkReturn();
     this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.tap(x, y) });
     this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.scrub({ x, y }, MAX_RUB) });
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
@@ -338,7 +346,7 @@ export class TownGame {
     await wait(dozed ? 1400 : 300);
     this.fade.classList.add('on', 'night');
     await wait(this.settings.reducedMotion ? 200 : 900);
-    const built = passNight({ state, clock: this.clock, content: this.content, jobs: this.jobs, places: this.places, grumbles: this.grumbles }, dozed);
+    const night = passNight({ state, clock: this.clock, content: this.content, jobs: this.jobs, places: this.places, grumbles: this.grumbles, gate: this.unlocker.gate }, dozed);
     this.hud.setLate(false);
     // Wake up beside the bed: the burrow's spawn tile.
     const bed = this.places.get('burrow')!.pack.spawn;
@@ -350,7 +358,7 @@ export class TownGame {
     view.release();
     this.guide.handle({ type: 'slept' });
     this.refreshHud();
-    morning({ state, view, clock: this.clock, content: this.content, refreshHud: () => this.refreshHud() }, built);
+    morning({ state, view, clock: this.clock, content: this.content, refreshHud: () => this.refreshHud(), offer: () => void this.unlocker.offer() }, night);
   }
 
   // ---- sheets ------------------------------------------------------------------------------
@@ -397,7 +405,8 @@ export class TownGame {
       openNames: () => this.openNames(),
       openOutfits: () => openOutfits(this.view, this.content, this.state, () => void this.save(false)),
       townLine: `🌸 Town Bloom: ${this.content.line(`bloom.${this.state.bloom}`)} · ${this.state.finds.found.length} of ${this.content.pack.finds?.length ?? 0} finds`,
-      skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null
+      skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null,
+      restore: this.unlocker.gate ? () => void this.unlocker.restore() : null
     });
   }
 

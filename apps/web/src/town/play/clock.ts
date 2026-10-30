@@ -46,6 +46,8 @@ export class Clock {
   }
 
   nextDay() { this.state = { day: this.state.day + 1, minutes: DAY_START }; this.carry = 0; }
+  /** A rest night at the end of the free spring: morning comes, the day number stays. */
+  restDay() { this.state = { day: this.state.day, minutes: DAY_START }; this.carry = 0; }
 }
 
 export function formatTime(minutes: number) {
