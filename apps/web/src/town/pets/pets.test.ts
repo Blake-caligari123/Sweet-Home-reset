@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
-import { Trail } from './pets';
+import { TUNING } from '../data/tuning';
+import { sniff, Trail, type Pet, type PetDef } from './pets';
 
 describe('pet trail', () => {
   it('follows a little way behind Puff, along the way Puff actually walked', () => {
@@ -32,5 +33,26 @@ describe('Hollowfern pets', () => {
     // A default name never belongs to someone in the story (Sorrel's sister is Bramble).
     const story = Object.values(text).join(' ');
     for (const p of pets) expect(story, p.defaultName).not.toMatch(new RegExp(`\\b${p.defaultName}\\b`));
+  });
+});
+
+describe('the pet\'s help', () => {
+  const cat: PetDef = { id: 'cat', name: 'Cat', defaultName: 'Mochi', line: '', finds: ['twig', 'shell'] };
+  it('sniffs something out the first time Puff goes somewhere each day, a few times a day', () => {
+    const pet: Pet = { kind: 'cat', name: 'Mochi', day: 4 };
+    const per = 2;
+    expect(cat.finds).toContain(sniff(pet, cat, 'yard', 5, per));
+    expect(sniff(pet, cat, 'yard', 5, per)).toBeNull();
+    expect(sniff(pet, cat, 'square', 5, per)).not.toBeNull();
+    expect(sniff(pet, cat, 'lane', 5, per)).toBeNull();
+    expect(sniff(pet, cat, 'yard', 6, per)).not.toBeNull();
+  });
+
+  it('gives each Hollowfern pet things it can find, that really exist', () => {
+    for (const p of pack.pets!) {
+      expect(p.finds?.length, p.id).toBeGreaterThan(0);
+      for (const i of p.finds!) expect(pack.items[i], i).toBeTruthy();
+    }
+    expect(TUNING.petFindsPerDay).toBeGreaterThan(0);
   });
 });

@@ -3,11 +3,24 @@ import type { Pt } from '../world/nav';
 // A pet (VISION §4): one little critter, chosen on day 4 and named by the player. It trails a
 // little way behind Puff along the way Puff walked, so it always walks where Puff could.
 
-/** A kind of pet the player can choose (pack data; the art is code-drawn until sprite sheets land). */
-export interface PetDef { id: string; name: string; defaultName: string; line: string }
+/** A kind of pet the player can choose (pack data; the art is code-drawn until sprite sheets land). `finds`: what it sniffs out. */
+export interface PetDef { id: string; name: string; defaultName: string; line: string; finds?: string[] }
 
-/** Puff's pet: which kind, what it's called, and the day it moved in. */
-export interface Pet { kind: string; name: string; day: number }
+/** Puff's pet: which kind, what it's called, the day it moved in, and today's sniffing (places, so each counts once). */
+export interface Pet { kind: string; name: string; day: number; sniffed?: { day: number; areas: string[] } }
+
+/**
+ * The pet's help (NEXT-PHASE §10: the pet's help): the first time Puff goes somewhere outdoors
+ * each day, the pet may sniff out one of its kind's finds, up to a few a day. Returns the item, or
+ * null, and notes the place either way. Fixed by day and place, never random from moment to moment.
+ */
+export function sniff(pet: Pet, def: PetDef | undefined, area: string, day: number, perDay: number): string | null {
+  const today = pet.sniffed?.day === day ? pet.sniffed : { day, areas: [] };
+  if (today.areas.includes(area) || !def?.finds?.length) return null;
+  pet.sniffed = { day, areas: [...today.areas, area] };
+  if (today.areas.length >= perDay) return null;
+  return def.finds[(day * 7 + area.length * 3 + today.areas.length) % def.finds.length];
+}
 
 /** The path Puff walked, kept just long enough for the pet to follow `gap` world px behind. */
 export class Trail {

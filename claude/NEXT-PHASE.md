@@ -326,4 +326,8 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - A morning banner says who: "🤝 Hazel and Bea helped tidy Neighbour Lane this morning!"
   - Helpers never pick up clutter (that's Puff's to put away), and they stop short of restoring a place; that moment stays Puff's.
 - **Split (30 Oct):** the Phase 6 systems that hear play or bring morning news moved from `game.ts` into `systems.ts` (TownSystems), with no change in behaviour. `game.ts` is 501 lines.
+- **6b.5 The pet's help (30 Oct):**
+  - The first time Puff goes somewhere outdoors each day, the pet sniffs out a present for the bag. That's up to 3 places a day (`petFindsPerDay`).
+  - Each kind finds its own things: the cat twigs and shells, the pup pebbles and twigs, the hedgehoglet mushrooms and berries.
+  - What it finds is fixed by day and place, so it never feels like a slot machine. Today's places are saved with the pet.
 
