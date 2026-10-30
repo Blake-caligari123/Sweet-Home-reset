@@ -85,6 +85,7 @@ function puffFrame(state, t) {
   return ['puff_idle_down', Math.floor(t * 7)];
 }
 function puff(state, x, y, scale, t, o = {}) {
+  if (scale <= 0) return;
   const [name, f, flip] = puffFrame(state, t);
   let hop = 0, sqx = 1, sqy = 1;
   for (const h of [].concat(o.hop ?? [])) {
