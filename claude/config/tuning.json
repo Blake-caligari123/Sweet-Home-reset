@@ -77,6 +77,7 @@
   "walkTilesPerSecondTired": 3.5,
   "mapTravelMinutesPerHop": 5,
   "findSetSparkles": 200,
+  "townFund": { "perHappy": 5, "perOther": 2 },
   "puffMood": { "happySwingShare": 0.85, "curiousFindShare": 0.75, "cosyBurrow": 0.9, "curiousPlaces": 3 },
   "skills": {
     "xp": 4,

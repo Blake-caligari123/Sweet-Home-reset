@@ -3,7 +3,7 @@ import type { Content } from '../data/content';
 import type { Clock } from '../play/clock';
 import type { TownState } from '../state';
 import type { View } from '../ui/view';
-import { buildQuestion, canBuild, canUpgrade, DONE, nightsText, startBuild, upgrade, type BuildingDef, type PlotDef } from './build';
+import { buildQuestion, canBuild, canUpgrade, DONE, fundShare, nightsText, startBuild, upgrade, type BuildingDef, type PlotDef } from './build';
 
 export interface BuildHost {
   state: TownState; view: View; content: Content; clock: Clock;
@@ -36,7 +36,8 @@ export function openBuildBoard(host: BuildHost) {
     function offer(def: BuildingDef, isUpgrade: boolean) {
       const waits = (def.bloom ?? 1) > state.bloom;
       const items = Object.entries(def.cost.items ?? {}).map(([id, n]) => ` · ${state.bag.count(id)}/${n} ${content.itemName(id).toLowerCase()}`).join('');
-      const label = waits ? `${def.name} · Town Bloom ${def.bloom}` : `${isUpgrade ? 'Upgrade: ' : ''}${def.name} · ${def.cost.sparkles} ✨${items}`;
+      const fund = fundShare(state, def);
+      const label = waits ? `${def.name} · Town Bloom ${def.bloom}` : `${isUpgrade ? 'Upgrade: ' : ''}${def.name} · ${def.cost.sparkles} ✨${fund ? ` (town fund ${fund})` : ''}${items}`;
       const btn = h('button', { class: 'btn small', type: 'button' }, label);
       if (waits || (isUpgrade ? canUpgrade(state, plot, def) : canBuild(state, plot, def)) !== 'ok') btn.setAttribute('disabled', '');
       // Nothing is spent until Puff says yes; Not yet goes back to the plans.
@@ -57,5 +58,5 @@ export function openBuildBoard(host: BuildHost) {
       return btn;
     }
   }));
-  close = view.sheet('Keeper\'s plans', [h('p', {}, `You have ${state.sparkles} ✨`), list]);
+  close = view.sheet('Keeper\'s plans', [h('p', {}, `You have ${state.sparkles} ✨ · Town fund ${state.fund} ✨ (for big projects)`), list]);
 }

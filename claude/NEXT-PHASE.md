@@ -278,4 +278,14 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Hazel and Bea fall out over a borrowed honey jar (day 16).
     - Otto and Mabel fall out over a splashed sea chart (day 48, after Mabel arrives).
   - Each drama has its brewing lines, the talks that mend it, a banner, and a line for afterwards. A test makes sure no drama starts before both neighbours have arrived.
+- **6a.8 Town needs and the town fund (30 Oct):** `needs/`.
+  - **Town needs**, in the pack:
+    - Somewhere to sit, flowers in the square, light after dark, fresh greens all year.
+    - Later: a home for Sorrel, a way across the river, a way down to the beach, a path into the woods.
+    - Each need shows once its part of the year has arrived, and is met once something that meets it stands finished.
+  - **Pause → 🏘 Town** lists the needs, ticked or with a hint, and the fund.
+  - **The town fund:**
+    - Each morning everyone in town chips in: 5 ✨ when happy, 2 otherwise (`townFund`).
+    - Meeting a need adds its own gift and is cheered with a morning banner. The town remembers it (`need_<id>`), for lines later.
+    - **Big projects** (`project` in the pack: greenhouse, Sorrel's cottage, the footbridge, sea steps, woodland path) take from the fund first. The Keeper's plans show the fund and how much it covers.
 

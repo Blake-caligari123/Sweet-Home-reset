@@ -73,6 +73,8 @@ export interface TownSave {
   skills?: SkillLog;
   /** Today's snack and new places, for Puff's mood. */
   puffDay?: PuffDay;
+  /** The town fund, and the town needs met (needs/). */
+  fund?: number; needsMet?: string[];
   /** The cloud save's version this device last matched (sync asks the player when it differs). */
   cloudVersion?: number;
   /** Cleans counted per place, and the surprise finds collected. */

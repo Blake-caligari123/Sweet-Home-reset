@@ -10250,7 +10250,8 @@
     "h": 3
    },
    "bloom": 2,
-   "effect": "waters_garden"
+   "effect": "waters_garden",
+   "project": true
   },
   {
    "id": "cottage_sorrel",
@@ -10265,7 +10266,8 @@
     "h": 3
    },
    "effect": "home",
-   "home": "sorrel"
+   "home": "sorrel",
+   "project": true
   },
   {
    "id": "footbridge",
@@ -10299,7 +10301,8 @@
      "toX": 21,
      "toY": 1
     }
-   ]
+   ],
+   "project": true
   },
   {
    "id": "sea_steps",
@@ -10324,7 +10327,8 @@
      "toX": 1,
      "toY": 7
     }
-   ]
+   ],
+   "project": true
   },
   {
    "id": "woodland_path",
@@ -10350,7 +10354,8 @@
      "toX": 1,
      "toY": 8
     }
-   ]
+   ],
+   "project": true
   }
  ],
  "grumbleFamilies": [
@@ -11096,6 +11101,91 @@
    ],
    "mendedFlag": "splash_mended",
    "banner": "drama.splash.mended"
+  }
+ ],
+ "needs": [
+  {
+   "id": "seat",
+   "name": "Somewhere to sit",
+   "hint": "Build a bench in the square (Keeper's plans, by the fountain).",
+   "metBy": [
+    "bench",
+    "bench_cosy"
+   ],
+   "fund": 30,
+   "unlock": "building"
+  },
+  {
+   "id": "flowers",
+   "name": "Flowers in the square",
+   "hint": "A flower bed on a lawn in the square would brighten it.",
+   "metBy": [
+    "flower_bed",
+    "flower_bed_big"
+   ],
+   "fund": 30,
+   "unlock": "building"
+  },
+  {
+   "id": "light",
+   "name": "Light after dark",
+   "hint": "A lamppost would light the square at night (Town Bloom 2).",
+   "metBy": [
+    "lamppost",
+    "lamppost_twin"
+   ],
+   "fund": 40,
+   "unlock": "building"
+  },
+  {
+   "id": "greens",
+   "name": "Fresh greens all year",
+   "hint": "A greenhouse in the yard would water the garden every night.",
+   "metBy": [
+    "greenhouse"
+   ],
+   "fund": 60,
+   "unlock": "building"
+  },
+  {
+   "id": "sorrel_home",
+   "name": "A home for Sorrel",
+   "hint": "Sorrel needs a cottage. The town fund will help!",
+   "metBy": [
+    "cottage_sorrel"
+   ],
+   "fund": 60,
+   "unlock": "invite_sorrel"
+  },
+  {
+   "id": "crossing",
+   "name": "A way across the river",
+   "hint": "Mend the old footbridge at Riverside.",
+   "metBy": [
+    "footbridge"
+   ],
+   "fund": 80,
+   "unlock": "footbridge"
+  },
+  {
+   "id": "beach",
+   "name": "A way down to the beach",
+   "hint": "Mend the old sea steps (Keeper's plans).",
+   "metBy": [
+    "sea_steps"
+   ],
+   "fund": 80,
+   "unlock": "sea_steps"
+  },
+  {
+   "id": "woods",
+   "name": "A path into the woods",
+   "hint": "Clear the overgrown path (Keeper's plans).",
+   "metBy": [
+    "woodland_path"
+   ],
+   "fund": 80,
+   "unlock": "overgrown_path"
   }
  ]
 }
