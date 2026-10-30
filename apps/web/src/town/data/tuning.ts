@@ -35,6 +35,8 @@ export interface Tuning {
   mapTravelMinutesPerHop: number;
   /** Moss's thank-you for finding every surprise find. */
   findSetSparkles: number;
+  /** Puff's own moods (NEXT-PHASE §5.2): a happy swing's share of the usual time, a curious Puff's share of cleans between finds. */
+  puffMood: { happySwingShare: number; curiousFindShare: number; cosyBurrow: number; curiousPlaces: number };
   /** Puff's skills (skills/skills.ts): XP per action, how many a day earn full XP, the share after that,
    * the XP each level starts at, and each skill's perk per level above 1. */
   skills: { xp: number; fullXpPerDay: number; tiredXpShare: number; levelXp: number[]; perks: Record<'tidying' | 'farming' | 'cooking' | 'crafting' | 'exploring', number> };

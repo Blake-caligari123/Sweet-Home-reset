@@ -25,6 +25,7 @@ import { stickTarget } from './play/stick';
 import { Joystick } from './ui/joystick';
 import { TownLife } from './life/town-life';
 import { openCollection } from './bloom/collection-sheet';
+import { PuffMoods } from './skills/puff-mood';
 import { SkillBook } from './skills/skill-book';
 import { openSkills } from './skills/skills-sheet';
 import { perkIn } from './skills/skills';
@@ -87,6 +88,7 @@ export class TownGame {
   private talk: Conversations;
   private taps: Taps;
   private life: TownLife;
+  private moods: PuffMoods;
   private jobs: Jobs;
   private selected: ToolId = 'duster';
   private puff = new Puff();
@@ -134,6 +136,7 @@ export class TownGame {
       bag: () => { this.view.uiTap(); this.openBag(); },
       pause: () => { this.view.uiTap(); this.openPause(); },
       map: () => { this.view.uiTap(); if (!this.dash.active) this.openMap(); },
+      mood: () => { this.view.uiTap(); this.moods.say(); },
       tracker: () => this.view.uiTap()
     });
     this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress, () => this.state.names.puff);
@@ -161,7 +164,8 @@ export class TownGame {
       highlight: (tiles) => this.world.setHighlight(tiles), refreshHud: () => this.refreshHud()
     });
     const skills = new SkillBook({ state: this.state, view: this.view, day: () => this.clock.state.day });
-    this.guide.listen((e) => skills.hear(e));
+    this.moods = new PuffMoods({ state: this.state, view: this.view, hud: this.hud, day: () => this.clock.state.day, burrowTidy: () => this.places.mess('burrow').progress });
+    this.guide.listen((e) => { skills.hear(e); this.moods.hear(e); });
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
     this.placing = new Placing({ ...core, places: this.places, area: () => this.areaId, refreshArea: () => this.refreshArea() });
     this.mining = new Mining({ ...core, puff: this.puff, settings, area: () => this.areaId, day: () => this.clock.state.day, refreshArea: () => this.refreshArea() });
@@ -184,6 +188,7 @@ export class TownGame {
       puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, life: this.life, grumbles: this.grumbles, mining: this.mining, dash: this.dash, lanterns: this.lanterns, arrived: (k) => this.arrived(k),
       here: () => ({ id: this.areaId, area: this.area, mess: this.mess, nav: this.nav }),
       selected: () => this.selected,
+      mood: () => this.moods.now(),
       select: (t) => { this.selected = t; },
       travel: (to, x, y) => void this.travel(to, x, y),
       sleep: () => void this.endDay(false),
@@ -392,7 +397,7 @@ export class TownGame {
       openNames: () => this.openNames(),
       openOutfits: () => openOutfits(this.view, this.content, this.state, () => void this.save(false)),
       openCollection: () => openCollection(this.view, this.content, this.state),
-      openSkills: () => openSkills(this.view, this.state),
+      openSkills: () => openSkills(this.view, this.state, this.moods.line()),
       townLine: `🌸 Town Bloom: ${this.content.line(`bloom.${this.state.bloom}`)} · ${this.state.finds.found.length} of ${this.content.pack.finds?.length ?? 0} finds`,
       skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null,
       restore: this.unlocker.gate ? () => void this.unlocker.restore() : null,
@@ -463,6 +468,7 @@ export class TownGame {
     if (!owned.includes(this.selected)) this.selected = owned[0];
     this.hud.setTools(owned, this.selected, this.state.tools);
     this.hud.setSparkles(this.state.sparkles);
+    this.moods.show();
     this.guide.unstick();
     const step = this.state.onboarding.current;
     const up = bloomUp(this.state, this.places.restoredCount());

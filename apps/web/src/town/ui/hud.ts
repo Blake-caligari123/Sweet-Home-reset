@@ -48,7 +48,7 @@ export class Hud {
   private live: HTMLElement;
   bubble: HTMLElement;
 
-  constructor(host: HTMLElement, handlers: { tool(t: ToolId): void; bag(): void; pause(): void; map(): void; tracker(): void }) {
+  constructor(host: HTMLElement, handlers: { tool(t: ToolId): void; bag(): void; pause(): void; map(): void; mood(): void; tracker(): void }) {
     this.fluffBar = h('i');
     this.fluffNum = h('span', { class: 'fluff-num' }, '100');
     this.fluffIcon = h('span', { class: 'fluff-icon', 'aria-hidden': 'true' });
@@ -74,10 +74,12 @@ export class Hud {
     pause.addEventListener('click', handlers.pause);
     const map = h('button', { class: 'icon-btn map-btn', type: 'button', 'aria-label': 'Town map' }, '🗺');
     map.addEventListener('click', handlers.map);
+    this.moodButton = h('button', { class: 'icon-btn mood-btn', type: 'button', 'aria-label': 'Puff\'s mood' }, '🙂');
+    this.moodButton.addEventListener('click', handlers.mood);
     const fluffMeter = this.fluffMeter = h('div', { class: 'fluff', role: 'meter', 'aria-label': 'Fluff', 'aria-valuemin': 0 }, this.fluffIcon, h('div', { class: 'fluff-bar' }, this.fluffBar), this.fluffNum);
     this.root = h('div', { class: 'town-hud' },
       h('header', { class: 'town-top' },
-        h('div', { class: 'top-left' }, h('div', { class: 'top-buttons' }, pause, map), fluffMeter),
+        h('div', { class: 'top-left' }, h('div', { class: 'top-buttons' }, pause, map, this.moodButton), fluffMeter),
         this.tracker,
         h('div', { class: 'clock-box' }, this.clockLine = h('div', { class: 'clock-line', role: 'img', 'aria-label': clockLabel('Spring 1', '6:00 am', false, false) }, this.dayText, this.timeText), this.sparkleText)
       ),
@@ -94,6 +96,13 @@ export class Hud {
   }
 
   private tired = false;
+  private moodButton: HTMLElement;
+
+  /** Puff's mood face by the map button (tap it to hear how Puff feels). */
+  setMood(icon: string, label: string) {
+    if (this.moodButton.textContent !== icon) this.moodButton.textContent = icon;
+    this.moodButton.setAttribute('aria-label', label);
+  }
 
   /** Item art arrived: swap the bag button's icon for it. */
   refreshIcons() { this.bagButton.firstElementChild?.replaceWith(itemIcon('sock')); }

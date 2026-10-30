@@ -1,4 +1,5 @@
 import type { Memory } from '../life/memory';
+import type { PuffDay } from '../skills/puff-mood';
 import type { SkillLog } from '../skills/skills';
 import { TOWN_SAVE_SCHEMA } from '@sweet-home-reset/shared';
 import { localDate } from '../../shared/date';
@@ -70,6 +71,8 @@ export interface TownSave {
   memories?: Memory[]; dramas?: Record<string, number>;
   /** Puff's skill XP (skills/). */
   skills?: SkillLog;
+  /** Today's snack and new places, for Puff's mood. */
+  puffDay?: PuffDay;
   /** The cloud save's version this device last matched (sync asks the player when it differs). */
   cloudVersion?: number;
   /** Cleans counted per place, and the surprise finds collected. */

@@ -5,8 +5,8 @@ import type { View } from '../ui/view';
 import { skillInfo } from './skill-book';
 import { levelIn, SKILLS } from './skills';
 
-/** Pause → Skills: each skill's level, how far to the next, and what it does for Puff now. */
-export function openSkills(view: View, state: TownState) {
+/** Pause → Skills: Puff's mood, then each skill's level, how far to the next, and what it does for Puff now. */
+export function openSkills(view: View, state: TownState, mood: string) {
   const table = TUNING.skills.levelXp;
   const rows = SKILLS.map((s) => {
     const info = skillInfo(s);
@@ -21,5 +21,5 @@ export function openSkills(view: View, state: TownState) {
         next === undefined ? '' : h('div', { class: 'heart-bar', 'aria-hidden': 'true' }, h('span', { style: { width: `${Math.round(share * 100)}%` } })),
         h('p', { class: 'muted' }, `${next === undefined ? 'Mastered! ' : ''}${level > 1 ? `Now ${info.perk(level)}.` : `Level 2: ${info.perk(2)}.`}`)));
   });
-  view.sheet('Skills', [h('div', { class: 'friends' }, ...rows), h('p', { class: 'muted' }, 'Skills grow from doing a bit of everything.')]);
+  view.sheet('Skills', [h('p', {}, mood), h('div', { class: 'friends' }, ...rows), h('p', { class: 'muted' }, 'Skills grow from doing a bit of everything.')]);
 }

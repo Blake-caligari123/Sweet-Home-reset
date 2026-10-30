@@ -257,4 +257,10 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Exploring: Puff walks 3% quicker.
   - A banner cheers each new level. **Pause → ✨ Skills** shows each level, the bar to the next and the perk.
   - The onboarding guide is now the hub for moments in play. Picking a crop, making something and a lucky find are announced there too, and skills listen.
+- **6a.5 Puff's moods (30 Oct):** `skills/puff-mood.ts`.
+  - **Moods:** Puff is content, happy, curious or sleepy, shown as a face by the map button. Tap it to hear how Puff feels and what helps. The mood is also at the top of the Skills sheet.
+  - **Happy** comes from two of these: a snack today, a chat with a friend today, a cosy burrow (90% tidy). A happy Puff swings 15% quicker.
+  - **Curious** comes from 3 new places today. A curious Puff spots finds every 75% of the usual cleans.
+  - **Sleepy** comes from low Fluff and comes first. It just says a snack or bed would help.
+  - Puff is never sad; the plainest mood is content (`puffMood` in tuning).
 
