@@ -35,6 +35,8 @@ export interface Tuning {
   mapTravelMinutesPerHop: number;
   /** Moss's thank-you for finding every surprise find. */
   findSetSparkles: number;
+  /** The town fund: what each neighbour chips in each morning, happy (or glowing) and otherwise. */
+  townFund: { perHappy: number; perOther: number };
   /** Puff's own moods (NEXT-PHASE §5.2): a happy swing's share of the usual time, a curious Puff's share of cleans between finds. */
   puffMood: { happySwingShare: number; curiousFindShare: number; cosyBurrow: number; curiousPlaces: number };
   /** Puff's skills (skills/skills.ts): XP per action, how many a day earn full XP, the share after that,

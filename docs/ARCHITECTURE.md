@@ -87,6 +87,8 @@ town/
   skills/       skills.ts (Puff's five skills: XP, levels, perks), skill-book.ts (hears what Puff does through the
                 guide, cheers levels), skills-sheet.ts (Pause → Skills), puff-mood.ts (Puff's mood: what
                 makes it, its small effects, the HUD face)
+  needs/        needs.ts (town needs, met by what stands; the morning chip-in), town-needs.ts (the morning: fund and
+                banners), needs-sheet.ts (Pause → Town)
   travel/       map.ts (places visited, trip time by doors on the way), map-sheet.ts (the town map)
   account/      api.ts (calls to the server), sync-rules.ts (send, or ask which save to keep), account-sheet.ts
                 (Pause → Account: email sign-in, sync after bedtime, export, delete), counts.ts (anonymous play counts)

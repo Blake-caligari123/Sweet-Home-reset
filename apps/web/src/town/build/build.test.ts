@@ -13,6 +13,16 @@ const plot: PlotDef = { id: 'p1', name: 'By the fountain', area: 'square', x: 13
 const fresh = (sparkles = 100, bag = new Bag()) => ({ sparkles, plots: {} as Record<string, PlotState>, bag });
 
 describe('building on plots', () => {
+  it('lets the town fund pay first for a big project, and never for small things', () => {
+    const big = { ...gazebo, project: true };
+    const s = { ...fresh(100), fund: 250 };
+    expect(canBuild(s, plot, big)).toBe('ok');
+    startBuild(s, plot, big, 2);
+    expect([s.fund, s.sparkles]).toEqual([0, 50]);
+    const small = { ...fresh(10), fund: 250 };
+    expect(canBuild(small, plot, bench)).toBe('short');
+  });
+
   it('starts a build, spending its cost all at once', () => {
     const s = fresh();
     expect(startBuild(s, plot, bench, 2)).toBe(true);

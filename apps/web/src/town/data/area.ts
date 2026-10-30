@@ -1,4 +1,5 @@
 import type { DramaDef } from '../life/dramas';
+import type { NeedDef } from '../needs/needs';
 import type { FestivalDef } from '../festivals/festivals';
 import { seeded } from '../../shared/art/pixel-canvas';
 import { isBlockedGround, type Ground, type Theme } from '../world/art/ground';
@@ -66,7 +67,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** A festival on the last day of each season (VISION §7). */
   festivals?: FestivalDef[];
   /** Small dramas between townsfolk (life/dramas.ts). */
-  dramas?: DramaDef[] }
+  dramas?: DramaDef[];
+  /** What the town needs (needs/needs.ts). */
+  needs?: NeedDef[] }
 
 export class Area {
   readonly w: number;
@@ -162,6 +165,8 @@ export function validateTownPack(input: unknown): TownPack {
       if (!places.has(c.area)) throw new Error(`neighbour ${n.id}: unknown place ${c.area}`);
     }
   }
+  const buildingIds = new Set((p.buildings ?? []).map((b) => b.id));
+  for (const n of p.needs ?? []) if (!n.id || !n.name || !n.hint || !isNum(n.fund) || !n.metBy?.length || n.metBy.some((b) => !buildingIds.has(b))) throw new Error(`need ${n.id}: shape`);
   const text = p.strings?.['en-AU'] ?? {};
   for (const [id, lines] of Object.entries(p.dialogue ?? {})) {
     if (!who.has(id)) throw new Error(`dialogue for unknown neighbour ${id}`);

@@ -22,7 +22,9 @@ export interface BuildingDef { id: string; name: string; nights: number; cost: {
   /** For a home: the newcomer who moves in once it's finished. */
   home?: string;
   /** For a repair: the ground its plot becomes once mended (a map char), and the doors it opens. */
-  paves?: string; doors?: Door[] }
+  paves?: string; doors?: Door[];
+  /** A big project: the town fund pays first (NEXT-PHASE §5.8: townsfolk chip in). */
+  project?: boolean }
 
 /** A plot with something on it. Stages: 0 scaffold, 1 frame, 2 done. */
 export interface PlotState { buildingId: string; stage: number; startedDay: number; readyDay: number }
@@ -30,12 +32,16 @@ export interface PlotState { buildingId: string; stage: number; startedDay: numb
 export const DONE = 2;
 const IN_PROGRESS = ['scaffold', 'frame'];
 
-/** What building needs from Puff's progress. */
-export interface Builder { sparkles: number; plots: Record<string, PlotState>; bag: Pick<Bag, 'count' | 'remove'> }
+/** What building needs from Puff's progress (and the town fund, for big projects). */
+export interface Builder { sparkles: number; fund?: number; plots: Record<string, PlotState>; bag: Pick<Bag, 'count' | 'remove'> }
 
-const affords = (s: Builder, b: BuildingDef) => s.sparkles >= b.cost.sparkles && Object.entries(b.cost.items ?? {}).every(([id, n]) => s.bag.count(id) >= n);
+/** How much of a building's Sparkles the town fund covers. */
+export const fundShare = (s: Builder, b: BuildingDef) => (b.project ? Math.min(s.fund ?? 0, b.cost.sparkles) : 0);
+const affords = (s: Builder, b: BuildingDef) => s.sparkles + fundShare(s, b) >= b.cost.sparkles && Object.entries(b.cost.items ?? {}).every(([id, n]) => s.bag.count(id) >= n);
 function pay(s: Builder, b: BuildingDef) {
-  s.sparkles -= b.cost.sparkles;
+  const fund = fundShare(s, b);
+  if (fund) s.fund = (s.fund ?? 0) - fund;
+  s.sparkles -= b.cost.sparkles - fund;
   for (const [id, n] of Object.entries(b.cost.items ?? {})) s.bag.remove(id, n);
 }
 
