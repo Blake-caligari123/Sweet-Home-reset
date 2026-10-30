@@ -1,4 +1,4 @@
-# Blake's answers for the next phase (30 Oct 2026, in progress)
+# Blake's answers for the next phase (30 Oct 2026)
 The 100 questions behind the next phase document. Raw answers, in Blake's words where typed.
 
 | # | Question | Answer |
@@ -95,3 +95,11 @@ The 100 questions behind the next phase document. Raw answers, in Blake's words 
 | 90 | Cosmetic packs | Yes, later, never affecting play |
 | 91 | Price | Lower in early access, higher at full release |
 | 92 | Expansions | Free updates |
+| 93 | Build approach | Dealer's choice |
+| 94 | Playtests | Weekly |
+| 95 | Merging | Merge as Claude goes |
+| 96 | Early access opens | After the deep slice |
+| 97 | One word | Whatever players say about the classic cosy farm-life games ("just one more day") |
+| 98 | Favourite part | All of it |
+| 99 | Least favourite | Getting around |
+| 100 | Never | Grinding. Combat, timers and longer text are fine in the right context |
