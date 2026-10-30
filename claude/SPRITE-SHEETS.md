@@ -24,7 +24,7 @@ Each sheet is wired in as it arrives. Until a sheet lands, the game keeps the co
 - Same character size and camera in every frame; feet on the same line (the tool aligns them, but big drift costs detail).
 - Flat colour, one shade step, soft top-left light, 1 px dark outline. No gradients, blur or texture.
 - Generate big (e.g. 1536 px wide for 6 frames); the tool shrinks it to the exact grid.
-- No art credit line in the game or the store listing (Blake, 30 Oct 2026). Never name other games or mascots in a prompt.
+- Never name other games or mascots in a prompt.
 
 ## Puff (24×28 world-px cells at 6x)
 Left is always the right sheet mirrored, so there are no `_left` sheets. In order:
