@@ -321,4 +321,8 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Sand and seaweed at the beach (rake; seaweed takes 2 hits).
   - Each has its own prompt ("Sponge the ink") and its own morning-letter chore. Flour and sawdust puff when cleared, and ink and soap make suds.
   - New types are added at the end of the list, so older saves keep their mess.
+- **6b.4 Neighbours join in (30 Oct):** `life/helpers.ts`.
+  - Once Puff has restored someone's home, they help. Each morning every such neighbour tidies 2 spots (`helperSpots`) in the messiest outdoor place Puff has been.
+  - A morning banner says who: "🤝 Hazel and Bea helped tidy Neighbour Lane this morning!"
+  - Helpers never pick up clutter (that's Puff's to put away), and they stop short of restoring a place; that moment stays Puff's.
 

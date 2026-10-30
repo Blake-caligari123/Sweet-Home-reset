@@ -37,8 +37,8 @@ export function passNight(h: NightHost, dozed: boolean): { built: BuildingDef[];
   return { built, rested };
 }
 
-/** Awake: the morning letter, then a new season or rain, then what was built overnight and any town need it met; the unlock postcard on top when it's due. */
-export function morning(h: { state: TownState; view: View; clock: Clock; content: Content; refreshHud(): void; offer(): void }, night: { built: BuildingDef[]; rested: boolean; needsMet: string[] }) {
+/** Awake: the morning letter, then a new season or rain, then what was built overnight and the town's news (needs met, neighbours helping); the unlock postcard on top when it's due. */
+export function morning(h: { state: TownState; view: View; clock: Clock; content: Content; refreshHud(): void; offer(): void }, night: { built: BuildingDef[]; rested: boolean; news: string[] }) {
   const { built } = night;
   const { view, content } = h;
   morningLetter(h);
@@ -46,6 +46,6 @@ export function morning(h: { state: TownState; view: View; clock: Clock; content
   // Unaccepted jobs come down each night, so every one up now is new today.
   view.hud.announce(newJobsLine(h.state.requests.list.filter((r) => !r.accepted).length));
   for (const b of built) view.banner(b.home ? content.line(`home.${b.home}`) ?? '' : (content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
-  for (const line of night.needsMet) view.banner(line);
+  for (const line of night.news) view.banner(line);
   if (night.rested && offerTonight(h.state.restNights)) h.offer();
 }
