@@ -1225,7 +1225,7 @@
     {
      "x": 22,
      "y": 6,
-     "text": "A note on the bakery door: “Back soon, petal! The kitchen's in a state. Any help is lovely. — Hazel”"
+     "text": "Bakery door: “Back soon, petal! Any help is lovely. Hazel”"
     }
    ],
    "doors": [
@@ -4702,7 +4702,7 @@
     {
      "x": 16,
      "y": 2,
-     "text": "Carved deep: 'I'll sleep by the warm spring. Wake me when the town is bright. T.'"
+     "text": "'I rest by the warm spring. Wake me when the town glows. T.'"
     }
    ],
    "doors": [
@@ -7061,7 +7061,7 @@
    "decor.taken": "Something's already there.",
    "decor.cuts_off": "That would block the way. Somewhere else?",
    "decor.picked": "Back in the bag.",
-   "decor.tracker": "Tap the ground to place it. Tap Puff to stop.",
+   "decor.tracker": "Tap the ground to place it. Tap {puff} to stop.",
    "letter.mabel_1.l1": "To whoever is bringing the colour back:",
    "letter.mabel_1.l2": "I saw it from far off, over the water. Hoo!",
    "letter.mabel_1.l3": "Here's an old map leaf. It shows the way down. M.",
@@ -8692,7 +8692,7 @@
      "he_mabel_08"
     ],
     "flags": [
-     "winter_lights"
+     "festival_winter_lights"
     ]
    },
    "rewards": {

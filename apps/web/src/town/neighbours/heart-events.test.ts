@@ -51,6 +51,14 @@ describe('Hollowfern heart events', () => {
     }
   });
 
+  it('only waits on flags the game can set (a festival finished, or another scene or reward)', () => {
+    const settable = new Set([
+      ...(pack.festivals ?? []).map((f) => `festival_${f.id}`),
+      ...events.flatMap((e) => [`${e.id}_done`, ...(e.rewards?.flags ?? [])])
+    ]);
+    for (const e of events) for (const f of e.conditions?.flags ?? []) expect(settable.has(f), `${e.id} waits on ${f}`).toBe(true);
+  });
+
   it('has Hazel name Puff the Keeper the first time they talk, once, before her 2-heart scene', () => {
     const at = (hearts: number, flags: string[]) => eventDue(events, 'hazel', { hearts, flags, minutes: 9 * 60, area: 'bakery' })?.id;
     expect(at(0, [])).toBe('keeper_day1');
@@ -85,7 +93,7 @@ describe('Hollowfern heart events', () => {
     const told = (f: string[]) => stepsOf(m10, f).map((s) => 'line' in s && s.line);
     expect(told(['restored_bakery', 'onboard_counter_done'])).not.toEqual(told([]));
     expect(told([]).length).toBeGreaterThanOrEqual(4);
-    expect(events.find((e) => e.id === 'he_mabel_10')!.conditions?.flags).toContain('winter_lights');
+    expect(events.find((e) => e.id === 'he_mabel_10')!.conditions?.flags).toContain('festival_winter_lights');
   });
 
   it('Pip 6 stitches a bigger bag', () => {

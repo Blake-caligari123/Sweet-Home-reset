@@ -6,10 +6,13 @@ import { drawPuff24, drawToolMini } from '../world/art/characters';
 import { drawItemIcon } from '../world/art/items';
 import { spriteIcon } from '../world/sprites';
 import type { ToolId } from '../play/mess';
+import { clockLabel, sparklesLabel } from './a11y';
 
 // The DOM HUD (GDD v3 A5 / A11.3): live text, real buttons, 44 pt targets, safe-area aware.
 export const TOOL_SLOTS: ToolId[] = ['hands', 'duster', 'sponge', 'rake', 'can'];
 export const TOOL_NAMES: Record<ToolId, string> = { hands: 'Hands', duster: 'Duster', sponge: 'Sponge', rake: 'Rake', can: 'Watering can', seeds: 'Seeds' };
+/** How many recent lines the screen-reader live region keeps. */
+const LIVE_LINES = 3;
 
 function toolIcon(tool: ToolId) {
   const pc = new PixelCanvas(12, 12);
@@ -36,6 +39,7 @@ export class Hud {
   private fluffMeter: HTMLElement;
   private dayText: HTMLElement;
   private timeText: HTMLElement;
+  private clockLine: HTMLElement;
   private sparkleText: HTMLElement;
   private tracker: HTMLButtonElement;
   private prompt: HTMLElement;
@@ -50,13 +54,13 @@ export class Hud {
     this.fluffIcon = h('span', { class: 'fluff-icon', 'aria-hidden': 'true' });
     this.dayText = h('span', { class: 'day' }, 'Spring 1');
     this.timeText = h('span', { class: 'time' }, '6:00 am');
-    this.sparkleText = h('span', { class: 'chip sparkles', 'aria-label': 'Sparkles' }, '✨ 0');
+    this.sparkleText = h('span', { class: 'chip sparkles', role: 'img', 'aria-label': sparklesLabel(0) }, '✨ 0');
     this.tracker = h('button', { class: 'tracker', type: 'button', 'aria-label': 'Current goal. Tap to fold.' }, '');
     this.tracker.addEventListener('click', () => { this.tracker.classList.toggle('folded'); handlers.tracker(); });
     this.prompt = h('div', { class: 'context', 'aria-live': 'polite' });
     this.note = h('div', { class: 'late-note', hidden: true }, 'Getting late. Time to head home to bed.');
     this.bubble = h('div', { class: 'bubble', 'aria-hidden': 'true' });
-    this.live = h('p', { class: 'sr-only', role: 'status', 'aria-live': 'polite' });
+    this.live = h('div', { class: 'sr-only', role: 'status', 'aria-live': 'polite' });
     const tools = TOOL_SLOTS.map((t) => {
       const b = h('button', { class: 'tool', type: 'button', 'aria-label': TOOL_NAMES[t], hidden: true }, toolIcon(t), h('span', {}, TOOL_NAMES[t].split(' ')[0]));
       b.addEventListener('click', () => handlers.tool(t));
@@ -73,7 +77,7 @@ export class Hud {
       h('header', { class: 'town-top' },
         h('div', { class: 'top-left' }, pause, fluffMeter),
         this.tracker,
-        h('div', { class: 'clock-box' }, h('div', { class: 'clock-line' }, this.dayText, this.timeText), this.sparkleText)
+        h('div', { class: 'clock-box' }, this.clockLine = h('div', { class: 'clock-line', role: 'img', 'aria-label': clockLabel('Spring 1', '6:00 am', false, false) }, this.dayText, this.timeText), this.sparkleText)
       ),
       this.bubble, this.note, this.live,
       h('footer', { class: 'town-bottom' }, this.prompt, h('nav', { class: 'toolbar', 'aria-label': 'Tools' }, ...tools, bag))
@@ -115,9 +119,10 @@ export class Hud {
   setClock(day: string, time: string, night: boolean, rainy = false) {
     this.dayText.textContent = day;
     this.timeText.textContent = `${rainy ? '☂' : night ? '☾' : '☀'} ${time}`;
+    this.clockLine.setAttribute('aria-label', clockLabel(day, time, night, rainy));
   }
 
-  setSparkles(n: number) { this.sparkleText.textContent = `✨ ${n}`; }
+  setSparkles(n: number) { this.sparkleText.textContent = `✨ ${n}`; this.sparkleText.setAttribute('aria-label', sparklesLabel(n)); }
 
   setTracker(text: string) {
     this.tracker.textContent = text;
@@ -142,7 +147,12 @@ export class Hud {
 
   setLate(on: boolean) { this.note.hidden = !on; }
 
-  announce(text: string) { this.live.textContent = text; }
+  /** Speak a line. Lines are added, not swapped, so a busy morning is read in full; the last few stay. */
+  announce(text: string) {
+    if (!text) return;
+    this.live.append(h('p', {}, text));
+    while (this.live.childElementCount > LIVE_LINES) this.live.firstElementChild?.remove();
+  }
 
   /** Fade HUD parts Puff walks under (A11.3). */
   fadeNear(screenY: number) {

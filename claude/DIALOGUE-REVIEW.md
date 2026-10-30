@@ -1022,3 +1022,15 @@ The notice board in the square posts 1–3 a day; each is up for 2–3 days, the
 - Otto: You're a star! A wet, sparkly star. Thanks!
 - Moss: ... Thank you. That was ... very kind.
 - Mabel: Hoo. Kindly done, dear. Kindly done.
+
+# Screen-reader lines (Phase 5b)
+Heard only with a screen reader, never shown on screen.
+- **Each morning with new jobs:** "2 new jobs on the notice board." (or "1 new job …")
+- **The clock:** "Spring 1, 6:00 am, sunny" (or "night", "rainy")
+- **Sparkles:** "120 Sparkles"
+
+# Recheck fixes (30 Oct)
+- **Bed during the first-day tips:** "Bed already? There's more to see today. {puff} can sleep now, or explore a bit first." (Sleep anyway / Not yet)
+- **Morning letter:** "Dear friend, yesterday I did some dusting. My paws sparkle! Maybe dust one shelf of yours? Or just have tea. Both are lovely." Other openings: scrubbed a stain away, pulled up some weeds, put something back where it lives, swept up some crumbs, swept away a cobweb, scrubbed away some grime, cleared some foggy glass, cleared away some mud, raked up some leaves (new: sweep one doorstep).
+- **Quiet day letter:** "yesterday I had a cosy, quiet day. Maybe …" in turn: open a window for some fresh air, fluff one cushion, make one cup of tea, tuck in one blanket.
+- **Signs:** the bakery door: "Bakery door: “Back soon, petal! Any help is lovely. Hazel”". Cave floor 4: "'I rest by the warm spring. Wake me when the town glows. T.'"

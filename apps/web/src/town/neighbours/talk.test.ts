@@ -91,6 +91,10 @@ describe('Hollowfern dialogue', () => {
     }
   });
 
+  it('keeps signs and carvings to the same 60 characters', () => {
+    for (const a of pack.areas) for (const sign of a.signs ?? []) expect(sign.text.length, `${a.id} sign`).toBeLessThanOrEqual(60);
+  });
+
   it('gives every neighbour a full spring of lines, each with text', () => {
     for (const { id } of pack.neighbours!) {
       const lines = pack.dialogue?.[id] ?? [];

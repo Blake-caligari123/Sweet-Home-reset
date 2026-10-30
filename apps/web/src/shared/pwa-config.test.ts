@@ -28,6 +28,17 @@ describe('PWA caching rules', () => {
     expect(workboxOptions.globPatterns).toContain('**/*.{js,css,html,png,webp,svg,json,webmanifest}');
   });
 
+  it('opens the same page offline whatever is after the ? (so /test/?debug is never the room game)', () => {
+    for (const param of ['debug', 'fps', 'utm_source', 'anything']) {
+      expect(workboxOptions.ignoreURLParametersMatching?.some((rule) => rule.test(param)), param).toBe(true);
+    }
+  });
+
+  it('describes the town game, without a name the player can change', () => {
+    expect(pwaManifest.description).toMatch(/town/);
+    expect(pwaManifest.description).not.toMatch(/Puff|room/);
+  });
+
   it('ships installable icons', () => {
     const sizes = pwaManifest.icons?.map((icon) => icon.sizes);
     expect(sizes).toEqual(expect.arrayContaining(['192x192', '512x512']));

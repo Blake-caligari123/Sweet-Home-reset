@@ -47,6 +47,18 @@ describe('onboarding', () => {
     expect(o.current?.id).toBe('yard');
   });
 
+  it('moves on from "tidy the rest of the burrow" once Puff heads outside, so the tip never sticks for days', () => {
+    const o = new Onboarding(STEPS.findIndex((s) => s.id === 'burrow'));
+    expect(o.handle({ type: 'entered', area: 'yard' }).map((s) => s.id)).toEqual(['burrow']);
+    expect(o.current?.id).toBe('yard');
+  });
+
+  it('knows when the tips still have more to show before bedtime', () => {
+    expect(new Onboarding(0).moreBeforeBed).toBe(true);
+    expect(new Onboarding(STEPS.findIndex((s) => s.id === 'bed')).moreBeforeBed).toBe(false);
+    expect(new Onboarding(STEPS.length).moreBeforeBed).toBe(false);
+  });
+
   it('carries on into town: Hazel and her tart, the board, her counter, Bea and Pip, then bed (A6 9:00–20:00)', () => {
     const o = new Onboarding(STEPS.findIndex((x) => x.id === 'town'));
     const ids = (e: Parameters<Onboarding['handle']>[0]) => o.handle(e).map((x) => x.id);
