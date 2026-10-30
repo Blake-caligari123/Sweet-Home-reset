@@ -12,6 +12,12 @@
 .town-top.faded, .town-bottom.faded { opacity: 0.4; }
 .top-left { grid-area: left; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
 .pause-btn { width: 44px; height: 44px; font-size: 0.9rem; }
+.top-buttons { display: flex; gap: 6px; }
+.map-btn { width: 44px; height: 44px; font-size: 1.1rem; }
+/* The town map: places as a grid of buttons, each with its trip time. */
+.map-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: 100%; }
+.map-list .btn { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 52px; }
+.map-list .btn small { font-weight: 700; opacity: 0.75; }
 .fluff { display: flex; align-items: center; gap: 6px; padding: 4px 10px 4px 4px; border: 3px solid var(--line); border-radius: 999px; background: rgba(255, 248, 236, 0.95); font-weight: 900; font-variant-numeric: tabular-nums; }
 .fluff-icon { display: grid; place-items: center; width: 24px; height: 24px; }
 .fluff-bar { width: 72px; height: 10px; border: 2px solid var(--line); border-radius: 999px; background: #fff; overflow: hidden; }
@@ -123,3 +129,7 @@ html.big-text .tool span { font-size: 0.62rem; }
 html.high-contrast { --ink: #2a1f1a; --line: #2a1f1a; }
 html.high-contrast .tracker, html.high-contrast .clock-line, html.high-contrast .sheet, html.high-contrast .dialogue, html.high-contrast .dash-timer { background: #fffaf2; border-color: #2a1f1a; color: #2a1f1a; }
 html.high-contrast .muted { color: #4a3a32; }
+/* The on-screen stick (Pause → Joystick), bottom-left above the toolbar. */
+.stick { position: absolute; left: 18px; bottom: 120px; width: 104px; height: 104px; border: 3px solid var(--line); border-radius: 50%; background: rgba(255, 248, 236, 0.55); touch-action: none; z-index: 5; }
+.stick[hidden] { display: none; }
+.stick-knob { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border: 3px solid var(--line); border-radius: 50%; background: var(--butter); pointer-events: none; }

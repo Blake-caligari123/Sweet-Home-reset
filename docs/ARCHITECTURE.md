@@ -82,6 +82,7 @@ town/
                 Friends UI)
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
   connect.ts    builds the unlock's store and the optional account from what this build is set up for
+  travel/       map.ts (places visited, trip time by doors on the way), map-sheet.ts (the town map)
   account/      api.ts (calls to the server), sync-rules.ts (send, or ask which save to keep), account-sheet.ts
                 (Pause → Account: email sign-in, sync after bedtime, export, delete), counts.ts (anonymous play counts)
   unlock/       unlock.ts (the free spring: rest nights and when the postcard shows), parental-gate.ts,
@@ -103,7 +104,7 @@ town/
                 pet-life.ts (the pet in play: the doorstep offer, following, pats)
   shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
-                the tool bar), pointer-input.ts (fingers on the world), keyboard.ts, hud-live.ts (clock,
+                the tool bar), pointer-input.ts (fingers on the world, pinch zoom), joystick.ts (the on-screen stick), keyboard.ts, hud-live.ts (clock,
                 Fluff, prompt and bubble each frame), bag-sheet.ts,
                 naming-sheet.ts, pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css
 ```

@@ -1,6 +1,7 @@
-import type { Container, FederatedPointerEvent } from 'pixi.js';
+import type { Container, FederatedPointerEvent, FederatedWheelEvent } from 'pixi.js';
 import { h } from '../../shared/ui/dom';
 import { recognise, type Sample } from '../play/gestures';
+import { pinchTiles, wheelTiles } from '../world/zoom';
 import { itemIcon } from './hud';
 
 type Pt = { x: number; y: number };
@@ -20,16 +21,21 @@ export interface PointerHost {
   drag(from: Pt, to: Pt): void;
   /** The item that can be carried from this world point (clutter), if any. */
   carryable(at: Pt): string | null;
+  /** Pinch zoom: the view's tiles across now, and set a new width. */
+  viewTiles(): number;
+  zoom(tiles: number): void;
 }
 
 /**
  * Fingers on the world: taps, holds, rubs, circles and drags (play/gestures.ts reads them). While clutter is being
- * dragged, its icon follows the finger. Tapping alone still does everything.
+ * dragged, its icon follows the finger. Two fingers pinch to zoom (the wheel too). Tapping alone still does everything.
  */
 export class PointerInput {
   private samples: Sample[] = [];
   private ghost: HTMLElement | null = null;
   private carrying: string | null = null;
+  private fingers = new Map<number, Pt>();
+  private pinch: { gap: number; tiles: number } | null = null;
 
   constructor(root: Container, private overlay: HTMLElement, private host: PointerHost) {
     root.eventMode = 'static';
@@ -38,14 +44,22 @@ export class PointerInput {
     // A drag ends over a different sprite from where it began, so Pixi sends "upoutside" too: both are the release.
     root.on('pointerup', (e: FederatedPointerEvent) => this.up(e));
     root.on('pointerupoutside', (e: FederatedPointerEvent) => this.up(e));
+    root.on('wheel', (e: FederatedWheelEvent) => host.zoom(wheelTiles(host.viewTiles(), e.deltaY)));
   }
 
+  private gap() { const [a, b] = [...this.fingers.values()]; return Math.hypot(a.x - b.x, a.y - b.y); }
+
   private down(e: FederatedPointerEvent) {
+    this.fingers.set(e.pointerId, { x: e.global.x, y: e.global.y });
+    // A second finger turns whatever the first was doing into a pinch.
+    if (this.fingers.size === 2) { this.cancel(); this.pinch = { gap: this.gap(), tiles: this.host.viewTiles() }; return; }
     this.samples = [{ x: e.global.x, y: e.global.y, t: performance.now() }];
     this.carrying = this.host.carryable(this.host.toWorld(e.global.x, e.global.y));
   }
 
   private move(e: FederatedPointerEvent) {
+    if (this.fingers.has(e.pointerId)) this.fingers.set(e.pointerId, { x: e.global.x, y: e.global.y });
+    if (this.pinch && this.fingers.size === 2) { this.host.zoom(pinchTiles(this.pinch.tiles, this.pinch.gap, this.gap())); return; }
     if (!this.samples.length) return;
     this.samples.push({ x: e.global.x, y: e.global.y, t: performance.now() });
     if (!this.carrying) return;
@@ -54,6 +68,8 @@ export class PointerInput {
   }
 
   private up(e: FederatedPointerEvent) {
+    this.fingers.delete(e.pointerId);
+    if (this.pinch) { if (!this.fingers.size) this.pinch = null; return; }
     if (!this.samples.length) return;
     this.samples.push({ x: e.global.x, y: e.global.y, t: performance.now() });
     const g = recognise(this.samples);

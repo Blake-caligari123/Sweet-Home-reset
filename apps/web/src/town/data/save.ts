@@ -62,6 +62,8 @@ export interface TownSave {
   unlock?: Unlock;
   /** Nights rested at the end of the free spring, which pace the unlock postcard. */
   restNights?: number;
+  /** Places Puff has been (the town map offers these). */
+  visited?: string[];
   /** The cloud save's version this device last matched (sync asks the player when it differs). */
   cloudVersion?: number;
   /** Cleans counted per place, and the surprise finds collected. */
@@ -82,7 +84,9 @@ export interface TownSave {
     /** Text size as a percent (100, 125, 150); older saves only have `bigText`. */
     textSize?: number;
     /** Anonymous play counts (GDD A10); on unless turned off. */
-    shareCounts?: boolean };
+    shareCounts?: boolean;
+    /** Walk with the on-screen stick instead of tapping; how far the view is zoomed (tiles across). */
+    joystick?: boolean; zoomTiles?: number };
   [extra: string]: unknown;
 }
 
