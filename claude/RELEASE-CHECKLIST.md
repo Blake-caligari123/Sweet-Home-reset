@@ -20,6 +20,7 @@ What's left before v1.0 (VISION §12–13, Phase 5 "done when Blake approves the
 
 ## 4. Builds
 - [ ] Build settings: `VITE_API_ORIGIN` (web), `VITE_RC_IOS_KEY`, `VITE_RC_ANDROID_KEY` (phones). Without them the build has no gate and no account, which is right for the test link.
+- [ ] `VITE_RELEASE=1` in every public build (web, iOS, Android): it hides the 🧪 Feature tour, which is for testing and changes the save.
 - [ ] Sign in with Apple: a Services ID `com.pixelvortexgames.sweethomereset.web` and a key; the server side is ready, and the button goes in once these exist.
 - [ ] Universal Links / App Links for sign-in emails, once the real domain exists (`capacitor.config.ts` notes the placeholder).
 - [ ] iOS: `npx cap add ios`, `npx cap sync`, archive in Xcode, TestFlight. Android: `npx cap sync`, signed bundle, internal testing track.
