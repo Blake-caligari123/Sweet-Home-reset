@@ -325,4 +325,5 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Once Puff has restored someone's home, they help. Each morning every such neighbour tidies 2 spots (`helperSpots`) in the messiest outdoor place Puff has been.
   - A morning banner says who: "🤝 Hazel and Bea helped tidy Neighbour Lane this morning!"
   - Helpers never pick up clutter (that's Puff's to put away), and they stop short of restoring a place; that moment stays Puff's.
+- **Split (30 Oct):** the Phase 6 systems that hear play or bring morning news moved from `game.ts` into `systems.ts` (TownSystems), with no change in behaviour. `game.ts` is 501 lines.
 
