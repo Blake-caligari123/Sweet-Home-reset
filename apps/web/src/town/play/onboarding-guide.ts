@@ -25,9 +25,17 @@ const TIP_MESS: Record<string, [string, number]> = { dust: ['dust', 4], stain: [
  * and moves on when Puff does the thing (in any order). The step rules live in onboarding.ts.
  */
 export class OnboardingGuide {
+  private listeners: ((e: OnboardEvent) => void)[] = [];
+
   constructor(private host: GuideHost) {}
 
-  handle(e: OnboardEvent) { this.finish(this.host.state.onboarding.handle(e)); }
+  /** Something Puff did: the tips move on, and anything listening (skills) hears it too. */
+  handle(e: OnboardEvent) {
+    this.finish(this.host.state.onboarding.handle(e));
+    for (const fn of this.listeners) fn(e);
+  }
+
+  listen(fn: (e: OnboardEvent) => void) { this.listeners.push(fn); }
 
   /** Steps the save already shows done (met before the tip, an older save) finish too. */
   private catchUp() {

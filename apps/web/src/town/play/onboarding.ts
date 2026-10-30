@@ -16,7 +16,11 @@ export type OnboardEvent =
   | { type: 'ate'; item: string }
   | { type: 'accepted'; id: string }
   | { type: 'jobDone'; id: string }
-  | { type: 'slept' };
+  | { type: 'slept' }
+  // Also heard by skills (skills/skills.ts): a crop picked, something made, a lucky find.
+  | { type: 'picked'; crop: string }
+  | { type: 'made'; station: 'bench' | 'kitchen' }
+  | { type: 'found' };
 
 export interface Step {
   id: string;

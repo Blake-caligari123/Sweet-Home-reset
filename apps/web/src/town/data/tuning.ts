@@ -35,6 +35,9 @@ export interface Tuning {
   mapTravelMinutesPerHop: number;
   /** Moss's thank-you for finding every surprise find. */
   findSetSparkles: number;
+  /** Puff's skills (skills/skills.ts): XP per action, how many a day earn full XP, the share after that,
+   * the XP each level starts at, and each skill's perk per level above 1. */
+  skills: { xp: number; fullXpPerDay: number; tiredXpShare: number; levelXp: number[]; perks: Record<'tidying' | 'farming' | 'cooking' | 'crafting' | 'exploring', number> };
   /** Pinch zoom: the closest and furthest view, in tiles across. */
   zoomTiles: [number, number];
   neighbourWalkTilesPerSecond?: number;

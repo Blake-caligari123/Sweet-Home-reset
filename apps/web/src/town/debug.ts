@@ -3,6 +3,7 @@ import type { Neighbours } from './neighbours/neighbours';
 import type { Clock } from './play/clock';
 import { FULL_COLOUR, type AreaMess } from './play/mess';
 import type { OnboardingGuide } from './play/onboarding-guide';
+import type { OnboardEvent } from './play/onboarding';
 import type { Puff } from './play/puff';
 import { FEET_TO_BASE } from './play/targets';
 import type { Jobs } from './requests/jobs';
@@ -77,6 +78,9 @@ export function installDebugHooks(g: DebugTarget) {
     addItem: (id: string, n = 1) => { s.bag.add(id, n); g.refreshHud(); },
     addSparkles: (n: number) => { s.sparkles += n; g.refreshHud(); },
     /** Friendship points straight in, to reach heart events in tests. */
-    addPoints: (id: string, n: number) => { s.friendOf(id).points += Math.max(0, n); }
+    addPoints: (id: string, n: number) => { s.friendOf(id).points += Math.max(0, n); },
+    /** Puff's skill XP, and a moment as if Puff did it (skills and tips hear it). */
+    skills: () => s.skills,
+    did: (e: OnboardEvent) => { g.guide.handle(e); g.refreshHud(); }
   };
 }

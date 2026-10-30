@@ -25,6 +25,9 @@ import { stickTarget } from './play/stick';
 import { Joystick } from './ui/joystick';
 import { TownLife } from './life/town-life';
 import { openCollection } from './bloom/collection-sheet';
+import { SkillBook } from './skills/skill-book';
+import { openSkills } from './skills/skills-sheet';
+import { perkIn } from './skills/skills';
 import { MAX_RUB, Taps } from './play/taps';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
@@ -157,6 +160,8 @@ export class TownGame {
       state: this.state, view: this.view, hud: this.hud, area: () => this.areaId, messFor: (id) => this.places.mess(id),
       highlight: (tiles) => this.world.setHighlight(tiles), refreshHud: () => this.refreshHud()
     });
+    const skills = new SkillBook({ state: this.state, view: this.view, day: () => this.clock.state.day });
+    this.guide.listen((e) => skills.hear(e));
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
     this.placing = new Placing({ ...core, places: this.places, area: () => this.areaId, refreshArea: () => this.refreshArea() });
     this.mining = new Mining({ ...core, puff: this.puff, settings, area: () => this.areaId, day: () => this.clock.state.day, refreshArea: () => this.refreshArea() });
@@ -184,7 +189,7 @@ export class TownGame {
       sleep: () => void this.endDay(false),
       openBuild: () => this.openBuild(),
       pickUpDecor: (x, y) => this.placing.pickUp(x, y),
-      openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false) }, station),
+      openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false), made: (st) => this.guide.handle({ type: 'made', station: st }) }, station),
       openShop: (shop) => this.openShop(shop),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
@@ -387,6 +392,7 @@ export class TownGame {
       openNames: () => this.openNames(),
       openOutfits: () => openOutfits(this.view, this.content, this.state, () => void this.save(false)),
       openCollection: () => openCollection(this.view, this.content, this.state),
+      openSkills: () => openSkills(this.view, this.state),
       townLine: `🌸 Town Bloom: ${this.content.line(`bloom.${this.state.bloom}`)} · ${this.state.finds.found.length} of ${this.content.pack.finds?.length ?? 0} finds`,
       skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null,
       restore: this.unlocker.gate ? () => void this.unlocker.restore() : null,
@@ -422,7 +428,7 @@ export class TownGame {
       const pull = this.stick.pull;
       if (pull && p.swingMs <= 0) { const to = stickTarget(p.feet, pull, T * 0.6, (a, b) => this.nav.clear(a, b)); if (to) { p.path = [to]; p.action = null; } p.dir = pull.dir; }
       // The tile under the feet drives onboarding; arriving uses the door or the thing tapped.
-      const speed = ((this.state.fluff.tired ? WALK_SPEED_TIRED : WALK_SPEED) * T) / 1000;
+      const speed = ((this.state.fluff.tired ? WALK_SPEED_TIRED : WALK_SPEED) * (1 + perkIn(this.state.skills, 'exploring')) * T) / 1000;
       if (p.walk(dt, speed, () => this.guide.handle({ type: 'stood', ground: this.area.groundAt(p.x, p.y), area: this.areaId }))) {
         const a = p.action; p.action = null;
         if (this.area.doorAt(p.x, p.y)) this.actions.useDoor(p.x, p.y);
