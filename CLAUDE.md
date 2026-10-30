@@ -46,6 +46,7 @@ A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the 
 ## Conventions
 - **Before building** any feature, step, area or sizeable fix: follow the `factorisation-and-organisation` skill (`.claude/skills/`). Write a file plan, keep files within budget, and `game.ts` only wires.
 - **After building**, before committing: run the `post-feature-cleanup` skill every time, without being asked. That means its checker (`node .claude/skills/post-feature-cleanup/check.mjs`), a self-review of the diff, then all checks and the docs.
+- **Feature tour (Blake, 30 Oct):** every new player-facing feature gets a card in `apps/web/src/town/tour/tour.ts` (Pause → 🧪 Feature tour on the test link), set up so Blake can try it in one tap.
 - Tests first; each step ends with `npm test` green. Lowercase snake_case asset names; pack room ids use `-`.
 - Copy is a kind friend: never "failed", "lost", "overdue"; no body, weight or appearance talk. Puff is never sad because of the player.
 - Secrets only in Worker secrets / `.dev.vars` / `.env` (gitignored, chmod 600). Never in code or chat.
