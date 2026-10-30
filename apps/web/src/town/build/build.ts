@@ -115,3 +115,11 @@ export function areasWith(effect: BuildingDef['effect'], plots: Record<string, P
     .filter(([, p]) => p.stage >= DONE && catalogue.find((b) => b.id === p.buildingId)?.effect === effect)
     .map(([id]) => defs.find((d) => d.id === id)?.area));
 }
+
+/** The question before anything is spent: where, what, the full cost and how long it takes. */
+export function buildQuestion(def: BuildingDef, plotName: string, isUpgrade: boolean, itemName: (id: string) => string) {
+  const items = Object.entries(def.cost.items ?? {}).map(([id, n]) => ` and ${n} ${itemName(id).toLowerCase()}`).join('');
+  return `${plotName}: ${isUpgrade ? 'upgrade to' : 'build'} a ${def.name.toLowerCase()} for ${def.cost.sparkles} ✨${items}? ${nightsText(def)}.`;
+}
+
+export const nightsText = (b: BuildingDef) => (b.nights > 1 ? `Takes ${b.nights} nights` : 'Finishes overnight');

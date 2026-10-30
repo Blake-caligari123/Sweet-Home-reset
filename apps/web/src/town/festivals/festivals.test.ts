@@ -72,6 +72,29 @@ describe('festivals', () => {
     for (const id of ['festival.cheer.all', 'festival.cheer.lots', 'festival.cheer.some', 'festival.practice', `festival.${def.id}.intro`]) expect(text[id], id).toBeTruthy();
   });
 
+  it('ends the first fair with Hazel, Bea and Pip saying thank you, and the first trickle (STORY day 14)', () => {
+    const def = pack.festivals!.find((f) => f.id === 'spring_fair')!;
+    const scene = pack.heartEvents!.find((e) => e.id === def.scene)!;
+    expect(scene.conditions?.flags).toContain(`festival_${def.id}`);
+    const speakers = new Set(scene.scene.flatMap((s) => ('speaker' in s ? [s.speaker] : [])));
+    for (const who of ['hazel', 'bea', 'pip']) expect(speakers.has(who), who).toBe(true);
+    expect(scene.rewards?.flags).toContain('glimmerwell_trickle');
+    const text = pack.strings!['en-AU'];
+    for (const s of scene.scene) if ('line' in s) expect(text[s.line], s.line).toBeTruthy();
+    expect(text[scene.banner!]).toBeTruthy();
+  });
+
+  it('closes year one at Winter Lights with all six neighbours and the Our Home sticker (STORY finale)', () => {
+    const def = pack.festivals!.find((f) => f.game === 'lights')!;
+    const scene = pack.heartEvents!.find((e) => e.id === def.scene)!;
+    expect(scene.trigger.type).toBe('story');
+    const speakers = new Set(scene.scene.flatMap((s) => ('speaker' in s ? [s.speaker] : [])));
+    for (const who of ['hazel', 'bea', 'pip', 'otto', 'moss', 'mabel', 'puff']) expect(speakers.has(who), who).toBe(true);
+    const text = pack.strings!['en-AU'];
+    expect(scene.scene.some((s) => 'line' in s && /sticker/i.test(text[s.line]))).toBe(true);
+    expect(text[scene.banner!]).toMatch(/gathered/);
+  });
+
   it('gathers every neighbour in the square on fair day', () => {
     for (const n of pack.neighbours!) expect(n.visits?.[0], n.id).toMatchObject({ every: 14, on: 0, area: 'square' });
   });

@@ -71,7 +71,9 @@ export interface TownSave {
   selected?: string;
   settings: { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; relaxed: boolean; autoTool: boolean;
     /** Accessibility (FRONTEND-PLAN §11); missing in older saves, so off. */
-    bigText?: boolean; highContrast?: boolean; tapOnly?: boolean };
+    bigText?: boolean; highContrast?: boolean; tapOnly?: boolean;
+    /** Text size as a percent (100, 125, 150); older saves only have `bigText`. */
+    textSize?: number };
   [extra: string]: unknown;
 }
 

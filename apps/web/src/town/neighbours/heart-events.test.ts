@@ -51,6 +51,12 @@ describe('Hollowfern heart events', () => {
     }
   });
 
+  it('never holds up the heart arcs with a story scene the game plays itself (the fair thank-you)', () => {
+    const ctx = { hearts: 2, flags: ['keeper_day1_done'], minutes: 9 * 60, area: 'bakery' };
+    expect(eventDue(events, 'hazel', ctx)?.id).toBe('he_hazel_02');
+    expect(eventDue(events, 'hazel', { ...ctx, flags: [...ctx.flags, 'festival_spring_fair'] })?.id).toBe('he_hazel_02');
+  });
+
   it('only waits on flags the game can set (a festival finished, or another scene or reward)', () => {
     const settable = new Set([
       ...(pack.festivals ?? []).map((f) => `festival_${f.id}`),

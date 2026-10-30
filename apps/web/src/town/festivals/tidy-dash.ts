@@ -14,6 +14,8 @@ export interface DashHost {
   syncMess(i: number): void;
   refreshHud(): void;
   save(): void;
+  /** Play a story scene once (the fair thank-you). */
+  playStory(id: string): void;
 }
 
 /**
@@ -105,7 +107,9 @@ export class TidyDash {
     const lines = [content.line(cheer) ?? '', `${done} of ${r.tiles.length} tidied${first ? ` · +${sparkles} ✨` : ''}`];
     if (ribbon) lines.push((content.line('festival.prize') ?? '').replace('{outfit}', (content.pack.outfits?.find((o) => o.id === r.def.outfit)?.name ?? '').toLowerCase()));
     view.feedback('fanfare', 'success');
-    view.showDialogue(lines.join(' '));
+    const scene = ribbon ? r.def.scene : undefined;
+    if (scene) view.ask(lines.join(' '), [{ label: 'OK', primary: true, onClick: () => this.host.playStory(scene) }]);
+    else view.showDialogue(lines.join(' '));
     this.host.refreshHud();
     this.host.save();
   }

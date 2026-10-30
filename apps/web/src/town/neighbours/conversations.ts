@@ -102,6 +102,13 @@ export class Conversations {
     this.host.hopPuff();
   }
 
+  /** A story scene the game plays at its own moment (the fair thank-you), once. */
+  playStory(id: string) {
+    const e = this.host.content.pack.heartEvents?.find((x) => x.id === id);
+    const def = e && this.host.content.neighbour(e.neighbourId);
+    if (e && def && !this.host.state.has(doneFlag(e))) this.playScene(def, e);
+  }
+
   /** A heart event: one box per line, choices as buttons. Skip jumps to the end (first choices, same rewards). */
   private playScene(def: NeighbourDef, e: HeartEvent) {
     const { state, view, content } = this.host;

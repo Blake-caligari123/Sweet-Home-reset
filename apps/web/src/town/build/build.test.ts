@@ -4,7 +4,7 @@ import { Area } from '../data/area';
 import { T } from '../world/art/texture';
 import { FEET, navFor, REACH } from '../world/nav';
 import { Bag } from '../play/bag';
-import { builtProps, canBuild, canUpgrade, resolveBuilds, startBuild, upgrade, withBuilds, type BuildingDef, type PlotDef, type PlotState } from './build';
+import { buildQuestion, builtProps, canBuild, canUpgrade, resolveBuilds, startBuild, upgrade, withBuilds, type BuildingDef, type PlotDef, type PlotState } from './build';
 
 const bench: BuildingDef = { id: 'bench', name: 'Bench', nights: 1, cost: { sparkles: 40 }, prop: { type: 'bench', w: 2 } };
 const gazebo: BuildingDef = { id: 'gazebo', name: 'Gazebo', nights: 3, cost: { sparkles: 300 }, prop: { type: 'bench', w: 2 } };
@@ -153,5 +153,17 @@ describe('Hollowfern plots', () => {
       for (const m of area.spots) expect(nav.findPathNear(spawn, tile(m.x, m.y), REACH), `${a.id} ${m.type} at ${m.x},${m.y}`).not.toBeNull();
       for (const p of area.pack.props.filter((p) => p.action)) expect(nav.findPathNear(spawn, tile(p.x, p.y, p.w, p.h), REACH), `${a.id} ${p.type}`).not.toBeNull();
     }
+  });
+});
+
+describe('asking before building', () => {
+  const bench = { id: 'bench', name: 'Bench', nights: 1, cost: { sparkles: 50 }, prop: { type: 'bench' } } as BuildingDef;
+  const bridge = { id: 'bridge', name: 'Footbridge', nights: 2, cost: { sparkles: 150, items: { twig: 10 } }, prop: { type: 'footbridge' } } as BuildingDef;
+  const names = (id: string) => ({ twig: 'Twig' })[id] ?? id;
+
+  it('says what it is, where, what it costs and how long, before anything is spent', () => {
+    expect(buildQuestion(bench, 'West lawn', false, names)).toBe('West lawn: build a bench for 50 ✨? Finishes overnight.');
+    expect(buildQuestion(bridge, 'The footbridge', false, names)).toBe('The footbridge: build a footbridge for 150 ✨ and 10 twig? Takes 2 nights.');
+    expect(buildQuestion(bench, 'West lawn', true, names)).toBe('West lawn: upgrade to a bench for 50 ✨? Finishes overnight.');
   });
 });

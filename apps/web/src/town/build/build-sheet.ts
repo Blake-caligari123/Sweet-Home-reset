@@ -3,7 +3,7 @@ import type { Content } from '../data/content';
 import type { Clock } from '../play/clock';
 import type { TownState } from '../state';
 import type { View } from '../ui/view';
-import { canBuild, canUpgrade, DONE, startBuild, upgrade, type BuildingDef, type PlotDef } from './build';
+import { buildQuestion, canBuild, canUpgrade, DONE, nightsText, startBuild, upgrade, type BuildingDef, type PlotDef } from './build';
 
 export interface BuildHost {
   state: TownState; view: View; content: Content; clock: Clock;
@@ -39,19 +39,23 @@ export function openBuildBoard(host: BuildHost) {
       const label = waits ? `${def.name} · Town Bloom ${def.bloom}` : `${isUpgrade ? 'Upgrade: ' : ''}${def.name} · ${def.cost.sparkles} ✨${items}`;
       const btn = h('button', { class: 'btn small', type: 'button' }, label);
       if (waits || (isUpgrade ? canUpgrade(state, plot, def) : canBuild(state, plot, def)) !== 'ok') btn.setAttribute('disabled', '');
+      // Nothing is spent until Puff says yes; Not yet goes back to the plans.
       btn.addEventListener('click', () => {
         view.uiTap();
-        const day = host.clock.state.day;
-        if (!(isUpgrade ? upgrade(state, plot, def, day) : startBuild(state, plot, def, day))) return;
         close();
-        host.started(plot);
-        view.feedback('thunk', 'success');
-        view.say(content.line(def.paves ? 'repair.start' : 'build.place') ?? '');
+        view.ask(buildQuestion(def, plot.name, isUpgrade, (id) => content.itemName(id)), [
+          { label: isUpgrade ? 'Upgrade' : 'Build', primary: true, onClick: () => {
+            const day = host.clock.state.day;
+            if (!(isUpgrade ? upgrade(state, plot, def, day) : startBuild(state, plot, def, day))) return;
+            host.started(plot);
+            view.feedback('thunk', 'success');
+            view.say(content.line(def.paves ? 'repair.start' : 'build.place') ?? '');
+          } },
+          { label: 'Not yet', onClick: () => openBuildBoard(host) }
+        ]);
       });
       return btn;
     }
   }));
   close = view.sheet('Keeper\'s plans', [h('p', {}, `You have ${state.sparkles} ✨`), list]);
 }
-
-const nightsText = (b: BuildingDef) => (b.nights > 1 ? `Takes ${b.nights} nights` : 'Finishes overnight');

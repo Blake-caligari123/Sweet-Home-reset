@@ -19,6 +19,9 @@ export interface KeyboardHost {
 
 const MOVES: Record<string, [number, number, Dir]> = { ArrowUp: [0, -1, 'up'], w: [0, -1, 'up'], ArrowDown: [0, 1, 'down'], s: [0, 1, 'down'], ArrowLeft: [-1, 0, 'left'], a: [-1, 0, 'left'], ArrowRight: [1, 0, 'right'], d: [1, 0, 'right'] };
 
+/** The keys, as Pause shows them on a computer (FTU: the use key wasn't discoverable). */
+export const KEYS_HELP = 'Keys: arrows or WASD walk · Space uses · 1–5 tools · B bag · Esc pause';
+
 /** Play with a keyboard: arrows or WASD step a tile, Space or Enter uses what Puff faces, 1–5 pick a tool, B opens the bag. */
 export function bindKeyboard(host: KeyboardHost) {
   window.addEventListener('keydown', (e) => {

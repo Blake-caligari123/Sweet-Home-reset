@@ -29,5 +29,8 @@ describe('Hollowfern pets', () => {
     expect(pets.map((p) => p.id)).toEqual(['cat', 'pup', 'hedgehoglet']);
     const text = pack.strings!['en-AU'];
     for (const p of pets) { expect(p.name).toBeTruthy(); expect(p.defaultName.length).toBeLessThanOrEqual(12); expect(text[p.line], p.line).toBeTruthy(); }
+    // A default name never belongs to someone in the story (Sorrel's sister is Bramble).
+    const story = Object.values(text).join(' ');
+    for (const p of pets) expect(story, p.defaultName).not.toMatch(new RegExp(`\\b${p.defaultName}\\b`));
   });
 });

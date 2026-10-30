@@ -318,6 +318,16 @@ One new thing every couple of days, each with one tip or letter:
   - One low-Fluff line everywhere ("Feeling sleepy... a snack would help.").
   - The goal pill and settings switches are 44 px tall. Two signs were cut to 60 characters (signs are now tested too). "Tap {puff} to stop" uses the player's name, with a test that the pack never writes Puff or Hollowfern by name. A favicon stops the 404.
 
+- **Recheck round 2 (30 Oct):**
+  - The Spring Clean Fair ends with a thank-you scene (STORY day 14). Hazel, Bea and Pip each thank Puff for something they did (Hazel's counter, a Grumble friend, Pip's 2-heart scene, else the fair itself), then the Glimmerwell's first trickle (`glimmerwell_trickle`).
+  - Winter Lights closes year one with the bible's finale. All six neighbours bring one clean thing, Puff drops the Our Home sticker in "for your home, too", and Hazel thanks the Keeper (`year_one_chapter`).
+    - Both are `story` scenes (a new trigger type) that the game plays at its moment, so they never hold up a neighbour's heart arc.
+  - Building asks first: "West lawn: build a bench for 50 ✨? Finishes overnight." Not yet goes back to the plans and nothing is spent.
+  - Text size is 100, 125 or 150% from Pause (an old Bigger text switch reads as 125%).
+  - The hedgehoglet's default name is Clover (Bramble is Sorrel's sister), with a test that a default name never matches someone in the story.
+  - Pause shows the keys on a computer.
+  - Decided without Blake (he said keep going): there's no lasting trickle drawn on the fountain yet, and Sorrel isn't in the finale.
+
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
 |---|---|
