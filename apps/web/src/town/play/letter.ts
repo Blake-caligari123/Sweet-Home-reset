@@ -18,7 +18,13 @@ const LETTER_CHORES: Record<string, [string, string]> = {
   grime: ['scrubbed away some grime', 'wipe one tap or handle'],
   fog: ['cleared some foggy glass', 'wipe one mirror or window'],
   mud: ['cleared away some mud', 'shake out one doormat'],
-  leaves: ['raked up some leaves', 'sweep one doorstep']
+  leaves: ['raked up some leaves', 'sweep one doorstep'],
+  flour: ['dusted away some flour', 'wipe one kitchen shelf'],
+  sawdust: ['swept up some sawdust', 'tidy one drawer'],
+  ink: ['sponged up an ink blot', 'tidy one desk or table'],
+  soap: ['scrubbed some soap scum', 'wipe one sink'],
+  sand: ['raked up some sand', 'shake out one pair of shoes'],
+  seaweed: ['cleared some seaweed', 'water one plant']
 };
 
 /** A quiet day (nothing tidied): a few cosy chores in turn, so the letter isn't the same each morning. */

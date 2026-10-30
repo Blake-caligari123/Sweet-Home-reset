@@ -26,7 +26,13 @@
     "crumbs": 1,
     "fog": 1,
     "clutter": 1,
-    "leaves": 1
+    "leaves": 1,
+    "flour": 1,
+    "sawdust": 2,
+    "ink": 2,
+    "soap": 1,
+    "sand": 1,
+    "seaweed": 2
   },
   "bagSlotsStart": 12,
   "gardenPlotStart": [

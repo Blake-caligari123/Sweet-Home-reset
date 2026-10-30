@@ -49,6 +49,30 @@ export function drawMess(type: string, variant: number, item?: string) {
       pc.ellipse(8, 13, 7, 2, P.brownShade); pc.hline(5, 12, 4, P.brown);
       for (const [x, y] of [[3, 7], [12, 6], [8, 4], [5, 9], [11, 9]]) pc.rect(x, y, 2, 1, P.brownShade);
       break;
+    // Each place's own mess, each with its own shape (not just a colour).
+    case 'flour': // powder swept in thin arcs, with a pinch heaped in the corner
+      for (const row of [3, 7, 11]) for (let x = 1; x < 12; x += 1) pc.set(x, row + Math.round(((x - 6) / 5) ** 2 * 2), x % 3 ? P.white : P.cream);
+      pc.rect(12, 13, 3, 2, P.white); pc.set(13, 12, P.cream);
+      break;
+    case 'sawdust': // little curls of wood
+      for (let i = 0; i < 6; i += 1) { const cx = 2 + Math.floor(r() * 11); const cy = 3 + Math.floor(r() * 10); pc.hline(cx, cy, 3, P.brownLight); pc.set(cx + 3, cy - 1, P.brownLight); pc.set(cx, cy + 1, P.brown); }
+      break;
+    case 'ink': // a small blot with spatter flung out in rays
+      pc.ellipse(8, 8, 2, 2, P.blueShade); pc.set(7, 7, P.blue);
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1]]) for (let k = 4; k < 7; k += 1) if (k !== 5) pc.set(8 + dx * k, 8 + dy * k, P.blueShade);
+      break;
+    case 'soap': // a film of bubbles: rings, not blobs
+      for (const [cx, cy, rr] of [[5, 6, 3], [10, 9, 2], [9, 4, 1], [4, 11, 2], [12, 13, 1]]) {
+        for (let a = 0; a < 16; a += 1) pc.set(Math.round(cx + Math.cos(a / 2.55) * rr), Math.round(cy + Math.sin(a / 2.55) * rr), a < 4 ? P.white : P.blueLight);
+      }
+      break;
+    case 'sand': // wind ripples: rows of short dashes, offset row to row
+      for (let y = 2; y < 15; y += 3) for (let x = (y % 2) * 2; x < 15; x += 5) { pc.hline(x, y, 3, P.butterLight); pc.set(x + 1, y + 1, P.butterShade); }
+      break;
+    case 'seaweed': // wavy strands lying in a tangle
+      for (const row of [6, 10]) for (let x = 2; x < 14; x += 1) pc.set(x, row + Math.round(Math.sin(x * 0.8 + row)), x % 3 ? P.sageShade : P.sage);
+      pc.set(5, 8, P.sageShade); pc.set(11, 12, P.sageShade);
+      break;
     case 'clutter':
       drawItemIcon(pc, item ?? 'sock', 1, 1);
       break;

@@ -312,4 +312,13 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Pumpkin pie: the bathhouse or Riverside.
   - The new dishes are snacks and gifts, and the General Store buys them. Their icons are drawn in code.
   - A banner says what was found and where to cook it.
+- **6b.3 Each place's own mess (30 Oct):**
+  - Six new kinds of mess, each with its own shape (the colour-blind test checks every pair):
+    - Flour in the bakery (duster).
+    - Sawdust in Pip's workshop (duster, 2 hits).
+    - Ink in the library (sponge, 2 hits).
+    - Soap scum in the bathhouse (sponge).
+    - Sand and seaweed at the beach (rake; seaweed takes 2 hits).
+  - Each has its own prompt ("Sponge the ink") and its own morning-letter chore. Flour and sawdust puff when cleared, and ink and soap make suds.
+  - New types are added at the end of the list, so older saves keep their mess.
 
