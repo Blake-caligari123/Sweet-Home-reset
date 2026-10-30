@@ -74,6 +74,8 @@ npx tsc --noEmit && npm run lint && npm test && npm run build && npm run size
 
 Then play the feature in the browser at 390×844 (Playwright with the `?debug` hooks), plus the random-tap monkey test if input, dialogs or areas changed. Clean console required.
 
+**Feature tour (Blake: always).** Every new player-facing feature gets a card in `apps/web/src/town/tour/tour.ts`: a title, 1–3 steps saying what to try, and a `setup` that jumps to the right day, time and place and gives what's needed. Click its Try it button in the browser and check the feature shows itself there.
+
 ## 4. Keep the docs true
 
 - New or moved files: the folder map in `docs/ARCHITECTURE.md`.
