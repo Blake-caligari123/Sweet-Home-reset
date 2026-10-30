@@ -1165,3 +1165,8 @@ Heard only with a screen reader, never shown on screen.
 **Neighbours join in (6b.4):** morning banner "🤝 Hazel and Bea helped tidy Neighbour Lane this morning!"
 
 **The pet's help (6b.5):** "{pet} sniffed out a present for you: Pebble!"
+
+**Thank-you notes (6b.6):**
+- Job banner: "Job done! +20 ✨ +1 💌 from Hazel".
+- Chat button: "2 💌 for 2 × fresh bread". Trade banner: "💌 Traded for fresh bread! 1 💌 left with Hazel."
+- Friends page: "💌 1 thank-you note: trade them with Hazel".

@@ -148,7 +148,7 @@ export class TownGame {
       facePuff: (x, y) => { this.puff.faceAlong(x - this.puff.fx, y - this.puff.fy); return this.puff.dir; },
       hopPuff: () => this.puff.hop(),
       sparkleAtPuff: (n) => this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), n),
-      extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.shopButtonsFor(id)],
+      extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.shopButtonsFor(id), ...this.systems.tradesFor(id)],
       onboard: (e) => this.guide.handle(e),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)

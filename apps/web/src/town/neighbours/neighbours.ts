@@ -1,6 +1,7 @@
 import type { Dir } from '../world/art/characters';
 import { T } from '../world/art/texture';
 import type { AreaPack, Door } from '../data/area';
+import type { ThanksDef } from './tokens';
 import { FEET, type NavGrid, type Pt } from '../world/nav';
 
 // Neighbours (GDD v3 A7, M2): each keeps a daily routine of stops from the pack. The one or two
@@ -21,6 +22,8 @@ export interface NeighbourDef {
   home?: string; weather?: string;
   /** Changes of plan (NEXT-PHASE §5.3): somewhere else for a while when it rains, or when they're happy. */
   changes?: Change[];
+  /** What they trade for their thank-you notes (tokens.ts). */
+  thanks?: ThanksDef[];
 }
 
 /** A change of plan: from `at` until `until`, here instead, on rainy days or while they're happy. */

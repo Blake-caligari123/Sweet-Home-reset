@@ -81,6 +81,8 @@ export function installDebugHooks(g: DebugTarget) {
     addPoints: (id: string, n: number) => { s.friendOf(id).points += Math.max(0, n); },
     /** Puff's skill XP, and a moment as if Puff did it (skills and tips hear it). */
     skills: () => s.skills,
+    /** Give thank-you notes from a neighbour (neighbours/tokens.ts). */
+    addTokens: (id: string, n: number) => { s.tokens[id] = (s.tokens[id] ?? 0) + n; },
     did: (e: OnboardEvent) => { g.guide.handle(e); g.refreshHud(); }
   };
 }
