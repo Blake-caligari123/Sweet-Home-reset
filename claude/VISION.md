@@ -357,7 +357,7 @@ One new thing every couple of days, each with one tip or letter:
   - Sign in with Apple's button waits for Blake's Apple Services ID; the server side is ready.
 
 - **Phase 5f (30 Oct): store readiness.**
-  - Pause → About shows the version, PixelVortex Games and "Some art created with Grok Imagine" (the credit the Grok terms ask for, tested). A draft privacy policy is at `public/privacy.html`.
+  - Pause → About shows the version and PixelVortex Games (the art credit line was removed by Blake the same day). A draft privacy policy is at `public/privacy.html`.
   - Anonymous play counts (day started, unlock offered and bought) are sent only in server builds, with a "Share anonymous play counts" switch in Pause, so the privacy policy is true.
   - `claude/STORE-LISTING.md` (both stores' copy), `claude/IARC-ANSWERS.md` (ratings, App Privacy, Data safety) and `claude/RELEASE-CHECKLIST.md` (every Blake-only step, in order).
   - Store screenshots: `tools/store-screenshots.cjs` writes six scenes to `art/store/iphone/` and `art/store/android-phone/`.

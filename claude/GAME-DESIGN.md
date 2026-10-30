@@ -24,7 +24,7 @@ Build the full game described in Part B. The 5 milestones (A9) are test checkpoi
 | Social | Friend-town visits, leaderboards (including Speed Clean boards) and any server-side sharing come later, after an IARC and /privacy review. |
 | Sharing in v1 | Reveal clip and Mess of the Day card, made on device from game art only, no name/photos/camera, nothing uploaded or tracked. |
 | Combat | None. Optional later: a cosy puzzle cellar with nothing dangerous. |
-| Art | Tiles and mess drawn in code; Puff and neighbours generated (Grok, per tool terms), pixel-passed, tidied, logged in LICENCES.md. Credit "Some art created with Grok Imagine" in app and store listing. Nothing resembling Finch. |
+| Art | Tiles and mess drawn in code; Puff and neighbours generated (Grok, per tool terms), pixel-passed, tidied, logged in LICENCES.md. |
 | Music | Synthesised for v1. Any commissioned art/music needs Blake's yes. |
 | Launch | Australia first. |
 | Beach and lighthouse | Open on day 43 (start of winter) only, no heart condition (overrides Part B's "3 hearts with Mabel"). |
@@ -289,7 +289,7 @@ Adds detail only; A2 holds the locked split, lapse, pricing and clip rules.
 **/privacy and /notices must list**
 - Synced save data and email (only if signed in); purchase status via RevenueCat; transactional email via Resend; web payments via Stripe; Apple/Google for store billing.
 - Analytics: first-party, anonymous gameplay counts only (A10 events). No ad ID, fingerprint, name or email in events; nothing sold or shared. Any third-party analytics tool needs Ops sign-off and a /privacy entry first.
-- No ads, no tracking SDKs, no data sale. Grok Imagine credit line.
+- No ads, no tracking SDKs, no data sale.
 
 **IARC**
 - Answers stay as claude/IARC-ANSWERS.md: "Shares user content" = No; in-app purchases is the only descriptor. Re-run before adding any server-side sharing, chat, friend visits or leaderboards.

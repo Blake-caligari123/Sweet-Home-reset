@@ -3,13 +3,12 @@ import pkg from '../../../package.json';
 import type { View } from './view';
 
 /**
- * Pause → About: the version, who made it, the art credit the Grok Imagine terms ask for
- * (claude/LICENCES.md) and the privacy policy.
+ * Pause → About: the version, who made it and the privacy policy.
  */
 export function aboutLines(version: string) {
   return [
     `Sweet Home Reset, version ${version}. Made by PixelVortex Games.`,
-    'Some art created with Grok Imagine. Music and sounds are made by the game itself.',
+    'Music and sounds are made by the game itself.',
     'No ads and no tracking. Your town is saved on this device; an account is optional.'
   ];
 }

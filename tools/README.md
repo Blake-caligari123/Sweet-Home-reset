@@ -31,7 +31,6 @@ Watermark and outputs:
 - Finals may be written to `art/<group>/` with `--out art/<group>`; default output is still `art/_drafts/`.
 - Cutouts run a ground clean that removes the cream shadow patch under the feet and re-feathers the edge (`--no-ground-clean` to skip).
 - `--canvas WxH` pads sliced frames to a fixed size; `--only a,b` writes just those frames.
-- Credit "Some art created with Grok Imagine" stays in-app and in the store listing.
 
 Example (replace one pose at its existing canvas size):
 ```
