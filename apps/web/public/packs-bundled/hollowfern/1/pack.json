@@ -7875,7 +7875,8 @@
    "mabel.drama.splash": "Hoo. Some folk don't watch where they splash.",
    "bea.jar_mended.1": "Hazel filled my jar with buns! Best trade I ever made.",
    "mabel.splash_mended.1": "Otto and I fish together now. Well, Otto fishes. I watch.",
-   "moss.noise_mended.1": "... Quiet afternoons now. Pip kept the promise."
+   "moss.noise_mended.1": "... Quiet afternoons now. Pip kept the promise.",
+   "pet.sniffed": "{pet} sniffed out a present for you: {item}!"
   }
  },
  "heartEvents": [
@@ -10445,19 +10446,31 @@
    "id": "cat",
    "name": "Cat",
    "defaultName": "Mochi",
-   "line": "pet.cat.line"
+   "line": "pet.cat.line",
+   "finds": [
+    "twig",
+    "shell"
+   ]
   },
   {
    "id": "pup",
    "name": "Pup",
    "defaultName": "Biscuit",
-   "line": "pet.pup.line"
+   "line": "pet.pup.line",
+   "finds": [
+    "pebble",
+    "twig"
+   ]
   },
   {
    "id": "hedgehoglet",
    "name": "Hedgehoglet",
    "defaultName": "Clover",
-   "line": "pet.hedgehoglet.line"
+   "line": "pet.hedgehoglet.line",
+   "finds": [
+    "mushroom",
+    "berries"
+   ]
   }
  ],
  "recipes": [

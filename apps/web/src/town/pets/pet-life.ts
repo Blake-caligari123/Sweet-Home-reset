@@ -8,7 +8,7 @@ import type { Pt } from '../world/nav';
 import type { PetLayer } from '../world/pet-layer';
 import type { World } from '../world/world';
 import { openPetChoice } from './pet-sheet';
-import { Trail } from './pets';
+import { sniff, Trail } from './pets';
 
 export interface PetHost {
   state: TownState; view: View; content: Content; world: World; layer: PetLayer;
@@ -24,6 +24,8 @@ export interface PetHost {
 const DOORSTEP = 'yard';
 /** A beat after arriving, so Puff is through the door first. */
 const OFFER_DELAY_MS = 700;
+/** The pet has a sniff about once Puff's settled in. */
+const SNIFF_DELAY_MS = 1500;
 
 /** Puff's pet in play: chosen and named on day 4, then trotting along behind Puff everywhere. */
 export class PetLife {
@@ -55,10 +57,25 @@ export class PetLife {
     });
   }
 
-  /** A new area: the pet comes in at Puff's feet. Out in the yard, the visitors may be waiting. */
+  /** A new area: the pet comes in at Puff's feet. Out in the yard, the visitors may be waiting. Outdoors, the pet may sniff something out. */
   entered(area: string) {
     this.trail.reset(this.host.puff()); this.last = null;
     if (area === DOORSTEP) window.setTimeout(() => this.offer(), OFFER_DELAY_MS);
+    window.setTimeout(() => this.sniffAround(area), SNIFF_DELAY_MS);
+  }
+
+  private sniffAround(area: string) {
+    const { state, content, view } = this.host;
+    const pet = state.pet;
+    if (!pet || content.pack.areas.find((a) => a.id === area)?.kind !== 'outdoor') return;
+    const item = sniff(pet, content.pack.pets?.find((p) => p.id === pet.kind), area, this.host.day(), TUNING.petFindsPerDay);
+    if (!item || !state.bag.canAdd(item)) return;
+    state.bag.add(item);
+    const s = this.trail.spot;
+    this.host.world.sparkleBurst(Math.floor(s.x / T), Math.floor(s.y / T), 6);
+    view.feedback('chime', 'light');
+    view.say(this.say('pet.sniffed').replace('{item}', content.itemName(item)));
+    this.host.refreshHud();
   }
 
   /** The pet drawn under this world point. */

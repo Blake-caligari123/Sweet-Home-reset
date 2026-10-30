@@ -1163,3 +1163,5 @@ Heard only with a screen reader, never shown on screen.
   - cleared some seaweed / water one plant
 
 **Neighbours join in (6b.4):** morning banner "🤝 Hazel and Bea helped tidy Neighbour Lane this morning!"
+
+**The pet's help (6b.5):** "{pet} sniffed out a present for you: Pebble!"

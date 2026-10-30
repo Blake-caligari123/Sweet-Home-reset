@@ -37,6 +37,8 @@ export interface Tuning {
   findSetSparkles: number;
   /** Tidy chains: how soon the next spot must clear to keep a chain going, how often it pays, how much (growing), and the most. */
   tidyChain: { windowMs: number; every: number; sparkles: number; maxSparkles: number };
+  /** How many outdoor places a day the pet sniffs something out in (pets/pets.ts). */
+  petFindsPerDay: number;
   /** Spots each neighbour tidies each morning once Puff has restored their home (life/helpers.ts). */
   helperSpots: number;
   /** The town fund: what each neighbour chips in each morning, happy (or glowing) and otherwise. */
