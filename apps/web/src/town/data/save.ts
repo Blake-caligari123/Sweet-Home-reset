@@ -1,3 +1,4 @@
+import type { Memory } from '../life/memory';
 import { TOWN_SAVE_SCHEMA } from '@sweet-home-reset/shared';
 import { localDate } from '../../shared/date';
 import type { PlotState } from '../build/build';
@@ -64,6 +65,8 @@ export interface TownSave {
   restNights?: number;
   /** Places Puff has been (the town map offers these). */
   visited?: string[];
+  /** What the townsfolk remember Puff did, and how far each drama has got (life/). */
+  memories?: Memory[]; dramas?: Record<string, number>;
   /** The cloud save's version this device last matched (sync asks the player when it differs). */
   cloudVersion?: number;
   /** Cleans counted per place, and the surprise finds collected. */

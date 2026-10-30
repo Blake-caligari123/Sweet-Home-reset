@@ -17,6 +17,8 @@ export interface NeighbourDef {
   schedule: Stop[];
   /** Popping round (VISION §6: they visit Puff and each other): every `every` days, on days where day % every === on. */
   visits?: Visit[];
+  /** Their home (its tidiness lifts their mood), and the weather they like best. */
+  home?: string; weather?: string;
 }
 
 /** A visit: somewhere else from `at` until `until` (minutes), then back to the usual routine. */

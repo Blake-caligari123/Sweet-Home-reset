@@ -1,8 +1,9 @@
+import type { Mood } from '../life/mood';
 import { TUNING } from '../data/tuning';
 
 // Talking (GDD v3 §6.1): each neighbour has pools of lines tagged by time, season, weather,
-// hearts, area and flags. The most specific line that fits wins (flag > hearts > weather > season
-// > time > anything), skipping the last 5 heard. The first chat of the day counts toward
+// hearts, area, flags, mood, memories and dramas. The most specific line that fits wins (festival >
+// memory > drama > area > flag > hearts > mood > weather > season > time > anything), skipping the last 5 heard. The first chat of the day counts toward
 // friendship; after that, neighbours give a short "busy" line. Text lives in the string table.
 export type TimeBand = 'morning' | 'day' | 'evening' | 'night';
 
@@ -20,6 +21,12 @@ export interface Line {
   busy?: boolean;
   /** The very first hello. */
   meet?: boolean;
+  /** Only in one of these moods (life/mood.ts). */
+  mood?: Mood[];
+  /** Only while they remember this (life/memory.ts: 'tidied_home', 'restored_square'…). */
+  remembers?: string;
+  /** Only while this drama is brewing. */
+  drama?: string;
 }
 
 export interface TalkContext {
@@ -27,6 +34,8 @@ export interface TalkContext {
   flags: string[]; met: boolean; talkedToday: boolean; recent: string[];
   /** Today's festival, if any. */
   festival?: string;
+  /** How they feel, what they remember, and dramas they're in (life/). */
+  mood?: Mood; memories?: string[]; dramas?: string[];
 }
 
 /** How many talks back a line stays unheard. */
@@ -44,6 +53,9 @@ export function heartsOf(points: number) {
 function fits(l: Line, c: TalkContext) {
   if (l.festival && l.festival !== c.festival) return false;
   if (l.flag && !c.flags.includes(l.flag)) return false;
+  if (l.mood && (!c.mood || !l.mood.includes(c.mood))) return false;
+  if (l.remembers && !c.memories?.includes(l.remembers)) return false;
+  if (l.drama && !c.dramas?.includes(l.drama)) return false;
   if (l.once && c.flags.includes(`said_${l.id}`)) return false;
   if (l.time && l.time !== timeBand(c.minutes)) return false;
   if (l.season && l.season !== c.season) return false;
@@ -55,10 +67,13 @@ function fits(l: Line, c: TalkContext) {
 }
 
 function tier(l: Line) {
-  if (l.festival) return 7; // a festival day's hello beats everything
+  if (l.festival) return 9; // a festival day's hello beats everything
+  if (l.remembers) return 8; // then something Puff did
+  if (l.drama) return 7; // then what's on their mind
   if (l.area) return 6; // met somewhere they're only visiting: that hello first
   if (l.flag) return 5;
   if (l.heartsMin !== undefined || l.heartsMax !== undefined) return 4;
+  if (l.mood) return 3.5;
   if (l.weather) return 3;
   if (l.season) return 2;
   if (l.time) return 1;
