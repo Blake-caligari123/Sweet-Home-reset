@@ -73,8 +73,13 @@
   "copperRecipeShopDay": 5,
   "townName": "Hollowfern",
   "fountainName": "Glimmerwell",
-  "walkTilesPerSecond": 4,
-  "walkTilesPerSecondTired": 3,
+  "walkTilesPerSecond": 5,
+  "walkTilesPerSecondTired": 3.5,
+  "mapTravelMinutesPerHop": 5,
+  "zoomTiles": [
+    7,
+    16
+  ],
   "neighbourWalkTilesPerSecond": 2.5,
   "colourRippleMs": 300,
   "toolSwingMs": 260,

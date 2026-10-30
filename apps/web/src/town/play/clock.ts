@@ -46,6 +46,9 @@ export class Clock {
   }
 
   nextDay() { this.state = { day: this.state.day + 1, minutes: DAY_START }; this.carry = 0; }
+  /** Game minutes that go by on the next frame (map travel), through the usual ticks, late and doze. */
+  pass(minutes: number) { this.carry += minutes; }
+
   /** A rest night at the end of the free spring: morning comes, the day number stays. */
   restDay() { this.state = { day: this.state.day, minutes: DAY_START }; this.carry = 0; }
 }

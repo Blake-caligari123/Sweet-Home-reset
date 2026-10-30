@@ -62,7 +62,7 @@ export function openPause(d: PauseHost) {
     h('div', { class: 'list' },
       toggle('sound', 'Sound'), toggle('music', 'Music'), toggle('haptics', 'Haptics'),
       toggle('reducedMotion', 'Reduce motion'), toggle('relaxed', 'Relaxed mode (half Fluff costs, no dozing off)'), toggle('autoTool', 'Pick the right tool for me'),
-      toggle('tapOnly', 'Tap-only (one tap tidies a whole spot)'), textSize(), toggle('highContrast', 'High contrast'))
+      toggle('tapOnly', 'Tap-only (one tap tidies a whole spot)'), toggle('joystick', 'Joystick (drag to walk)'), textSize(), toggle('highContrast', 'High contrast'))
   ];
   if (d.skipTips) {
     const skipTips = d.skipTips;

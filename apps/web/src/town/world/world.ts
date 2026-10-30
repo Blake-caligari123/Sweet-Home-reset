@@ -116,6 +116,8 @@ export class World {
   private animClock = 0;
   private markerMs = 0;
   private scale = 1;
+  /** Tiles across the view (pinch zoom changes it; world/zoom.ts). */
+  viewTiles = VIEW_TILES;
   private cam = { x: 0, y: 0 };
   reducedMotion = false;
 
@@ -286,7 +288,7 @@ export class World {
   resize() {
     const { width, height } = this.app.screen;
     const dpr = this.app.renderer.resolution;
-    const k = Math.max(1, Math.floor((width * dpr) / (VIEW_TILES * T)));
+    const k = Math.max(1, Math.floor((width * dpr) / (this.viewTiles * T)));
     this.scale = k / dpr;
     this.stage.scale.set(this.scale);
     this.backdrop.clear().rect(0, 0, width, height).fill(this.area?.pack.edge ?? P.ink);
@@ -294,6 +296,9 @@ export class World {
     this.vignette.width = width; this.vignette.height = height;
     this.follow(this.cam.x, this.cam.y, true);
   }
+
+  /** Show this many tiles across (pinch zoom), at the nearest crisp pixel scale. */
+  zoomTo(tiles: number) { this.viewTiles = tiles; this.resize(); }
 
   /** Centre the camera on a world pixel point, clamped to the map; small maps sit centred. */
   follow(px: number, py: number, snap = false) {

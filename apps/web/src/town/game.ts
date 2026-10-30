@@ -20,6 +20,9 @@ import { Neighbours } from './neighbours/neighbours';
 import { installDebugHooks } from './debug';
 import type { Account } from './account/account-sheet';
 import type { Counts } from './account/counts';
+import { openMap } from './travel/map-sheet';
+import { stickTarget } from './play/stick';
+import { Joystick } from './ui/joystick';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
 import { PuffActions } from './play/actions';
@@ -93,6 +96,7 @@ export class TownGame {
   private dash: TidyDash;
   private lanterns: Lanterns;
   private unlocker: Unlocker;
+  private stick: Joystick;
   /** The optional account, in builds with a server (VITE_API_ORIGIN). */
   private account: Account | null;
   private counts: Counts | null;
@@ -122,6 +126,7 @@ export class TownGame {
       tool: (t) => { this.view.uiTap(); this.selected = t; this.refreshHud(); },
       bag: () => { this.view.uiTap(); this.openBag(); },
       pause: () => { this.view.uiTap(); this.openPause(); },
+      map: () => { this.view.uiTap(); if (!this.dash.active) this.openMap(); },
       tracker: () => this.view.uiTap()
     });
     this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress, () => this.state.names.puff);
@@ -195,6 +200,8 @@ export class TownGame {
     this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = settings.reducedMotion;
     if (this.state.requests.day !== this.clock.state.day) this.jobs.post();
     this.enterArea(this.areaId, this.puff.x, this.puff.y, false, feet);
+    this.stick = new Joystick(ui);
+    if (settings.zoomTiles) this.world.zoomTo(settings.zoomTiles);
     this.bindInput(ui);
     app.ticker.add((t) => this.update(t.deltaMS));
     window.addEventListener('resize', () => { app.resize(); this.world.resize(); });
@@ -222,6 +229,7 @@ export class TownGame {
 
   private enterArea(id: string, x: number, y: number, announce = true, feet?: Pt) {
     this.areaId = id;
+    this.state.visit(id);
     // Stand at the tile's usual spot (or a saved exact spot), nudged onto open floor if needed.
     const spot = this.nav.nearestOpen(feet && this.nav.openAt(feet.x, feet.y) ? feet : { x: x * T + T / 2, y: y * T + FEET }) ?? { x: x * T + T / 2, y: y * T + FEET };
     this.puff.standAt(spot);
@@ -268,8 +276,11 @@ export class TownGame {
       hold: (p) => { this.scrub(p, MAX_RUB); if (this.actions.charge(Math.floor(p.x / T), Math.floor(p.y / T))) this.puff.repeat = 0; },
       // Clutter carried home, or a row of mess swept; otherwise walk to where the finger stopped.
       drag: (from, to) => { this.sweep.stop(); if (!this.carry.drag(from, to) && !this.sweep.drag(from, to)) this.tap(to.x, to.y); },
-      carryable: (p) => this.carry.clutterAt(Math.floor(p.x / T), Math.floor(p.y / T)) ?? null
+      carryable: (p) => this.carry.clutterAt(Math.floor(p.x / T), Math.floor(p.y / T)) ?? null,
+      viewTiles: () => this.world.viewTiles,
+      zoom: (tiles) => { this.world.zoomTo(tiles); this.settings.zoomTiles = tiles; }
     });
+    this.stick.shown = !!this.settings.joystick;
     bindKeyboard({
       puff: this.puff, nav: () => this.nav, busy: () => this.view.busy, back: () => this.back(), tap: (x, y) => this.tap(x, y),
       selectSlot: (n) => { const t = TOOL_SLOTS[n - 1]; if (this.state.tools[t]) { this.selected = t; this.refreshHud(); } },
@@ -403,6 +414,7 @@ export class TownGame {
         if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
         this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = s.reducedMotion;
         applyLook(s);
+        this.stick.shown = !!s.joystick;
         void this.save(false);
       },
       openFriends: () => this.talk.openFriends(),
@@ -412,6 +424,14 @@ export class TownGame {
       skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null,
       restore: this.unlocker.gate ? () => void this.unlocker.restore() : null,
       openAccount: this.account ? () => this.account?.open() : null
+    });
+  }
+
+  private openMap() {
+    openMap({
+      view: this.view, visited: this.state.visited, here: () => this.areaId, named: (t) => this.content.named(t),
+      areas: () => this.content.pack.areas.map((a) => this.places.get(a.id)?.pack ?? a),
+      go: (id, minutes) => { this.clock.pass(minutes); const s = this.places.get(id)!.pack.spawn; void this.travel(id, s.x, s.y); }
     });
   }
 
@@ -431,6 +451,9 @@ export class TownGame {
         if (e === 'late') { this.hud.setLate(true); this.view.say(`${this.state.names.puff}'s getting sleepy. Head home to bed.`); }
         if (e === 'doze' && !this.settings.relaxed) void this.endDay(true);
       }
+      // The on-screen stick, when held, sets the way a short step at a time (play/stick.ts).
+      const pull = this.stick.pull;
+      if (pull && p.swingMs <= 0) { const to = stickTarget(p.feet, pull, T * 0.6, (a, b) => this.nav.clear(a, b)); if (to) { p.path = [to]; p.action = null; } p.dir = pull.dir; }
       // The tile under the feet drives onboarding; arriving uses the door or the thing tapped.
       const speed = ((this.state.fluff.tired ? WALK_SPEED_TIRED : WALK_SPEED) * T) / 1000;
       if (p.walk(dt, speed, () => this.guide.handle({ type: 'stood', ground: this.area.groundAt(p.x, p.y), area: this.areaId }))) {

@@ -31,6 +31,14 @@ describe('clock', () => {
     expect(c.state).toEqual({ day: 16, minutes: DAY_START });
   });
 
+  it('lets map travel move the time on, through the usual late and doze', () => {
+    const c = new Clock({ day: 2, minutes: 25 * 60 - 5 });
+    c.pass(10);
+    const events = c.advance(1);
+    expect(c.state.minutes).toBe(25 * 60 + 5);
+    expect(events).toContain('late');
+  });
+
   it('formats times for the HUD', () => {
     expect(formatTime(6 * 60)).toBe('6:00 am');
     expect(formatTime(13 * 60 + 30)).toBe('1:30 pm');

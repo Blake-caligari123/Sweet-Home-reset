@@ -221,3 +221,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
 - a deep slice of Old Town and Puff's Hollow first
 - prices of about A$9.99 in early access and A$19.99 at 1.0
 - combat "in the right context" read as never harming anyone (gentle challenges, puzzles and timed games only)
+
+## Progress
+- **6a.1 Getting around (30 Oct):**
+  - **Town map:** the 🗺 button by Pause lists every place Puff has been (outdoors, homes, caves). The trip takes game time, 5 minutes per door or hatch on the way (`mapTravelMinutesPerHop`). The places visited are saved; older saves start from the burrow.
+  - **Joystick:** Pause → Joystick shows an on-screen stick. Drag to walk, sliding along walls; taps still tidy and use things.
+  - **Walking is faster:** 5 tiles a second (3.5 when sleepy).
+  - **Pinch to zoom** (the mouse wheel and trackpad too), from 7 to 16 tiles across (`zoomTiles`), kept crisp. The zoom is remembered.
+  - `game.ts` is 522 lines. It gets split with the townsfolk engine (6a.2), where its seams change anyway.
+

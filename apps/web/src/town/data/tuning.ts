@@ -31,6 +31,10 @@ export interface Tuning {
   fountainName: string;
   walkTilesPerSecond?: number;
   walkTilesPerSecondTired?: number;
+  /** Map travel costs game time, as walking would: this many minutes per door passed. */
+  mapTravelMinutesPerHop: number;
+  /** Pinch zoom: the closest and furthest view, in tiles across. */
+  zoomTiles: [number, number];
   neighbourWalkTilesPerSecond?: number;
   colourRippleMs?: number;
   toolSwingMs?: number;
