@@ -7968,7 +7968,13 @@
    "pet.sniffed": "{pet} sniffed out a present for you: {item}!",
    "quest.reading_club.intro": "... I'd like a reading club. But the library's a mess.",
    "quest.reading_club.pip": "A lamp for Moss's club? I've got just the thing!",
-   "quest.reading_club.done": "... A real club. Lamp, snacks, tidy shelves. Thank you."
+   "quest.reading_club.done": "... A real club. Lamp, snacks, tidy shelves. Thank you.",
+   "quest.spring_prep.intro": "The fair's soon! The square needs a spruce. Will you help?",
+   "quest.spring_prep.bea": "Bunting? I've sewn flower bunting all week! Take it!",
+   "quest.spring_prep.done": "Oh, it's perfect! Best fair ever, petal.",
+   "quest.summer_prep.intro": "Picnic by the river soon! Fancy helping me get ready?",
+   "quest.summer_prep.pip": "Blankets! Patched and ready. Mind the buttons!",
+   "quest.summer_prep.done": "Picnic by the river! Best day of the summer!"
   }
  },
  "heartEvents": [
@@ -11474,6 +11480,107 @@
     "item": "lantern",
     "qty": 1,
     "flag": "reading_club"
+   }
+  },
+  {
+   "id": "spring_prep",
+   "name": "Getting ready for the Spring Clean Fair",
+   "giver": "hazel",
+   "fromDay": 10,
+   "untilDay": 13,
+   "offer": "Help get ready for the fair?",
+   "intro": "quest.spring_prep.intro",
+   "steps": [
+    {
+     "hint": "Tidy 8 spots in the square for the fair",
+     "goal": {
+      "type": "cleared",
+      "area": "square",
+      "count": 8
+     }
+    },
+    {
+     "hint": "Pick 3 crops for the fair stalls",
+     "goal": {
+      "type": "picked",
+      "count": 3
+     }
+    },
+    {
+     "hint": "Ask Bea about bunting for the fair",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Ask about bunting",
+      "line": "quest.spring_prep.bea"
+     }
+    },
+    {
+     "hint": "Tell Hazel the square is ready",
+     "goal": {
+      "type": "talk",
+      "who": "hazel",
+      "ask": "The square is ready for the fair!",
+      "line": "quest.spring_prep.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 120,
+    "item": "flower_pot",
+    "qty": 1,
+    "flag": "spring_prep_done"
+   }
+  },
+  {
+   "id": "summer_prep",
+   "name": "Getting ready for the Summer Picnic",
+   "giver": "otto",
+   "fromDay": 24,
+   "untilDay": 27,
+   "offer": "Help with the picnic?",
+   "intro": "quest.summer_prep.intro",
+   "steps": [
+    {
+     "hint": "Cook 2 dishes for the picnic",
+     "goal": {
+      "type": "made",
+      "station": "kitchen",
+      "count": 2
+     }
+    },
+    {
+     "hint": "Tidy 6 spots at Riverside for the picnic",
+     "goal": {
+      "type": "cleared",
+      "area": "riverside",
+      "count": 6
+     }
+    },
+    {
+     "hint": "Ask Pip about picnic blankets",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Ask about picnic blankets",
+      "line": "quest.summer_prep.pip"
+     }
+    },
+    {
+     "hint": "Tell Otto the picnic is ready",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "The picnic is all ready!",
+      "line": "quest.summer_prep.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 150,
+    "item": "soap",
+    "qty": 2,
+    "flag": "summer_prep_done"
    }
   }
  ]

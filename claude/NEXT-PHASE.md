@@ -347,4 +347,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
     3. Next day: ask Pip about a reading lamp.
     4. Tell Moss it's ready.
     - Reward: 150 ✨, a lantern and the `reading_club` flag.
+- **6b.8 Festival prep days (30 Oct):** quests can be offered only until a day (`untilDay`). Two festivals now have prep days before them:
+  - **Getting ready for the Spring Clean Fair** (Hazel, days 10–13): tidy 8 spots in the square, pick 3 crops, ask Bea about bunting, tell Hazel. Reward: 120 ✨ and a flower pot.
+  - **Getting ready for the Summer Picnic** (Otto, days 24–27): cook 2 dishes, tidy 6 spots at Riverside, ask Pip about picnic blankets, tell Otto. Reward: 150 ✨ and soap.
+  - The tracker now shows a quest step Puff can do today before one that waits for tomorrow.
+  - Autumn and winter prep come with their districts' content.
 
