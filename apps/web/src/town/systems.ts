@@ -1,11 +1,13 @@
 import type { Content } from './data/content';
 import { CardHunt } from './craft/cards';
 import { Helpers } from './life/helpers';
+import type { Conversations } from './neighbours/conversations';
 import { tradeButtons } from './neighbours/tokens';
 import type { TownLife } from './life/town-life';
 import { openNeeds } from './needs/needs-sheet';
 import { TownNeeds } from './needs/town-needs';
 import { TidyChain } from './play/chain';
+import { QuestLog } from './quests/quest-log';
 import type { OnboardingGuide } from './play/onboarding-guide';
 import type { Puff } from './play/puff';
 import { PuffMoods } from './skills/puff-mood';
@@ -18,19 +20,20 @@ import type { TownAreas } from './world/town-areas';
 import type { World } from './world/world';
 
 export interface SystemsHost {
-  state: TownState; view: View; content: Content; hud: Hud; world: World; puff: Puff; places: TownAreas; life: TownLife; guide: OnboardingGuide;
-  day(): number; arrived(key: string): boolean; refreshHud(): void;
+  state: TownState; view: View; content: Content; hud: Hud; world: World; puff: Puff; places: TownAreas; life: TownLife; guide: OnboardingGuide; talk: Conversations;
+  day(): number; arrived(key: string): boolean; refreshHud(): void; save(): void;
 }
 
 /**
  * The Phase 6 systems that listen to play and speak in the morning: skills, Puff's mood, tidy
- * chains, recipe cards, town needs and neighbours helping. They hear what Puff does through the
+ * chains, recipe cards, quests, town needs and neighbours helping. They hear what Puff does through the
  * guide; game.ts only asks them for the morning's news, neighbours' trades and opens their sheets.
  */
 export class TownSystems {
   readonly moods: PuffMoods;
   private needs: TownNeeds;
   private helpers: Helpers;
+  private quests: QuestLog;
 
   constructor(private host: SystemsHost) {
     const { state, view, content, places, life } = host;
@@ -41,14 +44,21 @@ export class TownSystems {
     const skills = new SkillBook({ state, view, day: () => host.day() });
     const chain = new TidyChain({ state, view, world: host.world, feet: () => host.puff.feet, refreshHud: () => host.refreshHud() });
     const cards = new CardHunt({ state, content, view });
-    host.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); });
+    this.quests = new QuestLog({ state, content, view, talk: host.talk, day: () => host.day(), refreshHud: () => host.refreshHud(), save: () => host.save() });
+    host.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); });
   }
 
   /** After the night: town needs met, then who helped tidy. */
   morningNews() { return [...this.needs.morning(), ...this.helpers.morning()]; }
 
-  /** What this neighbour trades for their thank-you notes, as chat-box buttons. */
-  tradesFor(id: string) { const { state, content, view } = this.host; return tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id); }
+  /** This neighbour's chat-box buttons from these systems: quests to take on or talk through, and trades for their thank-you notes. */
+  buttonsFor(id: string) {
+    const { state, content, view } = this.host;
+    return [...this.quests.buttonsFor(id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
+  }
+
+  /** The tracker line for a quest under way, if any. */
+  questHint() { return this.quests.tracker(); }
 
   openSkills() { openSkills(this.host.view, this.host.state, this.moods.line()); }
   openNeeds() { openNeeds(this.host.view, this.host.state, this.needs.known()); }

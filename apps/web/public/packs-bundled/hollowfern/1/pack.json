@@ -7965,7 +7965,10 @@
    "bea.jar_mended.1": "Hazel filled my jar with buns! Best trade I ever made.",
    "mabel.splash_mended.1": "Otto and I fish together now. Well, Otto fishes. I watch.",
    "moss.noise_mended.1": "... Quiet afternoons now. Pip kept the promise.",
-   "pet.sniffed": "{pet} sniffed out a present for you: {item}!"
+   "pet.sniffed": "{pet} sniffed out a present for you: {item}!",
+   "quest.reading_club.intro": "... I'd like a reading club. But the library's a mess.",
+   "quest.reading_club.pip": "A lamp for Moss's club? I've got just the thing!",
+   "quest.reading_club.done": "... A real club. Lamp, snacks, tidy shelves. Thank you."
   }
  },
  "heartEvents": [
@@ -11418,6 +11421,60 @@
     "riverside"
    ],
    "cleans": 12
+  }
+ ],
+ "quests": [
+  {
+   "id": "reading_club",
+   "name": "Moss's reading club",
+   "giver": "moss",
+   "fromDay": 6,
+   "offer": "A favour for Moss?",
+   "intro": "quest.reading_club.intro",
+   "steps": [
+    {
+     "hint": "Tidy 6 spots in the library for the reading club",
+     "goal": {
+      "type": "cleared",
+      "area": "library",
+      "count": 6
+     }
+    },
+    {
+     "hint": "Cook a dish for the reading club",
+     "goal": {
+      "type": "made",
+      "station": "kitchen",
+      "count": 1
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Ask Pip about a reading lamp",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Ask about a reading lamp",
+      "line": "quest.reading_club.pip"
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Tell Moss the reading club is ready",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "The reading club is ready!",
+      "line": "quest.reading_club.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 150,
+    "item": "lantern",
+    "qty": 1,
+    "flag": "reading_club"
+   }
   }
  ]
 }

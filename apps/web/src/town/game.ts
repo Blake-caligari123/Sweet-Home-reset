@@ -148,7 +148,7 @@ export class TownGame {
       facePuff: (x, y) => { this.puff.faceAlong(x - this.puff.fx, y - this.puff.fy); return this.puff.dir; },
       hopPuff: () => this.puff.hop(),
       sparkleAtPuff: (n) => this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), n),
-      extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.shopButtonsFor(id), ...this.systems.tradesFor(id)],
+      extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.shopButtonsFor(id), ...this.systems.buttonsFor(id)],
       onboard: (e) => this.guide.handle(e),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
@@ -163,8 +163,8 @@ export class TownGame {
       highlight: (tiles) => this.world.setHighlight(tiles), refreshHud: () => this.refreshHud()
     });
     this.systems = new TownSystems({
-      state: this.state, view: this.view, content: this.content, hud: this.hud, world: this.world, puff: this.puff, places: this.places, life: this.life, guide: this.guide,
-      day: () => this.clock.state.day, arrived: (k) => this.arrived(k), refreshHud: () => this.refreshHud()
+      state: this.state, view: this.view, content: this.content, hud: this.hud, world: this.world, puff: this.puff, places: this.places, life: this.life, guide: this.guide, talk: this.talk,
+      day: () => this.clock.state.day, arrived: (k) => this.arrived(k), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
     this.placing = new Placing({ ...core, places: this.places, area: () => this.areaId, refreshArea: () => this.refreshArea() });
@@ -477,7 +477,7 @@ export class TownGame {
     for (const o of newlyEarned(this.state, this.content.pack.outfits ?? [])) this.view.banner(`👒 New outfit: ${o.name}! (Pause → Outfits)`);
     const [letter] = lettersWaiting(this.content.pack.letters ?? [], this.clock.state.day, this.state.flags);
     const next = this.content.line(nudge(this.state, (k) => this.arrived(k), letter ? letter.hint ?? 'letter.hint' : null) ?? undefined);
-    this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? step.hint : this.jobs.tracker() ?? next ?? 'Explore {town} and tidy what you find.'));
+    this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? step.hint : this.jobs.tracker() ?? this.systems.questHint() ?? next ?? 'Explore {town} and tidy what you find.'));
   }
 
   // ---- save --------------------------------------------------------------------------------
