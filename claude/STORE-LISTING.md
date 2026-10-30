@@ -9,7 +9,6 @@ For App Store Connect and Google Play Console. Never name other games here, in k
 - **Support URL / email:** {SUPPORT_URL} / {SUPPORT_EMAIL} (Blake)
 - **Privacy policy URL:** {SITE}/privacy.html
 - **Account deletion URL (Google):** {API_DOMAIN}/delete-account
-- **Credit line (Grok Imagine terms, claude/LICENCES.md):** "Some art created with Grok Imagine." Put it at the end of the description.
 
 ## App Store
 - **Subtitle (30):** Tidy a town back to colour
@@ -35,8 +34,6 @@ Puff, a little dust bunny born from the fountain's last sparkle, becomes the Kee
 • No ads. No tracking. Plays offline. An account is optional.
 
 The first spring is free. One purchase unlocks the full year and every chapter to come.
-
-Some art created with Grok Imagine.
 
 ## What's new (first release)
 Welcome to Hollowfern! Puff can't wait to meet you.
