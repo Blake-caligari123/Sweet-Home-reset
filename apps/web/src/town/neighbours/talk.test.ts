@@ -78,6 +78,17 @@ describe('picking a line', () => {
   });
 });
 
+describe('living lines (NEXT-PHASE §5.3)', () => {
+  const lines: Line[] = [{ id: 'plain' }, { id: 'happy', mood: ['happy', 'glowing'] }, { id: 'tidy', remembers: 'tidied_home' }, { id: 'noise', drama: 'noise' }];
+
+  it('speaks to their mood, what they remember, and what is on their mind', () => {
+    expect(pickLine(lines, ctx({ mood: 'happy' }))?.id).toBe('happy');
+    expect(pickLine(lines, ctx({ mood: 'okay' }))?.id).toBe('plain');
+    expect(pickLine(lines, ctx({ mood: 'happy', dramas: ['noise'] }))?.id).toBe('noise');
+    expect(pickLine(lines, ctx({ mood: 'happy', dramas: ['noise'], memories: ['tidied_home'] }))?.id).toBe('tidy');
+  });
+});
+
 describe('Hollowfern dialogue', () => {
   const strings = pack.strings?.['en-AU'] ?? {};
   // GDD v3 §6.1: no guilt words, no body or appearance talk, no complaints about the player.

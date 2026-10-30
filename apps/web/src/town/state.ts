@@ -1,6 +1,7 @@
 import type { RequestState } from './requests/requests';
 import type { PlotState } from './build/build';
 import type { Friend, TownSave, Unlock } from './data/save';
+import type { Memory } from './life/memory';
 import type { GrumbleState } from './grumbles/grumbles';
 import type { Pet } from './pets/pets';
 import type { Finds } from './bloom/bloom';
@@ -13,7 +14,7 @@ import { Onboarding } from './play/onboarding';
 import type { Taken } from './play/pickups';
 
 /** The parts of a save that hold Puff's progress. */
-export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights' | 'cloudVersion' | 'visited'>;
+export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights' | 'cloudVersion' | 'visited' | 'memories' | 'dramas'>;
 
 export interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
 
@@ -54,6 +55,9 @@ export class TownState {
   cloudVersion: number | undefined = undefined;
   /** Places Puff has been, for the town map. */
   visited: string[] = ['burrow'];
+  /** What the townsfolk remember Puff did; how far each drama has got. */
+  memories: Memory[] = [];
+  dramas: Record<string, number> = {};
   finds: Finds = { cleans: {}, found: [] };
   /** What Puff is wearing (an earned outfit), if anything. */
   outfit: string | null = null;
@@ -73,7 +77,7 @@ export class TownState {
       fluff: { value: this.fluff.value, max: this.fluff.max, boost: this.fluff.boost }, sparkles: this.sparkles,
       bag: this.bag.slots, tools: this.tools, crops: this.crops, flags: this.flags, friends: this.friends,
       onboarding: this.onboarding.step, onboardingAhead: this.onboarding.ahead, chores: this.chores,
-      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet, bloom: this.bloom, finds: this.finds, outfit: this.outfit, decor: this.decor, caves: this.caves, townJobs: this.townJobs, dashBest: this.dashBest, unlock: this.unlock, restNights: this.restNights, cloudVersion: this.cloudVersion, visited: this.visited
+      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet, bloom: this.bloom, finds: this.finds, outfit: this.outfit, decor: this.decor, caves: this.caves, townJobs: this.townJobs, dashBest: this.dashBest, unlock: this.unlock, restNights: this.restNights, cloudVersion: this.cloudVersion, visited: this.visited, memories: this.memories, dramas: this.dramas
     };
   }
 
@@ -103,6 +107,8 @@ export class TownState {
     this.cloudVersion = typeof save.cloudVersion === 'number' ? save.cloudVersion : undefined;
     // Older saves never noted where Puff had been: the map starts at the burrow and fills in as they walk.
     this.visited = Array.isArray(save.visited) ? save.visited : ['burrow'];
+    this.memories = Array.isArray(save.memories) ? save.memories : [];
+    this.dramas = save.dramas ?? {};
     this.finds = save.finds ?? { cleans: {}, found: [] };
     this.outfit = typeof save.outfit === 'string' ? save.outfit : null;
     this.decor = Array.isArray(save.decor) ? save.decor : [];

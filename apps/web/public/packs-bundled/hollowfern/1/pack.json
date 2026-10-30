@@ -4873,7 +4873,9 @@
      "y": 7,
      "dir": "down"
     }
-   ]
+   ],
+   "home": "bakery",
+   "weather": "sunny"
   },
   {
    "id": "bea",
@@ -4971,7 +4973,9 @@
      "y": 7,
      "dir": "down"
     }
-   ]
+   ],
+   "home": "bea_shop",
+   "weather": "sunny"
   },
   {
    "id": "pip",
@@ -5056,7 +5060,9 @@
      "y": 6,
      "dir": "down"
     }
-   ]
+   ],
+   "home": "pip_workshop",
+   "weather": "sunny"
   },
   {
    "id": "otto",
@@ -5140,7 +5146,9 @@
      "y": 9,
      "dir": "down"
     }
-   ]
+   ],
+   "home": "bathhouse",
+   "weather": "rainy"
   },
   {
    "id": "moss",
@@ -5225,7 +5233,9 @@
      "y": 12,
      "dir": "down"
     }
-   ]
+   ],
+   "home": "library",
+   "weather": "rainy"
   },
   {
    "id": "mabel",
@@ -5284,7 +5294,8 @@
      "y": 9,
      "dir": "down"
     }
-   ]
+   ],
+   "weather": "rainy"
   },
   {
    "id": "sorrel",
@@ -5368,7 +5379,8 @@
      "y": 7,
      "dir": "down"
     }
-   ]
+   ],
+   "weather": "sunny"
   }
  ],
  "dialogue": {
@@ -5541,6 +5553,29 @@
    {
     "id": "hazel.festival.winter_lights",
     "festival": "winter_lights"
+   },
+   {
+    "id": "hazel.mood.happy",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "hazel.mood.low",
+    "mood": [
+     "low"
+    ]
+   },
+   {
+    "id": "hazel.remember.home",
+    "remembers": "tidied_home",
+    "once": true
+   },
+   {
+    "id": "hazel.remember.square",
+    "remembers": "restored_square",
+    "once": true
    }
   ],
   "bea": [
@@ -5712,6 +5747,29 @@
    {
     "id": "bea.festival.winter_lights",
     "festival": "winter_lights"
+   },
+   {
+    "id": "bea.mood.happy",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "bea.mood.low",
+    "mood": [
+     "low"
+    ]
+   },
+   {
+    "id": "bea.remember.home",
+    "remembers": "tidied_home",
+    "once": true
+   },
+   {
+    "id": "bea.remember.square",
+    "remembers": "restored_square",
+    "once": true
    }
   ],
   "pip": [
@@ -5879,6 +5937,28 @@
    {
     "id": "pip.festival.winter_lights",
     "festival": "winter_lights"
+   },
+   {
+    "id": "pip.mood.happy",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "pip.mood.low",
+    "mood": [
+     "low"
+    ]
+   },
+   {
+    "id": "pip.remember.home",
+    "remembers": "tidied_home",
+    "once": true
+   },
+   {
+    "id": "pip.drama.noise",
+    "drama": "noise"
    }
   ],
   "otto": [
@@ -6046,6 +6126,24 @@
    {
     "id": "otto.festival.winter_lights",
     "festival": "winter_lights"
+   },
+   {
+    "id": "otto.mood.happy",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "otto.mood.low",
+    "mood": [
+     "low"
+    ]
+   },
+   {
+    "id": "otto.remember.home",
+    "remembers": "tidied_home",
+    "once": true
    }
   ],
   "moss": [
@@ -6213,6 +6311,28 @@
    {
     "id": "moss.festival.winter_lights",
     "festival": "winter_lights"
+   },
+   {
+    "id": "moss.mood.happy",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "moss.mood.low",
+    "mood": [
+     "low"
+    ]
+   },
+   {
+    "id": "moss.remember.home",
+    "remembers": "tidied_home",
+    "once": true
+   },
+   {
+    "id": "moss.drama.noise",
+    "drama": "noise"
    }
   ],
   "mabel": [
@@ -6376,6 +6496,19 @@
    {
     "id": "mabel.festival.winter_lights",
     "festival": "winter_lights"
+   },
+   {
+    "id": "mabel.mood.happy",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "mabel.mood.low",
+    "mood": [
+     "low"
+    ]
    }
   ],
   "sorrel": [
@@ -6542,6 +6675,19 @@
    {
     "id": "sorrel.festival.winter_lights",
     "festival": "winter_lights"
+   },
+   {
+    "id": "sorrel.mood.happy",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "sorrel.mood.low",
+    "mood": [
+     "low"
+    ]
    }
   ]
  },
@@ -7308,7 +7454,34 @@
    "finale.mabel": "Hoo. Many paws, light work. Just like before.",
    "finale.puff": "One sticker for the Glimmerwell. For your home, too.",
    "finale.hazel.end": "Look at it shine. Thank you, Keeper.",
-   "finale.banner": "✨ The whole town gathered at the Glimmerwell!"
+   "finale.banner": "✨ The whole town gathered at the Glimmerwell!",
+   "hazel.mood.happy": "Ovens warm, heart full. What a day, petal!",
+   "hazel.mood.low": "Bit of a slow morning. A chat helps, petal.",
+   "hazel.remember.home": "My kitchen shines! I keep finding reasons to bake.",
+   "hazel.remember.square": "The square looks like it used to. I nearly cried!",
+   "bea.mood.happy": "Everything's blooming! Including me!",
+   "bea.mood.low": "My petals are droopy today. Stay a minute?",
+   "bea.remember.home": "My shop smells of flowers again, not dust!",
+   "bea.remember.square": "The square! It's so bright! Thank you!",
+   "pip.mood.happy": "Best. Day. Ever. Want to see a new toy?",
+   "pip.mood.low": "Meh. Nothing's working right today.",
+   "pip.remember.home": "I can find my tools now! All of them!",
+   "otto.mood.happy": "Feeling splashy! In a good way!",
+   "otto.mood.low": "Bit soggy today. Not the good kind.",
+   "otto.remember.home": "The pools sparkle! You're a bath-time hero!",
+   "moss.mood.happy": "... A good day. A very good day.",
+   "moss.mood.low": "... Hm. One of those days. Sit, if you like.",
+   "moss.remember.home": "... The shelves can breathe again. Thank you.",
+   "mabel.mood.happy": "Hoo! The sea's in a merry mood, and so am I.",
+   "mabel.mood.low": "Hoo. Tired old wings today, dear.",
+   "sorrel.mood.happy": "I love it here! Did I say? I love it here!",
+   "sorrel.mood.low": "Homesick-ish today. Say something cheery?",
+   "moss.drama.noise": "... The banging next door. It's... a lot. Never mind.",
+   "pip.drama.noise": "Moss walked right past me. Is he cross? Did I do a thing?",
+   "drama.noise.1": "... I can't read with the hammering. I don't like to say.",
+   "drama.noise.2": "Too loud? Oh no! I'll hammer in the mornings only. Promise!",
+   "drama.noise.3": "... Mornings only? Then afternoons are for quiet. Lovely.",
+   "drama.noise.mended": "🤝 Pip and Moss are friends again!"
   }
  },
  "heartEvents": [
@@ -10479,6 +10652,32 @@
    ],
    "outfit": "lantern_pin",
    "scene": "winter_finale"
+  }
+ ],
+ "dramas": [
+  {
+   "id": "noise",
+   "between": [
+    "pip",
+    "moss"
+   ],
+   "fromDay": 9,
+   "steps": [
+    {
+     "talkTo": "moss",
+     "line": "drama.noise.1"
+    },
+    {
+     "talkTo": "pip",
+     "line": "drama.noise.2"
+    },
+    {
+     "talkTo": "moss",
+     "line": "drama.noise.3"
+    }
+   ],
+   "mendedFlag": "noise_mended",
+   "banner": "drama.noise.mended"
   }
  ]
 }

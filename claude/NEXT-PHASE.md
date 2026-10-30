@@ -229,4 +229,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Walking is faster:** 5 tiles a second (3.5 when sleepy).
   - **Pinch to zoom** (the mouse wheel and trackpad too), from 7 to 16 tiles across (`zoomTiles`), kept crisp. The zoom is remembered.
   - `game.ts` is 522 lines. It gets split with the townsfolk engine (6a.2), where its seams change anyway.
+- **6a.2 Living townsfolk, part 1 (30 Oct):** the engine in `life/`.
+  - **Moods** (low / okay / happy / glowing) come from each neighbour's own day: their home's tidiness, a chat, a gift they liked, a friend nearby, their favourite weather, and any falling-out. They show on the Friends page in kind words, and pick mood lines.
+  - **Memories:** restoring a place is remembered by the town, and the owner remembers their home. Loved and liked gifts are remembered too. Lines can need a memory, and those come first after festival hellos.
+  - **Dramas** from pack data: the first is Pip's noisy workshop and Moss's quiet library (day 9). Talking to Moss, then Pip, then Moss mends it, and both get a friendship boost.
+  - Every neighbour has a happy and a low line, and the five with homes have a line for when it's restored.
+  - Still to come: routines that change with mood and weather, opinions about each other, more dramas, and more lines.
+  - `game.ts` is 524 lines; the next step pulls the setup of every feature out of it.
 

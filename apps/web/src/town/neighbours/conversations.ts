@@ -1,4 +1,7 @@
 import { festivalToday } from '../festivals/festivals';
+import type { DramaDef } from '../life/dramas';
+import type { Mood } from '../life/mood';
+import type { TownLife } from '../life/town-life';
 import { h } from '../../shared/ui/dom';
 import type { Content } from '../data/content';
 import { TUNING } from '../data/tuning';
@@ -15,6 +18,8 @@ import { scheduleFor, wakesAt, type NeighbourDef, type Neighbours } from './neig
 import { heartsOf, pickLine, RECENT } from './talk';
 
 const OPPOSITE: Record<Dir, Dir> = { down: 'up', up: 'down', left: 'right', right: 'left' };
+/** Moods in kind words for the Friends page (never blaming Puff). */
+const MOOD_WORDS: Record<Mood, string> = { low: 'a bit flat', okay: 'getting by', happy: 'happy', glowing: 'glowing' };
 
 /** What conversations need from the game around them. */
 export interface ConversationHost {
@@ -23,6 +28,8 @@ export interface ConversationHost {
   content: Content;
   clock: Clock;
   neighbours: Neighbours;
+  /** The townsfolk's moods, memories and dramas (life/). */
+  life: TownLife;
   area(): string;
   /** Turn Puff toward a world point; Puff's facing after. */
   facePuff(x: number, y: number): Dir;
@@ -62,10 +69,14 @@ export class Conversations {
       this.playScene(def, scene);
       return;
     }
+    // A drama they're in moves on when it's their turn to talk (life/dramas.ts).
+    const step = this.host.life.dramaStep(id);
+    if (step) { this.dramaTalk(def, step.line, step.mended); return; }
+    const { life } = this.host;
     const line = pickLine(content.pack.dialogue?.[id] ?? [], {
       minutes: clock.state.minutes, season: clock.season.toLowerCase(), weather: clock.weather, hearts: heartsOf(f.points),
       area: this.host.area(), flags: state.flags, met: f.met, talkedToday: f.talkedDay === day, recent: f.recent ?? [],
-      festival: festivalToday(content.pack.festivals ?? [], day)?.id
+      festival: festivalToday(content.pack.festivals ?? [], day)?.id, mood: life.mood(id), memories: life.recalls(id), dramas: life.brewing(id)
     });
     const text = content.line(line?.id) ?? '...';
     // The first chat of the day counts toward friendship (hearts never go down).
@@ -81,6 +92,21 @@ export class Conversations {
       ...this.host.extraButtons(id),
       ...(gifts ? [{ label: 'Give a gift', onClick: () => this.openGifts(def) }] : [])
     ]);
+  }
+
+  /** A drama step: their side of it, and when it's mended, both get a little closer to Puff. */
+  private dramaTalk(def: NeighbourDef, lineId: string, mended: DramaDef | null) {
+    const { state, content, clock } = this.host;
+    const f = state.friendOf(def.id);
+    const hearts = heartsOf(f.points);
+    const gained = chat(f, clock.state.day);
+    this.meet(def.id);
+    this.says(def, content.line(lineId) ?? '...', gained, heartsOf(f.points) > hearts);
+    if (!mended) { this.host.save(); return; }
+    for (const id of mended.between) state.friendOf(id).points += TUNING.friendship.request;
+    this.host.view.banner(content.line(mended.banner) ?? 'Friends again!');
+    this.host.view.feedback('fanfare', 'success');
+    this.host.save();
   }
 
   private meet(id: string) {
@@ -164,6 +190,7 @@ export class Conversations {
     const f = state.friendOf(def.id);
     if (!state.bag.remove(item)) return;
     const { taste, gained, heartUp } = give(def, f, item, this.host.clock.state.day);
+    if (taste === 'loved' || taste === 'liked') this.host.life.remember(`gift_${taste}`, def.id);
     if (taste !== 'disliked') this.host.sparkleAtPuff(taste === 'loved' ? 12 : 6);
     view.feedback(taste === 'loved' ? 'coin' : 'tap', taste === 'loved' ? 'medium' : 'light');
     this.says(def, content.line(`${def.id}.gift.${taste}`) ?? 'Thank you!', gained, heartUp > 0);
@@ -182,7 +209,7 @@ export class Conversations {
       list.append(h('div', { class: 'friend' },
         h('div', { class: 'portrait' }, this.portraitOf(d)),
         h('div', { class: 'friend-body' },
-          h('p', { class: 'friend-name' }, d.name),
+          h('p', { class: 'friend-name' }, `${d.name} · ${MOOD_WORDS[this.host.life.mood(d.id)]}`),
           h('p', { class: 'hearts', 'aria-label': `${hearts} of 10 hearts` }, '♥'.repeat(hearts) + '♡'.repeat(10 - hearts)),
           hearts < 10 ? h('div', { class: 'heart-bar', 'aria-hidden': 'true' }, h('span', { style: { width: `${((f.points % per) / per) * 100}%` } })) : '',
           h('p', { class: 'muted' }, `${f.talkedDay === day ? 'Chatted today ✓' : 'Say hello today'} · ${f.giftDay === day ? 'Gift given ✓' : 'Gift: any time today'}`),

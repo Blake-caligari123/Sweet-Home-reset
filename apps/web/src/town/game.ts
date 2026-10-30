@@ -23,6 +23,7 @@ import type { Counts } from './account/counts';
 import { openMap } from './travel/map-sheet';
 import { stickTarget } from './play/stick';
 import { Joystick } from './ui/joystick';
+import { TownLife } from './life/town-life';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
 import { PuffActions } from './play/actions';
@@ -80,6 +81,7 @@ export class TownGame {
   private state = new TownState();
   private neighbours: Neighbours;
   private talk: Conversations;
+  private life: TownLife;
   private jobs: Jobs;
   private selected: ToolId = 'duster';
   private puff = new Puff();
@@ -132,8 +134,9 @@ export class TownGame {
     this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress, () => this.state.names.puff);
     /** What most parts of the game share. */
     const core = { state: this.state, view: this.view, content: this.content, clock: this.clock, world: this.world, refreshHud: () => this.refreshHud(), save: () => void this.save(false) };
+    this.life = new TownLife({ state: this.state, content: this.content, clock: this.clock, neighbours: this.neighbours, tidiness: (a) => (this.places.has(a) ? this.places.mess(a).progress : 0.5) });
     this.talk = new Conversations({
-      state: this.state, view: this.view, content: this.content, clock: this.clock, neighbours: this.neighbours,
+      state: this.state, view: this.view, content: this.content, clock: this.clock, neighbours: this.neighbours, life: this.life,
       area: () => this.areaId,
       facePuff: (x, y) => { this.puff.faceAlong(x - this.puff.fx, y - this.puff.fy); return this.puff.dir; },
       hopPuff: () => this.puff.hop(),
@@ -171,7 +174,7 @@ export class TownGame {
     this.pet = new PetLife({ ...core, layer: this.petLayer, arrived: (k) => this.arrived(k), puff: () => this.puff.feet, day: () => this.clock.state.day });
     this.actions = new PuffActions({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
-      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, grumbles: this.grumbles, mining: this.mining, dash: this.dash, lanterns: this.lanterns, arrived: (k) => this.arrived(k),
+      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, life: this.life, grumbles: this.grumbles, mining: this.mining, dash: this.dash, lanterns: this.lanterns, arrived: (k) => this.arrived(k),
       here: () => ({ id: this.areaId, area: this.area, mess: this.mess, nav: this.nav }),
       selected: () => this.selected,
       select: (t) => { this.selected = t; },

@@ -1076,3 +1076,24 @@ Heard only with a screen reader, never shown on screen.
 - **Clash:** "Two saves! This device: Spring 3 · 30 Oct, 9:57 am. Cloud: Spring 9 · 30 Oct, 9:15 pm. Which should {puff} keep? The other stays safe in history for 30 days." (This device / Cloud save)
 - **Delete:** "Delete your account? Your cloud save and history go now, and the account within 30 days." then "Are you sure? This can't be undone." then "Your account is deleted. {store note} The save on this device is still here; Start over in Pause clears it."
 - Others: "Synced!", "Signed out. Your save stays on this device.", "Sync isn't reachable right now. Your save is safe on this device.", "That sign-in link has been used or has expired. Ask for a new one in Pause → Account."
+
+# Living townsfolk (Phase 6a.2)
+**Moods (happy / low)**
+- Hazel: Ovens warm, heart full. What a day, petal! / Bit of a slow morning. A chat helps, petal.
+- Bea: Everything's blooming! Including me! / My petals are droopy today. Stay a minute?
+- Pip: Best. Day. Ever. Want to see a new toy? / Meh. Nothing's working right today.
+- Otto: Feeling splashy! In a good way! / Bit soggy today. Not the good kind.
+- Moss: ... A good day. A very good day. / ... Hm. One of those days. Sit, if you like.
+- Mabel: Hoo! The sea's in a merry mood, and so am I. / Hoo. Tired old wings today, dear.
+- Sorrel: I love it here! Did I say? I love it here! / Homesick-ish today. Say something cheery?
+
+**Remembering (once each)**
+- Their home restored: Hazel "My kitchen shines! I keep finding reasons to bake." · Bea "My shop smells of flowers again, not dust!" · Pip "I can find my tools now! All of them!" · Otto "The pools sparkle! You're a bath-time hero!" · Moss "... The shelves can breathe again. Thank you."
+- The square restored: Hazel "The square looks like it used to. I nearly cried!" · Bea "The square! It's so bright! Thank you!"
+
+**Friends page moods:** a bit flat / getting by / happy / glowing
+
+**Drama: the noisy workshop (Pip and Moss, from day 9)**
+- While brewing: Moss "... The banging next door. It's... a lot. Never mind." · Pip "Moss walked right past me. Is he cross? Did I do a thing?"
+- Mending: Moss "... I can't read with the hammering. I don't like to say." → Pip "Too loud? Oh no! I'll hammer in the mornings only. Promise!" → Moss "... Mornings only? Then afternoons are for quiet. Lovely."
+- Banner: "🤝 Pip and Moss are friends again!"

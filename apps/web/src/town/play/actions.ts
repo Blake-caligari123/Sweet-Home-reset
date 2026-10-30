@@ -1,3 +1,4 @@
+import type { TownLife } from '../life/town-life';
 import type { Area, TownPack } from '../data/area';
 import type { Content } from '../data/content';
 import { PUTAWAY_SPARKLES, SWING_MS, TUNING } from '../data/tuning';
@@ -30,7 +31,7 @@ import type { Target } from './targets';
 
 export interface ActionsHost {
   state: TownState; view: View; content: Content; clock: Clock; settings: Settings;
-  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide; grumbles: GrumbleLife; mining: Mining; dash: TidyDash; lanterns: Lanterns;
+  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide; life: TownLife; grumbles: GrumbleLife; mining: Mining; dash: TidyDash; lanterns: Lanterns;
   /** Whether something in the year-one schedule has arrived (the caves on day 10). */
   arrived(key: string): boolean;
   /** The area Puff is in. */
@@ -386,6 +387,7 @@ export class PuffActions {
     for (let n = 0; n < 6; n += 1) this.host.world.sparkleBurst(puff.x - 3 + n, puff.y - 2 + (n % 3), 10);
     view.banner(`${this.host.content.named(area.pack.name)} restored!${reward ? ` +${reward} ✨` : ''}`);
     this.host.guide.handle({ type: 'restored', area: id });
+    this.host.life.restored(id);
     if (area.pack.kind === 'home') state.flag(`restored_${id}`);
     // Every area restores once, so each gets its before-and-after clip offer: homes, the yard, the square.
     const first = !state.has('shared_prompt');

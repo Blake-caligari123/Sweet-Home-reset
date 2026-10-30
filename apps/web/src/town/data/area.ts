@@ -1,3 +1,4 @@
+import type { DramaDef } from '../life/dramas';
 import type { FestivalDef } from '../festivals/festivals';
 import { seeded } from '../../shared/art/pixel-canvas';
 import { isBlockedGround, type Ground, type Theme } from '../world/art/ground';
@@ -63,7 +64,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** Bottle letters that wash up by the fountain (Mabel's, from day 10). */
   letters?: LetterDef[];
   /** A festival on the last day of each season (VISION §7). */
-  festivals?: FestivalDef[] }
+  festivals?: FestivalDef[];
+  /** Small dramas between townsfolk (life/dramas.ts). */
+  dramas?: DramaDef[] }
 
 export class Area {
   readonly w: number;
