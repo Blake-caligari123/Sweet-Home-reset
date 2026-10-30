@@ -62,6 +62,8 @@ export interface TownSave {
   unlock?: Unlock;
   /** Nights rested at the end of the free spring, which pace the unlock postcard. */
   restNights?: number;
+  /** The cloud save's version this device last matched (sync asks the player when it differs). */
+  cloudVersion?: number;
   /** Cleans counted per place, and the surprise finds collected. */
   finds?: Finds;
   /** Rocks broken in the caves this week. */

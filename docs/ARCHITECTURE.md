@@ -81,6 +81,9 @@ town/
                 gifts), heart-events.ts (scene rules), conversations.ts (the talk/gift/scene/
                 Friends UI)
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
+  connect.ts    builds the unlock's store and the optional account from what this build is set up for
+  account/      api.ts (calls to the server), sync-rules.ts (send, or ask which save to keep), account-sheet.ts
+                (Pause → Account: email sign-in, sync after bedtime, export, delete)
   unlock/       unlock.ts (the free spring: rest nights and when the postcard shows), parental-gate.ts,
                 store.ts (web Stripe, phone RevenueCat, or none), unlock-card.ts (the postcard, the grown-up check, restore)
   bloom/        bloom.ts (Town Bloom points and levels; surprise finds every few cleans),

@@ -44,6 +44,12 @@ export class Unlocker {
     if (await this.store.restore()) this.owned(); else view.showDialogue('No unlock found for this account yet.');
   }
 
+  /** Signed in: an unlock bought on another platform counts here too, and a phone store learns who this is. */
+  fromAccount(me: { id: string; fullGame: boolean }) {
+    void this.store.identify?.(me.id);
+    if (me.fullGame && !this.host.state.unlock.owned) this.owned();
+  }
+
   /** Back from the web checkout (`?unlocked=1`): check with the server and say thank you. */
   async checkReturn() { if (!this.host.state.unlock.owned && await this.store.restore()) this.owned(); }
 

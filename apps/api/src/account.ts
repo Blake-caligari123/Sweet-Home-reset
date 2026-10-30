@@ -14,8 +14,10 @@ export const account = new Hono<App>();
 account.use('*', requireUser);
 
 account.get('/', async (c) => {
-  const u = await c.env.DB.prepare('SELECT email, full_game, apple_sub FROM users WHERE id = ?').bind(c.get('userId')).first<{ email: string | null; full_game: number; apple_sub: string | null }>();
-  return c.json({ email: u?.email ?? null, fullGame: u?.full_game === 1, appleLinked: !!u?.apple_sub });
+  const id = c.get('userId');
+  const u = await c.env.DB.prepare('SELECT email, full_game, apple_sub FROM users WHERE id = ?').bind(id).first<{ email: string | null; full_game: number; apple_sub: string | null }>();
+  // `id` is what the phone apps give RevenueCat, so a store purchase reaches this account.
+  return c.json({ id, email: u?.email ?? null, fullGame: u?.full_game === 1, appleLinked: !!u?.apple_sub });
 });
 
 account.get('/export', async (c) => {
