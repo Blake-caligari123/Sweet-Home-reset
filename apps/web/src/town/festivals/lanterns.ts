@@ -11,6 +11,8 @@ export interface LanternsHost {
   refreshArea(): void;
   refreshHud(): void;
   save(): void;
+  /** Play a story scene once (the year-one finale). */
+  playStory(id: string): void;
 }
 
 /** Sparkles for lighting every lantern, once each Winter Lights. */
@@ -37,7 +39,10 @@ export class Lanterns {
     world.sparkleBurst(15, 10, 30);
     view.feedback('fanfare', 'success');
     view.banner(`${content.line(`festival.${def.id}.done`) ?? ''} +${ALL_LIT} ✨`);
-    view.showDialogue(`${content.line(`festival.${def.id}.done`) ?? ''} ${content.line(`festival.${def.id}.next`) ?? ''}`);
+    const text = `${content.line(`festival.${def.id}.done`) ?? ''} ${content.line(`festival.${def.id}.next`) ?? ''}`;
+    const scene = def.scene;
+    if (scene) view.ask(text, [{ label: 'OK', primary: true, onClick: () => this.host.playStory(scene) }]);
+    else view.showDialogue(text);
     this.host.refreshHud();
     this.host.save();
   }

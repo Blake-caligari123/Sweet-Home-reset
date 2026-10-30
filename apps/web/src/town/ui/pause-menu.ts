@@ -1,6 +1,8 @@
 import type { Sound } from '../../shared/audio/sound';
 import { h } from '../../shared/ui/dom';
 import { eraseTown } from '../data/save';
+import { nextTextSize, textSizeOf } from './a11y';
+import { KEYS_HELP } from './keyboard';
 import type { Settings, View } from './view';
 
 export interface PauseHost {
@@ -18,18 +20,31 @@ export interface PauseHost {
   skipTips: (() => void) | null;
 }
 
+/** The settings that are plain on/off switches. */
+type SwitchKey = { [K in keyof Settings]-?: NonNullable<Settings[K]> extends boolean ? K : never }[keyof Settings];
+
 /** The pause menu: Friends, names, settings, skip the tips, start over. */
 export function openPause(d: PauseHost) {
   const { view, settings: s } = d;
   if (view.root.querySelector('[data-sheet]')) return;
-  const toggle = (key: keyof Settings, label: string) => {
+  const toggle = (key: SwitchKey, label: string) => {
     const b = h('button', { class: 'switch', role: 'switch', type: 'button', 'aria-checked': String(!!s[key]), 'aria-label': label });
     b.addEventListener('click', () => {
-      (s as Record<string, boolean>)[key] = !s[key];
+      s[key] = !s[key];
       b.setAttribute('aria-checked', String(!!s[key]));
       d.settingsChanged();
     });
     return h('div', { class: 'row' }, h('span', { class: 'label' }, label), b);
+  };
+  // Text size steps through 100, 125 and 150%, so one button covers all three.
+  const textSize = () => {
+    const b = h('button', { class: 'btn small', type: 'button', 'aria-label': `Text size, ${textSizeOf(s)}%` }, `${textSizeOf(s)}%`);
+    b.addEventListener('click', () => {
+      s.textSize = nextTextSize(textSizeOf(s)); s.bigText = s.textSize > 100;
+      b.textContent = `${s.textSize}%`; b.setAttribute('aria-label', `Text size, ${s.textSize}%`);
+      d.settingsChanged();
+    });
+    return h('div', { class: 'row' }, h('span', { class: 'label' }, 'Text size'), b);
   };
   const friends = h('button', { class: 'btn', type: 'button' }, '♥ Friends');
   friends.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openFriends(); });
@@ -42,7 +57,7 @@ export function openPause(d: PauseHost) {
     h('div', { class: 'list' },
       toggle('sound', 'Sound'), toggle('music', 'Music'), toggle('haptics', 'Haptics'),
       toggle('reducedMotion', 'Reduce motion'), toggle('relaxed', 'Relaxed mode (half Fluff costs, no dozing off)'), toggle('autoTool', 'Pick the right tool for me'),
-      toggle('tapOnly', 'Tap-only (one tap tidies a whole spot)'), toggle('bigText', 'Bigger text'), toggle('highContrast', 'High contrast'))
+      toggle('tapOnly', 'Tap-only (one tap tidies a whole spot)'), textSize(), toggle('highContrast', 'High contrast'))
   ];
   if (d.skipTips) {
     const skipTips = d.skipTips;
@@ -53,6 +68,8 @@ export function openPause(d: PauseHost) {
   const restart = h('button', { class: 'btn small', type: 'button' }, 'Start over on this device');
   restart.addEventListener('click', async () => { if (!window.confirm('Start a new game? This clears the town save on this device.')) return; await eraseTown(); location.reload(); });
   body.unshift(h('p', { class: 'town-line' }, d.townLine));
+  // Only on a computer: phones and tablets have no keyboard to point at.
+  if (window.matchMedia?.('(pointer: fine)').matches) body.push(h('p', { class: 'muted', style: { fontSize: '0.85rem' } }, KEYS_HELP));
   body.push(h('p', { class: 'muted', style: { fontSize: '0.85rem' } }, 'Test build'), restart);
   view.sheet('Paused', body);
 }

@@ -13,7 +13,8 @@ export interface HeartEvent {
   id: string;
   neighbourId: string;
   hearts: number;
-  trigger: { type: 'talk'; areaId?: string; timeBand?: TimeBand[] };
+  /** `talk`: plays when Puff next talks to them. `story`: the game plays it at its moment (the fair thank-you). */
+  trigger: { type: 'talk' | 'story'; areaId?: string; timeBand?: TimeBand[] };
   conditions?: { seen?: string[]; flags?: string[] };
   scene: SceneStep[];
   /** `flags` mark unlocks other milestones read (recipes, the greenhouse); `bagSlots` grows the bag. */
@@ -29,7 +30,7 @@ export const doneFlag = (e: HeartEvent) => `${e.id}_done`;
 
 /** The next scene this neighbour has waiting, or null. */
 export function eventDue(events: HeartEvent[], neighbourId: string, c: EventContext): HeartEvent | null {
-  const mine = events.filter((e) => e.neighbourId === neighbourId && !c.flags.includes(doneFlag(e))).sort((a, b) => a.hearts - b.hearts);
+  const mine = events.filter((e) => e.neighbourId === neighbourId && e.trigger.type === 'talk' && !c.flags.includes(doneFlag(e))).sort((a, b) => a.hearts - b.hearts);
   const next = mine[0];
   if (!next || c.hearts < next.hearts) return null;
   if ((next.conditions?.seen ?? []).some((id) => !c.flags.includes(`${id}_done`))) return null;

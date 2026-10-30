@@ -7290,7 +7290,25 @@
    "he_sorrel_10.l04": "I carved you something. An acorn. For luck.",
    "he_sorrel_10.l05": "It's perfect. I'll keep it by my bed.",
    "he_sorrel_10.l06": "Thank you for my home, Keeper. And for you.",
-   "festival.practice": "A tidy dash, just for fun? 45 seconds. Go!"
+   "festival.practice": "A tidy dash, just for fun? 45 seconds. Go!",
+   "fair.thanks.hazel.counter": "My counter's shone since you dusted it. Thank you, petal.",
+   "fair.thanks.hazel": "You brought the whole square back. Thank you, petal.",
+   "fair.thanks.bea.grumble": "You made friends with a Grumble! Thank you, thank you!",
+   "fair.thanks.bea": "You tidied faster than my bees buzz! Thank you!",
+   "fair.thanks.pip.hearts": "You're still the best helper ever. Thanks, {puff}!",
+   "fair.thanks.pip": "You did the whole fair! Thanks, {puff}! Next time, me too!",
+   "fair.thanks.puff": "Look! The fountain!",
+   "fair.thanks.trickle": "One drop... The Glimmerwell remembers us.",
+   "fair.thanks.banner": "💧 The Glimmerwell trickles!",
+   "finale.hazel": "We each brought one clean thing. Like the old days.",
+   "finale.bea": "A polished jar for the fountain! You helped me find it.",
+   "finale.pip": "My cup! It's all sparkly. You showed me how!",
+   "finale.otto": "A clean towel. Folded. Mostly folded!",
+   "finale.moss": "... A dusted book. It felt right to bring it.",
+   "finale.mabel": "Hoo. Many paws, light work. Just like before.",
+   "finale.puff": "One sticker for the Glimmerwell. For your home, too.",
+   "finale.hazel.end": "Look at it shine. Thank you, Keeper.",
+   "finale.banner": "✨ The whole town gathered at the Glimmerwell!"
   }
  },
  "heartEvents": [
@@ -8901,6 +8919,132 @@
    "rewards": {
     "sparkles": 100
    }
+  },
+  {
+   "id": "fair_thanks",
+   "neighbourId": "hazel",
+   "hearts": 0,
+   "trigger": {
+    "type": "story"
+   },
+   "conditions": {
+    "flags": [
+     "festival_spring_fair"
+    ]
+   },
+   "scene": [
+    {
+     "speaker": "hazel",
+     "line": "fair.thanks.hazel.counter",
+     "if": {
+      "flag": "onboard_counter_done"
+     }
+    },
+    {
+     "speaker": "hazel",
+     "line": "fair.thanks.hazel",
+     "if": {
+      "notFlag": "onboard_counter_done"
+     }
+    },
+    {
+     "speaker": "bea",
+     "line": "fair.thanks.bea.grumble",
+     "if": {
+      "flag": "grumble_friend"
+     }
+    },
+    {
+     "speaker": "bea",
+     "line": "fair.thanks.bea",
+     "if": {
+      "notFlag": "grumble_friend"
+     }
+    },
+    {
+     "speaker": "pip",
+     "line": "fair.thanks.pip.hearts",
+     "if": {
+      "flag": "he_pip_02_done"
+     }
+    },
+    {
+     "speaker": "pip",
+     "line": "fair.thanks.pip",
+     "if": {
+      "notFlag": "he_pip_02_done"
+     }
+    },
+    {
+     "speaker": "puff",
+     "line": "fair.thanks.puff"
+    },
+    {
+     "speaker": "hazel",
+     "line": "fair.thanks.trickle"
+    }
+   ],
+   "skippable": true,
+   "banner": "fair.thanks.banner",
+   "rewards": {
+    "flags": [
+     "glimmerwell_trickle"
+    ]
+   }
+  },
+  {
+   "id": "winter_finale",
+   "neighbourId": "hazel",
+   "hearts": 0,
+   "trigger": {
+    "type": "story"
+   },
+   "conditions": {
+    "flags": [
+     "festival_winter_lights"
+    ]
+   },
+   "scene": [
+    {
+     "speaker": "hazel",
+     "line": "finale.hazel"
+    },
+    {
+     "speaker": "bea",
+     "line": "finale.bea"
+    },
+    {
+     "speaker": "pip",
+     "line": "finale.pip"
+    },
+    {
+     "speaker": "otto",
+     "line": "finale.otto"
+    },
+    {
+     "speaker": "moss",
+     "line": "finale.moss"
+    },
+    {
+     "speaker": "mabel",
+     "line": "finale.mabel"
+    },
+    {
+     "speaker": "puff",
+     "line": "finale.puff"
+    },
+    {
+     "speaker": "hazel",
+     "line": "finale.hazel.end"
+    }
+   ],
+   "skippable": true,
+   "banner": "finale.banner",
+   "rewards": {
+    "flags": [
+     "year_one_chapter"
+    ]
+   }
   }
  ],
  "requests": [
@@ -9736,7 +9880,7 @@
   {
    "id": "hedgehoglet",
    "name": "Hedgehoglet",
-   "defaultName": "Bramble",
+   "defaultName": "Clover",
    "line": "pet.hedgehoglet.line"
   }
  ],
@@ -10260,7 +10404,8 @@
     "weeds",
     "dust",
     "crumbs"
-   ]
+   ],
+   "scene": "fair_thanks"
   },
   {
    "id": "summer_picnic",
@@ -10332,7 +10477,8 @@
      "y": 13
     }
    ],
-   "outfit": "lantern_pin"
+   "outfit": "lantern_pin",
+   "scene": "winter_finale"
   }
  ]
 }

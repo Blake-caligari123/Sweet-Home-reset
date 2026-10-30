@@ -22,6 +22,8 @@ export interface FestivalDef {
   game?: 'dash' | 'lights';
   /** For lights: where the lanterns stand. */
   lanterns?: { x: number; y: number }[];
+  /** A story scene played after the first go (the fair thank-you and the first trickle). */
+  scene?: string;
 }
 
 /** Today's festival, if today is one: the last day of a season with a festival. */

@@ -1034,3 +1034,26 @@ Heard only with a screen reader, never shown on screen.
 - **Morning letter:** "Dear friend, yesterday I did some dusting. My paws sparkle! Maybe dust one shelf of yours? Or just have tea. Both are lovely." Other openings: scrubbed a stain away, pulled up some weeds, put something back where it lives, swept up some crumbs, swept away a cobweb, scrubbed away some grime, cleared some foggy glass, cleared away some mud, raked up some leaves (new: sweep one doorstep).
 - **Quiet day letter:** "yesterday I had a cosy, quiet day. Maybe …" in turn: open a window for some fresh air, fluff one cushion, make one cup of tea, tuck in one blanket.
 - **Signs:** the bakery door: "Bakery door: “Back soon, petal! Any help is lovely. Hazel”". Cave floor 4: "'I rest by the warm spring. Wake me when the town glows. T.'"
+
+# Fair thank-you and the year-one finale (30 Oct)
+**After the first Spring Clean Fair** (one line each, whichever fits what the player did)
+- Hazel: My counter's shone since you dusted it. Thank you, petal. / You brought the whole square back. Thank you, petal.
+- Bea: You made friends with a Grumble! Thank you, thank you! / You tidied faster than my bees buzz! Thank you!
+- Pip: You're still the best helper ever. Thanks, {puff}! / You did the whole fair! Thanks, {puff}! Next time, me too!
+- Puff: Look! The fountain!
+- Hazel: One drop... The Glimmerwell remembers us.
+- Banner: 💧 The Glimmerwell trickles!
+
+**After the last lantern at Winter Lights**
+- Hazel: We each brought one clean thing. Like the old days.
+- Bea: A polished jar for the fountain! You helped me find it.
+- Pip: My cup! It's all sparkly. You showed me how!
+- Otto: A clean towel. Folded. Mostly folded!
+- Moss: ... A dusted book. It felt right to bring it.
+- Mabel: Hoo. Many paws, light work. Just like before.
+- Puff: One sticker for the Glimmerwell. For your home, too.
+- Hazel: Look at it shine. Thank you, Keeper.
+- Banner: ✨ The whole town gathered at the Glimmerwell!
+
+**Building:** "West lawn: build a bench for 50 ✨? Finishes overnight." (Build / Not yet)
+**Pet:** the hedgehoglet's default name is now Clover.
