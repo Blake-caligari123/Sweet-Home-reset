@@ -3,7 +3,7 @@ import { PixelCanvas } from '../../../shared/art/pixel-canvas';
 
 /**
  * The three pets, side on and facing right (mirrored for left), two frames of trot. Placeholders
- * until their Grok sheets land: a peach cat, a cream pup with brown ears, a brown hedgehoglet.
+ * until their sprite sheets land: a peach cat, a cream pup with brown ears, a brown hedgehoglet.
  */
 export function drawPet(kind: string, frame: number) {
   const pc = new PixelCanvas(16, 13);

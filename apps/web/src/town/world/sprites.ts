@@ -20,7 +20,7 @@ export const BREATH_MS = 2200;
 export const BREATH_RISE = 0.035;
 
 /**
- * Idle breathing done in code (the AI idle frames differ by less than a pixel at world size):
+ * Idle breathing done in code (the drawn idle frames differ by less than a pixel at world size):
  * Puff stretches up a little and narrows a touch, feet planted. Returns [scaleX, scaleY].
  */
 export function breathScale(ms: number): [number, number] {

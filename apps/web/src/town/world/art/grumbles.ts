@@ -2,7 +2,7 @@ import { P } from '../../../shared/art/palette';
 import { PixelCanvas } from '../../../shared/art/pixel-canvas';
 
 /**
- * A Grumble (placeholder until its Grok sheet lands): a fuzzy round puff. Grumpy is grey with
+ * A Grumble (placeholder until its sprite sheet lands): a fuzzy round puff. Grumpy is grey with
  * droopy eyes; a helper is bright butter with rosy cheeks and happy eyes. Two frames of bob.
  */
 export function drawGrumble(frame: number, helper: boolean) {
