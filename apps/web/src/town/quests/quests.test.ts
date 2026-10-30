@@ -22,6 +22,8 @@ describe('quest chains (NEXT-PHASE §5.3)', () => {
     expect(offerable(q, {}, 2)).toBe(false);
     expect(offerable(q, {}, 3)).toBe(true);
     expect(offerable(q, start(q, {}, 3), 4)).toBe(false);
+    // A festival's prep is only offered in the days before it.
+    expect(offerable({ ...q, untilDay: 5 }, {}, 6)).toBe(false);
   });
 
   it('counts only what its step asks for, and moves on when it is met', () => {
@@ -60,5 +62,13 @@ describe('quest chains (NEXT-PHASE §5.3)', () => {
     expect(state.has(club.reward.flag)).toBe(true);
     expect(state.sparkles).toBe(sparkles + club.reward.sparkles);
     expect(log.tracker()).toBeNull();
+  });
+
+  it('Hollowfern\'s festival prep is offered in the days just before its festival', () => {
+    for (const x of pack.quests!.filter((x) => x.untilDay)) {
+      expect(x.untilDay! >= x.fromDay, x.id).toBe(true);
+      expect(x.untilDay! % 14, `${x.id} ends before the festival day`).not.toBe(0);
+      expect(Math.ceil(x.untilDay! / 14), x.id).toBe(Math.ceil(x.fromDay / 14));
+    }
   });
 });

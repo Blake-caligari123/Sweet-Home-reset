@@ -52,13 +52,14 @@ export class QuestLog {
     return out;
   }
 
-  /** The tracker line for the quest under way (the step on now, or that it carries on tomorrow). */
+  /** The tracker line: a quest step Puff can do now, else a quest that carries on tomorrow. */
   tracker() {
     const { state } = this.host;
-    const q = this.quests.find((x) => state.quests[x.id] && !finished(x, state.quests));
-    if (!q) return null;
-    const step = currentStep(q, state.quests, this.host.day());
-    return step ? `📜 ${step.hint}` : `📜 ${q.name}: more tomorrow`;
+    const day = this.host.day();
+    const going = this.quests.filter((x) => state.quests[x.id] && !finished(x, state.quests));
+    const now = going.map((q) => currentStep(q, state.quests, day)).find(Boolean);
+    if (now) return `📜 ${now.hint}`;
+    return going.length ? `📜 ${going[0].name}: more tomorrow` : null;
   }
 
   private stepped(q: QuestDef) {

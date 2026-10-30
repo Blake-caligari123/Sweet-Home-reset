@@ -16,7 +16,8 @@ export type QuestGoal =
 export interface QuestStep { hint: string; goal: QuestGoal; nextDay?: boolean }
 
 export interface QuestDef {
-  id: string; name: string; giver: string; fromDay: number;
+  /** Offered from `fromDay`, and (a festival's prep) only until `untilDay`. */
+  id: string; name: string; giver: string; fromDay: number; untilDay?: number;
   /** The giver's chat-box button, and what they say when Puff takes it on. */
   offer: string; intro: string;
   steps: QuestStep[];
@@ -38,7 +39,7 @@ export function currentStep(q: QuestDef, s: QuestLogState, day: number) {
 }
 
 /** Can the giver offer it today? */
-export const offerable = (q: QuestDef, s: QuestLogState, day: number) => !s[q.id] && day >= q.fromDay;
+export const offerable = (q: QuestDef, s: QuestLogState, day: number) => !s[q.id] && day >= q.fromDay && day <= (q.untilDay ?? Infinity);
 
 export const start = (q: QuestDef, s: QuestLogState, day: number): QuestLogState => ({ ...s, [q.id]: { step: 0, count: 0, day } });
 

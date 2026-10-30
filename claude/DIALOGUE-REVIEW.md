@@ -1176,3 +1176,13 @@ Heard only with a screen reader, never shown on screen.
 - Tracker steps: Tidy 6 spots in the library for the reading club → Cook a dish for the reading club → Ask Pip about a reading lamp → Tell Moss the reading club is ready ("more tomorrow" between days).
 - Pip: "A lamp for Moss's club? I've got just the thing!" · Moss: "... A real club. Lamp, snacks, tidy shelves. Thank you."
 - Banner: "📜 Quest done: Moss's reading club! +150 ✨ and a lantern".
+
+**Festival prep (6b.8)**
+- Spring Clean Fair, from Hazel. Button "📜 Help get ready for the fair?"
+  - Hazel: "The fair's soon! The square needs a spruce. Will you help?"
+  - Bea: "Bunting? I've sewn flower bunting all week! Take it!"
+  - Hazel at the end: "Oh, it's perfect! Best fair ever, petal."
+- Summer Picnic, from Otto. Button "📜 Help with the picnic?"
+  - Otto: "Picnic by the river soon! Fancy helping me get ready?"
+  - Pip: "Blankets! Patched and ready. Mind the buttons!"
+  - Otto at the end: "Picnic by the river! Best day of the summer!"
