@@ -1161,3 +1161,5 @@ Heard only with a screen reader, never shown on screen.
   - scrubbed some soap scum / wipe one sink
   - raked up some sand / shake out one pair of shoes
   - cleared some seaweed / water one plant
+
+**Neighbours join in (6b.4):** morning banner "🤝 Hazel and Bea helped tidy Neighbour Lane this morning!"

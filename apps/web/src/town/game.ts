@@ -26,6 +26,7 @@ import { stickTarget } from './play/stick';
 import { Joystick } from './ui/joystick';
 import { TownLife } from './life/town-life';
 import { openCollection } from './bloom/collection-sheet';
+import { Helpers } from './life/helpers';
 import { openNeeds } from './needs/needs-sheet';
 import { TownNeeds } from './needs/town-needs';
 import { PuffMoods } from './skills/puff-mood';
@@ -94,6 +95,7 @@ export class TownGame {
   private life: TownLife;
   private moods: PuffMoods;
   private needs: TownNeeds;
+  private helpers: Helpers;
   private jobs: Jobs;
   private selected: ToolId = 'duster';
   private puff = new Puff();
@@ -150,6 +152,7 @@ export class TownGame {
     const core = { state: this.state, view: this.view, content: this.content, clock: this.clock, world: this.world, refreshHud: () => this.refreshHud(), save: () => void this.save(false) };
     this.life = new TownLife({ state: this.state, content: this.content, clock: this.clock, neighbours: this.neighbours, tidiness: (a) => (this.places.has(a) ? this.places.mess(a).progress : 0.5) });
     this.needs = new TownNeeds({ state: this.state, content: this.content, life: this.life, arrived: (k) => this.arrived(k) });
+    this.helpers = new Helpers({ state: this.state, content: this.content, places: this.places, arrived: (k) => this.arrived(k) });
     this.talk = new Conversations({
       state: this.state, view: this.view, content: this.content, clock: this.clock, neighbours: this.neighbours, life: this.life,
       area: () => this.areaId,
@@ -358,7 +361,7 @@ export class TownGame {
     view.release();
     this.guide.handle({ type: 'slept' });
     this.refreshHud();
-    morning({ state, view, clock: this.clock, content: this.content, refreshHud: () => this.refreshHud(), offer: () => void this.unlocker.offer() }, { ...night, needsMet: this.needs.morning() });
+    morning({ state, view, clock: this.clock, content: this.content, refreshHud: () => this.refreshHud(), offer: () => void this.unlocker.offer() }, { ...night, news: [...this.needs.morning(), ...this.helpers.morning()] });
   }
 
   // ---- sheets ------------------------------------------------------------------------------
