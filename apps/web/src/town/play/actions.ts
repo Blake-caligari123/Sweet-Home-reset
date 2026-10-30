@@ -108,17 +108,21 @@ export class PuffActions {
   private startTidy(t: Extract<Target, { kind: 'grumble' }>) {
     const tool = this.host.grumbles.toolFor(t.id);
     if (!tool) { this.host.grumbles.greet(t.id); return; }
-    if (this.toolReady(tool, 1)) this.swingAt(t, tool);
+    if (this.toolReady(tool, 1, true)) this.swingAt(t, tool);
   }
 
-  /** Puff has the tool (in hand, or picked for them) and the Fluff to use it, which is spent. */
-  private toolReady(tool: ToolId, minTier: number) {
+  /**
+   * Puff has the tool (in hand, or picked for them) and some Fluff. Mess pays when a spot is cleared
+   * (NEXT-PHASE §3: small actions cost little); a Grumble's tidy pays now (`payNow`).
+   */
+  private toolReady(tool: ToolId, minTier: number, payNow = false) {
     const { state, view, settings } = this.host;
     if (!state.tools[tool]) { view.say(`${state.names.puff} needs a ${TOOL_NAMES[tool].toLowerCase()} for that.`); return false; }
     if (state.tools[tool] < minTier) { view.say('That needs a Copper sponge.'); return false; }
     if (settings.autoTool) this.host.select(tool);
     else if (this.host.selected() !== tool) { view.say(`Try the ${TOOL_NAMES[tool].toLowerCase()}.`); return false; }
-    if (tool !== 'hands' && !state.fluff.spend(false, settings.relaxed ? 0.5 : 1)) { view.say('Feeling sleepy... a snack would help.'); this.host.hud.pulseFluff(); return false; }
+    const ok = tool === 'hands' || (payNow ? state.fluff.spend(false, settings.relaxed ? 0.5 : 1) : state.fluff.canUse());
+    if (!ok) { view.say('Feeling sleepy... a snack would help.'); this.host.hud.pulseFluff(); return false; }
     return true;
   }
 
@@ -143,11 +147,13 @@ export class PuffActions {
       if (this.host.grumbles.tidy(t.id) === 'more' && puff.repeat > 0) { puff.repeat -= 1; this.startTidy(t); } else puff.repeat = 0;
       return;
     }
-    const near = charged && this.payCharge() ? this.alike(t.x, t.y) : [];
-    const result = this.hitTile(t.x, t.y);
+    // A charged swing pays its whole cost up front, which covers every spot it clears.
+    const paid = charged && this.payCharge();
+    const near = paid ? this.alike(t.x, t.y) : [];
+    const result = this.hitTile(t.x, t.y, !paid);
     if (!result) { puff.repeat = 0; return; }
     if (near.length) {
-      for (const n of near) this.hitTile(n.x, n.y);
+      for (const n of near) this.hitTile(n.x, n.y, false);
       this.host.view.feedback('sparkle', 'success');
       this.host.view.say(this.host.content.line('craft.charged') ?? '');
     }
@@ -169,12 +175,12 @@ export class PuffActions {
     return puff.charged;
   }
 
-  /** The charged swing's extra Fluff, if Puff has it (else it's an ordinary swing). */
+  /** The charged swing's Fluff, if Puff has it (else it's an ordinary swing). */
   private payCharge() {
     const { fluff } = this.host.state;
-    const extra = Math.round((fluff.costOf(true) - fluff.costOf(false)) * (this.host.settings.relaxed ? 0.5 : 1));
-    if (fluff.value < extra) return false;
-    fluff.value -= extra;
+    const cost = Math.round(fluff.costOf(true) * (this.host.settings.relaxed ? 0.5 : 1));
+    if (fluff.value < cost) return false;
+    fluff.value -= cost;
     return true;
   }
 
@@ -186,8 +192,8 @@ export class PuffActions {
     return matchingAround(mess, x, y, (this.host.state.tools[TOOL_FOR[type].tool] ?? 1) >= 3 ? 8 : 2);
   }
 
-  /** One tidy landing on a mess tile, with its colour, effects and rewards. Null if nothing happened. */
-  private hitTile(x: number, y: number) {
+  /** One tidy landing on a mess tile, with its colour, effects and rewards; clearing it pays Fluff unless `pays` is off. Null if nothing happened. */
+  private hitTile(x: number, y: number, pays: boolean) {
     const { state, view, world } = this.host;
     const { id, area, mess } = this.host.here();
     const t = { x, y };
@@ -206,6 +212,7 @@ export class PuffActions {
       world.sparkleBurst(t.x, t.y, 8);
       view.feedback('sparkle', 'medium');
       state.lastClean = type;
+      if (pays && tool !== 'hands') state.fluff.spend(false, this.host.settings.relaxed ? 0.5 : 1);
       if (result.item) { state.bag.add(result.item); view.say(type === 'clutter' ? `Got the ${this.host.content.itemName(result.item).toLowerCase()}!` : ''); }
       if (!state.has('first_clean')) { state.flag('first_clean'); view.say('Look! Colour came back!'); }
       this.host.guide.handle({ type: 'cleared', mess: type, area: id });

@@ -1,6 +1,6 @@
 import { TUNING } from '../data/tuning';
 
-/** Fluff is Puff's stamina (GDD v3 A8). Walking and talking are free; tools cost Fluff. */
+/** Fluff is Puff's stamina (GDD v3 A8). Walking and talking are free; a tidied spot, a charged swing or a rock costs Fluff. */
 export class Fluff {
   constructor(public value = TUNING.fluffStart, public max = TUNING.fluffStart, public boost = 0) {}
 
