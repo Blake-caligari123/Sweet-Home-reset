@@ -18,6 +18,8 @@ export interface PauseHost {
   townLine: string;
   /** Offered while onboarding can be skipped; skips the remaining tips. */
   skipTips: (() => void) | null;
+  /** Restore purchases, in builds that sell the unlock. */
+  restore: (() => void) | null;
 }
 
 /** The settings that are plain on/off switches. */
@@ -64,6 +66,12 @@ export function openPause(d: PauseHost) {
     const skip = h('button', { class: 'btn small', type: 'button' }, 'Skip the tips');
     skip.addEventListener('click', () => { skipTips(); skip.remove(); });
     body.push(skip);
+  }
+  if (d.restore) {
+    const restore = d.restore;
+    const b = h('button', { class: 'btn small', type: 'button' }, 'Restore purchases');
+    b.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); restore(); });
+    body.push(b);
   }
   const restart = h('button', { class: 'btn small', type: 'button' }, 'Start over on this device');
   restart.addEventListener('click', async () => { if (!window.confirm('Start a new game? This clears the town save on this device.')) return; await eraseTown(); location.reload(); });

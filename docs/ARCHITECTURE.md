@@ -77,6 +77,8 @@ town/
                 gifts), heart-events.ts (scene rules), conversations.ts (the talk/gift/scene/
                 Friends UI)
   requests/     requests.ts (board rules), jobs.ts (the board and jobs UI)
+  unlock/       unlock.ts (the free spring: rest nights and when the postcard shows), parental-gate.ts,
+                store.ts (web Stripe, phone RevenueCat, or none), unlock-card.ts (the postcard, the grown-up check, restore)
   bloom/        bloom.ts (Town Bloom points and levels; surprise finds every few cleans),
                 collection-sheet.ts (Moss's collection)
   build/        build.ts (plots and buildings: start, overnight finish, the props they put in an

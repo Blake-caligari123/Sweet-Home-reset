@@ -49,7 +49,7 @@ Owner: SF Backend & Payments Dev. Publisher: PixelVortex Games. Matches GAME-DES
 
 - **v3 gate:** `plus` unlocks seasons 2–4 (summer, autumn, winter), neighbours 4–6 and their stories, weekly visitors, the full wardrobe/decor and extra house upgrades. The whole first spring (days 1–14, neighbours 1–3, garden, crafting) is free.
 - **Client check:** from cached RevenueCat CustomerInfo (`plusCache` in the save) so it works offline; re-check on launch when online; 3-day offline grace, then treat as free until next check.
-- **Offer:** as a postcard back home after the Spring Clean Fair (day 14, `plusOfferDay` in `config/tuning.json`), never during a task, at most once a week after.
+- **Offer:** as a postcard back home after the Spring Clean Fair (day 14, `freeDays` in `config/tuning.json`; repeats after `unlockOfferRepeatNights`), never during a task, at most once a week after.
 - **Lapse:** never locks or edits existing progress. The player freezes at the end of the last season they can access, with a friendly card; save, town, items, hearts and restored homes stay usable. Re-subscribing resumes exactly where they stopped.
 - **Server check:** only for synced Plus content in packs and for `/api/me`. The local game never needs the server to play.
 - AT4 (M5): mocked entitlement opens and closes the gate; lapse leaves the save byte-identical; Restore Purchases restores Plus in sandbox; offer never fires mid-task or twice in one week.

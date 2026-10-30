@@ -57,6 +57,10 @@ export interface TownSave {
   townJobs?: number;
   /** The best practice dash. */
   dashBest?: number;
+  /** The one unlock (VISION §10): owned, and which store it came from. Missing means not bought. */
+  unlock?: Unlock;
+  /** Nights rested at the end of the free spring, which pace the unlock postcard. */
+  restNights?: number;
   /** Cleans counted per place, and the surprise finds collected. */
   finds?: Finds;
   /** Rocks broken in the caves this week. */
@@ -76,6 +80,9 @@ export interface TownSave {
     textSize?: number };
   [extra: string]: unknown;
 }
+
+/** The full game, once bought (`via`: the store; `at`: when, ISO). */
+export interface Unlock { owned: boolean; via?: 'web' | 'ios' | 'android'; at?: string }
 
 /** `giftDay`: the last day they were given a gift; `known`: gifts found to be loved or liked. */
 export interface Friend { points: number; talkedDay: number; met: boolean; recent?: string[]; giftDay?: number; known?: string[] }

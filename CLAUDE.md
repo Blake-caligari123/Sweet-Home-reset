@@ -6,9 +6,9 @@ A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the 
 ## Stack
 - Client: TypeScript + Vite + PixiJS v8, DOM overlay UI, Capacitor for iOS/Android, vite-plugin-pwa.
 - Server: Cloudflare Pages (static, packs) + Workers (Hono, `/api/*`) + D1; Cron Triggers; Resend free tier for email.
-- Payments: one RevenueCat `plus` entitlement. Stripe Checkout on web, Apple IAP on iOS, Play Billing on Android.
+- Payments: one non-consumable unlock, the RevenueCat `full_game` entitlement. Stripe Checkout on web (through the API), Apple IAP on iOS, Play Billing on Android. Code: `apps/web/src/town/unlock/`.
 - Sign-in: email magic link + Sign in with Apple. Optional; the game is fully playable offline and signed out.
-- Prices (only in `config/pricing.json`): A$7.99/mo, A$44.99/yr (yearly default), 7-day trial; founding A$34.99 first year on **web only**.
+- Prices (only in `config/pricing.json`): the full-game unlock, A$14.99 (provisional until checked against a store price point). The phone apps show the store's own price string.
 
 ## Source of truth (GDD v3, 27 Oct 2026)
 - `claude/GAME-DESIGN.md` (GDD v3): Part A wins over Part B (v2 text) and all older room-game docs. A11 holds specialist sections; A11.7 is the story.

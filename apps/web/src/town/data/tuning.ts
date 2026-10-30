@@ -22,6 +22,10 @@ export interface Tuning {
   requestExpiryDays: [number, number];
   relaxedMode: { fluffCostMultiplier: number; doze: boolean; requestExpiry: boolean };
   friendship: { talk: number; liked: number; loved: number; request: number; pointsPerHeart: number; letter: number };
+  /** The free first spring (VISION §10): the last day before the full game needs the one unlock. */
+  freeDays: number;
+  /** After a "Not now", the unlock postcard comes back after this many rest nights. */
+  unlockOfferRepeatNights: number;
   autosaveSeconds: number;
   townName: string;
   fountainName: string;

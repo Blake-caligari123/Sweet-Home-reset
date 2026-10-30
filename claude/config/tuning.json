@@ -58,7 +58,7 @@
     "maxFluffBonus": 30
   },
   "realChoreCapPerDay": 5,
-  "plusOfferDay": 14,
+  "freeDays": 14,
   "relaxedMode": {
     "fluffCostMultiplier": 0.5,
     "doze": false,
@@ -68,7 +68,7 @@
   "targetFps": 60,
   "firstLoadKB": 300,
   "_note": "Starting values for playtests, not measured data. GDD v3 A8.",
-  "plusOfferRepeatDays": 7,
+  "unlockOfferRepeatNights": 7,
   "beachUnlockDay": 43,
   "copperRecipeShopDay": 5,
   "townName": "Hollowfern",
