@@ -12,6 +12,8 @@ export interface UnlockHost {
   save(): void;
   /** Sign in first (a web purchase belongs to an account). */
   signIn?(): void;
+  /** An anonymous play count (GDD A10: how often the unlock is offered and bought). */
+  count?(name: 'unlock_offered' | 'unlock_bought'): void;
 }
 
 /**
@@ -27,6 +29,7 @@ export class Unlocker {
   async offer() {
     const { view } = this.host;
     const price = await this.store.price();
+    this.host.count?.('unlock_offered');
     let close = () => {};
     const buy = h('button', { class: 'btn primary', type: 'button' }, price ? `Unlock the full game · ${price}` : 'Unlock the full game');
     buy.addEventListener('click', () => { view.uiTap(); close(); this.askGrownUp(); });
@@ -83,6 +86,7 @@ export class Unlocker {
   private owned() {
     const { state, view } = this.host;
     state.unlock = { owned: true, via: this.host.via, at: new Date().toISOString() };
+    this.host.count?.('unlock_bought');
     view.feedback('fanfare', 'success');
     view.banner('🌸 The full year is yours! Summer is on its way.');
     this.host.save();

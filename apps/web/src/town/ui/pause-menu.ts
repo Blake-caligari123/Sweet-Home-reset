@@ -1,6 +1,7 @@
 import type { Sound } from '../../shared/audio/sound';
 import { h } from '../../shared/ui/dom';
 import { eraseTown } from '../data/save';
+import { openAbout } from './about-sheet';
 import { nextTextSize, textSizeOf } from './a11y';
 import { KEYS_HELP } from './keyboard';
 import type { Settings, View } from './view';
@@ -69,6 +70,8 @@ export function openPause(d: PauseHost) {
     skip.addEventListener('click', () => { skipTips(); skip.remove(); });
     body.push(skip);
   }
+  // Builds with a server can send anonymous play counts, so only they show the switch.
+  if (d.openAccount) body.push(h('div', { class: 'list' }, toggle('shareCounts', 'Share anonymous play counts')));
   if (d.openAccount) {
     const openAccount = d.openAccount;
     const b = h('button', { class: 'btn small', type: 'button' }, 'Account');
@@ -81,6 +84,9 @@ export function openPause(d: PauseHost) {
     b.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); restore(); });
     body.push(b);
   }
+  const about = h('button', { class: 'btn small', type: 'button' }, 'About');
+  about.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); openAbout(view); });
+  body.push(about);
   const restart = h('button', { class: 'btn small', type: 'button' }, 'Start over on this device');
   restart.addEventListener('click', async () => { if (!window.confirm('Start a new game? This clears the town save on this device.')) return; await eraseTown(); location.reload(); });
   body.unshift(h('p', { class: 'town-line' }, d.townLine));
