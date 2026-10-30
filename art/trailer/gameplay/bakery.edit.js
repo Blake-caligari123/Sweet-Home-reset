@@ -1,6 +1,6 @@
 // Edit for bakery: captions keyed to the capture's events (see bakery.scenario.js), then a before/after wipe.
-window.makeEdit = ({ at, ev }) => {
-  const cap = ev.frames / ev.fps, first = at('cleaned'), fast = at('fast'), last = at('last'), restored = at('restored');
+window.makeEdit = ({ at, atOr, length }) => {
+  const cap = length, first = at('cleaned'), fast = at('fast'), restored = at('restored'), last = atOr('last', restored - .8);
   const end = cap + 4.5;                      // the last frame holds while the before/after wipe plays
   return {
     duration: end,

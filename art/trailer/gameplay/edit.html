@@ -9,12 +9,13 @@ canvas{display:block}
 <script>
 // Turns captured gameplay (capture/capture.js) into a finished short: the real frames, plus captions,
 // speed badges, punch-in zooms, callouts, a before/after wipe and an end card, as set in <name>.edit.js.
+// <name>.cut.js can slow parts down or hold a frame (see timeline below).
 // URL: edit.html?v=<name>&frames=<capture dir>
 const W = 1080, H = 1920;
 const q = new URLSearchParams(location.search);
 const NAME = q.get('v'), DIR = q.get('frames');
 const cv = document.getElementById('c'), ctx = cv.getContext('2d');
-let EV = null, EDIT = null, DURATION = 0;
+let EV = null, EDIT = null, DURATION = 0, SEGS = [];
 const cache = new Map();
 
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
@@ -22,8 +23,30 @@ const seg = (t, a, b) => clamp((t - a) / (b - a));
 const easeInOut = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
 const backOut = k => { const c = 1.7; return 1 + (c + 1) * Math.pow(k - 1, 3) + c * Math.pow(k - 1, 2); };
 
-/** Seconds into the video of a capture mark (the nth one with that name), plus an offset. */
-function at(name, offset = 0, nth = 0) { const e = EV.events.filter(x => x.name === name)[nth]; if (!e) throw new Error('no mark ' + name); return e.f / EV.fps + offset; }
+// ---- timeline: capture frames ↔ output seconds, through the cut list's segments ----
+// Each segment [f0, f1, seconds] plays capture frames f0…f1 over that many seconds (f0 == f1 holds a frame).
+// Frames outside every segment are cut. With no segments, the capture plays as it was recorded.
+function outOf(f) {
+  if (!SEGS.length) return f / EV.fps;
+  let acc = 0;
+  for (const [f0, f1, d] of SEGS) {
+    if (f0 === f1 ? f === f0 : f >= f0 && f < f1) return f0 === f1 ? acc : acc + (f - f0) / (f1 - f0) * d;   // a held frame maps to the hold's start
+    if (f < f0) return acc;
+    acc += d;
+  }
+  return acc;
+}
+function frameAt(t) {
+  if (!SEGS.length) return Math.floor(t * EV.fps);
+  let acc = 0;
+  for (const [f0, f1, d] of SEGS) { if (t < acc + d) return f1 === f0 ? f0 : Math.floor(f0 + (t - acc) / d * (f1 - f0)); acc += d; }
+  return SEGS[SEGS.length - 1][1];
+}
+const capLength = () => SEGS.length ? SEGS.reduce((a, s) => a + s[2], 0) : EV.frames / EV.fps;
+/** Output seconds of a capture mark (the nth one with that name), plus an offset. */
+function at(name, offset = 0, nth = 0) { const e = EV.events.filter(x => x.name === name)[nth]; if (!e) throw new Error('no mark ' + name); return outOf(e.f) + offset; }
+/** Like at(), but a mark the capture didn't record gives the fallback (output seconds). */
+function atOr(name, fallback) { return EV.events.some(x => x.name === name) ? at(name) : fallback; }
 function frameImg(i) {
   i = Math.max(0, Math.min(EV.frames - 1, i));
   if (!cache.has(i)) cache.set(i, new Promise(res => { const im = new Image(); im.onload = () => res(im); im.src = `file://${DIR}/frames/${String(i).padStart(5, '0')}.jpg`; }));
@@ -75,7 +98,7 @@ function zoomAt(t) {
 
 window.draw = async function (t) {
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
-  const fi = Math.floor(t * EV.fps);
+  const fi = frameAt(t);
   const z = zoomAt(t);
   const img = await frameImg(fi);
   ctx.save(); ctx.translate(z.x, z.y); ctx.scale(z.s, z.s); ctx.translate(-z.x, -z.y);
@@ -108,9 +131,11 @@ window.draw = async function (t) {
 };
 
 window.ready = (async () => {
-  EV = await (await fetch(`file://${DIR}/events.json`)).json();
-  await new Promise((res, rej) => { const s = document.createElement('script'); s.src = `${NAME}.edit.js`; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
-  EDIT = window.makeEdit({ at, ev: EV });
+  // scripts, not fetch(): file:// pages can't fetch
+  const load = src => new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('missing ' + src)); document.head.appendChild(s); });
+  await Promise.all([load(`file://${DIR}/events.js`), load(`${NAME}.cut.js`), load(`${NAME}.edit.js`)]);
+  EV = window.EVENTS; SEGS = window.CUT.segments;
+  EDIT = window.makeEdit({ at, atOr, length: capLength() });
   DURATION = EDIT.duration ?? EV.frames / EV.fps;
   await document.fonts.load('700 50px Fredoka');
   return true;

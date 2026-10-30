@@ -1,5 +1,6 @@
 """Sound for a gameplay short, synced to the capture's events.json.
-usage: python3 gameplay/sound.py <name> <capture dir>   → writes <capture dir>/audio.wav
+usage: python3 gameplay/sound.py <name> <capture dir> <seconds>   → writes <capture dir>/audio.wav
+Event times go through <name>.cut.js exactly as edit.html maps them; <seconds> is the edited length.
 
 Every tap gets a soft scrub, every cleaned spot a rising sparkle note, over a cosy lo-fi bed;
 each video adds its own moments (the restore fanfare, the doze lullaby, the letter)."""
@@ -7,11 +8,26 @@ import json, os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'lib'))
 from synth import *
 
-name, cap = sys.argv[1], sys.argv[2]
+name, cap, dur = sys.argv[1], sys.argv[2], float(sys.argv[3])
+HERE = os.path.dirname(os.path.abspath(__file__))
 ev = json.load(open(os.path.join(cap, 'events.json')))
-fps, dur = ev['fps'], ev['frames'] / ev['fps']
+fps = ev['fps']
+cut = open(os.path.join(HERE, f'{name}.cut.js')).read()
+SEGS = json.loads(cut[cut.index('{'):cut.rindex('}') + 1])['segments']
+
+def out_of(f):
+    """Capture frame → output seconds (the same mapping as outOf() in edit.html); None if the frame was cut."""
+    if not SEGS: return f / fps
+    acc = 0
+    for f0, f1, d in SEGS:
+        if (f == f0) if f0 == f1 else (f0 <= f < f1): return acc if f0 == f1 else acc + (f - f0) / (f1 - f0) * d
+        acc += d
+    return None
+
+for e in ev['events']: e['t'] = out_of(e['f'])
+ev['events'] = [e for e in ev['events'] if e['t'] is not None]
 marks = {}
-for e in ev['events']: marks.setdefault(e['name'], []).append(e['f'] / fps)
+for e in ev['events']: marks.setdefault(e['name'], []).append(e['t'])
 first = lambda k, default=None: marks.get(k, [default])[0]
 m = Mix(dur)
 
@@ -34,7 +50,7 @@ for bar in range(int(stop / 2) + 1):
 # ---- every tap and every cleaned spot ----
 PENTA = [72, 74, 76, 79, 81, 84, 86, 88, 91, 93, 96]
 for e in ev['events']:
-    t = e['f'] / fps
+    t = e['t']
     fast = e.get('speed', 1) > 1
     if e['name'] == 'tap':
         wet = e.get('type') == 'stain'

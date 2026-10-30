@@ -3,7 +3,7 @@
 // A scenario script drives the game through its ?debug hooks and decides what gets recorded and at what speed.
 //
 // usage: node capture/capture.js <scenario.js> <outDir> [baseUrl]
-//   writes <outDir>/frames/00000.jpg … and <outDir>/events.json ({ fps, frames, events: [{ f, name, ... }] })
+//   writes <outDir>/frames/00000.jpg … and <outDir>/events.json ({ fps, frames, events: [{ f, name, ... }] }), also as events.js
 // The dev server must be running: (cd apps/web && npx vite --port 5199)
 const { chromium } = require('playwright');
 const fs = require('fs');
@@ -81,7 +81,9 @@ const [scenarioPath, outDir, baseUrl = 'http://localhost:5199/Sweet-Home-reset/t
   };
 
   try { await scenario(s); } finally {
-    fs.writeFileSync(path.join(outDir, 'events.json'), JSON.stringify({ fps: FPS, frames: frame, events }, null, 1));
+    const data = JSON.stringify({ fps: FPS, frames: frame, events }, null, 1);
+    fs.writeFileSync(path.join(outDir, 'events.json'), data);
+    fs.writeFileSync(path.join(outDir, 'events.js'), `window.EVENTS = ${data};\n`);   // pages can't fetch() from file://
     console.log(`done: ${frame} frames, ${events.length} events`);
     await browser.close();
   }
