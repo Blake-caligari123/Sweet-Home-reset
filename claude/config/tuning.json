@@ -1,9 +1,9 @@
 {
-  "dayRealMinutes": 8,
-  "firstDayRealMinutes": 10,
+  "dayRealMinutes": 10,
+  "firstDayRealMinutes": 12,
   "dayRealMinutesTest": [
-    8,
-    10
+    10,
+    12
   ],
   "gameMinutesPerTick": 10,
   "fluffStart": 100,

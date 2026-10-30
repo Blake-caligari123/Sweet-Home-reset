@@ -242,3 +242,8 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - The thimble belongs to no one: it's a clue to Thimble, the keeper before Puff.
   - **Finishing the set:** Moss sends 200 ✨ (`findSetSparkles`).
 - **Split (30 Oct):** tapping (walk there, or use what's there) moved from `game.ts` to `play/taps.ts`, with no change in behaviour. `game.ts` is now 488 lines.
+- **6a.3 Days and Fluff (30 Oct):**
+  - Days are 10 real minutes (the first 12).
+  - Fluff is paid when a spot is **cleared**, not on every hit: a three-hit stain costs 1 instead of 3. A charged swing pays its whole cost up front, covering every spot it clears. Grumble tidies and mining still cost per go.
+  - Decided without asking: seasons stay 14 days for now. All of today's content (letters, arrivals, repairs, festivals) is timed for 14-day seasons. Stretching them before the deep slice adds content would only spread the same events thinly. They go to 28 days when there's enough to fill them.
+
