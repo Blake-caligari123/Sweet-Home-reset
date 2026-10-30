@@ -21,6 +21,9 @@ const [scenarioPath, outDir, baseUrl = 'http://localhost:5199/Sweet-Home-reset/t
   page.on('pageerror', e => { console.error('page error:', e.message); });
   const cdp = await page.context().newCDPSession(page);
   await page.clock.install({ time: new Date('2026-10-30T09:00:00') });
+  // The fake clock's animation frames carry timestamps on a different base from performance.now(), which the
+  // engine reads as a long gap every frame (and so runs the game ~6× too fast). Hand it performance.now() instead.
+  await page.addInitScript(() => { const raf = window.requestAnimationFrame.bind(window); window.requestAnimationFrame = (cb) => raf(() => cb(performance.now())); });
   await page.goto(baseUrl);
 
   let frame = 0, speed = 1;
