@@ -360,4 +360,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Moss: a cobweb Grumble, from day 10.
     - Otto: a mud Grumble, from day 14.
   - Done jobs earn Sparkles, friendship and a thank-you note like any other.
+- **Feature tour (30 Oct, Blake: a way to test these features easily):** `tour/`.
+  - **Pause → 🧪 Feature tour** lists every new feature with a Try it button (17 cards).
+    - Each card jumps to the right day, time and place and sets things up: items, notes, a pet, a restored home, a job already taken.
+    - Then it shows the 1 to 3 steps to try.
+  - It changes the save, so the sheet says to use Start over for a normal game.
+  - It's on the test link only. Public builds set `VITE_RELEASE=1` (RELEASE-CHECKLIST §4).
+  - The tour and the `?debug` hooks share one view of the game (`hooks()` in `game.ts`).
 

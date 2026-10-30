@@ -17,7 +17,7 @@ import { openOutfits } from './outfits/outfit-sheet';
 import { newlyEarned } from './outfits/outfits';
 import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
-import { installDebugHooks } from './debug';
+import { installDebugHooks, type DebugTarget } from './debug';
 import type { Account } from './account/account-sheet';
 import type { Counts } from './account/counts';
 import { openMap } from './travel/map-sheet';
@@ -27,6 +27,9 @@ import { TownLife } from './life/town-life';
 import { openCollection } from './bloom/collection-sheet';
 import { perkIn } from './skills/skills';
 import { TownSystems } from './systems';
+import { Scene } from './tour/scene';
+import { TOUR_ON } from './tour/tour';
+import { openTour } from './tour/tour-sheet';
 import { MAX_RUB, Taps } from './play/taps';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
@@ -226,13 +229,17 @@ export class TownGame {
     window.addEventListener('resize', () => { app.resize(); this.world.resize(); });
     this.refreshHud();
     if (!saved) this.openNames(() => window.setTimeout(() => this.view.say('Ooh. Grey. Let\'s fix that.'), 600));
-    if (new URLSearchParams(location.search).has('debug')) {
-      installDebugHooks({
-        world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide,
-        areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
-        messFor: (id) => this.places.mess(id), enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
-      });
-    }
+    if (new URLSearchParams(location.search).has('debug')) installDebugHooks(this.hooks());
+  }
+
+  /** The game's insides, for the test hooks and the feature tour. */
+  private hooks(): DebugTarget {
+    return {
+      world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide, grumbles: this.grumbles,
+      areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
+      messFor: (id) => this.places.mess(id), spawnOf: (id) => this.places.get(id)!.pack.spawn,
+      enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
+    };
   }
 
   /** Character sprite sheets loaded after start; Puff stays code-drawn until they arrive. */
@@ -399,6 +406,7 @@ export class TownGame {
       openCollection: () => openCollection(this.view, this.content, this.state),
       openSkills: () => this.systems.openSkills(),
       openNeeds: () => this.systems.openNeeds(),
+      openTour: TOUR_ON ? () => openTour(this.view, new Scene(this.hooks()), () => { this.refreshHud(); void this.save(false); }) : null,
       townLine: `🌸 Town Bloom: ${this.content.line(`bloom.${this.state.bloom}`)} · ${this.state.finds.found.length} of ${this.content.pack.finds?.length ?? 0} finds`,
       skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null,
       restore: this.unlocker.gate ? () => void this.unlocker.restore() : null,

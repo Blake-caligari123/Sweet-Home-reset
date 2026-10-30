@@ -1,4 +1,5 @@
 import type { Area } from './data/area';
+import type { GrumbleLife } from './grumbles/grumble-life';
 import type { Neighbours } from './neighbours/neighbours';
 import type { Clock } from './play/clock';
 import { FULL_COLOUR, type AreaMess } from './play/mess';
@@ -13,11 +14,13 @@ import { T } from './world/art/texture';
 import type { NavGrid } from './world/nav';
 import type { World } from './world/world';
 
-/** The parts of the game the test hooks look at and poke. */
+/** The parts of the game the test hooks (and the feature tour) look at and poke. */
 export interface DebugTarget {
-  world: World; puff: Puff; state: TownState; clock: Clock; jobs: Jobs; neighbours: Neighbours; view: View; guide: OnboardingGuide;
+  world: World; puff: Puff; state: TownState; clock: Clock; jobs: Jobs; neighbours: Neighbours; view: View; guide: OnboardingGuide; grumbles: GrumbleLife;
   areaId(): string; area(): Area; mess(): AreaMess; nav(): NavGrid; fading(): boolean;
   messFor(id: string): AreaMess;
+  /** A place's front door tile. */
+  spawnOf(id: string): { x: number; y: number };
   enterArea(id: string, x: number, y: number, announce: boolean): void;
   /** A tap at a world point. */
   tap(px: number, py: number): void;

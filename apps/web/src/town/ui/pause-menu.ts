@@ -18,6 +18,8 @@ export interface PauseHost {
   openCollection(): void;
   openSkills(): void;
   openNeeds(): void;
+  /** The feature tour, on the test link only. */
+  openTour: (() => void) | null;
   /** "Town Bloom: Waking · 3 of 8 finds". */
   townLine: string;
   /** Offered while onboarding can be skipped; skips the remaining tips. */
@@ -99,6 +101,12 @@ export function openPause(d: PauseHost) {
   const restart = h('button', { class: 'btn small', type: 'button' }, 'Start over on this device');
   restart.addEventListener('click', async () => { if (!window.confirm('Start a new game? This clears the town save on this device.')) return; await eraseTown(); location.reload(); });
   body.unshift(h('p', { class: 'town-line' }, d.townLine));
+  if (d.openTour) {
+    const openTour = d.openTour;
+    const tour = h('button', { class: 'btn primary', type: 'button', style: { width: '100%' } }, '🧪 Feature tour');
+    tour.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); openTour(); });
+    body.unshift(tour);
+  }
   // Only on a computer: phones and tablets have no keyboard to point at.
   if (window.matchMedia?.('(pointer: fine)').matches) body.push(h('p', { class: 'muted', style: { fontSize: '0.85rem' } }, KEYS_HELP));
   body.push(h('p', { class: 'muted', style: { fontSize: '0.85rem' } }, 'Test build'), restart);
