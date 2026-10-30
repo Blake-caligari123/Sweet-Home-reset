@@ -7,3 +7,7 @@ binding = "DB"
 database_name = "sweet-home-reset"
 database_id = "REPLACE_WITH_D1_DATABASE_ID"
 migrations_dir = "migrations"
+
+# The daily clean-up (src/cron.ts): deleted accounts after 30 days, old history and events.
+[triggers]
+crons = ["17 3 * * *"]

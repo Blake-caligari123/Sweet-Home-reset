@@ -338,6 +338,16 @@ One new thing every couple of days, each with one tip or letter:
   - The gate only switches on in a build that sells the unlock (`VITE_API_ORIGIN` on the web, `VITE_RC_IOS_KEY` or `VITE_RC_ANDROID_KEY` on phones), so the test link still plays the whole year. `?debug&store=fake` pretends, for playthroughs.
   - Decided without asking: A$14.99, provisional in `config/pricing.json` until checked against a store price point.
 
+- **Phase 5d (30 Oct): the server (`apps/api`), BACKEND-PLAN steps 2–16 for one unlock.**
+  - Sign-in: email magic links (16+ box for a new account, 5 links an hour per email, 20 per IP), and Sign in with Apple (token checked against Apple's keys, account linked by Apple id or verified email, Apple's token revoked on deletion).
+  - Sync: one cloud save with a version. A clash returns the cloud copy, so the player chooses, and the replaced copy goes to history (10, 30 days). Saves over 256 KB or with a newer schema are refused.
+  - The unlock: Stripe Checkout (one payment) and its signed webhook, plus RevenueCat's webhook for phones. Buying anywhere unlocks every platform for that account; a refund takes it back.
+  - Privacy: `/api/me`, export everything, delete (sessions, saves and history at once, the account after 30 days), and a public `/delete-account` page.
+  - Analytics: five anonymous event names with number fields only.
+  - Hardening: security headers, CORS for the game's site only, an Origin check on writes, rate limits.
+  - A daily Cron Trigger cleans up.
+  - 28 tests run on the real migrations with no keys. Nothing is deployed: that needs Blake's yes, a D1 database id and the secrets.
+
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
 |---|---|
