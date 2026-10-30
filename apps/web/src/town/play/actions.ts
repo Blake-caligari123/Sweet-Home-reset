@@ -61,7 +61,7 @@ export interface ActionsHost {
 const CLIP_OFFER_MS = 1400;
 
 /** Mess that gets scrubbed, so it throws up suds. */
-const WET: string[] = ['stain', 'grime', 'mud', 'fog'];
+const WET: string[] = ['stain', 'grime', 'mud', 'fog', 'ink', 'soap'];
 
 /** Puff using what's in reach: cleaning mess, furniture, soil, snacks, doors and neighbours. */
 export class PuffActions {
@@ -209,7 +209,7 @@ export class PuffActions {
     world.syncMess(i);
     world.colourChanged(result.changed);
     for (const c of result.changed) world.syncMess(c);
-    if (type === 'dust' || type === 'cobweb') world.dustPuff(t.x, t.y);
+    if (['dust', 'cobweb', 'flour', 'sawdust'].includes(type)) world.dustPuff(t.x, t.y);
     if (WET.includes(type)) world.suds(t.x, t.y);
     if (result.cleared) {
       world.sparkleBurst(t.x, t.y, 8);

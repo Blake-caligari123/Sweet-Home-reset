@@ -2,7 +2,9 @@ import { TUNING } from '../data/tuning';
 
 // Mess and colour live on the CPU, one byte per tile each (FRONTEND-PLAN §3): type, hit points
 // and colour level 0 (drained) to 4 (full colour). No GPU readback anywhere.
-export const MESS_TYPES = ['none', 'dust', 'stain', 'grime', 'cobweb', 'crumbs', 'fog', 'clutter', 'weeds', 'mud', 'leaves'] as const;
+export const MESS_TYPES = ['none', 'dust', 'stain', 'grime', 'cobweb', 'crumbs', 'fog', 'clutter', 'weeds', 'mud', 'leaves',
+  // Each place's own mess (NEXT-PHASE §5.1, tidying 2.0): the bakery, workshop, library, bathhouse and beach.
+  'flour', 'sawdust', 'ink', 'soap', 'sand', 'seaweed'] as const;
 export type MessType = (typeof MESS_TYPES)[number];
 export type ToolId = 'duster' | 'sponge' | 'rake' | 'hands' | 'can' | 'seeds';
 export const FULL_COLOUR = 4;
@@ -12,7 +14,9 @@ export const TOOL_FOR: Record<Exclude<MessType, 'none'>, { tool: ToolId; minTier
   dust: { tool: 'duster', minTier: 1 }, cobweb: { tool: 'duster', minTier: 1 },
   stain: { tool: 'sponge', minTier: 1 }, grime: { tool: 'sponge', minTier: 2 },
   crumbs: { tool: 'duster', minTier: 1 }, fog: { tool: 'sponge', minTier: 1 },
-  clutter: { tool: 'hands', minTier: 1 }, weeds: { tool: 'rake', minTier: 1 }, mud: { tool: 'rake', minTier: 1 }, leaves: { tool: 'rake', minTier: 1 }
+  clutter: { tool: 'hands', minTier: 1 }, weeds: { tool: 'rake', minTier: 1 }, mud: { tool: 'rake', minTier: 1 }, leaves: { tool: 'rake', minTier: 1 },
+  flour: { tool: 'duster', minTier: 1 }, sawdust: { tool: 'duster', minTier: 1 }, ink: { tool: 'sponge', minTier: 1 },
+  soap: { tool: 'sponge', minTier: 1 }, sand: { tool: 'rake', minTier: 1 }, seaweed: { tool: 'rake', minTier: 1 }
 };
 
 export interface MessSpot { type: Exclude<MessType, 'none'>; x: number; y: number; item?: string }

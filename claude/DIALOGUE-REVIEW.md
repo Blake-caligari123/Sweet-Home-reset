@@ -1151,3 +1151,13 @@ Heard only with a screen reader, never shown on screen.
 - After the noisy workshop, Moss (daytime): "... Quiet afternoons now. Pip kept the promise."
 
 **Tidying 2.0 (6b):** chain toast "Tidy chain ×5  +2 ✨" · recipe card banner "📜 A recipe card under the mess: Tomato soup! Cook it in the kitchen."
+
+**Each place's own mess (6b.3):**
+- Prompts: Dust the flour / Dust the sawdust / Sponge the ink / Sponge the soap scum / Rake the sand / Rake the seaweed.
+- Letter lines, "Puff … yesterday; maybe you could …":
+  - dusted away some flour / wipe one kitchen shelf
+  - swept up some sawdust / tidy one drawer
+  - sponged up an ink blot / tidy one desk or table
+  - scrubbed some soap scum / wipe one sink
+  - raked up some sand / shake out one pair of shoes
+  - cleared some seaweed / water one plant
