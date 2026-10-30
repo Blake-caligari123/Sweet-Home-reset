@@ -1,0 +1,118 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Gameplay Edit</title>
+<style>
+@font-face{font-family:Fredoka;src:url(../fonts/fredoka.woff2) format('woff2');font-weight:700}
+html,body{margin:0;background:#000}
+canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script>
+// Turns captured gameplay (capture/capture.js) into a finished short: the real frames, plus captions,
+// speed badges, punch-in zooms, callouts, a before/after wipe and an end card, as set in <name>.edit.js.
+// URL: edit.html?v=<name>&frames=<capture dir>
+const W = 1080, H = 1920;
+const q = new URLSearchParams(location.search);
+const NAME = q.get('v'), DIR = q.get('frames');
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+let EV = null, EDIT = null, DURATION = 0;
+const cache = new Map();
+
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const easeInOut = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const backOut = k => { const c = 1.7; return 1 + (c + 1) * Math.pow(k - 1, 3) + c * Math.pow(k - 1, 2); };
+
+/** Seconds into the video of a capture mark (the nth one with that name), plus an offset. */
+function at(name, offset = 0, nth = 0) { const e = EV.events.filter(x => x.name === name)[nth]; if (!e) throw new Error('no mark ' + name); return e.f / EV.fps + offset; }
+function frameImg(i) {
+  i = Math.max(0, Math.min(EV.frames - 1, i));
+  if (!cache.has(i)) cache.set(i, new Promise(res => { const im = new Image(); im.onload = () => res(im); im.src = `file://${DIR}/frames/${String(i).padStart(5, '0')}.jpg`; }));
+  if (cache.size > 12) cache.delete(cache.keys().next().value);
+  return cache.get(i);
+}
+
+function caption(c, t) {
+  const a = Math.min(seg(t, c.from, c.from + .15), 1 - seg(t, c.to - .15, c.to));
+  if (a <= 0) return;
+  const size = c.size || 76, lines = c.text.split('\n'), y0 = c.y ?? 1440;
+  ctx.save(); ctx.globalAlpha = a; ctx.translate(W / 2, y0); const k = backOut(seg(t, c.from, c.from + .25)); ctx.scale(k, k);
+  ctx.font = `700 ${size}px Fredoka, "Noto Color Emoji"`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+  if (c.box) {
+    const w = Math.max(...lines.map(l => ctx.measureText(l).width)) + 70, h = lines.length * size * 1.2 + 44;
+    ctx.fillStyle = c.box; ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, 36); ctx.fill();
+  }
+  lines.forEach((l, i) => {
+    const y = (i - (lines.length - 1) / 2) * size * 1.2;
+    if (!c.box) { ctx.strokeStyle = '#3d2219'; ctx.lineWidth = size * .24; ctx.strokeText(l, 0, y); }
+    ctx.fillStyle = c.color || (c.box ? '#3d2219' : '#fff'); ctx.fillText(l, 0, y);
+  });
+  ctx.restore();
+}
+function callout(c, t) {
+  const a = Math.min(seg(t, c.from, c.from + .2), 1 - seg(t, c.to - .2, c.to)); if (a <= 0) return;
+  const pulse = 1 + .06 * Math.sin(t * 10);
+  ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = c.color || '#ffd84d'; ctx.lineWidth = 12; ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 12;
+  ctx.beginPath(); ctx.ellipse(c.x, c.y, c.rx * pulse, c.ry * pulse, 0, 0, 7); ctx.stroke(); ctx.restore();
+}
+function speedBadge(t) {
+  for (const s of EDIT.speed || []) {
+    if (t < s.from || t > s.to) continue;
+    const blink = Math.floor(t * 3) % 2 === 0;
+    ctx.save(); ctx.fillStyle = 'rgba(30,18,24,.75)'; ctx.beginPath(); ctx.roundRect(W / 2 - 150, s.y ?? 470, 300, 96, 48); ctx.fill();
+    ctx.font = '700 60px Fredoka'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = blink ? '#fff' : '#ffd84d';
+    ctx.fillText(`▶▶ x${s.x}`, W / 2, (s.y ?? 470) + 50); ctx.restore();
+  }
+}
+/** Punch-in zoom: scale the gameplay around a point. */
+function zoomAt(t) {
+  for (const z of EDIT.zooms || []) {
+    if (t < z.from || t > z.to) continue;
+    const k = Math.min(easeInOut(seg(t, z.from, z.from + (z.ease ?? .35))), 1 - easeInOut(seg(t, z.to - (z.ease ?? .35), z.to)));
+    return { s: 1 + (z.scale - 1) * k, x: z.x, y: z.y };
+  }
+  return { s: 1, x: W / 2, y: H / 2 };
+}
+
+window.draw = async function (t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+  const fi = Math.floor(t * EV.fps);
+  const z = zoomAt(t);
+  const img = await frameImg(fi);
+  ctx.save(); ctx.translate(z.x, z.y); ctx.scale(z.s, z.s); ctx.translate(-z.x, -z.y);
+  ctx.drawImage(img, 0, 0, W, H);
+  // before/after wipe: the first frame on the left of a moving divider
+  const ba = EDIT.beforeAfter;
+  if (ba && t >= ba.from && t <= ba.to) {
+    const before = await frameImg(ba.frame);
+    const k = .5 + .42 * Math.sin((t - ba.from) / (ba.to - ba.from) * Math.PI * 2 - Math.PI / 2) * -1;
+    const x = W * clamp(k, .06, .94);
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, x, H); ctx.clip(); ctx.drawImage(before, 0, 0, W, H); ctx.restore();
+    ctx.fillStyle = '#fff'; ctx.fillRect(x - 5, 0, 10, H);
+    ctx.beginPath(); ctx.arc(x, H / 2, 46, 0, 7); ctx.fill(); ctx.fillStyle = '#3d2219'; ctx.font = '700 40px Fredoka'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('⇆', x, H / 2 + 2);
+    ctx.font = '700 54px Fredoka'; ctx.lineWidth = 12; ctx.strokeStyle = '#3d2219'; ctx.lineJoin = 'round';
+    [['before', Math.max(110, x - 140), '#cfd3da'], ['after', Math.min(W - 110, x + 140), '#ffd84d']].forEach(([s, lx, col]) => { ctx.strokeText(s, lx, 1500); ctx.fillStyle = col; ctx.fillText(s, lx, 1500); });
+  }
+  ctx.restore();
+  speedBadge(t);
+  for (const c of EDIT.callouts || []) callout(c, t);
+  for (const c of EDIT.captions) caption(c, t);
+  // end card
+  const ec = EDIT.endCard;
+  if (ec && t > ec.from) {
+    const k = seg(t, ec.from, ec.from + .35);
+    ctx.fillStyle = `rgba(28,16,24,${.62 * k})`; ctx.fillRect(0, 0, W, H);
+    caption({ text: 'Sweet Home Reset', from: ec.from + .1, to: 1e9, y: 860, size: 110, color: '#fff7e6' }, t);
+    caption({ text: ec.line || 'a cosy cleaning game', from: ec.from + .3, to: 1e9, y: 990, size: 56, color: '#ffd84d' }, t);
+    caption({ text: 'coming soon · iOS · Android · Web', from: ec.from + .5, to: 1e9, y: 1100, size: 44, color: '#fff' }, t);
+  }
+};
+
+window.ready = (async () => {
+  EV = await (await fetch(`file://${DIR}/events.json`)).json();
+  await new Promise((res, rej) => { const s = document.createElement('script'); s.src = `${NAME}.edit.js`; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+  EDIT = window.makeEdit({ at, ev: EV });
+  DURATION = EDIT.duration ?? EV.frames / EV.fps;
+  await document.fonts.load('700 50px Fredoka');
+  return true;
+})();
+</script></body></html>
