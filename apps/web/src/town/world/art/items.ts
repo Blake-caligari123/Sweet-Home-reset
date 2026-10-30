@@ -10,10 +10,14 @@ export function drawMess(type: string, variant: number, item?: string) {
       for (let i = 0; i < 4; i += 1) { const cx = 3 + Math.floor(r() * 10); const cy = 4 + Math.floor(r() * 8); pc.ellipse(cx, cy, 2, 2, P.greyLight); pc.set(cx - 1, cy - 1, P.white); }
       pc.outlineShapes(P.grey);
       break;
-    case 'stain':
-      pc.ellipse(8, 9, 6, 4, P.brownLight);
-      pc.ellipse(6, 8, 3, 2, P.brown);
-      pc.set(12, 5, P.brownLight); pc.set(3, 13, P.brownLight);
+    // Stain, mud and fog each keep their own outline (VISION §12, colour-blind friendly): a ring, a low
+    // puddle with splashes, and wavy streaks, so none is told apart by colour alone.
+    case 'stain': // a cup ring with a drip
+      for (let y = 0; y < T; y += 1) for (let x = 0; x < T; x += 1) {
+        const d = ((x - 8) / 6) ** 2 + ((y - 7) / 5) ** 2;
+        if (d <= 1 && d >= 0.4) pc.set(x, y, d > 0.7 ? P.brownShade : P.brown);
+      }
+      pc.vline(12, 11, 3, P.brownShade); pc.set(12, 14, P.brown);
       break;
     case 'grime':
       for (let i = 1; i < 15; i += 3) { pc.line(i, 1, Math.min(15, i + 6), 7, P.greyShade); pc.line(i, 8, Math.min(15, i + 6), 14, P.greyShade); }
@@ -32,14 +36,18 @@ export function drawMess(type: string, variant: number, item?: string) {
     case 'crumbs':
       for (let i = 0; i < 9; i += 1) { const cx = 2 + Math.floor(r() * 12); const cy = 3 + Math.floor(r() * 10); pc.rect(cx, cy, 2, 1, P.butterShade); pc.set(cx, cy + 1, P.brownLight); }
       break;
-    case 'fog':
-      pc.ellipse(8, 8, 6, 5, P.blueLight, 170); pc.ellipse(6, 6, 3, 2, P.white, 190); pc.ellipse(11, 10, 2, 2, P.white, 150);
+    case 'fog': // wavy smears across the glass
+      for (const row of [3, 8, 13]) for (let x = 1; x < 15; x += 1) {
+        const y = row + Math.round(Math.sin((x + row) * 0.9));
+        pc.set(x, y, P.blueLight, 200); if (x % 4 === 1) pc.set(x, y - 1, P.white, 190);
+      }
       break;
     case 'leaves': // an autumn leaf pile
       for (let i = 0; i < 6; i += 1) { const cx = 3 + Math.floor(r() * 10); const cy = 4 + Math.floor(r() * 9); pc.ellipse(cx, cy, 2, 1, [P.peach, P.peachShade, P.butterShade][i % 3]); pc.set(cx + 2, cy, P.brownShade); }
       break;
-    case 'mud':
-      pc.ellipse(8, 10, 6, 4, P.brownShade); pc.ellipse(6, 9, 3, 2, P.brown); pc.set(11, 8, P.brownLight); pc.set(4, 12, P.brownShade); pc.set(13, 13, P.brownShade);
+    case 'mud': // a flat puddle low on the tile, splashed above
+      pc.ellipse(8, 13, 7, 2, P.brownShade); pc.hline(5, 12, 4, P.brown);
+      for (const [x, y] of [[3, 7], [12, 6], [8, 4], [5, 9], [11, 9]]) pc.rect(x, y, 2, 1, P.brownShade);
       break;
     case 'clutter':
       drawItemIcon(pc, item ?? 'sock', 1, 1);

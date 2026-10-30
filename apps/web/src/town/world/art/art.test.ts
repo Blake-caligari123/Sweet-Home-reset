@@ -40,4 +40,18 @@ describe('town ground art', () => {
       expect(solid, type).toBeGreaterThan(10);
     }
   });
+
+  // Colour-blind friendly (VISION §12): every mess type is told apart by its outline, not its colour.
+  it('gives every kind of mess its own shape, not only its own colour', () => {
+    const shape = (type: string, variant: number) => { const d = drawMess(type, variant, 'sock').data; return Array.from({ length: d.length / 4 }, (_, i) => d[i * 4 + 3] > 0); };
+    const types = MESS_TYPES.filter((t) => t !== 'none' && t !== 'clutter');
+    for (const a of types) for (const b of types) {
+      if (a >= b) continue;
+      for (let v = 0; v < 4; v += 1) {
+        const sa = shape(a, v); const sb = shape(b, v);
+        const both = sa.filter((s, i) => s && sb[i]).length; const either = sa.filter((s, i) => s || sb[i]).length;
+        expect(both / either, `${a} vs ${b}`).toBeLessThan(0.5);
+      }
+    }
+  });
 });

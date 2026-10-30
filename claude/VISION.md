@@ -296,6 +296,15 @@ One new thing every couple of days, each with one tip or letter:
   - Fewer swings, and a charged swing covers the whole 3×3 patch (VISION §7's Sparkle burst).
   - The duster and rake recipes are at the General Store from day 17.
 
+- **Phase 5b (30 Oct): colour-blind friendly (§12).**
+  - Every kind of mess has its own shape, not only its own colour. Stain, mud and fog were all soft blobs, so now:
+    - a stain is a cup ring with a drip
+    - mud is a low puddle with splashes above it
+    - fog is wavy smears across the glass
+  - A test checks that no two kinds of mess share an outline.
+  - Copper and Silver tools also show ★ and ★★ on the toolbar, so the tier never relies on rim colour alone.
+  - Screen-reader announcements are still to come.
+
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
 |---|---|
