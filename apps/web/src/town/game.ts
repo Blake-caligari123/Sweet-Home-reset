@@ -163,7 +163,7 @@ export class TownGame {
       highlight: (tiles) => this.world.setHighlight(tiles), refreshHud: () => this.refreshHud()
     });
     this.systems = new TownSystems({
-      state: this.state, view: this.view, content: this.content, hud: this.hud, world: this.world, puff: this.puff, places: this.places, life: this.life, guide: this.guide, talk: this.talk,
+      state: this.state, view: this.view, content: this.content, hud: this.hud, world: this.world, puff: this.puff, places: this.places, life: this.life, guide: this.guide, talk: this.talk, jobs: this.jobs,
       day: () => this.clock.state.day, arrived: (k) => this.arrived(k), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
     });
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
@@ -177,7 +177,7 @@ export class TownGame {
     this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.taps.scrub({ x, y }, MAX_RUB) });
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
     this.grumbles = new GrumbleLife({
-      ...core, places: this.places, layer: this.grumbleLayer, arrived: (k) => this.arrived(k), area: () => this.areaId, puff: () => this.puff.feet,
+      ...core, places: this.places, layer: this.grumbleLayer, arrived: (k) => this.arrived(k), area: () => this.areaId, puff: () => this.puff.feet, onboard: (e) => this.guide.handle(e),
       targeted: () => { const t = this.puff.swing ?? this.puff.action; return t?.kind === 'grumble' ? t.id : null; }
     });
     this.petLayer = new PetLayer(this.world.actors);

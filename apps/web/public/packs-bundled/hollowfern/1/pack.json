@@ -7974,7 +7974,11 @@
    "quest.spring_prep.done": "Oh, it's perfect! Best fair ever, petal.",
    "quest.summer_prep.intro": "Picnic by the river soon! Fancy helping me get ready?",
    "quest.summer_prep.pip": "Blankets! Patched and ready. Mind the buttons!",
-   "quest.summer_prep.done": "Picnic by the river! Best day of the summer!"
+   "quest.summer_prep.done": "Picnic by the river! Best day of the summer!",
+   "req.hazel_grumble": "A dust Grumble's in a huff. Help it feel better for Hazel?",
+   "req.pip_grumbles": "Pip wants to meet Grumbles! Befriend 2 of any kind.",
+   "req.moss_cobweb": "Moss asks: befriend a cobweb Grumble, gently.",
+   "req.otto_mud": "Otto's bath is muddy again. Befriend a mud Grumble?"
   }
  },
  "heartEvents": [
@@ -9968,6 +9972,45 @@
    ],
    "mess": "weeds",
    "fromDay": 10
+  },
+  {
+   "id": "hazel_grumble",
+   "neighbourId": "hazel",
+   "kind": "grumble",
+   "text": "req.hazel_grumble",
+   "sparkles": 40,
+   "count": 1,
+   "fromDay": 4,
+   "family": "dust"
+  },
+  {
+   "id": "pip_grumbles",
+   "neighbourId": "pip",
+   "kind": "grumble",
+   "text": "req.pip_grumbles",
+   "sparkles": 50,
+   "count": 2,
+   "fromDay": 6
+  },
+  {
+   "id": "moss_cobweb",
+   "neighbourId": "moss",
+   "kind": "grumble",
+   "text": "req.moss_cobweb",
+   "sparkles": 50,
+   "count": 1,
+   "fromDay": 10,
+   "family": "cobweb"
+  },
+  {
+   "id": "otto_mud",
+   "neighbourId": "otto",
+   "kind": "grumble",
+   "text": "req.otto_mud",
+   "sparkles": 60,
+   "count": 1,
+   "fromDay": 14,
+   "family": "mud"
   }
  ],
  "shops": [

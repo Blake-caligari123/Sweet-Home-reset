@@ -8,6 +8,7 @@ import { openNeeds } from './needs/needs-sheet';
 import { TownNeeds } from './needs/town-needs';
 import { TidyChain } from './play/chain';
 import { QuestLog } from './quests/quest-log';
+import type { Jobs } from './requests/jobs';
 import type { OnboardingGuide } from './play/onboarding-guide';
 import type { Puff } from './play/puff';
 import { PuffMoods } from './skills/puff-mood';
@@ -20,7 +21,7 @@ import type { TownAreas } from './world/town-areas';
 import type { World } from './world/world';
 
 export interface SystemsHost {
-  state: TownState; view: View; content: Content; hud: Hud; world: World; puff: Puff; places: TownAreas; life: TownLife; guide: OnboardingGuide; talk: Conversations;
+  state: TownState; view: View; content: Content; hud: Hud; world: World; puff: Puff; places: TownAreas; life: TownLife; guide: OnboardingGuide; talk: Conversations; jobs: Jobs;
   day(): number; arrived(key: string): boolean; refreshHud(): void; save(): void;
 }
 
@@ -45,7 +46,7 @@ export class TownSystems {
     const chain = new TidyChain({ state, view, world: host.world, feet: () => host.puff.feet, refreshHud: () => host.refreshHud() });
     const cards = new CardHunt({ state, content, view });
     this.quests = new QuestLog({ state, content, view, talk: host.talk, day: () => host.day(), refreshHud: () => host.refreshHud(), save: () => host.save() });
-    host.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); });
+    host.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); });
   }
 
   /** After the night: town needs met, then who helped tidy. */

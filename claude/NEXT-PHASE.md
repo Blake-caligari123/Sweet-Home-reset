@@ -352,4 +352,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Getting ready for the Summer Picnic** (Otto, days 24–27): cook 2 dishes, tidy 6 spots at Riverside, ask Pip about picnic blankets, tell Otto. Reward: 150 ✨ and soap.
   - The tracker now shows a quest step Puff can do today before one that waits for tomorrow.
   - Autumn and winter prep come with their districts' content.
+- **6b.9 Grumble jobs (30 Oct):**
+  - A new kind of board job: befriend Grumbles, of one family or any. They're counted as Puff befriends them, and the tracker shows progress for more than one.
+  - Four jobs, each posted only once its Grumbles are about:
+    - Hazel: a dust Grumble, from day 4.
+    - Pip: 2 of any kind, from day 6.
+    - Moss: a cobweb Grumble, from day 10.
+    - Otto: a mud Grumble, from day 14.
+  - Done jobs earn Sparkles, friendship and a thank-you note like any other.
 
