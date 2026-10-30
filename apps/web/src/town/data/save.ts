@@ -80,7 +80,9 @@ export interface TownSave {
     /** Accessibility (FRONTEND-PLAN §11); missing in older saves, so off. */
     bigText?: boolean; highContrast?: boolean; tapOnly?: boolean;
     /** Text size as a percent (100, 125, 150); older saves only have `bigText`. */
-    textSize?: number };
+    textSize?: number;
+    /** Anonymous play counts (GDD A10); on unless turned off. */
+    shareCounts?: boolean };
   [extra: string]: unknown;
 }
 

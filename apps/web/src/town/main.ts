@@ -52,6 +52,7 @@ if (loaded.newer) { notice('Your town was saved by a newer version of the game. 
 
 const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 const settings = saved?.settings ?? { sound: true, music: true, haptics: true, reducedMotion: reduced, relaxed: false, autoTool: true };
+settings.shareCounts ??= true;
 applyLook(settings);
 
 const sound = new Sound();

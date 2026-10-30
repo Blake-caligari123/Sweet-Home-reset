@@ -356,6 +356,13 @@ One new thing every couple of days, each with one tip or letter:
   - The store and account setup lives in `connect.ts`, so `game.ts` stays wiring (495 lines).
   - Sign in with Apple's button waits for Blake's Apple Services ID; the server side is ready.
 
+- **Phase 5f (30 Oct): store readiness.**
+  - Pause → About shows the version, PixelVortex Games and "Some art created with Grok Imagine" (the credit the Grok terms ask for, tested). A draft privacy policy is at `public/privacy.html`.
+  - Anonymous play counts (day started, unlock offered and bought) are sent only in server builds, with a "Share anonymous play counts" switch in Pause, so the privacy policy is true.
+  - `claude/STORE-LISTING.md` (both stores' copy), `claude/IARC-ANSWERS.md` (ratings, App Privacy, Data safety) and `claude/RELEASE-CHECKLIST.md` (every Blake-only step, in order).
+  - Store screenshots: `tools/store-screenshots.cjs` writes six scenes at iPhone 6.9" and Android sizes to `art/store/`.
+  - **That's every vision stage the code can do.** What's left is in RELEASE-CHECKLIST: accounts and money, keys, deploying, the price point, TestFlight and Play testing, and Blake's approval.
+
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |
 |---|---|

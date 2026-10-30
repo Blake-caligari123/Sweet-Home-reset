@@ -19,6 +19,7 @@ import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
 import { installDebugHooks } from './debug';
 import type { Account } from './account/account-sheet';
+import type { Counts } from './account/counts';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
 import { PuffActions } from './play/actions';
@@ -94,6 +95,7 @@ export class TownGame {
   private unlocker: Unlocker;
   /** The optional account, in builds with a server (VITE_API_ORIGIN). */
   private account: Account | null;
+  private counts: Counts | null;
   private placing: Placing;
   private hudLive: HudLive;
   private sweep: Sweep;
@@ -151,7 +153,7 @@ export class TownGame {
     this.dash = new TidyDash({ ...core, area: () => this.areaId, areaOf: (id) => this.places.get(id)!, messFor: (id) => this.places.mess(id), syncMess: (i) => this.world.syncMess(i), playStory: (id) => this.talk.playStory(id) });
     this.lanterns = new Lanterns({ ...core, refreshArea: () => this.refreshArea(), playStory: (id) => this.talk.playStory(id) });
     // The unlock's store and the optional account, as this build is set up (connect.ts).
-    ({ unlocker: this.unlocker, account: this.account } = connect({ state: this.state, view: this.view, native, snapshot: () => this.snapshot(), save: () => this.save(false) }));
+    ({ unlocker: this.unlocker, account: this.account, counts: this.counts } = connect({ state: this.state, view: this.view, settings, native, snapshot: () => this.snapshot(), save: () => this.save(false) }));
     this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.tap(x, y) });
     this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.scrub({ x, y }, MAX_RUB) });
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
@@ -354,6 +356,7 @@ export class TownGame {
     this.puff.dir = 'down';
     await this.save(true);
     void this.account?.sync();
+    this.counts?.add('day_started', { day: this.clock.state.day });
     this.fade.classList.remove('on', 'night');
     this.fading = false;
     view.release();

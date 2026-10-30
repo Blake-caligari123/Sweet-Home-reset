@@ -35,7 +35,7 @@ A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the 
 ## Folder map
 - `apps/web/src/`: `town/` (the town game, `/test/` link) in feature folders: `data/`, `world/`, `play/`, `neighbours/`, `requests/`, `ui/`, with `game.ts` as the coordinator. `room/` is the original room game (main link, frozen). `shared/` holds code both use. How the pieces fit and how to add a feature: `docs/ARCHITECTURE.md`. Tests sit beside their files (`*.test.ts`).
 - `config/pricing.json`: the only place prices live.
-- `claude/`: design and build docs: SPRITE-SHEETS, GAME-DESIGN, FRONTEND-PLAN, BACKEND-PLAN, M2-PLAN, DIALOGUE-REVIEW, ASSET-PROMPTS (+ `asset-prompts/01–99`), PIXEL-ART-SPEC, PUFF-ANIMATION-TASKS, LICENCES, STORE-PRICES, IARC-ANSWERS, BUSINESS-IDEAS, STORY.md, `config/tuning.json`, `gdd-v3/` (section sources; rebuild A11 with `python3 ../tools/merge_gdd_v3.py` from `claude/`), `prompts/` (build steps)
+- `claude/`: design and build docs: SPRITE-SHEETS, GAME-DESIGN, FRONTEND-PLAN, BACKEND-PLAN, M2-PLAN, DIALOGUE-REVIEW, ASSET-PROMPTS (+ `asset-prompts/01–99`), PIXEL-ART-SPEC, PUFF-ANIMATION-TASKS, LICENCES, STORE-LISTING, IARC-ANSWERS (ratings and privacy forms), RELEASE-CHECKLIST (Blake-only steps to launch), BUSINESS-IDEAS, STORY.md, `config/tuning.json`, `gdd-v3/` (section sources; rebuild A11 with `python3 ../tools/merge_gdd_v3.py` from `claude/`), `prompts/` (build steps)
 - `art/`: source images and previews (`sprites/raw/` Blake's original sheets, `sprites/*_x4.png` pixel-art previews, `_drafts/`); engine sprite strips in `apps/web/public/sprites/`
 - `tools/`: `process_asset.py`, `palette24.json`, `README.md`
 - Root `GAME-DESIGN.md`, `BUILD-SPEC.md`: early concept docs; `claude/` wins where they differ.
@@ -62,7 +62,7 @@ Build by the A9 milestones and FRONTEND-PLAN F1–F15. The older room-game promp
 1. Room outlines: PIXEL-ART-SPEC says no outline on room backgrounds; `tools/process_asset.py` outlines rooms (strong edges).
 2. Sage hex: spec style block had #B7CDB0; `palette24.json` uses #A9CDA0. Prompts now use the palette24 value; confirm.
 3. Prop grid: spec says multiples of 16 px; the tool fits all props to 64×64.
-4. Paywall cancel line: STORE-PRICES says "Cancel anytime in your App Store / Google Play settings"; FRONTEND-PLAN and BUILD-SPEC say "Cancel anytime in the app".
+4. (Resolved 30 Oct 2026: there is no subscription to cancel; the unlock is one purchase, VISION §10.) Paywall cancel line.
 5. (Resolved in GDD v3 A2: reveal clip and Mess of the Day card are on-device only; IARC 'Shares user content' = No.) Sharing: IARC-ANSWERS says "shares user content: yes, limited" and mentions a home-tour link; FRONTEND/GAME-DESIGN say no publicly shared user content. Is the home-tour link in v1?
 6. Idle 4 / blink 2 / hop 6 sheets have no asset numbers (01–99 is full; only #97–99 are walk sheets).
 7. Root BUILD-SPEC still has a streak badge, household sharing and a "1 room free" tier vs claude/ docs (no streaks, 3 free rooms); household sharing in v1 is still open.
