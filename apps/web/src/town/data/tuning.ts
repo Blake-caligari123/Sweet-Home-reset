@@ -33,6 +33,8 @@ export interface Tuning {
   walkTilesPerSecondTired?: number;
   /** Map travel costs game time, as walking would: this many minutes per door passed. */
   mapTravelMinutesPerHop: number;
+  /** Moss's thank-you for finding every surprise find. */
+  findSetSparkles: number;
   /** Pinch zoom: the closest and furthest view, in tiles across. */
   zoomTiles: [number, number];
   neighbourWalkTilesPerSecond?: number;

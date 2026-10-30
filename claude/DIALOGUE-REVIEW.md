@@ -1097,3 +1097,16 @@ Heard only with a screen reader, never shown on screen.
 - While brewing: Moss "... The banging next door. It's... a lot. Never mind." · Pip "Moss walked right past me. Is he cross? Did I do a thing?"
 - Mending: Moss "... I can't read with the hammering. I don't like to say." → Pip "Too loud? Oh no! I'll hammer in the mornings only. Promise!" → Moss "... Mornings only? Then afternoons are for quiet. Lovely."
 - Banner: "🤝 Pip and Moss are friends again!"
+
+# Finds: stories and owners
+| Find | In the Collection | Shown to its owner |
+|---|---|---|
+| Lost button (Hazel) | A peach button, a bit floury. Whose could it be? | My cardigan button! I've missed it for weeks. Thank you! |
+| Tiny thimble (no one) | Tiny, silver, with a T scratched inside. Very old. | (a mystery: Thimble's) |
+| Glass marble (Pip) | A swirly glass marble, perfect for rolling. | My lucky marble! I thought the drain ate it! |
+| Old coin (Moss) | A coin from long ago, with a fountain on one side. | ... A town coin. Older than me. I'll keep it safe. |
+| Tiny brass key (Otto) | A tiny brass key with a fish on the tag. | My old locker key! Ha! Now what was in there? |
+| Pressed flower (Bea) | A flower pressed flat in paper. Still smells sweet. | Gran's flower! She pressed it the year I was born. |
+| Sea glass (Sorrel) | Smooth green glass, worn soft by the water. | Sea glass! I'll put it on my map, right where you found it. |
+| Blue feather (Mabel) | A long blue feather, soft as a whisper. | Hoo! One of mine, from a younger, bluer year. |
+- Find banner: "A lucky find: {name}! 📖 Added to your Collection". The whole set: "📖 Every find found! Moss sends 200 ✨ and a thank-you."

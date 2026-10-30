@@ -72,6 +72,8 @@ export function installDebugHooks(g: DebugTarget) {
     face: (dir: 'up' | 'down' | 'left' | 'right') => { g.puff.dir = dir; },
     /** Fluff straight to a value, to see the sleepy bar. */
     setFluff: (n: number) => { s.fluff.value = n; },
+    /** Mark a surprise find as found (for testing the Collection and showing it to its owner). */
+    find: (id: string) => { if (!s.finds.found.includes(id)) s.finds.found.push(id); },
     addItem: (id: string, n = 1) => { s.bag.add(id, n); g.refreshHud(); },
     addSparkles: (n: number) => { s.sparkles += n; g.refreshHud(); },
     /** Friendship points straight in, to reach heart events in tests. */

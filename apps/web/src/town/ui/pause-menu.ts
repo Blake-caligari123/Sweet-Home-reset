@@ -15,6 +15,7 @@ export interface PauseHost {
   openFriends(): void;
   openNames(): void;
   openOutfits(): void;
+  openCollection(): void;
   /** "Town Bloom: Waking · 3 of 8 finds". */
   townLine: string;
   /** Offered while onboarding can be skipped; skips the remaining tips. */
@@ -56,9 +57,11 @@ export function openPause(d: PauseHost) {
   const names = h('button', { class: 'btn', type: 'button' }, '✎ Names');
   names.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openNames(); });
   const outfits = h('button', { class: 'btn', type: 'button' }, '👒 Outfits');
+  const collection = h('button', { class: 'btn', type: 'button' }, '📖 Collection');
+  collection.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openCollection(); });
   outfits.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openOutfits(); });
   const body: Node[] = [
-    h('div', { class: 'btn-row', style: { width: '100%' } }, friends, names, outfits),
+    h('div', { class: 'btn-row', style: { width: '100%' } }, friends, names, outfits, collection),
     h('div', { class: 'list' },
       toggle('sound', 'Sound'), toggle('music', 'Music'), toggle('haptics', 'Haptics'),
       toggle('reducedMotion', 'Reduce motion'), toggle('relaxed', 'Relaxed mode (half Fluff costs, no dozing off)'), toggle('autoTool', 'Pick the right tool for me'),
