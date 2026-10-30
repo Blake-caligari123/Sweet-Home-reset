@@ -3,7 +3,7 @@ import type { Pt } from '../world/nav';
 // A pet (VISION §4): one little critter, chosen on day 4 and named by the player. It trails a
 // little way behind Puff along the way Puff walked, so it always walks where Puff could.
 
-/** A kind of pet the player can choose (pack data; the art is code-drawn until Grok sheets land). */
+/** A kind of pet the player can choose (pack data; the art is code-drawn until sprite sheets land). */
 export interface PetDef { id: string; name: string; defaultName: string; line: string }
 
 /** Puff's pet: which kind, what it's called, and the day it moved in. */

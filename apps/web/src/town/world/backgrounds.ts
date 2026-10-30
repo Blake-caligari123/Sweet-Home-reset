@@ -4,7 +4,7 @@ import { PixelCanvas } from '../../shared/art/pixel-canvas';
 import { T } from './art/texture';
 import type { TownPack } from '../data/area';
 
-// Painted area backgrounds (Blake's Grok art, claude/SPRITE-SHEETS.md). Each painting comes with a
+// Painted area backgrounds (Blake's art, claude/SPRITE-SHEETS.md). Each painting comes with a
 // grey twin for the colour reveal, made once here, and world-size pixel copies for the share clip.
 // Loaded before the game starts; an area whose painting fails to load falls back to code-drawn tiles.
 export interface Painted {
