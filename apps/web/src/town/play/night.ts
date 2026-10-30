@@ -3,6 +3,7 @@ import type { Content } from '../data/content';
 import type { GrumbleLife } from '../grumbles/grumble-life';
 import type { Jobs } from '../requests/jobs';
 import type { TownState } from '../state';
+import { newJobsLine } from '../ui/a11y';
 import type { View } from '../ui/view';
 import type { TownAreas } from '../world/town-areas';
 import type { Clock } from './clock';
@@ -36,5 +37,7 @@ export function morning(h: { state: TownState; view: View; clock: Clock; content
   const { view, content } = h;
   morningLetter(h);
   for (const [kind, id] of morningNews(h.clock)) (kind === 'banner' ? view.banner : view.say).call(view, content.line(id) ?? '');
+  // Unaccepted jobs come down each night, so every one up now is new today.
+  view.hud.announce(newJobsLine(h.state.requests.list.filter((r) => !r.accepted).length));
   for (const b of built) view.banner(b.home ? content.line(`home.${b.home}`) ?? '' : (content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
 }

@@ -1022,3 +1022,9 @@ The notice board in the square posts 1–3 a day; each is up for 2–3 days, the
 - Otto: You're a star! A wet, sparkly star. Thanks!
 - Moss: ... Thank you. That was ... very kind.
 - Mabel: Hoo. Kindly done, dear. Kindly done.
+
+# Screen-reader lines (Phase 5b)
+Heard only with a screen reader, never shown on screen.
+- **Each morning with new jobs:** "2 new jobs on the notice board." (or "1 new job …")
+- **The clock:** "Spring 1, 6:00 am, sunny" (or "night", "rainy")
+- **Sparkles:** "120 Sparkles"

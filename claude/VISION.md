@@ -303,7 +303,10 @@ One new thing every couple of days, each with one tip or letter:
     - fog is wavy smears across the glass
   - A test checks that no two kinds of mess share an outline.
   - Copper and Silver tools also show ★ and ★★ on the toolbar, so the tier never relies on rim colour alone.
-  - Screen-reader announcements are still to come.
+  - Screen readers: the clock reads as words ("Spring 1, 6:00 am, sunny") and the Sparkles chip gives its count.
+    - Each morning says how many new jobs are on the notice board. Hearts were already read from their banner.
+    - Lines now queue instead of replacing each other, so a busy morning is heard in full.
+  - That finishes the §12 accessibility options. The new lines are in DIALOGUE-REVIEW.
 
 ## 14. Blake's answers (28 Oct 2026)
 | Topic | Answer |

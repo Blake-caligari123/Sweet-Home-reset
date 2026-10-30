@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { applyLook } from './a11y';
+import { applyLook, clockLabel, newJobsLine, sparklesLabel } from './a11y';
 
 describe('look settings', () => {
   it('puts each one on the page as a class, and takes it off again', () => {
@@ -10,5 +10,19 @@ describe('look settings', () => {
     expect([...list].sort()).toEqual(['big-text', 'reduce-motion']);
     applyLook({ reducedMotion: false, bigText: false, highContrast: true }, root);
     expect([...list]).toEqual(['high-contrast']);
+  });
+
+  it('reads the clock as words: the day, the time and the sky', () => {
+    expect(clockLabel('Spring 1', '6:00 am', false, false)).toBe('Spring 1, 6:00 am, sunny');
+    expect(clockLabel('Winter 3', '9:30 pm', true, false)).toBe('Winter 3, 9:30 pm, night');
+    expect(clockLabel('Summer 2', '1:00 pm', false, true)).toBe('Summer 2, 1:00 pm, rainy');
+  });
+
+  it('says how many Sparkles, and how many new jobs went up', () => {
+    expect(sparklesLabel(0)).toBe('0 Sparkles');
+    expect(sparklesLabel(1)).toBe('1 Sparkle');
+    expect(newJobsLine(0)).toBe('');
+    expect(newJobsLine(1)).toBe('1 new job on the notice board.');
+    expect(newJobsLine(3)).toBe('3 new jobs on the notice board.');
   });
 });

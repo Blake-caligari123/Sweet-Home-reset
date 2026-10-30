@@ -9,3 +9,16 @@ export function applyLook(s: Pick<Settings, 'reducedMotion' | 'bigText' | 'highC
   root.classList.toggle('big-text', !!s.bigText);
   root.classList.toggle('high-contrast', !!s.highContrast);
 }
+
+// Screen readers (FRONTEND-PLAN §11): the live region speaks requests, hearts and the time in words,
+// never the ☀ ☾ ☂ symbols the HUD shows.
+
+/** The HUD clock as words: "Spring 1, 6:00 am, sunny". */
+export function clockLabel(day: string, time: string, night: boolean, rainy: boolean) {
+  return `${day}, ${time}, ${rainy ? 'rainy' : night ? 'night' : 'sunny'}`;
+}
+
+export const sparklesLabel = (n: number) => `${n} Sparkle${n === 1 ? '' : 's'}`;
+
+/** Said each morning the board has new jobs; empty when it has none. */
+export const newJobsLine = (n: number) => (n ? `${n} new job${n === 1 ? '' : 's'} on the notice board.` : '');
