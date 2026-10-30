@@ -304,4 +304,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Every 5 spots gives a few Sparkles, a little more each time: 2, 4, 6… up to 10 (`tidyChain`).
   - It's never needed, and nothing is lost when a chain ends; the next spot starts a new one.
   - The chain listens to the guide's moments, so `actions.ts` didn't grow.
+- **6b.2 Recipe cards under the mess (30 Oct):** `craft/cards.ts`.
+  - Four cards wait in places around town. Each turns up once enough of the mess there is cleared, and teaches a kitchen recipe for good:
+    - Tomato soup: the General Store or the lane.
+    - Corn cakes: Pip's workshop or the library.
+    - Apple crumble: the square or the yard.
+    - Pumpkin pie: the bathhouse or Riverside.
+  - The new dishes are snacks and gifts, and the General Store buys them. Their icons are drawn in code.
+  - A banner says what was found and where to cook it.
 

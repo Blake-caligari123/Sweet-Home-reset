@@ -1,3 +1,4 @@
+import type { CardDef } from '../craft/cards';
 import type { DramaDef } from '../life/dramas';
 import type { NeedDef } from '../needs/needs';
 import type { FestivalDef } from '../festivals/festivals';
@@ -56,6 +57,8 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   pets?: PetDef[];
   /** What Pip's workbench can make (VISION §7). */
   recipes?: RecipeDef[];
+  /** Recipe cards hidden under mess (craft/cards.ts). */
+  cards?: CardDef[];
   /** What grows in soil (VISION §7). */
   crops?: CropDef[];
   /** Little treasures that turn up while tidying, for Moss's collection. */

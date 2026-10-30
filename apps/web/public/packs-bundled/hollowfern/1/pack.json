@@ -234,6 +234,26 @@
   "ore_silver": {
    "name": "Silver ore",
    "sell": 50
+  },
+  "tomato_soup": {
+   "name": "Tomato soup",
+   "snack": 55,
+   "sell": 55
+  },
+  "corn_cakes": {
+   "name": "Corn cakes",
+   "snack": 40,
+   "sell": 45
+  },
+  "pumpkin_pie": {
+   "name": "Pumpkin pie",
+   "snack": 70,
+   "sell": 80
+  },
+  "apple_crumble": {
+   "name": "Apple crumble",
+   "snack": 60,
+   "sell": 60
   }
  },
  "areas": [
@@ -9976,7 +9996,11 @@
     "shard_colour",
     "gem_blue",
     "veggie_soup",
-    "pea_fritters"
+    "pea_fritters",
+    "tomato_soup",
+    "corn_cakes",
+    "pumpkin_pie",
+    "apple_crumble"
    ]
   },
   {
@@ -10565,6 +10589,67 @@
     }
    },
    "learn": "he_hazel_02_done"
+  },
+  {
+   "id": "tomato_soup",
+   "name": "Tomato soup",
+   "station": "kitchen",
+   "makes": {
+    "item": "tomato_soup",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "tomato": 2
+    }
+   },
+   "learn": "card_tomato_soup"
+  },
+  {
+   "id": "corn_cakes",
+   "name": "Corn cakes",
+   "station": "kitchen",
+   "makes": {
+    "item": "corn_cakes",
+    "qty": 2
+   },
+   "cost": {
+    "items": {
+     "corn": 2
+    }
+   },
+   "learn": "card_corn_cakes"
+  },
+  {
+   "id": "pumpkin_pie",
+   "name": "Pumpkin pie",
+   "station": "kitchen",
+   "makes": {
+    "item": "pumpkin_pie",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "pumpkin": 1,
+     "apple": 1
+    }
+   },
+   "learn": "card_pumpkin_pie"
+  },
+  {
+   "id": "apple_crumble",
+   "name": "Apple crumble",
+   "station": "kitchen",
+   "makes": {
+    "item": "apple_crumble",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "apple": 2
+    }
+   },
+   "learn": "card_apple_crumble"
   }
  ],
  "crops": [
@@ -11186,6 +11271,40 @@
    ],
    "fund": 80,
    "unlock": "overgrown_path"
+  }
+ ],
+ "cards": [
+  {
+   "recipe": "tomato_soup",
+   "areas": [
+    "store",
+    "lane"
+   ],
+   "cleans": 8
+  },
+  {
+   "recipe": "corn_cakes",
+   "areas": [
+    "pip_workshop",
+    "library"
+   ],
+   "cleans": 10
+  },
+  {
+   "recipe": "apple_crumble",
+   "areas": [
+    "square",
+    "yard"
+   ],
+   "cleans": 14
+  },
+  {
+   "recipe": "pumpkin_pie",
+   "areas": [
+    "bathhouse",
+    "riverside"
+   ],
+   "cleans": 12
   }
  ]
 }

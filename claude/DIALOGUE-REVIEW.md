@@ -1149,3 +1149,5 @@ Heard only with a screen reader, never shown on screen.
 - Mending: Mabel "Hoo. My best sea chart got soaked. Not a word of sorry." → Otto "Mabel's chart? Oh no. I'll dry it on the warm bath stones!" → Mabel "Dried and pressed? Hoo, it's better than before. Thanks."
 - Banner: "🤝 Otto and Mabel are friends again!" Afterwards, Mabel: "Otto and I fish together now. Well, Otto fishes. I watch."
 - After the noisy workshop, Moss (daytime): "... Quiet afternoons now. Pip kept the promise."
+
+**Tidying 2.0 (6b):** chain toast "Tidy chain ×5  +2 ✨" · recipe card banner "📜 A recipe card under the mess: Tomato soup! Cook it in the kitchen."
