@@ -1,0 +1,177 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Sweet Home Reset Loop</title>
+<style>
+@font-face{font-family:Fredoka;src:url(../fonts/fredoka.woff2) format('woff2');font-weight:700}
+html,body{margin:0;background:#000}
+canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script>
+// A 16 s seamless loop built for short-form feeds: grey room → rapid satisfying taps → colour flood → slide to the next grey room.
+// The last frame leads straight back into the first. ?v=a|b|c picks the hook caption for A/B tests.
+const W = 1080, H = 1920, DURATION = 16, ROOM = 8;
+const ASSETS = '../../../apps/web/public/';
+const VARIANT = new URLSearchParams(location.search).get('v') || 'a';
+const HOOKS = {
+  a: ['POV: every tap brings', 'the colour back'],
+  b: ['wait for the', 'colour flood at 100%'],
+  c: ['rate how satisfying', 'this is from 1 to 10'],
+};
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const IMG = {}, GREY = {};
+const SHEETS = {
+  puff_walk_down: [6, 144, 168], puff_walk_right: [4, 144, 168], puff_walk_up: [4, 144, 168],
+  puff_idle_down: [6, 144, 168], puff_blink_down: [2, 144, 168],
+  grumble_dust_grumpy: [4, 96, 90], grumble_dust_bright: [4, 96, 90], mess_dust: [8, 64, 64],
+};
+
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = k => 1 - Math.pow(1 - k, 3);
+const easeInOut = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const backOut = k => { const c = 1.8; return 1 + (c + 1) * Math.pow(k - 1, 3) + c * Math.pow(k - 1, 2); };
+function rng(seed) { let s = (seed * 2654435761) % 4294967296; return () => { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; }; }
+
+// ---- rooms: piles are cleaned in order; taps speed up as the combo grows ----
+const TAPS = (() => { const out = []; let t = .12, gap = .56; for (let i = 0; i < 14; i++) { out.push(t); t += gap; gap = Math.max(.27, gap * .9); } return out; })();
+const FLOOD = TAPS[13] + .42;                        // ≈ 6.2 s into each room
+const ROOMS = [
+  { img: 'burrow', label: 'Burrow', piles: [[880, 700], [1010, 760], [1180, 720], [1330, 780], [1480, 700], [1530, 520], [1330, 470], [1120, 480], [930, 470], [720, 560], [560, 700], [380, 760], [300, 560], [470, 430]] },
+  { img: 'bakery', label: 'Bakery', grumble: 7, piles: [[900, 920], [760, 760], [560, 760], [380, 820], [300, 620], [470, 470], [700, 500], [1180, 740], [1050, 600], [1300, 470], [1500, 560], [1560, 760], [1380, 860], [1150, 880]] },
+];
+const PILE_FRAMES = [2, 4, 0, 7, 5, 1, 3, 6, 2, 4, 0, 7, 5, 1];
+
+let cam = { x: 896, y: 545, z: 1.5 }, offX = 0;
+const S = (wx, wy) => [(wx - cam.x) * cam.z + W / 2 + offX, (wy - cam.y) * cam.z + 1150];
+
+function spr(name, frame, wx, wy, scale, o = {}) {
+  const [n, fw, fh] = SHEETS[name]; const [sx, sy] = S(wx, wy);
+  ctx.save(); ctx.translate(sx, sy); ctx.scale((o.flip ? -1 : 1) * scale * cam.z * (o.sqx || 1), scale * cam.z * (o.sqy || 1));
+  ctx.imageSmoothingEnabled = false; ctx.drawImage(IMG[name], (frame % n) * fw, 0, fw, fh, -fw / 2, -fh, fw, fh); ctx.restore();
+}
+function star(x, y, r, color, rot = 0) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.fillStyle = color; ctx.beginPath();
+  for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, rr = i % 2 ? r * .27 : r; ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); }
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function heart(x, y, s, color) { ctx.save(); ctx.translate(x, y); ctx.scale(s / 32, s / 32); ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(0, 10); ctx.bezierCurveTo(-30, -12, -12, -34, 0, -16); ctx.bezierCurveTo(12, -34, 30, -12, 0, 10); ctx.fill(); ctx.restore(); }
+function text(str, x, y, size, o = {}) {
+  ctx.save(); ctx.font = `700 ${size}px Fredoka, "Noto Color Emoji"`; ctx.textAlign = o.align || 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+  ctx.globalAlpha = o.alpha ?? 1; ctx.translate(x, y); if (o.scale !== undefined) ctx.scale(o.scale, o.scale); if (o.rot) ctx.rotate(o.rot);
+  if (o.lw !== 0) { ctx.strokeStyle = o.stroke || '#3d2219'; ctx.lineWidth = o.lw || size * .22; ctx.strokeText(str, 0, 0); }
+  ctx.fillStyle = o.color || '#fff'; ctx.fillText(str, 0, 0); ctx.restore();
+}
+function poof(sx, sy, d, seed, big = 1) {
+  if (d < 0 || d > 1) return; const r = rng(seed);
+  for (let i = 0; i < 10 * big; i++) { const a = r() * 6.283, sp = (110 + r() * 200) * big, k = easeOut(d); ctx.fillStyle = `rgba(250,245,238,${(1 - k) * .9})`; ctx.beginPath(); ctx.arc(sx + Math.cos(a) * sp * k, sy + Math.sin(a) * sp * k * .7 - 40 * k, (22 + r() * 26) * (1 - k * .7) * Math.sqrt(big), 0, 7); ctx.fill(); }
+  const cols = ['#ffd84d', '#ff8fb8', '#8fe3ff', '#ffffff', '#b8ff8f'];
+  for (let i = 0; i < 12 * big; i++) { const a = r() * 6.283, sp = (160 + r() * 340) * big, k = easeOut(d); ctx.save(); ctx.globalAlpha = 1 - k * k; star(sx + Math.cos(a) * sp * k, sy + Math.sin(a) * sp * k - 70 * k + 150 * k * k, (13 + r() * 16) * (1 - k * .5), cols[i % 5], d * 6 + i); ctx.restore(); }
+}
+
+// Puff dashes to each pile just before its tap
+function puffAt(room, lt) {
+  const P = room.piles; let i = TAPS.findIndex(x => x > lt);
+  if (lt >= FLOOD) return { x: 900, y: 700, moving: lt < FLOOD + .25, vx: 900 - P[13][0], vy: 0 };
+  if (i === -1) i = 13;
+  const target = [P[i][0] - 70, P[i][1] + 10], prev = i ? [P[i - 1][0] - 70, P[i - 1][1] + 10] : [target[0] - 160, target[1]];
+  const t0 = i ? TAPS[i - 1] + .06 : -.3, t1 = TAPS[i] - .04, k = easeInOut(seg(lt, t0, t1));
+  if (lt >= FLOOD - .4) { const k2 = easeInOut(seg(lt, FLOOD - .4, FLOOD + .2)); return { x: lerp(P[13][0] - 70, 900, k2), y: lerp(P[13][1] + 10, 700, k2), moving: k2 > 0 && k2 < 1, vx: 1, vy: 0 }; }
+  return { x: lerp(prev[0], target[0], k), y: lerp(prev[1], target[1], k), moving: k > 0 && k < 1, vx: target[0] - prev[0], vy: target[1] - prev[1] };
+}
+function drawPuff(p, lt, gt) {
+  let name = 'puff_idle_down', f = Math.floor(gt * 8), flip = false;
+  if (p.moving) { f = Math.floor(gt * 14); if (Math.abs(p.vx) > Math.abs(p.vy) * .7) { name = 'puff_walk_right'; flip = p.vx < 0; } else name = p.vy < 0 ? 'puff_walk_up' : 'puff_walk_down'; }
+  else if ((gt % 2.2) < .12) { name = 'puff_blink_down'; f = 1; }
+  let hop = 0, sqx = 1, sqy = 1;
+  for (const h of [...TAPS, FLOOD, FLOOD + .45, FLOOD + .9, FLOOD + 1.35]) { const d = lt - h; if (d > -.06 && d < 0) { sqx = 1.2; sqy = .85; } if (d >= 0 && d < .28) { const k = Math.sin(d / .28 * Math.PI); hop = k * (h >= FLOOD ? 70 : 34); sqx = 1 - .1 * k; sqy = 1 + .12 * k; } }
+  const [sx, sy] = S(p.x, p.y); ctx.save(); ctx.globalAlpha = .22; ctx.fillStyle = '#3b2418'; ctx.beginPath(); ctx.ellipse(sx, sy, 50 * cam.z, 15 * cam.z, 0, 0, 7); ctx.fill(); ctx.restore();
+  spr(name, f, p.x, p.y - hop, .8, { flip, sqx, sqy });
+}
+
+function drawRoom(ri, lt, gt, slide) {
+  const room = ROOMS[ri], img = IMG[room.img];
+  const p = puffAt(room, lt);
+  cam.z = 1.5 - (lt > FLOOD ? .12 * Math.sin(seg(lt, FLOOD, FLOOD + 1.2) * Math.PI) : 0);
+  const half = W / 2 / cam.z;
+  // camera eases after Puff (sampled average gives a smooth, stateless follow)
+  let ax = 0; for (let k = 0; k < 6; k++) ax += puffAt(room, Math.max(0, lt - k * .07)).x; ax /= 6;
+  cam.x = clamp(ax, half - 30, img.width - half + 30); cam.y = 545;
+  const sh = (d => d > 0 && d < .3 ? (.3 - d) * 22 : 0)(lt - FLOOD); cam.x += Math.sin(gt * 90) * sh;
+  const [x0, y0] = S(0, 0), w = img.width * cam.z, h = img.height * cam.z;
+  ctx.imageSmoothingEnabled = true; ctx.drawImage(GREY[room.img], x0, y0, w, h);
+  ctx.save(); ctx.beginPath();
+  room.piles.forEach(([x, y], i) => { const k = seg(lt, TAPS[i], TAPS[i] + .5); if (k > 0) { const [bx, by] = S(x, y - 20); const r = easeOut(k) * 230 * cam.z; ctx.moveTo(bx + r, by); ctx.arc(bx, by, r, 0, 7); } });
+  const fk = easeInOut(seg(lt, FLOOD, FLOOD + .6));
+  if (fk > 0) { const [fx, fy] = S(900, 650); const r = fk * 2600 * cam.z; ctx.moveTo(fx + r, fy); ctx.arc(fx, fy, r, 0, 7); }
+  ctx.clip(); ctx.drawImage(img, x0, y0, w, h); ctx.restore();
+  room.piles.forEach(([x, y], i) => { const k = seg(lt, TAPS[i], TAPS[i] + .5); if (k > 0 && k < 1) { const [bx, by] = S(x, y - 20); ctx.save(); ctx.globalAlpha = (1 - k) * .85; ctx.strokeStyle = '#fff6c8'; ctx.lineWidth = 16 * (1 - k) + 2; ctx.beginPath(); ctx.arc(bx, by, easeOut(k) * 230 * cam.z, 0, 7); ctx.stroke(); ctx.restore(); } });
+  if (fk > 0 && fk < 1) { const [fx, fy] = S(900, 650); ctx.save(); ctx.globalAlpha = (1 - fk) * .9; ctx.strokeStyle = '#fff6c8'; ctx.lineWidth = 34; ctx.beginPath(); ctx.arc(fx, fy, fk * 2600 * cam.z, 0, 7); ctx.stroke(); ctx.restore(); }
+  // piles (one is a grumpy Grumble in the bakery)
+  room.piles.forEach(([x, y], i) => {
+    if (room.grumble === i) {
+      const happy = lt >= TAPS[i], d = lt - TAPS[i], hop = happy ? Math.abs(Math.sin(d * 8)) * 70 * Math.max(0, 1 - d / 1.6) : 0;
+      spr(happy ? 'grumble_dust_bright' : 'grumble_dust_grumpy', happy ? Math.floor(gt * 6) : 0, x + (happy ? 0 : Math.sin(gt * 2.5) * 20), y - hop, 1.5);
+      if (happy) for (let k = 0; k < 4; k++) { const dd = d - k * .15; if (dd > 0 && dd < 1.2) { const [hx, hy] = S(x + Math.sin(k * 2) * 90, y - 150 - dd * 220); heart(hx, hy, 60, `rgba(255,111,156,${1 - dd / 1.2})`); } }
+      return;
+    }
+    const k = seg(lt, TAPS[i] - .03, TAPS[i] + .1), wob = lt > TAPS[i] - .25 && lt < TAPS[i] ? Math.sin(gt * 60) * .07 : 0;
+    if (k < 1) spr('mess_dust', PILE_FRAMES[i], x, y, 1.45 * (1 - easeOut(k)), { sqx: 1 + wob, sqy: 1 - wob });
+  });
+  drawPuff(p, lt, gt);
+  room.piles.forEach(([x, y], i) => { const [sx, sy] = S(x, y - 40); poof(sx, sy, (lt - TAPS[i]) / .9, ri * 50 + i, room.grumble === i ? 1.3 : 1); });
+  { const [sx, sy] = S(900, 600); poof(sx, sy, (lt - FLOOD) / 1.1, 999 + ri, 2.2); }
+  // tap ripple where the finger lands
+  TAPS.forEach((tt, i) => { const d = lt - tt; if (d > -.1 && d < .35) { const [sx, sy] = S(room.piles[i][0], room.piles[i][1] - 30); const k = seg(d, 0, .35); ctx.save(); ctx.globalAlpha = d < 0 ? .9 : (1 - k) * .9; ctx.strokeStyle = '#fff'; ctx.lineWidth = 8; ctx.beginPath(); ctx.arc(sx, sy, d < 0 ? 40 : 40 + k * 70, 0, 7); ctx.stroke(); if (d < .08) { ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.fill(); } ctx.restore(); } });
+  // combo pop-ups
+  TAPS.forEach((tt, i) => {
+    const d = lt - tt; if (d < 0 || d > .6) return; const [sx, sy] = S(room.piles[i][0], room.piles[i][1] - 190);
+    const words = ['nice', 'tidy!', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'];
+    const label = room.grumble === i ? 'aww!' : words[i];
+    text(label, sx, sy - d * 80, 70 + i * 3, { scale: backOut(seg(d, 0, .2)), alpha: 1 - seg(d, .4, .6), color: ['#ffd84d', '#8fe3ff', '#ff8fb8', '#b8ff8f'][i % 4], rot: i % 2 ? .1 : -.1 });
+  });
+  if (lt > FLOOD && lt < ROOM) { const d = lt - FLOOD; text('100% SPARKLY!', W / 2 + offX, 820 - d * 40, 112, { scale: backOut(seg(d, 0, .25)), alpha: 1, color: '#ffd84d', rot: Math.sin(gt * 6) * .04 }); }
+  if (lt > FLOOD + .2) {
+    const r = rng(77 + ri);
+    for (let k = 0; k < 26; k++) { const st = FLOOD + .2 + r() * .9, d = lt - st; if (d < 0 || d > 1.4) continue; const [sx, sy] = S(700 + r() * 400, 640); const x = sx + (r() - .5) * 700 * d, y = sy - 420 * d + 300 * d * d; ctx.save(); ctx.globalAlpha = 1 - d / 1.4; if (k % 3) star(x, y, 18, ['#ffd84d', '#8fe3ff', '#ff8fb8'][k % 3], d * 8); else heart(x, y, 54, '#ff6f9c'); ctx.restore(); }
+  }
+  if (lt > FLOOD && lt < FLOOD + .35) { ctx.fillStyle = `rgba(255,252,235,${(1 - seg(lt, FLOOD, FLOOD + .35)) * .75})`; ctx.fillRect(0, 0, W, H); }
+}
+function progressOf(lt) { if (lt >= FLOOD) return 1; let n = 0; TAPS.forEach(tt => { if (lt >= tt) n++; }); return n / 15; }
+
+window.draw = function (t) {
+  t = ((t % DURATION) + DURATION) % DURATION;
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1;
+  const ri = Math.floor(t / ROOM), lt = t - ri * ROOM;
+  // background behind the painting band: warms up as the room fills with colour
+  const sl = easeInOut(seg(lt, ROOM - .45, ROOM));
+  const pr = progressOf(lt) * (1 - sl);
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, `hsl(35, ${20 + 60 * pr}%, ${72 + 14 * pr}%)`); g.addColorStop(1, `hsl(340, ${15 + 60 * pr}%, ${68 + 16 * pr}%)`);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  // slide to the next room in the last 0.45 s (the next room's first frame lines up with the loop start)
+  offX = -sl * W; drawRoom(ri, lt, t, 0);
+  if (sl > 0) { offX = (1 - sl) * W; drawRoom((ri + 1) % 2, 0, t, 0); offX = 0; }
+  offX = 0;
+  // HUD: caption (hook) + progress
+  const [l1, l2] = HOOKS[VARIANT];
+  text(l1, W / 2, 190, 78); text(l2, W / 2, 285, 78, { color: '#ffd84d' });
+  const room = sl > .5 ? ROOMS[(ri + 1) % 2] : ROOMS[ri], shown = sl > .5 ? 0 : progressOf(lt);
+  const bx = 190, by = 370, bw = 700, bh = 56;
+  ctx.fillStyle = 'rgba(61,34,25,.85)'; ctx.beginPath(); ctx.roundRect(bx - 10, by - 10, bw + 20, bh + 20, 42); ctx.fill();
+  const fillW = bw * shown; if (fillW > 0) { const gg = ctx.createLinearGradient(bx, 0, bx + bw, 0); gg.addColorStop(0, '#ff8fb8'); gg.addColorStop(1, '#ffd84d'); ctx.fillStyle = gg; ctx.beginPath(); ctx.roundRect(bx, by, Math.max(bh, fillW), bh, 32); ctx.fill(); }
+  text(`${room.label} ${Math.round(shown * 100)}% tidy`, W / 2, by + bh / 2 + 2, 40, { lw: 9 });
+  text('Sweet Home Reset', W / 2, 475, 34, { lw: 7, color: '#fff4dc' });
+};
+
+window.ready = (async () => {
+  await Promise.all(Object.keys(SHEETS).concat(['burrow', 'bakery']).map(n => new Promise((res, rej) => {
+    const im = new Image(); im.onload = () => { IMG[n] = im; res(); }; im.onerror = () => rej(new Error('missing ' + n));
+    im.src = ASSETS + (n === 'burrow' || n === 'bakery' ? 'areas/' + n + '.webp' : 'sprites/' + n + '.png');
+  })));
+  for (const n of ['burrow', 'bakery']) { const c = document.createElement('canvas'); c.width = IMG[n].width; c.height = IMG[n].height; const g = c.getContext('2d'); g.filter = 'grayscale(1) brightness(.78) contrast(.85)'; g.drawImage(IMG[n], 0, 0); GREY[n] = c; }
+  await document.fonts.load('700 50px Fredoka');
+  return true;
+})();
+if (!navigator.webdriver) { const s = performance.now(); (function loop() { window.draw((performance.now() - s) / 1000); requestAnimationFrame(loop); })(); }
+</script></body></html>
