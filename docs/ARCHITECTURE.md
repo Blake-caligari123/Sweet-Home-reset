@@ -3,7 +3,11 @@
 Sweet Home Reset is a local-first monorepo:
 
 - **`apps/web`** is the game: rendering, UI, saves on the device, the PWA and the Capacitor shell.
-- **`apps/api`** is the optional Cloudflare Worker for accounts, sync, entitlement and packs.
+- **`apps/api`** is the optional Cloudflare Worker for accounts, sync, the unlock and privacy. `src/index.ts` only wires:
+  `guard.ts` (headers, CORS, Origin check, rate limits), `auth.ts` (magic links, sessions), `apple.ts` (Sign in with Apple),
+  `sync.ts` (one cloud save, conflicts to the player), `billing.ts` (Stripe checkout and webhooks, RevenueCat webhook),
+  `account.ts` (`/api/me`, export, delete, the `/delete-account` page), `events.ts` (anonymous counts), `cron.ts` (daily clean-up).
+  Tests sit beside each file and run on `testing/d1.ts`, the real migrations on in-memory SQLite, with no keys.
 - **`packages/shared`** holds types that must agree on both sides.
 
 Design docs live in `claude/`. Rules and feel come from GAME-DESIGN, client from FRONTEND-PLAN, server and data from BACKEND-PLAN.

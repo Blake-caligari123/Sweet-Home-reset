@@ -37,6 +37,7 @@ Owner: SF Backend & Payments Dev. Publisher: PixelVortex Games. Matches GAME-DES
 - Removed from v2: `energy`, `wallet`/`ledger` (Sparkles live in the save; only server-checked claims are stored), `pack_progress`, `chore_bonus` (now `claims`).
 
 ## 4. Plus: one entitlement across web, iOS and Android
+- **30 Oct 2026, VISION §10:** Plus is now one non-consumable unlock, the RevenueCat `full_game` entitlement, kept as `users.full_game`. Stripe Checkout runs in `payment` mode with `STRIPE_PRICE_FULL_GAME`. There are no renewals, trials, grace or trial emails, so steps 11–13 fall away; a refund takes the unlock back. The subscription text below is kept for history.
 - **RevenueCat** (free tier, check its current revenue limit before launch) is the single source of truth for the `plus` entitlement. The RevenueCat app user id is our `users.id`, set once the player signs in on any platform.
 - **Web:** Stripe Checkout (Steps 6–9), connected to RevenueCat through its Stripe integration.
 - **iOS:** Apple In-App Purchase, with auto-renewable subscriptions `plus_monthly` and `plus_yearly` in one subscription group and a 7-day free trial as an introductory offer. In the Australian App Store the iOS app shows only IAP and never links to or mentions web prices. Restore Purchases sits in Settings.

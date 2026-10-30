@@ -1,3 +1,4 @@
+import { TOWN_SAVE_SCHEMA } from '@sweet-home-reset/shared';
 import { localDate } from '../../shared/date';
 import type { PlotState } from '../build/build';
 import type { GrumbleState } from '../grumbles/grumbles';
@@ -12,7 +13,7 @@ import type { RequestState } from '../requests/requests';
 // One versioned save (BACKEND-PLAN "Saves"): `shr` IndexedDB, `saves` store, slots main + backup.
 // Backup is written first, then main; a corrupt main loads the backup. Unknown fields are kept.
 // Schema 3 is "save v2" in NEW-FEATURES §7.
-export const SCHEMA_VERSION = 3;
+export const SCHEMA_VERSION = TOWN_SAVE_SCHEMA;
 export const CATALOGUE_VERSION = 1;
 
 export interface TownSave {
