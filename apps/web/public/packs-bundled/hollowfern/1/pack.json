@@ -8784,7 +8784,10 @@
    "he_fig_10.l05": "I'll plant them by the burrow door.",
    "he_fig_10.l06": "Then something of us will grow there. Always.",
    "fig.spring.2": "Peas want a stick to climb. Everyone needs a hand.",
-   "fig.spring.3": "First shoots by my door! Hello, little ones."
+   "fig.spring.3": "First shoots by my door! Hello, little ones.",
+   "quest.seed_swap.intro": "A seed swap and a riverbank garden. Will you help?",
+   "quest.seed_swap.bea": "Bees love clover and lavender. Plant lots, please!",
+   "quest.seed_swap.done": "Look at it! Our first beds. Have my rarest seeds."
   }
  },
  "heartEvents": [
@@ -13043,6 +13046,57 @@
     "item": "soap",
     "qty": 2,
     "flag": "summer_prep_done"
+   }
+  },
+  {
+   "id": "seed_swap",
+   "name": "Fig's riverbank garden",
+   "giver": "fig",
+   "fromDay": 20,
+   "offer": "Help me start a garden by the river?",
+   "intro": "quest.seed_swap.intro",
+   "steps": [
+    {
+     "hint": "Pick 4 crops for Fig's seed swap",
+     "goal": {
+      "type": "picked",
+      "count": 4
+     }
+    },
+    {
+     "hint": "Ask Bea which flowers the bees love",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Which flowers do bees love?",
+      "line": "quest.seed_swap.bea"
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Tidy 6 spots by the river for the new beds",
+     "goal": {
+      "type": "cleared",
+      "area": "riverside",
+      "count": 6
+     }
+    },
+    {
+     "hint": "Tell Fig the riverbank is ready",
+     "goal": {
+      "type": "talk",
+      "who": "fig",
+      "ask": "The riverbank is ready!",
+      "line": "quest.seed_swap.done"
+     },
+     "nextDay": true
+    }
+   ],
+   "reward": {
+    "sparkles": 150,
+    "item": "rare_seeds",
+    "qty": 2,
+    "flag": "seed_swap_done"
    }
   }
  ],

@@ -436,4 +436,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
     4. Their first giant pumpkin.
     5. Gran's letter, and the first seeds for Puff.
   - A code-drawn goat with floppy ears, little horns and a beard. Tour card: 🐐 Fig, the new farmer.
+- **6b.21 Fig's riverbank garden (31 Oct), a quest chain:** Fig offers it once they've moved in (from day 20).
+  1. Pick 4 crops for a seed swap.
+  2. Next day: ask Bea which flowers bees love.
+  3. Tidy 6 spots at Riverside for the new beds.
+  4. Next day: tell Fig the riverbank is ready.
+  - Reward: 150 ✨, 2 rare seeds and the `seed_swap_done` flag.
+  - Tour card: 🌱 Fig's riverbank garden.
 
