@@ -60,7 +60,7 @@ town/
                 bake.ts, ambience.ts, nav.ts (free movement), pathfind.ts, town-areas.ts (every
                 area with its mess and walking grid, rebuilt as things get built), grumble-layer.ts, pet-layer.ts,
                 outfit-layer.ts (the piece Puff is wearing), lighting.ts (the shade through the day),
-                fronts.ts (tall things standing among the actors, so Puff walks behind them)
+                fronts.ts (tall things, and decor in painted places, standing among the actors, so Puff walks behind them)
     art/          code-drawn placeholders: texture.ts (tile size, noise, dither), ground.ts,
                   props.ts, built-props.ts (the plans board, builds, upgrades, decor), items.ts (mess, item icons,
                   crops), characters.ts (Puff, neighbours), grumbles.ts, pets.ts, outfits.ts
@@ -117,7 +117,7 @@ town/
   craft/        recipes.ts (what a recipe needs, making a tool, furniture or a dish), cards.ts (recipe cards under mess), cook-steps.ts and cook-sheet.ts (cooking by hand: chop, stir, knead), craft-sheet.ts (Pip's
                 workbench and Puff's kitchen)
   decor/        decor.ts (placing rules: open ground, never blocking a way; areas with decor),
-                placing.ts (choosing a spot, picking pieces back up)
+                placing.ts (choosing a spot outdoors or in the burrow, picking pieces back up)
   grumbles/     grumbles.ts (families, setting them out each day, tidying into helpers), drift.ts
                 (the slow amble, shy of Puff), grumble-life.ts (Grumbles in play: spawn spots, taps,
                 tidies, hellos)

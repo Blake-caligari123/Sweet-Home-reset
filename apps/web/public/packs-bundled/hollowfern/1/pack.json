@@ -340,6 +340,30 @@
    "name": "Pancakes",
    "sell": 45,
    "snack": 30
+  },
+  "fern_pot": {
+   "name": "Potted fern",
+   "decor": {
+    "prop": "plant"
+   }
+  },
+  "floor_lamp": {
+   "name": "Floor lamp",
+   "decor": {
+    "prop": "lamp"
+   }
+  },
+  "bookcase": {
+   "name": "Bookcase",
+   "decor": {
+    "prop": "bookcase"
+   }
+  },
+  "cosy_chair": {
+   "name": "Cosy chair",
+   "decor": {
+    "prop": "cosy_chair"
+   }
   }
  },
  "areas": [
@@ -629,6 +653,7 @@
     "x": 4,
     "y": 8
    },
+   "decorate": true,
    "background": {
     "src": "areas/burrow.webp",
     "scale": 4
@@ -7754,7 +7779,7 @@
    "find.tiny_key": "A tiny key. What could it open?",
    "decor.where": "Where shall it go? Tap the ground.",
    "decor.done": "All done! Looks lovely.",
-   "decor.outside": "Decor goes outside: the yard, square, Lane or Riverside.",
+   "decor.outside": "Decor goes outdoors, or inside {puff}'s burrow.",
    "decor.blocked": "Not there. Somewhere open?",
    "decor.taken": "Something's already there.",
    "decor.cuts_off": "That would block the way. Somewhere else?",
@@ -8108,7 +8133,7 @@
    "req.moss_cobweb": "Moss asks: befriend a cobweb Grumble, gently.",
    "req.otto_mud": "Otto's bath is muddy again. Befriend a mud Grumble?",
    "fish.no_rod": "Fish are rising! The General Store sells fishing rods.",
-   "craft.made_decor": "{item}! Place it from the bag, outdoors.",
+   "craft.made_decor": "{item}! Place it from the bag, outdoors or at home.",
    "farm.full": "The {item} can wait till the bag has room.",
    "farm.fed": "A pat and some feed. See you tomorrow, {animal}!",
    "farm.again": "The {animal} is happy and full. Come back tomorrow!",
@@ -10259,6 +10284,16 @@
      "fromDay": 4
     },
     {
+     "item": "fern_pot",
+     "price": 30,
+     "fromDay": 3
+    },
+    {
+     "item": "cosy_chair",
+     "price": 120,
+     "fromDay": 6
+    },
+    {
      "kind": "recipe",
      "item": "silver_duster",
      "price": 250,
@@ -11103,6 +11138,37 @@
     "stir",
     "knead"
    ]
+  },
+  {
+   "id": "floor_lamp",
+   "name": "Floor lamp",
+   "makes": {
+    "item": "floor_lamp",
+    "qty": 1
+   },
+   "cost": {
+    "sparkles": 15,
+    "items": {
+     "twig": 3,
+     "pebble": 1
+    }
+   },
+   "learn": "he_pip_02_done"
+  },
+  {
+   "id": "bookcase",
+   "name": "Bookcase",
+   "makes": {
+    "item": "bookcase",
+    "qty": 1
+   },
+   "cost": {
+    "sparkles": 25,
+    "items": {
+     "twig": 6
+    }
+   },
+   "learn": "he_pip_04_done"
   }
  ],
  "crops": [

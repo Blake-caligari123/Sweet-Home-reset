@@ -193,5 +193,7 @@ function erode(open: Uint8Array, w: number, h: number, r: number) {
 /** The walking grid for an area: traced outlines for painted areas, else its tiles. */
 export function navFor(area: Area) {
   const n = area.pack.nav;
-  return n ? NavGrid.fromPolygons(area.w * T, area.h * T, n.floor, n.blockers, 1) : NavGrid.fromTiles(area.w, area.h, area.walkable, 1);
+  // Decor placed in a painted place blocks its tile, like the furniture traced in the painting.
+  const decor = area.pack.props.filter((p) => p.action === 'decor').map((p) => [p.x * T, p.y * T, (p.x + 1) * T, p.y * T, (p.x + 1) * T, (p.y + 1) * T, p.x * T, (p.y + 1) * T]);
+  return n ? NavGrid.fromPolygons(area.w * T, area.h * T, n.floor, [...n.blockers, ...decor], 1) : NavGrid.fromTiles(area.w, area.h, area.walkable, 1);
 }
