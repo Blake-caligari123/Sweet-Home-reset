@@ -413,5 +413,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
 - **6b.17 Decorating the burrow (31 Oct):** decor can now go inside Puff's burrow as well as outdoors (`decorate` on an area in the pack).
   - Placed pieces stand among the characters over the painting, sorted by their foot (`world/fronts.ts`), and block the way like the painted furniture (`world/nav.ts`). They never cut off the bed, the basket, the kitchen or the door.
   - New indoor furniture: a potted fern (30 ✨, from day 3) and a cosy chair (120 ✨, from day 6) at the General Store; Pip teaches a floor lamp and a bookcase at the workbench. Outdoor decor can come inside too.
-  - Tour card: 🛋 Decorate the burrow. Rooms that unlock (a craft room, a cellar) are next.
+  - Tour card: 🛋 Decorate the burrow.
+- **6b.18 New burrow rooms (31 Oct):** two rooms dug off the yard from the Keeper's plans, each a building whose finished door opens the room (pack `plots` and `buildings`, as the footbridge opens the far bank).
+  - **Craft room** (Town Bloom 1, 250 ✨, 8 twigs, 4 pebbles, 2 nights): an arched green door beside the burrow. Inside is a workbench of Puff's own (tools and furniture, the same recipes as Pip's).
+  - **Cellar** (Town Bloom 2, 300 ✨, 10 pebbles, 4 twigs, 2 nights): a hatch in the yard. Inside, mushroom logs grow 2 mushrooms a day to pick.
+  - Both start dusty, to tidy and restore like any home, and both can be decorated. Each has its own morning line when it's done.
+  - The workbench sheet is now just "Workbench", as there are two.
+  - Tour card: 🚪 New burrow rooms.
 

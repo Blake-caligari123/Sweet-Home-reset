@@ -8,11 +8,11 @@ import { stepsFor } from './cook-steps';
 import { canCraft, craft, sparkleCost, type RecipeDef } from './recipes';
 
 const STATIONS = {
-  bench: { title: 'Pip\'s workbench', note: 'Tools and furniture. Twigs and pebbles turn up outside each morning.', none: 'craft.none' },
+  bench: { title: 'Workbench', note: 'Tools and furniture. Twigs and pebbles turn up outside each morning.', none: 'craft.none' },
   kitchen: { title: 'Kitchen', note: 'Cook what you grow. Dishes are hearty snacks and lovely gifts.', none: 'cook.none' }
 };
 
-/** Pip's workbench or Puff's kitchen: each recipe known there, what it needs (and how many Puff has), and Make. */
+/** A workbench (Pip's, or Puff's own in the craft room) or Puff's kitchen: each recipe known there, what it needs (and how many Puff has), and Make. */
 export function openWorkbench(d: { state: TownState; view: View; content: Content; refreshHud(): void; save(): void; made(station: 'bench' | 'kitchen'): void; tapOnly: boolean }, station: NonNullable<RecipeDef['station']> = 'bench') {
   const { state, view, content } = d;
   const where = STATIONS[station];

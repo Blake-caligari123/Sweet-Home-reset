@@ -4974,6 +4974,237 @@
      }
     }
    ]
+  },
+  {
+   "id": "craft_room",
+   "name": "{puff}'s craft room",
+   "kind": "home",
+   "drained": true,
+   "edge": "#534239",
+   "theme": {
+    "wall": "#F4E6D0",
+    "wallAccent": "#EBD7B8",
+    "floor": "#C9A98E",
+    "floorShade": "#B8957A",
+    "rug": "#A9CDA0",
+    "rugShade": "#8FB886"
+   },
+   "decorate": true,
+   "legend": {
+    "#": "wall",
+    ".": "wood",
+    ",": "rug",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "############",
+    "############",
+    "#..........#",
+    "#..........#",
+    "#...,,,,...#",
+    "#...,,,,...#",
+    "#..........#",
+    "#..........#",
+    "#####m######"
+   ],
+   "props": [
+    {
+     "type": "table",
+     "x": 1,
+     "y": 2,
+     "w": 3,
+     "label": "workbench",
+     "action": "craft"
+    },
+    {
+     "type": "shelf",
+     "x": 8,
+     "y": 2,
+     "w": 2
+    },
+    {
+     "type": "plant",
+     "x": 10,
+     "y": 7
+    },
+    {
+     "type": "crate",
+     "x": 1,
+     "y": 7
+    }
+   ],
+   "doors": [
+    {
+     "x": 5,
+     "y": 8,
+     "to": "yard",
+     "toX": 6,
+     "toY": 5
+    }
+   ],
+   "mess": [
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      2,
+      10,
+      6
+     ],
+     "density": 0.25,
+     "seed": 71
+    },
+    {
+     "type": "sawdust",
+     "rect": [
+      1,
+      3,
+      6,
+      3
+     ],
+     "density": 0.2,
+     "seed": 73
+    },
+    {
+     "type": "cobweb",
+     "x": 10,
+     "y": 2
+    },
+    {
+     "type": "stain",
+     "x": 6,
+     "y": 6
+    }
+   ],
+   "spawn": {
+    "x": 5,
+    "y": 7
+   },
+   "restoreReward": 80
+  },
+  {
+   "id": "cellar",
+   "name": "The cellar",
+   "kind": "home",
+   "drained": true,
+   "edge": "#3E3530",
+   "theme": {
+    "wall": "#B9A79A",
+    "wallAccent": "#A99686",
+    "floor": "#9C8B80",
+    "floorShade": "#8A7A70",
+    "rug": "#C9A98E",
+    "rugShade": "#B8957A"
+   },
+   "decorate": true,
+   "legend": {
+    "#": "wall",
+    ".": "stone",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "############",
+    "############",
+    "#..........#",
+    "#..........#",
+    "#..........#",
+    "#..........#",
+    "#..........#",
+    "#####m######"
+   ],
+   "props": [
+    {
+     "type": "crate",
+     "x": 1,
+     "y": 2
+    },
+    {
+     "type": "crate",
+     "x": 2,
+     "y": 2
+    },
+    {
+     "type": "shelf",
+     "x": 8,
+     "y": 2,
+     "w": 2
+    },
+    {
+     "type": "mushroom_log",
+     "x": 1,
+     "y": 5,
+     "w": 2
+    },
+    {
+     "type": "mushroom_log",
+     "x": 9,
+     "y": 5,
+     "w": 2
+    }
+   ],
+   "doors": [
+    {
+     "x": 5,
+     "y": 7,
+     "to": "yard",
+     "toX": 16,
+     "toY": 10
+    }
+   ],
+   "mess": [
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      2,
+      10,
+      5
+     ],
+     "density": 0.25,
+     "seed": 81
+    },
+    {
+     "type": "cobweb",
+     "x": 1,
+     "y": 3
+    },
+    {
+     "type": "cobweb",
+     "x": 10,
+     "y": 3
+    },
+    {
+     "type": "mud",
+     "x": 5,
+     "y": 4
+    },
+    {
+     "type": "mud",
+     "x": 6,
+     "y": 5
+    }
+   ],
+   "pickups": [
+    {
+     "id": "cellar_mushroom_1",
+     "x": 3,
+     "y": 5,
+     "item": "mushroom"
+    },
+    {
+     "id": "cellar_mushroom_2",
+     "x": 8,
+     "y": 5,
+     "item": "mushroom"
+    }
+   ],
+   "spawn": {
+    "x": 5,
+    "y": 6
+   },
+   "restoreReward": 80
   }
  ],
  "neighbours": [
@@ -7757,7 +7988,7 @@
    "pet.pat.2": "{pet} does a happy wiggle.",
    "pet.pat.3": "Best friends, you and me.",
    "pet.hint": "Someone's waiting at your burrow door.",
-   "craft.none": "Pip's workbench. Recipes come from the shop, or Pip!",
+   "craft.none": "A workbench! Recipes come from the shop, or Pip.",
    "craft.made": "{tool}! Hold on mess to clean a little patch at once.",
    "craft.charged": "Whoosh! A big clean!",
    "stock.copper_duster": "Copper duster recipe",
@@ -8139,7 +8370,9 @@
    "farm.again": "The {animal} is happy and full. Come back tomorrow!",
    "farm.got.hen": "Thank you, hen! A fresh egg for the bag.",
    "farm.got.goat": "Thank you, goat! Soft wool for the bag.",
-   "farm.got.cow": "Thank you, cow! Fresh milk for the bag."
+   "farm.got.cow": "Thank you, cow! Fresh milk for the bag.",
+   "build.done.craft_room": "The craft room is dug! A workbench of {puff}'s own.",
+   "build.done.cellar": "The cellar is ready! Mushrooms like it down there."
   }
  },
  "heartEvents": [
@@ -10541,6 +10774,32 @@
     "woodland_path"
    ],
    "unlock": "overgrown_path"
+  },
+  {
+   "id": "plot_yard_craft",
+   "name": "Beside the burrow",
+   "area": "yard",
+   "x": 6,
+   "y": 3,
+   "w": 2,
+   "h": 2,
+   "allow": [
+    "craft_room"
+   ],
+   "unlock": "building"
+  },
+  {
+   "id": "plot_yard_cellar",
+   "name": "Under the yard",
+   "area": "yard",
+   "x": 16,
+   "y": 9,
+   "w": 2,
+   "h": 1,
+   "allow": [
+    "cellar"
+   ],
+   "unlock": "building"
   }
  ],
  "buildings": [
@@ -10740,6 +10999,74 @@
     }
    ],
    "project": true
+  },
+  {
+   "id": "craft_room",
+   "name": "Craft room",
+   "nights": 2,
+   "cost": {
+    "sparkles": 250,
+    "items": {
+     "twig": 8,
+     "pebble": 4
+    }
+   },
+   "prop": {
+    "type": "round_door",
+    "w": 2,
+    "h": 2
+   },
+   "bloom": 1,
+   "doors": [
+    {
+     "x": 6,
+     "y": 4,
+     "to": "craft_room",
+     "toX": 5,
+     "toY": 7
+    },
+    {
+     "x": 7,
+     "y": 4,
+     "to": "craft_room",
+     "toX": 5,
+     "toY": 7
+    }
+   ]
+  },
+  {
+   "id": "cellar",
+   "name": "Cellar",
+   "nights": 2,
+   "cost": {
+    "sparkles": 300,
+    "items": {
+     "pebble": 10,
+     "twig": 4
+    }
+   },
+   "prop": {
+    "type": "cellar_hatch",
+    "w": 2,
+    "walkable": true
+   },
+   "bloom": 2,
+   "doors": [
+    {
+     "x": 16,
+     "y": 9,
+     "to": "cellar",
+     "toX": 5,
+     "toY": 6
+    },
+    {
+     "x": 17,
+     "y": 9,
+     "to": "cellar",
+     "toX": 5,
+     "toY": 6
+    }
+   ]
   }
  ],
  "grumbleFamilies": [
