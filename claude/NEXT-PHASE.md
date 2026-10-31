@@ -475,4 +475,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Inside: Thimble's old boathouse, with a rowing boat in its pool. A carving reads "Thimble mended every boat in town", a new clue to the keeper before Puff. Tidy it to restore it (120 ✨).
   - Once it's restored, Moss, Wren and Mabel each have a line about it.
   - Tour card: 🗝 A secret boathouse.
+- **6d.4 River critters (31 Oct):** three more for the Critter journal, now 12 in all.
+  - Dragonfly: Riverside and the Far Bank, summer and autumn days. It hovers like the other fliers.
+  - Kingfisher: Riverside in the daytime, any season.
+  - Ducklings: the Far Bank in spring.
+  - Each is drawn in code. Tour card: 🐉 River critters, on a day when the dragonfly and the kingfisher are both out.
 

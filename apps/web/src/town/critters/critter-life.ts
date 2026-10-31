@@ -84,7 +84,7 @@ export class CritterLife {
     const frame = this.reducedMotion ? 0 : Math.floor(this.clock / 300) % 2;
     for (const s of this.shown) {
       s.sprite.texture = critterTexture(s.def, frame);
-      const fly = s.def.kind === 'butterfly' || s.def.kind === 'bee' || s.def.kind === 'firefly';
+      const fly = s.def.kind === 'butterfly' || s.def.kind === 'bee' || s.def.kind === 'firefly' || s.def.kind === 'dragonfly';
       s.sprite.y = s.y - (fly && !this.reducedMotion ? 4 + Math.sin(this.clock / 400 + s.x) * 3 : 0);
     }
   }

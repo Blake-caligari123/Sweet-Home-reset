@@ -14361,6 +14361,45 @@
    ],
    "time": "day",
    "hint": "Any day at the beach"
+  },
+  {
+   "id": "dragonfly",
+   "name": "Dragonfly",
+   "kind": "dragonfly",
+   "colour": "#6FB7A8",
+   "areas": [
+    "riverside",
+    "far_bank"
+   ],
+   "seasons": [
+    "Summer",
+    "Autumn"
+   ],
+   "time": "day",
+   "hint": "Summer and autumn days over the water"
+  },
+  {
+   "id": "kingfisher",
+   "name": "Kingfisher",
+   "kind": "kingfisher",
+   "areas": [
+    "riverside"
+   ],
+   "time": "day",
+   "hint": "By the river in the daytime, any season"
+  },
+  {
+   "id": "duckling",
+   "name": "Duckling",
+   "kind": "duck",
+   "areas": [
+    "far_bank"
+   ],
+   "seasons": [
+    "Spring"
+   ],
+   "time": "day",
+   "hint": "On the Far Bank in spring"
   }
  ],
  "animals": [

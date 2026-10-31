@@ -122,5 +122,11 @@ export const TOUR: TourCard[] = [
       if (!s.state.finds.found.includes('boathouse_key')) s.state.finds.found.push('boathouse_key');
       s.state.plots.plot_footbridge = { buildingId: 'footbridge', stage: 2, startedDay: 12, readyDay: 14 };
       s.go('far_bank');
+    } },
+  { title: '🐉 River critters', steps: ['New by the water: a dragonfly, a kingfisher and, in spring, ducklings on the Far Bank.', 'Tap them to spot them. The Critter journal (Pause → 📖 Collection) says where to look.'],
+    setup: (s) => {
+      s.day(17).time(11); // the dragonfly and the kingfisher are both out at the river today
+      s.state.plots.plot_footbridge = { buildingId: 'footbridge', stage: 2, startedDay: 12, readyDay: 14 };
+      s.go('riverside');
     } }
 ];

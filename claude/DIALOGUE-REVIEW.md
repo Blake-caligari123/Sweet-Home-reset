@@ -1461,3 +1461,6 @@ Heard only with a screen reader, never shown on screen.
 - Find: "A key with a little boat on it. There's a door in the hedge!" / Collection: "Brass, with a tiny boat. It opens the old boathouse."
 - Carving: "Carved in the beam: 'Thimble mended every boat in town. T.'"
 - Once restored: Moss "The old boathouse? Thimble's? I must write that down!" / Wren "You found the boathouse! Pip and I dreamed of it." / Mabel "Hoo. Thimble's boats. I rode in one, long ago."
+
+**River critters (6d.4)**
+- Names: Dragonfly, Kingfisher, Duckling. Journal hints: "Summer and autumn days over the water" / "By the river in the daytime, any season" / "On the Far Bank in spring".

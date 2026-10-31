@@ -5,7 +5,7 @@ import type { Pt } from '../world/nav';
 // season, time of day and weather. Puff spots them (a tap) for the Critter journal; nothing is
 // caught or kept, and a spotted critter just flutters off. Where they sit follows the day.
 
-export type CritterKind = 'beetle' | 'bee' | 'butterfly' | 'snail' | 'frog' | 'firefly' | 'bird';
+export type CritterKind = 'beetle' | 'bee' | 'butterfly' | 'snail' | 'frog' | 'firefly' | 'bird' | 'dragonfly' | 'duck' | 'kingfisher';
 
 export interface CritterDef {
   id: string; name: string; kind: CritterKind; colour?: string;
