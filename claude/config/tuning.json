@@ -86,6 +86,7 @@
   "tidyChain": { "windowMs": 4000, "every": 5, "sparkles": 2, "maxSparkles": 10 },
   "petFindsPerDay": 3,
   "helperSpots": 2,
+  "wellReach": 3,
   "stall": { "markup": 1.25, "salesBase": 2, "salesPerBloom": 2 },
   "cafe": { "ordersPerDay": 2, "markup": 1.5 },
   "fishing": { "biteMs": [1500, 4000], "windowMs": 1100 },

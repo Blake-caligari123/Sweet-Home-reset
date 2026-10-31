@@ -70,5 +70,12 @@ export const TOUR: TourCard[] = [
       for (const [plot, b] of [['plot_yard_craft', 'craft_room'], ['plot_yard_cellar', 'cellar']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 10, readyDay: 12 };
       s.state.pet ??= { kind: 'cat', name: 'Pebble', day: 11 };
       s.go('yard');
+    } },
+  { title: '🪣 The well', steps: ['A well stands beside the yard garden. Plant some seeds near it.', 'Sleep: next morning the crops near the well are already watered.', 'In a normal game, build it from the Keeper\'s plans (Town Bloom 1).'],
+    setup: (s) => {
+      s.day(3).time(10).flag('keeper_named').give('radish_seeds', 6); // day 4 is dry, so only the well waters
+      s.state.plots.plot_yard_well = { buildingId: 'well', stage: 2, startedDay: 1, readyDay: 2 };
+      s.state.pet ??= { kind: 'cat', name: 'Pebble', day: 2 };
+      s.go('yard');
     } }
 ];

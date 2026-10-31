@@ -1245,3 +1245,6 @@ Heard only with a screen reader, never shown on screen.
 - Done: "The craft room is dug! A workbench of {puff}'s own." / "The cellar is ready! Mushrooms like it down there."
 - Room names: "{puff}'s craft room", "The cellar". Plots: "Beside the burrow", "Under the yard".
 - Workbench with nothing known: "A workbench! Recipes come from the shop, or Pip." (sheet title now "Workbench").
+
+**The well (6b.19)**
+- Done: "The well is up! It waters the crops near it every morning." Plot: "Beside the garden".

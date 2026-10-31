@@ -4,7 +4,8 @@ import { Area } from '../data/area';
 import { T } from '../world/art/texture';
 import { FEET, navFor, REACH } from '../world/nav';
 import { Bag } from '../play/bag';
-import { buildQuestion, builtProps, canBuild, canUpgrade, resolveBuilds, startBuild, upgrade, withBuilds, type BuildingDef, type PlotDef, type PlotState } from './build';
+import { TUNING } from '../data/tuning';
+import { buildQuestion, builtProps, canBuild, canUpgrade, nearWater, resolveBuilds, startBuild, upgrade, withBuilds, type BuildingDef, type PlotDef, type PlotState } from './build';
 
 const bench: BuildingDef = { id: 'bench', name: 'Bench', nights: 1, cost: { sparkles: 40 }, prop: { type: 'bench', w: 2 } };
 const gazebo: BuildingDef = { id: 'gazebo', name: 'Gazebo', nights: 3, cost: { sparkles: 300 }, prop: { type: 'bench', w: 2 } };
@@ -148,6 +149,21 @@ describe('Hollowfern plots', () => {
     for (const d of yard.doors) expect(nav.findPathNear(spawn, { x0: d.x * T, y0: d.y * T, x1: (d.x + 1) * T, y1: (d.y + 1) * T }, 0), d.to).toBeTruthy();
     expect(pack.areas.find((a) => a.id === 'craft_room')!.props.some((p) => p.action === 'craft')).toBe(true);
     expect((pack.areas.find((a) => a.id === 'cellar')!.pickups ?? []).every((p) => p.item === 'mushroom')).toBe(true);
+  });
+
+  it('has a well beside the yard garden that reaches some of its soil, leaving the garden gate open', () => {
+    const p = plots.find((x) => x.id === 'plot_yard_well')!;
+    expect(buildings.find((d) => d.id === 'well')?.effect).toBe('waters_nearby');
+    const yard = pack.areas.find((a) => a.id === 'yard')!;
+    const built = new Area(withBuilds(yard, plots, { [p.id]: { buildingId: 'well', stage: 2, startedDay: 1, readyDay: 2 } }, buildings));
+    const soil: { x: number; y: number }[] = [];
+    yard.map.forEach((row, y) => [...row].forEach((ch, x) => { if (yard.legend[ch] === 'soil') soil.push({ x, y }); }));
+    const reached = soil.filter((t) => nearWater({ area: 'yard', ...t }, { [p.id]: { buildingId: 'well', stage: 2, startedDay: 1, readyDay: 2 } }, plots, buildings, TUNING.wellReach));
+    expect(reached.length).toBeGreaterThan(0);
+    expect(reached.length).toBeLessThan(soil.length); // nearby only: the greenhouse still does more
+    const nav = navFor(built);
+    const spawn = nav.nearestOpen({ x: yard.spawn.x * T + T / 2, y: yard.spawn.y * T + FEET })!;
+    for (const t of soil) expect(nav.findPathNear(spawn, { x0: t.x * T, y0: t.y * T, x1: (t.x + 1) * T, y1: (t.y + 1) * T }, REACH), `${t.x},${t.y}`).toBeTruthy();
   });
 
   it('clears the overgrown path off the Far Bank in summer (day 26), opening the Woodland Edge and its orchard', () => {

@@ -8372,7 +8372,8 @@
    "farm.got.goat": "Thank you, goat! Soft wool for the bag.",
    "farm.got.cow": "Thank you, cow! Fresh milk for the bag.",
    "build.done.craft_room": "The craft room is dug! A workbench of {puff}'s own.",
-   "build.done.cellar": "The cellar is ready! Mushrooms like it down there."
+   "build.done.cellar": "The cellar is ready! Mushrooms like it down there.",
+   "build.done.well": "The well is up! It waters the crops near it every morning."
   }
  },
  "heartEvents": [
@@ -10800,6 +10801,19 @@
     "cellar"
    ],
    "unlock": "building"
+  },
+  {
+   "id": "plot_yard_well",
+   "name": "Beside the garden",
+   "area": "yard",
+   "x": 5,
+   "y": 8,
+   "w": 1,
+   "h": 1,
+   "allow": [
+    "well"
+   ],
+   "unlock": "building"
   }
  ],
  "buildings": [
@@ -11067,6 +11081,22 @@
      "toY": 6
     }
    ]
+  },
+  {
+   "id": "well",
+   "name": "Well",
+   "nights": 1,
+   "cost": {
+    "sparkles": 120,
+    "items": {
+     "pebble": 6
+    }
+   },
+   "prop": {
+    "type": "well"
+   },
+   "bloom": 1,
+   "effect": "waters_nearby"
   }
  ],
  "grumbleFamilies": [
