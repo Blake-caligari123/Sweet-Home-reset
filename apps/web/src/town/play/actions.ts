@@ -365,9 +365,10 @@ export class PuffActions {
     } else {
       const here = this.host.here().id;
       const glass = areasWith('waters_garden', state.plots, content.pack.plots ?? [], content.pack.buildings ?? []).has(here);
-      const kinds = seedsIn(state.bag, content.pack.crops ?? [], this.host.clock.season, glass);
-      const resting = seedsIn(state.bag, content.pack.crops ?? [], '', true).length > 0;
-      if (!kinds.length) view.say(resting ? content.line('crop.offseason') ?? '' : 'Seeds would grow here.');
+      const kinds = seedsIn(state.bag, content.pack.crops ?? [], this.host.clock.season, glass, here);
+      const resting = seedsIn(state.bag, content.pack.crops ?? [], '', true, here).length > 0;
+      const elsewhere = seedsIn(state.bag, content.pack.crops ?? [], '', true).length > 0;
+      if (!kinds.length) view.say(resting ? content.line('crop.offseason') ?? '' : elsewhere ? content.line('crop.elsewhere') ?? '' : 'Seeds would grow here.');
       else if (kinds.length === 1) this.plant(x, y, kinds[0]);
       else view.ask(content.line('crop.which') ?? '', [...kinds.map((k) => ({ label: content.itemName(k.seed), onClick: () => this.plant(x, y, k) })), { label: 'Not now', onClick: () => {} }]);
       return;

@@ -1469,3 +1469,7 @@ Heard only with a screen reader, never shown on screen.
 - Moss: "Help me learn about Thimble?" / "A keeper before you! I must know more. Will you help?" / end: "Warm water under the whole town. Thimble kept it flowing."
 - Otto: "Gran said the baths stayed warm because of Thimble!" Pip: "A T on the handle! Thimble's oar! I'll mend it. Promise."
 - Afterwards: Moss "Thimble kept the warm water flowing. Now we know." / Otto "Thimble warmed my baths! I'll name a tub after them."
+
+**Watercress and the riverbank beds (6d.6)**
+- Harvest: "Watercress! Peppery and fresh." Wrong place: "These seeds want wet soil. The riverbank beds?"
+- Built: "The riverbank beds are dug! Watercress grows there." Plot: "The riverbank".

@@ -38,9 +38,19 @@ describe('crops', () => {
     expect(grows({ ...radish, seasons: ['Summer', 'Autumn'] }, 'Autumn', false)).toBe(true);
   });
 
+  it('plants watercress only by the river, where finished riverbank beds water it', () => {
+    const crops = pack.crops ?? [];
+    const bag = { count: (id: string) => (id === 'watercress_seeds' ? 3 : 0) };
+    expect(seedsIn(bag, crops, 'Summer', false, 'yard')).toEqual([]);
+    expect(seedsIn(bag, crops, 'Summer', false, 'riverside').map((c) => c.id)).toEqual(['watercress']);
+    const beds = (pack.buildings ?? []).find((b) => b.id === 'riverbank_beds')!;
+    expect([beds.paves, beds.effect]).toEqual(['s', 'waters_nearby']);
+    expect((pack.plots ?? []).find((p) => p.allow.includes('riverbank_beds'))?.area).toBe('riverside');
+  });
+
   it('has crops for spring, summer and autumn, each with seeds a shop sells that season, a harvest line, and sellable', () => {
     const crops = pack.crops ?? [];
-    expect(crops.map((c) => c.id)).toEqual(['radish', 'carrot', 'peas', 'strawberry', 'tomato', 'corn', 'pumpkin']);
+    expect(crops.map((c) => c.id)).toEqual(['radish', 'carrot', 'peas', 'strawberry', 'tomato', 'corn', 'pumpkin', 'watercress']);
     for (const s of ['Spring', 'Summer', 'Autumn']) expect(crops.some((c) => (c.seasons ?? ['Spring']).includes(s)), s).toBe(true);
     const stock = (pack.shops ?? []).flatMap((s) => s.stock.map((e) => e.item));
     const buys = (pack.shops ?? []).flatMap((s) => s.buys ?? []);

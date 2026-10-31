@@ -488,4 +488,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - It ends with the mystery's next thread: "Warm water under the whole town. Thimble kept it flowing."
   - Reward: 200 ✨, an old map and `chapter_summer_thimble`. Moss and Otto then each have a line about it.
   - Tour card: 📖 Summer chapter.
+- **6d.6 Watercress and the riverbank beds (31 Oct):** the district's own crop.
+  - Watercress grows only by the river (a crop's `areas`). Spring to autumn, 3 days. Seeds at the General Store from day 15, which buys it back. It's a snack too.
+  - **Riverbank beds** join the Keeper's plans once Fig's riverbank garden quest is done (`riverbank_beds` unlock): 80 ✨ and 4 twigs, 1 night. They dig a 3×2 patch of soil by the river that the river waters every morning (`waters_nearby`, like the well).
+  - Holding only riverbank seeds anywhere else, Puff says they want wet soil.
+  - Tour card: 🌿 Watercress by the river.
 

@@ -364,6 +364,14 @@
    "decor": {
     "prop": "cosy_chair"
    }
+  },
+  "watercress": {
+   "name": "Watercress",
+   "snack": 20,
+   "sell": 30
+  },
+  "watercress_seeds": {
+   "name": "Watercress seeds"
   }
  },
  "areas": [
@@ -9381,7 +9389,10 @@
    "quest.keeper_before.pip": "A T on the handle! Thimble's oar! I'll mend it. Promise.",
    "quest.keeper_before.done": "Warm water under the whole town. Thimble kept it flowing.",
    "moss.chapter.1": "Thimble kept the warm water flowing. Now we know.",
-   "otto.chapter.1": "Thimble warmed my baths! I'll name a tub after them."
+   "otto.chapter.1": "Thimble warmed my baths! I'll name a tub after them.",
+   "crop.watercress.harvest": "Watercress! Peppery and fresh.",
+   "crop.elsewhere": "These seeds want wet soil. The riverbank beds?",
+   "build.done.riverbank_beds": "The riverbank beds are dug! Watercress grows there."
   }
  },
  "heartEvents": [
@@ -11925,6 +11936,17 @@
      ]
     },
     {
+     "item": "watercress_seeds",
+     "price": 40,
+     "qty": 3,
+     "fromDay": 15,
+     "seasons": [
+      "Spring",
+      "Summer",
+      "Autumn"
+     ]
+    },
+    {
      "item": "biscuit",
      "price": 15
     },
@@ -12058,7 +12080,8 @@
     "egg",
     "milk",
     "wool",
-    "pancakes"
+    "pancakes",
+    "watercress"
    ]
   },
   {
@@ -12304,6 +12327,19 @@
     "cottage_wren"
    ],
    "unlock": "invite_wren"
+  },
+  {
+   "id": "plot_riverbank_beds",
+   "name": "The riverbank",
+   "area": "riverside",
+   "x": 8,
+   "y": 8,
+   "w": 3,
+   "h": 2,
+   "allow": [
+    "riverbank_beds"
+   ],
+   "unlock": "riverbank_beds"
   }
  ],
  "buildings": [
@@ -12619,6 +12655,25 @@
    "effect": "home",
    "home": "wren",
    "project": true
+  },
+  {
+   "id": "riverbank_beds",
+   "name": "Riverbank beds",
+   "nights": 1,
+   "cost": {
+    "sparkles": 80,
+    "items": {
+     "twig": 4
+    }
+   },
+   "prop": {
+    "type": "bed_edge",
+    "w": 3,
+    "h": 2,
+    "walkable": true
+   },
+   "paves": "s",
+   "effect": "waters_nearby"
   }
  ],
  "grumbleFamilies": [
@@ -13105,6 +13160,19 @@
    "look": "pumpkin",
    "seasons": [
     "Autumn"
+   ]
+  },
+  {
+   "id": "watercress",
+   "seed": "watercress_seeds",
+   "look": "leaf",
+   "seasons": [
+    "Spring",
+    "Summer",
+    "Autumn"
+   ],
+   "areas": [
+    "riverside"
    ]
   }
  ],

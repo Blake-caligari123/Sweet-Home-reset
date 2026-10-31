@@ -130,5 +130,11 @@ export const TOUR: TourCard[] = [
       s.go('riverside');
     } },
   { title: '📖 Summer chapter: the keeper before', steps: ['You restored Thimble\'s boathouse. Moss wants to know more: tap "📜 Help me learn about Thimble?".', 'Ask Otto at the bathhouse, keep tidying for a find, ask Pip to mend the oar, then tell Moss.'],
-    setup: (s) => { s.day(16).time(11).flag('restored_boathouse').flag('noise_mended').meet('moss', 'otto', 'pip'); s.state.dramas.noise = 3; s.go('library'); } }
+    setup: (s) => { s.day(16).time(11).flag('restored_boathouse').flag('noise_mended').meet('moss', 'otto', 'pip'); s.state.dramas.noise = 3; s.go('library'); } },
+  { title: '🌿 Watercress by the river', steps: ['The riverbank beds are dug. Tap the soil to plant watercress seeds.', 'The river waters them every morning. Watercress only grows here.', 'In a normal game, finishing Fig\'s riverbank garden quest adds the beds to the Keeper\'s plans.'],
+    setup: (s) => {
+      s.day(16).time(10).flag('seed_swap_done').give('watercress_seeds', 3);
+      s.state.plots.plot_riverbank_beds = { buildingId: 'riverbank_beds', stage: 2, startedDay: 14, readyDay: 15 };
+      s.go('riverside');
+    } }
 ];

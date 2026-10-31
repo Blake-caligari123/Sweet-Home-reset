@@ -6,8 +6,8 @@ import type { Crop } from '../state';
 // strawberries, grow back after picking. Each grows in its seasons; out of season it rests (never
 // lost), and under a greenhouse anything grows any time.
 
-/** `look`: how it's drawn (round root, long root, pods, berries, a tall stalk, a big pumpkin). `seasons`: when it grows (default spring). */
-export interface CropDef { id: string; seed: string; look: 'round' | 'long' | 'pod' | 'berry' | 'stalk' | 'pumpkin'; seasons?: string[] }
+/** `look`: how it's drawn (round root, long root, pods, berries, a tall stalk, a big pumpkin, leaves). `seasons`: when it grows (default spring). `areas`: only planted there (watercress wants the wet riverbank). */
+export interface CropDef { id: string; seed: string; look: 'round' | 'long' | 'pod' | 'berry' | 'stalk' | 'pumpkin' | 'leaf'; seasons?: string[]; areas?: string[] }
 
 /** Whether it grows in this season, or anyway, under glass. */
 export const grows = (def: CropDef, season: string, glass: boolean) => glass || (def.seasons ?? ['Spring']).includes(season);
@@ -29,7 +29,7 @@ export function harvest(c: Crop, def: CropDef): 'picked' | 'regrows' | 'growing'
   return 'regrows';
 }
 
-/** The kinds of seed Puff is carrying that would grow here now. */
-export function seedsIn(bag: { count(id: string): number }, crops: CropDef[], season: string, glass: boolean) {
-  return crops.filter((c) => bag.count(c.seed) > 0 && grows(c, season, glass));
+/** The kinds of seed Puff is carrying that would grow here now (`area`: where Puff is; leave it out for anywhere). */
+export function seedsIn(bag: { count(id: string): number }, crops: CropDef[], season: string, glass: boolean, area?: string) {
+  return crops.filter((c) => bag.count(c.seed) > 0 && grows(c, season, glass) && (!area || !c.areas || c.areas.includes(area)));
 }
