@@ -214,7 +214,7 @@ export function validateTownPack(input: unknown): TownPack {
   }
   for (const c of p.crops ?? []) if (!p.items[c.id] || !p.items[c.seed]) throw new Error(`crop ${c.id}: unknown item`);
   for (const c of p.critters ?? []) if (!c.id || !c.name || !c.hint || !c.areas?.length || c.areas.some((a) => !ids.has(a))) throw new Error(`critter ${c.id}: shape`);
-  for (const sc of p.scenes ?? []) if (!sc.id || !sc.beats?.length || sc.beats.some((b) => !ids.has(b.area) || typeof text[b.caption] !== 'string')) throw new Error(`scene ${sc.id}: shape`);
+  for (const sc of p.scenes ?? []) if (!sc.id || !sc.shots?.length || sc.shots.some((x) => !ids.has(x.area) || x.captions.some(([, id]) => typeof text[id] !== 'string'))) throw new Error(`scene ${sc.id}: shape`);
   for (const a of p.animals ?? []) if (!a.id || !p.items[a.gives] || !ids.has(a.area)) throw new Error(`animal ${a.id}: shape`);
   for (const f of p.fish ?? []) if (!f.id || !p.items[f.id] || !f.areas?.length || f.areas.some((a) => !ids.has(a))) throw new Error(`fish ${f.id}: shape`);
   for (const q of p.quests ?? []) {

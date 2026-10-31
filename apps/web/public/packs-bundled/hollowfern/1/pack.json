@@ -10062,13 +10062,17 @@
    "quest.old_song.done": "The warm water hums under the hill. That's the song!",
    "juniper.chapter.1": "The town hums its own song. I'll play it forever.",
    "mabel.chapter.1": "Hoo. I'd forgotten the stone's song. Thank you, dear.",
-   "scene.opening.1": "Long ago, {town} was the brightest town in the hills.",
-   "scene.opening.2": "Its Keeper, Thimble, kept the warm water singing.",
-   "scene.opening.3": "One winter, Thimble grew sleepy and went to rest.",
-   "scene.opening.4": "The water cooled. The colour slipped away.",
-   "scene.opening.5": "But the fountain kept one last sparkle.",
-   "scene.opening.6": "Everyone grew too tired to tidy. Until...",
-   "scene.opening.7": "...a little grey puff woke up. That's you!"
+   "scene.opening.1": "Long ago, {town} glowed with colour.",
+   "scene.opening.2": "Thimble, its Keeper, kept the fountain's water warm.",
+   "scene.opening.3": "One winter, Thimble grew very, very sleepy.",
+   "scene.opening.4": "So Thimble went to rest somewhere warm.",
+   "scene.opening.5": "Without its Keeper, the water cooled...",
+   "scene.opening.6": "...the colour slipped away, and everyone grew sleepy.",
+   "scene.opening.7": "But the fountain kept one last sparkle.",
+   "scene.opening.8": "It drifted off, looking for somewhere cosy.",
+   "scene.opening.9": "Past the hedge, across a quiet little yard...",
+   "scene.opening.10": "...and in through a round burrow door.",
+   "scene.opening.11": "There it woke up as you. Hello, little puff!"
   }
  },
  "heartEvents": [
@@ -15659,115 +15663,109 @@
  "scenes": [
   {
    "id": "opening",
-   "beats": [
+   "shots": [
     {
      "area": "square",
-     "at": [
-      15,
-      9
+     "ms": 11000,
+     "minutes": [
+      600,
+      900
      ],
-     "to": [
-      15,
-      10
+     "season": "Spring",
+     "camera": [
+      [
+       15,
+       7,
+       0
+      ],
+      [
+       15,
+       10,
+       5000
+      ]
      ],
-     "minutes": 600,
-     "colour": "full",
-     "caption": "scene.opening.1",
-     "ms": 7000,
+     "colour": {
+      "kind": "full"
+     },
      "actors": [
       {
        "who": "hazel",
-       "x": 8,
-       "y": 12,
-       "to": [
-        11,
-        13
-       ],
-       "dir": "right"
-      },
-      {
-       "who": "bea",
-       "x": 21,
-       "y": 9,
-       "dir": "down"
+       "path": [
+        [
+         5,
+         14,
+         0
+        ],
+        [
+         11,
+         14,
+         3500
+        ]
+       ]
       },
       {
        "who": "pip",
-       "x": 6,
-       "y": 10,
-       "to": [
-        9,
-        10
-       ],
-       "dir": "right"
+       "path": [
+        [
+         5,
+         10,
+         1500
+        ],
+        [
+         9,
+         10,
+         4500
+        ],
+        [
+         9,
+         10,
+         7000
+        ],
+        [
+         9,
+         13,
+         9000
+        ]
+       ]
+      },
+      {
+       "who": "bea",
+       "path": [
+        [
+         21,
+         7,
+         0
+        ],
+        [
+         19,
+         9,
+         3000
+        ]
+       ]
       },
       {
        "who": "otto",
-       "x": 22,
-       "y": 13,
-       "dir": "left"
+       "path": [
+        [
+         24,
+         13,
+         2000
+        ],
+        [
+         21,
+         13,
+         5000
+        ]
+       ]
       },
       {
        "who": "thimble",
-       "x": 15,
-       "y": 12,
-       "dir": "up",
-       "species": "bunny",
-       "colours": {
-        "fur": "#E9E2F0",
-        "belly": "#FBF7FD",
-        "accent": "#B8A9CF"
-       }
-      }
-     ]
-    },
-    {
-     "area": "square",
-     "at": [
-      15,
-      11
-     ],
-     "minutes": 1080,
-     "colour": "full",
-     "caption": "scene.opening.2",
-     "ms": 6500,
-     "actors": [
-      {
-       "who": "thimble",
-       "x": 15,
-       "y": 12,
-       "dir": "up",
-       "species": "bunny",
-       "colours": {
-        "fur": "#E9E2F0",
-        "belly": "#FBF7FD",
-        "accent": "#B8A9CF"
-       }
-      }
-     ]
-    },
-    {
-     "area": "square",
-     "at": [
-      13,
-      10
-     ],
-     "to": [
-      12,
-      8
-     ],
-     "minutes": 1140,
-     "colour": "full",
-     "caption": "scene.opening.3",
-     "ms": 6500,
-     "actors": [
-      {
-       "who": "thimble",
-       "x": 12,
-       "y": 12,
-       "to": [
-        12,
-        7
+       "path": [
+        [
+         14,
+         12,
+         0
+        ]
        ],
        "dir": "up",
        "species": "bunny",
@@ -15777,90 +15775,462 @@
         "accent": "#B8A9CF"
        }
       }
+     ],
+     "bursts": [
+      [
+       14.5,
+       10,
+       600
+      ],
+      [
+       15.5,
+       10,
+       2200
+      ],
+      [
+       14.5,
+       10,
+       3800
+      ],
+      [
+       15.5,
+       10,
+       5400
+      ],
+      [
+       15,
+       10,
+       7000
+      ],
+      [
+       14.5,
+       10,
+       8600
+      ],
+      [
+       15.5,
+       10,
+       10200
+      ]
+     ],
+     "captions": [
+      [
+       0,
+       "scene.opening.1"
+      ],
+      [
+       5000,
+       "scene.opening.2"
+      ]
      ]
     },
     {
      "area": "square",
-     "at": [
-      6,
-      10
+     "ms": 9000,
+     "minutes": [
+      900,
+      1000
      ],
-     "to": [
-      24,
-      10
-     ],
-     "minutes": 1200,
-     "colour": "drain",
-     "caption": "scene.opening.4",
-     "ms": 8000
-    },
-    {
-     "area": "square",
-     "at": [
-      15,
-      10
-     ],
-     "minutes": 1320,
-     "colour": "grey",
-     "sparkle": [
-      15,
-      9
-     ],
-     "sparkleTo": [
-      15,
-      13
-     ],
-     "caption": "scene.opening.5",
-     "ms": 7000
-    },
-    {
-     "area": "lane",
-     "at": [
-      5,
-      8
-     ],
-     "to": [
-      24,
-      8
-     ],
-     "minutes": 420,
-     "colour": "grey",
-     "caption": "scene.opening.6",
-     "ms": 7000,
+     "season": "Winter",
+     "camera": "thimble",
+     "colour": {
+      "kind": "full"
+     },
      "actors": [
       {
-       "who": "bea",
-       "x": 17,
-       "y": 6,
-       "dir": "down",
-       "sleep": true
+       "who": "hazel",
+       "path": [
+        [
+         11,
+         14,
+         0
+        ]
+       ]
       },
       {
        "who": "pip",
-       "x": 8,
-       "y": 7,
-       "dir": "down",
-       "sleep": true
+       "path": [
+        [
+         9,
+         13,
+         0
+        ]
+       ]
+      },
+      {
+       "who": "bea",
+       "path": [
+        [
+         19,
+         9,
+         0
+        ]
+       ]
+      },
+      {
+       "who": "otto",
+       "path": [
+        [
+         21,
+         13,
+         0
+        ]
+       ]
+      },
+      {
+       "who": "thimble",
+       "path": [
+        [
+         14,
+         12,
+         0
+        ],
+        [
+         14,
+         12,
+         2500
+        ],
+        [
+         10,
+         12,
+         4300
+        ],
+        [
+         10,
+         6,
+         7700
+        ],
+        [
+         10,
+         5,
+         8300
+        ]
+       ],
+       "dir": "up",
+       "until": 8300,
+       "species": "bunny",
+       "colours": {
+        "fur": "#E9E2F0",
+        "belly": "#FBF7FD",
+        "accent": "#B8A9CF"
+       }
       }
+     ],
+     "captions": [
+      [
+       0,
+       "scene.opening.3"
+      ],
+      [
+       4200,
+       "scene.opening.4"
+      ]
+     ]
+    },
+    {
+     "area": "square",
+     "ms": 8000,
+     "minutes": [
+      1000,
+      1060
+     ],
+     "season": "Winter",
+     "camera": [
+      [
+       10,
+       7,
+       0
+      ],
+      [
+       15,
+       10,
+       2500
+      ]
+     ],
+     "colour": {
+      "kind": "ripple",
+      "from": [
+       15,
+       10
+      ],
+      "start": 800,
+      "end": 6500
+     },
+     "actors": [
+      {
+       "who": "hazel",
+       "path": [
+        [
+         11,
+         14,
+         0
+        ]
+       ],
+       "sleepFrom": 3500
+      },
+      {
+       "who": "pip",
+       "path": [
+        [
+         9,
+         13,
+         0
+        ]
+       ],
+       "sleepFrom": 4200
+      },
+      {
+       "who": "bea",
+       "path": [
+        [
+         19,
+         9,
+         0
+        ]
+       ],
+       "sleepFrom": 4800
+      },
+      {
+       "who": "otto",
+       "path": [
+        [
+         21,
+         13,
+         0
+        ]
+       ],
+       "sleepFrom": 5400
+      }
+     ],
+     "captions": [
+      [
+       0,
+       "scene.opening.5"
+      ],
+      [
+       4500,
+       "scene.opening.6"
+      ]
+     ]
+    },
+    {
+     "area": "square",
+     "ms": 9000,
+     "minutes": 1140,
+     "season": "Winter",
+     "camera": "sparkle",
+     "colour": {
+      "kind": "grey"
+     },
+     "actors": [
+      {
+       "who": "hazel",
+       "path": [
+        [
+         11,
+         14,
+         0
+        ]
+       ],
+       "sleepFrom": 0
+      },
+      {
+       "who": "pip",
+       "path": [
+        [
+         9,
+         13,
+         0
+        ]
+       ],
+       "sleepFrom": 0
+      },
+      {
+       "who": "bea",
+       "path": [
+        [
+         19,
+         9,
+         0
+        ]
+       ],
+       "sleepFrom": 0
+      },
+      {
+       "who": "otto",
+       "path": [
+        [
+         21,
+         13,
+         0
+        ]
+       ],
+       "sleepFrom": 0
+      }
+     ],
+     "sparkle": [
+      [
+       15,
+       10,
+       1200
+      ],
+      [
+       15,
+       8.5,
+       2400
+      ],
+      [
+       15,
+       8.5,
+       3600
+      ],
+      [
+       11,
+       11,
+       5400
+      ],
+      [
+       4,
+       11,
+       7400
+      ],
+      [
+       0,
+       11,
+       9000
+      ]
+     ],
+     "bursts": [
+      [
+       15,
+       10,
+       1200
+      ]
+     ],
+     "captions": [
+      [
+       0,
+       "scene.opening.7"
+      ],
+      [
+       4200,
+       "scene.opening.8"
+      ]
+     ]
+    },
+    {
+     "area": "yard",
+     "ms": 6500,
+     "minutes": 1170,
+     "season": "Winter",
+     "camera": "sparkle",
+     "colour": {
+      "kind": "grey"
+     },
+     "sparkle": [
+      [
+       25,
+       9,
+       0
+      ],
+      [
+       22,
+       6,
+       1800
+      ],
+      [
+       14,
+       6,
+       4300
+      ],
+      [
+       12,
+       5,
+       5900
+      ]
+     ],
+     "captions": [
+      [
+       600,
+       "scene.opening.9"
+      ]
      ]
     },
     {
      "area": "burrow",
-     "at": [
-      4,
-      7
+     "ms": 8500,
+     "minutes": [
+      1200,
+      1830
      ],
-     "minutes": 420,
-     "colour": "grey",
-     "caption": "scene.opening.7",
-     "ms": 6500,
+     "season": "Winter",
+     "camera": [
+      [
+       13,
+       12,
+       0
+      ],
+      [
+       7,
+       9,
+       4500
+      ]
+     ],
+     "colour": {
+      "kind": "grey"
+     },
+     "sparkle": [
+      [
+       13,
+       13,
+       0
+      ],
+      [
+       13,
+       11,
+       1500
+      ],
+      [
+       7,
+       9,
+       3800
+      ],
+      [
+       4,
+       8,
+       5000
+      ]
+     ],
+     "bursts": [
+      [
+       4,
+       7.6,
+       5000
+      ]
+     ],
      "actors": [
       {
        "who": "puff",
-       "x": 4,
-       "y": 8,
-       "dir": "down"
+       "path": [
+        [
+         4,
+         8,
+         0
+        ]
+       ],
+       "dir": "down",
+       "from": 5200
       }
+     ],
+     "captions": [
+      [
+       400,
+       "scene.opening.10"
+      ],
+      [
+       5400,
+       "scene.opening.11"
+      ]
      ]
     }
    ]

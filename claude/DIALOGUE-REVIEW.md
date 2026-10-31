@@ -1583,11 +1583,15 @@ Heard only with a screen reader, never shown on screen.
 - Moss: "Thimble's songbook. Handle it gently. It's very old." Mabel: "Hoo. We sang there as chicks. The stone sang back."
 - Afterwards: Juniper "The town hums its own song. I'll play it forever." / Mabel "Hoo. I'd forgotten the stone's song. Thank you, dear."
 
-**The opening cutscene (K.1)**
-1. "Long ago, {town} was the brightest town in the hills."
-2. "Its Keeper, Thimble, kept the warm water singing."
-3. "One winter, Thimble grew sleepy and went to rest."
-4. "The water cooled. The colour slipped away."
-5. "But the fountain kept one last sparkle."
-6. "Everyone grew too tired to tidy. Until..."
-7. "...a little grey puff woke up. That's you!"
+**The opening cutscene (K.1, remade)**
+1. "Long ago, {town} glowed with colour."
+2. "Thimble, its Keeper, kept the fountain's water warm."
+3. "One winter, Thimble grew very, very sleepy."
+4. "So Thimble went to rest somewhere warm."
+5. "Without its Keeper, the water cooled..."
+6. "...the colour slipped away, and everyone grew sleepy."
+7. "But the fountain kept one last sparkle."
+8. "It drifted off, looking for somewhere cosy."
+9. "Past the hedge, across a quiet little yard..."
+10. "...and in through a round burrow door."
+11. "There it woke up as you. Hello, little puff!"

@@ -107,17 +107,14 @@ Your answers: played out in the town itself, about a minute at the start, plus c
 - With reduced motion the camera cuts instead of gliding, and nothing bobs.
 - Every scene can be watched again from the journal ("Memories").
 
-### The opening (about 1 minute, before "Let's tidy!" play starts)
-| Beat | What you see | Caption |
-|---|---|---|
-| 1. The town before | The square in full colour, lamps warm, neighbours bustling. A small figure hums by the fountain | *Long ago, {town} was the brightest town in the hills.* |
-| 2. Thimble | The camera settles on the fountain. The Keeper, Thimble, stirs the water and it glows | *Its Keeper, Thimble, kept the warm water singing.* |
-| 3. Going grey | Thimble yawns and walks off toward the caves. The fountain's glow fades, and the colour drains street by street (the grey overlay sweeping across) | *One winter, Thimble grew sleepy and went to rest. The water cooled. The colour slipped away.* |
-| 4. Puff is born | The grey square at night. One last sparkle rises from the fountain, tumbles, and lands as a tiny dust bunny | *But the fountain kept one last sparkle.* |
-| 5. Meeting the town | A glide along the grey lane, neighbours dozing | *Everyone grew too tired to tidy. Until...* |
-| 6. Puff wakes | Morning in the burrow: Puff stirs by the bed. Play begins (naming, then Hazel's welcome as now) | *...a little grey puff woke up. That's you!* |
-
-The opening plays once after "Let's tidy!" on a new game. *Built 31 Oct (K.1): seven beats, about 48 seconds; the last shows Puff waking in the burrow, where play starts.*
+### The opening (built: one continuous take, about 52 seconds)
+Remade after Blake: "fluid and make sense, not just random shots". The camera follows the subject the whole way, with soft fades only where the sparkle crosses into the next place.
+1. **The square, long ago:** full colour, neighbours strolling, Thimble (from behind) at the fountain, which keeps sparkling. *"Long ago, {town} glowed with colour." / "Thimble, its Keeper, kept the fountain's water warm."*
+2. **Snow begins:** Thimble turns and walks away up the square, and the camera follows. *"One winter, Thimble grew very, very sleepy." / "So Thimble went to rest somewhere warm."*
+3. **The grey ripples out from the fountain:** the neighbours nod off. *"Without its Keeper, the water cooled..." / "...the colour slipped away, and everyone grew sleepy."*
+4. **Dusk:** one sparkle pops out of the fountain, hovers, then drifts out of the square's west gate. *"But the fountain kept one last sparkle." / "It drifted off, looking for somewhere cosy."*
+5. **The yard:** it floats along the path to the burrow door. *"Past the hedge, across a quiet little yard..."*
+6. **The burrow:** it floats in, settles by the bed in a burst of light, and Puff is there. *"...and in through a round burrow door." / "There it woke up as you. Hello, little puff!"*
 
 ### Chapter openings (about 20 seconds each, on the chapter's first morning)
 The fountain glows. The camera drifts to where the chapter happens, then back, and the fountain line plays.
