@@ -98,6 +98,50 @@ Fountain opens it on day 43: *"Thimble is sleeping by the warm spring. Light the
 
 Days not listed carry on with the step before (a multi-day quest), or have a light "you could also…" day in the journal.
 
+## Cutscenes (Blake, 31 Oct: "some cutscenes at the start to introduce it")
+Your answers: played out in the town itself, about a minute at the start, plus chapter openings, newcomers arriving and the big reveals.
+
+**How they play:**
+- The game world acts the scene out. The camera glides between places, characters walk and turn, colour drains or floods back, and short captions sit along the bottom (60 characters each, kind voice).
+- Tap moves to the next caption, and a **Skip** button is always there.
+- With reduced motion the camera cuts instead of gliding, and nothing bobs.
+- Every scene can be watched again from the journal ("Memories").
+
+### The opening (about 1 minute, before "Let's tidy!" play starts)
+| Beat | What you see | Caption |
+|---|---|---|
+| 1. The town before | The square in full colour, lamps warm, neighbours bustling. A small figure hums by the fountain | *Long ago, {town} was the brightest town in the hills.* |
+| 2. Thimble | The camera settles on the fountain. The Keeper, Thimble, stirs the water and it glows | *Its Keeper, Thimble, kept the warm water singing.* |
+| 3. Going grey | Thimble yawns and walks off toward the caves. The fountain's glow fades, and the colour drains street by street (the grey overlay sweeping across) | *One winter, Thimble grew sleepy and went to rest. The water cooled. The colour slipped away.* |
+| 4. Puff is born | The grey square at night. One last sparkle rises from the fountain, tumbles, and lands as a tiny dust bunny | *But the fountain kept one last sparkle.* |
+| 5. Meeting the town | A quick glide past grey homes: Hazel's bakery, Bea's shop, Pip's workshop, sleepy faces at windows | *Everyone was too tired to tidy. Until…* |
+| 6. Hazel finds Puff | Morning. Hazel steps out and spots Puff. This flows straight into today's first scene, where Hazel names Puff Keeper | *"Oh! A little grey puff!"* |
+
+The opening plays once after "Let's tidy!" on a new game.
+
+### Chapter openings (about 20 seconds each, on the chapter's first morning)
+The fountain glows. The camera drifts to where the chapter happens, then back, and the fountain line plays.
+- **Spring, day 4:** the grey square and the first coloured spots. *"You found me. The town remembers colour, one spot at a time."*
+- **Summer, day 15:** a glide across the river to the Far Bank, the boathouse roof just showing. *"Something old waits across the water."*
+- **Autumn, day 29:** the woods, with leaves falling and a faint four-note hum. *"Listen in the woods. The town has a song."*
+- **Winter, day 43:** snow on the caves' mouth and a warm glow deep inside. *"Thimble is sleeping by the warm spring. Light the town, and they'll wake."*
+- **Chapter endings** at each festival get a short closing beat too (lines in the day-by-day tables).
+
+### Newcomers arriving (about 15 seconds, the morning the cottage is finished)
+The camera finds the new cottage, and the newcomer walks up with a bag, looks around and waves. A caption in their voice follows, then a banner.
+- **Sorrel:** *"A home! A real one! Hello, {town}!"*
+- **Fig:** arrives with a seed box. *"Good soil. I can tell already."*
+- **Wren:** Pip runs to meet them. *"Wren! You came back!"*
+- **Juniper:** plays the four notes on the doorstep. *"There it is. The old tune."*
+
+### Big reveals
+- **The boathouse:** the hedge parts, then a slow push in on the boat and the carving.
+- **The humming stone:** on Orchard Hill at dusk, with the stone faintly glowing as Juniper plays.
+- **Thimble's last carving:** in the deepest cave.
+- **Winter Lights:** the lanterns light one by one across town, the fountain blazes, and Thimble's voice wakes.
+
+**In the code:** a small scene player (`story/scenes.ts`) runs a list of beats from the pack. Each beat can pan the camera, move or turn a character, change the colour, set the time of day, or show a caption. It reuses the world's camera, the grey overlay and the characters already there.
+
 ## What changes in the code
 - `story/`: the Keeper's Story steps as pack data (`story` in the pack: day, who, goal, line). Goals reuse the quest ones, so a step can be a talk, tidy, cook, fish, find, build or quest. It's one daily step, and it can tick itself off from things already done.
 - `journal/`: the 📔 Journal sheet with its four pages.
@@ -111,3 +155,4 @@ Days not listed carry on with the step before (a multi-day quest), or have a lig
 2. **Otto's spare rod:** on day 5 it's lent, so fishing is part of the path without spending 60 ✨. Is that OK?
 3. **Fountain lines:** the spirit's voice is new writing. Should it be the fountain itself, or clearly Thimble speaking from far away?
 4. **Winter:** "Thimble wakes at Winter Lights" is a big story beat. Should Thimble appear (a new character for year two), or stay a voice?
+5. **Thimble in the opening:** the opening shows Thimble long ago. If Thimble stays only a voice later (question 4), the opening could show Thimble from behind or as a soft glow instead. Which?
