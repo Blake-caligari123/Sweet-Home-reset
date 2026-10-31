@@ -1,5 +1,6 @@
 import type { ToolId } from '../play/mess';
 import { perkIn } from '../skills/skills';
+import type { CookGesture } from './cook-steps';
 import type { TownState } from '../state';
 
 // Making things (VISION §7): at Pip's workbench, a recipe learned at a shop, Sparkles and forage
@@ -10,7 +11,9 @@ import type { TownState } from '../state';
 export type Makes = { tool: ToolId; tier: number } | { item: string; qty: number };
 
 /** `station`: where it's made (Pip's workbench by default). `learn`: the flag that teaches it. */
-export interface RecipeDef { id: string; name: string; station?: 'bench' | 'kitchen'; makes: Makes; cost: { sparkles?: number; items?: Record<string, number> }; learn?: string }
+export interface RecipeDef { id: string; name: string; station?: 'bench' | 'kitchen'; makes: Makes; cost: { sparkles?: number; items?: Record<string, number> }; learn?: string;
+  /** In the kitchen, the cooking steps (cook-steps.ts); chop then stir if not given. */
+  gestures?: CookGesture[] }
 
 /** Sparkles a recipe costs Puff now: less as crafting grows. */
 export const sparkleCost = (s: TownState, r: RecipeDef) => Math.round((r.cost.sparkles ?? 0) * (1 - perkIn(s.skills, 'crafting')));

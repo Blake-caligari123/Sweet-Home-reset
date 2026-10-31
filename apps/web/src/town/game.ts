@@ -201,7 +201,7 @@ export class TownGame {
       sleep: () => void this.endDay(false),
       openBuild: () => this.openBuild(),
       pickUpDecor: (x, y) => this.placing.pickUp(x, y),
-      openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false), made: (st) => this.guide.handle({ type: 'made', station: st }) }, station),
+      openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false), made: (st) => this.guide.handle({ type: 'made', station: st }), tapOnly: !!this.settings.tapOnly }, station),
       openShop: (shop) => this.openShop(shop),
       openStall: () => this.systems.openStall(),
       openFishing: () => openFishing({ state: this.state, view: this.view, content: this.content, clock: this.clock, area: () => this.areaId, onboard: (e) => this.guide.handle(e), changed: () => { this.refreshHud(); void this.save(false); } }),

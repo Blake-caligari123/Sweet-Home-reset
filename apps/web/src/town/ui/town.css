@@ -133,3 +133,6 @@ html.high-contrast .muted { color: #4a3a32; }
 .stick { position: absolute; left: 18px; bottom: 120px; width: 104px; height: 104px; border: 3px solid var(--line); border-radius: 50%; background: rgba(255, 248, 236, 0.55); touch-action: none; z-index: 5; }
 .stick[hidden] { display: none; }
 .stick-knob { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border: 3px solid var(--line); border-radius: 50%; background: var(--butter); pointer-events: none; }
+
+/* Cooking with gestures: the board, pot or dough to tap, stir or hold. */
+.cook-pad { width: 180px; height: 180px; display: grid; place-items: center; font-size: 4rem; border: 3px solid var(--line); background: var(--butter-3); touch-action: none; user-select: none; cursor: pointer; }

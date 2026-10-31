@@ -3,6 +3,8 @@ import type { Content } from '../data/content';
 import type { TownState } from '../state';
 import { itemIcon } from '../ui/hud';
 import type { View } from '../ui/view';
+import { openCooking } from './cook-sheet';
+import { stepsFor } from './cook-steps';
 import { canCraft, craft, sparkleCost, type RecipeDef } from './recipes';
 
 const STATIONS = {
@@ -11,7 +13,7 @@ const STATIONS = {
 };
 
 /** Pip's workbench or Puff's kitchen: each recipe known there, what it needs (and how many Puff has), and Make. */
-export function openWorkbench(d: { state: TownState; view: View; content: Content; refreshHud(): void; save(): void; made(station: 'bench' | 'kitchen'): void }, station: NonNullable<RecipeDef['station']> = 'bench') {
+export function openWorkbench(d: { state: TownState; view: View; content: Content; refreshHud(): void; save(): void; made(station: 'bench' | 'kitchen'): void; tapOnly: boolean }, station: NonNullable<RecipeDef['station']> = 'bench') {
   const { state, view, content } = d;
   const where = STATIONS[station];
   const known = (content.pack.recipes ?? []).filter((r) => (r.station ?? 'bench') === station && canCraft(state, r) !== 'unknown');
@@ -22,14 +24,19 @@ export function openWorkbench(d: { state: TownState; view: View; content: Conten
     const needs = [...(r.cost.sparkles ? [`${sparkleCost(state, r)} ✨`] : []), ...Object.entries(r.cost.items ?? {}).map(([id, n]) => `${content.itemName(id)} ${Math.min(state.bag.count(id), n)}/${n}`)].join(' · ');
     const btn = h('button', { class: 'btn small primary', type: 'button' }, status === 'have' ? 'Made ✓' : status === 'full' ? 'Bag\'s full' : station === 'kitchen' ? 'Cook' : 'Make');
     if (status !== 'ok') btn.setAttribute('disabled', '');
-    btn.addEventListener('click', () => {
-      view.uiTap();
+    const make = () => {
       if (!craft(state, r)) return;
-      close();
       view.feedback('fanfare', 'success');
       view.banner(`${r.name}!`);
       view.say(station === 'kitchen' ? (content.line('cook.made') ?? '') : (content.line('craft.made') ?? '').replace('{tool}', r.name));
       d.made(station); d.refreshHud(); d.save();
+    };
+    btn.addEventListener('click', () => {
+      view.uiTap();
+      close();
+      // In the kitchen, the dish is cooked by hand first (chop, stir, knead).
+      if (station === 'kitchen') openCooking(view, r.name.toLowerCase(), stepsFor(r, d.tapOnly), d.tapOnly, make);
+      else make();
     });
     return h('div', { class: 'note' }, h('div', { class: 'shop-row' }, itemIcon('item' in r.makes ? r.makes.item : r.id), h('span', { class: 'shop-name' }, r.name)), h('p', { class: 'muted' }, needs), btn);
   });

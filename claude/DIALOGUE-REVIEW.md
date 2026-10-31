@@ -1217,3 +1217,8 @@ Heard only with a screen reader, never shown on screen.
   - "Summer and autumn nights"
   - and the others.
 - Journal footer: "Tap a critter to spot it. They come and go with the seasons, the time and the weather."
+
+**Cooking by hand (6b.14)**
+- "Step 1 of 2: Chop! Tap the board quickly." / "Stir! Draw circles on the pot." / "Knead! Press and hold the dough."
+- Tap-only versions: "Tap to chop" / "Tap to stir" / "Tap to knead".
+- Footer: "Close to stop: nothing is used until it's cooked."

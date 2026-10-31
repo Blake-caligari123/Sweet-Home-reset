@@ -390,4 +390,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Tap one to spot it.** The first time, it goes in the new **Critter journal** (Pause → 📖 Collection), which shows where and when to look for the rest. A spotted critter flutters off for the day. Nothing is caught.
   - Spotting and fishing now count toward the Exploring skill. Critter art is drawn in code.
   - Tour card: 🐞 Critters.
+- **6b.14 Cooking by hand (31 Oct):** `craft/cook-steps.ts`, `craft/cook-sheet.ts`.
+  - Cook in the kitchen and the dish is made in a few hand steps:
+    - **Chop:** 6 quick taps on the board.
+    - **Stir:** 2 circles around the pot.
+    - **Knead:** press and hold the dough for 1.5 s.
+  - Soups and the stew chop then stir. Tart, fritters, pie, crumble and corn cakes knead (pack `gestures`).
+  - Nothing is spent until the last step; closing just stops. **Tap-only mode** makes every step one tap, and Enter or Space works too.
+  - Tour card: 🍲 Cooking by hand.
 
