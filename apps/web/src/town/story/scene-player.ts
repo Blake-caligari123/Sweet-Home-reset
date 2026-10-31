@@ -6,7 +6,7 @@ import { FEET_TO_BASE } from '../play/targets';
 import { T } from '../world/art/texture';
 import { FEET } from '../world/nav';
 import type { NeighbourView, World } from '../world/world';
-import { asleep, captionAt, colourAt, emotesAt, facing, fadeAt, glowAt, minutesAt, nextCaption, pointAt, showsMess, type SceneDef, type Shot } from './scenes';
+import { asleep, hopping, captionAt, colourAt, emotesAt, facing, fadeAt, glowAt, minutesAt, nextCaption, pointAt, showsMess, type SceneDef, type Shot } from './scenes';
 
 export interface ScenePlayerHost {
   world: World; ui: HTMLElement; content: Content;
@@ -146,7 +146,7 @@ export class ScenePlayer {
       const p = pointAt(a.path, ms);
       const at = foot(p.x, p.y);
       const dir = facing(a, ms);
-      if (a.who === 'puff') { puff = true; world.drawPuff({ ...at, dir, pose: asleep(a, ms) ? 'sleep' : 'idle', tool: null }, dt); continue; }
+      if (a.who === 'puff') { puff = true; world.drawPuff({ ...at, dir, pose: asleep(a, ms) ? 'sleep' : hopping(a, ms) ? 'hop' : 'idle', tool: null }, dt); continue; }
       const def = content.neighbour(a.who);
       const look = a.species && a.colours ? { species: a.species, colours: a.colours } : def ? { species: def.species, colours: def.colours } : null;
       const pose = asleep(a, ms) ? 'sleep' : p.moving ? 'walk' : 'idle';
@@ -165,6 +165,8 @@ export class ScenePlayer {
     const bob = this.host.reducedMotion() ? 0 : Math.sin(ms / 220) * 2;
     this.sparkle.position.set(p.x * T + T / 2, p.y * T + T / 2 + bob);
     this.sparkle.alpha = this.host.reducedMotion() ? 1 : 0.75 + 0.25 * Math.sin(ms / 90);
+    // A little glittering trail while it moves.
+    if (p.moving && !this.host.reducedMotion() && Math.floor(ms / 260) !== Math.floor((ms - 16) / 260)) this.host.world.sparkleBurst(p.x, p.y, 2);
   }
 
   private finish() {

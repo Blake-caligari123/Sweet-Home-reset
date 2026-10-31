@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
-import { captionAt, colourAt, ease, facing, fadeAt, minutesAt, nextCaption, pointAt, sceneLength, type Key, type SceneDef, type ShotColour } from './scenes';
+import { captionAt, colourAt, ease, facing, hopping, fadeAt, minutesAt, nextCaption, pointAt, sceneLength, type Key, type SceneDef, type ShotColour } from './scenes';
 
 const walk: Key[] = [[2, 4, 0], [6, 4, 2000], [6, 8, 4000]];
 
@@ -18,6 +18,10 @@ describe('scene timeline', () => {
     expect(facing({ who: 'pip', path: walk }, 1000)).toBe('right');
     expect(facing({ who: 'pip', path: walk }, 3000)).toBe('down');
     expect(facing({ who: 'thimble', path: walk, dir: 'up' }, 3000)).toBe('up');
+    // Standing still, they look where they last looked; Puff hops for a moment.
+    const looker = { who: 'puff', path: [[4, 8, 0]] as Key[], looks: [[100, 'left'], [500, 'right']] as [number, 'left' | 'right'][], hops: [900] };
+    expect(facing(looker, 50)).toBe('down'); expect(facing(looker, 300)).toBe('left'); expect(facing(looker, 800)).toBe('right');
+    expect(hopping(looker, 1000)).toBe(true); expect(hopping(looker, 2000)).toBe(false);
   });
 
   it('ripples the grey out from a point: near first, far last', () => {
