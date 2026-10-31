@@ -23,8 +23,8 @@ export class Placing {
 
   get active() { return !!this.item; }
 
-  /** Decor goes outside, on the code-drawn town (painted rooms keep their painting). */
-  canHere() { const a = this.host.places.get(this.host.area()); return !!a && a.pack.kind === 'outdoor' && !a.pack.background; }
+  /** Decor goes outside on the code-drawn town, and in places made for it (the burrow, over its painting). */
+  canHere() { const a = this.host.places.get(this.host.area())?.pack; return !!a && (a.decorate || (a.kind === 'outdoor' && !a.background)); }
 
   start(item: string) {
     const { view, content } = this.host;

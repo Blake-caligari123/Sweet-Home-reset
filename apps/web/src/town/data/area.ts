@@ -37,6 +37,8 @@ export interface AreaPack {
   id: string; name: string; kind: 'home' | 'outdoor' | 'cave'; drained: boolean; edge: string; theme: Theme;
   legend: Record<string, Ground>; map: string[]; props: PropDef[]; doors: Door[]; mess: MessDef[];
   spawn: { x: number; y: number }; restoreReward?: number; signs?: { x: number; y: number; text: string }[];
+  /** Puff can place decor here though it's indoors or painted (the burrow). */
+  decorate?: boolean;
   /** A painted background (Blake's art) instead of code-drawn tiles: `scale` painting px per world px. */
   background?: { src: string; scale: number };
   /** Free-movement outlines traced over a painting (world px polygons): where feet may go, and furniture. */

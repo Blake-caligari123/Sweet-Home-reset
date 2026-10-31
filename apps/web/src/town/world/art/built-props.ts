@@ -166,6 +166,20 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       for (const px of [x + 2, x + 12]) pc.box(px, y + 3, 3, 12, P.brownLight, P.outline);
       pc.box(x + 1, y + 6, 15, 3, P.brownLight, P.outline); pc.box(x + 1, y + 11, 15, 2, P.brown, P.outline);
       break;
+    case 'bookcase': // a tall bookcase of bright spines, a little plant on top
+      pc.box(x + 1, y - 6, 14, 21, P.brownLight, P.outline);
+      for (const sy of [y - 4, y + 2, y + 8]) {
+        pc.rect(x + 2, sy, 12, 5, P.brownShade);
+        [P.peach, P.blueLight, P.sage, P.butter, P.peachLight].forEach((c, i) => pc.rect(x + 3 + i * 2, sy + (i % 2), 2, 5 - (i % 2), c));
+      }
+      pc.ellipse(x + 11, y - 8, 2, 2, P.sage);
+      break;
+    case 'cosy_chair': // a round, squashy armchair with a cushion
+      for (const px of [x + 3, x + 12]) pc.rect(px, y + 13, 1, 2, P.brownShade);
+      pc.box(x + 2, y + 1, 12, 9, P.peachLight, P.outline, 2);
+      pc.box(x, y + 6, 16, 8, P.peach, P.outline, 2); pc.box(x + 3, y + 7, 10, 4, P.peachLight, P.outline, 1);
+      pc.ellipse(x + 8, y + 4, 3, 2, P.butterLight);
+      break;
     case 'garden_chair': // a slatted wooden chair with a tall back
       for (const px of [x + 4, x + 10]) pc.rect(px, y + 10, 2, 5, P.brownShade);
       pc.box(x + 3, y + 8, 10, 3, P.brownLight, P.outline); pc.box(x + 3, y - 1, 10, 9, P.brownLight, P.outline);

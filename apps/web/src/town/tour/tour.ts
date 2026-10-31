@@ -61,5 +61,7 @@ export const TOUR: TourCard[] = [
       s.state.pet ??= { kind: 'cat', name: 'Pebble', day: 14 }; // so the pet visitors don't call in the yard
       for (const a of ['hen', 'goat', 'cow']) { s.flag(`animal_${a}`); s.state.farm[a] = { tended: 14, ready: true }; }
       s.go('yard');
-    } }
+    } },
+  { title: '🛋 Decorate the burrow', steps: ['Open the bag and tap the cosy chair, then tap a spot on the burrow floor.', 'Try the bookcase, fern and floor lamp too. Tap a piece to pick it back up.', 'The General Store sells chairs and ferns; Pip teaches lamps and bookcases.'],
+    setup: (s) => { s.day(8).time(18).give('cosy_chair').give('bookcase').give('fern_pot', 2).give('floor_lamp').go('burrow'); } }
 ];

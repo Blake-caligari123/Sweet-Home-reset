@@ -1235,3 +1235,8 @@ Heard only with a screen reader, never shown on screen.
 - Bag full: "The {item} can wait till the bag has room."
 - Bought: "Hen moves into the yard tomorrow!" Morning: "🐾 The hen has moved into the yard!"
 - New items: Egg, Milk, Wool, Pancakes.
+
+**Decorating the burrow (6b.17)**
+- Somewhere decor can't go: "Decor goes outdoors, or inside {puff}'s burrow."
+- Made at the bench: "{item}! Place it from the bag, outdoors or at home."
+- New items: Potted fern, Cosy chair, Floor lamp, Bookcase.

@@ -410,4 +410,8 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - A missed day just means nothing to collect; nobody is upset and nothing is left to chance. A full bag keeps it waiting.
   - The General Store buys eggs, milk and wool. Pancakes (an egg and milk; stir, then knead) are a new dish. Tending counts toward Farming.
   - Animal art is drawn in code. Tour card: 🐔 Farm animals. Tour cards now rebuild the places first, so things they add (animals) show at once.
+- **6b.17 Decorating the burrow (31 Oct):** decor can now go inside Puff's burrow as well as outdoors (`decorate` on an area in the pack).
+  - Placed pieces stand among the characters over the painting, sorted by their foot (`world/fronts.ts`), and block the way like the painted furniture (`world/nav.ts`). They never cut off the bed, the basket, the kitchen or the door.
+  - New indoor furniture: a potted fern (30 ✨, from day 3) and a cosy chair (120 ✨, from day 6) at the General Store; Pip teaches a floor lamp and a bookcase at the workbench. Outdoor decor can come inside too.
+  - Tour card: 🛋 Decorate the burrow. Rooms that unlock (a craft room, a cellar) are next.
 

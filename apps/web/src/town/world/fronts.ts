@@ -4,7 +4,7 @@ import { PixelCanvas } from '../../shared/art/pixel-canvas';
 import { toTexture } from '../../shared/render/textures';
 import type { Area } from '../data/area';
 import { FULL_COLOUR } from '../play/mess';
-import { drawProp } from './art/props';
+import { drawProp, propShadow } from './art/props';
 import { seasonal } from './art/seasons';
 import { T } from './art/texture';
 import { paintedArea } from './backgrounds';
@@ -13,6 +13,8 @@ import { paintedArea } from './backgrounds';
 // baked into the ground like everything else, so on their own Puff would always walk over them.
 // Each also gets a copy standing among the actors, sorted by its foot: walk behind a tree and its
 // leaves are in front of Puff; walk in front and Puff is. The copy greys with the ground under it.
+// A painting is one picture, so there it's the decor Puff placed that stands among the actors (it's
+// the only place it's drawn).
 
 const TALL = new Set(['tree', 'fruit_tree', 'lamppost']);
 /** How far a tall prop's art reaches past its tiles: sideways, and up. */
@@ -26,16 +28,17 @@ export class Fronts {
 
   constructor(private actors: Container) {}
 
-  /** Stand up copies of this area's tall things (none in painted areas, whose art is one picture). */
+  /** Stand up copies of this area's tall things, or in a painted area its placed decor. */
   load(area: Area, season: string) {
     for (const f of this.items) { f.colour.destroy(); f.dull.destroy(); }
     for (const t of this.owned) t.destroy(true);
     this.items = []; this.owned = [];
-    const tall = area.pack.props.filter((p) => TALL.has(p.type));
-    if (!tall.length || paintedArea(area.pack.id)) return;
+    const painted = !!paintedArea(area.pack.id);
+    const tall = area.pack.props.filter((p) => (painted ? p.action === 'decor' : TALL.has(p.type)));
+    if (!tall.length) return;
     // Drawn on one area-sized canvas, exactly as baked (same places, same leaves), then cut out.
     const pc = new PixelCanvas(area.w * T, area.h * T);
-    [...tall].sort((a, b) => (a.y + (a.h ?? 1)) - (b.y + (b.h ?? 1))).forEach((p) => drawProp(pc, p));
+    [...tall].sort((a, b) => (a.y + (a.h ?? 1)) - (b.y + (b.h ?? 1))).forEach((p) => { if (painted) propShadow(pc, p); drawProp(pc, p); });
     const colour = toTexture(area.pack.kind === 'outdoor' ? seasonal(pc, season) : pc);
     const dull = toTexture(dullen(pc));
     this.owned.push(colour, dull);

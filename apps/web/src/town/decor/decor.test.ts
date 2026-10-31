@@ -25,6 +25,18 @@ describe('decor', () => {
     expect(canPlace(yard, here, items, { x: 11, y: 8, item: 'flower_pot' }, [{ x: 11, y: 8, w: 1, h: 1 }])).toBe('taken'); // a plot
   });
 
+  it('goes in the burrow too, never in the way of the bed, the basket or the kitchen', () => {
+    const burrow = pack.areas.find((a) => a.id === 'burrow')!;
+    expect(burrow.decorate).toBe(true);
+    expect(canPlace(burrow, [], items, { x: 4, y: 10, item: 'flower_pot' }, [])).toBe('ok');
+    expect(canPlace(burrow, [], items, { x: 3, y: 5, item: 'flower_pot' }, [])).toBe('blocked'); // the bed
+    expect(canPlace(burrow, [], items, { x: 13, y: 14, item: 'flower_pot' }, [])).toBe('blocked'); // the door out
+    expect(canPlace(burrow, [], items, { x: 13, y: 13, item: 'flower_pot' }, [])).toBe('cuts_off'); // the way to it
+    // The one gap between the bedroom and the living room can't be filled.
+    const gap = [9, 10, 11, 12].find((y) => burrow.map[y][9] === '.');
+    if (gap !== undefined) expect(canPlace(burrow, [], items, { x: 9, y: gap, item: 'flower_pot' }, [])).toBe('cuts_off');
+  });
+
   it('never blocks the way to a door, a usable thing or a pickup', () => {
     // A wall of flower pots across the yard's path to the gate would cut it off: the last one is refused.
     const gate = yard.doors.find((d) => d.to !== 'burrow')!;
