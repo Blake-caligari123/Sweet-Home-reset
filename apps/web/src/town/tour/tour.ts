@@ -138,5 +138,11 @@ export const TOUR: TourCard[] = [
       s.go('riverside');
     } },
   { title: '🌾 Reed Grumbles', steps: ['From summer, a new kind of Grumble rustles by the river: green and tangly.', 'Rake it 3 times to comb it out and befriend it.'],
-    setup: (s) => { s.day(20).time(10); s.go('riverside'); } }
+    setup: (s) => { s.day(20).time(10); s.go('riverside'); } },
+  { title: '🦊 Juniper the fiddler', steps: ['Juniper has moved into a cottage at the Woodland Edge. Say hello!', 'Juniper heard an old tune in the woods. Talk each day to follow it.', 'In a normal game, Juniper\'s letter arrives in the Lane on day 40.'],
+    setup: (s) => {
+      s.day(41).time(8).flag('letter_juniper_1_read').flag('invite_juniper').flag('home_juniper').give('apple', 2);
+      for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path'], ['plot_woodland_cottage', 'cottage_juniper']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 };
+      s.go('woodland');
+    } }
 ];

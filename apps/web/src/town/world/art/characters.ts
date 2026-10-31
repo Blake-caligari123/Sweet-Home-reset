@@ -95,6 +95,11 @@ export function drawNeighbour24(species: string, c: { fur: string; belly: string
   }
   if (species === 'owl') for (const ex of side ? [10] : [7, 17]) { pc.set(ex, cy - 8, c.fur); pc.rect(ex - 1, cy - 7, 3, 2, c.fur); }
   if (species === 'otter' || species === 'hedgehog') for (const ex of side ? [11] : [8, 16]) pc.ellipse(ex, cy - 5, 2, 2, c.fur);
+  // A fox's pointed ears (dark tips) and a bushy tail with a pale tip.
+  if (species === 'fox') {
+    for (const ex of side ? [11] : [7, 17]) { for (let i = 0; i < 4; i += 1) pc.hline(ex - Math.floor(i / 2), cy - 10 + i, Math.floor(i / 2) * 2 + 1, c.fur); pc.set(ex, cy - 10, c.accent); }
+    if (dir !== 'up') { pc.ellipse(side ? 5 : 19, cy + 2, 3, 4, c.fur); pc.ellipse(side ? 4 : 20, cy + 5, 2, 2, c.belly); }
+  }
   // A wren's tail, cocked up behind.
   if (species === 'wren') { const tx = side ? 5 : 17; pc.line(tx, cy - 2, tx + (side ? -2 : 2), cy - 10, c.fur); pc.line(tx + 1, cy - 2, tx + (side ? -1 : 3), cy - 10, c.fur); pc.line(tx - 1, cy - 2, tx + (side ? -3 : 1), cy - 9, c.accent); }
   // A goat's floppy ears out to the sides and two little horns.
@@ -125,6 +130,7 @@ export function drawNeighbour24(species: string, c: { fur: string; belly: string
     pc.ellipse(bx, cy + 1, side ? 3 : 4, 3, c.belly);
     if (species === 'hedgehog' && front) { pc.rect(9, cy + 2, 7, 4, c.accent); pc.hline(10, cy + 1, 5, c.accent); }
     if (species === 'goat') pc.vline(side ? 18 : 12, cy + 4, 2, c.accent); // a little beard
+    if (species === 'fox' && front) pc.ellipse(12, cy + 2, 2, 1, c.belly); // a pale muzzle
   }
   if (species === 'otter' || species === 'mouse') { if (dir !== 'down') pc.line(side ? 5 : 12, cy + 4, side ? 2 : 12, cy + (side ? 1 : 7), c.fur); }
   // Light from the top-left.

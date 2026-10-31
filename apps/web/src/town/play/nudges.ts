@@ -7,7 +7,7 @@ const LATER_GRUMBLES = ['cobweb', 'mud', 'soot', 'reed'];
 const REPAIRS = [['footbridge', 'plot_footbridge', 'repair.hint'], ['overgrown_path', 'plot_overgrown_path', 'repair.overgrown_path.hint'], ['sea_steps', 'plot_sea_steps', 'repair.sea_steps.hint']];
 
 /** Newcomers invited by letter, until their cottage is under way: [unlock key, building, tracker hint]. */
-const NEWCOMERS = [['invite_sorrel', 'cottage_sorrel', 'invite.hint'], ['invite_fig', 'cottage_fig', 'invite.fig.hint'], ['invite_wren', 'cottage_wren', 'invite.wren.hint']];
+const NEWCOMERS = [['invite_sorrel', 'cottage_sorrel', 'invite.hint'], ['invite_fig', 'cottage_fig', 'invite.fig.hint'], ['invite_wren', 'cottage_wren', 'invite.wren.hint'], ['invite_juniper', 'cottage_juniper', 'invite.juniper.hint']];
 
 /**
  * When there's no tip or job to show, the tracker points to the newest thing to try (VISION §8: a
