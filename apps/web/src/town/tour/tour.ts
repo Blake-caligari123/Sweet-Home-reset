@@ -144,5 +144,11 @@ export const TOUR: TourCard[] = [
       s.day(41).time(8).flag('letter_juniper_1_read').flag('invite_juniper').flag('home_juniper').give('apple', 2);
       for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path'], ['plot_woodland_cottage', 'cottage_juniper']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 };
       s.go('woodland');
+    } },
+  { title: '🍐 Orchard Hill', steps: ['The tumbled steps are mended: walk east along the path at the Woodland Edge.', 'Orchard Hill has pear and plum trees, fruit every morning, and an old humming stone on top.', 'In a normal game, mend the steps from the Keeper\'s plans in autumn.'],
+    setup: (s) => {
+      s.day(36).time(10);
+      for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path'], ['plot_hill_steps', 'hill_steps']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 };
+      s.go('woodland');
     } }
 ];

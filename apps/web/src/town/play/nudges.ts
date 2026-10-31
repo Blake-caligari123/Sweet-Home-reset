@@ -4,7 +4,7 @@ import type { TownState } from '../state';
 const LATER_GRUMBLES = ['cobweb', 'mud', 'soot', 'reed'];
 
 /** Repairs as they come due: [unlock key, plot, tracker hint]. */
-const REPAIRS = [['footbridge', 'plot_footbridge', 'repair.hint'], ['overgrown_path', 'plot_overgrown_path', 'repair.overgrown_path.hint'], ['sea_steps', 'plot_sea_steps', 'repair.sea_steps.hint']];
+const REPAIRS = [['footbridge', 'plot_footbridge', 'repair.hint'], ['overgrown_path', 'plot_overgrown_path', 'repair.overgrown_path.hint'], ['sea_steps', 'plot_sea_steps', 'repair.sea_steps.hint'], ['hill_steps', 'plot_hill_steps', 'repair.hill_steps.hint']];
 
 /** Newcomers invited by letter, until their cottage is under way: [unlock key, building, tracker hint]. */
 const NEWCOMERS = [['invite_sorrel', 'cottage_sorrel', 'invite.hint'], ['invite_fig', 'cottage_fig', 'invite.fig.hint'], ['invite_wren', 'cottage_wren', 'invite.wren.hint'], ['invite_juniper', 'cottage_juniper', 'invite.juniper.hint']];

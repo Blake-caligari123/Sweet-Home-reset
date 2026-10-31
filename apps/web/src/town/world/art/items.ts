@@ -122,6 +122,8 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'bread': b(2, 5, 11, 7, P.butterShade, 3); pc.hline(ox + 4, oy + 6, 7, P.butterLight); for (const x of [5, 8, 11]) pc.set(ox + x, oy + 8, P.brownLight); break;
     case 'berries': for (const [x, y] of [[5, 8], [9, 8], [7, 5], [7, 10]]) pc.ellipseBox(ox + x, oy + y, 2, 2, P.blueShade, P.outline); pc.set(ox + 6, oy + 4, P.white); pc.line(ox + 7, oy + 3, ox + 9, oy + 1, P.sageShade); break;
     case 'honey': b(3, 4, 8, 9, P.butter, 2); b(4, 2, 6, 3, P.brownLight, 1); pc.rect(ox + 5, oy + 7, 4, 3, P.butterShade); pc.set(ox + 4, oy + 6, P.white); break;
+    case 'pear': pc.ellipseBox(ox + 7, oy + 9, 4, 4, P.butter, P.outline); pc.ellipseBox(ox + 7, oy + 5, 2, 2, P.butter, P.outline); pc.ellipse(ox + 7, oy + 8, 3, 3, P.butter); pc.vline(ox + 7, oy + 1, 2, P.brown); pc.set(ox + 5, oy + 8, P.butterLight); break;
+    case 'plum': pc.ellipseBox(ox + 7, oy + 8, 4, 4, '#8E6FA8', P.outline); pc.vline(ox + 7, oy + 2, 2, P.brown); pc.set(ox + 8, oy + 3, P.sage); pc.set(ox + 5, oy + 6, P.white); break;
     case 'watercress': for (const [x, y] of [[4, 8], [7, 5], [10, 8], [7, 10]]) { pc.ellipseBox(ox + x, oy + y, 2, 2, P.sage, P.outline); pc.set(ox + x - 1, oy + y - 1, P.sageLight); } pc.vline(ox + 7, oy + 11, 3, P.sageShade); break;
     case 'watercress_seeds': b(3, 1, 8, 12, P.blueLight, 1); for (const [x, y] of [[6, 6], [8, 7]]) pc.ellipseBox(ox + x, oy + y, 1, 1, P.sage, P.outline); pc.vline(ox + 7, oy + 2, 2, P.sage); break;
     case 'rare_seeds': b(3, 1, 8, 12, P.blueLight, 1); pc.ellipseBox(ox + 7, oy + 6, 2, 2, P.butter, P.outline); pc.set(ox + 7, oy + 6, P.white); pc.vline(ox + 7, oy + 2, 2, P.sage); break;

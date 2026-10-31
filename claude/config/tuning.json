@@ -197,6 +197,9 @@
     "overgrown_path": {
       "day": 26
     },
+    "hill_steps": {
+      "day": 36
+    },
     "cave_3": {
       "day": 17,
       "flag": "cave_leaf_3"
