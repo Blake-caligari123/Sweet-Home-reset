@@ -522,3 +522,17 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Reward: 200 ✨, a lantern and `chapter_autumn_song`. Juniper and Mabel each have a line afterwards.
   - Tour card: 🎻 Autumn chapter.
 
+### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
+- **K.1 The scene player and the opening (31 Oct):** `story/`.
+  - Cutscenes play out in the town itself (`scenes` in the pack). Each beat shows a place at a time of day, glides the camera, walks characters (neighbours, Puff, or a scene-only character), drains or fills the colour across the place, can float a glowing sparkle, and holds a caption.
+  - Tap for the next caption, or Skip. With reduced motion the camera and characters cut instead of gliding. The HUD steps aside, and the game's own loop stands still while it plays.
+  - **The opening** (about 48 seconds) plays once on a new game, before naming:
+    1. The bright town long ago, with neighbours about and Thimble (a dust bunny, seen only from behind) by the fountain.
+    2. Thimble keeping the water singing.
+    3. Thimble walking away to rest.
+    4. The colour draining across the square.
+    5. The last sparkle at night.
+    6. The sleepy grey lane.
+    7. Puff waking in the burrow.
+  - Tour card: 🎬 The opening.
+

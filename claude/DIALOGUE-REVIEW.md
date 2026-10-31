@@ -1582,3 +1582,12 @@ Heard only with a screen reader, never shown on screen.
 - Juniper: "Help me find where the old song comes from?" / "Three notes, then a fourth. Where does it come from? Help?" / end: "The warm water hums under the hill. That's the song!"
 - Moss: "Thimble's songbook. Handle it gently. It's very old." Mabel: "Hoo. We sang there as chicks. The stone sang back."
 - Afterwards: Juniper "The town hums its own song. I'll play it forever." / Mabel "Hoo. I'd forgotten the stone's song. Thank you, dear."
+
+**The opening cutscene (K.1)**
+1. "Long ago, {town} was the brightest town in the hills."
+2. "Its Keeper, Thimble, kept the warm water singing."
+3. "One winter, Thimble grew sleepy and went to rest."
+4. "The water cooled. The colour slipped away."
+5. "But the fountain kept one last sparkle."
+6. "Everyone grew too tired to tidy. Until..."
+7. "...a little grey puff woke up. That's you!"

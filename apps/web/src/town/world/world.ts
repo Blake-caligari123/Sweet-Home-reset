@@ -94,6 +94,8 @@ export class World {
   private cropLayer = new Container();
   private pickupLayer = new Container();
   readonly actors = new Container();
+  /** Above the light and shade: things that glow on their own (a cutscene's sparkle). */
+  readonly glows = new Container();
   readonly particles = new Particles();
   private tint = new Graphics();
   /** A soft light around Puff after dark. */
@@ -131,7 +133,7 @@ export class World {
     this.puff.anchor.set(0.5, 1);
     this.toolSprite.anchor.set(0.5);
     for (const c of [this.base, this.drained, this.messLayer, this.cropLayer, this.actors, this.particles.container, this.tint, this.marker, this.highlight, this.vignette]) c.eventMode = 'none';
-    this.stage.addChild(this.base, this.drained, this.cropLayer, this.messLayer, this.pickupLayer, this.alive.under, this.highlight, this.marker, this.actors, this.particles.container, this.ambience.container, this.tint, this.ambience.lights, this.alive.lights, this.puffGlow);
+    this.stage.addChild(this.base, this.drained, this.cropLayer, this.messLayer, this.pickupLayer, this.alive.under, this.highlight, this.marker, this.actors, this.particles.container, this.ambience.container, this.tint, this.ambience.lights, this.alive.lights, this.puffGlow, this.glows);
     this.tint.blendMode = 'multiply';
     this.puffGlow.blendMode = 'add'; this.puffGlow.anchor.set(0.5); this.puffGlow.width = this.puffGlow.height = 56; this.puffGlow.alpha = 0; this.puffGlow.eventMode = 'none';
     this.root.addChild(this.vignette);
@@ -227,6 +229,24 @@ export class World {
   private syncDrainedVisible() {
     this.drained.visible = this.shownColour.some((v) => v < FULL_COLOUR);
   }
+
+  /**
+   * A cutscene's colour (story/scenes.ts): how coloured each tile looks, 0 grey to 1 full, instead of
+   * the place's real colour. `null` puts the real colour back.
+   */
+  setSceneColour(level: ((x: number, y: number) => number) | null) {
+    if (!this.area) return;
+    const w = this.area.w;
+    if (!level) { this.redrawTiles(this.drainSprites.map((_, i) => i)); return; }
+    const at = (i: number) => level(i % w, Math.floor(i / w)) * FULL_COLOUR;
+    for (let i = 0; i < this.drainSprites.length; i += 1) this.paintDrainTile(i, at(i));
+    this.drained.visible = true;
+    this.fronts.shade(at);
+  }
+
+  /** Cutscenes: hide the mess (the town long ago) and Puff (before Puff was born). */
+  showMess(on: boolean) { this.messLayer.visible = on; }
+  showPuff(on: boolean) { for (const s of [this.puff, this.puffShadow, this.puffGlow]) s.visible = on; if (!on) this.toolSprite.visible = false; }
 
   /** Things Puff can take here (a snack on the counter), drawn with the item's art or icon. */
   setPickups(list: { x: number; y: number; item: string; drawDy?: number }[]) {

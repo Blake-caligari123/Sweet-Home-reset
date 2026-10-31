@@ -10061,7 +10061,14 @@
    "quest.old_song.mabel": "Hoo. We sang there as chicks. The stone sang back.",
    "quest.old_song.done": "The warm water hums under the hill. That's the song!",
    "juniper.chapter.1": "The town hums its own song. I'll play it forever.",
-   "mabel.chapter.1": "Hoo. I'd forgotten the stone's song. Thank you, dear."
+   "mabel.chapter.1": "Hoo. I'd forgotten the stone's song. Thank you, dear.",
+   "scene.opening.1": "Long ago, {town} was the brightest town in the hills.",
+   "scene.opening.2": "Its Keeper, Thimble, kept the warm water singing.",
+   "scene.opening.3": "One winter, Thimble grew sleepy and went to rest.",
+   "scene.opening.4": "The water cooled. The colour slipped away.",
+   "scene.opening.5": "But the fountain kept one last sparkle.",
+   "scene.opening.6": "Everyone grew too tired to tidy. Until...",
+   "scene.opening.7": "...a little grey puff woke up. That's you!"
   }
  },
  "heartEvents": [
@@ -15647,6 +15654,216 @@
    "x": 20,
    "y": 15,
    "w": 2
+  }
+ ],
+ "scenes": [
+  {
+   "id": "opening",
+   "beats": [
+    {
+     "area": "square",
+     "at": [
+      15,
+      9
+     ],
+     "to": [
+      15,
+      10
+     ],
+     "minutes": 600,
+     "colour": "full",
+     "caption": "scene.opening.1",
+     "ms": 7000,
+     "actors": [
+      {
+       "who": "hazel",
+       "x": 8,
+       "y": 12,
+       "to": [
+        11,
+        13
+       ],
+       "dir": "right"
+      },
+      {
+       "who": "bea",
+       "x": 21,
+       "y": 9,
+       "dir": "down"
+      },
+      {
+       "who": "pip",
+       "x": 6,
+       "y": 10,
+       "to": [
+        9,
+        10
+       ],
+       "dir": "right"
+      },
+      {
+       "who": "otto",
+       "x": 22,
+       "y": 13,
+       "dir": "left"
+      },
+      {
+       "who": "thimble",
+       "x": 15,
+       "y": 12,
+       "dir": "up",
+       "species": "bunny",
+       "colours": {
+        "fur": "#E9E2F0",
+        "belly": "#FBF7FD",
+        "accent": "#B8A9CF"
+       }
+      }
+     ]
+    },
+    {
+     "area": "square",
+     "at": [
+      15,
+      11
+     ],
+     "minutes": 1080,
+     "colour": "full",
+     "caption": "scene.opening.2",
+     "ms": 6500,
+     "actors": [
+      {
+       "who": "thimble",
+       "x": 15,
+       "y": 12,
+       "dir": "up",
+       "species": "bunny",
+       "colours": {
+        "fur": "#E9E2F0",
+        "belly": "#FBF7FD",
+        "accent": "#B8A9CF"
+       }
+      }
+     ]
+    },
+    {
+     "area": "square",
+     "at": [
+      13,
+      10
+     ],
+     "to": [
+      12,
+      8
+     ],
+     "minutes": 1140,
+     "colour": "full",
+     "caption": "scene.opening.3",
+     "ms": 6500,
+     "actors": [
+      {
+       "who": "thimble",
+       "x": 12,
+       "y": 12,
+       "to": [
+        12,
+        7
+       ],
+       "dir": "up",
+       "species": "bunny",
+       "colours": {
+        "fur": "#E9E2F0",
+        "belly": "#FBF7FD",
+        "accent": "#B8A9CF"
+       }
+      }
+     ]
+    },
+    {
+     "area": "square",
+     "at": [
+      6,
+      10
+     ],
+     "to": [
+      24,
+      10
+     ],
+     "minutes": 1200,
+     "colour": "drain",
+     "caption": "scene.opening.4",
+     "ms": 8000
+    },
+    {
+     "area": "square",
+     "at": [
+      15,
+      10
+     ],
+     "minutes": 1320,
+     "colour": "grey",
+     "sparkle": [
+      15,
+      9
+     ],
+     "sparkleTo": [
+      15,
+      13
+     ],
+     "caption": "scene.opening.5",
+     "ms": 7000
+    },
+    {
+     "area": "lane",
+     "at": [
+      5,
+      8
+     ],
+     "to": [
+      24,
+      8
+     ],
+     "minutes": 420,
+     "colour": "grey",
+     "caption": "scene.opening.6",
+     "ms": 7000,
+     "actors": [
+      {
+       "who": "bea",
+       "x": 17,
+       "y": 6,
+       "dir": "down",
+       "sleep": true
+      },
+      {
+       "who": "pip",
+       "x": 8,
+       "y": 7,
+       "dir": "down",
+       "sleep": true
+      }
+     ]
+    },
+    {
+     "area": "burrow",
+     "at": [
+      4,
+      7
+     ],
+     "minutes": 420,
+     "colour": "grey",
+     "caption": "scene.opening.7",
+     "ms": 6500,
+     "actors": [
+      {
+       "who": "puff",
+       "x": 4,
+       "y": 8,
+       "dir": "down"
+      }
+     ]
+    }
+   ]
   }
  ]
 }

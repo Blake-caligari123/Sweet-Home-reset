@@ -26,7 +26,7 @@ const SCENES = [
     mkdirSync(dir, { recursive: true });
     for (const s of SCENES.filter((x) => !process.env.ONLY || x.name === process.env.ONLY)) {
       const page = await (await browser.newContext({ viewport, deviceScaleFactor: 3 })).newPage();
-      await page.goto(URL); await page.click('text=Let\'s tidy!'); await page.waitForSelector('.name-input');
+      await page.goto(URL); await page.click('text=Let\'s tidy!'); await page.click('.scene-skip'); await page.waitForSelector('.name-input');
       await page.keyboard.press('Escape'); await page.waitForTimeout(600);
       // The day before, then a night's sleep, so festivals, seasons and arrivals are set up as in play.
       await page.evaluate((day) => { const t = window.__town; t.skipTips(); t.setDay(day - 1); t.sleep(); }, s.day);

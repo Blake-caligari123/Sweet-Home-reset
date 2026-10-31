@@ -9,6 +9,8 @@ export interface TourCard { title: string; steps: string[]; setup(s: Scene): voi
 export const TOUR_ON = import.meta.env.VITE_RELEASE !== '1';
 
 export const TOUR: TourCard[] = [
+  { title: '🎬 The opening', steps: ['The story of the town plays out: long ago, Thimble, the colour going grey, and Puff\'s first sparkle.', 'Tap for the next caption, or Skip. A new game plays it once before naming.'],
+    setup: (s) => { s.playScene('opening'); } },
   { title: '🗺 Getting around', steps: ['Tap 🗺 (top left) and pick a place to travel there.', 'Pause → Joystick: drag anywhere to walk.', 'Pinch (or the mouse wheel) to zoom.'],
     setup: (s) => { s.day(3).time(10).visited('yard', 'square', 'lane', 'bakery', 'library').go('square'); } },
   { title: '🌙 Night light and trees', steps: ['It\'s 9:30 pm: see the dark, the lamp glow and Puff\'s soft glow.', 'Walk behind a tree: its leaves go in front of Puff.'],

@@ -17,5 +17,7 @@ export class Scene {
   meet(...ids: string[]) { for (const id of ids) this.state.friendOf(id).met = true; return this; }
   /** A place fully restored (a neighbour's home, for what that changes). */
   restore(area: string) { this.g.messFor(area).restore(); return this; }
+  /** Play a cutscene over everything (the how-to sheet waits underneath). */
+  playScene(id: string) { this.g.playScene(id); return this; }
   visited(...areas: string[]) { for (const a of areas) this.state.visit(a); return this; }
 }

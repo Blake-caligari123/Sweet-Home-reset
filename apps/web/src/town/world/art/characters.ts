@@ -100,6 +100,8 @@ export function drawNeighbour24(species: string, c: { fur: string; belly: string
     for (const ex of side ? [11] : [7, 17]) { for (let i = 0; i < 4; i += 1) pc.hline(ex - Math.floor(i / 2), cy - 10 + i, Math.floor(i / 2) * 2 + 1, c.fur); pc.set(ex, cy - 10, c.accent); }
     if (dir !== 'up') { pc.ellipse(side ? 5 : 19, cy + 2, 3, 4, c.fur); pc.ellipse(side ? 4 : 20, cy + 5, 2, 2, c.belly); }
   }
+  // A bunny's long ears (Thimble, the Keeper long ago).
+  if (species === 'bunny') for (const ex of side ? [11] : [9, 15]) { pc.ellipse(ex, cy - 9, 2, 4, c.fur); pc.ellipse(ex, cy - 9, 1, 3, c.accent); }
   // A wren's tail, cocked up behind.
   if (species === 'wren') { const tx = side ? 5 : 17; pc.line(tx, cy - 2, tx + (side ? -2 : 2), cy - 10, c.fur); pc.line(tx + 1, cy - 2, tx + (side ? -1 : 3), cy - 10, c.fur); pc.line(tx - 1, cy - 2, tx + (side ? -3 : 1), cy - 9, c.accent); }
   // A goat's floppy ears out to the sides and two little horns.
