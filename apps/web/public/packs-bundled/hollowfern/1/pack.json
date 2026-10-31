@@ -290,6 +290,30 @@
    "name": "Fish stew",
    "snack": 55,
    "sell": 60
+  },
+  "garden_chair": {
+   "name": "Garden chair",
+   "decor": {
+    "prop": "garden_chair"
+   }
+  },
+  "planter_box": {
+   "name": "Planter box",
+   "decor": {
+    "prop": "planter_box"
+   }
+  },
+  "picnic_table": {
+   "name": "Picnic table",
+   "decor": {
+    "prop": "picnic_table"
+   }
+  },
+  "birdhouse": {
+   "name": "Birdhouse",
+   "decor": {
+    "prop": "birdhouse"
+   }
   }
  },
  "areas": [
@@ -7682,7 +7706,7 @@
    "pet.pat.2": "{pet} does a happy wiggle.",
    "pet.pat.3": "Best friends, you and me.",
    "pet.hint": "Someone's waiting at your burrow door.",
-   "craft.none": "Pip's workbench. Learn a recipe at the General Store!",
+   "craft.none": "Pip's workbench. Recipes come from the shop, or Pip!",
    "craft.made": "{tool}! Hold on mess to clean a little patch at once.",
    "craft.charged": "Whoosh! A big clean!",
    "stock.copper_duster": "Copper duster recipe",
@@ -8057,7 +8081,8 @@
    "req.pip_grumbles": "Pip wants to meet Grumbles! Befriend 2 of any kind.",
    "req.moss_cobweb": "Moss asks: befriend a cobweb Grumble, gently.",
    "req.otto_mud": "Otto's bath is muddy again. Befriend a mud Grumble?",
-   "fish.no_rod": "Fish are rising! The General Store sells fishing rods."
+   "fish.no_rod": "Fish are rising! The General Store sells fishing rods.",
+   "craft.made_decor": "{item}! Place it from the bag, outdoors."
   }
  },
  "heartEvents": [
@@ -10943,6 +10968,68 @@
      "carrot": 1
     }
    }
+  },
+  {
+   "id": "garden_chair",
+   "name": "Garden chair",
+   "makes": {
+    "item": "garden_chair",
+    "qty": 1
+   },
+   "cost": {
+    "sparkles": 10,
+    "items": {
+     "twig": 4
+    }
+   },
+   "learn": "he_pip_02_done"
+  },
+  {
+   "id": "planter_box",
+   "name": "Planter box",
+   "makes": {
+    "item": "planter_box",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "twig": 2,
+     "pebble": 2
+    }
+   },
+   "learn": "he_pip_02_done"
+  },
+  {
+   "id": "picnic_table",
+   "name": "Picnic table",
+   "makes": {
+    "item": "picnic_table",
+    "qty": 1
+   },
+   "cost": {
+    "sparkles": 30,
+    "items": {
+     "twig": 6,
+     "pebble": 1
+    }
+   },
+   "learn": "he_pip_04_done"
+  },
+  {
+   "id": "birdhouse",
+   "name": "Birdhouse",
+   "makes": {
+    "item": "birdhouse",
+    "qty": 1
+   },
+   "cost": {
+    "sparkles": 15,
+    "items": {
+     "twig": 3,
+     "pebble": 1
+    }
+   },
+   "learn": "he_pip_04_done"
   }
  ],
  "crops": [

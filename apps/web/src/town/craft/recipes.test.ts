@@ -69,6 +69,28 @@ describe('Hollowfern Silver tools', () => {
   });
 });
 
+describe('Hollowfern furniture', () => {
+  it('makes outdoor decor at Pip\'s bench, taught by Pip\'s heart events, from forage', () => {
+    const furniture = (pack.recipes ?? []).filter((r) => (r.station ?? 'bench') === 'bench' && 'item' in r.makes);
+    expect(furniture.length).toBeGreaterThanOrEqual(4);
+    const heartDone = new Set((pack.heartEvents ?? []).filter((e) => e.neighbourId === 'pip').map((e) => `${e.id}_done`));
+    for (const r of furniture) {
+      expect('item' in r.makes && pack.items[r.makes.item]?.decor, r.id).toBeTruthy();
+      expect(heartDone.has(r.learn ?? ''), `${r.id} taught by Pip`).toBe(true);
+      for (const item of Object.keys(r.cost.items ?? {})) expect(pack.areas.some((a) => (a.pickups ?? []).some((p) => p.item === item)), `${item} can be foraged`).toBe(true);
+    }
+  });
+
+  it('can be made again and again while there are materials', () => {
+    const chair = (pack.recipes ?? []).find((r) => r.id === 'garden_chair')!;
+    const s = new TownState(); s.flag(chair.learn!); s.sparkles = 100; s.bag.add('twig', 8);
+    expect(craft(s, chair)).toBe(true);
+    expect(craft(s, chair)).toBe(true);
+    expect(s.bag.count('garden_chair')).toBe(2);
+    expect(canCraft(s, chair)).toBe('short');
+  });
+});
+
 describe('cooking', () => {
   const soup: RecipeDef = { id: 'veggie_soup', name: 'Veggie soup', station: 'kitchen', makes: { item: 'veggie_soup', qty: 1 }, cost: { items: { radish: 1, carrot: 1 } } };
   it('turns ingredients into a dish, any number of times, if the bag has room', () => {

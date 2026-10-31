@@ -52,5 +52,7 @@ export const TOUR: TourCard[] = [
   { title: '🐞 Critters', steps: ['Look around the yard: tap a little critter to spot it.', 'Pause → 📖 Collection has the Critter journal, with hints for the rest.'],
     setup: (s) => { s.day(3).time(11).go('yard'); } },
   { title: '🍲 Cooking by hand', steps: ['Tap the kitchen in the burrow and Cook the veggie soup.', 'Chop with quick taps, then stir in circles. Pea fritters need kneading: press and hold.'],
-    setup: (s) => { s.day(3).time(12).give('radish', 2).give('carrot', 2).give('peas', 2).go('burrow'); } }
+    setup: (s) => { s.day(3).time(12).give('radish', 2).give('carrot', 2).give('peas', 2).go('burrow'); } },
+  { title: '🪑 Furniture', steps: ['Tap Pip\'s workbench and Make a chair or a picnic table.', 'Open the bag, tap the furniture, and place it outside in the lane. Tap it again to pick it up.'],
+    setup: (s) => { s.day(8).time(11).flag('he_pip_02_done').flag('he_pip_04_done').meet('pip').give('twig', 12).give('pebble', 4).sparkles(60).go('pip_workshop'); } }
 ];

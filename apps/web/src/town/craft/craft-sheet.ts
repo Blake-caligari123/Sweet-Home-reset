@@ -8,7 +8,7 @@ import { stepsFor } from './cook-steps';
 import { canCraft, craft, sparkleCost, type RecipeDef } from './recipes';
 
 const STATIONS = {
-  bench: { title: 'Pip\'s workbench', note: 'Twigs and pebbles turn up outside each morning.', none: 'craft.none' },
+  bench: { title: 'Pip\'s workbench', note: 'Tools and furniture. Twigs and pebbles turn up outside each morning.', none: 'craft.none' },
   kitchen: { title: 'Kitchen', note: 'Cook what you grow. Dishes are hearty snacks and lovely gifts.', none: 'cook.none' }
 };
 
@@ -28,7 +28,8 @@ export function openWorkbench(d: { state: TownState; view: View; content: Conten
       if (!craft(state, r)) return;
       view.feedback('fanfare', 'success');
       view.banner(`${r.name}!`);
-      view.say(station === 'kitchen' ? (content.line('cook.made') ?? '') : (content.line('craft.made') ?? '').replace('{tool}', r.name));
+      const line = station === 'kitchen' ? content.line('cook.made') : 'tool' in r.makes ? content.line('craft.made')?.replace('{tool}', r.name) : content.line('craft.made_decor')?.replace('{item}', r.name);
+      view.say(line ?? '');
       d.made(station); d.refreshHud(); d.save();
     };
     btn.addEventListener('click', () => {

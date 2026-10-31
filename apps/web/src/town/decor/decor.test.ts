@@ -40,10 +40,11 @@ describe('decor', () => {
     expect(canPlace(yard, wall, items, { x: 11, y: 8, item: 'stone_path' }, [])).toBe('ok');
   });
 
-  it('has decor to buy, each a prop or a ground tile', () => {
+  it('has decor to buy or make at Pip\'s bench, each a prop or a ground tile', () => {
     const decor = Object.entries(pack.items).filter(([, v]) => v.decor);
     expect(decor.length).toBeGreaterThanOrEqual(4);
     const sold = (pack.shops ?? []).flatMap((s) => s.stock.map((e) => e.item));
-    for (const [id] of decor) expect(sold, id).toContain(id);
+    const made = (pack.recipes ?? []).flatMap((r) => ('item' in r.makes ? [r.makes.item] : []));
+    for (const [id] of decor) expect([...sold, ...made], id).toContain(id);
   });
 });

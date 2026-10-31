@@ -6,7 +6,7 @@ import { T } from './texture';
 /**
  * What the town builds and places (code-drawn): the Keeper's plans board, scaffolding and frames,
  * the buildings and their upgrades, the greenhouse, a newcomer's cottage, the footbridge and sea steps (broken,
- * then mended), the lighthouse, and decor (flower pots, lanterns, fences).
+ * then mended), the lighthouse, and decor (flower pots, lanterns, fences, Pip's-bench furniture).
  */
 export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
   const x = p.x * T; const y = p.y * T; const w = (p.w ?? 1) * T; const h = (p.h ?? 1) * T;
@@ -165,6 +165,27 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
     case 'fence_post':
       for (const px of [x + 2, x + 12]) pc.box(px, y + 3, 3, 12, P.brownLight, P.outline);
       pc.box(x + 1, y + 6, 15, 3, P.brownLight, P.outline); pc.box(x + 1, y + 11, 15, 2, P.brown, P.outline);
+      break;
+    case 'garden_chair': // a slatted wooden chair with a tall back
+      for (const px of [x + 4, x + 10]) pc.rect(px, y + 10, 2, 5, P.brownShade);
+      pc.box(x + 3, y + 8, 10, 3, P.brownLight, P.outline); pc.box(x + 3, y - 1, 10, 9, P.brownLight, P.outline);
+      for (const sy of [y + 2, y + 5]) pc.hline(x + 4, sy, 8, P.brown);
+      break;
+    case 'planter_box': // a wooden box of herbs
+      pc.box(x + 1, y + 7, 14, 8, P.brownLight, P.outline); pc.hline(x + 2, y + 11, 12, P.brown);
+      for (let i = 0; i < 4; i += 1) { pc.ellipse(x + 3 + i * 3, y + 5, 2, 2, i % 2 ? P.sageLight : P.sage); pc.set(x + 3 + i * 3, y + 3, P.sageShade); }
+      break;
+    case 'picnic_table': // a table with a gingham cloth and a little teapot
+      for (const px of [x + 2, x + 12]) pc.rect(px, y + 9, 2, 6, P.brownShade);
+      pc.box(x, y + 5, 16, 5, P.cream, P.outline);
+      for (let i = 1; i < 15; i += 4) pc.rect(x + i, y + 6, 2, 3, P.peachLight);
+      pc.ellipseBox(x + 8, y + 3, 2, 2, P.blueLight, P.outline); pc.set(x + 11, y + 3, P.blueLight);
+      break;
+    case 'birdhouse': // a little house on a pole, a round door and a peach roof
+      pc.rect(x + 7, y + 6, 2, 9, P.brownShade);
+      pc.box(x + 4, y - 2, 8, 9, P.brownLight, P.outline); pc.ellipse(x + 8, y + 2, 1, 1, P.ink);
+      pc.line(x + 3, y - 2, x + 8, y - 6, P.peachShade); pc.line(x + 8, y - 6, x + 13, y - 2, P.peachShade);
+      pc.hline(x + 7, y + 5, 3, P.brown);
       break;
     case 'flower_bed': {
       pc.box(x, y + 6, w, 9, P.brownShade, P.outline, 1);
