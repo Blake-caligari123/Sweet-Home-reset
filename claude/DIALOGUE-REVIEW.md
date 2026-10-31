@@ -1473,3 +1473,6 @@ Heard only with a screen reader, never shown on screen.
 **Watercress and the riverbank beds (6d.6)**
 - Harvest: "Watercress! Peppery and fresh." Wrong place: "These seeds want wet soil. The riverbank beds?"
 - Built: "The riverbank beds are dug! Watercress grows there." Plot: "The riverbank".
+
+**Reed Grumbles (6d.7)**
+- "Rustle." / "Hmph... all tangly." / befriended: "Swish! Combed and comfy!" / hint: "Something rustly is grumbling in the reeds."

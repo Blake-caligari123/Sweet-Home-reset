@@ -493,4 +493,6 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Riverbank beds** join the Keeper's plans once Fig's riverbank garden quest is done (`riverbank_beds` unlock): 80 ✨ and 4 twigs, 1 night. They dig a 3×2 patch of soil by the river that the river waters every morning (`waters_nearby`, like the well).
   - Holding only riverbank seeds anywhere else, Puff says they want wet soil.
   - Tour card: 🌿 Watercress by the river.
+- **6d.7 Reed Grumbles (31 Oct):** the district's own Grumble family, sage green and tangly, at Riverside and the Far Bank from day 20 (`grumble_reed`). Rake one 3 times to comb it out and befriend it. They have their own lines and a tracker hint until the first is befriended. Tour card: 🌾 Reed Grumbles.
+- **Riverside and the Far Bank, done for now:** Wren, the first sail, the secret boathouse, river critters, the summer chapter, watercress and the riverbank beds, and reed Grumbles. Next district: Woodland and Orchard Hill.
 

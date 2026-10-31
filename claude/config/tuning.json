@@ -177,6 +177,9 @@
     "grumble_soot": {
       "day": 16
     },
+    "grumble_reed": {
+      "day": 20
+    },
     "cave_2": {
       "day": 13,
       "flag": "cave_leaf_2"

@@ -9392,7 +9392,11 @@
    "otto.chapter.1": "Thimble warmed my baths! I'll name a tub after them.",
    "crop.watercress.harvest": "Watercress! Peppery and fresh.",
    "crop.elsewhere": "These seeds want wet soil. The riverbank beds?",
-   "build.done.riverbank_beds": "The riverbank beds are dug! Watercress grows there."
+   "build.done.riverbank_beds": "The riverbank beds are dug! Watercress grows there.",
+   "grumble.reed.before.1": "Rustle.",
+   "grumble.reed.before.2": "Hmph... all tangly.",
+   "grumble.reed.after.1": "Swish! Combed and comfy!",
+   "grumble.reed.hint": "Something rustly is grumbling in the reeds."
   }
  },
  "heartEvents": [
@@ -12721,6 +12725,17 @@
    ],
    "unlock": "grumble_soot",
    "tint": "#8C8494"
+  },
+  {
+   "id": "reed",
+   "tool": "rake",
+   "hits": 3,
+   "areas": [
+    "riverside",
+    "far_bank"
+   ],
+   "unlock": "grumble_reed",
+   "tint": "#A9CDA0"
   }
  ],
  "pets": [
