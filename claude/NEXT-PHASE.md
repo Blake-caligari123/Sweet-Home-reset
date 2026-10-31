@@ -523,16 +523,17 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Tour card: 🎻 Autumn chapter.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
-- **K.1 The scene player and the opening (31 Oct):** `story/`.
-  - Cutscenes play out in the town itself (`scenes` in the pack). Each beat shows a place at a time of day, glides the camera, walks characters (neighbours, Puff, or a scene-only character), drains or fills the colour across the place, can float a glowing sparkle, and holds a caption.
-  - Tap for the next caption, or Skip. With reduced motion the camera and characters cut instead of gliding. The HUD steps aside, and the game's own loop stands still while it plays.
-  - **The opening** (about 48 seconds) plays once on a new game, before naming:
-    1. The bright town long ago, with neighbours about and Thimble (a dust bunny, seen only from behind) by the fountain.
-    2. Thimble keeping the water singing.
-    3. Thimble walking away to rest.
-    4. The colour draining across the square.
-    5. The last sparkle at night.
-    6. The sleepy grey lane.
-    7. Puff waking in the burrow.
+- **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
+  - A cutscene is one continuous take made of shots (`scenes` in the pack). Within a place, the camera follows whoever the story is about: a character, or the sparkle.
+  - Characters walk real paths and face where they go (Thimble always faces away). The grey ripples out from where it starts, the time of day eases along, and small sparkle bursts mark moments.
+  - Moving to the next place is a soft fade as the subject crosses through a real door. Captions change with the action.
+  - Tap jumps to the next caption, and Skip ends it. Reduced motion cuts instead of gliding.
+  - **The opening** (about 52 seconds, once on a new game before naming):
+    1. The bright square, with neighbours strolling and Thimble (from behind) by the sparkling fountain.
+    2. Snow begins. Thimble walks off to rest, and the camera follows.
+    3. The grey ripples out from the fountain while the neighbours nod off.
+    4. At dusk the last sparkle pops out of the fountain and drifts out of the square.
+    5. The sparkle drifts across the yard to the burrow door.
+    6. It floats in to the bed and becomes Puff.
   - Tour card: 🎬 The opening.
 

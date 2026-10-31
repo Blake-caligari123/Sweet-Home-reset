@@ -6,14 +6,14 @@ import { FEET_TO_BASE } from '../play/targets';
 import { T } from '../world/art/texture';
 import { FEET } from '../world/nav';
 import type { NeighbourView, World } from '../world/world';
-import { along, colourAt, hidesMess, type SceneBeat, type SceneDef } from './scenes';
+import { captionAt, colourAt, facing, fadeAt, minutesAt, nextCaption, pointAt, showsMess, type SceneDef, type Shot } from './scenes';
 
 export interface ScenePlayerHost {
   world: World; ui: HTMLElement; content: Content;
   reducedMotion(): boolean;
   /** Show a place as it stands, without moving Puff or touching the save. */
   show(area: string): void;
-  /** Back to play, where Puff was. */
+  /** Back to play, where Puff was (and the real season's sky). */
   resume(): void;
 }
 
@@ -21,12 +21,12 @@ export interface ScenePlayerHost {
 const foot = (x: number, y: number) => ({ x: x * T + T / 2, y: y * T + FEET + FEET_TO_BASE });
 
 /**
- * Plays a cutscene in the town itself: each beat shows its place and time, glides the camera,
- * walks the characters, sweeps the colour and holds a caption. Tap for the next caption; Skip ends
- * it. While it plays, the game's own loop stands still (game.ts asks `playing`).
+ * Plays a cutscene as one continuous take (story/scenes.ts): the camera follows the subject,
+ * characters walk their paths, the grey ripples out, the sparkle drifts on, and captions change
+ * with the action. Tap jumps to the next caption; Skip ends it. The game's own loop stands still.
  */
 export class ScenePlayer {
-  private run: { scene: SceneDef; beat: number; ms: number; done: () => void; caption: HTMLElement; overlay: HTMLElement; area: string } | null = null;
+  private run: { scene: SceneDef; shot: number; ms: number; done: () => void; caption: HTMLElement; dim: HTMLElement; overlay: HTMLElement; shown: string; said: string | null; bursts: Set<string> } | null = null;
   private sparkle = new Graphics();
 
   constructor(private host: ScenePlayerHost) {
@@ -43,67 +43,97 @@ export class ScenePlayer {
     if (!scene) { done(); return; }
     const caption = h('p', { class: 'scene-caption', 'aria-live': 'polite' });
     const skip = h('button', { class: 'btn small scene-skip', type: 'button' }, 'Skip');
-    const overlay = h('div', { class: 'scene', role: 'dialog', 'aria-label': 'Story' }, skip, caption);
-    overlay.addEventListener('click', (e) => { if (e.target === skip) this.finish(); else this.next(); });
+    const dim = h('div', { class: 'scene-dim' });
+    const overlay = h('div', { class: 'scene', role: 'dialog', 'aria-label': 'Story' }, dim, skip, caption);
+    overlay.addEventListener('click', (e) => { if (e.target === skip) this.finish(); else this.tapOn(); });
     this.host.ui.append(overlay);
     this.host.ui.classList.add('scene-playing');
-    this.run = { scene, beat: -1, ms: 0, done, caption, overlay, area: '' };
-    this.next();
+    this.run = { scene, shot: 0, ms: 0, done, caption, dim, overlay, shown: '', said: null, bursts: new Set() };
+    this.draw(0);
   }
 
   tick(dt: number) {
     const r = this.run;
     if (!r) return;
     r.ms += dt;
-    const b = r.scene.beats[r.beat];
-    if (r.ms >= b.ms) { this.next(); return; }
-    this.draw(b, r.ms / b.ms, dt);
+    while (r.ms >= r.scene.shots[r.shot].ms) {
+      r.ms -= r.scene.shots[r.shot].ms; r.shot += 1;
+      if (r.shot >= r.scene.shots.length) { this.finish(); return; }
+    }
+    this.draw(dt);
   }
 
-  private next() {
+  /** A tap: on to the next caption (or the end). */
+  private tapOn() {
     const r = this.run;
     if (!r) return;
-    r.beat += 1; r.ms = 0;
-    const b = r.scene.beats[r.beat];
-    if (!b) { this.finish(); return; }
-    const { world, content } = this.host;
-    if (b.area !== r.area) { this.host.show(b.area); r.area = b.area; }
-    world.showMess(!hidesMess(b));
-    world.setTint(b.minutes);
-    r.caption.textContent = content.line(b.caption) ?? '';
-    this.draw(b, 0, 0);
+    const next = nextCaption(r.scene, r.shot, r.ms);
+    if (!next) { this.finish(); return; }
+    r.shot = next.shot; r.ms = next.ms;
+    this.draw(0);
   }
 
-  private draw(b: SceneBeat, t: number, dt: number) {
+  private draw(dt: number) {
+    const r = this.run!;
+    const shot = r.scene.shots[r.shot];
     const { world, content } = this.host;
-    const still = this.host.reducedMotion();
-    // With reduced motion the camera and characters cut to where they're going instead of gliding.
-    const k = still ? (b.to ? 1 : 0) : t;
-    const [cx, cy] = along(b.at, b.to, k);
-    world.follow(cx * T + T / 2, cy * T + T / 2, true);
-    const width = content.pack.areas.find((a) => a.id === b.area)?.map[0].length ?? 1;
-    world.setSceneColour((x) => colourAt(b.colour, x, width, t));
+    const ms = r.ms;
+    if (shot.area !== r.shown) {
+      this.host.show(shot.area); r.shown = shot.area;
+      world.showMess(showsMess(shot));
+    }
+    world.setSky(shot.season ?? 'Spring', false);
+    world.setTint(minutesAt(shot, ms));
+    world.setSceneColour((x, y) => colourAt(shot.colour, x, y, ms));
+    if (shot.colour.kind === 'ripple' && ms >= shot.colour.end) world.showMess(true);
+    const text = captionAt(shot, ms);
+    if (text !== r.said) { r.said = text; r.caption.textContent = text ? (content.line(text) ?? '') : ''; }
+    r.dim.style.opacity = String(fadeAt(r.scene, r.shot, ms));
+    this.drawActors(shot, ms, dt);
+    this.drawSparkle(shot, ms);
+    for (const [x, y, at] of shot.bursts ?? []) {
+      const key = `${r.shot}:${at}`;
+      if (ms >= at && !r.bursts.has(key)) { r.bursts.add(key); if (!this.host.reducedMotion()) world.sparkleBurst(x, y, 10); }
+    }
+    const cam = typeof shot.camera === 'string' ? this.subject(shot, shot.camera, ms) : pointAt(shot.camera, ms);
+    if (cam) world.follow(cam.x * T + T / 2, cam.y * T + T / 2, this.host.reducedMotion() || ms < 1 || dt === 0);
+  }
+
+  /** Where the camera's subject is: an actor, or the sparkle. */
+  private subject(shot: Shot, who: string, ms: number) {
+    if (who === 'sparkle') return shot.sparkle ? pointAt(shot.sparkle, ms) : null;
+    const a = shot.actors?.find((x) => x.who === who);
+    return a ? pointAt(a.path, ms) : null;
+  }
+
+  private drawActors(shot: Shot, ms: number, dt: number) {
+    const { world, content } = this.host;
     const views: NeighbourView[] = [];
     let puff = false;
-    for (const a of b.actors ?? []) {
-      const [x, y] = along([a.x, a.y], a.to, still ? (a.to ? 1 : 0) : t);
-      const at = foot(x, y);
-      const walking = !!a.to && t < 1 && !still;
-      const dir = a.dir ?? 'down';
+    for (const a of shot.actors ?? []) {
+      if ((a.from !== undefined && ms < a.from) || (a.until !== undefined && ms >= a.until)) continue;
+      const p = pointAt(a.path, ms);
+      const at = foot(p.x, p.y);
+      const dir = facing(a, ms);
       if (a.who === 'puff') { puff = true; world.drawPuff({ ...at, dir, pose: 'idle', tool: null }, dt); continue; }
       const def = content.neighbour(a.who);
       const look = a.species && a.colours ? { species: a.species, colours: a.colours } : def ? { species: def.species, colours: def.colours } : null;
-      if (look) views.push({ id: `scene_${a.who}`, ...look, ...at, dir, pose: a.sleep ? 'sleep' : walking ? 'walk' : 'idle' });
+      const pose = a.sleepFrom !== undefined && ms >= a.sleepFrom ? 'sleep' : p.moving ? 'walk' : 'idle';
+      if (look) views.push({ id: `scene_${a.who}`, ...look, ...at, dir, pose });
     }
     world.showPuff(puff);
     world.drawNeighbours(views);
-    this.sparkle.visible = !!b.sparkle;
-    if (b.sparkle) {
-      const [sx, sy] = along(b.sparkle, b.sparkleTo, t);
-      const rise = Math.sin(Math.min(1, t * 1.6) * Math.PI) * 18; // up out of the water, then drifting down
-      this.sparkle.position.set(sx * T + T / 2, sy * T + T / 2 - rise);
-      this.sparkle.alpha = still ? 1 : 0.6 + 0.4 * Math.sin(t * 40);
-    }
+  }
+
+  private drawSparkle(shot: Shot, ms: number) {
+    const path = shot.sparkle;
+    const on = !!path && ms >= path[0][2] && ms <= path[path.length - 1][2] + 200;
+    this.sparkle.visible = on;
+    if (!on || !path) return;
+    const p = pointAt(path, ms);
+    const bob = this.host.reducedMotion() ? 0 : Math.sin(ms / 220) * 2;
+    this.sparkle.position.set(p.x * T + T / 2, p.y * T + T / 2 + bob);
+    this.sparkle.alpha = this.host.reducedMotion() ? 1 : 0.75 + 0.25 * Math.sin(ms / 90);
   }
 
   private finish() {
