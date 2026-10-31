@@ -10064,15 +10064,18 @@
    "mabel.chapter.1": "Hoo. I'd forgotten the stone's song. Thank you, dear.",
    "scene.opening.1": "Long ago, {town} glowed with colour.",
    "scene.opening.2": "Thimble, its Keeper, kept the fountain's water warm.",
-   "scene.opening.3": "One winter, Thimble grew very, very sleepy.",
-   "scene.opening.4": "So Thimble went to rest somewhere warm.",
-   "scene.opening.5": "Without its Keeper, the water cooled...",
-   "scene.opening.6": "...the colour slipped away, and everyone grew sleepy.",
-   "scene.opening.7": "But the fountain kept one last sparkle.",
-   "scene.opening.8": "It drifted off, looking for somewhere cosy.",
-   "scene.opening.9": "Past the hedge, across a quiet little yard...",
-   "scene.opening.10": "...and in through a round burrow door.",
-   "scene.opening.11": "There it woke up as you. Hello, little puff!"
+   "scene.opening.3": "One winter, Thimble grew very, very sleepy...",
+   "scene.opening.4": "...and climbed down inside the fountain.",
+   "scene.opening.5": "Deep below, by the warm spring, Thimble curled up.",
+   "scene.opening.6": "Thimble slept, and the spring slowly cooled.",
+   "scene.opening.7": "Up above, the fountain's glow went out.",
+   "scene.opening.8": "The colour slipped away. Everyone grew sleepy.",
+   "scene.opening.9": "But the fountain kept one last sparkle.",
+   "scene.opening.10": "It drifted off, looking for somewhere cosy.",
+   "scene.opening.11": "Past the hedge, across a quiet little yard...",
+   "scene.opening.12": "...and in through a round burrow door.",
+   "scene.opening.13": "It settled by the bed, and turned into... you!",
+   "scene.opening.14": "Good morning, little puff!"
   }
  },
  "heartEvents": [
@@ -15666,27 +15669,36 @@
    "shots": [
     {
      "area": "square",
-     "ms": 11000,
+     "ms": 10000,
      "minutes": [
       600,
-      900
+      840
      ],
      "season": "Spring",
      "camera": [
       [
-       15,
+       14.5,
        7,
        0
       ],
       [
-       15,
+       14.5,
        10,
-       5000
+       4500
       ]
      ],
      "colour": {
       "kind": "full"
      },
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3,
+       "from": 0.9,
+       "to": 0.9
+      }
+     ],
      "actors": [
       {
        "who": "hazel",
@@ -15719,12 +15731,12 @@
         [
          9,
          10,
-         7000
+         6000
         ],
         [
          9,
          13,
-         9000
+         8000
         ]
        ]
       },
@@ -15778,39 +15790,51 @@
      ],
      "bursts": [
       [
-       14.5,
-       10,
+       14,
+       9.5,
        600
       ],
       [
-       15.5,
-       10,
+       15,
+       9.5,
        2200
       ],
       [
-       14.5,
-       10,
+       14,
+       9.5,
        3800
       ],
       [
-       15.5,
-       10,
+       15,
+       9.5,
        5400
       ],
       [
-       15,
-       10,
+       14.5,
+       9.5,
        7000
       ],
       [
-       14.5,
-       10,
+       14,
+       9.5,
        8600
+      ]
+     ],
+     "emotes": [
+      [
+       1200,
+       "thimble",
+       "♪"
       ],
       [
-       15.5,
-       10,
-       10200
+       5200,
+       "thimble",
+       "♪"
+      ],
+      [
+       6500,
+       "hazel",
+       "😊"
       ]
      ],
      "captions": [
@@ -15819,14 +15843,14 @@
        "scene.opening.1"
       ],
       [
-       5000,
+       4800,
        "scene.opening.2"
       ]
      ]
     },
     {
      "area": "square",
-     "ms": 9000,
+     "ms": 8000,
      "minutes": [
       900,
       1000
@@ -15836,6 +15860,15 @@
      "colour": {
       "kind": "full"
      },
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3,
+       "from": 0.9,
+       "to": 0.75
+      }
+     ],
      "actors": [
       {
        "who": "hazel",
@@ -15888,26 +15921,16 @@
         [
          14,
          12,
-         2500
+         4500
         ],
         [
-         10,
-         12,
-         4300
-        ],
-        [
-         10,
-         6,
-         7700
-        ],
-        [
-         10,
-         5,
-         8300
+         14,
+         11.4,
+         5600
         ]
        ],
        "dir": "up",
-       "until": 8300,
+       "until": 5400,
        "species": "bunny",
        "colours": {
         "fur": "#E9E2F0",
@@ -15915,6 +15938,25 @@
         "accent": "#B8A9CF"
        }
       }
+     ],
+     "bursts": [
+      [
+       14,
+       10.6,
+       5400
+      ]
+     ],
+     "emotes": [
+      [
+       800,
+       "thimble",
+       "💤"
+      ],
+      [
+       2800,
+       "thimble",
+       "💤"
+      ]
      ],
      "captions": [
       [
@@ -15928,8 +15970,93 @@
      ]
     },
     {
+     "area": "cave_4",
+     "ms": 9000,
+     "minutes": [
+      1000,
+      1100
+     ],
+     "season": "Winter",
+     "camera": [
+      [
+       9,
+       9,
+       0
+      ],
+      [
+       9.5,
+       6,
+       3500
+      ]
+     ],
+     "colour": {
+      "kind": "full"
+     },
+     "glows": [
+      {
+       "x": 9.5,
+       "y": 4,
+       "r": 4,
+       "from": 1,
+       "to": 0.1
+      }
+     ],
+     "actors": [
+      {
+       "who": "thimble",
+       "path": [
+        [
+         9,
+         10,
+         0
+        ],
+        [
+         9,
+         7,
+         2500
+        ],
+        [
+         10,
+         6,
+         3500
+        ]
+       ],
+       "dir": "up",
+       "sleepFrom": 3800,
+       "species": "bunny",
+       "colours": {
+        "fur": "#E9E2F0",
+        "belly": "#FBF7FD",
+        "accent": "#B8A9CF"
+       }
+      }
+     ],
+     "emotes": [
+      [
+       4000,
+       "thimble",
+       "💤"
+      ],
+      [
+       6400,
+       "thimble",
+       "💤"
+      ]
+     ],
+     "captions": [
+      [
+       0,
+       "scene.opening.5"
+      ],
+      [
+       5000,
+       "scene.opening.6"
+      ]
+     ]
+    },
+    {
      "area": "square",
-     "ms": 8000,
+     "ms": 8500,
      "minutes": [
       1000,
       1060
@@ -15937,25 +16064,29 @@
      "season": "Winter",
      "camera": [
       [
+       14.5,
        10,
-       7,
        0
-      ],
-      [
-       15,
-       10,
-       2500
       ]
      ],
      "colour": {
       "kind": "ripple",
       "from": [
-       15,
-       10
+       14.5,
+       9.5
       ],
-      "start": 800,
-      "end": 6500
+      "start": 1500,
+      "end": 7200
      },
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3,
+       "from": 0.5,
+       "to": 0
+      }
+     ],
      "actors": [
       {
        "who": "hazel",
@@ -15966,7 +16097,7 @@
          0
         ]
        ],
-       "sleepFrom": 3500
+       "sleepFrom": 3600
       },
       {
        "who": "pip",
@@ -16002,14 +16133,36 @@
        "sleepFrom": 5400
       }
      ],
+     "emotes": [
+      [
+       3400,
+       "hazel",
+       "💤"
+      ],
+      [
+       4000,
+       "pip",
+       "💤"
+      ],
+      [
+       4600,
+       "bea",
+       "💤"
+      ],
+      [
+       5200,
+       "otto",
+       "💤"
+      ]
+     ],
      "captions": [
       [
        0,
-       "scene.opening.5"
+       "scene.opening.7"
       ],
       [
-       4500,
-       "scene.opening.6"
+       4000,
+       "scene.opening.8"
       ]
      ]
     },
@@ -16070,18 +16223,18 @@
      ],
      "sparkle": [
       [
-       15,
-       10,
+       14.5,
+       9.5,
        1200
       ],
       [
-       15,
-       8.5,
+       14.5,
+       8,
        2400
       ],
       [
-       15,
-       8.5,
+       14.5,
+       8,
        3600
       ],
       [
@@ -16102,19 +16255,19 @@
      ],
      "bursts": [
       [
-       15,
-       10,
+       14.5,
+       9.5,
        1200
       ]
      ],
      "captions": [
       [
        0,
-       "scene.opening.7"
+       "scene.opening.9"
       ],
       [
        4200,
-       "scene.opening.8"
+       "scene.opening.10"
       ]
      ]
     },
@@ -16152,13 +16305,13 @@
      "captions": [
       [
        600,
-       "scene.opening.9"
+       "scene.opening.11"
       ]
      ]
     },
     {
      "area": "burrow",
-     "ms": 8500,
+     "ms": 9500,
      "minutes": [
       1200,
       1830
@@ -16219,17 +16372,35 @@
         ]
        ],
        "dir": "down",
-       "from": 5200
+       "from": 5200,
+       "sleepFrom": 5200,
+       "wakeAt": 7300
       }
+     ],
+     "emotes": [
+      [
+       5600,
+       "puff",
+       "💤"
+      ],
+      [
+       7300,
+       "puff",
+       "!"
+      ]
      ],
      "captions": [
       [
        400,
-       "scene.opening.10"
+       "scene.opening.12"
       ],
       [
        5400,
-       "scene.opening.11"
+       "scene.opening.13"
+      ],
+      [
+       7300,
+       "scene.opening.14"
       ]
      ]
     }

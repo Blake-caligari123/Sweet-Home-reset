@@ -143,3 +143,5 @@ html.high-contrast .muted { color: #4a3a32; }
 .scene-caption { position: relative; margin: 0 auto; max-width: 30rem; text-align: center; color: #fff8ec; font-size: 1.15rem; line-height: 1.4; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); }
 .scene-skip { position: absolute; top: calc(12px + env(safe-area-inset-top)); right: 12px; }
 .scene-dim { position: absolute; inset: 0; background: #2f3a4e; opacity: 0; pointer-events: none; }
+.scene-bubbles { position: absolute; inset: 0; pointer-events: none; }
+.scene-bubble { position: absolute; transform: translate(-50%, -100%); background: #fff8ec; border: 2px solid #534239; border-radius: 10px; padding: 0 6px; font-size: 1.1rem; line-height: 1.5; box-shadow: 0 2px 0 rgba(83, 66, 57, 0.4); }

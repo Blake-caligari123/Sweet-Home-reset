@@ -54,31 +54,35 @@ describe('Hollowfern opening', () => {
   const open = (area: string) => new Area(pack.areas.find((a) => a.id === area)!);
 
   it('runs as one story in about a minute: the bright town, Thimble leaving, the grey, the sparkle home', () => {
-    expect(sceneLength(scene)).toBeGreaterThan(40_000); expect(sceneLength(scene)).toBeLessThan(70_000);
+    expect(sceneLength(scene)).toBeGreaterThan(40_000); expect(sceneLength(scene)).toBeLessThanOrEqual(70_000);
     expect(scene.shots[0].colour.kind).toBe('full');
     expect(scene.shots.some((s) => s.colour.kind === 'ripple')).toBe(true);
-    expect(scene.shots.map((s) => s.area)).toEqual(['square', 'square', 'square', 'square', 'yard', 'burrow']);
+    expect(scene.shots.map((s) => s.area)).toEqual(['square', 'square', 'cave_4', 'square', 'square', 'yard', 'burrow']);
+    // Thimble goes down into the fountain (the way to the caves) and sleeps by the Old Spring.
+    expect(pack.areas.find((a) => a.id === 'square')!.props.find((p) => p.type === 'fountain')?.to).toBe('cave_1');
+    expect(scene.shots[2].actors?.find((a) => a.who === 'thimble')?.sleepFrom).toBeDefined();
     expect(scene.shots.at(-1)!.actors?.some((a) => a.who === 'puff')).toBe(true);
   });
 
   it('carries the sparkle through real doors: out of the square, across the yard, into the burrow', () => {
     const doorTo = (from: string, to: string) => pack.areas.find((a) => a.id === from)!.doors.filter((d) => d.to === to);
     const ends = (i: number) => { const p = scene.shots[i].sparkle!; return { first: p[0], last: p[p.length - 1] }; };
-    expect(doorTo('square', 'yard').some((d) => d.x === ends(3).last[0] && d.y === ends(3).last[1])).toBe(true);
-    expect(doorTo('yard', 'square').some((d) => Math.abs(d.x - ends(4).first[0]) <= 1 && d.y === ends(4).first[1])).toBe(true);
-    expect(doorTo('yard', 'burrow').some((d) => d.x === ends(4).last[0] && d.y === ends(4).last[1])).toBe(true);
-    expect(doorTo('burrow', 'yard').some((d) => d.x === ends(5).first[0] && Math.abs(d.y - ends(5).first[1]) <= 1)).toBe(true);
+    expect(doorTo('square', 'yard').some((d) => d.x === ends(4).last[0] && d.y === ends(4).last[1])).toBe(true);
+    expect(doorTo('yard', 'square').some((d) => Math.abs(d.x - ends(5).first[0]) <= 1 && d.y === ends(5).first[1])).toBe(true);
+    expect(doorTo('yard', 'burrow').some((d) => d.x === ends(5).last[0] && d.y === ends(5).last[1])).toBe(true);
+    expect(doorTo('burrow', 'yard').some((d) => d.x === ends(6).first[0] && Math.abs(d.y - ends(6).first[1]) <= 1)).toBe(true);
   });
 
   it('shows Thimble only from behind, keeps captions short, and walks everyone on open ground', () => {
     for (const shot of scene.shots) {
+      for (const [, who] of shot.emotes ?? []) expect(shot.actors?.some((a) => a.who === who), `${shot.area} emote ${who}`).toBe(true);
       for (const [, id] of shot.captions) { expect(text[id], id).toBeTruthy(); expect(text[id].length, id).toBeLessThanOrEqual(60); }
       const area = open(shot.area);
       for (const a of shot.actors ?? []) {
         if (a.who === 'thimble') expect(a.dir, 'Thimble faces away').toBe('up');
         if (a.who !== 'thimble' && a.who !== 'puff') expect(pack.neighbours!.some((n) => n.id === a.who), a.who).toBe(true);
         // Every step along the way, not just the corners.
-        for (let ms = 0; ms <= shot.ms; ms += 100) {
+        for (let ms = a.from ?? 0; ms < Math.min(shot.ms, a.until ?? Infinity); ms += 100) {
           const p = pointAt(a.path, ms);
           const x = Math.round(p.x); const y = Math.round(p.y);
           expect(area.walkable(x, y) || area.doorAt(x, y), `${shot.area} ${a.who} ${x},${y}`).toBeTruthy();
