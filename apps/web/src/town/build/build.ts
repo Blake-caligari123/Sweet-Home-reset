@@ -17,8 +17,8 @@ export interface BuildingDef { id: string; name: string; nights: number; cost: {
   bloom?: number;
   /** What finished building this upgrades (a bench into a cosy bench). */
   upgradeOf?: string;
-  /** What it does once finished: a greenhouse waters the garden overnight; a cottage is a newcomer's home. */
-  effect?: 'waters_garden' | 'home';
+  /** What it does once finished: a greenhouse waters the garden overnight; a well waters crops near it each morning; a cottage is a newcomer's home. */
+  effect?: 'waters_garden' | 'waters_nearby' | 'home';
   /** For a home: the newcomer who moves in once it's finished. */
   home?: string;
   /** For a repair: the ground its plot becomes once mended (a map char), and the doors it opens. */
@@ -120,6 +120,16 @@ export function areasWith(effect: BuildingDef['effect'], plots: Record<string, P
   return new Set(Object.entries(plots)
     .filter(([, p]) => p.stage >= DONE && catalogue.find((b) => b.id === p.buildingId)?.effect === effect)
     .map(([id]) => defs.find((d) => d.id === id)?.area));
+}
+
+/** Whether a finished well (or anything that waters nearby) stands within `reach` tiles of this spot. */
+export function nearWater(at: { area: string; x: number; y: number }, plots: Record<string, PlotState>, defs: PlotDef[], catalogue: BuildingDef[], reach: number) {
+  return defs.some((d) => {
+    const p = plots[d.id];
+    if (d.area !== at.area || !p || p.stage < DONE || catalogue.find((b) => b.id === p.buildingId)?.effect !== 'waters_nearby') return false;
+    const dx = Math.max(d.x - at.x, 0, at.x - (d.x + d.w - 1)); const dy = Math.max(d.y - at.y, 0, at.y - (d.y + d.h - 1));
+    return Math.max(dx, dy) <= reach;
+  });
 }
 
 /** The question before anything is spent: where, what, the full cost and how long it takes. */

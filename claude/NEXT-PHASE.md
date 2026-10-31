@@ -420,4 +420,7 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Both start dusty, to tidy and restore like any home, and both can be decorated. Each has its own morning line when it's done.
   - The workbench sheet is now just "Workbench", as there are two.
   - Tour card: 🚪 New burrow rooms.
+- **6b.19 The well (31 Oct):** a well beside the yard garden, from the Keeper's plans (Town Bloom 1, 120 ✨ and 6 pebbles, 1 night).
+  - Each morning, every crop within 3 tiles of it (`wellReach` in tuning) starts the day watered, as if it had rained (`nearWater` in `build/build.ts`, used by `play/overnight.ts`). That's about half the garden; the greenhouse still waters all of it.
+  - Building effect `waters_nearby`. The art is drawn in code. Tour card: 🪣 The well.
 

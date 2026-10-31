@@ -166,6 +166,14 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       for (const px of [x + 2, x + 12]) pc.box(px, y + 3, 3, 12, P.brownLight, P.outline);
       pc.box(x + 1, y + 6, 15, 3, P.brownLight, P.outline); pc.box(x + 1, y + 11, 15, 2, P.brown, P.outline);
       break;
+    case 'well': // a round stone well under a little peach roof, a bucket on the rope
+      pc.ellipseBox(x + 8, y + 12, 7, 3, P.greyLight, P.outline); pc.rect(x + 1, y + 8, 14, 4, P.greyLight);
+      pc.vline(x + 1, y + 8, 4, P.outline); pc.vline(x + 14, y + 8, 4, P.outline);
+      pc.ellipse(x + 8, y + 8, 6, 2, P.blueShade); pc.hline(x + 4, y + 10, 3, P.grey); pc.hline(x + 9, y + 11, 3, P.grey);
+      for (const px of [x + 2, x + 13]) pc.rect(px, y - 4, 1, 12, P.brownShade);
+      pc.line(x, y - 4, x + 8, y - 9, P.peachShade); pc.line(x + 8, y - 9, x + 15, y - 4, P.peachShade); pc.hline(x + 1, y - 4, 14, P.peachShade);
+      pc.vline(x + 8, y - 4, 6, P.brown); pc.box(x + 6, y + 1, 4, 3, P.brownLight, P.outline);
+      break;
     case 'round_door': { // an arched green door dug into a mound of earth, a lamp beside it
       const cx = x + w / 2; const top = y + 10;
       pc.ellipseBox(cx, top + 4, w / 2, 12, P.sageShade, P.outline); pc.rect(x + 1, top + 4, w - 2, y + h - top - 4, P.sageShade);

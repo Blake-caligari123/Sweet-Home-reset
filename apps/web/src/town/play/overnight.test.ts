@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { startBuild, type BuildingDef, type PlotDef } from '../build/build';
 import { TownState } from '../state';
 import { overnight } from './overnight';
+import { TUNING } from '../data/tuning';
 
 const bench: BuildingDef = { id: 'bench', name: 'Bench', nights: 1, cost: { sparkles: 40 }, prop: { type: 'bench', w: 2 } };
 const plot: PlotDef = { id: 'p1', name: 'By the fountain', area: 'square', x: 14, y: 13, w: 2, h: 1, allow: ['bench'] };
@@ -31,6 +32,21 @@ describe('overnight', () => {
     expect(s.crops.map((c) => c.days)).toEqual([0, 0]);
     overnight(s, pack, 2, false);
     expect(s.crops.map((c) => c.days)).toEqual([1, 0]);
+  });
+
+  it('a finished well starts the crops near it watered each morning, not ones further off', () => {
+    const well: BuildingDef = { id: 'well', name: 'Well', nights: 1, cost: { sparkles: 0 }, prop: { type: 'well' }, effect: 'waters_nearby' };
+    const wp: PlotDef = { id: 'w1', name: 'Beside the garden', area: 'yard', x: 5, y: 8, w: 1, h: 1, allow: ['well'] };
+    const s = new TownState();
+    startBuild(s, wp, well, 1);
+    const reach = TUNING.wellReach;
+    s.crops = [{ area: 'yard', x: 5 + reach, y: 8 + reach, crop: 'radish', days: 0, watered: false }, { area: 'yard', x: 5, y: 9 + reach, crop: 'radish', days: 0, watered: false }, { area: 'square', x: 5, y: 9, crop: 'radish', days: 0, watered: false }];
+    const pack = { buildings: [well], plots: [wp] };
+    overnight(s, pack, 1, false); // it finishes this night
+    overnight(s, pack, 2, false);
+    expect(s.crops.map((c) => c.watered)).toEqual([true, false, false]);
+    overnight(s, pack, 3, false);
+    expect(s.crops.map((c) => c.days)).toEqual([1, 0, 0]);
   });
 
   it('lets the rain water every outdoor crop for the day ahead, not indoor ones', () => {

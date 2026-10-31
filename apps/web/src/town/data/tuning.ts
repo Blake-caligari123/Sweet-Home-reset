@@ -41,6 +41,8 @@ export interface Tuning {
   petFindsPerDay: number;
   /** Spots each neighbour tidies each morning once Puff has restored their home (life/helpers.ts). */
   helperSpots: number;
+  /** How far the yard well's water reaches, in tiles from the well. */
+  wellReach: number;
   /** Puff's market stall: price over the shops', and how many sell a night (base, plus per Town Bloom level). */
   stall: { markup: number; salesBase: number; salesPerBloom: number };
   /** The café: dishes it wants a day, and what it pays over the shops' price. */
