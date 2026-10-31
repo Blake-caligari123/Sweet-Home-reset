@@ -1,6 +1,7 @@
 import { withBuilds, type PlotState } from '../build/build';
 import { Area, type AreaPack, type TownPack } from '../data/area';
 import { withDecor, type Placed } from '../decor/decor';
+import { withAnimals } from '../farm/animals';
 import { withRocks, type CaveState } from '../caves/caves';
 import { festivalToday, withLanterns } from '../festivals/festivals';
 import type { TownSave } from '../data/save';
@@ -46,12 +47,12 @@ export class TownAreas {
 
   /** Areas as they stand today: what's built on their plots, rocks still standing, festival lanterns, then the decor placed in them. */
   rebuild(s: { plots: Record<string, PlotState>; decor: Placed[]; caves: CaveState; flags: string[] }) {
-    const { areas, plots: defs = [], buildings = [], items } = this.pack;
+    const { areas, plots: defs = [], buildings = [], items, animals = [] } = this.pack;
     const { plots, decor } = s;
     const day = this.day();
     const festival = festivalToday(this.pack.festivals ?? [], day);
-    for (const a of areas.filter((x) => defs.some((p) => p.area === x.id) || decor.some((d) => d.area === x.id) || x.rocks?.length || x.id === festival?.area || this.built.has(x.id))) {
-      const built = withLanterns(withRocks(withBuilds(a, defs, plots, buildings), a.rocks ?? [], s.caves), festival, s.flags, day);
+    for (const a of areas.filter((x) => defs.some((p) => p.area === x.id) || decor.some((d) => d.area === x.id) || x.rocks?.length || x.id === festival?.area || animals.some((an) => an.area === x.id) || this.built.has(x.id))) {
+      const built = withAnimals(withLanterns(withRocks(withBuilds(a, defs, plots, buildings), a.rocks ?? [], s.caves), festival, s.flags, day), animals, s.flags);
       this.built.set(a.id, built);
       this.areas.set(a.id, new Area(withDecor(built, decor, items)));
       this.navs.delete(a.id);

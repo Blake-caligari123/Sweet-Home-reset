@@ -14,6 +14,7 @@ import type { OnboardingGuide } from './play/onboarding-guide';
 import type { Puff } from './play/puff';
 import { PuffMoods } from './skills/puff-mood';
 import { SkillBook } from './skills/skill-book';
+import { farmMorning, ownedAnimals, tend } from './farm/animals';
 import { stallNight } from './stall/stall';
 import { openStall } from './stall/stall-sheet';
 import { openSkills } from './skills/skills-sheet';
@@ -52,8 +53,27 @@ export class TownSystems {
     host.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); });
   }
 
-  /** After the night: town needs met, who helped tidy, and what the stall sold. */
-  morningNews() { return [...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews()]; }
+  /** After the night: town needs met, who helped tidy, what the stall sold, and new farm animals. */
+  morningNews() { return [...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews(), ...this.farmNews()]; }
+
+  private farmNews() {
+    const { state, content } = this.host;
+    return farmMorning(state.farm, ownedAnimals(content.pack.animals ?? [], state.flags), this.host.day()).map((a) => `🐾 The ${a.name.toLowerCase()} has moved into the yard!`);
+  }
+
+  /** Tapping a farm animal: what it gives, if ready, then a pat and some feed. */
+  tendAnimal(id: string) {
+    const { state, content, view } = this.host;
+    const a = content.pack.animals?.find((x) => x.id === id);
+    if (!a) return;
+    const r = tend(state, a, this.host.day());
+    const what = content.itemName(a.gives).toLowerCase();
+    const key = r.got ? `farm.got.${a.id}` : r.full ? 'farm.full' : r.tended ? 'farm.fed' : 'farm.again';
+    view.say((content.line(key) ?? '').replace('{animal}', a.name.toLowerCase()).replace('{item}', what));
+    view.feedback(r.got ? 'coin' : 'pop', 'light');
+    if (r.tended) this.host.guide.handle({ type: 'tended', animal: a.id });
+    this.host.refreshHud(); this.host.save();
+  }
 
   private stallNews() {
     const { state, content } = this.host;

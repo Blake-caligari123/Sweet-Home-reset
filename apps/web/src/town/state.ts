@@ -1,4 +1,5 @@
 import type { CafeState } from './cafe/cafe';
+import type { FarmState } from './farm/animals';
 import type { RequestState } from './requests/requests';
 import type { PlotState } from './build/build';
 import type { Friend, TownSave, Unlock } from './data/save';
@@ -19,7 +20,7 @@ import { Onboarding } from './play/onboarding';
 import type { Taken } from './play/pickups';
 
 /** The parts of a save that hold Puff's progress. */
-export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights' | 'cloudVersion' | 'visited' | 'memories' | 'dramas' | 'skills' | 'puffDay' | 'fund' | 'needsMet' | 'tokens' | 'quests' | 'stall' | 'cafe' | 'fishCaught' | 'critters'>;
+export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights' | 'cloudVersion' | 'visited' | 'memories' | 'dramas' | 'skills' | 'puffDay' | 'fund' | 'needsMet' | 'tokens' | 'quests' | 'stall' | 'cafe' | 'fishCaught' | 'critters' | 'farm'>;
 
 export interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
 
@@ -82,6 +83,8 @@ export class TownState {
   fishCaught = 0;
   /** Critters spotted, for the journal (critters/). */
   critters: string[] = [];
+  /** The farm animals' care (farm/animals.ts). */
+  farm: FarmState = {};
   finds: Finds = { cleans: {}, found: [] };
   /** What Puff is wearing (an earned outfit), if anything. */
   outfit: string | null = null;
@@ -101,7 +104,7 @@ export class TownState {
       fluff: { value: this.fluff.value, max: this.fluff.max, boost: this.fluff.boost }, sparkles: this.sparkles,
       bag: this.bag.slots, tools: this.tools, crops: this.crops, flags: this.flags, friends: this.friends,
       onboarding: this.onboarding.step, onboardingAhead: this.onboarding.ahead, chores: this.chores,
-      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet, bloom: this.bloom, finds: this.finds, outfit: this.outfit, decor: this.decor, caves: this.caves, townJobs: this.townJobs, dashBest: this.dashBest, unlock: this.unlock, restNights: this.restNights, cloudVersion: this.cloudVersion, visited: this.visited, memories: this.memories, dramas: this.dramas, skills: this.skills, puffDay: this.puffDay, fund: this.fund, needsMet: this.needsMet, tokens: this.tokens, quests: this.quests, stall: this.stall, cafe: this.cafe, fishCaught: this.fishCaught, critters: this.critters
+      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet, bloom: this.bloom, finds: this.finds, outfit: this.outfit, decor: this.decor, caves: this.caves, townJobs: this.townJobs, dashBest: this.dashBest, unlock: this.unlock, restNights: this.restNights, cloudVersion: this.cloudVersion, visited: this.visited, memories: this.memories, dramas: this.dramas, skills: this.skills, puffDay: this.puffDay, fund: this.fund, needsMet: this.needsMet, tokens: this.tokens, quests: this.quests, stall: this.stall, cafe: this.cafe, fishCaught: this.fishCaught, critters: this.critters, farm: this.farm
     };
   }
 
@@ -143,6 +146,7 @@ export class TownState {
     this.cafe = Array.isArray(save.cafe?.done) ? save.cafe : { day: 0, done: [] };
     this.fishCaught = save.fishCaught ?? 0;
     this.critters = Array.isArray(save.critters) ? save.critters : [];
+    this.farm = save.farm && typeof save.farm === 'object' ? save.farm : {};
     this.finds = save.finds ?? { cleans: {}, found: [] };
     this.outfit = typeof save.outfit === 'string' ? save.outfit : null;
     this.decor = Array.isArray(save.decor) ? save.decor : [];

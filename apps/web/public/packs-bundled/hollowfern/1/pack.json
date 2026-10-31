@@ -314,6 +314,32 @@
    "decor": {
     "prop": "birdhouse"
    }
+  },
+  "hen": {
+   "name": "Hen"
+  },
+  "goat": {
+   "name": "Goat"
+  },
+  "cow": {
+   "name": "Cow"
+  },
+  "egg": {
+   "name": "Egg",
+   "sell": 12
+  },
+  "milk": {
+   "name": "Milk",
+   "sell": 20
+  },
+  "wool": {
+   "name": "Wool",
+   "sell": 25
+  },
+  "pancakes": {
+   "name": "Pancakes",
+   "sell": 45,
+   "snack": 30
   }
  },
  "areas": [
@@ -8082,7 +8108,13 @@
    "req.moss_cobweb": "Moss asks: befriend a cobweb Grumble, gently.",
    "req.otto_mud": "Otto's bath is muddy again. Befriend a mud Grumble?",
    "fish.no_rod": "Fish are rising! The General Store sells fishing rods.",
-   "craft.made_decor": "{item}! Place it from the bag, outdoors."
+   "craft.made_decor": "{item}! Place it from the bag, outdoors.",
+   "farm.full": "The {item} can wait till the bag has room.",
+   "farm.fed": "A pat and some feed. See you tomorrow, {animal}!",
+   "farm.again": "The {animal} is happy and full. Come back tomorrow!",
+   "farm.got.hen": "Thank you, hen! A fresh egg for the bag.",
+   "farm.got.goat": "Thank you, goat! Soft wool for the bag.",
+   "farm.got.cow": "Thank you, cow! Fresh milk for the bag."
   }
  },
  "heartEvents": [
@@ -10243,6 +10275,24 @@
      "price": 60,
      "fromDay": 5,
      "kind": "item"
+    },
+    {
+     "item": "hen",
+     "kind": "animal",
+     "price": 80,
+     "fromDay": 4
+    },
+    {
+     "item": "goat",
+     "kind": "animal",
+     "price": 200,
+     "fromDay": 9
+    },
+    {
+     "item": "cow",
+     "kind": "animal",
+     "price": 350,
+     "fromDay": 14
     }
    ],
    "buys": [
@@ -10271,7 +10321,11 @@
     "carp",
     "sardine",
     "crab",
-    "fish_stew"
+    "fish_stew",
+    "egg",
+    "milk",
+    "wool",
+    "pancakes"
    ]
   },
   {
@@ -11030,6 +11084,25 @@
     }
    },
    "learn": "he_pip_04_done"
+  },
+  {
+   "id": "pancakes",
+   "name": "Pancakes",
+   "station": "kitchen",
+   "makes": {
+    "item": "pancakes",
+    "qty": 2
+   },
+   "cost": {
+    "items": {
+     "egg": 1,
+     "milk": 1
+    }
+   },
+   "gestures": [
+    "stir",
+    "knead"
+   ]
   }
  ],
  "crops": [
@@ -12036,6 +12109,33 @@
    ],
    "time": "day",
    "hint": "Any day at the beach"
+  }
+ ],
+ "animals": [
+  {
+   "id": "hen",
+   "name": "Hen",
+   "gives": "egg",
+   "area": "yard",
+   "x": 15,
+   "y": 11
+  },
+  {
+   "id": "goat",
+   "name": "Goat",
+   "gives": "wool",
+   "area": "yard",
+   "x": 20,
+   "y": 11
+  },
+  {
+   "id": "cow",
+   "name": "Cow",
+   "gives": "milk",
+   "area": "yard",
+   "x": 20,
+   "y": 15,
+   "w": 2
   }
  ]
 }

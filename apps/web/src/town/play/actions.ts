@@ -50,6 +50,8 @@ export interface ActionsHost {
   openBuild(): void;
   /** Pip's workbench (better tools) or Puff's kitchen (cooking). */
   openWorkbench(station: 'bench' | 'kitchen'): void;
+  /** A farm animal: collect what it gives, and a pat and feed for today. */
+  tendAnimal(id: string): void;
   /** A placed decor piece: back into the bag. */
   pickUpDecor(x: number, y: number): void;
   openShop(shop: NonNullable<TownPack['shops']>[number]): void;
@@ -292,6 +294,11 @@ export class PuffActions {
       case 'cook':
         this.host.openWorkbench('kitchen');
         return;
+      case 'animal': {
+        const p = this.host.here().area.tapPropAt(t.x, t.y);
+        if (p) this.host.tendAnimal(p.type);
+        return;
+      }
       case 'decor': {
         const p = this.host.here().area.tapPropAt(t.x, t.y);
         if (p) view.confirm(`Pick up the ${content.itemName(state.decor.find((d) => d.x === p.x && d.y === p.y && d.area === this.host.here().id)?.item ?? '').toLowerCase()}?`, 'Pick up', () => this.host.pickUpDecor(p.x, p.y));

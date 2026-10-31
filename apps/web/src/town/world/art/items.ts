@@ -169,6 +169,13 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'flower_pot': b(4, 7, 6, 6, P.peachShade, 1); pc.ellipse(ox + 7, oy + 5, 4, 3, P.sage); pc.set(ox + 5, oy + 3, P.peach); pc.set(ox + 9, oy + 4, P.butter); break;
     case 'lantern': b(4, 3, 6, 8, P.butterLight, 1); pc.rect(ox + 6, oy + 5, 2, 4, P.white); pc.hline(ox + 3, oy + 2, 8, P.ink); pc.hline(ox + 5, oy + 12, 4, P.ink); break;
     case 'fence_post': for (const x of [3, 9]) b(x, 3, 2, 10, P.brownLight); b(1, 5, 12, 2, P.brownLight); b(1, 9, 12, 2, P.brown); break;
+    case 'hen': pc.ellipseBox(ox + 8, oy + 9, 5, 4, P.white, P.outline); pc.ellipseBox(ox + 4, oy + 5, 2, 2, P.white, P.outline); pc.set(ox + 4, oy + 2, P.peachShade); pc.set(ox + 3, oy + 5, P.ink); pc.set(ox + 1, oy + 6, P.butterShade); break;
+    case 'goat': pc.ellipseBox(ox + 8, oy + 8, 5, 3, P.cream, P.outline); pc.ellipseBox(ox + 3, oy + 5, 2, 3, P.cream, P.outline); pc.set(ox + 2, oy + 1, P.greyShade); pc.set(ox + 4, oy + 1, P.greyShade); for (const x of [6, 10]) pc.vline(ox + x, oy + 11, 3, P.brownShade); break;
+    case 'cow': pc.ellipseBox(ox + 8, oy + 7, 6, 4, P.cream, P.outline); pc.ellipse(ox + 9, oy + 6, 2, 1, P.brownLight); pc.ellipseBox(ox + 3, oy + 6, 2, 2, P.cream, P.outline); pc.set(ox + 2, oy + 7, P.peachLight); for (const x of [5, 11]) pc.vline(ox + x, oy + 11, 3, P.brownShade); break;
+    case 'egg': pc.ellipseBox(ox + 7, oy + 8, 4, 5, P.cream, P.outline); pc.set(ox + 6, oy + 5, P.white); break;
+    case 'milk': b(4, 4, 6, 9, P.white, 2); b(5, 1, 4, 3, P.blueLight, 1); pc.rect(ox + 5, oy + 7, 4, 3, P.blueLight); pc.set(ox + 5, oy + 5, P.white); break;
+    case 'wool': pc.ellipseBox(ox + 7, oy + 8, 5, 4, P.cream, P.outline); pc.line(ox + 3, oy + 7, ox + 11, oy + 9, P.creamShade); pc.line(ox + 4, oy + 10, ox + 10, oy + 6, P.creamShade); pc.hline(ox + 11, oy + 11, 3, P.creamShade); break;
+    case 'pancakes': for (const [y, c] of [[11, P.butterShade], [8, P.butter], [5, P.butterShade]] as const) pc.ellipseBox(ox + 7, oy + y, 5, 2, c, P.outline); pc.rect(ox + 6, oy + 3, 3, 2, P.butterLight); pc.vline(ox + 10, oy + 5, 4, P.peachShade); break;
     case 'garden_chair': b(4, 1, 7, 7, P.brownLight, 1); b(4, 8, 7, 2, P.brownLight); for (const x of [5, 9]) pc.vline(ox + x, oy + 10, 3, P.brownShade); pc.hline(ox + 5, oy + 4, 5, P.brown); break;
     case 'planter_box': b(2, 7, 11, 6, P.brownLight, 1); for (const x of [4, 7, 10]) pc.ellipse(ox + x, oy + 5, 2, 2, P.sage); pc.hline(ox + 3, oy + 10, 9, P.brown); break;
     case 'picnic_table': b(1, 5, 13, 4, P.cream, 1); for (const x of [2, 6, 10]) pc.rect(ox + x, oy + 6, 2, 2, P.peachLight); for (const x of [3, 11]) pc.vline(ox + x, oy + 9, 4, P.brownShade); break;

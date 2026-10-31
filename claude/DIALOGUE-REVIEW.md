@@ -1228,3 +1228,10 @@ Heard only with a screen reader, never shown on screen.
 - Bench, nothing known yet: "Pip's workbench. Recipes come from the shop, or Pip!"
 - Bench note: "Tools and furniture. Twigs and pebbles turn up outside each morning."
 - Names: Garden chair, Planter box, Picnic table, Birdhouse.
+
+**Farm animals (6b.16)**
+- Collect: "Thank you, hen! A fresh egg for the bag." / "Thank you, goat! Soft wool for the bag." / "Thank you, cow! Fresh milk for the bag."
+- Tended: "A pat and some feed. See you tomorrow, {animal}!" Again: "The {animal} is happy and full. Come back tomorrow!"
+- Bag full: "The {item} can wait till the bag has room."
+- Bought: "Hen moves into the yard tomorrow!" Morning: "🐾 The hen has moved into the yard!"
+- New items: Egg, Milk, Wool, Pancakes.

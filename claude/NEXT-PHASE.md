@@ -403,4 +403,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Made from twigs, pebbles and a few Sparkles (less as crafting grows), as many as Puff likes.
   - Furniture goes in the bag and is placed outdoors like the other decor, never blocking a way; tap it to pick it up. Art is drawn in code.
   - Tour card: 🪑 Furniture.
+- **6b.16 Farm animals (31 Oct):** `farm/animals.ts`.
+  - The General Store sells a hen (day 4, 80 ✨), a goat (day 9, 200 ✨) and a cow (day 14, 350 ✨), once each (`animals` in the pack, stock `kind: 'animal'`).
+  - Each moves into the yard the next morning ("🐾 The hen has moved into the yard!").
+  - Tap one to collect what it gives (an egg, wool or milk), and the same tap pats and feeds it for today. Care today means something to collect tomorrow.
+  - A missed day just means nothing to collect; nobody is upset and nothing is left to chance. A full bag keeps it waiting.
+  - The General Store buys eggs, milk and wool. Pancakes (an egg and milk; stir, then knead) are a new dish. Tending counts toward Farming.
+  - Animal art is drawn in code. Tour card: 🐔 Farm animals. Tour cards now rebuild the places first, so things they add (animals) show at once.
 

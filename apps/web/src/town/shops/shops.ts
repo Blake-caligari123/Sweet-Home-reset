@@ -1,3 +1,4 @@
+import { animalFlag } from '../farm/animals';
 import { seasonOf } from '../play/clock';
 import { perkIn } from '../skills/skills';
 import type { TownPack } from '../data/area';
@@ -8,8 +9,8 @@ import type { TownState } from '../state';
 export interface StockEntry {
   item: string;
   price: number;
-  /** item (default): `qty` of it into the bag. bag: `slots` more bag slots. recipe: learned (`recipe_<item>`). */
-  kind?: 'item' | 'bag' | 'recipe';
+  /** item (default): `qty` of it into the bag. bag: `slots` more bag slots. recipe: learned (`recipe_<item>`). animal: moves into the farm (farm/animals.ts). */
+  kind?: 'item' | 'bag' | 'recipe' | 'animal';
   qty?: number;
   slots?: number;
   /** On the shelf from this day. */
@@ -37,7 +38,7 @@ export type ShopResult = { ok: true } | { ok: false; reason: 'closed' | 'sparkle
 
 /** Bag upgrades and recipes are bought once; this flag remembers. */
 export const boughtFlag = (shop: ShopDef, e: StockEntry) => `bought_${shop.id}_${e.item}`;
-const once = (e: StockEntry) => e.kind === 'bag' || e.kind === 'recipe';
+const once = (e: StockEntry) => e.kind === 'bag' || e.kind === 'recipe' || e.kind === 'animal';
 
 export function isOpen(shop: ShopDef, minutes: number, day: number) {
   return day >= (shop.openFromDay ?? 1) && minutes >= shop.opens && minutes < shop.closes;
@@ -59,6 +60,7 @@ export function buy(shop: ShopDef, e: StockEntry, c: ShopContext): ShopResult {
   if (kind === 'item') s.bag.add(e.item, e.qty ?? 1);
   if (kind === 'bag') s.bag.grow(e.slots ?? 0);
   if (kind === 'recipe') s.flag(`recipe_${e.item}`);
+  if (kind === 'animal') s.flag(animalFlag(e.item));
   if (once(e)) s.flag(boughtFlag(shop, e));
   return { ok: true };
 }

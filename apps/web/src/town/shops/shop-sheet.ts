@@ -41,6 +41,7 @@ export function openShop(host: ShopHost, shop: ShopDef) {
         if (!r.ok) { view.say(SORRY[r.reason]); return; }
         view.feedback('coin', 'light');
         if (e.kind === 'bag') view.banner(`A bigger bag! +${e.slots} slots`);
+        if (e.kind === 'animal') view.banner(`${name(e)} moves into the yard tomorrow!`);
         if (e.kind === 'recipe') { view.banner(`New recipe: ${name(e)}`); view.say('Pip can help me make it at the workbench!'); }
         render(); host.refreshHud(); host.save();
       });
