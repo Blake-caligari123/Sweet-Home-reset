@@ -254,6 +254,42 @@
    "name": "Apple crumble",
    "snack": 60,
    "sell": 60
+  },
+  "fishing_rod": {
+   "name": "Fishing rod"
+  },
+  "minnow": {
+   "name": "River minnow",
+   "sell": 10
+  },
+  "trout": {
+   "name": "River trout",
+   "sell": 25
+  },
+  "moonfish": {
+   "name": "Moonfish",
+   "sell": 40
+  },
+  "perch": {
+   "name": "Pond perch",
+   "sell": 14
+  },
+  "carp": {
+   "name": "Golden carp",
+   "sell": 35
+  },
+  "sardine": {
+   "name": "Sardine",
+   "sell": 12
+  },
+  "crab": {
+   "name": "Little crab",
+   "sell": 20
+  },
+  "fish_stew": {
+   "name": "Fish stew",
+   "snack": 55,
+   "sell": 60
   }
  },
  "areas": [
@@ -3136,6 +3172,18 @@
      "w": 2,
      "h": 1,
      "action": "repair"
+    },
+    {
+     "type": "fishing_spot",
+     "x": 4,
+     "y": 10,
+     "action": "fish"
+    },
+    {
+     "type": "fishing_spot",
+     "x": 15,
+     "y": 10,
+     "action": "fish"
     }
    ],
    "doors": [
@@ -3750,6 +3798,12 @@
      "w": 2,
      "h": 1,
      "action": "repair"
+    },
+    {
+     "type": "fishing_spot",
+     "x": 6,
+     "y": 10,
+     "action": "fish"
     }
    ],
    "doors": [
@@ -4119,6 +4173,18 @@
      "type": "bush",
      "x": 14,
      "y": 3
+    },
+    {
+     "type": "fishing_spot",
+     "x": 6,
+     "y": 11,
+     "action": "fish"
+    },
+    {
+     "type": "fishing_spot",
+     "x": 18,
+     "y": 11,
+     "action": "fish"
     }
    ],
    "signs": [
@@ -5282,6 +5348,11 @@
     }
    ],
    "thanks": [
+    {
+     "item": "fishing_rod",
+     "qty": 1,
+     "tokens": 1
+    },
     {
      "item": "soap",
      "qty": 2,
@@ -7985,7 +8056,8 @@
    "req.hazel_grumble": "A dust Grumble's in a huff. Help it feel better for Hazel?",
    "req.pip_grumbles": "Pip wants to meet Grumbles! Befriend 2 of any kind.",
    "req.moss_cobweb": "Moss asks: befriend a cobweb Grumble, gently.",
-   "req.otto_mud": "Otto's bath is muddy again. Befriend a mud Grumble?"
+   "req.otto_mud": "Otto's bath is muddy again. Befriend a mud Grumble?",
+   "fish.no_rod": "Fish are rising! The General Store sells fishing rods."
   }
  },
  "heartEvents": [
@@ -10140,6 +10212,12 @@
      "item": "silver_rake",
      "price": 250,
      "fromDay": 17
+    },
+    {
+     "item": "fishing_rod",
+     "price": 60,
+     "fromDay": 5,
+     "kind": "item"
     }
    ],
    "buys": [
@@ -10160,7 +10238,15 @@
     "tomato_soup",
     "corn_cakes",
     "pumpkin_pie",
-    "apple_crumble"
+    "apple_crumble",
+    "minnow",
+    "trout",
+    "moonfish",
+    "perch",
+    "carp",
+    "sardine",
+    "crab",
+    "fish_stew"
    ]
   },
   {
@@ -10822,6 +10908,21 @@
     }
    },
    "learn": "card_apple_crumble"
+  },
+  {
+   "id": "fish_stew",
+   "name": "Fish stew",
+   "station": "kitchen",
+   "makes": {
+    "item": "fish_stew",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "minnow": 2,
+     "carrot": 1
+    }
+   }
   }
  ],
  "crops": [
@@ -11637,5 +11738,61 @@
  "cafe": {
   "keeper": "hazel",
   "fromDay": 3
- }
+ },
+ "fish": [
+  {
+   "id": "minnow",
+   "areas": [
+    "riverside"
+   ]
+  },
+  {
+   "id": "trout",
+   "areas": [
+    "riverside"
+   ],
+   "seasons": [
+    "Spring",
+    "Summer"
+   ],
+   "time": "day"
+  },
+  {
+   "id": "moonfish",
+   "areas": [
+    "riverside",
+    "far_bank"
+   ],
+   "time": "night"
+  },
+  {
+   "id": "perch",
+   "areas": [
+    "far_bank"
+   ]
+  },
+  {
+   "id": "carp",
+   "areas": [
+    "far_bank"
+   ],
+   "seasons": [
+    "Autumn",
+    "Winter"
+   ]
+  },
+  {
+   "id": "sardine",
+   "areas": [
+    "beach"
+   ]
+  },
+  {
+   "id": "crab",
+   "areas": [
+    "beach"
+   ],
+   "time": "day"
+  }
+ ]
 }

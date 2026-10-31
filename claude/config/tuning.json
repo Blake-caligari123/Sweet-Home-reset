@@ -88,6 +88,7 @@
   "helperSpots": 2,
   "stall": { "markup": 1.25, "salesBase": 2, "salesPerBloom": 2 },
   "cafe": { "ordersPerDay": 2, "markup": 1.5 },
+  "fishing": { "biteMs": [1500, 4000], "windowMs": 1100 },
   "townFund": { "perHappy": 5, "perOther": 2 },
   "puffMood": { "happySwingShare": 0.85, "curiousFindShare": 0.75, "cosyBurrow": 0.9, "curiousPlaces": 3 },
   "skills": {

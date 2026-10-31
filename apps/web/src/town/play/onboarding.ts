@@ -22,7 +22,8 @@ export type OnboardEvent =
   | { type: 'made'; station: 'bench' | 'kitchen' }
   | { type: 'found' }
   // A Grumble turned friend (Grumble jobs on the board listen).
-  | { type: 'befriended'; family: string };
+  | { type: 'befriended'; family: string }
+  | { type: 'caught'; fish: string };
 
 export interface Step {
   id: string;

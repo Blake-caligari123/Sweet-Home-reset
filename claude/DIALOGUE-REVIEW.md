@@ -1200,3 +1200,11 @@ Heard only with a screen reader, never shown on screen.
 **Café orders (6b.11)**
 - Town sheet: "☕ The café wants pea fritters and veggie soup today. Cook them, then hand them to Hazel."
 - Hazel's chat button: "☕ Café order: veggie soup (+90 ✨)". Banner: "☕ Served at the café! +90 ✨ +1 💌".
+
+**Fishing (6b.12)**
+- Without a rod: "Fish are rising! The General Store sells fishing rods."
+- Fishing sheet:
+  - Intro: "Wait for the splash, then tap Reel in! quickly."
+  - Waiting and the bite: "Waiting for a bite…" / "A bite! Reel in!"
+  - Outcomes: "Too soon! The fish swam off." / "It got away!" / "Caught: River trout!"
+- Fish names: River minnow, River trout, Moonfish, Pond perch, Golden carp, Sardine, Little crab. New dish: Fish stew.

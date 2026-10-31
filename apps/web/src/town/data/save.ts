@@ -86,6 +86,8 @@ export interface TownSave {
   stall?: StallState;
   /** Today's café orders supplied. */
   cafe?: CafeState;
+  /** Fish caught, all told. */
+  fishCaught?: number;
   /** The cloud save's version this device last matched (sync asks the player when it differs). */
   cloudVersion?: number;
   /** Cleans counted per place, and the surprise finds collected. */

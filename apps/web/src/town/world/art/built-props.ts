@@ -54,6 +54,10 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       pc.hline(x, y + 2, w, P.outline); pc.hline(x, y - 5, w, P.outline);
       pc.ellipse(x + w / 2, y + 11, 2, 2, P.blue); pc.set(x + w / 2, y + 11, P.white);
       break;
+    case 'fishing_spot': // ripples on the water where fish rise
+      for (const [rx, ry] of [[6, 7], [4, 5], [2, 3]]) { pc.ellipse(x + 8, y + 8, rx + 1, ry, P.white, 160); pc.ellipse(x + 8, y + 8, rx, ry - 1, P.blueLight, 120); }
+      pc.set(x + 8, y + 8, P.white);
+      break;
     case 'market_stall': // Puff's own stall: a peach-and-cream awning over crates of produce
       pc.rect(x + 2, y + 2, 2, h + 2, P.brownShade); pc.rect(x + w - 4, y + 2, 2, h + 2, P.brownShade);
       pc.box(x + 1, y + 8, w - 2, 8, P.brownLight, P.outline);
