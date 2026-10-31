@@ -1222,3 +1222,9 @@ Heard only with a screen reader, never shown on screen.
 - "Step 1 of 2: Chop! Tap the board quickly." / "Stir! Draw circles on the pot." / "Knead! Press and hold the dough."
 - Tap-only versions: "Tap to chop" / "Tap to stir" / "Tap to knead".
 - Footer: "Close to stop: nothing is used until it's cooked."
+
+**Furniture (6b.15)**
+- Made: "Picnic table! Place it from the bag, outdoors."
+- Bench, nothing known yet: "Pip's workbench. Recipes come from the shop, or Pip!"
+- Bench note: "Tools and furniture. Twigs and pebbles turn up outside each morning."
+- Names: Garden chair, Planter box, Picnic table, Birdhouse.

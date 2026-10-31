@@ -169,6 +169,10 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'flower_pot': b(4, 7, 6, 6, P.peachShade, 1); pc.ellipse(ox + 7, oy + 5, 4, 3, P.sage); pc.set(ox + 5, oy + 3, P.peach); pc.set(ox + 9, oy + 4, P.butter); break;
     case 'lantern': b(4, 3, 6, 8, P.butterLight, 1); pc.rect(ox + 6, oy + 5, 2, 4, P.white); pc.hline(ox + 3, oy + 2, 8, P.ink); pc.hline(ox + 5, oy + 12, 4, P.ink); break;
     case 'fence_post': for (const x of [3, 9]) b(x, 3, 2, 10, P.brownLight); b(1, 5, 12, 2, P.brownLight); b(1, 9, 12, 2, P.brown); break;
+    case 'garden_chair': b(4, 1, 7, 7, P.brownLight, 1); b(4, 8, 7, 2, P.brownLight); for (const x of [5, 9]) pc.vline(ox + x, oy + 10, 3, P.brownShade); pc.hline(ox + 5, oy + 4, 5, P.brown); break;
+    case 'planter_box': b(2, 7, 11, 6, P.brownLight, 1); for (const x of [4, 7, 10]) pc.ellipse(ox + x, oy + 5, 2, 2, P.sage); pc.hline(ox + 3, oy + 10, 9, P.brown); break;
+    case 'picnic_table': b(1, 5, 13, 4, P.cream, 1); for (const x of [2, 6, 10]) pc.rect(ox + x, oy + 6, 2, 2, P.peachLight); for (const x of [3, 11]) pc.vline(ox + x, oy + 9, 4, P.brownShade); break;
+    case 'birdhouse': b(4, 4, 7, 6, P.brownLight, 1); pc.line(ox + 3, oy + 4, ox + 7, oy + 1, P.peachShade); pc.line(ox + 7, oy + 1, ox + 11, oy + 4, P.peachShade); pc.set(ox + 7, oy + 6, P.ink); pc.vline(ox + 7, oy + 10, 3, P.brownShade); break;
     case 'stone_path': for (const [x, y] of [[2, 3], [7, 2], [3, 8], [8, 7]]) { pc.ellipseBox(ox + x + 2, oy + y + 2, 2, 2, P.greyLight, P.outline); } break;
     case 'bottle': b(5, 2, 4, 3, P.brownLight, 1); b(3, 5, 8, 8, P.blueLight, 2); pc.rect(ox + 5, oy + 7, 4, 4, P.cream); pc.hline(ox + 6, oy + 8, 2, P.greyShade); pc.set(ox + 4, oy + 6, P.white); break;
     case 'envelope': b(2, 4, 10, 7, P.cream, 1); pc.line(ox + 3, oy + 5, ox + 7, oy + 8, P.creamShade); pc.line(ox + 11, oy + 5, ox + 7, oy + 8, P.creamShade); pc.ellipseBox(ox + 7, oy + 8, 1, 1, P.peachShade, P.peachShade); break;

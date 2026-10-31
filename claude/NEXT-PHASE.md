@@ -398,4 +398,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Soups and the stew chop then stir. Tart, fritters, pie, crumble and corn cakes knead (pack `gestures`).
   - Nothing is spent until the last step; closing just stops. **Tap-only mode** makes every step one tap, and Enter or Space works too.
   - Tour card: 🍲 Cooking by hand.
+- **6b.15 Furniture (31 Oct):** Pip's workbench now makes furniture as well as tools (pack `recipes` that make decor items).
+  - Pip teaches a garden chair and a planter box after their first heart event, then a picnic table and a birdhouse after the second.
+  - Made from twigs, pebbles and a few Sparkles (less as crafting grows), as many as Puff likes.
+  - Furniture goes in the bag and is placed outdoors like the other decor, never blocking a way; tap it to pick it up. Art is drawn in code.
+  - Tour card: 🪑 Furniture.
 
