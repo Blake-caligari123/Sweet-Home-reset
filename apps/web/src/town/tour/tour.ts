@@ -115,5 +115,12 @@ export const TOUR: TourCard[] = [
       s.state.plots.plot_footbridge = { buildingId: 'footbridge', stage: 2, startedDay: 12, readyDay: 14 };
       s.state.plots.plot_far_bank_cottage = { buildingId: 'cottage_wren', stage: 2, startedDay: 30, readyDay: 31 };
       s.go('far_bank');
+    } },
+  { title: '🗝 A secret boathouse', steps: ['You found an old key on the Far Bank. A gap has opened in the hedge on the left.', 'Step through to the old boathouse, read the carving, and tidy it up.', 'In a normal game, the key turns up while tidying the Far Bank.'],
+    setup: (s) => {
+      s.day(16).time(10);
+      if (!s.state.finds.found.includes('boathouse_key')) s.state.finds.found.push('boathouse_key');
+      s.state.plots.plot_footbridge = { buildingId: 'footbridge', stage: 2, startedDay: 12, readyDay: 14 };
+      s.go('far_bank');
     } }
 ];

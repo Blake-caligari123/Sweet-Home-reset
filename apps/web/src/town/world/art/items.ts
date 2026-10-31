@@ -164,6 +164,7 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'old_coin': pc.ellipseBox(ox + 7, oy + 7, 5, 5, P.butterShade, P.outline); pc.ellipse(ox + 7, oy + 7, 3, 3, P.butter); pc.vline(ox + 7, oy + 5, 5, P.butterShade); break;
     case 'tiny_key': pc.ellipseBox(ox + 4, oy + 5, 2, 2, P.butterShade, P.outline); pc.hline(ox + 6, oy + 5, 6, P.butterShade); pc.vline(ox + 11, oy + 5, 3, P.butterShade); pc.vline(ox + 9, oy + 5, 2, P.butterShade); break;
     case 'pressed_flower': b(2, 2, 10, 10, P.cream, 1); pc.ellipseBox(ox + 7, oy + 6, 2, 2, P.peach, P.outline); pc.vline(ox + 7, oy + 8, 3, P.sageShade); break;
+    case 'boathouse_key': pc.ellipseBox(ox + 4, oy + 7, 3, 3, P.butterShade, P.outline); pc.set(ox + 4, oy + 7, P.cream); pc.hline(ox + 7, oy + 7, 6, P.butterShade); pc.vline(ox + 11, oy + 7, 3, P.butterShade); pc.line(ox + 2, oy + 2, ox + 6, oy + 2, P.blue); pc.set(ox + 4, oy + 1, P.white); break;
     case 'sea_glass': pc.ellipseBox(ox + 7, oy + 8, 4, 3, P.sageLight, P.outline); pc.set(ox + 6, oy + 7, P.white); pc.set(ox + 8, oy + 9, P.sage); break;
     case 'blue_feather': pc.line(ox + 3, oy + 12, ox + 11, oy + 2, P.blueShade); pc.ellipse(ox + 8, oy + 6, 2, 4, P.blue); pc.line(ox + 3, oy + 12, ox + 11, oy + 2, P.blueShade); break;
     case 'flower_pot': b(4, 7, 6, 6, P.peachShade, 1); pc.ellipse(ox + 7, oy + 5, 4, 3, P.sage); pc.set(ox + 5, oy + 3, P.peach); pc.set(ox + 9, oy + 4, P.butter); break;

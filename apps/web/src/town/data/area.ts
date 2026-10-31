@@ -30,7 +30,9 @@ import type { RockDef } from '../caves/caves';
 
 // Areas are data (FRONTEND-PLAN §7): a char map with a legend, props, doors and mess.
 /** `closedText`: shown instead of going through; with `opensDay`, only before that day. */
-export interface Door { x: number; y: number; to: string; toX: number; toY: number; closedText?: string; opensDay?: number }
+export interface Door { x: number; y: number; to: string; toX: number; toY: number; closedText?: string; opensDay?: number;
+  /** A secret door: only there once this find has turned up (secrets/secrets.ts). */
+  needsFind?: string }
 export type MessDef = MessSpot | { type: MessSpot['type']; rect: [number, number, number, number]; density: number; seed: number };
 
 export interface AreaPack {

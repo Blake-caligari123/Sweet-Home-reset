@@ -3903,6 +3903,14 @@
      "toX": 1,
      "toY": 8,
      "closedText": "Brambles block the way east. Maybe in summer."
+    },
+    {
+     "x": 0,
+     "y": 5,
+     "to": "boathouse",
+     "toX": 5,
+     "toY": 6,
+     "needsFind": "boathouse_key"
     }
    ],
    "mess": [
@@ -5205,6 +5213,122 @@
     "y": 6
    },
    "restoreReward": 80
+  },
+  {
+   "id": "boathouse",
+   "name": "The old boathouse",
+   "kind": "home",
+   "drained": true,
+   "edge": "#3E4A52",
+   "theme": {
+    "wall": "#C9D6DE",
+    "wallAccent": "#B3C4CF",
+    "floor": "#A98E78",
+    "floorShade": "#977C66",
+    "rug": "#A9BFD6",
+    "rugShade": "#8FA6C0"
+   },
+   "legend": {
+    "#": "wall",
+    ".": "wood",
+    "~": "water",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "############",
+    "############",
+    "#..........#",
+    "#..........#",
+    "#.~~~~~~...#",
+    "#.~~~~~~...#",
+    "#..........#",
+    "#####m######"
+   ],
+   "props": [
+    {
+     "type": "rowboat",
+     "x": 3,
+     "y": 4,
+     "w": 4
+    },
+    {
+     "type": "carving",
+     "x": 9,
+     "y": 2,
+     "action": "sign"
+    },
+    {
+     "type": "crate",
+     "x": 1,
+     "y": 2
+    },
+    {
+     "type": "shelf",
+     "x": 4,
+     "y": 2,
+     "w": 2
+    },
+    {
+     "type": "lantern",
+     "x": 10,
+     "y": 6
+    }
+   ],
+   "signs": [
+    {
+     "x": 9,
+     "y": 2,
+     "text": "Carved in the beam: 'Thimble mended every boat in town. T.'"
+    }
+   ],
+   "doors": [
+    {
+     "x": 5,
+     "y": 7,
+     "to": "far_bank",
+     "toX": 1,
+     "toY": 5
+    }
+   ],
+   "mess": [
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      2,
+      10,
+      5
+     ],
+     "density": 0.25,
+     "seed": 91
+    },
+    {
+     "type": "cobweb",
+     "x": 1,
+     "y": 3
+    },
+    {
+     "type": "cobweb",
+     "x": 10,
+     "y": 3
+    },
+    {
+     "type": "mud",
+     "x": 8,
+     "y": 5
+    },
+    {
+     "type": "mud",
+     "x": 2,
+     "y": 6
+    }
+   ],
+   "spawn": {
+    "x": 5,
+    "y": 6
+   },
+   "restoreReward": 120
   }
  ],
  "neighbours": [
@@ -7317,6 +7441,11 @@
     "id": "moss.noise_mended.1",
     "flag": "noise_mended",
     "time": "day"
+   },
+   {
+    "id": "moss.boathouse.1",
+    "remembers": "restored_boathouse",
+    "once": true
    }
   ],
   "mabel": [
@@ -7529,6 +7658,11 @@
    {
     "id": "mabel.splash_mended.1",
     "flag": "splash_mended"
+   },
+   {
+    "id": "mabel.boathouse.1",
+    "remembers": "restored_boathouse",
+    "once": true
    }
   ],
   "sorrel": [
@@ -8142,6 +8276,11 @@
    {
     "id": "wren.town.1",
     "bloomMin": 3
+   },
+   {
+    "id": "wren.boathouse.1",
+    "remembers": "restored_boathouse",
+    "once": true
    }
   ]
  },
@@ -9221,7 +9360,12 @@
    "he_wren_10.l06": "Then this is the best place in the world.",
    "quest.first_sail.intro": "Our boat needs a seat, a sail and a picnic. Help?",
    "quest.first_sail.pip": "The sail! I sewed it from old socks. Clean ones. Right?",
-   "quest.first_sail.done": "She floats! Mostly! Here, a tiny one, just for you."
+   "quest.first_sail.done": "She floats! Mostly! Here, a tiny one, just for you.",
+   "find.boathouse_key": "A key with a little boat on it. There's a door in the hedge!",
+   "find.boathouse_key.about": "Brass, with a tiny boat. It opens the old boathouse.",
+   "moss.boathouse.1": "The old boathouse? Thimble's? I must write that down!",
+   "wren.boathouse.1": "You found the boathouse! Pip and I dreamed of it.",
+   "mabel.boathouse.1": "Hoo. Thimble's boats. I rode in one, long ago."
   }
  },
  "heartEvents": [
@@ -13019,6 +13163,13 @@
     "riverside"
    ],
    "owner": "mabel"
+  },
+  {
+   "id": "boathouse_key",
+   "name": "Old boathouse key",
+   "areas": [
+    "far_bank"
+   ]
   }
  ],
  "outfits": [

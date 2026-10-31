@@ -166,6 +166,12 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       for (const px of [x + 2, x + 12]) pc.box(px, y + 3, 3, 12, P.brownLight, P.outline);
       pc.box(x + 1, y + 6, 15, 3, P.brownLight, P.outline); pc.box(x + 1, y + 11, 15, 2, P.brown, P.outline);
       break;
+    case 'rowboat': { // an old rowing boat resting in the water, oars inside
+      pc.ellipseBox(x + w / 2, y + 9, w / 2 - 1, 6, P.brownLight, P.outline); pc.ellipse(x + w / 2, y + 8, w / 2 - 4, 3, P.brownShade);
+      for (const bx of [x + 14, x + w - 18]) pc.rect(bx, y + 6, 3, 6, P.brownLight);
+      pc.line(x + 6, y + 5, x + w - 8, y + 10, P.brown); pc.hline(x + 3, y + 12, w - 6, P.brown);
+      break;
+    }
     case 'well': // a round stone well under a little peach roof, a bucket on the rope
       pc.ellipseBox(x + 8, y + 12, 7, 3, P.greyLight, P.outline); pc.rect(x + 1, y + 8, 14, 4, P.greyLight);
       pc.vline(x + 1, y + 8, 4, P.outline); pc.vline(x + 14, y + 8, 4, P.outline);
