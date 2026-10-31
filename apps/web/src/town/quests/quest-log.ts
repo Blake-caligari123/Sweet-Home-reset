@@ -31,7 +31,7 @@ export class QuestLog {
     for (const q of this.quests) {
       const def = this.host.content.neighbour(id);
       if (!def) continue;
-      if (q.giver === id && offerable(q, state.quests, day) && state.friendOf(id).met) {
+      if (q.giver === id && offerable(q, state.quests, day, state.flags) && state.friendOf(id).met) {
         out.push({ label: `📜 ${q.offer}`, onClick: () => {
           state.quests = start(q, state.quests, day);
           this.host.talk.says(def, this.line(q.intro), 0, false);

@@ -1464,3 +1464,8 @@ Heard only with a screen reader, never shown on screen.
 
 **River critters (6d.4)**
 - Names: Dragonfly, Kingfisher, Duckling. Journal hints: "Summer and autumn days over the water" / "By the river in the daytime, any season" / "On the Far Bank in spring".
+
+**Summer chapter: the keeper before (6d.5)**
+- Moss: "Help me learn about Thimble?" / "A keeper before you! I must know more. Will you help?" / end: "Warm water under the whole town. Thimble kept it flowing."
+- Otto: "Gran said the baths stayed warm because of Thimble!" Pip: "A T on the handle! Thimble's oar! I'll mend it. Promise."
+- Afterwards: Moss "Thimble kept the warm water flowing. Now we know." / Otto "Thimble warmed my baths! I'll name a tub after them."

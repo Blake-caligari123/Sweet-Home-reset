@@ -7220,6 +7220,11 @@
    {
     "id": "otto.drama.splash",
     "drama": "splash"
+   },
+   {
+    "id": "otto.chapter.1",
+    "flag": "chapter_summer_thimble",
+    "once": true
    }
   ],
   "moss": [
@@ -7445,6 +7450,11 @@
    {
     "id": "moss.boathouse.1",
     "remembers": "restored_boathouse",
+    "once": true
+   },
+   {
+    "id": "moss.chapter.1",
+    "flag": "chapter_summer_thimble",
     "once": true
    }
   ],
@@ -9365,7 +9375,13 @@
    "find.boathouse_key.about": "Brass, with a tiny boat. It opens the old boathouse.",
    "moss.boathouse.1": "The old boathouse? Thimble's? I must write that down!",
    "wren.boathouse.1": "You found the boathouse! Pip and I dreamed of it.",
-   "mabel.boathouse.1": "Hoo. Thimble's boats. I rode in one, long ago."
+   "mabel.boathouse.1": "Hoo. Thimble's boats. I rode in one, long ago.",
+   "quest.keeper_before.intro": "A keeper before you! I must know more. Will you help?",
+   "quest.keeper_before.otto": "Gran said the baths stayed warm because of Thimble!",
+   "quest.keeper_before.pip": "A T on the handle! Thimble's oar! I'll mend it. Promise.",
+   "quest.keeper_before.done": "Warm water under the whole town. Thimble kept it flowing.",
+   "moss.chapter.1": "Thimble kept the warm water flowing. Now we know.",
+   "otto.chapter.1": "Thimble warmed my baths! I'll name a tub after them."
   }
  },
  "heartEvents": [
@@ -14164,6 +14180,59 @@
     "item": "toy_boat",
     "qty": 1,
     "flag": "first_sail_done"
+   }
+  },
+  {
+   "id": "keeper_before",
+   "name": "Summer chapter: the keeper before",
+   "giver": "moss",
+   "fromDay": 15,
+   "needs": "restored_boathouse",
+   "offer": "Help me learn about Thimble?",
+   "intro": "quest.keeper_before.intro",
+   "steps": [
+    {
+     "hint": "Ask Otto what his gran said about Thimble",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "Did your gran know Thimble?",
+      "line": "quest.keeper_before.otto"
+     }
+    },
+    {
+     "hint": "Keep tidying: Thimble may have left more behind",
+     "goal": {
+      "type": "found",
+      "count": 1
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Ask Pip to mend Thimble's old oar",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Can you mend this old oar?",
+      "line": "quest.keeper_before.pip"
+     }
+    },
+    {
+     "hint": "Tell Moss everything you've learned",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "Here's all I found out!",
+      "line": "quest.keeper_before.done"
+     },
+     "nextDay": true
+    }
+   ],
+   "reward": {
+    "sparkles": 200,
+    "item": "old_map",
+    "qty": 1,
+    "flag": "chapter_summer_thimble"
    }
   }
  ],

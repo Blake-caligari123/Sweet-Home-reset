@@ -24,6 +24,9 @@ describe('quest chains (NEXT-PHASE §5.3)', () => {
     expect(offerable(q, start(q, {}, 3), 4)).toBe(false);
     // A festival's prep is only offered in the days before it.
     expect(offerable({ ...q, untilDay: 5 }, {}, 6)).toBe(false);
+    // A story chapter waits for its flag (a place restored).
+    expect(offerable({ ...q, needs: 'restored_boathouse' }, {}, 6, [])).toBe(false);
+    expect(offerable({ ...q, needs: 'restored_boathouse' }, {}, 6, ['restored_boathouse'])).toBe(true);
   });
 
   it('counts only what its step asks for, and moves on when it is met', () => {
