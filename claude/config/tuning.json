@@ -120,7 +120,8 @@
     "strawberry": 6,
     "tomato": 5,
     "corn": 6,
-    "pumpkin": 7
+    "pumpkin": 7,
+    "watercress": 3
   },
   "unlocks": {
     "mabel": {
@@ -160,6 +161,9 @@
     },
     "wren": {
       "flag": "home_wren"
+    },
+    "riverbank_beds": {
+      "flag": "seed_swap_done"
     },
     "footbridge": {
       "day": 12
