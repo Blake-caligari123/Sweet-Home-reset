@@ -10831,7 +10831,11 @@
     "items": {
      "peas": 2
     }
-   }
+   },
+   "gestures": [
+    "chop",
+    "knead"
+   ]
   },
   {
    "id": "berry_tart",
@@ -10846,7 +10850,11 @@
      "strawberry": 2
     }
    },
-   "learn": "he_hazel_02_done"
+   "learn": "he_hazel_02_done",
+   "gestures": [
+    "knead",
+    "stir"
+   ]
   },
   {
    "id": "tomato_soup",
@@ -10876,7 +10884,11 @@
      "corn": 2
     }
    },
-   "learn": "card_corn_cakes"
+   "learn": "card_corn_cakes",
+   "gestures": [
+    "knead",
+    "stir"
+   ]
   },
   {
    "id": "pumpkin_pie",
@@ -10892,7 +10904,11 @@
      "apple": 1
     }
    },
-   "learn": "card_pumpkin_pie"
+   "learn": "card_pumpkin_pie",
+   "gestures": [
+    "chop",
+    "knead"
+   ]
   },
   {
    "id": "apple_crumble",
@@ -10907,7 +10923,11 @@
      "apple": 2
     }
    },
-   "learn": "card_apple_crumble"
+   "learn": "card_apple_crumble",
+   "gestures": [
+    "chop",
+    "knead"
+   ]
   },
   {
    "id": "fish_stew",

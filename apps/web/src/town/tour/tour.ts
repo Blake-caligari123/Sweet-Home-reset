@@ -50,5 +50,7 @@ export const TOUR: TourCard[] = [
   { title: '🎣 Fishing', steps: ['You have a rod. Walk to the ripples on the river and tap them.', 'Wait for the splash, then tap Reel in! quickly. Night brings different fish.'],
     setup: (s) => { s.day(6).time(11).give('fishing_rod').go('riverside'); } },
   { title: '🐞 Critters', steps: ['Look around the yard: tap a little critter to spot it.', 'Pause → 📖 Collection has the Critter journal, with hints for the rest.'],
-    setup: (s) => { s.day(3).time(11).go('yard'); } }
+    setup: (s) => { s.day(3).time(11).go('yard'); } },
+  { title: '🍲 Cooking by hand', steps: ['Tap the kitchen in the burrow and Cook the veggie soup.', 'Chop with quick taps, then stir in circles. Pea fritters need kneading: press and hold.'],
+    setup: (s) => { s.day(3).time(12).give('radish', 2).give('carrot', 2).give('peas', 2).go('burrow'); } }
 ];
