@@ -18,12 +18,21 @@ export interface ShotActor {
   path: Key[];
   /** Always face this way (Thimble only ever shows their back); otherwise they face where they walk. */
   dir?: Dir;
-  /** Nodding off from this ms. */
-  sleepFrom?: number;
+  /** Nodding off from this ms, and waking again at `wakeAt` (Puff waking up). */
+  sleepFrom?: number; wakeAt?: number;
   /** Only there from this ms (Puff appearing), or until this ms (Thimble leaving). */
   from?: number; until?: number;
   species?: string; colours?: { fur: string; belly: string; accent: string };
 }
+
+/** A soft light on something (the fountain's warm water), easing from one strength to another over the shot. */
+export interface ShotGlow { x: number; y: number; r: number; from: number; to: number }
+
+/** A little bubble over someone's head, so you can see what they feel: [ms, who, icon]. */
+export type Emote = [number, string, string];
+
+/** How long an emote stays up. */
+export const EMOTE_MS = 1800;
 
 /** `full` and `grey` hold; `ripple` greys the place outward from a point between `start` and `end` ms. */
 export type ShotColour = { kind: 'full' } | { kind: 'grey' } | { kind: 'ripple'; from: [number, number]; start: number; end: number };
@@ -43,11 +52,22 @@ export interface Shot {
   sparkle?: Key[];
   /** Little bursts of sparkle (the fountain glowing, Puff appearing): [x, y, ms]. */
   bursts?: Key[];
+  glows?: ShotGlow[];
+  emotes?: Emote[];
   /** Captions: [ms, text id]. Each stays up until the next. */
   captions: [number, string][];
 }
 
 export interface SceneDef { id: string; shots: Shot[] }
+
+/** How strong a glow is `ms` into a shot of `length`. */
+export const glowAt = (g: ShotGlow, ms: number, length: number) => g.from + (g.to - g.from) * ease(ms / length);
+
+/** The emotes showing at `ms`. */
+export const emotesAt = (shot: Shot, ms: number) => (shot.emotes ?? []).filter(([at]) => ms >= at && ms < at + EMOTE_MS);
+
+/** Whether someone is asleep at `ms`. */
+export const asleep = (a: ShotActor, ms: number) => a.sleepFrom !== undefined && ms >= a.sleepFrom && (a.wakeAt === undefined || ms < a.wakeAt);
 
 /** How long a scene runs. */
 export const sceneLength = (s: SceneDef) => s.shots.reduce((n, x) => n + x.ms, 0);

@@ -528,12 +528,14 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Characters walk real paths and face where they go (Thimble always faces away). The grey ripples out from where it starts, the time of day eases along, and small sparkle bursts mark moments.
   - Moving to the next place is a soft fade as the subject crosses through a real door. Captions change with the action.
   - Tap jumps to the next caption, and Skip ends it. Reduced motion cuts instead of gliding.
-  - **The opening** (about 52 seconds, once on a new game before naming):
-    1. The bright square, with neighbours strolling and Thimble (from behind) by the sparkling fountain.
-    2. Snow begins. Thimble walks off to rest, and the camera follows.
-    3. The grey ripples out from the fountain while the neighbours nod off.
-    4. At dusk the last sparkle pops out of the fountain and drifts out of the square.
-    5. The sparkle drifts across the yard to the burrow door.
-    6. It floats in to the bed and becomes Puff.
+  - Shots can also have soft **glows** (the fountain's warm water, the spring) that ease up or down, little **emote bubbles** over heads (♪ humming, 💤 sleepy, ! waking), and characters who fall asleep and wake again. Every caption has something on screen showing it (Blake: the story made sense but the pictures didn't).
+  - **The opening** (about 60 seconds, once on a new game before naming):
+    1. The bright square: the fountain glows warm and sparkles while Thimble (from behind) hums ♪ beside it.
+    2. Snow begins. Thimble yawns 💤 and climbs down into the fountain, which is the way to the caves.
+    3. The Old Spring, deep below: Thimble curls up by the glowing pool and sleeps 💤, and the glow slowly dies.
+    4. Up above, the fountain's glow goes out and the grey ripples outward. The neighbours yawn 💤 and doze.
+    5. At dusk one sparkle pops out of the fountain and drifts out of the square.
+    6. Across the yard to the burrow door.
+    7. Into the burrow, where it settles by the bed as a sleeping Puff, who wakes with a "!".
   - Tour card: 🎬 The opening.
 
