@@ -57,15 +57,18 @@ export class TownLife {
     if (owner) this.remember('tidied_home', owner.id);
   }
 
+  /** Dramas that can happen now: both neighbours are in town (a newcomer may still be on the way). */
+  private dramas() { return (this.host.content.pack.dramas ?? []).filter((d) => d.between.every((n) => this.host.neighbours.arrived(n))); }
+
   /** Dramas this neighbour is in the middle of. */
   brewing(id: string) {
-    return (this.host.content.pack.dramas ?? []).filter((d) => d.between.includes(id) && dramaStage(d, this.host.state.dramas, this.day) === 'brewing').map((d) => d.id);
+    return this.dramas().filter((d) => d.between.includes(id) && dramaStage(d, this.host.state.dramas, this.day) === 'brewing').map((d) => d.id);
   }
 
   /** Talking to `id` moves a drama on if it's their turn: the line to say, and the drama if that mended it. */
   dramaStep(id: string) {
-    const { state, content } = this.host;
-    for (const d of content.pack.dramas ?? []) {
+    const { state } = this.host;
+    for (const d of this.dramas()) {
       const step = advanceDrama(d, state.dramas, id, this.day);
       if (!step) continue;
       state.dramas = step.state;

@@ -1348,3 +1348,11 @@ Heard only with a screen reader, never shown on screen.
 - Offer: "Help me start a garden by the river?" Intro: "A seed swap and a riverbank garden. Will you help?"
 - Bea: "Bees love clover and lavender. Plant lots, please!" Fig at the end: "Look at it! Our first beds. Have my rarest seeds."
 - Steps: "Pick 4 crops for Fig's seed swap" / "Ask Bea which flowers the bees love" / "Tidy 6 spots by the river for the new beds" / "Tell Fig the riverbank is ready".
+
+**Autumn and winter prep, and the seedlings drama (6b.22)**
+- Sorrel: "Help me get ready for Leaf Fest?" / "Leaf Fest is nearly here! The square needs us. Help?" / end: "It's perfect! The best Leaf Fest square ever!"
+- Pip: "Leaf lanterns? Already folding them! Twenty-ish. Right?"
+- Mabel: "Help light up the town for Winter Lights?" / "Hoo. The lane should glow for Winter Lights. Will you help?" / end: "Hoo, how it shines! Just like when I was young."
+- Moss: "Long ago, every window held one light. For a friend."
+- Drama: Fig "Someone's toy boat sailed right through my seedlings." / Pip "Fig's seedlings? Oh no. I'll build a little fence. Promise!" / Fig "A fence with a boat gate? Ha! That's actually lovely." / banner "🤝 Fig and Pip are friends again!"
+- While brewing: Fig "My poor seedlings. Some folk sail boats anywhere." / Pip "Fig's cross with me. It was only a test voyage!"

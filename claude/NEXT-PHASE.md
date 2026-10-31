@@ -443,4 +443,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
   4. Next day: tell Fig the riverbank is ready.
   - Reward: 150 ✨, 2 rare seeds and the `seed_swap_done` flag.
   - Tour card: 🌱 Fig's riverbank garden.
+- **6b.22 Autumn and winter prep, and Fig and Pip's falling-out (31 Oct):**
+  - **Getting ready for Leaf Fest** (Sorrel, days 38–41): rake 10 spots in the square, pick 3 crops, next day ask Pip about leaf lanterns, tell Sorrel. Reward: 150 ✨ and a lantern.
+  - **Getting ready for Winter Lights** (Mabel, days 52–55): tidy 8 spots in the lane, make something at a workbench, next day ask Moss for the old Winter Lights story, tell Mabel. Reward: 180 ✨ and 2 lanterns.
+  - With these, every festival has prep days.
+  - **A drama: the seedlings** (Fig and Pip, from day 24): Pip's toy boat sailed through Fig's seedlings. Talk to Fig, then Pip (who builds a fence with a boat gate), then Fig again.
+  - Dramas now wait until both neighbours are in town (`life/town-life.ts`), since a newcomer's arrival depends on Puff.
+  - Tour cards: 🍂 Leaf Fest prep, 🛶 Fig and Pip fall out.
 

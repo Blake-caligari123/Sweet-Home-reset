@@ -6762,6 +6762,10 @@
    {
     "id": "pip.town.1",
     "bloomMin": 3
+   },
+   {
+    "id": "pip.drama.seedlings",
+    "drama": "seedlings"
    }
   ],
   "otto": [
@@ -7815,6 +7819,10 @@
    {
     "id": "fig.town.1",
     "bloomMin": 3
+   },
+   {
+    "id": "fig.drama.seedlings",
+    "drama": "seedlings"
    }
   ]
  },
@@ -8787,7 +8795,19 @@
    "fig.spring.3": "First shoots by my door! Hello, little ones.",
    "quest.seed_swap.intro": "A seed swap and a riverbank garden. Will you help?",
    "quest.seed_swap.bea": "Bees love clover and lavender. Plant lots, please!",
-   "quest.seed_swap.done": "Look at it! Our first beds. Have my rarest seeds."
+   "quest.seed_swap.done": "Look at it! Our first beds. Have my rarest seeds.",
+   "quest.autumn_prep.intro": "Leaf Fest is nearly here! The square needs us. Help?",
+   "quest.autumn_prep.pip": "Leaf lanterns? Already folding them! Twenty-ish. Right?",
+   "quest.autumn_prep.done": "It's perfect! The best Leaf Fest square ever!",
+   "quest.winter_prep.intro": "Hoo. The lane should glow for Winter Lights. Will you help?",
+   "quest.winter_prep.moss": "Long ago, every window held one light. For a friend.",
+   "quest.winter_prep.done": "Hoo, how it shines! Just like when I was young.",
+   "drama.seedlings.1": "Someone's toy boat sailed right through my seedlings.",
+   "drama.seedlings.2": "Fig's seedlings? Oh no. I'll build a little fence. Promise!",
+   "drama.seedlings.3": "A fence with a boat gate? Ha! That's actually lovely.",
+   "drama.seedlings.mended": "🤝 Fig and Pip are friends again!",
+   "fig.drama.seedlings": "My poor seedlings. Some folk sail boats anywhere.",
+   "pip.drama.seedlings": "Fig's cross with me. It was only a test voyage!"
   }
  },
  "heartEvents": [
@@ -12763,6 +12783,30 @@
    ],
    "mendedFlag": "splash_mended",
    "banner": "drama.splash.mended"
+  },
+  {
+   "id": "seedlings",
+   "between": [
+    "fig",
+    "pip"
+   ],
+   "fromDay": 24,
+   "steps": [
+    {
+     "talkTo": "fig",
+     "line": "drama.seedlings.1"
+    },
+    {
+     "talkTo": "pip",
+     "line": "drama.seedlings.2"
+    },
+    {
+     "talkTo": "fig",
+     "line": "drama.seedlings.3"
+    }
+   ],
+   "mendedFlag": "seedlings_mended",
+   "banner": "drama.seedlings.mended"
   }
  ],
  "needs": [
@@ -13097,6 +13141,109 @@
     "item": "rare_seeds",
     "qty": 2,
     "flag": "seed_swap_done"
+   }
+  },
+  {
+   "id": "autumn_prep",
+   "name": "Getting ready for Leaf Fest",
+   "giver": "sorrel",
+   "fromDay": 38,
+   "untilDay": 41,
+   "offer": "Help me get ready for Leaf Fest?",
+   "intro": "quest.autumn_prep.intro",
+   "steps": [
+    {
+     "hint": "Rake 10 spots in the square for Leaf Fest",
+     "goal": {
+      "type": "cleared",
+      "area": "square",
+      "count": 10
+     }
+    },
+    {
+     "hint": "Pick 3 crops for the harvest table",
+     "goal": {
+      "type": "picked",
+      "count": 3
+     }
+    },
+    {
+     "hint": "Ask Pip about paper leaf lanterns",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Can you make leaf lanterns?",
+      "line": "quest.autumn_prep.pip"
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Tell Sorrel the square is ready",
+     "goal": {
+      "type": "talk",
+      "who": "sorrel",
+      "ask": "The square is ready for Leaf Fest!",
+      "line": "quest.autumn_prep.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 150,
+    "item": "lantern",
+    "qty": 1,
+    "flag": "autumn_prep_done"
+   }
+  },
+  {
+   "id": "winter_prep",
+   "name": "Getting ready for Winter Lights",
+   "giver": "mabel",
+   "fromDay": 52,
+   "untilDay": 55,
+   "offer": "Help light up the town for Winter Lights?",
+   "intro": "quest.winter_prep.intro",
+   "steps": [
+    {
+     "hint": "Tidy 8 spots in the lane for the lantern walk",
+     "goal": {
+      "type": "cleared",
+      "area": "lane",
+      "count": 8
+     }
+    },
+    {
+     "hint": "Make something at a workbench to hang up",
+     "goal": {
+      "type": "made",
+      "station": "bench",
+      "count": 1
+     }
+    },
+    {
+     "hint": "Ask Moss for the old Winter Lights story",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "Tell me the Winter Lights story?",
+      "line": "quest.winter_prep.moss"
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Tell Mabel the lane is ready",
+     "goal": {
+      "type": "talk",
+      "who": "mabel",
+      "ask": "The lane is ready for the lights!",
+      "line": "quest.winter_prep.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 180,
+    "item": "lantern",
+    "qty": 2,
+    "flag": "winter_prep_done"
    }
   }
  ],
