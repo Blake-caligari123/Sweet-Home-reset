@@ -67,9 +67,9 @@ describe('grumbles', () => {
     expect(new Set(asked).size).toBe(asked.length);
   });
 
-  it('adds cobweb, mud and soot families later on, each with its own look, lines and hint', () => {
+  it('adds cobweb, mud, soot and reed families later on, each with its own look, lines and hint', () => {
     const fam = pack.grumbleFamilies ?? [];
-    expect(fam.map((f) => f.id)).toEqual(['dust', 'cobweb', 'mud', 'soot']);
+    expect(fam.map((f) => f.id)).toEqual(['dust', 'cobweb', 'mud', 'soot', 'reed']);
     const text = pack.strings!['en-AU'];
     const days = fam.map((f) => TUNING.unlocks[f.unlock]?.day ?? 0);
     expect(days).toEqual([...days].sort((a, b) => a - b)); // one new family at a time

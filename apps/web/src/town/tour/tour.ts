@@ -136,5 +136,7 @@ export const TOUR: TourCard[] = [
       s.day(16).time(10).flag('seed_swap_done').give('watercress_seeds', 3);
       s.state.plots.plot_riverbank_beds = { buildingId: 'riverbank_beds', stage: 2, startedDay: 14, readyDay: 15 };
       s.go('riverside');
-    } }
+    } },
+  { title: '🌾 Reed Grumbles', steps: ['From summer, a new kind of Grumble rustles by the river: green and tangly.', 'Rake it 3 times to comb it out and befriend it.'],
+    setup: (s) => { s.day(20).time(10); s.go('riverside'); } }
 ];
