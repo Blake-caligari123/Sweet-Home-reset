@@ -101,5 +101,12 @@ export const TOUR: TourCard[] = [
       s.day(25).time(13, 30).flag('letter_fig_1_read').flag('invite_fig').flag('home_fig').meet('fig', 'pip');
       s.state.plots.plot_riverside_cottage = { buildingId: 'cottage_fig', stage: 2, startedDay: 18, readyDay: 20 };
       s.go('riverside');
+    } },
+  { title: '🐦 Wren comes home', steps: ['Pip\'s best friend Wren is back, the river\'s new fisher.', 'Find Wren by the Far Bank pond in the morning, the river at 10, the lane after lunch.', 'In a normal game, Wren\'s letter arrives by Pip\'s workshop on day 30.'],
+    setup: (s) => {
+      s.day(31).time(7).flag('letter_wren_1_read').flag('invite_wren').flag('home_wren').give('minnow', 2);
+      s.state.plots.plot_footbridge = { buildingId: 'footbridge', stage: 2, startedDay: 12, readyDay: 14 };
+      s.state.plots.plot_far_bank_cottage = { buildingId: 'cottage_wren', stage: 2, startedDay: 30, readyDay: 31 };
+      s.go('far_bank');
     } }
 ];

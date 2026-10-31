@@ -154,6 +154,13 @@
     "fig": {
       "flag": "home_fig"
     },
+    "invite_wren": {
+      "day": 30,
+      "flag": "invite_wren"
+    },
+    "wren": {
+      "flag": "home_wren"
+    },
     "footbridge": {
       "day": 12
     },
