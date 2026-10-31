@@ -187,6 +187,28 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       pc.line(x + 3, y - 2, x + 8, y - 6, P.peachShade); pc.line(x + 8, y - 6, x + 13, y - 2, P.peachShade);
       pc.hline(x + 7, y + 5, 3, P.brown);
       break;
+    case 'hen': // a round white hen with a peach comb, by a little straw nest
+      pc.ellipseBox(x + 11, y + 13, 4, 2, P.butterShade, P.outline); pc.set(x + 10, y + 12, P.cream);
+      pc.ellipseBox(x + 6, y + 9, 5, 4, P.white, P.outline); pc.ellipseBox(x + 3, y + 5, 2, 2, P.white, P.outline);
+      pc.set(x + 3, y + 2, P.peachShade); pc.set(x + 2, y + 3, P.peachShade); pc.set(x + 2, y + 5, P.ink); pc.set(x, y + 6, P.butterShade);
+      pc.hline(x + 6, y + 9, 3, P.creamShade); pc.vline(x + 5, y + 13, 2, P.butterShade); pc.vline(x + 8, y + 13, 2, P.butterShade);
+      break;
+    case 'goat': // a fluffy cream goat with little horns and a beard
+      for (const lx of [x + 4, x + 7, x + 10, x + 12]) pc.vline(lx, y + 10, 5, P.brownShade);
+      pc.ellipseBox(x + 8, y + 7, 6, 4, P.cream, P.outline); pc.ellipse(x + 7, y + 6, 3, 1, P.white);
+      pc.ellipseBox(x + 2, y + 3, 2, 3, P.cream, P.outline); pc.set(x + 1, y - 1, P.greyShade); pc.set(x + 3, y - 1, P.greyShade);
+      pc.set(x + 1, y + 3, P.ink); pc.vline(x + 2, y + 6, 2, P.creamShade);
+      break;
+    case 'cow': { // a gentle cow, two tiles long, cream with brown patches and a bell
+      const cx = x + w / 2;
+      for (const lx of [x + 6, x + 10, x + w - 10, x + w - 6]) pc.vline(lx, y + 10, 5, P.brownShade);
+      pc.ellipseBox(cx + 2, y + 6, 11, 5, P.cream, P.outline);
+      pc.ellipse(cx + 5, y + 5, 3, 2, P.brownLight); pc.ellipse(cx - 3, y + 8, 2, 1, P.brownLight);
+      pc.ellipseBox(x + 5, y + 4, 4, 3, P.cream, P.outline); pc.ellipse(x + 4, y + 6, 2, 1, P.peachLight);
+      pc.set(x + 3, y + 3, P.ink); pc.set(x + 2, y, P.creamShade); pc.set(x + 7, y, P.creamShade);
+      pc.ellipseBox(x + 7, y + 9, 1, 1, P.butter, P.outline); pc.vline(x + w - 2, y + 5, 5, P.brown);
+      break;
+    }
     case 'flower_bed': {
       pc.box(x, y + 6, w, 9, P.brownShade, P.outline, 1);
       pc.rect(x + 2, y + 8, w - 4, 5, P.brown);

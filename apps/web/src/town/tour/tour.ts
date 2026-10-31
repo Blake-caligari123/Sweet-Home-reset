@@ -54,5 +54,12 @@ export const TOUR: TourCard[] = [
   { title: '🍲 Cooking by hand', steps: ['Tap the kitchen in the burrow and Cook the veggie soup.', 'Chop with quick taps, then stir in circles. Pea fritters need kneading: press and hold.'],
     setup: (s) => { s.day(3).time(12).give('radish', 2).give('carrot', 2).give('peas', 2).go('burrow'); } },
   { title: '🪑 Furniture', steps: ['Tap Pip\'s workbench and Make a chair or a picnic table.', 'Open the bag, tap the furniture, and place it outside in the lane. Tap it again to pick it up.'],
-    setup: (s) => { s.day(8).time(11).flag('he_pip_02_done').flag('he_pip_04_done').meet('pip').give('twig', 12).give('pebble', 4).sparkles(60).go('pip_workshop'); } }
+    setup: (s) => { s.day(8).time(11).flag('he_pip_02_done').flag('he_pip_04_done').meet('pip').give('twig', 12).give('pebble', 4).sparkles(60).go('pip_workshop'); } },
+  { title: '🐔 Farm animals', steps: ['Your hen, goat and cow are in the yard. Tap each to collect an egg, wool or milk.', 'That tap also pats and feeds them: care today, something to collect tomorrow.', 'Cook pancakes from an egg and milk in the burrow kitchen. The General Store sells animals.'],
+    setup: (s) => {
+      s.day(15).time(10);
+      s.state.pet ??= { kind: 'cat', name: 'Pebble', day: 14 }; // so the pet visitors don't call in the yard
+      for (const a of ['hen', 'goat', 'cow']) { s.flag(`animal_${a}`); s.state.farm[a] = { tended: 14, ready: true }; }
+      s.go('yard');
+    } }
 ];

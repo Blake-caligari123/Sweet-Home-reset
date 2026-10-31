@@ -3,6 +3,7 @@ import type { Memory } from '../life/memory';
 import type { QuestLogState } from '../quests/quests';
 import type { PuffDay } from '../skills/puff-mood';
 import type { StallState } from '../stall/stall';
+import type { FarmState } from '../farm/animals';
 import type { SkillLog } from '../skills/skills';
 import { TOWN_SAVE_SCHEMA } from '@sweet-home-reset/shared';
 import { localDate } from '../../shared/date';
@@ -90,6 +91,8 @@ export interface TownSave {
   fishCaught?: number;
   /** Critters spotted. */
   critters?: string[];
+  /** The farm animals' care. */
+  farm?: FarmState;
   /** The cloud save's version this device last matched (sync asks the player when it differs). */
   cloudVersion?: number;
   /** Cleans counted per place, and the surprise finds collected. */

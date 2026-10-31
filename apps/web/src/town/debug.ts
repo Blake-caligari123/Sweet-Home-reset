@@ -22,6 +22,8 @@ export interface DebugTarget {
   /** A place's front door tile. */
   spawnOf(id: string): { x: number; y: number };
   enterArea(id: string, x: number, y: number, announce: boolean): void;
+  /** Places rebuilt from the save (builds, decor, animals), as the night does. */
+  rebuild(): void;
   /** A tap at a world point. */
   tap(px: number, py: number): void;
   refreshHud(): void;

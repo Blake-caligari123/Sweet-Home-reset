@@ -204,6 +204,7 @@ export class TownGame {
       openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false), made: (st) => this.guide.handle({ type: 'made', station: st }), tapOnly: !!this.settings.tapOnly }, station),
       openShop: (shop) => this.openShop(shop),
       openStall: () => this.systems.openStall(),
+      tendAnimal: (id) => this.systems.tendAnimal(id),
       openFishing: () => openFishing({ state: this.state, view: this.view, content: this.content, clock: this.clock, area: () => this.areaId, onboard: (e) => this.guide.handle(e), changed: () => { this.refreshHud(); void this.save(false); } }),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
@@ -244,7 +245,7 @@ export class TownGame {
       world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide, grumbles: this.grumbles,
       areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
       messFor: (id) => this.places.mess(id), spawnOf: (id) => this.places.get(id)!.pack.spawn,
-      enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
+      enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), rebuild: () => this.places.rebuild(this.state), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
     };
   }
 

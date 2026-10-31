@@ -10,7 +10,7 @@ export class Scene {
   day(d: number) { this.g.clock.state.day = d; this.g.jobs.post(); this.g.grumbles.newDay(d); return this; }
   time(h: number, m = 0) { this.g.clock.state.minutes = h * 60 + m; return this; }
   /** Puff to a place's front door (and it counts as visited, for the map). */
-  go(area: string) { const s = this.g.spawnOf(area); this.g.enterArea(area, s.x, s.y, false); return this; }
+  go(area: string) { this.g.rebuild(); const s = this.g.spawnOf(area); this.g.enterArea(area, s.x, s.y, false); return this; }
   give(item: string, n = 1) { this.state.bag.add(item, n); return this; }
   sparkles(n: number) { this.state.sparkles = Math.max(this.state.sparkles, n); return this; }
   flag(f: string) { this.state.flag(f); return this; }

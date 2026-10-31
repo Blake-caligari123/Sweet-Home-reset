@@ -15,7 +15,7 @@ export interface SkillLog { xp: Partial<Record<Skill, number>>; day: number; cou
 export function skillFor(e: OnboardEvent): Skill | null {
   switch (e.type) {
     case 'cleared': case 'restored': case 'putaway': return 'tidying';
-    case 'picked': case 'planted': case 'watered': return 'farming';
+    case 'picked': case 'planted': case 'watered': case 'tended': return 'farming';
     case 'made': return e.station === 'kitchen' ? 'cooking' : 'crafting';
     case 'found': case 'entered': case 'spotted': case 'caught': return 'exploring';
     default: return null;
