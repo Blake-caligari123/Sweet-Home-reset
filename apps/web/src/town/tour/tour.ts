@@ -77,5 +77,11 @@ export const TOUR: TourCard[] = [
       s.state.plots.plot_yard_well = { buildingId: 'well', stage: 2, startedDay: 1, readyDay: 2 };
       s.state.pet ??= { kind: 'cat', name: 'Pebble', day: 2 };
       s.go('yard');
+    } },
+  { title: '🐐 Fig, the new farmer', steps: ['Fig has moved into a cottage up from the river. Go and say hello.', 'Fig loves carrots and pancakes. Talk each day to hear their story.', 'In a normal game, Fig\'s letter arrives by the river on day 18.'],
+    setup: (s) => {
+      s.day(20).time(8).flag('letter_fig_1_read').flag('invite_fig').flag('home_fig').give('carrot', 2);
+      s.state.plots.plot_riverside_cottage = { buildingId: 'cottage_fig', stage: 2, startedDay: 18, readyDay: 20 };
+      s.go('riverside');
     } }
 ];

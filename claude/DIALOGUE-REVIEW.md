@@ -1248,3 +1248,98 @@ Heard only with a screen reader, never shown on screen.
 
 **The well (6b.19)**
 - Done: "The well is up! It waters the crops near it every morning." Plot: "Beside the garden".
+
+**Fig, the eighth neighbour (6b.20)**
+- All of Fig's new lines, for review:
+  - `fig.meet.1`: Oh! Hello. I'm Fig. I grow things. Mostly happily.
+  - `fig.busy.1`: Still unpacking seeds. So many seeds! Tomorrow?
+  - `fig.busy.2`: My boots are somewhere in a box. See you tomorrow!
+  - `fig.busy.3`: Settling in! Come by tomorrow and I'll be ready.
+  - `fig.morning.1`: Up with the sun! Old farm habits.
+  - `fig.morning.2`: Dew on everything. Best time to plant.
+  - `fig.day.1`: The soil here is soft. It wants to grow.
+  - `fig.day.2`: The river bank would make a fine veg patch.
+  - `fig.evening.1`: Evenings smell like cut grass here.
+  - `fig.evening.2`: I hum to my seedlings. They don't mind.
+  - `fig.night.1`: Night, Keeper. Early start tomorrow!
+  - `fig.night.2`: The river's quieter than the valley. Nice.
+  - `fig.spring.1`: Spring! Every seed is a little promise.
+  - `fig.summer.1`: Summer means watering twice. I don't mind.
+  - `fig.autumn.1`: Pumpkins! Autumn is the proud season.
+  - `fig.winter.1`: Winter's for planning next year's beds.
+  - `fig.rainy.1`: Rain! The garden says thank you.
+  - `fig.rainy.2`: Good rain. I'm staying out in it a bit.
+  - `fig.h0.1`: Thank you for the cottage. It's just right.
+  - `fig.h0.2`: Who keeps bees? Bea? I must meet Bea.
+  - `fig.h0.3`: I'm better with plants than chats. Bear with me.
+  - `fig.h3.1`: Your garden's coming on. Mind if I peek?
+  - `fig.h3.2`: Hazel wants my carrots for a cake. A cake!
+  - `fig.h3.3`: I've started a little notebook for {town}.
+  - `fig.h6.1`: This feels like the start of something.
+  - `fig.h6.2`: Otto lets me wash my boots at the bathhouse.
+  - `fig.h6.3`: Some days I miss the valley. Then I plant something.
+  - `fig.h9.1`: You're my best friend here. Easily.
+  - `fig.h9.2`: Everything I grow, I'll share with you.
+  - `fig.h9.3`: You tidy, I grow. {town}'s in good hands.
+  - `fig.visit.1`: Morning! Just checking on your animals. All happy!
+  - `fig.visit.2`: Lovely soil in your yard. You've a knack.
+  - `fig.festival.1`: A fair! I brought my best radish. For luck.
+  - `fig.festival.summer_picnic`: Picnic salad! Every leaf grown by the river.
+  - `fig.festival.autumn_leaf_fest`: Leaves make the best compost. Sorry. Lovely, though!
+  - `fig.festival.winter_lights`: All those lamps glow like a field of fireflies.
+  - `fig.mood.happy`: Everything's growing. Me too, I think!
+  - `fig.mood.low`: A slow day. Even gardens have those.
+  - `fig.shelter.1`: Sitting out the rain at Otto's. Warm toes!
+  - `fig.about_bea.1`: Bea's bees visited my beans! Best guests.
+  - `fig.about_sorrel.1`: Sorrel seems quiet today. Maybe say hello?
+  - `fig.town.1`: {town}'s blooming like a good garden bed.
+  - `fig.gift.loved`: For me? Oh, this is wonderful. Thank you!
+  - `fig.gift.liked`: How kind! That's going on my kitchen shelf.
+  - `fig.gift.neutral`: A present! You're very thoughtful. Thanks!
+  - `fig.gift.disliked`: Hmm, not quite my thing. But thank you, truly.
+  - `fig.request.done`: Perfect! Thank you, Keeper.
+  - `req.fig_carrots`: Fig would love a carrot to start a seed swap.
+  - `req.fig_weeds`: Pull the weeds by Fig's front gate.
+  - `home.fig`: Fig's moved in by the river! Go and say hello.
+  - `invite.fig.hint`: Fig needs a home. See the Keeper's plans.
+  - `bea.about_fig.1`: Fig's beans are my bees' new favourite!
+  - `letter.fig_1.title`: A letter from the valley
+  - `letter.fig_1.hint`: There's a letter by the river path.
+  - `letter.fig_1.sent`: Off it goes! Let's find Fig a home.
+  - `letter.fig_1.l1`: Dear Keeper of {town}, I'm Fig. I grow things.
+  - `letter.fig_1.l2`: My old farm got too big for me. I'd like to start small.
+  - `letter.fig_1.l3`: Is there room by your river for a little cottage? Fig
+  - `letter.fig_1.r1`: Yes! Come and grow things here!
+  - `letter.fig_1.r2`: There's room. Welcome, Fig!
+  - `he_fig_02.l01`: I keep a notebook of every animal I've known.
+  - `he_fig_02.l02`: Forty-one hens. I named every one of them.
+  - `he_fig_02.l03`: Will you help name ours, then?
+  - `he_fig_02.l04`: Really? Oh, I'd love that. Names matter.
+  - `he_fig_02.l05`: Our hen needs a good one.
+  - `he_fig_02.l06`: Buttercup. She looks like a Buttercup. Trust me.
+  - `he_fig_04.l01`: Can I tell you why I left the valley?
+  - `he_fig_04.l02`: Gran's farm was huge. When she retired, it was all mine.
+  - `he_fig_04.l03`: Too much for one goat. I felt very small.
+  - `he_fig_04.l04`: Small is how every garden starts.
+  - `he_fig_04.l05`: ...Huh. It is, isn't it?
+  - `he_fig_04.l06`: Then I'm starting exactly right.
+  - `he_fig_06.l01`: I want to teach {town} to grow things.
+  - `he_fig_06.l02`: But what if nobody comes? Or the seeds don't sprout?
+  - `he_fig_06.l03`: Then we plant again. I'll be there.
+  - `he_fig_06.l04`: You make it sound so easy.
+  - `he_fig_06.l05`: Not easy. Just together.
+  - `he_fig_06.l06`: Together, then. First lesson's tomorrow!
+  - `he_fig_08.l01`: Keeper! Quick, come and look!
+  - `he_fig_08.l02`: My first pumpkin in {town}. It's... it's huge!
+  - `he_fig_08.l03`: It's the biggest one I've ever seen!
+  - `he_fig_08.l04`: Gran would laugh. She always said I'd grow a giant.
+  - `he_fig_08.l05`: She'd be so proud of you.
+  - `he_fig_08.l06`: I think she would. I really think she would.
+  - `he_fig_10.l01`: I wrote to Gran about {town}. And about you.
+  - `he_fig_10.l02`: She wrote back. She says I sound like me again.
+  - `he_fig_10.l03`: You sound like Fig. The happy one.
+  - `he_fig_10.l04`: I saved you the first seeds from my pumpkin.
+  - `he_fig_10.l05`: I'll plant them by the burrow door.
+  - `he_fig_10.l06`: Then something of us will grow there. Always.
+  - `fig.spring.2`: Peas want a stick to climb. Everyone needs a hand.
+  - `fig.spring.3`: First shoots by my door! Hello, little ones.

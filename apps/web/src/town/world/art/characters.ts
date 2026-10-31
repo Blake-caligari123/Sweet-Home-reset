@@ -95,6 +95,11 @@ export function drawNeighbour24(species: string, c: { fur: string; belly: string
   }
   if (species === 'owl') for (const ex of side ? [10] : [7, 17]) { pc.set(ex, cy - 8, c.fur); pc.rect(ex - 1, cy - 7, 3, 2, c.fur); }
   if (species === 'otter' || species === 'hedgehog') for (const ex of side ? [11] : [8, 16]) pc.ellipse(ex, cy - 5, 2, 2, c.fur);
+  // A goat's floppy ears out to the sides and two little horns.
+  if (species === 'goat') {
+    for (const ex of side ? [9] : [5, 19]) pc.ellipse(ex, cy - 3, 3, 1, c.fur);
+    for (const hx of side ? [12] : [9, 15]) { pc.vline(hx, cy - 9, 3, c.accent); pc.set(hx + (hx < 12 ? -1 : 1), cy - 10, c.accent); }
+  }
   // A squirrel's ear tufts and big tail, curled up behind (in front, seen from the back).
   const tail = () => { pc.ellipse(side ? 6 : 18, cy - 4, 4, 6, c.fur); pc.ellipse(side ? 5 : 19, cy - 8, 3, 3, c.fur); };
   if (species === 'squirrel') {
@@ -117,6 +122,7 @@ export function drawNeighbour24(species: string, c: { fur: string; belly: string
     const bx = side ? 15 : 12;
     pc.ellipse(bx, cy + 1, side ? 3 : 4, 3, c.belly);
     if (species === 'hedgehog' && front) { pc.rect(9, cy + 2, 7, 4, c.accent); pc.hline(10, cy + 1, 5, c.accent); }
+    if (species === 'goat') pc.vline(side ? 18 : 12, cy + 4, 2, c.accent); // a little beard
   }
   if (species === 'otter' || species === 'mouse') { if (dir !== 'down') pc.line(side ? 5 : 12, cy + 4, side ? 2 : 12, cy + (side ? 1 : 7), c.fur); }
   // Light from the top-left.
