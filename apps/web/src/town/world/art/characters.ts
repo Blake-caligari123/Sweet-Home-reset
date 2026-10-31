@@ -95,6 +95,8 @@ export function drawNeighbour24(species: string, c: { fur: string; belly: string
   }
   if (species === 'owl') for (const ex of side ? [10] : [7, 17]) { pc.set(ex, cy - 8, c.fur); pc.rect(ex - 1, cy - 7, 3, 2, c.fur); }
   if (species === 'otter' || species === 'hedgehog') for (const ex of side ? [11] : [8, 16]) pc.ellipse(ex, cy - 5, 2, 2, c.fur);
+  // A wren's tail, cocked up behind.
+  if (species === 'wren') { const tx = side ? 5 : 17; pc.line(tx, cy - 2, tx + (side ? -2 : 2), cy - 10, c.fur); pc.line(tx + 1, cy - 2, tx + (side ? -1 : 3), cy - 10, c.fur); pc.line(tx - 1, cy - 2, tx + (side ? -3 : 1), cy - 9, c.accent); }
   // A goat's floppy ears out to the sides and two little horns.
   if (species === 'goat') {
     for (const ex of side ? [9] : [5, 19]) pc.ellipse(ex, cy - 3, 3, 1, c.fur);
@@ -141,13 +143,13 @@ export function drawNeighbour24(species: string, c: { fur: string; belly: string
   } else if (front) {
     if (small) { pc.set(9, cy - 1, P.ink); pc.set(15, cy - 1, P.ink); } else { eye(8, cy - 2); eye(14, cy - 2); }
     pc.rect(6, cy + 1, 2, 1, P.peach); pc.rect(16, cy + 1, 2, 1, P.peach);
-    if (species === 'owl') { pc.set(12, cy, P.butterShade); pc.set(12, cy + 1, P.butterShade); }
+    if (species === 'owl' || species === 'wren') { pc.set(12, cy, P.butterShade); pc.set(12, cy + 1, P.butterShade); }
     else if (species === 'mole' || species === 'hedgehog' || species === 'mouse') pc.rect(11, cy, 2, 1, P.peachShade);
     else { pc.set(11, cy + 1, P.outline); pc.set(12, cy + 2, P.outline); pc.set(13, cy + 1, P.outline); }
   } else if (side) {
     if (small) pc.set(17, cy - 1, P.ink); else eye(16, cy - 2);
     pc.rect(17, cy + 1, 2, 1, P.peach);
-    pc.set(20, cy, species === 'owl' ? P.butterShade : P.peachShade);
+    pc.set(20, cy, species === 'owl' || species === 'wren' ? P.butterShade : P.peachShade);
   }
   if (pose === 'sleep') { pc.set(19, cy - 9, P.blue); pc.set(20, cy - 10, P.blue); pc.set(21, cy - 10, P.blue); }
   if (dir === 'left') {

@@ -1356,3 +1356,98 @@ Heard only with a screen reader, never shown on screen.
 - Moss: "Long ago, every window held one light. For a friend."
 - Drama: Fig "Someone's toy boat sailed right through my seedlings." / Pip "Fig's seedlings? Oh no. I'll build a little fence. Promise!" / Fig "A fence with a boat gate? Ha! That's actually lovely." / banner "🤝 Fig and Pip are friends again!"
 - While brewing: Fig "My poor seedlings. Some folk sail boats anywhere." / Pip "Fig's cross with me. It was only a test voyage!"
+
+**Wren comes home (6d.1)**
+- All of Wren's new lines, for review:
+  - `wren.meet.1`: Hello! I'm Wren. Pip's Wren. I came back!
+  - `wren.busy.1`: Still unpacking my tackle box. Tomorrow?
+  - `wren.busy.2`: I'm looking for my good hat. See you tomorrow!
+  - `wren.busy.3`: Settling in! Come and find me tomorrow.
+  - `wren.morning.1`: Fish bite best at sunrise. So do I!
+  - `wren.morning.2`: The pond's like glass this morning.
+  - `wren.day.1`: I've missed this river. It hasn't changed a bit.
+  - `wren.day.2`: Pip and I are building a boat. A real one!
+  - `wren.evening.1`: The water goes gold at this time. My favourite.
+  - `wren.evening.2`: Pip fell asleep on the workbench again. Ha!
+  - `wren.night.1`: Moonfish are about. Shh! Night, Keeper.
+  - `wren.night.2`: I can hear frogs. Home has frogs.
+  - `wren.spring.1`: Spring rain fills the pond right up. Good.
+  - `wren.spring.2`: Ducklings! Did you see the ducklings?
+  - `wren.spring.3`: Everything's fresh this time of year.
+  - `wren.summer.1`: Summer means trout. And paddling!
+  - `wren.autumn.1`: Golden carp in the pond! Autumn's best secret.
+  - `wren.winter.1`: The pond's too cold for fish. And for me!
+  - `wren.rainy.1`: Rain makes rings on the water. I love that.
+  - `wren.rainy.2`: Feathers and rain don't mix. Off to Pip's!
+  - `wren.h0.1`: Thank you for my cottage. Pip cried. Happy cries.
+  - `wren.h0.2`: The town's so bright! It was grey when I left.
+  - `wren.h0.3`: You're the one who helped Pip finish the toy?
+  - `wren.h3.1`: I caught a trout this big. Well, this big.
+  - `wren.h3.2`: Otto lent me a towel. He has so many towels.
+  - `wren.h3.3`: Fishing's mostly waiting. I like waiting now.
+  - `wren.h6.1`: I'm glad I came back. Really glad.
+  - `wren.h6.2`: Pip and I made you a tiny boat. Shh, surprise!
+  - `wren.h6.3`: Sometimes I miss the city. Mostly I don't.
+  - `wren.h9.1`: You and Pip. My two best friends.
+  - `wren.h9.2`: I'll teach you every fishing spot. Even secret ones.
+  - `wren.h9.3`: {town} brought me home. You did, really.
+  - `wren.visit.1`: Hi! Just passing. Your yard smells of clover.
+  - `wren.visit.2`: Got any minnows? Kidding! Just saying hello.
+  - `wren.festival.1`: A fair! Pip says the dash is easy. Pip fibs.
+  - `wren.festival.summer_picnic`: Fresh trout for the picnic! Well, a minnow.
+  - `wren.festival.autumn_leaf_fest`: Leaves on the water look like little boats.
+  - `wren.festival.winter_lights`: The lamps on the river! Best night of the year.
+  - `wren.mood.happy`: Everything's sparkly today. Like the river!
+  - `wren.mood.low`: A slow day. Even the fish are sleepy.
+  - `wren.shelter.1`: Hiding from the rain at Pip's. Gears everywhere!
+  - `wren.about_pip.1`: Pip finished three toys this week. Three!
+  - `wren.about_otto.1`: Otto seems quiet. A swim might cheer him up?
+  - `wren.town.1`: {town}'s brighter than I ever remember it.
+  - `wren.gift.loved`: For me?! Oh, this is the best. Thank you!
+  - `wren.gift.liked`: Ooh, lovely! That's going by my window.
+  - `wren.gift.neutral`: A present! You're kind. Thank you!
+  - `wren.gift.disliked`: Hmm, not really for me. But thank you!
+  - `wren.request.done`: Brilliant! Thanks, Keeper!
+  - `req.wren_minnow`: Wren would love a minnow to share with Pip.
+  - `req.wren_reeds`: Clear the weeds by Wren's spot on the river.
+  - `home.wren`: Wren's moved in on the Far Bank! Go and say hello.
+  - `invite.wren.hint`: Wren needs a home. See the Keeper's plans.
+  - `pip.about_wren.1`: Wren's back! For good! Did I say? For good!
+  - `letter.wren_1.title`: A letter from far away
+  - `letter.wren_1.hint`: There's a letter by Pip's workshop.
+  - `letter.wren_1.sent`: Off it goes! Let's find Wren a home.
+  - `letter.wren_1.l1`: Dear Keeper of {town}, I'm Wren. Pip's friend.
+  - `letter.wren_1.l2`: Pip says the town's bright again. And so is Pip.
+  - `letter.wren_1.l3`: Could I come home? A cottage by the pond? Wren
+  - `letter.wren_1.r1`: Yes! Pip will be so happy!
+  - `letter.wren_1.r2`: Come home, Wren. Welcome back!
+  - `he_wren_02.l01`: I was scared to come back, you know.
+  - `he_wren_02.l02`: What if Pip had new friends? What if I didn't fit?
+  - `he_wren_02.l03`: Pip kept every toy for you. Every one.
+  - `he_wren_02.l04`: ...Every one? Oh, Pip.
+  - `he_wren_02.l05`: You fit. You always did.
+  - `he_wren_02.l06`: Then I'm home. Properly home.
+  - `he_wren_04.l01`: Want to learn the secret of fishing?
+  - `he_wren_04.l02`: It's waiting. Just waiting, and watching the water.
+  - `he_wren_04.l03`: I'm not very good at waiting.
+  - `he_wren_04.l04`: Nobody is, at first. You get better.
+  - `he_wren_04.l05`: Like tidying. One spot at a time.
+  - `he_wren_04.l06`: Exactly! One ripple at a time.
+  - `he_wren_06.l01`: In the city, nobody knew my name.
+  - `he_wren_06.l02`: Here, the baker waves. The bees wave. Even Otto waves.
+  - `he_wren_06.l03`: Otto waves at everyone. Twice.
+  - `he_wren_06.l04`: Ha! I'd forgotten how much I missed that.
+  - `he_wren_06.l05`: You're part of the waving now.
+  - `he_wren_06.l06`: Then I'll wave back. Every single time.
+  - `he_wren_08.l01`: Pip and I finished the boat! The real one!
+  - `he_wren_08.l02`: It's small. It leaks a tiny bit. It's perfect.
+  - `he_wren_08.l03`: Does it float?
+  - `he_wren_08.l04`: Mostly! Come for the first sail?
+  - `he_wren_08.l05`: I'll bring a sponge. Just in case.
+  - `he_wren_08.l06`: Ha! Bring two. Captain's orders.
+  - `he_wren_10.l01`: I named the boat. Want to hear?
+  - `he_wren_10.l02`: The Keeper. After you. Because you brought us home.
+  - `he_wren_10.l03`: Oh, Wren. I don't know what to say.
+  - `he_wren_10.l04`: Say you'll sail in her. Every summer.
+  - `he_wren_10.l05`: Every summer. Promise.
+  - `he_wren_10.l06`: Then this is the best place in the world.

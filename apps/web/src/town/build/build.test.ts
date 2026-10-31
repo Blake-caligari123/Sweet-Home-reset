@@ -183,6 +183,19 @@ describe('Hollowfern plots', () => {
     expect(nav.findPathNear(spawn, { x0: home.x * T, y0: home.y * T, x1: (home.x + 1) * T, y1: (home.y + 1) * T }, 0)).toBeTruthy();
   });
 
+  it('lets Wren come home: a letter invites, a Far Bank plot opens, the cottage leaves the bank open', () => {
+    expect((pack.letters ?? []).find((l) => l.from === 'wren')!.gives).toContain('invite_wren');
+    const plot = plots.find((p) => p.allow.includes('cottage_wren'))!;
+    expect([plot.area, plot.unlock]).toEqual(['far_bank', 'invite_wren']);
+    const bank = pack.areas.find((a) => a.id === 'far_bank')!;
+    const built = new Area(withBuilds(bank, plots, { [plot.id]: { buildingId: 'cottage_wren', stage: 2, startedDay: 1, readyDay: 2 } }, buildings));
+    const nav = navFor(built);
+    const spawn = nav.nearestOpen({ x: bank.spawn.x * T + T / 2, y: bank.spawn.y * T + FEET })!;
+    const wren = pack.neighbours!.find((n) => n.id === 'wren')!;
+    for (const st of wren.schedule.filter((x) => x.area === 'far_bank')) expect(nav.findPathNear(spawn, { x0: st.x * T, y0: st.y * T, x1: (st.x + 1) * T, y1: (st.y + 1) * T }, 0), `${st.x},${st.y}`).toBeTruthy();
+    for (const pk of bank.pickups ?? []) expect(nav.findPathNear(spawn, { x0: pk.x * T, y0: pk.y * T, x1: (pk.x + 1) * T, y1: (pk.y + 1) * T }, REACH), pk.id).toBeTruthy();
+  });
+
   it('clears the overgrown path off the Far Bank in summer (day 26), opening the Woodland Edge and its orchard', () => {
     const p = plots.find((x) => x.id === 'plot_overgrown_path')!;
     expect([p.area, p.unlock]).toEqual(['far_bank', 'overgrown_path']);

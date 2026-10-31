@@ -451,3 +451,13 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Dramas now wait until both neighbours are in town (`life/town-life.ts`), since a newcomer's arrival depends on Puff.
   - Tour cards: 🍂 Leaf Fest prep, 🛶 Fig and Pip fall out.
 
+### 6d: district by district (from 31 Oct)
+- **6d.1 Riverside and the Far Bank: Wren comes home (31 Oct).** Pip's best friend, who moved away in Pip's heart story, comes back as the river's fisher. This is the third newcomer (VISION: Sorrel, Fig and Wren first).
+  - **Moving in:** a letter by Pip's workshop on day 30 (`invite_wren`) opens the "By the pond" plot on the Far Bank. Once the cottage is built (200 ✨, the town fund helps), Wren moves in (`home_wren`). There's a town need and a tracker nudge.
+  - **Daily life:** the Far Bank pond at dawn, the river at 10, the lane by Pip's after lunch, the square at dusk, home at night. In the rain Wren goes to Pip's workshop. Weekly yard visits, and fair days in the square.
+  - **Lines:** 46, including opinions about Pip and Otto, and Pip about Wren.
+  - **Tastes and trades:** loves minnows and fish stew. Thank-you notes trade for minnows or a fishing rod.
+  - **Jobs:** a minnow to share with Pip, and weeds by Wren's river spot.
+  - **Heart arc (5 scenes):** being scared Pip had moved on; the patience of fishing; being part of the town's waving; the boat Wren and Pip finish; naming it The Keeper.
+  - A code-drawn wren with its tail up. Tour card: 🐦 Wren comes home.
+
