@@ -166,6 +166,23 @@ describe('Hollowfern plots', () => {
     for (const t of soil) expect(nav.findPathNear(spawn, { x0: t.x * T, y0: t.y * T, x1: (t.x + 1) * T, y1: (t.y + 1) * T }, REACH), `${t.x},${t.y}`).toBeTruthy();
   });
 
+  it('lets Fig move in like Sorrel: a letter invites, a riverside plot opens, the cottage is their home', () => {
+    const letter = (pack.letters ?? []).find((l) => l.from === 'fig')!;
+    expect(letter.gives).toContain('invite_fig');
+    const plot = plots.find((p) => p.allow.includes('cottage_fig'))!;
+    expect([plot.area, plot.unlock]).toEqual(['riverside', 'invite_fig']);
+    const b = buildings.find((d) => d.id === 'cottage_fig')!;
+    expect([b.effect, b.home]).toEqual(['home', 'fig']);
+    expect((pack.heartEvents ?? []).filter((e) => e.neighbourId === 'fig').length).toBe(5);
+    const river = pack.areas.find((a) => a.id === 'riverside')!;
+    const built = new Area(withBuilds(river, plots, { [plot.id]: { buildingId: b.id, stage: 2, startedDay: 1, readyDay: 2 } }, buildings));
+    const nav = navFor(built);
+    const spawn = nav.nearestOpen({ x: river.spawn.x * T + T / 2, y: river.spawn.y * T + FEET })!;
+    for (const d of river.doors.filter((x) => !x.closedText)) expect(nav.findPathNear(spawn, { x0: d.x * T, y0: d.y * T, x1: (d.x + 1) * T, y1: (d.y + 1) * T }, 0), d.to).toBeTruthy();
+    const home = pack.neighbours!.find((n) => n.id === 'fig')!.schedule.at(-1)!;
+    expect(nav.findPathNear(spawn, { x0: home.x * T, y0: home.y * T, x1: (home.x + 1) * T, y1: (home.y + 1) * T }, 0)).toBeTruthy();
+  });
+
   it('clears the overgrown path off the Far Bank in summer (day 26), opening the Woodland Edge and its orchard', () => {
     const p = plots.find((x) => x.id === 'plot_overgrown_path')!;
     expect([p.area, p.unlock]).toEqual(['far_bank', 'overgrown_path']);

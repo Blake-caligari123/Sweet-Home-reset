@@ -147,6 +147,13 @@
     "sorrel": {
       "flag": "home_sorrel"
     },
+    "invite_fig": {
+      "day": 18,
+      "flag": "invite_fig"
+    },
+    "fig": {
+      "flag": "home_fig"
+    },
     "footbridge": {
       "day": 12
     },

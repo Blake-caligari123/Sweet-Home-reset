@@ -423,4 +423,17 @@ These are the places Blake said "dealer's choice". Each can be changed:
 - **6b.19 The well (31 Oct):** a well beside the yard garden, from the Keeper's plans (Town Bloom 1, 120 ✨ and 6 pebbles, 1 night).
   - Each morning, every crop within 3 tiles of it (`wellReach` in tuning) starts the day watered, as if it had rained (`nearWater` in `build/build.ts`, used by `play/overnight.ts`). That's about half the garden; the greenhouse still waters all of it.
   - Building effect `waters_nearby`. The art is drawn in code. Tour card: 🪣 The well.
+- **6b.20 Fig, the eighth neighbour (31 Oct):** a goat farmer, the second newcomer (VISION §5.3: Sorrel, Fig and Wren first). With Fig, eight townsfolk are fully alive.
+  - **Moving in, like Sorrel:** a letter by the river path on day 18 invites Fig (`invite_fig`). That opens a riverside plot, "Up from the river", for Fig's cottage (200 ✨, 2 nights, a big project the town fund helps with). Once it's built, Fig moves in (`home_fig`). The town need "A home for Fig" shows, and the tracker points to the Keeper's plans until the cottage is under way (newcomers in `play/nudges.ts`).
+  - **A full day:** up early at the cottage, the square, the river bank, the lane, then home. In the rain Fig sits it out at the bathhouse. They visit Puff's yard weekly and come to the square on fair days.
+  - **Lines:** 47 lines for times, seasons, weather, hearts, festivals and moods, with opinions about Bea and Sorrel (and Bea about Fig).
+  - **Tastes:** loves carrots and pancakes. Thank-you notes trade for carrot seeds or rare seeds.
+  - **Jobs:** a carrot for a seed swap, and weeds by the gate.
+  - **Heart arc (5 scenes):**
+    1. Fig's notebook of every animal they've known; they name Puff's hen Buttercup.
+    2. Why they left Gran's too-big farm in the valley.
+    3. Wanting to teach the town to grow things (`fig_helper`).
+    4. Their first giant pumpkin.
+    5. Gran's letter, and the first seeds for Puff.
+  - A code-drawn goat with floppy ears, little horns and a beard. Tour card: 🐐 Fig, the new farmer.
 
