@@ -1451,3 +1451,8 @@ Heard only with a screen reader, never shown on screen.
   - `he_wren_10.l04`: Say you'll sail in her. Every summer.
   - `he_wren_10.l05`: Every summer. Promise.
   - `he_wren_10.l06`: Then this is the best place in the world.
+
+**The first sail (6d.2)**
+- Wren: "Help Pip and me finish our boat?" / "Our boat needs a seat, a sail and a picnic. Help?" / end: "She floats! Mostly! Here, a tiny one, just for you."
+- Pip: "The sail! I sewed it from old socks. Clean ones. Right?"
+- Steps: "Make something at a workbench for the boat's seat" / "Ask Pip about the boat's sail" / "Catch 2 fish for the launch picnic" / "Spot a critter by the water, for luck" / "Tell Wren everything's ready".
