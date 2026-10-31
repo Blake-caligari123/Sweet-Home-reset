@@ -377,4 +377,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Pause → 🏘 Town says what the café wants. Hazel's chat has a "☕ Café order" button for each one Puff carries.
   - Each dish pays 1.5× the shop price plus one of Hazel's thank-you notes (`cafe` in tuning; who runs it is `cafe` in the pack).
   - Tour card: ☕ Café orders.
+- **6b.12 Fishing (31 Oct):** `fishing/`.
+  - With a fishing rod (General Store from day 5 for 60 ✨, or one of Otto's thank-you notes), tap the ripples by the water. Spots: two on the river at Riverside, the Far Bank pond, two at the beach.
+  - Wait for the splash, then tap Reel in! within about a second (`fishing` in tuning). Too soon or too late, the fish swims off; just cast again. Nothing is lost.
+  - Seven catches by place, season and day or night: river minnow, river trout (spring/summer days), moonfish (nights), pond perch, golden carp (autumn/winter), sardine, little crab (beach days).
+  - Which fish bites follows the day and the count, never chance. The General Store buys fish, and fish stew (2 minnows and a carrot) is a new dish.
+  - Catches send a `caught` moment for quests and skills later. Fish, rod and stew icons are drawn in code.
+  - Tour card: 🎣 Fishing.
 

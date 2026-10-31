@@ -4,6 +4,7 @@ import type { NativeBridge } from '../shared/native';
 import { h } from '../shared/ui/dom';
 import { openBuildBoard } from './build/build-sheet';
 import { openWorkbench } from './craft/craft-sheet';
+import { openFishing } from './fishing/fishing-sheet';
 import type { TownPack } from './data/area';
 import { Content } from './data/content';
 import { restoreGame } from './data/restore';
@@ -200,6 +201,7 @@ export class TownGame {
       openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false), made: (st) => this.guide.handle({ type: 'made', station: st }) }, station),
       openShop: (shop) => this.openShop(shop),
       openStall: () => this.systems.openStall(),
+      openFishing: () => openFishing({ state: this.state, view: this.view, content: this.content, clock: this.clock, area: () => this.areaId, onboard: (e) => this.guide.handle(e), changed: () => { this.refreshHud(); void this.save(false); } }),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
     });

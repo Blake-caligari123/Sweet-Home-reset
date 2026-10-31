@@ -54,6 +54,7 @@ export interface ActionsHost {
   pickUpDecor(x: number, y: number): void;
   openShop(shop: NonNullable<TownPack['shops']>[number]): void;
   openStall(): void;
+  openFishing(): void;
   refreshHud(): void;
   save(): void;
 }
@@ -323,6 +324,9 @@ export class PuffActions {
       }
       case 'stall':
         this.host.openStall();
+        return;
+      case 'fish':
+        this.host.openFishing();
         return;
       case 'mailbox':
         view.showDialogue(this.host.clock.state.day > 1 ? `Today's letter is on the kitchen table. (${this.host.state.names.puff} already read it.)` : 'No post yet. Maybe tomorrow!');

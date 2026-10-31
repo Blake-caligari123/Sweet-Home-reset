@@ -45,6 +45,8 @@ export interface Tuning {
   stall: { markup: number; salesBase: number; salesPerBloom: number };
   /** The café: dishes it wants a day, and what it pays over the shops' price. */
   cafe: { ordersPerDay: number; markup: number };
+  /** Fishing: how long until a bite (shortest, longest), and how long a bite lasts to reel in. */
+  fishing: { biteMs: [number, number]; windowMs: number };
   /** The town fund: what each neighbour chips in each morning, happy (or glowing) and otherwise. */
   townFund: { perHappy: number; perOther: number };
   /** Puff's own moods (NEXT-PHASE §5.2): a happy swing's share of the usual time, a curious Puff's share of cleans between finds. */

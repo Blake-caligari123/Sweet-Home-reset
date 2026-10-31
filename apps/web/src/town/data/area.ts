@@ -1,4 +1,5 @@
 import type { CardDef } from '../craft/cards';
+import type { FishDef } from '../fishing/fishing';
 import type { DramaDef } from '../life/dramas';
 import type { NeedDef } from '../needs/needs';
 import type { QuestDef } from '../quests/quests';
@@ -77,7 +78,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** Quest chains (quests/quests.ts). */
   quests?: QuestDef[];
   /** The café: who runs it and the day its orders start (cafe/cafe.ts). */
-  cafe?: { keeper: string; fromDay: number } }
+  cafe?: { keeper: string; fromDay: number };
+  /** What can be caught, where and when (fishing/fishing.ts). */
+  fish?: FishDef[] }
 
 export class Area {
   readonly w: number;
@@ -197,6 +200,7 @@ export function validateTownPack(input: unknown): TownPack {
     for (const id of Object.keys(r.cost?.items ?? {})) if (!p.items[id]) throw new Error(`recipe ${r.id}: unknown item ${id}`);
   }
   for (const c of p.crops ?? []) if (!p.items[c.id] || !p.items[c.seed]) throw new Error(`crop ${c.id}: unknown item`);
+  for (const f of p.fish ?? []) if (!f.id || !p.items[f.id] || !f.areas?.length || f.areas.some((a) => !ids.has(a))) throw new Error(`fish ${f.id}: shape`);
   for (const q of p.quests ?? []) {
     if (!q.id || !who.has(q.giver) || !q.steps?.length || !isNum(q.reward?.sparkles) || !q.reward.flag) throw new Error(`quest ${q.id}: shape`);
     for (const st of q.steps) if (st.goal.type === 'talk' && (!who.has(st.goal.who) || typeof text[st.goal.line] !== 'string')) throw new Error(`quest ${q.id}: talk step`);

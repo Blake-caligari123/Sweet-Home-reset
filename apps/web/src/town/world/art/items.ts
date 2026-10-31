@@ -144,6 +144,15 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'peas': pc.ellipseBox(ox + 7, oy + 7, 5, 2, P.sage, P.outline); for (const x of [4, 7, 10]) pc.ellipse(ox + x, oy + 7, 1, 1, P.sageLight); break;
     case 'strawberry': pc.ellipseBox(ox + 7, oy + 8, 4, 4, P.peachShade, P.outline); for (const [x, y] of [[5, 7], [8, 9], [9, 6]]) pc.set(ox + x, oy + y, P.butterLight); pc.hline(ox + 5, oy + 3, 5, P.sageShade); break;
     case 'veggie_soup': pc.ellipseBox(ox + 7, oy + 9, 6, 3, P.cream, P.outline); pc.ellipse(ox + 7, oy + 8, 5, 1, P.peachShade); pc.set(ox + 5, oy + 8, P.sage); pc.set(ox + 9, oy + 8, P.peach); for (const x of [5, 8]) pc.vline(ox + x, oy + 2, 3, P.white); break;
+    case 'minnow': case 'trout': case 'moonfish': case 'perch': case 'carp': case 'sardine': { // a little fish, each its own colour
+      const body = ({ minnow: P.greyLight, trout: P.peachLight, moonfish: P.blueLight, perch: P.sage, carp: P.butter, sardine: P.blue } as Record<string, string>)[item];
+      pc.ellipseBox(ox + 6, oy + 7, 4, 3, body, P.outline); pc.line(ox + 10, oy + 7, ox + 13, oy + 4, P.outline); pc.line(ox + 10, oy + 7, ox + 13, oy + 10, P.outline); pc.vline(ox + 13, oy + 5, 5, body);
+      pc.set(ox + 4, oy + 6, P.ink); if (item === 'moonfish') pc.set(ox + 7, oy + 5, P.white);
+      break;
+    }
+    case 'crab': pc.ellipseBox(ox + 7, oy + 8, 4, 3, P.peachShade, P.outline); for (const x of [2, 12]) pc.ellipseBox(ox + x, oy + 5, 1, 1, P.peachShade, P.outline); pc.set(ox + 6, oy + 7, P.ink); pc.set(ox + 8, oy + 7, P.ink); break;
+    case 'fishing_rod': pc.line(ox + 2, oy + 13, ox + 12, oy + 1, P.brown); pc.line(ox + 12, oy + 1, ox + 12, oy + 9, P.greyLight); pc.ellipse(ox + 12, oy + 10, 1, 1, P.peach); pc.ellipseBox(ox + 4, oy + 11, 1, 1, P.grey, P.outline); break;
+    case 'fish_stew': pc.ellipseBox(ox + 7, oy + 9, 6, 3, P.cream, P.outline); pc.ellipse(ox + 7, oy + 8, 5, 1, P.butterShade); pc.set(ox + 5, oy + 8, P.peach); pc.hline(ox + 8, oy + 8, 2, P.greyLight); for (const x of [5, 9]) pc.vline(ox + x, oy + 2, 3, P.white); break;
     case 'tomato_soup': pc.ellipseBox(ox + 7, oy + 9, 6, 3, P.cream, P.outline); pc.ellipse(ox + 7, oy + 8, 5, 1, P.peachShade); pc.set(ox + 6, oy + 8, P.white); for (const x of [5, 9]) pc.vline(ox + x, oy + 2, 3, P.white); break;
     case 'corn_cakes': for (const [x, y] of [[7, 10], [7, 7], [7, 4]]) { pc.ellipseBox(ox + x, oy + y, 5, 2, P.butter, P.outline); pc.hline(ox + x - 3, oy + y, 6, P.butterShade); } pc.set(ox + 7, oy + 2, P.butterLight); break;
     case 'pumpkin_pie': pc.ellipseBox(ox + 7, oy + 9, 6, 3, P.brownLight, P.outline); pc.ellipse(ox + 7, oy + 8, 4, 1, P.peach); pc.line(ox + 7, oy + 8, ox + 11, oy + 9, P.brownLight); pc.set(ox + 5, oy + 7, P.cream); break;
