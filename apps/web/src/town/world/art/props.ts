@@ -187,7 +187,8 @@ export function drawProp(pc: PixelCanvas, p: PropDef) {
         k.rect(cx - 3, h - 4, 6, 16, P.brown); k.vline(cx + 2, h - 4, 15, P.brownShade); k.vline(cx - 2, h - 2, 12, P.brownLight);
         k.rect(cx - 5, h + 10, 3, 2, P.brown); k.rect(cx + 3, h + 10, 3, 2, P.brownShade);
         foliage(k, [[cx, 14, 13, 10], [cx - 9, 20, 8, 7], [cx + 9, 20, 8, 7], [cx, 24, 11, 6], [cx - 6, 8, 7, 6], [cx + 6, 8, 7, 6]], x * 7 + y, P.peachLight);
-        if (p.type === 'fruit_tree') for (const [ax, ay] of [[-7, 18], [5, 12], [8, 22], [-2, 25], [-9, 10], [1, 6]]) { k.ellipse(cx + ax, ay, 1, 1, P.peachShade); k.set(cx + ax, ay - 1, P.peach); }
+        // Apples by default; a pack colour makes pears or plums.
+        if (p.type === 'fruit_tree') for (const [ax, ay] of [[-7, 18], [5, 12], [8, 22], [-2, 25], [-9, 10], [1, 6]]) { k.ellipse(cx + ax, ay, 1, 1, p.colour ?? P.peachShade); k.set(cx + ax, ay - 1, p.colour ? P.white : P.peach); }
       });
       break;
     case 'bush':

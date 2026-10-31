@@ -372,6 +372,16 @@
   },
   "watercress_seeds": {
    "name": "Watercress seeds"
+  },
+  "pear": {
+   "name": "Pear",
+   "snack": 25,
+   "sell": 22
+  },
+  "plum": {
+   "name": "Plum",
+   "snack": 25,
+   "sell": 24
   }
  },
  "areas": [
@@ -4439,7 +4449,7 @@
     "pppppppppjppppppgggggggggggggh",
     "hgggggggg~gggggpgggggggggggggh",
     "hgggggggg~gggggpgggggggggggggh",
-    "hgggggggg~gggggppppppppppppggh",
+    "hgggggggg~gggggppppppppppppggp",
     "hggggfggg~gggggpgggggggggggggh",
     "hgggggggg~gggggpgggggggggggggh",
     "hgggggggg~gggggpggggggggfggggh",
@@ -4528,6 +4538,13 @@
      "x": 20,
      "y": 9,
      "w": 2
+    },
+    {
+     "type": "brambles",
+     "x": 27,
+     "y": 11,
+     "w": 2,
+     "action": "repair"
     }
    ],
    "signs": [
@@ -4544,6 +4561,14 @@
      "to": "far_bank",
      "toX": 28,
      "toY": 8
+    },
+    {
+     "x": 29,
+     "y": 11,
+     "to": "orchard_hill",
+     "toX": 1,
+     "toY": 8,
+     "closedText": "Old steps lead up a hill, all tumbled. Maybe in autumn."
     }
    ],
    "mess": [
@@ -5337,6 +5362,216 @@
     "y": 6
    },
    "restoreReward": 120
+  },
+  {
+   "id": "orchard_hill",
+   "name": "Orchard Hill",
+   "kind": "outdoor",
+   "drained": true,
+   "edge": "#79B176",
+   "theme": {
+    "wall": "#F7D2BF",
+    "wallAccent": "#F4C2A8",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#A9CDA0",
+    "rugShade": "#79B176"
+   },
+   "legend": {
+    "h": "hedge",
+    "g": "grass",
+    "p": "path",
+    "f": "flowers"
+   },
+   "map": [
+    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+    "hggggggggggggggggggggggggggggh",
+    "hggggggggggggggggggggpppppgggh",
+    "hgggggfggggggggggggggpgggpgggh",
+    "hggggggggggggggggggggpgggpgggh",
+    "hgggggggggggfggggggggpppppgggh",
+    "hggggggggggggggggggggggpgggggh",
+    "hggggggggggggggggggggggpgggfgh",
+    "pppppppppppppppppppppppppggggh",
+    "hggggggggggggggggggggggggggggh",
+    "hgggfgggggggggggfggggggggggggh",
+    "hggggggggggggggggggggggggggggh",
+    "hggggggggggggggggggggggggfgggh",
+    "hggggggggggggggggggggggggggggh",
+    "hggggggfgggggggggggggggggggghh",
+    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+   ],
+   "props": [
+    {
+     "type": "fruit_tree",
+     "x": 3,
+     "y": 2,
+     "w": 2,
+     "h": 2,
+     "colour": "#E6D27A"
+    },
+    {
+     "type": "fruit_tree",
+     "x": 8,
+     "y": 2,
+     "w": 2,
+     "h": 2,
+     "colour": "#E6D27A"
+    },
+    {
+     "type": "fruit_tree",
+     "x": 13,
+     "y": 2,
+     "w": 2,
+     "h": 2,
+     "colour": "#E6D27A"
+    },
+    {
+     "type": "fruit_tree",
+     "x": 3,
+     "y": 11,
+     "w": 2,
+     "h": 2,
+     "colour": "#8E6FA8"
+    },
+    {
+     "type": "fruit_tree",
+     "x": 8,
+     "y": 11,
+     "w": 2,
+     "h": 2,
+     "colour": "#8E6FA8"
+    },
+    {
+     "type": "fruit_tree",
+     "x": 13,
+     "y": 11,
+     "w": 2,
+     "h": 2,
+     "colour": "#8E6FA8"
+    },
+    {
+     "type": "fruit_tree",
+     "x": 18,
+     "y": 11,
+     "w": 2,
+     "h": 2,
+     "colour": "#E6D27A"
+    },
+    {
+     "type": "bench",
+     "x": 22,
+     "y": 3,
+     "w": 2
+    },
+    {
+     "type": "carving",
+     "x": 24,
+     "y": 3,
+     "action": "sign"
+    },
+    {
+     "type": "tree",
+     "x": 26,
+     "y": 11,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "bush",
+     "x": 27,
+     "y": 5
+    }
+   ],
+   "signs": [
+    {
+     "x": 24,
+     "y": 3,
+     "text": "An old stone on the hilltop, worn smooth. It hums softly."
+    }
+   ],
+   "doors": [
+    {
+     "x": 0,
+     "y": 8,
+     "to": "woodland",
+     "toX": 28,
+     "toY": 11
+    }
+   ],
+   "mess": [
+    {
+     "type": "leaves",
+     "rect": [
+      1,
+      1,
+      28,
+      14
+     ],
+     "density": 0.08,
+     "seed": 171
+    },
+    {
+     "type": "weeds",
+     "rect": [
+      1,
+      1,
+      20,
+      14
+     ],
+     "density": 0.05,
+     "seed": 173
+    }
+   ],
+   "pickups": [
+    {
+     "id": "hill_pear_1",
+     "x": 4,
+     "y": 4,
+     "item": "pear"
+    },
+    {
+     "id": "hill_pear_2",
+     "x": 9,
+     "y": 4,
+     "item": "pear"
+    },
+    {
+     "id": "hill_pear_3",
+     "x": 14,
+     "y": 4,
+     "item": "pear"
+    },
+    {
+     "id": "hill_plum_1",
+     "x": 4,
+     "y": 13,
+     "item": "plum"
+    },
+    {
+     "id": "hill_plum_2",
+     "x": 9,
+     "y": 13,
+     "item": "plum"
+    },
+    {
+     "id": "hill_plum_3",
+     "x": 14,
+     "y": 13,
+     "item": "plum"
+    },
+    {
+     "id": "hill_twig_1",
+     "x": 20,
+     "y": 13,
+     "item": "twig"
+    }
+   ],
+   "spawn": {
+    "x": 1,
+    "y": 8
+   },
+   "restoreReward": 150
   }
  ],
  "neighbours": [
@@ -9807,7 +10042,10 @@
    "he_juniper_10.l03": "It's not silly. It's the best news.",
    "he_juniper_10.l04": "I wrote a tune for it. It's called Staying.",
    "he_juniper_10.l05": "Will you play it at Winter Lights?",
-   "he_juniper_10.l06": "Every year. For you, and for {town}."
+   "he_juniper_10.l06": "Every year. For you, and for {town}.",
+   "repair.wait.plot_hill_steps": "The steps are all tumbled. Maybe in autumn.",
+   "repair.hill_steps.hint": "The tumbled steps could be mended. See the Keeper's plans.",
+   "build.done.hill_steps": "The hill steps are mended! Orchard Hill is open."
   }
  },
  "heartEvents": [
@@ -12724,7 +12962,9 @@
     "milk",
     "wool",
     "pancakes",
-    "watercress"
+    "watercress",
+    "pear",
+    "plum"
    ]
   },
   {
@@ -12996,6 +13236,19 @@
     "cottage_juniper"
    ],
    "unlock": "invite_juniper"
+  },
+  {
+   "id": "plot_hill_steps",
+   "name": "The tumbled steps",
+   "area": "woodland",
+   "x": 27,
+   "y": 11,
+   "w": 2,
+   "h": 1,
+   "allow": [
+    "hill_steps"
+   ],
+   "unlock": "hill_steps"
   }
  ],
  "buildings": [
@@ -13345,6 +13598,33 @@
    },
    "effect": "home",
    "home": "juniper",
+   "project": true
+  },
+  {
+   "id": "hill_steps",
+   "name": "Hill steps",
+   "nights": 2,
+   "cost": {
+    "sparkles": 220,
+    "items": {
+     "pebble": 8,
+     "twig": 4
+    }
+   },
+   "prop": {
+    "type": "stepping_stones",
+    "walkable": true
+   },
+   "paves": "p",
+   "doors": [
+    {
+     "x": 29,
+     "y": 11,
+     "to": "orchard_hill",
+     "toX": 1,
+     "toY": 8
+    }
+   ],
    "project": true
   }
  ],
@@ -14571,6 +14851,16 @@
    ],
    "fund": 60,
    "unlock": "invite_juniper"
+  },
+  {
+   "id": "hill",
+   "name": "A way up Orchard Hill",
+   "hint": "Mend the tumbled steps at the Woodland Edge.",
+   "metBy": [
+    "hill_steps"
+   ],
+   "fund": 80,
+   "unlock": "hill_steps"
   }
  ],
  "cards": [

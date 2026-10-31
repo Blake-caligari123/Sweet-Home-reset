@@ -209,6 +209,20 @@ describe('Hollowfern plots', () => {
     for (const pk of wood.pickups ?? []) expect(nav.findPathNear(spawn, { x0: pk.x * T, y0: pk.y * T, x1: (pk.x + 1) * T, y1: (pk.y + 1) * T }, REACH), pk.id).toBeTruthy();
   });
 
+  it('mends the tumbled steps off the Woodland Edge in autumn, opening Orchard Hill and its pears and plums', () => {
+    const p = plots.find((x) => x.id === 'plot_hill_steps')!;
+    expect([p.area, p.unlock]).toEqual(['woodland', 'hill_steps']);
+    const b = buildings.find((d) => d.id === 'hill_steps')!;
+    const wood = pack.areas.find((a) => a.id === 'woodland')!;
+    const built = new Area(withBuilds(wood, plots, { [p.id]: { buildingId: b.id, stage: 2, startedDay: 1, readyDay: 2 } }, buildings));
+    expect(built.pack.doors.find((d) => d.to === 'orchard_hill' && !d.closedText)).toBeTruthy();
+    const hill = pack.areas.find((a) => a.id === 'orchard_hill')!;
+    expect(new Set((hill.pickups ?? []).map((k) => k.item))).toEqual(new Set(['pear', 'plum', 'twig']));
+    const nav = navFor(new Area(hill));
+    const spawn = nav.nearestOpen({ x: hill.spawn.x * T + T / 2, y: hill.spawn.y * T + FEET })!;
+    for (const k of hill.pickups ?? []) expect(nav.findPathNear(spawn, { x0: k.x * T, y0: k.y * T, x1: (k.x + 1) * T, y1: (k.y + 1) * T }, REACH), k.id).toBeTruthy();
+  });
+
   it('clears the overgrown path off the Far Bank in summer (day 26), opening the Woodland Edge and its orchard', () => {
     const p = plots.find((x) => x.id === 'plot_overgrown_path')!;
     expect([p.area, p.unlock]).toEqual(['far_bank', 'overgrown_path']);

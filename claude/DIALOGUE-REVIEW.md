@@ -1571,3 +1571,9 @@ Heard only with a screen reader, never shown on screen.
   - `he_juniper_10.l04`: I wrote a tune for it. It's called Staying.
   - `he_juniper_10.l05`: Will you play it at Winter Lights?
   - `he_juniper_10.l06`: Every year. For you, and for {town}.
+
+**Orchard Hill (6d.9)**
+- Closed: "Old steps lead up a hill, all tumbled. Maybe in autumn." / Plans: "The steps are all tumbled. Maybe in autumn." / hint: "The tumbled steps could be mended. See the Keeper's plans."
+- Built: "The hill steps are mended! Orchard Hill is open." Need: "A way up Orchard Hill" / "Mend the tumbled steps at the Woodland Edge."
+- Hilltop stone: "An old stone on the hilltop, worn smooth. It hums softly."
+- New items: Pear, Plum.

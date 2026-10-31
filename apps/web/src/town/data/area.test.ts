@@ -9,8 +9,8 @@ const T = 16;
 
 
 describe('Hollowfern spring pack', () => {
-  it('has the M1 areas, the M2 ones, four cave floors, the far bank, the beach, the woodland, the burrow\'s new rooms and the secret boathouse', () => {
-    expect(pack.areas.map((a) => a.id)).toEqual(['burrow', 'yard', 'square', 'bakery', 'store', 'lane', 'bea_shop', 'pip_workshop', 'library', 'riverside', 'bathhouse', 'cave_1', 'far_bank', 'cave_2', 'beach', 'woodland', 'cave_3', 'cave_4', 'craft_room', 'cellar', 'boathouse']);
+  it('has the M1 areas, the M2 ones, four cave floors, the far bank, the beach, the woodland, the burrow\'s new rooms, the secret boathouse and Orchard Hill', () => {
+    expect(pack.areas.map((a) => a.id)).toEqual(['burrow', 'yard', 'square', 'bakery', 'store', 'lane', 'bea_shop', 'pip_workshop', 'library', 'riverside', 'bathhouse', 'cave_1', 'far_bank', 'cave_2', 'beach', 'woodland', 'cave_3', 'cave_4', 'craft_room', 'cellar', 'boathouse', 'orchard_hill']);
   });
 
   it('can reach every open door and every mess tile from the spawn', () => {

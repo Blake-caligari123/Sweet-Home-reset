@@ -508,4 +508,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
     4. Finding the fourth note in Thimble's songbook.
     5. Staying for good.
   - A code-drawn fox. Tour card: 🦊 Juniper the fiddler.
+- **6d.9 Orchard Hill (31 Oct):** a new place up from the Woodland Edge.
+  - **The tumbled steps**, a repair in the Keeper's plans from day 36 (autumn): 220 ✨, 8 pebbles and 4 twigs, 2 nights, a big project the fund helps with. A town need ("A way up Orchard Hill") and a tracker hint point to it.
+  - **Orchard Hill:** pear and plum trees (fruit trees take a pack colour now) with fruit each morning. A path up to a hilltop bench beside an old stone that "hums softly", the next thread of the old song. Leaves and weeds to tidy, and it can be restored (150 ✨).
+  - Pears and plums are snacks the General Store buys. Their icons are drawn in code.
+  - Tour card: 🍐 Orchard Hill.
 
