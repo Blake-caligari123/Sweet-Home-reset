@@ -89,5 +89,17 @@ export const TOUR: TourCard[] = [
       s.day(21).time(8).flag('letter_fig_1_read').flag('invite_fig').flag('home_fig').meet('fig');
       s.state.plots.plot_riverside_cottage = { buildingId: 'cottage_fig', stage: 2, startedDay: 18, readyDay: 20 };
       s.go('riverside');
+    } },
+  { title: '🍂 Leaf Fest prep', steps: ['Sorrel is in the square: tap "📜 Help me get ready for Leaf Fest?".', 'Rake the square, pick crops, ask Pip about lanterns, tell Sorrel.', 'From day 52, Mabel asks for help with Winter Lights the same way.'],
+    setup: (s) => {
+      s.day(39).time(9, 30).flag('letter_sorrel_1_read').flag('invite_sorrel').flag('home_sorrel').meet('sorrel', 'pip');
+      s.state.plots.plot_lane_cottage = { buildingId: 'cottage_sorrel', stage: 2, startedDay: 9, readyDay: 11 };
+      s.go('square');
+    } },
+  { title: '🛶 Fig and Pip fall out', steps: ['Pip\'s toy boat sailed through Fig\'s seedlings.', 'Talk to Fig by the river, then Pip, then Fig again to mend it.'],
+    setup: (s) => {
+      s.day(25).time(13, 30).flag('letter_fig_1_read').flag('invite_fig').flag('home_fig').meet('fig', 'pip');
+      s.state.plots.plot_riverside_cottage = { buildingId: 'cottage_fig', stage: 2, startedDay: 18, readyDay: 20 };
+      s.go('riverside');
     } }
 ];
