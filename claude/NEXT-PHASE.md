@@ -469,4 +469,10 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Reward: 160 ✨, a toy boat and `first_sail_done`.
   - Quests can now ask for fish caught and critters spotted (`caught` and `spotted` goals in `quests/quests.ts`).
   - Tour card: ⛵ The first sail.
+- **6d.3 A secret: the old boathouse (31 Oct):** `secrets/`.
+  - While tidying the Far Bank, an old boathouse key turns up as a lucky find (in the Collection).
+  - Its secret door in the Far Bank hedge isn't there until the key is found. From the next morning a path leads through (a door's `needsFind` in the pack, `withSecrets` in `secrets/secrets.ts`).
+  - Inside: Thimble's old boathouse, with a rowing boat in its pool. A carving reads "Thimble mended every boat in town", a new clue to the keeper before Puff. Tidy it to restore it (120 ✨).
+  - Once it's restored, Moss, Wren and Mabel each have a line about it.
+  - Tour card: 🗝 A secret boathouse.
 

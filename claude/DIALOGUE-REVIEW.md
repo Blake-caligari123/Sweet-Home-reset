@@ -1456,3 +1456,8 @@ Heard only with a screen reader, never shown on screen.
 - Wren: "Help Pip and me finish our boat?" / "Our boat needs a seat, a sail and a picnic. Help?" / end: "She floats! Mostly! Here, a tiny one, just for you."
 - Pip: "The sail! I sewed it from old socks. Clean ones. Right?"
 - Steps: "Make something at a workbench for the boat's seat" / "Ask Pip about the boat's sail" / "Catch 2 fish for the launch picnic" / "Spot a critter by the water, for luck" / "Tell Wren everything's ready".
+
+**A secret: the old boathouse (6d.3)**
+- Find: "A key with a little boat on it. There's a door in the hedge!" / Collection: "Brass, with a tiny boat. It opens the old boathouse."
+- Carving: "Carved in the beam: 'Thimble mended every boat in town. T.'"
+- Once restored: Moss "The old boathouse? Thimble's? I must write that down!" / Wren "You found the boathouse! Pip and I dreamed of it." / Mabel "Hoo. Thimble's boats. I rode in one, long ago."
