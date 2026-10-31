@@ -62,6 +62,13 @@ export class QuestLog {
     return going.length ? `📜 ${going[0].name}: more tomorrow` : null;
   }
 
+  /** Quests under way, for the journal: name and the step on (or more tomorrow). */
+  going() {
+    const { state } = this.host;
+    return this.quests.filter((q) => state.quests[q.id] && !finished(q, state.quests))
+      .map((q) => ({ name: q.name, hint: currentStep(q, state.quests, this.host.day())?.hint ?? 'More tomorrow' }));
+  }
+
   private stepped(q: QuestDef) {
     const { state, view, content } = this.host;
     if (!finished(q, state.quests)) {

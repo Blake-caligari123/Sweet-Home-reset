@@ -144,7 +144,7 @@ export class TownGame {
       pause: () => { this.view.uiTap(); this.openPause(); },
       map: () => { this.view.uiTap(); if (!this.dash.active) this.openMap(); },
       mood: () => { this.view.uiTap(); this.systems.moods.say(); },
-      tracker: () => this.view.uiTap()
+      tracker: (text) => { this.view.uiTap(); if (!text.startsWith('📖')) return false; this.openJournal(); return true; }
     });
     this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress, () => this.state.names.puff);
     /** What most parts of the game share. */
@@ -360,8 +360,11 @@ export class TownGame {
     this.puff.pose = 'sleep';
     if (dozed) view.say('Zzz... just resting my fluff.');
     await wait(dozed ? 1400 : 300);
+    // The Keeper's Story hints at tomorrow while the night falls (story/story-path.ts).
+    const tease = this.systems.story.tease();
+    if (tease) this.fade.append(h('div', { class: 'fade-tease' }, h('small', {}, '🌙 Tomorrow...'), h('p', {}, tease)));
     this.fade.classList.add('on', 'night');
-    await wait(this.settings.reducedMotion ? 200 : 900);
+    await wait((this.settings.reducedMotion ? 200 : 900) + (tease ? 2800 : 0));
     const night = passNight({ state, clock: this.clock, content: this.content, jobs: this.jobs, places: this.places, grumbles: this.grumbles, gate: this.unlocker.gate }, dozed);
     this.hud.setLate(false);
     // Wake up beside the bed: the burrow's spawn tile.
@@ -372,6 +375,7 @@ export class TownGame {
     void this.account?.sync();
     this.counts?.add('day_started', { day: this.clock.state.day });
     this.fade.classList.remove('on', 'night');
+    this.fade.replaceChildren();
     this.fading = false;
     view.release();
     this.guide.handle({ type: 'slept' });
@@ -424,6 +428,7 @@ export class TownGame {
       openNames: () => this.openNames(),
       openOutfits: () => openOutfits(this.view, this.content, this.state, () => void this.save(false)),
       openCollection: () => openCollection(this.view, this.content, this.state),
+      openJournal: () => this.openJournal(),
       openSkills: () => this.systems.openSkills(),
       openNeeds: () => this.systems.openNeeds(),
       openTour: TOUR_ON ? () => openTour(this.view, new Scene(this.hooks()), () => { this.refreshHud(); void this.save(false); }) : null,
@@ -501,13 +506,24 @@ export class TownGame {
     this.hud.setSparkles(this.state.sparkles);
     this.systems.moods.show();
     this.guide.unstick();
+    this.systems.story.check();
     const step = this.state.onboarding.current;
     const up = bloomUp(this.state, this.places.restoredCount());
     if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }
     for (const o of newlyEarned(this.state, this.content.pack.outfits ?? [])) this.view.banner(`👒 New outfit: ${o.name}! (Pause → Outfits)`);
+    const next = this.nudgeLine();
+    this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? step.hint : this.systems.story.tracker() ?? this.jobs.tracker() ?? this.systems.questHint() ?? next ?? 'Explore {town} and tidy what you find.'));
+  }
+
+  /** The newest thing to try (a letter waiting, a Grumble, a repair due), if any. */
+  private nudgeLine() {
     const [letter] = lettersWaiting(this.content.pack.letters ?? [], this.clock.state.day, this.state.flags);
-    const next = this.content.line(nudge(this.state, (k) => this.arrived(k), letter ? letter.hint ?? 'letter.hint' : null) ?? undefined);
-    this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? step.hint : this.jobs.tracker() ?? this.systems.questHint() ?? next ?? 'Explore {town} and tidy what you find.'));
+    return this.content.line(nudge(this.state, (k) => this.arrived(k), letter ? letter.hint ?? 'letter.hint' : null) ?? undefined) ?? null;
+  }
+
+  private openJournal() {
+    const tryNew = this.nudgeLine();
+    this.systems.openJournal(tryNew && this.content.named(tryNew), [{ label: 'The opening', play: () => this.scenes.play('opening', () => this.refreshHud()) }]);
   }
 
   // ---- save --------------------------------------------------------------------------------

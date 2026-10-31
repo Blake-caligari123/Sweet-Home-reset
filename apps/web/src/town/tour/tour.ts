@@ -11,6 +11,8 @@ export const TOUR_ON = import.meta.env.VITE_RELEASE !== '1';
 export const TOUR: TourCard[] = [
   { title: '🎬 The opening', steps: ['The story of the town plays out: long ago, Thimble, the colour going grey, and Puff\'s first sparkle.', 'Tap for the next caption, or Skip. A new game plays it once before naming.'],
     setup: (s) => { s.playScene('opening'); } },
+  { title: '📖 The Keeper\'s Story', steps: ['The 📖 line at the top is today\'s story step: Otto has something for you. Talk to him and tap "📖 What\'s that you\'ve got?", then catch a fish.', 'Tap the 📖 line (or Pause → 📔 Keeper\'s journal) for the story so far.', 'Go to bed: a hint at tomorrow shows as night falls.'],
+    setup: (s) => { s.state.story = { step: 4, asked: false, count: 0, day: 4 }; s.state.fishCaught = 0; s.day(5).time(9).flag('keeper_named').meet('hazel', 'bea', 'pip', 'otto').go('riverside'); } },
   { title: '🗺 Getting around', steps: ['Tap 🗺 (top left) and pick a place to travel there.', 'Pause → Joystick: drag anywhere to walk.', 'Pinch (or the mouse wheel) to zoom.'],
     setup: (s) => { s.day(3).time(10).visited('yard', 'square', 'lane', 'bakery', 'library').go('square'); } },
   { title: '🌙 Night light and trees', steps: ['It\'s 9:30 pm: see the dark, the lamp glow and Puff\'s soft glow.', 'Walk behind a tree: its leaves go in front of Puff.'],

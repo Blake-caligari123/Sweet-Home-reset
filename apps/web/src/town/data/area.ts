@@ -3,6 +3,7 @@ import type { CritterDef } from '../critters/critters';
 import type { FishDef } from '../fishing/fishing';
 import type { AnimalDef } from '../farm/animals';
 import type { SceneDef } from '../story/scenes';
+import type { StoryDef } from '../story/path';
 import type { DramaDef } from '../life/dramas';
 import type { NeedDef } from '../needs/needs';
 import type { QuestDef } from '../quests/quests';
@@ -93,7 +94,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** Farm animals Puff can buy, and where they live (farm/animals.ts). */
   animals?: AnimalDef[];
   /** Cutscenes played out in the town (story/scenes.ts). */
-  scenes?: SceneDef[] }
+  scenes?: SceneDef[];
+  /** The Keeper's Story: one step a day through the year (story/path.ts). */
+  story?: StoryDef }
 
 export class Area {
   readonly w: number;
@@ -222,6 +225,7 @@ export function validateTownPack(input: unknown): TownPack {
     for (const st of q.steps) if (st.goal.type === 'talk' && (!who.has(st.goal.who) || typeof text[st.goal.line] !== 'string')) throw new Error(`quest ${q.id}: talk step`);
     if (typeof text[q.intro] !== 'string') throw new Error(`quest ${q.id}: no intro text`);
   }
+  validateStory(p, who, ids, text);
   for (const l of p.letters ?? []) for (const id of [...l.lines, ...l.replies.map((r) => r.label)]) if (typeof text[id] !== 'string') throw new Error(`letter ${l.id}: no text for ${id}`);
   for (const pet of p.pets ?? []) if (!pet.id || !pet.name || !pet.defaultName || typeof text[pet.line] !== 'string') throw new Error(`pet ${pet.id}: shape`);
   for (const sh of p.shops ?? []) {
@@ -241,4 +245,24 @@ export function validateTownPack(input: unknown): TownPack {
     }
   }
   return p;
+}
+
+/** The Keeper's Story: real people, places, buildings and quests, and every line it needs. */
+function validateStory(p: TownPack, who: Set<string>, areas: Set<string>, text: Record<string, string>) {
+  const story = p.story;
+  if (!story) return;
+  const chapters = new Set(story.chapters.map((c) => c.id));
+  const buildings = new Set((p.buildings ?? []).map((b) => b.id));
+  const quests = new Set((p.quests ?? []).map((q) => q.id));
+  story.steps.forEach((st, i) => {
+    const g = st.goal;
+    const bad = !chapters.has(st.chapter) || (st.who && !who.has(st.who))
+      || (g.type === 'built' && [g.building].flat().some((b) => !buildings.has(b)))
+      || (g.type === 'visited' && !areas.has(g.area)) || (g.type === 'quest' && !quests.has(g.id))
+      || Object.keys(st.gift ?? {}).some((id) => !p.items[id]);
+    if (bad) throw new Error(`story ${st.id}: shape`);
+    const asks = st.who && g.type !== 'quest';
+    const parts = ['diary', ...(i ? ['tease'] : []), ...(st.who ? ['call'] : []), ...(g.type === 'quest' ? [] : ['hint']), ...(asks ? ['ask', 'line'] : [])];
+    for (const part of parts) if (typeof text[`story.${st.id}.${part}`] !== 'string') throw new Error(`story ${st.id}: no ${part}`);
+  });
 }

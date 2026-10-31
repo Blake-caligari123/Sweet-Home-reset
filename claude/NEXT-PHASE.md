@@ -544,4 +544,20 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - The sparkle leaves a glittering trail, drifts past the sleepers, and tries the armchair and the basket before the bed.
     - Puff wakes, looks left and right, and hops (`looks` and `hops` in `story/scenes.ts`).
   - Tour card: 🎬 The opening.
+- **K.2 The step-a-day path and the Keeper's journal (31 Oct, after Blake's "tie it all together so the player gets absolutely hooked").** `story/path.ts`, `story/story-path.ts`, `journal/`.
+  - **One story step a day, all year.** 40 steps from day 1 to Winter Lights, in five chapters (`story` in the pack). Each step is a goal the game already knows: a building started, a place visited, a fish, a pet, a dish or a workbench make, a flag, or a quest taken on.
+  - **A neighbour asks.** The tracker shows 📖 first ("Otto has something for you by the river."). That neighbour's chat box has a 📖 button: they say their line, may hand something over (Otto's spare rod, Hazel's soup veg, Pip's copper duster recipe), and the tracker becomes the job. Quest steps are asked with the quest's own 📜 button, and the quest then runs alongside the story.
+  - **Done:** a chime and a 📖 banner with the journal line ("Otto lent me his old rod. I caught a fish!").
+  - **Already done before anyone asked:** the step ticks off at once and doesn't use up the day, so a player ahead of the story never waits.
+  - **Behind the story:** a festival step whose day has gone moves on quietly. Nothing is missed, and nothing ever says so.
+  - **The hook: tomorrow's teaser.** Once today's step is done, going to bed shows "🌙 Tomorrow..." and a hint at the next step as night falls ("Otto's carrying something long, wrapped in cloth..."). In the morning the step is the first news.
+  - **📔 Keeper's journal** (Pause, first button, or tap any 📖 tracker line) shows:
+    - the chapter and a dot per step
+    - Today (or "More tomorrow!"), plus up to two other ideas (a job, the café order, a quest step)
+    - the story so far in Puff's own diary lines, with the chapters already told ticked
+    - New to try (the newest nudge), and side quests under way
+    - Memories (watch the opening again)
+  - **Timing moves:** Juniper's letter goes from day 40 to day 31. The old song chapter goes from day 44 to day 37, and now needs only Juniper at home.
+  - **Saves:** older saves catch up at once, with one banner rather than a pile of them.
+  - Tour card: 📖 The Keeper's Story (day 5, Otto with the rod).
 

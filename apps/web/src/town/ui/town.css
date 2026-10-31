@@ -57,6 +57,9 @@
 .fade { position: fixed; inset: 0; background: #534239; opacity: 0; pointer-events: none; transition: opacity 250ms ease; }
 .fade.on { opacity: 1; pointer-events: auto; }
 .fade.night { background: #2f3a4e; transition-duration: 700ms; }
+.fade-tease { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 0 24px; text-align: center; color: #f6ead8; }
+.fade-tease small { font-size: 14px; letter-spacing: 0.08em; opacity: 0.75; }
+.fade-tease p { margin: 0; font-size: 20px; line-height: 1.4; max-width: 30ch; }
 .dialogue {
   position: absolute; left: 50%; bottom: calc(max(8px, env(safe-area-inset-bottom)) + 96px); transform: translateX(-50%);
   width: min(440px, calc(100% - 24px)); display: flex; gap: 12px; align-items: flex-start; padding: 12px; pointer-events: auto;
@@ -145,3 +148,10 @@ html.high-contrast .muted { color: #4a3a32; }
 .scene-dim { position: absolute; inset: 0; background: #2f3a4e; opacity: 0; pointer-events: none; }
 .scene-bubbles { position: absolute; inset: 0; pointer-events: none; }
 .scene-bubble { position: absolute; transform: translate(-50%, -100%); background: #fff8ec; border: 2px solid #534239; border-radius: 10px; padding: 0 6px; font-size: 1.1rem; line-height: 1.5; box-shadow: 0 2px 0 rgba(83, 66, 57, 0.4); }
+
+/* The Keeper's journal (journal/journal-sheet.ts). */
+.journal-chapter { margin: 0; font-size: 1.1rem; font-weight: 700; }
+.journal-dots { margin: 2px 0 8px; letter-spacing: 0.2em; color: var(--peach, #e8a87c); }
+.journal-part { margin-top: 10px; }
+.journal-part p { margin: 4px 0; }
+.journal-line { font-style: italic; }

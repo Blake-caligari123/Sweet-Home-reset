@@ -48,7 +48,7 @@ export class Hud {
   private live: HTMLElement;
   bubble: HTMLElement;
 
-  constructor(host: HTMLElement, handlers: { tool(t: ToolId): void; bag(): void; pause(): void; map(): void; mood(): void; tracker(): void }) {
+  constructor(host: HTMLElement, handlers: { tool(t: ToolId): void; bag(): void; pause(): void; map(): void; mood(): void; tracker(text: string): boolean }) {
     this.fluffBar = h('i');
     this.fluffNum = h('span', { class: 'fluff-num' }, '100');
     this.fluffIcon = h('span', { class: 'fluff-icon', 'aria-hidden': 'true' });
@@ -56,7 +56,8 @@ export class Hud {
     this.timeText = h('span', { class: 'time' }, '6:00 am');
     this.sparkleText = h('span', { class: 'chip sparkles', role: 'img', 'aria-label': sparklesLabel(0) }, '✨ 0');
     this.tracker = h('button', { class: 'tracker', type: 'button', 'aria-label': 'Current goal. Tap to fold.' }, '');
-    this.tracker.addEventListener('click', () => { this.tracker.classList.toggle('folded'); handlers.tracker(); });
+    // A 📖 story line opens the journal; anything else folds away.
+    this.tracker.addEventListener('click', () => { if (!handlers.tracker(this.tracker.textContent ?? '')) this.tracker.classList.toggle('folded'); });
     this.prompt = h('div', { class: 'context', 'aria-live': 'polite' });
     this.note = h('div', { class: 'late-note', hidden: true }, 'Getting late. Time to head home to bed.');
     this.bubble = h('div', { class: 'bubble', 'aria-hidden': 'true' });

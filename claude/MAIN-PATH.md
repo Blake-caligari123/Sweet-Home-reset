@@ -140,6 +140,17 @@ The camera finds the new cottage, and the newcomer walks up with a bag, looks ar
 
 **In the code:** a small scene player (`story/scenes.ts`) runs a list of beats from the pack. Each beat can pan the camera, move or turn a character, change the colour, set the time of day, or show a caption. It reuses the world's camera, the grey overlay and the characters already there.
 
+## Built so far
+- **K.1** The scene player and the opening cutscene.
+- **K.2 (31 Oct)** The step-a-day path (all 40 steps above, as `story` in the pack), the 📖 tracker and the neighbours' ask buttons, and the 📔 journal.
+  - Blake asked to "tie it all together so the player gets absolutely hooked", so each step also has a **teaser**. Once today's step is done, bedtime shows "🌙 Tomorrow..." and a hint at the next one as night falls.
+  - Small changes from the tables:
+    - Pip's day 9 step teaches the copper duster, not the garden chair. The chair stays a heart-event reward.
+    - Day 23 is "dig a craft room or cellar" (Mabel's bottle).
+    - Day 48 is Pip's "make something for Winter Lights", in place of the Otto and Mabel splash drama, which still happens on its own.
+    - Quest steps (the reading club, the festival preps, the summer and autumn chapters, the first sail, Fig's garden) are done once the quest is taken on. The quest then runs alongside the next days' steps, so the Fair prep doesn't hold up the café or the bridge.
+- **Next:** the fountain moments and chapter openings as short cutscenes, newcomers arriving, and the big reveals.
+
 ## What changes in the code
 - `story/`: the Keeper's Story steps as pack data (`story` in the pack: day, who, goal, line). Goals reuse the quest ones, so a step can be a talk, tidy, cook, fish, find, build or quest. It's one daily step, and it can tick itself off from things already done.
 - `journal/`: the 📔 Journal sheet with its four pages.
