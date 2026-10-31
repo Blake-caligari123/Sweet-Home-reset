@@ -32,7 +32,7 @@ export interface ShotGlow { x: number; y: number; r: number; from: number; to: n
 export type Emote = [number, string, string];
 
 /** How long an emote stays up. */
-export const EMOTE_MS = 1800;
+const EMOTE_MS = 1800;
 
 /** `full` and `grey` hold; `ripple` greys the place outward from a point between `start` and `end` ms. */
 export type ShotColour = { kind: 'full' } | { kind: 'grey' } | { kind: 'ripple'; from: [number, number]; start: number; end: number };
