@@ -11633,5 +11633,9 @@
     "flag": "summer_prep_done"
    }
   }
- ]
+ ],
+ "cafe": {
+  "keeper": "hazel",
+  "fromDay": 3
+ }
 }

@@ -1196,3 +1196,7 @@ Heard only with a screen reader, never shown on screen.
 **Market stall (6b.10)**
 - Sheet: "Your market stall" · "Townsfolk come by overnight and pay a little more than the shops. More come as the town blooms."
 - Morning: "🧺 Your stall sold 4 things overnight: +88 ✨".
+
+**Café orders (6b.11)**
+- Town sheet: "☕ The café wants pea fritters and veggie soup today. Cook them, then hand them to Hazel."
+- Hazel's chat button: "☕ Café order: veggie soup (+90 ✨)". Banner: "☕ Served at the café! +90 ✨ +1 💌".

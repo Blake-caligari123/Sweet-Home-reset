@@ -1,3 +1,4 @@
+import { cafeButtons, cafeWants } from './cafe/cafe-buttons';
 import type { Content } from './data/content';
 import { CardHunt } from './craft/cards';
 import { Helpers } from './life/helpers';
@@ -64,15 +65,21 @@ export class TownSystems {
 
   openStall() { const { state, view, content } = this.host; openStall({ state, view, content, changed: () => { this.host.refreshHud(); this.host.save(); } }); }
 
-  /** This neighbour's chat-box buttons from these systems: quests to take on or talk through, and trades for their thank-you notes. */
+  /** This neighbour's chat-box buttons from these systems: quests, café orders, and trades for their thank-you notes. */
   buttonsFor(id: string) {
     const { state, content, view } = this.host;
-    return [...this.quests.buttonsFor(id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
+    const changed = () => { this.host.refreshHud(); this.host.save(); };
+    return [...this.quests.buttonsFor(id), ...cafeButtons({ state, content, view, day: () => this.host.day(), changed }, id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
   }
 
   /** The tracker line for a quest under way, if any. */
   questHint() { return this.quests.tracker(); }
 
   openSkills() { openSkills(this.host.view, this.host.state, this.moods.line()); }
-  openNeeds() { openNeeds(this.host.view, this.host.state, this.needs.known()); }
+  openNeeds() {
+    const { state, content, view } = this.host;
+    const wants = cafeWants({ state, content, view, day: () => this.host.day(), changed: () => {} });
+    const keeper = content.pack.cafe && content.neighbour(content.pack.cafe.keeper)?.name;
+    openNeeds(view, state, this.needs.known(), wants && keeper ? `☕ The café wants ${wants} today. Cook them, then hand them to ${keeper}.` : null);
+  }
 }
