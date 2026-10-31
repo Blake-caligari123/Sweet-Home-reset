@@ -150,5 +150,11 @@ export const TOUR: TourCard[] = [
       s.day(36).time(10);
       for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path'], ['plot_hill_steps', 'hill_steps']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 };
       s.go('woodland');
+    } },
+  { title: '🎻 Autumn chapter: the old song', steps: ['Juniper is by the cottage: tap "📜 Help me find where the old song comes from?".', 'Ask Moss for the songbook, tidy by the stone on Orchard Hill, ask Mabel, tell Juniper.'],
+    setup: (s) => {
+      s.day(44).time(8, 30).flag('letter_juniper_1_read').flag('invite_juniper').flag('home_juniper').flag('juniper_concert').meet('juniper', 'moss', 'mabel');
+      for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path'], ['plot_woodland_cottage', 'cottage_juniper'], ['plot_hill_steps', 'hill_steps']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 };
+      s.go('woodland');
     } }
 ];

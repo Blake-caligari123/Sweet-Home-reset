@@ -513,4 +513,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Orchard Hill:** pear and plum trees (fruit trees take a pack colour now) with fruit each morning. A path up to a hilltop bench beside an old stone that "hums softly", the next thread of the old song. Leaves and weeds to tidy, and it can be restored (150 ✨).
   - Pears and plums are snacks the General Store buys. Their icons are drawn in code.
   - Tour card: 🍐 Orchard Hill.
+- **6d.10 Autumn chapter: the old song (31 Oct):** the district's story chapter, from Juniper (from day 44, once Juniper's first concert has happened).
+  1. Ask Moss for Thimble's songbook.
+  2. Next day: tidy 6 spots on Orchard Hill by the humming stone.
+  3. Ask Mabel, who sang there as a chick; the stone sang back.
+  4. Next day: tell Juniper.
+  - The answer ties the threads together: the warm water hums under the hill, and that's the song.
+  - Reward: 200 ✨, a lantern and `chapter_autumn_song`. Juniper and Mabel each have a line afterwards.
+  - Tour card: 🎻 Autumn chapter.
 

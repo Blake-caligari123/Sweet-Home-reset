@@ -1577,3 +1577,8 @@ Heard only with a screen reader, never shown on screen.
 - Built: "The hill steps are mended! Orchard Hill is open." Need: "A way up Orchard Hill" / "Mend the tumbled steps at the Woodland Edge."
 - Hilltop stone: "An old stone on the hilltop, worn smooth. It hums softly."
 - New items: Pear, Plum.
+
+**Autumn chapter: the old song (6d.10)**
+- Juniper: "Help me find where the old song comes from?" / "Three notes, then a fourth. Where does it come from? Help?" / end: "The warm water hums under the hill. That's the song!"
+- Moss: "Thimble's songbook. Handle it gently. It's very old." Mabel: "Hoo. We sang there as chicks. The stone sang back."
+- Afterwards: Juniper "The town hums its own song. I'll play it forever." / Mabel "Hoo. I'd forgotten the stone's song. Thank you, dear."
