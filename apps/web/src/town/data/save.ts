@@ -1,6 +1,7 @@
 import type { CafeState } from '../cafe/cafe';
 import type { Memory } from '../life/memory';
 import type { QuestLogState } from '../quests/quests';
+import type { StoryState } from '../story/path';
 import type { PuffDay } from '../skills/puff-mood';
 import type { StallState } from '../stall/stall';
 import type { FarmState } from '../farm/animals';
@@ -83,6 +84,8 @@ export interface TownSave {
   tokens?: Record<string, number>;
   /** How far each quest has got. */
   quests?: QuestLogState;
+  /** How far along the Keeper's Story is. */
+  story?: StoryState;
   /** What's out on Puff's market stall. */
   stall?: StallState;
   /** Today's café orders supplied. */

@@ -10076,7 +10076,183 @@
    "scene.opening.12": "...and in through a round burrow door.",
    "scene.opening.13": "The armchair? The basket? Not quite...",
    "scene.opening.14": "By the bed! It settled, and turned into... you!",
-   "scene.opening.15": "Good morning, little puff!"
+   "scene.opening.15": "Good morning, little puff!",
+   "story.first_day.hint": "Follow the tips to settle in",
+   "story.first_day.diary": "I woke up in a grey town. Hazel says I'm the Keeper!",
+   "story.bench.ask": "Somewhere to sit?",
+   "story.bench.line": "Keeper! The square has nowhere to sit. Try your plans!",
+   "story.bench.call": "Hazel wants a word in the square.",
+   "story.bench.hint": "Build a bench from the Keeper's plans",
+   "story.bench.diary": "I built a bench. Hazel sat on it straight away!",
+   "story.bench.tease": "Hazel has an idea for the empty square...",
+   "story.radishes.ask": "How are my radishes?",
+   "story.radishes.line": "Radishes love a drink. Pick one when it's plump and red!",
+   "story.radishes.call": "Bea wants to see your garden.",
+   "story.radishes.hint": "Water your radishes and pick one when it's ready",
+   "story.radishes.diary": "My first radish! Bea clapped her hands.",
+   "story.radishes.tease": "Bea keeps peeking over the hedge at your garden...",
+   "story.pet.hint": "Someone small is waiting in your yard!",
+   "story.pet.diary": "A little friend followed me home. We're a pair now.",
+   "story.pet.tease": "Something small is snuffling about near your burrow...",
+   "story.rod.ask": "What's that you've got?",
+   "story.rod.line": "My spare rod. Cast it in the river and wait for a tug!",
+   "story.rod.call": "Otto has something for you by the river.",
+   "story.rod.hint": "Catch a fish at the river with Otto's rod",
+   "story.rod.diary": "Otto lent me his old rod. I caught a fish!",
+   "story.rod.tease": "Otto's carrying something long, wrapped in cloth...",
+   "story.reading_club.call": "Moss has a favour to ask in the library.",
+   "story.reading_club.diary": "Moss asked me to help start a reading club!",
+   "story.reading_club.tease": "Moss keeps sighing at the library's dusty shelves...",
+   "story.soup.ask": "Teach me to cook?",
+   "story.soup.line": "Veggie soup! A radish and a carrot. Here, take these.",
+   "story.soup.call": "Hazel's oven smells wonderful. Pop in!",
+   "story.soup.hint": "Cook veggie soup in your burrow kitchen",
+   "story.soup.diary": "I made veggie soup. It tasted like spring.",
+   "story.soup.tease": "Hazel's humming a recipe she wants to share...",
+   "story.sorrel.hint": "Read Sorrel's letter, then start her cottage",
+   "story.sorrel.diary": "Sorrel is coming to live here! Her cottage is begun.",
+   "story.sorrel.tease": "A letter is on its way, from someone far away...",
+   "story.workbench.ask": "Show me the workbench?",
+   "story.workbench.line": "Twigs and a pebble make a copper duster. Faster dusting!",
+   "story.workbench.call": "Pip wants to show you the workbench.",
+   "story.workbench.hint": "Make a copper duster at Pip's workbench",
+   "story.workbench.diary": "Pip taught me the workbench. My duster's shiny!",
+   "story.workbench.tease": "Pip's been tinkering with something shiny...",
+   "story.spring_prep.call": "Hazel needs help getting ready for the Fair.",
+   "story.spring_prep.diary": "Hazel and I are getting ready for the Spring Fair!",
+   "story.spring_prep.tease": "Hazel's writing a list. A long one. For the Fair!",
+   "story.cafe.ask": "Need a hand at the café?",
+   "story.cafe.line": "Cook today's café order and bring it to me, dear!",
+   "story.cafe.call": "Hazel's café is busy. She could use you!",
+   "story.cafe.hint": "Cook a café order and hand it to Hazel",
+   "story.cafe.diary": "I filled my first café order. Hazel gave me a wink.",
+   "story.cafe.tease": "Hazel's café has a queue out the door...",
+   "story.footbridge.ask": "What's wrong with the bridge?",
+   "story.footbridge.line": "The old footbridge washed out. Your plans can mend it!",
+   "story.footbridge.call": "Otto is staring across the river.",
+   "story.footbridge.hint": "Start mending the footbridge from the plans",
+   "story.footbridge.diary": "We're mending the footbridge. What's across the river?",
+   "story.footbridge.tease": "Otto keeps gazing at the far bank of the river...",
+   "story.caves.ask": "What did Mabel's leaf say?",
+   "story.caves.line": "That leaf's a map! It points under the fountain. Caves!",
+   "story.caves.call": "Moss has found something in Mabel's bottle.",
+   "story.caves.hint": "Go down into the caves under the fountain",
+   "story.caves.diary": "There are caves under the fountain! Something hums.",
+   "story.caves.tease": "Moss is poring over a little leaf-shaped map...",
+   "story.fair.hint": "It's the Spring Clean Fair in the square!",
+   "story.fair.diary": "The Fair! The fountain whispered: there's more of me...",
+   "story.fair.tease": "Bunting in the square... it's nearly Fair day!",
+   "story.far_bank.ask": "Is the bridge done?",
+   "story.far_bank.line": "Bridge is mended! Go and see what's on the far bank.",
+   "story.far_bank.call": "Otto's waiting by the footbridge.",
+   "story.far_bank.hint": "Cross the footbridge to the Far Bank",
+   "story.far_bank.diary": "I crossed to the Far Bank. There's an old boathouse!",
+   "story.far_bank.tease": "The fountain murmurs about the far side of the water...",
+   "story.hen.ask": "Eggs? From where?",
+   "story.hen.line": "My baking needs eggs! The General Store sells hens.",
+   "story.hen.call": "Hazel's run out of eggs again!",
+   "story.hen.hint": "Buy a hen at the General Store",
+   "story.hen.diary": "A hen lives in my yard now. Hazel gets eggs!",
+   "story.hen.tease": "Hazel's cracked her very last egg...",
+   "story.boathouse.ask": "An old boathouse?",
+   "story.boathouse.line": "Locked for years! Find its key, then tidy it up inside.",
+   "story.boathouse.call": "Moss wants to hear about the Far Bank.",
+   "story.boathouse.hint": "Find the boathouse key on the Far Bank, then tidy",
+   "story.boathouse.diary": "In the boathouse: Thimble's name, carved in the wood.",
+   "story.boathouse.tease": "Moss has heard a rumour about a locked door...",
+   "story.fig.hint": "Read Fig's letter, then start the cottage",
+   "story.fig.diary": "Fig the gardener is coming! I've started the cottage.",
+   "story.fig.tease": "Muddy hoof prints on an envelope in your mailbox...",
+   "story.keeper_before.call": "Moss wants to talk about Thimble's carving.",
+   "story.keeper_before.diary": "Moss thinks there was a Keeper before me. Thimble!",
+   "story.keeper_before.tease": "Moss has been up all night with old books...",
+   "story.seed_swap.call": "Fig wants help with a riverbank garden.",
+   "story.seed_swap.diary": "Fig and I are planting a garden by the river.",
+   "story.seed_swap.tease": "Fig's been eyeing the soggy riverbank...",
+   "story.critters.ask": "Your bee book?",
+   "story.critters.line": "Spot three critters for my book! Tap them when you see one.",
+   "story.critters.call": "Bea is buzzing about her bee book.",
+   "story.critters.hint": "Spot 3 critters around town",
+   "story.critters.diary": "Three critters spotted! Bea's book is filling up.",
+   "story.critters.tease": "Bea's been chasing a butterfly round the square...",
+   "story.well.ask": "Muddy toys?",
+   "story.well.line": "Carrying water makes my toys muddy! Build a well? Please?",
+   "story.well.call": "Pip has a muddy problem.",
+   "story.well.hint": "Build a well from the Keeper's plans",
+   "story.well.diary": "We built a well. Pip's toys are clean at last!",
+   "story.well.tease": "Pip's toys are all splattered in mud...",
+   "story.new_room.hint": "Dig a craft room or a cellar off your yard",
+   "story.new_room.diary": "My burrow's growing! A brand new room.",
+   "story.new_room.tease": "A bottle washed up with a digging tip inside...",
+   "story.summer_prep.call": "Otto needs help getting ready for the Picnic.",
+   "story.summer_prep.diary": "Otto and I are getting ready for the Summer Picnic.",
+   "story.summer_prep.tease": "Otto's dusting off a giant picnic blanket...",
+   "story.overgrown_path.ask": "Where does that path go?",
+   "story.overgrown_path.line": "The old path to the woods is all overgrown. Let's clear it!",
+   "story.overgrown_path.call": "Fig has spotted a path on the Far Bank.",
+   "story.overgrown_path.hint": "Clear the overgrown path from the Keeper's plans",
+   "story.overgrown_path.diary": "We're clearing the old path to the woods.",
+   "story.overgrown_path.tease": "Fig found an old path, hidden under brambles...",
+   "story.picnic.hint": "It's the Summer Picnic in the square!",
+   "story.picnic.diary": "The Picnic! The fountain sighed: can you hear it sing?",
+   "story.picnic.tease": "The smell of picnic pies drifts through town...",
+   "story.woodland.ask": "Is the path clear?",
+   "story.woodland.line": "The path's clear! Go and pick some apples in the woods.",
+   "story.woodland.call": "Fig is waiting by the path to the woods.",
+   "story.woodland.hint": "Walk into the Woodland Edge",
+   "story.woodland.diary": "The woods are full of apples, and a faint hum...",
+   "story.woodland.tease": "The fountain whispered: listen in the woods...",
+   "story.wren.hint": "Read Wren's letter, then start the cottage",
+   "story.wren.diary": "Wren is coming back! Pip can't stop bouncing.",
+   "story.wren.tease": "Pip says a letter is coming. Pip is very excited!",
+   "story.juniper.hint": "Read Juniper's letter, then start the cottage",
+   "story.juniper.diary": "Juniper heard a tune in our woods. They're moving in!",
+   "story.juniper.tease": "Someone far away has heard a song in your woods...",
+   "story.first_sail.call": "Wren wants to go sailing.",
+   "story.first_sail.diary": "Wren and I are fixing up a boat to sail!",
+   "story.first_sail.tease": "Wren is staring at the river with a sail in mind...",
+   "story.hill_steps.ask": "Up that hill?",
+   "story.hill_steps.line": "The tune comes from up the hill. Can we mend the steps?",
+   "story.hill_steps.call": "Juniper is listening at the foot of the hill.",
+   "story.hill_steps.hint": "Mend the steps to Orchard Hill from the plans",
+   "story.hill_steps.diary": "We're mending the steps up to Orchard Hill.",
+   "story.hill_steps.tease": "Juniper hums four notes, then stops and listens...",
+   "story.old_song.call": "Juniper wants to find where the old song comes from.",
+   "story.old_song.diary": "Juniper and I are finding the town's old song.",
+   "story.old_song.tease": "Juniper plays a tune that makes the fountain ripple...",
+   "story.autumn_prep.call": "Sorrel needs help getting ready for Leaf Fest.",
+   "story.autumn_prep.diary": "Sorrel and I are getting ready for Leaf Fest.",
+   "story.autumn_prep.tease": "Sorrel's raking leaves into enormous piles...",
+   "story.leaf_fest.hint": "It's Autumn Leaf Fest in the square!",
+   "story.leaf_fest.diary": "Leaf Fest! Thimble sang that song to keep the water warm.",
+   "story.leaf_fest.tease": "Garlands of leaves hang across the square...",
+   "story.mabel.hint": "Say hello to Mabel, the bottle letter writer!",
+   "story.mabel.diary": "Mabel, who sent all those bottles, is here at last!",
+   "story.mabel.tease": "A bottle bobs in the river: 'Arriving tomorrow!'",
+   "story.sea_steps.ask": "Steps to the sea?",
+   "story.sea_steps.line": "Mend the old sea steps, and come and see my beach!",
+   "story.sea_steps.call": "Mabel wants to show you something.",
+   "story.sea_steps.hint": "Mend the sea steps from the Keeper's plans",
+   "story.sea_steps.diary": "We're mending the sea steps down to the beach.",
+   "story.sea_steps.tease": "Mabel keeps gazing at the crumbled sea steps...",
+   "story.deep_cave.ask": "Thimble's last carving?",
+   "story.deep_cave.line": "The deepest cave. If Thimble left a last word, it's there.",
+   "story.deep_cave.call": "Moss has worked out the last map leaf.",
+   "story.deep_cave.hint": "Go down to the deepest cave floor",
+   "story.deep_cave.diary": "Deep in the caves: a warm spring, and Thimble asleep!",
+   "story.deep_cave.tease": "Moss has pieced together the last map leaf...",
+   "story.lanterns.ask": "A plan for Winter Lights?",
+   "story.lanterns.line": "The town needs cheering up! Make something at the workbench?",
+   "story.lanterns.call": "Pip has a plan for Winter Lights.",
+   "story.lanterns.hint": "Make something at the workbench for Winter Lights",
+   "story.lanterns.diary": "Pip and I made things for Winter Lights.",
+   "story.lanterns.tease": "Pip's sketching lanterns all over the workshop...",
+   "story.winter_prep.call": "Mabel needs help getting ready for Winter Lights.",
+   "story.winter_prep.diary": "Mabel and I are getting the town ready to glow.",
+   "story.winter_prep.tease": "Mabel's counting lanterns. There aren't enough yet...",
+   "story.lights.hint": "It's Winter Lights! Light up the town!",
+   "story.lights.diary": "The town glows. Thimble's awake! Thank you, Keeper.",
+   "story.lights.tease": "The town lights up tomorrow. Will Thimble wake?"
   }
  },
  "heartEvents": [
@@ -14552,7 +14728,7 @@
   {
    "id": "juniper_1",
    "from": "juniper",
-   "day": 40,
+   "day": 31,
    "area": "lane",
    "x": 20,
    "y": 13,
@@ -15351,8 +15527,8 @@
    "id": "old_song",
    "name": "Autumn chapter: the old song",
    "giver": "juniper",
-   "fromDay": 44,
-   "needs": "juniper_concert",
+   "fromDay": 37,
+   "needs": "home_juniper",
    "offer": "Help me find where the old song comes from?",
    "intro": "quest.old_song.intro",
    "steps": [
@@ -16699,5 +16875,444 @@
     }
    ]
   }
- ]
+ ],
+ "story": {
+  "chapters": [
+   {
+    "id": "prologue",
+    "name": "The grey town"
+   },
+   {
+    "id": "spring",
+    "name": "One spot at a time"
+   },
+   {
+    "id": "summer",
+    "name": "The river remembers"
+   },
+   {
+    "id": "autumn",
+    "name": "The old song"
+   },
+   {
+    "id": "winter",
+    "name": "Wake me when the town glows"
+   }
+  ],
+  "steps": [
+   {
+    "id": "first_day",
+    "day": 1,
+    "chapter": "prologue",
+    "goal": {
+     "type": "onboarded"
+    }
+   },
+   {
+    "id": "bench",
+    "day": 2,
+    "chapter": "prologue",
+    "goal": {
+     "type": "built",
+     "building": "bench"
+    },
+    "who": "hazel"
+   },
+   {
+    "id": "radishes",
+    "day": 3,
+    "chapter": "prologue",
+    "goal": {
+     "type": "flag",
+     "flag": "grown_radish"
+    },
+    "who": "bea"
+   },
+   {
+    "id": "pet",
+    "day": 4,
+    "chapter": "spring",
+    "goal": {
+     "type": "pet"
+    }
+   },
+   {
+    "id": "rod",
+    "day": 5,
+    "chapter": "spring",
+    "goal": {
+     "type": "fish",
+     "count": 1
+    },
+    "who": "otto",
+    "gift": {
+     "fishing_rod": 1
+    }
+   },
+   {
+    "id": "reading_club",
+    "day": 6,
+    "chapter": "spring",
+    "goal": {
+     "type": "quest",
+     "id": "reading_club"
+    },
+    "who": "moss"
+   },
+   {
+    "id": "soup",
+    "day": 7,
+    "chapter": "spring",
+    "goal": {
+     "type": "made",
+     "station": "kitchen",
+     "count": 1
+    },
+    "who": "hazel",
+    "gift": {
+     "carrot": 1,
+     "radish": 1
+    }
+   },
+   {
+    "id": "sorrel",
+    "day": 8,
+    "chapter": "spring",
+    "goal": {
+     "type": "built",
+     "building": "cottage_sorrel"
+    }
+   },
+   {
+    "id": "workbench",
+    "day": 9,
+    "chapter": "spring",
+    "goal": {
+     "type": "made",
+     "station": "bench",
+     "count": 1
+    },
+    "who": "pip",
+    "gift": {
+     "twig": 4,
+     "pebble": 1
+    },
+    "teach": [
+     "recipe_copper_duster"
+    ]
+   },
+   {
+    "id": "spring_prep",
+    "day": 10,
+    "chapter": "spring",
+    "goal": {
+     "type": "quest",
+     "id": "spring_prep"
+    },
+    "who": "hazel",
+    "until": 13
+   },
+   {
+    "id": "cafe",
+    "day": 11,
+    "chapter": "spring",
+    "goal": {
+     "type": "cafe"
+    },
+    "who": "hazel"
+   },
+   {
+    "id": "footbridge",
+    "day": 12,
+    "chapter": "spring",
+    "goal": {
+     "type": "built",
+     "building": "footbridge"
+    },
+    "who": "otto"
+   },
+   {
+    "id": "caves",
+    "day": 13,
+    "chapter": "spring",
+    "goal": {
+     "type": "visited",
+     "area": "cave_1"
+    },
+    "who": "moss"
+   },
+   {
+    "id": "fair",
+    "day": 14,
+    "chapter": "spring",
+    "goal": {
+     "type": "flag",
+     "flag": "festival_spring_fair"
+    },
+    "until": 14
+   },
+   {
+    "id": "far_bank",
+    "day": 15,
+    "chapter": "summer",
+    "goal": {
+     "type": "visited",
+     "area": "far_bank"
+    },
+    "who": "otto"
+   },
+   {
+    "id": "hen",
+    "day": 16,
+    "chapter": "summer",
+    "goal": {
+     "type": "flag",
+     "flag": "animal_hen"
+    },
+    "who": "hazel"
+   },
+   {
+    "id": "boathouse",
+    "day": 17,
+    "chapter": "summer",
+    "goal": {
+     "type": "flag",
+     "flag": "restored_boathouse"
+    },
+    "who": "moss"
+   },
+   {
+    "id": "fig",
+    "day": 18,
+    "chapter": "summer",
+    "goal": {
+     "type": "built",
+     "building": "cottage_fig"
+    }
+   },
+   {
+    "id": "keeper_before",
+    "day": 19,
+    "chapter": "summer",
+    "goal": {
+     "type": "quest",
+     "id": "keeper_before"
+    },
+    "who": "moss"
+   },
+   {
+    "id": "seed_swap",
+    "day": 20,
+    "chapter": "summer",
+    "goal": {
+     "type": "quest",
+     "id": "seed_swap"
+    },
+    "who": "fig"
+   },
+   {
+    "id": "critters",
+    "day": 21,
+    "chapter": "summer",
+    "goal": {
+     "type": "critters",
+     "count": 3
+    },
+    "who": "bea"
+   },
+   {
+    "id": "well",
+    "day": 22,
+    "chapter": "summer",
+    "goal": {
+     "type": "built",
+     "building": "well"
+    },
+    "who": "pip"
+   },
+   {
+    "id": "new_room",
+    "day": 23,
+    "chapter": "summer",
+    "goal": {
+     "type": "built",
+     "building": [
+      "craft_room",
+      "cellar"
+     ]
+    }
+   },
+   {
+    "id": "summer_prep",
+    "day": 24,
+    "chapter": "summer",
+    "goal": {
+     "type": "quest",
+     "id": "summer_prep"
+    },
+    "who": "otto",
+    "until": 27
+   },
+   {
+    "id": "overgrown_path",
+    "day": 26,
+    "chapter": "summer",
+    "goal": {
+     "type": "built",
+     "building": "woodland_path"
+    },
+    "who": "fig"
+   },
+   {
+    "id": "picnic",
+    "day": 28,
+    "chapter": "summer",
+    "goal": {
+     "type": "flag",
+     "flag": "festival_summer_picnic"
+    },
+    "until": 28
+   },
+   {
+    "id": "woodland",
+    "day": 29,
+    "chapter": "autumn",
+    "goal": {
+     "type": "visited",
+     "area": "woodland"
+    },
+    "who": "fig"
+   },
+   {
+    "id": "wren",
+    "day": 30,
+    "chapter": "autumn",
+    "goal": {
+     "type": "built",
+     "building": "cottage_wren"
+    }
+   },
+   {
+    "id": "juniper",
+    "day": 31,
+    "chapter": "autumn",
+    "goal": {
+     "type": "built",
+     "building": "cottage_juniper"
+    }
+   },
+   {
+    "id": "first_sail",
+    "day": 32,
+    "chapter": "autumn",
+    "goal": {
+     "type": "quest",
+     "id": "first_sail"
+    },
+    "who": "wren"
+   },
+   {
+    "id": "hill_steps",
+    "day": 36,
+    "chapter": "autumn",
+    "goal": {
+     "type": "built",
+     "building": "hill_steps"
+    },
+    "who": "juniper"
+   },
+   {
+    "id": "old_song",
+    "day": 37,
+    "chapter": "autumn",
+    "goal": {
+     "type": "quest",
+     "id": "old_song"
+    },
+    "who": "juniper"
+   },
+   {
+    "id": "autumn_prep",
+    "day": 38,
+    "chapter": "autumn",
+    "goal": {
+     "type": "quest",
+     "id": "autumn_prep"
+    },
+    "who": "sorrel",
+    "until": 41
+   },
+   {
+    "id": "leaf_fest",
+    "day": 42,
+    "chapter": "autumn",
+    "goal": {
+     "type": "flag",
+     "flag": "festival_autumn_leaf_fest"
+    },
+    "until": 42
+   },
+   {
+    "id": "mabel",
+    "day": 43,
+    "chapter": "winter",
+    "goal": {
+     "type": "flag",
+     "flag": "met_mabel"
+    }
+   },
+   {
+    "id": "sea_steps",
+    "day": 44,
+    "chapter": "winter",
+    "goal": {
+     "type": "built",
+     "building": "sea_steps"
+    },
+    "who": "mabel"
+   },
+   {
+    "id": "deep_cave",
+    "day": 46,
+    "chapter": "winter",
+    "goal": {
+     "type": "visited",
+     "area": "cave_4"
+    },
+    "who": "moss"
+   },
+   {
+    "id": "lanterns",
+    "day": 48,
+    "chapter": "winter",
+    "goal": {
+     "type": "made",
+     "station": "bench",
+     "count": 1
+    },
+    "who": "pip"
+   },
+   {
+    "id": "winter_prep",
+    "day": 52,
+    "chapter": "winter",
+    "goal": {
+     "type": "quest",
+     "id": "winter_prep"
+    },
+    "who": "mabel",
+    "until": 55
+   },
+   {
+    "id": "lights",
+    "day": 56,
+    "chapter": "winter",
+    "goal": {
+     "type": "flag",
+     "flag": "festival_winter_lights"
+    },
+    "until": 56
+   }
+  ]
+ }
 }

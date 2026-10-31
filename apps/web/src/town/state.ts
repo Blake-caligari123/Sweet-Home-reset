@@ -5,6 +5,7 @@ import type { PlotState } from './build/build';
 import type { Friend, TownSave, Unlock } from './data/save';
 import type { Memory } from './life/memory';
 import type { QuestLogState } from './quests/quests';
+import { NEW_STORY, type StoryState } from './story/path';
 import type { PuffDay } from './skills/puff-mood';
 import type { StallState } from './stall/stall';
 import type { SkillLog } from './skills/skills';
@@ -20,7 +21,7 @@ import { Onboarding } from './play/onboarding';
 import type { Taken } from './play/pickups';
 
 /** The parts of a save that hold Puff's progress. */
-export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights' | 'cloudVersion' | 'visited' | 'memories' | 'dramas' | 'skills' | 'puffDay' | 'fund' | 'needsMet' | 'tokens' | 'quests' | 'stall' | 'cafe' | 'fishCaught' | 'critters' | 'farm'>;
+export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights' | 'cloudVersion' | 'visited' | 'memories' | 'dramas' | 'skills' | 'puffDay' | 'fund' | 'needsMet' | 'tokens' | 'quests' | 'story' | 'stall' | 'cafe' | 'fishCaught' | 'critters' | 'farm'>;
 
 export interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
 
@@ -75,6 +76,8 @@ export class TownState {
   tokens: Record<string, number> = {};
   /** How far each quest has got (quests/quests.ts). */
   quests: QuestLogState = {};
+  /** How far along the Keeper's Story is (story/path.ts). */
+  story: StoryState = { ...NEW_STORY };
   /** What's out on Puff's market stall (stall/stall.ts). */
   stall: StallState = { slots: [] };
   /** Today's café orders supplied (cafe/cafe.ts). */
@@ -104,7 +107,7 @@ export class TownState {
       fluff: { value: this.fluff.value, max: this.fluff.max, boost: this.fluff.boost }, sparkles: this.sparkles,
       bag: this.bag.slots, tools: this.tools, crops: this.crops, flags: this.flags, friends: this.friends,
       onboarding: this.onboarding.step, onboardingAhead: this.onboarding.ahead, chores: this.chores,
-      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet, bloom: this.bloom, finds: this.finds, outfit: this.outfit, decor: this.decor, caves: this.caves, townJobs: this.townJobs, dashBest: this.dashBest, unlock: this.unlock, restNights: this.restNights, cloudVersion: this.cloudVersion, visited: this.visited, memories: this.memories, dramas: this.dramas, skills: this.skills, puffDay: this.puffDay, fund: this.fund, needsMet: this.needsMet, tokens: this.tokens, quests: this.quests, stall: this.stall, cafe: this.cafe, fishCaught: this.fishCaught, critters: this.critters, farm: this.farm
+      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet, bloom: this.bloom, finds: this.finds, outfit: this.outfit, decor: this.decor, caves: this.caves, townJobs: this.townJobs, dashBest: this.dashBest, unlock: this.unlock, restNights: this.restNights, cloudVersion: this.cloudVersion, visited: this.visited, memories: this.memories, dramas: this.dramas, skills: this.skills, puffDay: this.puffDay, fund: this.fund, needsMet: this.needsMet, tokens: this.tokens, quests: this.quests, story: this.story, stall: this.stall, cafe: this.cafe, fishCaught: this.fishCaught, critters: this.critters, farm: this.farm
     };
   }
 
@@ -142,6 +145,7 @@ export class TownState {
     this.needsMet = Array.isArray(save.needsMet) ? save.needsMet : [];
     this.tokens = save.tokens && typeof save.tokens === 'object' ? save.tokens : {};
     this.quests = save.quests && typeof save.quests === 'object' ? save.quests : {};
+    this.story = typeof save.story?.step === 'number' ? save.story : { ...NEW_STORY };
     this.stall = Array.isArray(save.stall?.slots) ? save.stall : { slots: [] };
     this.cafe = Array.isArray(save.cafe?.done) ? save.cafe : { day: 0, done: [] };
     this.fishCaught = save.fishCaught ?? 0;

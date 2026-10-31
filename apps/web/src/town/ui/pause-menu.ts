@@ -16,6 +16,7 @@ export interface PauseHost {
   openNames(): void;
   openOutfits(): void;
   openCollection(): void;
+  openJournal(): void;
   openSkills(): void;
   openNeeds(): void;
   /** The feature tour, on the test link only. */
@@ -101,6 +102,9 @@ export function openPause(d: PauseHost) {
   const restart = h('button', { class: 'btn small', type: 'button' }, 'Start over on this device');
   restart.addEventListener('click', async () => { if (!window.confirm('Start a new game? This clears the town save on this device.')) return; await eraseTown(); location.reload(); });
   body.unshift(h('p', { class: 'town-line' }, d.townLine));
+  const journal = h('button', { class: 'btn primary', type: 'button', style: { width: '100%' } }, '📔 Keeper\'s journal');
+  journal.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openJournal(); });
+  body.unshift(journal);
   if (d.openTour) {
     const openTour = d.openTour;
     const tour = h('button', { class: 'btn primary', type: 'button', style: { width: '100%' } }, '🧪 Feature tour');

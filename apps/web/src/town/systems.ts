@@ -9,6 +9,9 @@ import { openNeeds } from './needs/needs-sheet';
 import { TownNeeds } from './needs/town-needs';
 import { TidyChain } from './play/chain';
 import { QuestLog } from './quests/quest-log';
+import { StoryPath } from './story/story-path';
+import { journalPage } from './journal/journal';
+import { openJournal } from './journal/journal-sheet';
 import type { Jobs } from './requests/jobs';
 import type { OnboardingGuide } from './play/onboarding-guide';
 import type { Puff } from './play/puff';
@@ -39,6 +42,8 @@ export class TownSystems {
   private needs: TownNeeds;
   private helpers: Helpers;
   private quests: QuestLog;
+  /** The Keeper's Story: today's 📖 step (story/story-path.ts). */
+  readonly story: StoryPath;
 
   constructor(private host: SystemsHost) {
     const { state, view, content, places, life } = host;
@@ -50,11 +55,12 @@ export class TownSystems {
     const chain = new TidyChain({ state, view, world: host.world, feet: () => host.puff.feet, refreshHud: () => host.refreshHud() });
     const cards = new CardHunt({ state, content, view });
     this.quests = new QuestLog({ state, content, view, talk: host.talk, day: () => host.day(), refreshHud: () => host.refreshHud(), save: () => host.save() });
-    host.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); });
+    this.story = new StoryPath({ state, content, view, talk: host.talk, day: () => host.day(), refreshHud: () => host.refreshHud(), save: () => host.save() });
+    host.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); this.story.hear(e); });
   }
 
-  /** After the night: town needs met, who helped tidy, what the stall sold, and new farm animals. */
-  morningNews() { return [...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews(), ...this.farmNews()]; }
+  /** After the night: today's story step, town needs met, who helped tidy, what the stall sold, and new farm animals. */
+  morningNews() { return [...this.story.morning(), ...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews(), ...this.farmNews()]; }
 
   private farmNews() {
     const { state, content } = this.host;
@@ -85,15 +91,27 @@ export class TownSystems {
 
   openStall() { const { state, view, content } = this.host; openStall({ state, view, content, changed: () => { this.host.refreshHud(); this.host.save(); } }); }
 
-  /** This neighbour's chat-box buttons from these systems: quests, café orders, and trades for their thank-you notes. */
+  /** This neighbour's chat-box buttons from these systems: the story step, quests, café orders, and trades for their thank-you notes. */
   buttonsFor(id: string) {
     const { state, content, view } = this.host;
     const changed = () => { this.host.refreshHud(); this.host.save(); };
-    return [...this.quests.buttonsFor(id), ...cafeButtons({ state, content, view, day: () => this.host.day(), changed }, id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
+    return [...this.story.buttonsFor(id), ...this.quests.buttonsFor(id), ...cafeButtons({ state, content, view, day: () => this.host.day(), changed }, id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
   }
 
   /** The tracker line for a quest under way, if any. */
   questHint() { return this.quests.tracker(); }
+
+  /** The 📔 journal: `tryNew` is the tracker's newest-thing nudge; `memories` the cutscenes to watch again. */
+  openJournal(tryNew: string | null, memories: { label: string; play(): void }[]) {
+    const { state, content, view, jobs } = this.host;
+    const wants = cafeWants({ state, content, view, day: () => this.host.day(), changed: () => {} });
+    const page = journalPage({
+      def: content.pack.story ?? { chapters: [], steps: [] }, story: state.story, day: this.host.day(),
+      line: (id) => content.named(content.line(id) ?? ''), today: this.story.tracker(),
+      also: [jobs.tracker(), this.quests.tracker(), wants ? `☕ the café wants ${wants}` : null], tryNew, quests: this.quests.going()
+    });
+    openJournal(view, page, memories);
+  }
 
   openSkills() { openSkills(this.host.view, this.host.state, this.moods.line()); }
   openNeeds() {
