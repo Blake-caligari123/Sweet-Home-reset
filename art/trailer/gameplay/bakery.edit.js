@@ -1,17 +1,16 @@
-// Edit for bakery: captions keyed to the capture's events (see bakery.scenario.js), then a before/after wipe.
-window.makeEdit = ({ at, atOr, length }) => {
-  const cap = length, first = at('cleaned'), fast = at('fast'), restored = at('restored'), last = atOr('last', restored - .8);
-  const end = cap + 4.5;                      // the last frame holds while the before/after wipe plays
+// Edit for bakery: captions keyed to the capture's events (see bakery.scenario.js and .cut.js), then a before/after
+// wipe over the held last frame. Every caption stays up for at least letters ÷ 15 + 1.5 s.
+window.makeEdit = ({ at, length }) => {
+  const fast = at('fast'), held = length - 4.8, end = length + 1.4;
   return {
     duration: end,
     captions: [
-      { text: "Hazel's been too busy\nbaking to clean", from: 0, to: first },
-      { text: 'so we helped 🧹', from: first, to: fast },
-      { text: 'her whole bakery,\nspot by spot', from: fast + .2, to: last },
-      { text: 'before → after', from: cap, to: end - 1.3, y: 1640, size: 64 },
+      { text: "Hazel's too busy\nbaking to clean", from: 0, to: fast },
+      { text: 'so we helped 🧹', from: fast, to: fast + 2.5 },
+      { text: 'her whole bakery,\nspot by spot', from: fast + 2.5, to: held },
     ],
-    speed: [{ from: fast, to: last, x: 10, y: 1250 }],
-    beforeAfter: { from: cap, to: end - 1.3, frame: 0 },
-    endCard: { from: end - 1.3, line: 'tidy a little. colour comes back.' },
+    speed: [{ from: fast, to: held, x: 14, y: 1250 }],
+    beforeAfter: { from: held + .2, to: length, frame: 40 },
+    endCard: { from: length, line: 'tidy a little. colour comes back.' },
   };
 };

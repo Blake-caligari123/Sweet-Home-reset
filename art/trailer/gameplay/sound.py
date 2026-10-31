@@ -35,15 +35,21 @@ m = Mix(dur)
 night = name == 'late-night'
 CH = [[53, 57, 60, 64], [50, 53, 57, 60], [46, 50, 53, 57], [48, 52, 55, 59]]
 stop = first('asleep', dur) if night else dur
+# a hush just before the room is restored, so the first sound after it (the fanfare) lands
+hush = (first('restored') - .8, first('restored')) if first('restored') is not None else (-1, -1)
+quiet = lambda t: hush[0] <= t < hush[1]
 for bar in range(int(stop / 2) + 1):
     t0 = bar * 2.0
     if t0 >= stop: break
     ch = CH[bar % 4]
-    for i, n in enumerate(ch): m.add(t0 + i * .03, bell(hz(n + 12), 2.0), .04, (i - 1.5) * .3, .5)
-    m.add(t0, pluck(hz(ch[0] - 12), 1.0), .2, 0, .1); m.add(t0 + 1.0, pluck(hz(ch[0] - 12), .8), .14, 0, .1)
+    if not quiet(t0):
+        for i, n in enumerate(ch): m.add(t0 + i * .03, bell(hz(n + 12), 2.0), .04, (i - 1.5) * .3, .5)
+        m.add(t0, pluck(hz(ch[0] - 12), 1.0), .2, 0, .1)
+    if not quiet(t0 + 1.0): m.add(t0 + 1.0, pluck(hz(ch[0] - 12), .8), .14, 0, .1)
     for b in range(4):
         tb = t0 + b * .5
         if tb >= stop: break
+        if quiet(tb): continue
         if b in (0, 2): m.add(tb, kick(), .22 if night else .32)
         if b in (1, 3): m.add(tb, snap(), .08, .15, .2)
 
