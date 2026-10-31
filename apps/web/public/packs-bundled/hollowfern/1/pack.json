@@ -8032,6 +8032,11 @@
     "id": "mabel.boathouse.1",
     "remembers": "restored_boathouse",
     "once": true
+   },
+   {
+    "id": "mabel.chapter.1",
+    "flag": "chapter_autumn_song",
+    "once": true
    }
   ],
   "sorrel": [
@@ -8853,6 +8858,11 @@
    {
     "id": "juniper.town.1",
     "bloomMin": 3
+   },
+   {
+    "id": "juniper.chapter.1",
+    "flag": "chapter_autumn_song",
+    "once": true
    }
   ]
  },
@@ -10045,7 +10055,13 @@
    "he_juniper_10.l06": "Every year. For you, and for {town}.",
    "repair.wait.plot_hill_steps": "The steps are all tumbled. Maybe in autumn.",
    "repair.hill_steps.hint": "The tumbled steps could be mended. See the Keeper's plans.",
-   "build.done.hill_steps": "The hill steps are mended! Orchard Hill is open."
+   "build.done.hill_steps": "The hill steps are mended! Orchard Hill is open.",
+   "quest.old_song.intro": "Three notes, then a fourth. Where does it come from? Help?",
+   "quest.old_song.moss": "Thimble's songbook. Handle it gently. It's very old.",
+   "quest.old_song.mabel": "Hoo. We sang there as chicks. The stone sang back.",
+   "quest.old_song.done": "The warm water hums under the hill. That's the song!",
+   "juniper.chapter.1": "The town hums its own song. I'll play it forever.",
+   "mabel.chapter.1": "Hoo. I'd forgotten the stone's song. Thank you, dear."
   }
  },
  "heartEvents": [
@@ -15314,6 +15330,60 @@
     "item": "old_map",
     "qty": 1,
     "flag": "chapter_summer_thimble"
+   }
+  },
+  {
+   "id": "old_song",
+   "name": "Autumn chapter: the old song",
+   "giver": "juniper",
+   "fromDay": 44,
+   "needs": "juniper_concert",
+   "offer": "Help me find where the old song comes from?",
+   "intro": "quest.old_song.intro",
+   "steps": [
+    {
+     "hint": "Ask Moss for Thimble's old songbook",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "May we borrow Thimble's songbook?",
+      "line": "quest.old_song.moss"
+     }
+    },
+    {
+     "hint": "Tidy 6 spots on Orchard Hill, by the humming stone",
+     "goal": {
+      "type": "cleared",
+      "area": "orchard_hill",
+      "count": 6
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Ask Mabel about the stone on the hill",
+     "goal": {
+      "type": "talk",
+      "who": "mabel",
+      "ask": "Do you know the humming stone?",
+      "line": "quest.old_song.mabel"
+     }
+    },
+    {
+     "hint": "Tell Juniper what you've found",
+     "goal": {
+      "type": "talk",
+      "who": "juniper",
+      "ask": "I know where the song comes from!",
+      "line": "quest.old_song.done"
+     },
+     "nextDay": true
+    }
+   ],
+   "reward": {
+    "sparkles": 200,
+    "item": "lantern",
+    "qty": 1,
+    "flag": "chapter_autumn_song"
    }
   }
  ],
