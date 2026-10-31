@@ -1192,3 +1192,7 @@ Heard only with a screen reader, never shown on screen.
 - "Pip wants to meet Grumbles! Befriend 2 of any kind."
 - "Moss asks: befriend a cobweb Grumble, gently."
 - "Otto's bath is muddy again. Befriend a mud Grumble?"
+
+**Market stall (6b.10)**
+- Sheet: "Your market stall" · "Townsfolk come by overnight and pay a little more than the shops. More come as the town blooms."
+- Morning: "🧺 Your stall sold 4 things overnight: +88 ✨".

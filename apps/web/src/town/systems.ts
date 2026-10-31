@@ -13,6 +13,8 @@ import type { OnboardingGuide } from './play/onboarding-guide';
 import type { Puff } from './play/puff';
 import { PuffMoods } from './skills/puff-mood';
 import { SkillBook } from './skills/skill-book';
+import { stallNight } from './stall/stall';
+import { openStall } from './stall/stall-sheet';
 import { openSkills } from './skills/skills-sheet';
 import type { TownState } from './state';
 import type { Hud } from './ui/hud';
@@ -27,7 +29,7 @@ export interface SystemsHost {
 
 /**
  * The Phase 6 systems that listen to play and speak in the morning: skills, Puff's mood, tidy
- * chains, recipe cards, quests, town needs and neighbours helping. They hear what Puff does through the
+ * chains, recipe cards, quests, town needs, neighbours helping and Puff's market stall. They hear what Puff does through the
  * guide; game.ts only asks them for the morning's news, neighbours' trades and opens their sheets.
  */
 export class TownSystems {
@@ -49,8 +51,18 @@ export class TownSystems {
     host.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); });
   }
 
-  /** After the night: town needs met, then who helped tidy. */
-  morningNews() { return [...this.needs.morning(), ...this.helpers.morning()]; }
+  /** After the night: town needs met, who helped tidy, and what the stall sold. */
+  morningNews() { return [...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews()]; }
+
+  private stallNews() {
+    const { state, content } = this.host;
+    const r = stallNight(state.stall, (id) => content.pack.items[id]?.sell ?? 0, state.bloom);
+    if (!r.sold) return [];
+    state.sparkles += r.sparkles;
+    return [`🧺 Your stall sold ${r.sold} thing${r.sold === 1 ? '' : 's'} overnight: +${r.sparkles} ✨`];
+  }
+
+  openStall() { const { state, view, content } = this.host; openStall({ state, view, content, changed: () => { this.host.refreshHud(); this.host.save(); } }); }
 
   /** This neighbour's chat-box buttons from these systems: quests to take on or talk through, and trades for their thank-you notes. */
   buttonsFor(id: string) {

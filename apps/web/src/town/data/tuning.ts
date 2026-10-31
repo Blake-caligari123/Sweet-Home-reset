@@ -41,6 +41,8 @@ export interface Tuning {
   petFindsPerDay: number;
   /** Spots each neighbour tidies each morning once Puff has restored their home (life/helpers.ts). */
   helperSpots: number;
+  /** Puff's market stall: price over the shops', and how many sell a night (base, plus per Town Bloom level). */
+  stall: { markup: number; salesBase: number; salesPerBloom: number };
   /** The town fund: what each neighbour chips in each morning, happy (or glowing) and otherwise. */
   townFund: { perHappy: number; perOther: number };
   /** Puff's own moods (NEXT-PHASE §5.2): a happy swing's share of the usual time, a curious Puff's share of cleans between finds. */

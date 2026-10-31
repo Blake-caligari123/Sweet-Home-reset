@@ -42,5 +42,7 @@ export const TOUR: TourCard[] = [
   { title: '🏘 Town needs and the fund', steps: ['Tap the plans board and build a bench (200 ✨ to spend).', 'Sleep: the town ticks off "Somewhere to sit". Pause → 🏘 Town.'],
     setup: (s) => { s.day(3).time(10).flag('keeper_named').sparkles(200).go('square'); } },
   { title: '🧽 Neighbours join in', steps: ['Hazel\'s home is restored, so she helps tidy.', 'Go to bed in the burrow: in the morning, she\'s tidied the lane.'],
-    setup: (s) => { s.day(5).time(20).meet('hazel').restore('bakery').visited('lane').go('burrow'); } }
+    setup: (s) => { s.day(5).time(20).meet('hazel').restore('bakery').visited('lane').go('burrow'); } },
+  { title: '🧺 Your market stall', steps: ['Tap your stall (peach awning, left of the square) and put crops out.', 'Sleep: in the morning, see what sold. More sell as the town blooms.'],
+    setup: (s) => { s.day(5).time(10).give('radish', 3).give('carrot', 2).give('veggie_soup').go('square'); } }
 ];

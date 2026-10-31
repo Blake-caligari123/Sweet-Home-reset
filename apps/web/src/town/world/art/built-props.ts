@@ -54,6 +54,13 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       pc.hline(x, y + 2, w, P.outline); pc.hline(x, y - 5, w, P.outline);
       pc.ellipse(x + w / 2, y + 11, 2, 2, P.blue); pc.set(x + w / 2, y + 11, P.white);
       break;
+    case 'market_stall': // Puff's own stall: a peach-and-cream awning over crates of produce
+      pc.rect(x + 2, y + 2, 2, h + 2, P.brownShade); pc.rect(x + w - 4, y + 2, 2, h + 2, P.brownShade);
+      pc.box(x + 1, y + 8, w - 2, 8, P.brownLight, P.outline);
+      for (let i = 0; i < w; i += 4) pc.rect(x + i, y - 4, 4, 6, (i / 4) % 2 ? P.cream : P.peach);
+      pc.hline(x, y + 2, w, P.outline); pc.hline(x, y - 5, w, P.outline);
+      for (const [cx, c] of [[x + 6, P.peachShade], [x + 12, P.sage], [x + 18, P.butter], [x + 24, P.peach]] as const) if (cx < x + w - 3) { pc.ellipse(cx, y + 7, 2, 2, c); pc.set(cx - 1, y + 6, P.white); }
+      break;
     case 'brambles': // a thorny tangle across the path
       for (let i = 0; i < 9; i += 1) { const bx = x + 2 + ((i * 7) % (w - 4)); pc.line(bx, y + 14, bx + 4 - (i % 3) * 3, y + 2, P.brownShade); pc.ellipse(bx + 1, y + 6 + (i % 3) * 2, 2, 1, P.sageShade); }
       for (const [bx, by] of [[x + 6, y + 5], [x + 20, y + 9], [x + 13, y + 3]]) pc.set(bx, by, P.peachShade);
