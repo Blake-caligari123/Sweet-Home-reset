@@ -11794,5 +11794,141 @@
    ],
    "time": "day"
   }
+ ],
+ "critters": [
+  {
+   "id": "ladybird",
+   "name": "Ladybird",
+   "kind": "beetle",
+   "colour": "#E8846B",
+   "areas": [
+    "yard",
+    "square"
+   ],
+   "seasons": [
+    "Spring",
+    "Summer"
+   ],
+   "time": "day",
+   "hint": "Spring and summer days, in the yard or the square"
+  },
+  {
+   "id": "bumblebee",
+   "name": "Bumblebee",
+   "kind": "bee",
+   "areas": [
+    "yard",
+    "lane"
+   ],
+   "seasons": [
+    "Spring",
+    "Summer"
+   ],
+   "time": "day",
+   "hint": "Warm days among the flowers, yard or lane"
+  },
+  {
+   "id": "blue_butterfly",
+   "name": "Blue butterfly",
+   "kind": "butterfly",
+   "colour": "#8FB5D9",
+   "areas": [
+    "square",
+    "riverside",
+    "far_bank"
+   ],
+   "seasons": [
+    "Spring",
+    "Summer",
+    "Autumn"
+   ],
+   "time": "day",
+   "hint": "Days from spring to autumn, square or riverside"
+  },
+  {
+   "id": "peach_butterfly",
+   "name": "Peach butterfly",
+   "kind": "butterfly",
+   "colour": "#F4C2A8",
+   "areas": [
+    "yard",
+    "far_bank"
+   ],
+   "seasons": [
+    "Summer"
+   ],
+   "time": "day",
+   "hint": "Summer days, the yard or the Far Bank"
+  },
+  {
+   "id": "snail",
+   "name": "Garden snail",
+   "kind": "snail",
+   "areas": [
+    "yard",
+    "lane",
+    "square"
+   ],
+   "rain": true,
+   "hint": "Out and about when it rains"
+  },
+  {
+   "id": "frog",
+   "name": "Pond frog",
+   "kind": "frog",
+   "areas": [
+    "riverside",
+    "far_bank"
+   ],
+   "seasons": [
+    "Spring",
+    "Summer"
+   ],
+   "hint": "By the water in spring and summer"
+  },
+  {
+   "id": "firefly",
+   "name": "Firefly",
+   "kind": "firefly",
+   "areas": [
+    "riverside",
+    "far_bank",
+    "yard"
+   ],
+   "seasons": [
+    "Summer",
+    "Autumn"
+   ],
+   "time": "night",
+   "hint": "Summer and autumn nights"
+  },
+  {
+   "id": "robin",
+   "name": "Robin",
+   "kind": "bird",
+   "colour": "#E8846B",
+   "areas": [
+    "square",
+    "yard",
+    "lane"
+   ],
+   "seasons": [
+    "Autumn",
+    "Winter"
+   ],
+   "time": "day",
+   "hint": "Autumn and winter days around town"
+  },
+  {
+   "id": "gull",
+   "name": "Seagull",
+   "kind": "bird",
+   "colour": "#FFFFFF",
+   "areas": [
+    "beach"
+   ],
+   "time": "day",
+   "hint": "Any day at the beach"
+  }
  ]
 }

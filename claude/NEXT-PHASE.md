@@ -384,4 +384,10 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Which fish bites follows the day and the count, never chance. The General Store buys fish, and fish stew (2 minnows and a carrot) is a new dish.
   - Catches send a `caught` moment for quests and skills later. Fish, rod and stew icons are drawn in code.
   - Tour card: 🎣 Fishing.
+- **6b.13 Critters (31 Oct):** `critters/`.
+  - Nine critters come out by place, season, time of day and weather: ladybird, bumblebee, two butterflies, garden snail (only in the rain), pond frog, firefly (nights), robin (autumn and winter), seagull.
+  - Up to 2 at once in an outdoor place, on spots fixed by the day. Butterflies, bees and fireflies bob gently; reduced motion keeps them still.
+  - **Tap one to spot it.** The first time, it goes in the new **Critter journal** (Pause → 📖 Collection), which shows where and when to look for the rest. A spotted critter flutters off for the day. Nothing is caught.
+  - Spotting and fishing now count toward the Exploring skill. Critter art is drawn in code.
+  - Tour card: 🐞 Critters.
 

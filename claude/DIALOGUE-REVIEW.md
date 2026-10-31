@@ -1208,3 +1208,12 @@ Heard only with a screen reader, never shown on screen.
   - Waiting and the bite: "Waiting for a bite…" / "A bite! Reel in!"
   - Outcomes: "Too soon! The fish swam off." / "It got away!" / "Caught: River trout!"
 - Fish names: River minnow, River trout, Moonfish, Pond perch, Golden carp, Sardine, Little crab. New dish: Fish stew.
+
+**Critters (6b.13)**
+- First spot: "🐞 New critter: Ladybird! 📖 Added to your Critter journal". Again: "A ladybird! Hello again."
+- Journal hints:
+  - "Spring and summer days, in the yard or the square"
+  - "Out and about when it rains"
+  - "Summer and autumn nights"
+  - and the others.
+- Journal footer: "Tap a critter to spot it. They come and go with the seasons, the time and the weather."

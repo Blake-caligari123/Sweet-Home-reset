@@ -1,4 +1,5 @@
 import type { CardDef } from '../craft/cards';
+import type { CritterDef } from '../critters/critters';
 import type { FishDef } from '../fishing/fishing';
 import type { DramaDef } from '../life/dramas';
 import type { NeedDef } from '../needs/needs';
@@ -80,7 +81,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** The café: who runs it and the day its orders start (cafe/cafe.ts). */
   cafe?: { keeper: string; fromDay: number };
   /** What can be caught, where and when (fishing/fishing.ts). */
-  fish?: FishDef[] }
+  fish?: FishDef[];
+  /** Critters about town (critters/critters.ts). */
+  critters?: CritterDef[] }
 
 export class Area {
   readonly w: number;
@@ -200,6 +203,7 @@ export function validateTownPack(input: unknown): TownPack {
     for (const id of Object.keys(r.cost?.items ?? {})) if (!p.items[id]) throw new Error(`recipe ${r.id}: unknown item ${id}`);
   }
   for (const c of p.crops ?? []) if (!p.items[c.id] || !p.items[c.seed]) throw new Error(`crop ${c.id}: unknown item`);
+  for (const c of p.critters ?? []) if (!c.id || !c.name || !c.hint || !c.areas?.length || c.areas.some((a) => !ids.has(a))) throw new Error(`critter ${c.id}: shape`);
   for (const f of p.fish ?? []) if (!f.id || !p.items[f.id] || !f.areas?.length || f.areas.some((a) => !ids.has(a))) throw new Error(`fish ${f.id}: shape`);
   for (const q of p.quests ?? []) {
     if (!q.id || !who.has(q.giver) || !q.steps?.length || !isNum(q.reward?.sparkles) || !q.reward.flag) throw new Error(`quest ${q.id}: shape`);

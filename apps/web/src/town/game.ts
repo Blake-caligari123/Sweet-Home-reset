@@ -13,6 +13,7 @@ import { NEIGHBOUR_WALK_SPEED, TUNING, WALK_SPEED, WALK_SPEED_TIRED } from './da
 import { Lanterns } from './festivals/lanterns';
 import { TidyDash } from './festivals/tidy-dash';
 import { GrumbleLife } from './grumbles/grumble-life';
+import { CritterLife } from './critters/critter-life';
 import { PetLife } from './pets/pet-life';
 import { openOutfits } from './outfits/outfit-sheet';
 import { newlyEarned } from './outfits/outfits';
@@ -100,6 +101,7 @@ export class TownGame {
   private grumbles: GrumbleLife;
   private grumbleLayer: GrumbleLayer;
   private pet: PetLife;
+  private critters: CritterLife;
   private petLayer: PetLayer;
   private outfitLayer: OutfitLayer;
   private carry: Carry;
@@ -186,6 +188,7 @@ export class TownGame {
     });
     this.petLayer = new PetLayer(this.world.actors);
     this.outfitLayer = new OutfitLayer(this.world.actors);
+    this.critters = new CritterLife({ state: this.state, view: this.view, content: this.content, clock: this.clock, places: this.places, actors: this.world.actors, onboard: (e) => this.guide.handle(e) });
     this.pet = new PetLife({ ...core, layer: this.petLayer, arrived: (k) => this.arrived(k), puff: () => this.puff.feet, day: () => this.clock.state.day });
     this.actions = new PuffActions({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
@@ -206,7 +209,7 @@ export class TownGame {
       save: () => void this.save(false)
     });
     this.taps = new Taps({
-      view: this.view, puff: this.puff, world: this.world, actions: this.actions, placing: this.placing, pet: this.pet, neighbours: this.neighbours, grumbles: this.grumbles,
+      view: this.view, puff: this.puff, world: this.world, actions: this.actions, placing: this.placing, pet: this.pet, neighbours: this.neighbours, grumbles: this.grumbles, critters: this.critters,
       area: () => this.area, areaId: () => this.areaId, nav: () => this.nav, here: () => this.here, fading: () => this.fading, refreshHud: () => this.refreshHud()
     });
     this.homeLife = new HomeLife({ world: this.world, view: this.view, sound, content: this.content });
@@ -222,7 +225,7 @@ export class TownGame {
     else Object.assign(this.puff, this.area.pack.spawn); // a new game starts at the burrow's spawn tile
     this.places.rebuild(this.state);
     this.grumbles.newDay(this.clock.state.day);
-    this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = settings.reducedMotion;
+    this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = this.critters.reducedMotion = settings.reducedMotion;
     if (this.state.requests.day !== this.clock.state.day) this.jobs.post();
     this.enterArea(this.areaId, this.puff.x, this.puff.y, false, feet);
     this.stick = new Joystick(ui);
@@ -267,6 +270,7 @@ export class TownGame {
     this.homeLife.enter(id, this.area.pack.alive ?? [], this.tidiness);
     this.grumbles.entered();
     this.pet.entered(id);
+    this.critters.entered(id);
     this.sweep.stop();
     this.neighbours.place(this.clock.state.minutes);
     this.world.setCrops(this.actions.cropsHere());
@@ -398,7 +402,7 @@ export class TownGame {
         const s = this.settings;
         this.sound.enabled = s.sound; this.sound.musicOn = s.music;
         if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
-        this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = s.reducedMotion;
+        this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = this.critters.reducedMotion = s.reducedMotion;
         applyLook(s);
         this.stick.shown = !!s.joystick;
         void this.save(false);
@@ -469,6 +473,7 @@ export class TownGame {
     }));
     this.grumbles.tick(dt, this.view.busy || this.fading);
     this.pet.tick(dt);
+    this.critters.tick(dt);
     this.world.follow(p.fx, p.fy - 8);
     this.world.update(dt);
     this.hudLive.tick();

@@ -1,4 +1,5 @@
 import type { Area } from '../data/area';
+import type { CritterLife } from '../critters/critter-life';
 import type { Placing } from '../decor/placing';
 import type { GrumbleLife } from '../grumbles/grumble-life';
 import type { Neighbours } from '../neighbours/neighbours';
@@ -15,7 +16,7 @@ import { distTo, neighbourAt, rectOf, targetAt, type Here, type Target } from '.
 export const MAX_RUB = 4;
 
 export interface TapHost {
-  view: View; puff: Puff; world: World; actions: PuffActions; placing: Placing; pet: PetLife; neighbours: Neighbours; grumbles: GrumbleLife;
+  view: View; puff: Puff; world: World; actions: PuffActions; placing: Placing; pet: PetLife; neighbours: Neighbours; grumbles: GrumbleLife; critters: CritterLife;
   area(): Area; areaId(): string; nav(): NavGrid; here(): Here;
   /** A fade between places is running (taps wait). */
   fading(): boolean;
@@ -37,6 +38,8 @@ export class Taps {
     // Placing decor: taps go on the ground (tapping Puff stops).
     if (h.placing.active) { if (Math.hypot(px - p.fx, py - p.fy + 8) < 10) h.placing.stop(); else h.placing.tap(tile); h.refreshHud(); return; }
     if (h.pet.at(px, py)) { h.pet.pat(); return; }
+    const critter = h.critters.at(px, py);
+    if (critter) { h.critters.spot(critter); return; }
     h.neighbours.releaseAll();
     p.charged = false;
     const target = neighbourAt(h.neighbours.visible(h.areaId()), px, py) ?? h.grumbles.at(px, py) ?? targetAt(h.here(), tile.x, tile.y);

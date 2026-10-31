@@ -48,5 +48,7 @@ export const TOUR: TourCard[] = [
   { title: '☕ Café orders', steps: ['Pause → 🏘 Town says what the café wants today.', 'Talk to Hazel: tap "☕ Café order" to hand a dish over.'],
     setup: (s) => { s.day(5).time(9).meet('hazel').give('veggie_soup', 2).give('pea_fritters', 2).give('tart', 2).go('bakery'); } },
   { title: '🎣 Fishing', steps: ['You have a rod. Walk to the ripples on the river and tap them.', 'Wait for the splash, then tap Reel in! quickly. Night brings different fish.'],
-    setup: (s) => { s.day(6).time(11).give('fishing_rod').go('riverside'); } }
+    setup: (s) => { s.day(6).time(11).give('fishing_rod').go('riverside'); } },
+  { title: '🐞 Critters', steps: ['Look around the yard: tap a little critter to spot it.', 'Pause → 📖 Collection has the Critter journal, with hints for the rest.'],
+    setup: (s) => { s.day(3).time(11).go('yard'); } }
 ];
