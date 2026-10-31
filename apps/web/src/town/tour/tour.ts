@@ -83,5 +83,11 @@ export const TOUR: TourCard[] = [
       s.day(20).time(8).flag('letter_fig_1_read').flag('invite_fig').flag('home_fig').give('carrot', 2);
       s.state.plots.plot_riverside_cottage = { buildingId: 'cottage_fig', stage: 2, startedDay: 18, readyDay: 20 };
       s.go('riverside');
+    } },
+  { title: '🌱 Fig\'s riverbank garden', steps: ['Talk to Fig by the cottage and say yes to the riverbank garden.', 'Pick crops, then ask Bea about flowers the next day, then tidy the river bank.', 'The tracker shows each step. The reward is Fig\'s rare seeds.'],
+    setup: (s) => {
+      s.day(21).time(8).flag('letter_fig_1_read').flag('invite_fig').flag('home_fig').meet('fig');
+      s.state.plots.plot_riverside_cottage = { buildingId: 'cottage_fig', stage: 2, startedDay: 18, readyDay: 20 };
+      s.go('riverside');
     } }
 ];

@@ -1343,3 +1343,8 @@ Heard only with a screen reader, never shown on screen.
   - `he_fig_10.l06`: Then something of us will grow there. Always.
   - `fig.spring.2`: Peas want a stick to climb. Everyone needs a hand.
   - `fig.spring.3`: First shoots by my door! Hello, little ones.
+
+**Fig's riverbank garden (6b.21)**
+- Offer: "Help me start a garden by the river?" Intro: "A seed swap and a riverbank garden. Will you help?"
+- Bea: "Bees love clover and lavender. Plant lots, please!" Fig at the end: "Look at it! Our first beds. Have my rarest seeds."
+- Steps: "Pick 4 crops for Fig's seed swap" / "Ask Bea which flowers the bees love" / "Tidy 6 spots by the river for the new beds" / "Tell Fig the riverbank is ready".
