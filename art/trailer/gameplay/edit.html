@@ -113,7 +113,8 @@ window.draw = async function (t) {
     ctx.fillStyle = '#fff'; ctx.fillRect(x - 5, 0, 10, H);
     ctx.beginPath(); ctx.arc(x, H / 2, 46, 0, 7); ctx.fill(); ctx.fillStyle = '#3d2219'; ctx.font = '700 40px Fredoka'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('⇆', x, H / 2 + 2);
     ctx.font = '700 54px Fredoka'; ctx.lineWidth = 12; ctx.strokeStyle = '#3d2219'; ctx.lineJoin = 'round';
-    [['before', Math.max(110, x - 140), '#cfd3da'], ['after', Math.min(W - 110, x + 140), '#ffd84d']].forEach(([s, lx, col]) => { ctx.strokeText(s, lx, 1500); ctx.fillStyle = col; ctx.fillText(s, lx, 1500); });
+    // each label sits on its own side of the divider, and only when that side has room for it
+    [['before', x - 140, x > 260, '#cfd3da'], ['after', x + 140, x < W - 260, '#ffd84d']].forEach(([s, lx, room, col]) => { if (!room) return; ctx.strokeText(s, lx, 1500); ctx.fillStyle = col; ctx.fillText(s, lx, 1500); });
   }
   ctx.restore();
   speedBadge(t);

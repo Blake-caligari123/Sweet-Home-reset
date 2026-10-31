@@ -1,0 +1,15 @@
+Third-party material in the trailers and shorts, with sources and licences.
+
+Music (gameplay/ shorts: shr_grey_house, shr_late_night, shr_bakery)
+- VCSL, Versilian Community Sample Library (glockenspiel, marimba, vibraphone, harp, hand chimes, snare): CC0 1.0
+  https://github.com/sgossner/VCSL
+- VSCO 2 Community Edition (cello and violin pizzicato, flute, clarinet, bass drum): CC0 1.0
+  https://github.com/sgossner/VSCO-2-CE
+- Played through the sampler in Lemo-Opuscar by Lemomo (MIT): https://github.com/lemomo-ai/lemo-opuscar
+  Its directing guide (DIRECTOR.md) also shaped the pacing: caption hold times, a hush before the payoff.
+
+Fonts (fonts/): SIL Open Font License, from Google Fonts
+- Fredoka, Pixelify Sans, Cormorant Garamond
+
+Everything else (foley, the earlier synthesised scores, all drawing and editing) was made in code for this project.
+Some character and area art in the game was created with Grok Imagine.
