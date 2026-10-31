@@ -95,6 +95,8 @@ town/
                 banners), needs-sheet.ts (Pause → Town)
   quests/       quests.ts (quest chains: steps, goals, next-day steps), quest-log.ts (offers and talk steps in
                 chat boxes, the tracker line, rewards)
+  critters/     critters.ts (who's about where and when, where they sit), critter-life.ts (placing, drawing and
+                spotting them; the journal lives in the Collection)
   fishing/      fishing.ts (what bites where and when, the catch), fishing-sheet.ts (cast, wait, Reel in!)
   cafe/         cafe.ts (today's café orders, from dishes Puff can cook), cafe-buttons.ts (handing dishes over
                 in the keeper's chat)
