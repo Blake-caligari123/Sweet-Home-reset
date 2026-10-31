@@ -23,11 +23,13 @@ describe('the feature tour', () => {
     }
   });
 
-  it('sends Puff only to real places and sets real days', () => {
+  it('sends Puff only to real places and sets real days (or plays a real cutscene)', () => {
     const areas = new Set(pack.areas.map((a) => a.id));
     for (const c of TOUR) {
       const { scene, calls } = stub();
       c.setup(scene);
+      const film = calls.find((x) => x.method === 'playScene');
+      if (film) { expect((pack.scenes ?? []).some((s) => s.id === film.args[0]), c.title).toBe(true); continue; }
       const go = calls.filter((x) => x.method === 'go');
       expect(go.length, c.title).toBe(1);
       expect(areas.has(go[0].args[0] as string), c.title).toBe(true);

@@ -32,6 +32,7 @@ import { TownSystems } from './systems';
 import { Scene } from './tour/scene';
 import { TOUR_ON } from './tour/tour';
 import { openTour } from './tour/tour-sheet';
+import { ScenePlayer } from './story/scene-player';
 import { MAX_RUB, Taps } from './play/taps';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
@@ -83,6 +84,7 @@ export class TownGame {
   private areaId = 'burrow';
   private world: World;
   private hud: Hud;
+  private scenes!: ScenePlayer;
   private view: View;
   private content: Content;
   private clock = new Clock();
@@ -214,6 +216,7 @@ export class TownGame {
       area: () => this.area, areaId: () => this.areaId, nav: () => this.nav, here: () => this.here, fading: () => this.fading, refreshHud: () => this.refreshHud()
     });
     this.homeLife = new HomeLife({ world: this.world, view: this.view, sound, content: this.content });
+    this.scenes = new ScenePlayer({ world: this.world, ui, content: this.content, reducedMotion: () => !!settings.reducedMotion, show: (id) => this.showForScene(id), resume: () => this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet) });
     this.fade = h('div', { class: 'fade', 'aria-hidden': 'true' });
     ui.append(this.fade);
     this.deviceId = (saved?.deviceId as string) ?? (crypto.randomUUID?.() ?? String(Math.random()).slice(2));
@@ -235,7 +238,8 @@ export class TownGame {
     app.ticker.add((t) => this.update(t.deltaMS));
     window.addEventListener('resize', () => { app.resize(); this.world.resize(); });
     this.refreshHud();
-    if (!saved) this.openNames(() => window.setTimeout(() => this.view.say('Ooh. Grey. Let\'s fix that.'), 600));
+    // A new game opens with the story of the town (story/scenes.ts), then naming.
+    if (!saved) this.scenes.play('opening', () => this.openNames(() => window.setTimeout(() => this.view.say('Ooh. Grey. Let\'s fix that.'), 600)));
     if (new URLSearchParams(location.search).has('debug')) installDebugHooks(this.hooks());
   }
 
@@ -245,7 +249,7 @@ export class TownGame {
       world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide, grumbles: this.grumbles,
       areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
       messFor: (id) => this.places.mess(id), spawnOf: (id) => this.places.get(id)!.pack.spawn,
-      enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), rebuild: () => this.places.rebuild(this.state), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
+      enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), playScene: (id) => this.scenes.play(id, () => {}), rebuild: () => this.places.rebuild(this.state), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
     };
   }
 
@@ -280,6 +284,14 @@ export class TownGame {
     this.world.follow(spot.x, spot.y - 8, true);
     this.guide.updateHighlight();
     if (announce) { this.hud.announce(this.content.named(this.area.pack.name)); this.guide.handle({ type: 'entered', area: id }); }
+  }
+
+  /** A cutscene shows a place as it stands, without Puff going there (no visit, no onboarding). */
+  private showForScene(id: string) {
+    const a = this.places.get(id);
+    if (!a) return;
+    this.world.load(a, this.places.mess(id));
+    this.world.alive.load([], 0); this.world.setCrops([]); this.world.setPickups([]);
   }
 
   /** Something in this area changed (a rock broke, a lantern lit): rebuild it and show it again where Puff stands. */
@@ -439,6 +451,7 @@ export class TownGame {
 
   private update(dt: number) {
     dt = Math.min(dt, 100);
+    if (this.scenes.playing) { this.scenes.tick(dt); this.world.update(dt); return; } // the town stands still for a cutscene
     const p = this.puff;
     if (!this.view.busy && !this.fading) {
       for (const e of this.clock.advance(dt)) {

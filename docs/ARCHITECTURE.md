@@ -113,6 +113,7 @@ town/
   build/        build.ts (plots and buildings: start, overnight finish, the props they put in an
                 area; repairs like the footbridge pave their plot and open doors), build-sheet.ts
                 (the Keeper's plans screen)
+  story/        scenes.ts (cutscene timeline: glides, colour sweeps), scene-player.ts (plays a scene in the town with captions and Skip)
   secrets/      secrets.ts (secret doors that open once their find turns up)
   farm/         animals.ts (farm animals: bought, placed in the yard, tended for eggs, wool and milk)
   craft/        recipes.ts (what a recipe needs, making a tool, furniture or a dish), cards.ts (recipe cards under mess), cook-steps.ts and cook-sheet.ts (cooking by hand: chop, stir, knead), craft-sheet.ts (Pip's

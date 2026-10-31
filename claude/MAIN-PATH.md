@@ -114,10 +114,10 @@ Your answers: played out in the town itself, about a minute at the start, plus c
 | 2. Thimble | The camera settles on the fountain. The Keeper, Thimble, stirs the water and it glows | *Its Keeper, Thimble, kept the warm water singing.* |
 | 3. Going grey | Thimble yawns and walks off toward the caves. The fountain's glow fades, and the colour drains street by street (the grey overlay sweeping across) | *One winter, Thimble grew sleepy and went to rest. The water cooled. The colour slipped away.* |
 | 4. Puff is born | The grey square at night. One last sparkle rises from the fountain, tumbles, and lands as a tiny dust bunny | *But the fountain kept one last sparkle.* |
-| 5. Meeting the town | A quick glide past grey homes: Hazel's bakery, Bea's shop, Pip's workshop, sleepy faces at windows | *Everyone was too tired to tidy. Until…* |
-| 6. Hazel finds Puff | Morning. Hazel steps out and spots Puff. This flows straight into today's first scene, where Hazel names Puff Keeper | *"Oh! A little grey puff!"* |
+| 5. Meeting the town | A glide along the grey lane, neighbours dozing | *Everyone grew too tired to tidy. Until...* |
+| 6. Puff wakes | Morning in the burrow: Puff stirs by the bed. Play begins (naming, then Hazel's welcome as now) | *...a little grey puff woke up. That's you!* |
 
-The opening plays once after "Let's tidy!" on a new game.
+The opening plays once after "Let's tidy!" on a new game. *Built 31 Oct (K.1): seven beats, about 48 seconds; the last shows Puff waking in the burrow, where play starts.*
 
 ### Chapter openings (about 20 seconds each, on the chapter's first morning)
 The fountain glows. The camera drifts to where the chapter happens, then back, and the fountain line plays.
@@ -150,9 +150,10 @@ The camera finds the new cottage, and the newcomer walks up with a bag, looks ar
 - **Timing moves:** Juniper's letter goes from day 40 to day 31, and the old song chapter from day 44 to day 37 (needing only Juniper at home and the hill open, not the concert scene).
 - A Feature tour card per chapter, which jumps to its first day.
 
-## Questions before I build
-1. **Free spring:** chapter 1 sits inside the free 14 days, so the paid unlock comes right after the fair, on a cliffhanger ("more of me across the river"). Is that the right place?
-2. **Otto's spare rod:** on day 5 it's lent, so fishing is part of the path without spending 60 ✨. Is that OK?
-3. **Fountain lines:** the spirit's voice is new writing. Should it be the fountain itself, or clearly Thimble speaking from far away?
-4. **Winter:** "Thimble wakes at Winter Lights" is a big story beat. Should Thimble appear (a new character for year two), or stay a voice?
-5. **Thimble in the opening:** the opening shows Thimble long ago. If Thimble stays only a voice later (question 4), the opening could show Thimble from behind or as a soft glow instead. Which?
+## Decisions (Blake, 31 Oct)
+1. **Unlock:** after the Spring Clean Fair, on the cliffhanger.
+2. **Rod:** Otto lends his spare rod on day 5.
+3. **Voice:** the fountain moments are Thimble's sleepy voice, from far away, through the water.
+4. **Winter Lights:** Thimble appears and becomes a character in year two.
+5. **The opening:** shows Thimble only from behind, saving the face for Winter Lights.
+6. **Go ahead:** build it. The scene player and the opening first, then the step-a-day path and the journal, chapter by chapter.
