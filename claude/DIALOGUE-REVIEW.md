@@ -1476,3 +1476,98 @@ Heard only with a screen reader, never shown on screen.
 
 **Reed Grumbles (6d.7)**
 - "Rustle." / "Hmph... all tangly." / befriended: "Swish! Combed and comfy!" / hint: "Something rustly is grumbling in the reeds."
+
+**Juniper the fiddler (6d.8)**
+- All of Juniper's new lines, for review:
+  - `juniper.meet.1`: Oh, hello! I'm Juniper. I play the fiddle. Mostly.
+  - `juniper.busy.1`: Tuning up. Strings are fussy. Tomorrow?
+  - `juniper.busy.2`: I'm writing a tune. Come back tomorrow?
+  - `juniper.busy.3`: Still settling in. Tomorrow I'll play for you!
+  - `juniper.morning.1`: The birds and I practise together each morning.
+  - `juniper.morning.2`: Morning! The woods hum when it's quiet.
+  - `juniper.day.1`: Every place has its own song. This one's lovely.
+  - `juniper.day.2`: I'm writing a tune for the fountain.
+  - `juniper.evening.1`: Evening is for slow tunes.
+  - `juniper.evening.2`: The lamps flicker in time. Have you noticed?
+  - `juniper.night.1`: Shh. The woods are singing. Night, Keeper.
+  - `juniper.night.2`: I can't sleep. Too many tunes in my head!
+  - `juniper.spring.1`: Spring songs are quick and bouncy.
+  - `juniper.spring.2`: The stream's louder in spring. It's showing off.
+  - `juniper.spring.3`: Blossom falls like little notes.
+  - `juniper.summer.1`: Summer nights are for playing outdoors.
+  - `juniper.autumn.1`: Autumn leaves crunch in three-four time!
+  - `juniper.winter.1`: Winter songs are the quiet ones. My favourite.
+  - `juniper.rainy.1`: Rain on leaves is the best drum there is.
+  - `juniper.rainy.2`: My fiddle hates the damp. Off to the library!
+  - `juniper.h0.1`: Thank you for my cottage. It's perfectly in tune.
+  - `juniper.h0.2`: Who keeps the library? I'd love some old songbooks.
+  - `juniper.h0.3`: I'm better at playing than talking. Bear with me.
+  - `juniper.h3.1`: I played for Otto's bath. He sang along. Loudly.
+  - `juniper.h3.2`: Moss lent me a book of old tunes. So old!
+  - `juniper.h3.3`: Do you hum when you tidy? You should.
+  - `juniper.h6.1`: I've never stayed anywhere this long. It's nice.
+  - `juniper.h6.2`: Pip made me a little drum. It squeaks. I love it.
+  - `juniper.h6.3`: Sometimes I miss the road. Then I hear the stream.
+  - `juniper.h9.1`: You're my best friend. That deserves a song.
+  - `juniper.h9.2`: I wrote a tune called Keeper. It's very tidy.
+  - `juniper.h9.3`: {town} has the best song of anywhere I've been.
+  - `juniper.visit.1`: Hello! I was passing and heard you humming.
+  - `juniper.visit.2`: Your burrow has a lovely echo. Can I try it?
+  - `juniper.festival.1`: A fair! I'll play for the dash. Fast tune!
+  - `juniper.festival.summer_picnic`: A picnic tune! Everyone has to clap.
+  - `juniper.festival.autumn_leaf_fest`: Leaf Fest needs a jig. I've got three!
+  - `juniper.festival.winter_lights`: Winter Lights. I'll play the old one, softly.
+  - `juniper.mood.happy`: Everything sounds right today. Do you hear it?
+  - `juniper.mood.low`: A bit out of tune today. It'll pass.
+  - `juniper.shelter.1`: Hiding from the rain with Moss. Very quiet here.
+  - `juniper.about_moss.1`: Moss knows a song for everything. Even socks!
+  - `juniper.about_mabel.1`: Mabel seems quiet. Maybe a gentle tune would help?
+  - `juniper.town.1`: {town}'s song gets brighter every day.
+  - `juniper.gift.loved`: For me? Oh, that's music to my ears. Thank you!
+  - `juniper.gift.liked`: How lovely! That's going by my fiddle.
+  - `juniper.gift.neutral`: A present! You're kind. Thank you!
+  - `juniper.gift.disliked`: Hmm, not really my tune. But thank you!
+  - `juniper.request.done`: Wonderful! Thank you, Keeper.
+  - `req.juniper_apple`: Juniper would love an apple for practice snacks.
+  - `req.juniper_stage`: Sweep the square for Juniper's first concert.
+  - `home.juniper`: Juniper's moved into the woods! Go and say hello.
+  - `invite.juniper.hint`: Juniper needs a home. See the Keeper's plans.
+  - `moss.about_juniper.1`: Juniper borrowed my songbook. Finally, a reader!
+  - `letter.juniper_1.title`: A letter with a tune on it
+  - `letter.juniper_1.hint`: There's a letter in the Lane.
+  - `letter.juniper_1.sent`: Off it goes! Let's find Juniper a home.
+  - `letter.juniper_1.l1`: Dear Keeper of {town}, I'm Juniper. I play the fiddle.
+  - `letter.juniper_1.l2`: I heard a tune in your woods. An old one. It won't leave me.
+  - `letter.juniper_1.l3`: May I live by the trees and learn it? Juniper
+  - `letter.juniper_1.r1`: Yes! Come and play for us!
+  - `letter.juniper_1.r2`: The woods would love music. Welcome!
+  - `he_juniper_02.l01`: Listen. Do you hear it? In the trees?
+  - `he_juniper_02.l02`: Three notes, then a fourth. Over and over.
+  - `he_juniper_02.l03`: I hear it! Like someone humming.
+  - `he_juniper_02.l04`: I've followed songs all over. Never one like this.
+  - `he_juniper_02.l05`: Maybe it's {town}'s own song.
+  - `he_juniper_02.l06`: Then I'll learn every note. I promise.
+  - `he_juniper_04.l01`: Can I tell you why I'm always moving?
+  - `he_juniper_04.l02`: I play best for strangers. Friends are scarier.
+  - `he_juniper_04.l03`: Why scarier?
+  - `he_juniper_04.l04`: They'd notice if I played a wrong note.
+  - `he_juniper_04.l05`: We'd notice you were here. That's better.
+  - `he_juniper_04.l06`: ...That is better. Much better.
+  - `he_juniper_06.l01`: I want to play a concert. Here, in the square.
+  - `he_juniper_06.l02`: But I've only ever busked. What if nobody comes?
+  - `he_juniper_06.l03`: Everyone will come. Otto will sing.
+  - `he_juniper_06.l04`: Ha! Otto will definitely sing.
+  - `he_juniper_06.l05`: I'll sweep the square myself.
+  - `he_juniper_06.l06`: Then it's a concert. Our concert.
+  - `he_juniper_08.l01`: Keeper! I found the fourth note!
+  - `he_juniper_08.l02`: It's in the old songbook. Thimble wrote it down.
+  - `he_juniper_08.l03`: Thimble? The keeper before me?
+  - `he_juniper_08.l04`: Thimble hummed it while mending boats.
+  - `he_juniper_08.l05`: So the woods remember Thimble's song.
+  - `he_juniper_08.l06`: And now we do too. Isn't that something?
+  - `he_juniper_10.l01`: I'm not leaving. Not ever. Is that silly?
+  - `he_juniper_10.l02`: Every other town was a stop. This one's home.
+  - `he_juniper_10.l03`: It's not silly. It's the best news.
+  - `he_juniper_10.l04`: I wrote a tune for it. It's called Staying.
+  - `he_juniper_10.l05`: Will you play it at Winter Lights?
+  - `he_juniper_10.l06`: Every year. For you, and for {town}.

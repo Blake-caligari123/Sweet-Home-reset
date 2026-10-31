@@ -162,6 +162,13 @@
     "wren": {
       "flag": "home_wren"
     },
+    "invite_juniper": {
+      "day": 40,
+      "flag": "invite_juniper"
+    },
+    "juniper": {
+      "flag": "home_juniper"
+    },
     "riverbank_beds": {
       "flag": "seed_swap_done"
     },

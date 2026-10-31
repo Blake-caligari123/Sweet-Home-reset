@@ -495,4 +495,17 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Tour card: 🌿 Watercress by the river.
 - **6d.7 Reed Grumbles (31 Oct):** the district's own Grumble family, sage green and tangly, at Riverside and the Far Bank from day 20 (`grumble_reed`). Rake one 3 times to comb it out and befriend it. They have their own lines and a tracker hint until the first is befriended. Tour card: 🌾 Reed Grumbles.
 - **Riverside and the Far Bank, done for now:** Wren, the first sail, the secret boathouse, river critters, the summer chapter, watercress and the riverbank beds, and reed Grumbles. Next district: Woodland and Orchard Hill.
+- **6d.8 Woodland and Orchard Hill: Juniper the fiddler (31 Oct):** the fourth newcomer, a fox musician who followed an old tune into the woods (the mystery's old song).
+  - **Moving in:** a letter in the Lane on day 40 (`invite_juniper`) opens the "Under the trees" plot at the Woodland Edge. Once the cottage is built (200 ✨, the town fund helps), Juniper moves in (`home_juniper`). There's a town need and a tracker nudge.
+  - **Daily life:** the woods, the square, playing by the orchard, the lane at dusk. In the rain Juniper goes to the library. Weekly yard visits, and fair days.
+  - **Lines:** 46, with opinions about Moss and Mabel, and Moss about Juniper.
+  - **Tastes and trades:** loves apples and tea. Thank-you notes trade for tea or honey.
+  - **Jobs:** an apple, and sweeping the square for the first concert.
+  - **Heart arc (5 scenes):**
+    1. Hearing the four-note tune in the trees.
+    2. Why friends are scarier than strangers.
+    3. The first concert (`juniper_concert`).
+    4. Finding the fourth note in Thimble's songbook.
+    5. Staying for good.
+  - A code-drawn fox. Tour card: 🦊 Juniper the fiddler.
 
