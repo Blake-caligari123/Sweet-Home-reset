@@ -1,6 +1,7 @@
 import type { Memory } from '../life/memory';
 import type { QuestLogState } from '../quests/quests';
 import type { PuffDay } from '../skills/puff-mood';
+import type { StallState } from '../stall/stall';
 import type { SkillLog } from '../skills/skills';
 import { TOWN_SAVE_SCHEMA } from '@sweet-home-reset/shared';
 import { localDate } from '../../shared/date';
@@ -80,6 +81,8 @@ export interface TownSave {
   tokens?: Record<string, number>;
   /** How far each quest has got. */
   quests?: QuestLogState;
+  /** What's out on Puff's market stall. */
+  stall?: StallState;
   /** The cloud save's version this device last matched (sync asks the player when it differs). */
   cloudVersion?: number;
   /** Cleans counted per place, and the surprise finds collected. */

@@ -53,6 +53,7 @@ export interface ActionsHost {
   /** A placed decor piece: back into the bag. */
   pickUpDecor(x: number, y: number): void;
   openShop(shop: NonNullable<TownPack['shops']>[number]): void;
+  openStall(): void;
   refreshHud(): void;
   save(): void;
 }
@@ -320,6 +321,9 @@ export class PuffActions {
         if (shop) this.host.openShop(shop);
         return;
       }
+      case 'stall':
+        this.host.openStall();
+        return;
       case 'mailbox':
         view.showDialogue(this.host.clock.state.day > 1 ? `Today's letter is on the kitchen table. (${this.host.state.names.puff} already read it.)` : 'No post yet. Maybe tomorrow!');
         return;

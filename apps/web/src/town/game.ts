@@ -199,6 +199,7 @@ export class TownGame {
       pickUpDecor: (x, y) => this.placing.pickUp(x, y),
       openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false), made: (st) => this.guide.handle({ type: 'made', station: st }) }, station),
       openShop: (shop) => this.openShop(shop),
+      openStall: () => this.systems.openStall(),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
     });

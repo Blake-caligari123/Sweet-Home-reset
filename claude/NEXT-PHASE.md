@@ -367,4 +367,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - It changes the save, so the sheet says to use Start over for a normal game.
   - It's on the test link only. Public builds set `VITE_RELEASE=1` (RELEASE-CHECKLIST §4).
   - The tour and the `?debug` hooks share one view of the game (`hooks()` in `game.ts`).
+- **6b.10 Puff's market stall (31 Oct), the first working building:** `stall/`.
+  - A stall with a peach awning stands in the square. Tap it to put crops and dishes out from the bag (6 kinds), or take them back.
+  - Overnight townsfolk buy some, paying 25% more than the shops. How many sell is 2 plus 2 per Town Bloom level (`stall` in tuning), never left to chance.
+  - The morning says what sold: "🧺 Your stall sold 4 things overnight: +88 ✨".
+  - Tour card: 🧺 Your market stall.
 

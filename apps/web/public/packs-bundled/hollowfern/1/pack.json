@@ -1234,6 +1234,13 @@
      "y": 6,
      "w": 2,
      "action": "festival"
+    },
+    {
+     "type": "market_stall",
+     "x": 6,
+     "y": 13,
+     "w": 2,
+     "action": "stall"
     }
    ],
    "signs": [

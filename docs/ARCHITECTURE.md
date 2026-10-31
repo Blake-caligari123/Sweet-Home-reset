@@ -46,7 +46,7 @@ town/
   game.ts       TownGame, the coordinator: wires the features together; areas, input, the day,
                 the main loop and the save
   systems.ts    TownSystems: the Phase 6 systems that hear play through the guide (skills, Puff's mood, tidy
-                chains, recipe cards, quests) and bring the morning's news (town needs, helpers)
+                chains, recipe cards, quests) and bring the morning's news (town needs, helpers, the stall)
   debug.ts      the `?debug` test hooks (`window.__town`) for browser playthroughs (and what the feature tour pokes)
   state.ts      TownState: Puff's saved progress (Sparkles, bag, Fluff, tools, flags, friends, jobs,
                 names…) and how it saves and loads
@@ -95,6 +95,7 @@ town/
                 banners), needs-sheet.ts (Pause → Town)
   quests/       quests.ts (quest chains: steps, goals, next-day steps), quest-log.ts (offers and talk steps in
                 chat boxes, the tracker line, rewards)
+  stall/        stall.ts (Puff's market stall: putting out, overnight sales), stall-sheet.ts
   tour/         the feature tour on the test link: tour.ts (the cards: set-up and steps), scene.ts (what a card
                 can set up), tour-sheet.ts (Pause → Feature tour)
   travel/       map.ts (places visited, trip time by doors on the way), map-sheet.ts (the town map)
