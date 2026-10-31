@@ -20,6 +20,10 @@ export interface ShotActor {
   dir?: Dir;
   /** Nodding off from this ms, and waking again at `wakeAt` (Puff waking up). */
   sleepFrom?: number; wakeAt?: number;
+  /** Looking around: from each ms, face this way (when standing still). */
+  looks?: [number, Dir][];
+  /** Little happy hops (Puff only), each starting at this ms. */
+  hops?: number[];
   /** Only there from this ms (Puff appearing), or until this ms (Thimble leaving). */
   from?: number; until?: number;
   species?: string; colours?: { fur: string; belly: string; accent: string };
@@ -66,6 +70,10 @@ export const glowAt = (g: ShotGlow, ms: number, length: number) => g.from + (g.t
 /** The emotes showing at `ms`. */
 export const emotesAt = (shot: Shot, ms: number) => (shot.emotes ?? []).filter(([at]) => ms >= at && ms < at + EMOTE_MS);
 
+/** Whether Puff is mid-hop at `ms`. */
+export const hopping = (a: ShotActor, ms: number) => (a.hops ?? []).some((at) => ms >= at && ms < at + HOP_MS);
+const HOP_MS = 450;
+
 /** Whether someone is asleep at `ms`. */
 export const asleep = (a: ShotActor, ms: number) => a.sleepFrom !== undefined && ms >= a.sleepFrom && (a.wakeAt === undefined || ms < a.wakeAt);
 
@@ -93,11 +101,11 @@ export function pointAt(path: Key[], ms: number): { x: number; y: number; moving
   return { x: last[0], y: last[1], moving: false, dx: 0, dy: 0 };
 }
 
-/** Which way someone faces: their set way, else the way they're walking, else down. */
+/** Which way someone faces: their set way, else the way they're walking, else where they last looked, else down. */
 export function facing(a: ShotActor, ms: number): Dir {
   if (a.dir) return a.dir;
   const p = pointAt(a.path, ms);
-  if (!p.moving) return 'down';
+  if (!p.moving) return [...(a.looks ?? [])].reverse().find(([at]) => at <= ms)?.[1] ?? 'down';
   return Math.abs(p.dx) > Math.abs(p.dy) ? (p.dx > 0 ? 'right' : 'left') : p.dy > 0 ? 'down' : 'up';
 }
 

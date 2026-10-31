@@ -537,5 +537,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
     5. At dusk one sparkle pops out of the fountain and drifts out of the square.
     6. Across the yard to the burrow door.
     7. Into the burrow, where it settles by the bed as a sleeping Puff, who wakes with a "!".
+  - **Busier (Blake: "a bit more happening"):**
+    - The neighbours go about their day with bubbles: Hazel brings bread and waves, Pip plays, Bea visits the flowers, Otto chats, Moss reads. They look up at the snow and wonder where Thimble went.
+    - Thimble dips a paw in the spring before sleeping.
+    - Each neighbour yawns before dozing.
+    - The sparkle leaves a glittering trail, drifts past the sleepers, and tries the armchair and the basket before the bed.
+    - Puff wakes, looks left and right, and hops (`looks` and `hops` in `story/scenes.ts`).
   - Tour card: 🎬 The opening.
 

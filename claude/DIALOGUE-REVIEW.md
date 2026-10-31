@@ -1583,7 +1583,7 @@ Heard only with a screen reader, never shown on screen.
 - Moss: "Thimble's songbook. Handle it gently. It's very old." Mabel: "Hoo. We sang there as chicks. The stone sang back."
 - Afterwards: Juniper "The town hums its own song. I'll play it forever." / Mabel "Hoo. I'd forgotten the stone's song. Thank you, dear."
 
-**The opening cutscene (K.1, remade twice)**
+**The opening cutscene (K.1, remade twice, then made busier)**
 1. "Long ago, {town} glowed with colour."
 2. "Thimble, its Keeper, kept the fountain's water warm."
 3. "One winter, Thimble grew very, very sleepy..."
@@ -1596,6 +1596,7 @@ Heard only with a screen reader, never shown on screen.
 10. "It drifted off, looking for somewhere cosy."
 11. "Past the hedge, across a quiet little yard..."
 12. "...and in through a round burrow door."
-13. "It settled by the bed, and turned into... you!"
-14. "Good morning, little puff!"
-- Emotes: ♪ (Thimble humming), 😊 (Hazel), 💤 (sleepy), ! (Puff waking).
+13. "The armchair? The basket? Not quite..."
+14. "By the bed! It settled, and turned into... you!"
+15. "Good morning, little puff!"
+- Emotes: ♪ 🍞 🧸 📖 🌸 😄 💬 👋 😊 (the bright town), ❄ ❓ (snow, Thimble gone), 🥱 💤 (sleepy), ❗ (Puff waking).
