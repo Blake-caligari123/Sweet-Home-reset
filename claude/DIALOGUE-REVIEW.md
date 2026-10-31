@@ -1240,3 +1240,8 @@ Heard only with a screen reader, never shown on screen.
 - Somewhere decor can't go: "Decor goes outdoors, or inside {puff}'s burrow."
 - Made at the bench: "{item}! Place it from the bag, outdoors or at home."
 - New items: Potted fern, Cosy chair, Floor lamp, Bookcase.
+
+**New burrow rooms (6b.18)**
+- Done: "The craft room is dug! A workbench of {puff}'s own." / "The cellar is ready! Mushrooms like it down there."
+- Room names: "{puff}'s craft room", "The cellar". Plots: "Beside the burrow", "Under the yard".
+- Workbench with nothing known: "A workbench! Recipes come from the shop, or Pip." (sheet title now "Workbench").

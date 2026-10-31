@@ -48,7 +48,7 @@ export interface ActionsHost {
   sleep(): void;
   /** The Keeper's plans: building on plots. */
   openBuild(): void;
-  /** Pip's workbench (better tools) or Puff's kitchen (cooking). */
+  /** A workbench (tools and furniture) or Puff's kitchen (cooking). */
   openWorkbench(station: 'bench' | 'kitchen'): void;
   /** A farm animal: collect what it gives, and a pat and feed for today. */
   tendAnimal(id: string): void;

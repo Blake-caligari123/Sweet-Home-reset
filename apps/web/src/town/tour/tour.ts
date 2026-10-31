@@ -63,5 +63,12 @@ export const TOUR: TourCard[] = [
       s.go('yard');
     } },
   { title: '🛋 Decorate the burrow', steps: ['Open the bag and tap the cosy chair, then tap a spot on the burrow floor.', 'Try the bookcase, fern and floor lamp too. Tap a piece to pick it back up.', 'The General Store sells chairs and ferns; Pip teaches lamps and bookcases.'],
-    setup: (s) => { s.day(8).time(18).give('cosy_chair').give('bookcase').give('fern_pot', 2).give('floor_lamp').go('burrow'); } }
+    setup: (s) => { s.day(8).time(18).give('cosy_chair').give('bookcase').give('fern_pot', 2).give('floor_lamp').go('burrow'); } },
+  { title: '🚪 New burrow rooms', steps: ['The craft room (round door) and the cellar (hatch) are dug in the yard. Step inside.', 'The craft room has a workbench of your own; the cellar grows mushrooms each day.', 'Both can be decorated. In a normal game, dig them from the Keeper\'s plans.'],
+    setup: (s) => {
+      s.day(12).time(10).flag('keeper_named').flag('he_pip_02_done').give('twig', 6).sparkles(30);
+      for (const [plot, b] of [['plot_yard_craft', 'craft_room'], ['plot_yard_cellar', 'cellar']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 10, readyDay: 12 };
+      s.state.pet ??= { kind: 'cat', name: 'Pebble', day: 11 };
+      s.go('yard');
+    } }
 ];

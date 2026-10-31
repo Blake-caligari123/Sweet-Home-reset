@@ -131,6 +131,25 @@ describe('Hollowfern plots', () => {
     expect(pack.areas.some((a) => a.id === 'far_bank')).toBe(true);
   });
 
+  it('digs a craft room and a cellar off the yard: each opens a door Puff can reach, and leads back', () => {
+    const yard = pack.areas.find((a) => a.id === 'yard')!;
+    const done = (id: string): PlotState => ({ buildingId: id, stage: 2, startedDay: 1, readyDay: 2 });
+    const built = new Area(withBuilds(yard, plots, { plot_yard_craft: done('craft_room'), plot_yard_cellar: done('cellar') }, buildings));
+    const nav = navFor(built);
+    const spawn = nav.nearestOpen({ x: yard.spawn.x * T + T / 2, y: yard.spawn.y * T + FEET })!;
+    for (const room of ['craft_room', 'cellar']) {
+      const doors = built.pack.doors.filter((d) => d.to === room);
+      expect(doors.length, room).toBeGreaterThan(0);
+      expect(doors.some((d) => nav.findPathNear(spawn, { x0: d.x * T, y0: d.y * T, x1: (d.x + 1) * T, y1: (d.y + 1) * T }, 0)), room).toBe(true);
+      const inside = pack.areas.find((a) => a.id === room)!;
+      expect(inside.decorate, room).toBe(true);
+      expect(inside.doors.map((d) => d.to), room).toEqual(['yard']);
+    }
+    for (const d of yard.doors) expect(nav.findPathNear(spawn, { x0: d.x * T, y0: d.y * T, x1: (d.x + 1) * T, y1: (d.y + 1) * T }, 0), d.to).toBeTruthy();
+    expect(pack.areas.find((a) => a.id === 'craft_room')!.props.some((p) => p.action === 'craft')).toBe(true);
+    expect((pack.areas.find((a) => a.id === 'cellar')!.pickups ?? []).every((p) => p.item === 'mushroom')).toBe(true);
+  });
+
   it('clears the overgrown path off the Far Bank in summer (day 26), opening the Woodland Edge and its orchard', () => {
     const p = plots.find((x) => x.id === 'plot_overgrown_path')!;
     expect([p.area, p.unlock]).toEqual(['far_bank', 'overgrown_path']);

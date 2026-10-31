@@ -166,6 +166,27 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       for (const px of [x + 2, x + 12]) pc.box(px, y + 3, 3, 12, P.brownLight, P.outline);
       pc.box(x + 1, y + 6, 15, 3, P.brownLight, P.outline); pc.box(x + 1, y + 11, 15, 2, P.brown, P.outline);
       break;
+    case 'round_door': { // an arched green door dug into a mound of earth, a lamp beside it
+      const cx = x + w / 2; const top = y + 10;
+      pc.ellipseBox(cx, top + 4, w / 2, 12, P.sageShade, P.outline); pc.rect(x + 1, top + 4, w - 2, y + h - top - 4, P.sageShade);
+      pc.vline(x, top + 4, y + h - top - 4, P.outline); pc.vline(x + w - 1, top + 4, y + h - top - 4, P.outline);
+      pc.ellipseBox(cx, top + 6, 8, 7, P.brownShade, P.outline); pc.rect(cx - 7, top + 6, 15, y + h - top - 6, P.brownShade);
+      pc.ellipse(cx, top + 7, 6, 5, P.sage); pc.rect(cx - 6, top + 7, 13, y + h - top - 8, P.sage);
+      pc.vline(cx, top + 3, y + h - top - 4, P.sageShade); pc.set(cx + 3, y + h - 8, P.butter);
+      pc.rect(cx - 8, y + h - 1, 17, 1, P.greyShade);
+      pc.box(x + w - 6, top + 4, 3, 4, P.butterLight, P.ink);
+      break;
+    }
+    case 'cellar_hatch': // two wooden doors set in the ground, with a ring to lift
+      pc.box(x + 1, y + 2, w - 2, 13, P.brownLight, P.outline);
+      pc.vline(x + w / 2, y + 3, 11, P.outline);
+      for (const sy of [y + 5, y + 9, y + 13]) pc.hline(x + 2, sy, w - 4, P.brown);
+      pc.ellipse(x + w / 2 - 3, y + 8, 1, 1, P.greyShade); pc.ellipse(x + w / 2 + 3, y + 8, 1, 1, P.greyShade);
+      break;
+    case 'mushroom_log': // an old log with little mushrooms on it
+      pc.box(x, y + 8, w, 7, P.brown, P.outline, 2); pc.ellipseBox(x + w - 2, y + 11, 2, 3, P.brownLight, P.outline);
+      for (const mx of [x + 4, x + 9, x + 15]) { pc.vline(mx, y + 5, 3, P.cream); pc.ellipseBox(mx, y + 4, 2, 1, P.peachShade, P.outline); }
+      break;
     case 'bookcase': // a tall bookcase of bright spines, a little plant on top
       pc.box(x + 1, y - 6, 14, 21, P.brownLight, P.outline);
       for (const sy of [y - 4, y + 2, y + 8]) {

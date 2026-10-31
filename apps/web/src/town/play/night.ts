@@ -45,7 +45,7 @@ export function morning(h: { state: TownState; view: View; clock: Clock; content
   for (const [kind, id] of morningNews(h.clock)) (kind === 'banner' ? view.banner : view.say).call(view, content.line(id) ?? '');
   // Unaccepted jobs come down each night, so every one up now is new today.
   view.hud.announce(newJobsLine(h.state.requests.list.filter((r) => !r.accepted).length));
-  for (const b of built) view.banner(b.home ? content.line(`home.${b.home}`) ?? '' : (content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
+  for (const b of built) view.banner(b.home ? content.line(`home.${b.home}`) ?? '' : content.line(`build.done.${b.id}`) ?? (content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
   for (const line of night.news) view.banner(line);
   if (night.rested && offerTonight(h.state.restNights)) h.offer();
 }
