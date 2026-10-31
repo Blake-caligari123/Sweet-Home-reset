@@ -36,6 +36,17 @@ describe('quest chains (NEXT-PHASE §5.3)', () => {
     expect(r.state.club).toEqual({ step: 1, count: 0, day: 3 });
   });
 
+  it('counts fish caught and critters spotted for river quests', () => {
+    const river: QuestDef = { ...q, id: 'river', steps: [{ hint: 'Fish', goal: { type: 'caught', count: 2 } }, { hint: 'Look', goal: { type: 'spotted', count: 1 } }] };
+    let s = start(river, {}, 3);
+    s = hearQuest(river, s, { type: 'spotted', critter: 'frog' }, 3).state;
+    expect(s.river).toEqual({ step: 0, count: 0, day: 3 });
+    s = hearQuest(river, s, { type: 'caught', fish: 'minnow' }, 3).state;
+    s = hearQuest(river, s, { type: 'caught', fish: 'trout' }, 3).state;
+    expect(s.river.step).toBe(1);
+    expect(hearQuest(river, s, { type: 'spotted', critter: 'frog' }, 3).stepDone).toBe(true);
+  });
+
   it('opens a next-day step tomorrow, and finishes', () => {
     let s: QuestLogState = { club: { step: 1, count: 0, day: 3 } };
     expect(currentStep(q, s, 3)).toBeNull();

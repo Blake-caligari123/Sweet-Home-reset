@@ -108,5 +108,12 @@ export const TOUR: TourCard[] = [
       s.state.plots.plot_footbridge = { buildingId: 'footbridge', stage: 2, startedDay: 12, readyDay: 14 };
       s.state.plots.plot_far_bank_cottage = { buildingId: 'cottage_wren', stage: 2, startedDay: 30, readyDay: 31 };
       s.go('far_bank');
+    } },
+  { title: '⛵ The first sail', steps: ['Talk to Wren by the pond: "📜 Help Pip and me finish our boat?".', 'Make something at a workbench, ask Pip about the sail the next day, then fish and spot a critter.', 'You have a rod and the furniture recipes. Tell Wren when it\'s all done.'],
+    setup: (s) => {
+      s.day(33).time(7).flag('letter_wren_1_read').flag('invite_wren').flag('home_wren').flag('he_pip_02_done').meet('wren', 'pip').give('fishing_rod').give('twig', 6).sparkles(30);
+      s.state.plots.plot_footbridge = { buildingId: 'footbridge', stage: 2, startedDay: 12, readyDay: 14 };
+      s.state.plots.plot_far_bank_cottage = { buildingId: 'cottage_wren', stage: 2, startedDay: 30, readyDay: 31 };
+      s.go('far_bank');
     } }
 ];

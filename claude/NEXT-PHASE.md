@@ -460,4 +460,13 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Jobs:** a minnow to share with Pip, and weeds by Wren's river spot.
   - **Heart arc (5 scenes):** being scared Pip had moved on; the patience of fishing; being part of the town's waving; the boat Wren and Pip finish; naming it The Keeper.
   - A code-drawn wren with its tail up. Tour card: 🐦 Wren comes home.
+- **6d.2 The first sail, a river quest (31 Oct):** Wren offers it from day 32.
+  1. Make something at a workbench for the boat's seat.
+  2. Next day: ask Pip about the sail.
+  3. Catch 2 fish for the launch picnic.
+  4. Spot a critter by the water, for luck.
+  5. Next day: tell Wren.
+  - Reward: 160 ✨, a toy boat and `first_sail_done`.
+  - Quests can now ask for fish caught and critters spotted (`caught` and `spotted` goals in `quests/quests.ts`).
+  - Tour card: ⛵ The first sail.
 

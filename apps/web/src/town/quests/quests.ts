@@ -2,7 +2,7 @@ import type { OnboardEvent } from '../play/onboarding';
 
 // Quest chains (NEXT-PHASE §5.3: multi-day quest chains with a story and a real reward). A quest
 // is pack data: who offers it, from when, its steps in order and its reward. A step is done by
-// doing things (tidying somewhere, cooking, picking, finding) or by a talk; some only open the day
+// doing things (tidying somewhere, cooking, picking, finding, fishing, spotting critters) or by a talk; some only open the day
 // after the last step, so a quest unfolds over days. Nothing is lost by waiting.
 
 export type QuestGoal =
@@ -10,6 +10,8 @@ export type QuestGoal =
   | { type: 'made'; station?: 'bench' | 'kitchen'; count: number }
   | { type: 'picked'; count: number }
   | { type: 'found'; count: number }
+  | { type: 'caught'; count: number }
+  | { type: 'spotted'; count: number }
   /** Talk to `who`: `ask` is their chat-box button, `line` what they say. */
   | { type: 'talk'; who: string; ask: string; line: string };
 
@@ -53,6 +55,8 @@ export function counts(goal: QuestGoal, e: OnboardEvent) {
     case 'made': return e.type === 'made' && (!goal.station || e.station === goal.station);
     case 'picked': return e.type === 'picked';
     case 'found': return e.type === 'found';
+    case 'caught': return e.type === 'caught';
+    case 'spotted': return e.type === 'spotted';
     default: return false;
   }
 }

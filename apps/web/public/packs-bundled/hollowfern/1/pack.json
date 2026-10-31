@@ -9218,7 +9218,10 @@
    "he_wren_10.l03": "Oh, Wren. I don't know what to say.",
    "he_wren_10.l04": "Say you'll sail in her. Every summer.",
    "he_wren_10.l05": "Every summer. Promise.",
-   "he_wren_10.l06": "Then this is the best place in the world."
+   "he_wren_10.l06": "Then this is the best place in the world.",
+   "quest.first_sail.intro": "Our boat needs a seat, a sail and a picnic. Help?",
+   "quest.first_sail.pip": "The sail! I sewed it from old socks. Clean ones. Right?",
+   "quest.first_sail.done": "She floats! Mostly! Here, a tiny one, just for you."
   }
  },
  "heartEvents": [
@@ -13952,6 +13955,64 @@
     "item": "lantern",
     "qty": 2,
     "flag": "winter_prep_done"
+   }
+  },
+  {
+   "id": "first_sail",
+   "name": "The first sail",
+   "giver": "wren",
+   "fromDay": 32,
+   "offer": "Help Pip and me finish our boat?",
+   "intro": "quest.first_sail.intro",
+   "steps": [
+    {
+     "hint": "Make something at a workbench for the boat's seat",
+     "goal": {
+      "type": "made",
+      "station": "bench",
+      "count": 1
+     }
+    },
+    {
+     "hint": "Ask Pip about the boat's sail",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "How's the sail coming on?",
+      "line": "quest.first_sail.pip"
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Catch 2 fish for the launch picnic",
+     "goal": {
+      "type": "caught",
+      "count": 2
+     }
+    },
+    {
+     "hint": "Spot a critter by the water, for luck",
+     "goal": {
+      "type": "spotted",
+      "count": 1
+     }
+    },
+    {
+     "hint": "Tell Wren everything's ready",
+     "goal": {
+      "type": "talk",
+      "who": "wren",
+      "ask": "Everything's ready to sail!",
+      "line": "quest.first_sail.done"
+     },
+     "nextDay": true
+    }
+   ],
+   "reward": {
+    "sparkles": 160,
+    "item": "toy_boat",
+    "qty": 1,
+    "flag": "first_sail_done"
    }
   }
  ],
