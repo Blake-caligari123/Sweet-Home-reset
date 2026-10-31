@@ -43,6 +43,8 @@ export interface Tuning {
   helperSpots: number;
   /** Puff's market stall: price over the shops', and how many sell a night (base, plus per Town Bloom level). */
   stall: { markup: number; salesBase: number; salesPerBloom: number };
+  /** The café: dishes it wants a day, and what it pays over the shops' price. */
+  cafe: { ordersPerDay: number; markup: number };
   /** The town fund: what each neighbour chips in each morning, happy (or glowing) and otherwise. */
   townFund: { perHappy: number; perOther: number };
   /** Puff's own moods (NEXT-PHASE §5.2): a happy swing's share of the usual time, a curious Puff's share of cleans between finds. */

@@ -95,6 +95,8 @@ town/
                 banners), needs-sheet.ts (Pause → Town)
   quests/       quests.ts (quest chains: steps, goals, next-day steps), quest-log.ts (offers and talk steps in
                 chat boxes, the tracker line, rewards)
+  cafe/         cafe.ts (today's café orders, from dishes Puff can cook), cafe-buttons.ts (handing dishes over
+                in the keeper's chat)
   stall/        stall.ts (Puff's market stall: putting out, overnight sales), stall-sheet.ts
   tour/         the feature tour on the test link: tour.ts (the cards: set-up and steps), scene.ts (what a card
                 can set up), tour-sheet.ts (Pause → Feature tour)

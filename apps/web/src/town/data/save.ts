@@ -1,3 +1,4 @@
+import type { CafeState } from '../cafe/cafe';
 import type { Memory } from '../life/memory';
 import type { QuestLogState } from '../quests/quests';
 import type { PuffDay } from '../skills/puff-mood';
@@ -83,6 +84,8 @@ export interface TownSave {
   quests?: QuestLogState;
   /** What's out on Puff's market stall. */
   stall?: StallState;
+  /** Today's café orders supplied. */
+  cafe?: CafeState;
   /** The cloud save's version this device last matched (sync asks the player when it differs). */
   cloudVersion?: number;
   /** Cleans counted per place, and the surprise finds collected. */

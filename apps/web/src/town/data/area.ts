@@ -75,7 +75,9 @@ export interface TownPack { schemaVersion: 1; id: string; version: number; areas
   /** What the town needs (needs/needs.ts). */
   needs?: NeedDef[];
   /** Quest chains (quests/quests.ts). */
-  quests?: QuestDef[] }
+  quests?: QuestDef[];
+  /** The café: who runs it and the day its orders start (cafe/cafe.ts). */
+  cafe?: { keeper: string; fromDay: number } }
 
 export class Area {
   readonly w: number;

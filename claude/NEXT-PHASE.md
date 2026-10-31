@@ -372,4 +372,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Overnight townsfolk buy some, paying 25% more than the shops. How many sell is 2 plus 2 per Town Bloom level (`stall` in tuning), never left to chance.
   - The morning says what sold: "🧺 Your stall sold 4 things overnight: +88 ✨".
   - Tour card: 🧺 Your market stall.
+- **6b.11 Café orders (31 Oct):** `cafe/`.
+  - From day 3, Hazel's café wants 2 dishes a day. They're picked from the dishes Puff can already cook, so an order is always possible, and fixed by the day.
+  - Pause → 🏘 Town says what the café wants. Hazel's chat has a "☕ Café order" button for each one Puff carries.
+  - Each dish pays 1.5× the shop price plus one of Hazel's thank-you notes (`cafe` in tuning; who runs it is `cafe` in the pack).
+  - Tour card: ☕ Café orders.
 
