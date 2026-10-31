@@ -128,5 +128,7 @@ export const TOUR: TourCard[] = [
       s.day(17).time(11); // the dragonfly and the kingfisher are both out at the river today
       s.state.plots.plot_footbridge = { buildingId: 'footbridge', stage: 2, startedDay: 12, readyDay: 14 };
       s.go('riverside');
-    } }
+    } },
+  { title: '📖 Summer chapter: the keeper before', steps: ['You restored Thimble\'s boathouse. Moss wants to know more: tap "📜 Help me learn about Thimble?".', 'Ask Otto at the bathhouse, keep tidying for a find, ask Pip to mend the oar, then tell Moss.'],
+    setup: (s) => { s.day(16).time(11).flag('restored_boathouse').flag('noise_mended').meet('moss', 'otto', 'pip'); s.state.dramas.noise = 3; s.go('library'); } }
 ];

@@ -480,4 +480,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - Kingfisher: Riverside in the daytime, any season.
   - Ducklings: the Far Bank in spring.
   - Each is drawn in code. Tour card: 🐉 River critters, on a day when the dragonfly and the kingfisher are both out.
+- **6d.5 Summer chapter: the keeper before (31 Oct):** the district's story chapter, as a quest from Moss. It's offered once Thimble's boathouse is restored (`needs` on a quest: a save flag).
+  1. Ask Otto, whose gran said the baths stayed warm because of Thimble.
+  2. Next day: keep tidying until something turns up (a lucky find).
+  3. Ask Pip to mend Thimble's old oar.
+  4. Next day: tell Moss.
+  - It ends with the mystery's next thread: "Warm water under the whole town. Thimble kept it flowing."
+  - Reward: 200 ✨, an old map and `chapter_summer_thimble`. Moss and Otto then each have a line about it.
+  - Tour card: 📖 Summer chapter.
 
