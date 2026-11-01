@@ -603,6 +603,19 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - the three festival endings open differently
     - Wren and Juniper no longer share a thank-you
     - the net loft carving loses a banned word ("A light for every boat out in the dark")
+- **Thimble, year two (1 Nov):** Blake's decision 4 ("Thimble appears at Winter Lights and becomes a character in year two"). Until now Thimble woke and was never seen again.
+  - **Who arrives:** Thimble becomes a neighbour once they've woken (`thimble` unlocks on `year_one_chapter`).
+  - **Daily life:** mornings by the fountain, the library with Moss at 11, the river in the afternoon, the fountain at dusk, home to the nook at night. Rain means books with Moss. Fair days and weekly yard visits.
+  - **Lines:** 45, about waking up, learning the town again and meeting the newcomers who arrived while they slept.
+  - **Everyone notices:** Hazel, Moss, Mabel, Otto, Pip and Bea each have a line, once, about Thimble being back.
+  - **Heart arc (5 scenes):**
+    1. What the long sleep was like, until a little scrubbing noise.
+    2. "I only kept the water warm. You kept the people."
+    3. Why Thimble got so tired (keeping a town isn't a job for one).
+    4. Humming the old song together at the Old Spring until the water warms.
+    5. "Two Keepers, one {town}."
+  - **Tastes, trades and jobs:** loves tea and honey; jobs are a cup of tea, and dusting round the fountain.
+  - Tour card: 🐰 Thimble, year two.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

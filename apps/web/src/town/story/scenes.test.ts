@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
+import { isUnlocked } from '../unlocks';
 import { SOUND_IDS } from '../../shared/audio/sound';
 import { afterDue, captionAt, captionHolds, colourAt, ease, facing, hopping, fadeAt, minutesAt, nextCaption, pointAt, sceneLength, soundsBetween, TITLE_MS, zoomAt, type Key, type SceneDef, type Shot, type ShotColour } from './scenes';
 
@@ -114,6 +115,10 @@ describe('Hollowfern opening', () => {
     expect(wake.after).toBe('year_one_chapter'); expect(wake.now).toBe(true);
     const thimble = wake.shots[0].actors!.find((a) => a.who === 'thimble')!;
     expect(facing(thimble, thimble.from!)).toBe('up'); expect(facing(thimble, wake.shots[0].ms - 1)).toBe('down');
+    // Then Thimble stays: a neighbour from year two, only once they've woken.
+    expect(pack.neighbours!.some((n) => n.id === 'thimble')).toBe(true);
+    expect(isUnlocked('thimble', { day: 56, flags: [] })).toBe(false);
+    expect(isUnlocked('thimble', { day: 57, flags: ['year_one_chapter'] })).toBe(true);
   });
 
   it('opens each season\'s chapter with the fountain, and closes the first three after their festivals', () => {
