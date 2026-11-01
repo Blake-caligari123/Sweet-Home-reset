@@ -286,3 +286,21 @@ html.high-contrast .muted { color: #4a3a32; }
 .tea-cup.spilt { animation: nope 0.3s ease; }
 .tea-pour { touch-action: none; user-select: none; -webkit-user-select: none; }
 @media (prefers-reduced-motion: reduce) { .lamps .lamp, .lamps.sorted .lamp, .tea-cup.spilt { transition: none; animation: none; } }
+
+/* Good morning card (ui/morning-card.ts). */
+.morning-date { margin: 0 0 6px; font-weight: 700; }
+.morning-season { margin: 4px 0 8px; font-size: 1.1rem; font-weight: 700; color: var(--peach, #c9744a); }
+.morning-note { margin: 6px 0 10px; padding: 8px 10px; border: 2px dashed #c9b49a; border-radius: 8px; background: #fffaf0; text-align: left; }
+.morning-note p { margin: 0 0 6px; font-style: italic; }
+.morning-note .btn-row { justify-content: flex-start; }
+.morning-answer:empty { display: none; }
+.morning-list { margin: 4px 0 10px; padding: 0; list-style: none; text-align: left; }
+.morning-list li { margin: 0 0 6px; padding-left: 2px; line-height: 1.35; }
+.morning-sub { margin: 3px 0 0 14px; padding: 0; list-style: '· '; font-size: 0.95em; }
+.morning-sub li { margin: 1px 0; }
+.goals-chip { min-height: 30px; padding: 2px 10px; font-variant-numeric: tabular-nums; cursor: pointer; }
+.goals-chip.pop { animation: chip-pop 0.5s ease; }
+@keyframes chip-pop { 30% { transform: scale(1.25); } }
+@media (prefers-reduced-motion: reduce) { .goals-chip.pop { animation: none; } }
+/* Toasts (a tidy chain) sit below the tracker, clear of the Fluff and tidy meters. */
+#ui > .toast { top: calc(max(10px, env(safe-area-inset-top)) + 178px); }

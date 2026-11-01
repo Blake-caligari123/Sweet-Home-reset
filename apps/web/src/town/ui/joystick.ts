@@ -6,7 +6,7 @@ import type { Dir } from '../world/art/characters';
 const RADIUS = 44;
 
 /**
- * The on-screen stick (Pause → Joystick): bottom-left, above the toolbar. Hold and drag to walk;
+ * The on-screen stick (Pause → Settings → Joystick): bottom-left, above the toolbar. Hold and drag to walk;
  * taps on the world still tidy and use things. `pull` is null when it's let go.
  */
 export class Joystick {

@@ -43,19 +43,23 @@ export class Hud {
   private clockLine: HTMLElement;
   private sparkleText: HTMLElement;
   private tracker: HTMLButtonElement;
+  private goalsChip: HTMLButtonElement;
+  private goalsDone = -1;
   private prompt: HTMLElement;
   private toolButtons = new Map<ToolId, HTMLButtonElement>();
   private note: HTMLElement;
   private live: HTMLElement;
   bubble: HTMLElement;
 
-  constructor(host: HTMLElement, handlers: { tool(t: ToolId): void; bag(): void; pause(): void; map(): void; mood(): void; tracker(text: string): boolean }) {
+  constructor(host: HTMLElement, handlers: { tool(t: ToolId): void; bag(): void; pause(): void; map(): void; mood(): void; tracker(text: string): boolean; goals(): void }) {
     this.fluffBar = h('i');
     this.fluffNum = h('span', { class: 'fluff-num' }, '100');
     this.fluffIcon = h('span', { class: 'fluff-icon', 'aria-hidden': 'true' });
     this.dayText = h('span', { class: 'day' }, 'Spring 1');
     this.timeText = h('span', { class: 'time' }, '6:00 am');
     this.sparkleText = h('span', { class: 'chip sparkles', role: 'img', 'aria-label': sparklesLabel(0) }, '✨ 0');
+    this.goalsChip = h('button', { class: 'chip goals-chip', type: 'button', hidden: true, 'aria-label': 'Today\'s goals' }, '');
+    this.goalsChip.addEventListener('click', handlers.goals);
     this.tracker = h('button', { class: 'tracker', type: 'button', 'aria-label': 'Current goal. Tap to fold.' }, '');
     // A 📖 story line opens the journal; anything else folds away.
     this.tracker.addEventListener('click', () => { if (!handlers.tracker(this.tracker.textContent ?? '')) this.tracker.classList.toggle('folded'); });
@@ -86,7 +90,7 @@ export class Hud {
       h('header', { class: 'town-top' },
         h('div', { class: 'top-left' }, h('div', { class: 'top-buttons' }, pause, map, this.moodButton), fluffMeter, this.tidy),
         this.tracker,
-        h('div', { class: 'clock-box' }, this.clockLine = h('div', { class: 'clock-line', role: 'img', 'aria-label': clockLabel('Spring 1', '6:00 am', false, false) }, this.dayText, this.timeText), this.sparkleText)
+        h('div', { class: 'clock-box' }, this.clockLine = h('div', { class: 'clock-line', role: 'img', 'aria-label': clockLabel('Spring 1', '6:00 am', false, false) }, this.dayText, this.timeText), this.sparkleText, this.goalsChip)
       ),
       this.bubble, this.note, this.live,
       h('footer', { class: 'town-bottom' }, this.prompt, h('nav', { class: 'toolbar', 'aria-label': 'Tools' }, ...tools, bag))
@@ -107,6 +111,16 @@ export class Hud {
   setMood(icon: string, label: string) {
     if (this.moodButton.textContent !== icon) this.moodButton.textContent = icon;
     this.moodButton.setAttribute('aria-label', label);
+  }
+
+  /** Today's goals at a glance (🎯 1/3); it bounces when one is done, and opens the journal. */
+  setGoals(done: number, total: number) {
+    this.goalsChip.hidden = !total;
+    if (!total || done === this.goalsDone) return;
+    if (this.goalsDone >= 0 && done > this.goalsDone) { this.goalsChip.classList.remove('pop'); void this.goalsChip.offsetWidth; this.goalsChip.classList.add('pop'); }
+    this.goalsDone = done;
+    this.goalsChip.textContent = done >= total ? `🌟 ${done}/${total}` : `🎯 ${done}/${total}`;
+    this.goalsChip.setAttribute('aria-label', `Today's goals: ${done} of ${total} done. Open the journal.`);
   }
 
   /** Item art arrived: swap the bag button's icon for it. */

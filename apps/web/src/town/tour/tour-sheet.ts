@@ -12,7 +12,7 @@ export function openTour(view: View, scene: Scene, done: () => void) {
     return h('div', { class: 'note', style: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', textAlign: 'left' } }, h('p', { class: 'friend-name' }, card.title), go);
   });
   close = view.sheet('Feature tour', [
-    h('p', { class: 'muted' }, 'Each one jumps to the right day and place and sets things up. It changes this save, so use Pause → Start over for a normal game.'),
+    h('p', { class: 'muted' }, 'Each one jumps to the right day and place and sets things up. It changes this save, so use Pause → Settings → Start over for a normal game.'),
     h('div', { class: 'board' }, ...rows)
   ]);
 }

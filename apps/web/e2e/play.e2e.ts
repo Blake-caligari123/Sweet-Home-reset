@@ -40,7 +40,8 @@ test('a night\'s sleep: the day moves on and the save keeps it after a reload', 
   const day = await page.evaluate(() => (window.__town.debug() as { day: number }).day);
   await page.evaluate(() => window.__town.sleep());
   await page.waitForTimeout(500);
-  for (const t of ['Not today', 'Maybe later', 'OK']) { const b = page.locator('.dialogue button', { hasText: t }); if (await b.count()) await b.first().click(); }
+  await page.locator('button', { hasText: 'Let\'s go!' }).click();
+  for (const t of ['Maybe later', 'OK']) { const b = page.locator('.dialogue button', { hasText: t }); if (await b.count()) await b.first().click(); }
   await settle(page);
   expect(await page.evaluate(() => (window.__town.debug() as { day: number }).day)).toBe(day + 1);
   // A saved game goes straight back into town (no title).
@@ -65,7 +66,8 @@ test('a new day brings three goals, and a lost treasure can be found and given b
   await page.evaluate(() => { window.__town.setDay(8); window.__town.visit('square', 10, 10); window.__town.visit('lane', 10, 10); });
   await page.evaluate(() => window.__town.sleep());
   await page.waitForTimeout(500);
-  for (const t of ['Not today', 'Maybe later', 'OK']) { const b = page.locator('.dialogue button', { hasText: t }); if (await b.count()) await b.first().click(); }
+  await page.locator('button', { hasText: 'Let\'s go!' }).click();
+  for (const t of ['Maybe later', 'OK']) { const b = page.locator('.dialogue button', { hasText: t }); if (await b.count()) await b.first().click(); }
   await settle(page);
   type Today = { goals: { kind: string }[]; happening: { id: string | null; lost?: { item: string; area: string; owner: string; found?: boolean } } };
   const today = await page.evaluate(() => window.__town.today()) as Today;

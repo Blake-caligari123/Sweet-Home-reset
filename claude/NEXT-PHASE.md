@@ -736,6 +736,13 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - 💡 **Light the lamps with Pip** (`minigames/lamps.ts`): tapping a lamp flips it and its neighbours; light them all. 3×3 boards, 4×4 from day 25. Each is dealt by flipping a lit board, so it can always be done in the taps shown.
   - 🫖 **Pour the tea with Mabel** (`minigames/tea.ts`): hold to pour, let go at the dashed line. Three cups, each quicker, the line somewhere new; past the brim is a spill. Mabel is in the square from 6 pm.
   - Six mini-games now, one each for Moss, Bea, Hazel, Otto, Pip and Mabel.
+- **Polish: a smoother day (1 Nov, Blake: "make sure everything running smoothly… more fluid and fun"):**
+  - **☀ Good morning card** (`ui/morning-card.ts`): the morning was Puff's note, then a queue of up to eight banners (story, happening, week, goals, builds, town news) over about half a minute. Now it's one card: the date and sky (rain, a rainbow, a new season), Puff's note with I did it! / Not today right on it, then everything on today as a list (goal lists get their own bullets), and **Let's go!** The unlock postcard, when due, comes after it.
+  - **🎯 goals chip** under the Sparkles: today's goals done (🎯 1/3, 🌟 3/3), bouncing as each is done; tap it for the journal.
+  - **Pause, tidier:** Pause holds the game (journal, friends, collection, skills, town, outfits, names, rank); **⚙ Settings** opens on top with Sound, Play and Comfort groups, then Account, Restore purchases, About and Start over. "Back to town" closes Pause.
+  - **Banners keep up:** the same banner twice in a row shows once; when three or more are waiting, they go by quicker; and at bedtime any still waiting are cleared (the night's recap sums up the day), so news never spills onto the night screen.
+  - The tidy-chain toast sits below the tracker instead of over the Fluff meter.
+  - "This week" lists drop the repeated "this week" under their heading.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

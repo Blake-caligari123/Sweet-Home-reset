@@ -38,7 +38,7 @@ export const TOUR: TourCard[] = [
     setup: (s) => { s.day(14).time(11).meet('hazel', 'bea', 'pip', 'otto', 'moss').go('square'); } },
   { title: '📖 The Keeper\'s Story', steps: ['The 📖 line at the top is today\'s story step: Otto has something for you. Talk to him and tap "📖 What\'s that you\'ve got?", then catch a fish.', 'Tap the 📖 line (or Pause → 📔 Keeper\'s journal) for the story so far.', 'Go to bed: a hint at tomorrow shows as night falls.'],
     setup: (s) => { s.state.story = { step: 4, asked: false, count: 0, day: 4 }; s.state.fishCaught = 0; s.day(5).time(9).flag('keeper_named').meet('hazel', 'bea', 'pip', 'otto').go('riverside'); } },
-  { title: '🗺 Getting around', steps: ['Tap 🗺 (top left) and pick a place to travel there.', 'Pause → Joystick: drag anywhere to walk.', 'Pinch (or the mouse wheel) to zoom.'],
+  { title: '🗺 Getting around', steps: ['Tap 🗺 (top left) and pick a place to travel there.', 'Pause → Settings → Joystick: drag anywhere to walk.', 'Pinch (or the mouse wheel) to zoom.'],
     setup: (s) => { s.day(3).time(10).visited('yard', 'square', 'lane', 'bakery', 'library').go('square'); } },
   { title: '🌙 Night light and trees', steps: ['It\'s 9:30 pm: see the dark, the lamp glow and Puff\'s soft glow.', 'Walk behind a tree: its leaves go in front of Puff.'],
     setup: (s) => { s.day(3).time(21, 30).go('yard'); } },
@@ -234,7 +234,7 @@ export const TOUR: TourCard[] = [
       for (const f of ['cave_leaf_1', 'cave_leaf_2', 'cave_leaf_3', 'cave_leaf_4']) s.flag(f);
       s.go('cave_4');
     } },
-  { title: '🎯 Today\'s goals', steps: ['Every day from day 2 brings three little goals, all different: tidy somewhere, catch a fish, cook, visit a friend...', 'Each one done is a cheer and +15 ✨, and all three is +40 more.', 'See them in the morning news and in 📔 the journal.'],
+  { title: '🎯 Today\'s goals', steps: ['Every day from day 2 brings three little goals, all different: tidy somewhere, catch a fish, cook, visit a friend...', 'Each one done is a cheer and +15 ✨, and all three is +40 more.', 'The 🎯 chip under your Sparkles counts them (it bounces as each is done); tap it for the journal.'],
     setup: (s) => { s.day(12).time(9).give('fishing_rod').visited('yard', 'square', 'lane', 'riverside').go('square'); } },
   { title: '🔎 A lost treasure', steps: ['On some days a neighbour drops something precious somewhere outdoors.', 'Tidy the place in the news to find it hidden in the clutter, then take it back to them for a big thank-you.'],
     setup: (s) => { s.day(14).time(9).meet('hazel').visited('yard', 'square', 'lane').happening('lost').go('square'); } },
@@ -253,5 +253,9 @@ export const TOUR: TourCard[] = [
   { title: '🫖 Pour the tea with Mabel', steps: ['Mabel dozes on the beach by day, then sits in the square from 6 pm.', 'Tap "🫖 Pour the tea": hold to pour, and let go when the tea reaches the line. Three cups.'],
     setup: (s) => { s.day(44).time(18, 30).meet('mabel').go('square'); } },
   { title: '📅 This week\'s goals', steps: ['Every week brings three bigger goals: tidy 120 spots, catch 8 fish, play 5 games...', 'Each one is +60 ✨, and all three gives a gift for your home.', 'See them in 📔 the journal under This week.'],
-    setup: (s) => { s.day(15).time(9).give('fishing_rod').meet('bea', 'otto').go('square'); } }
+    setup: (s) => { s.day(15).time(9).give('fishing_rod').meet('bea', 'otto').go('square'); } },
+  { title: '☀ Good morning card', steps: ['Go to bed (tap the burrow bed).', 'In the morning, one card has it all: the date and sky, Puff\'s note (tick the tiny chore right there), today\'s story step, the happening, the goals and the town\'s news.', 'Tap Let\'s go! and the day begins.'],
+    setup: (s) => { s.day(11).time(21).flag('keeper_named').meet('hazel').visited('square', 'lane').go('burrow'); } },
+  { title: '⚙ A tidier Pause', steps: ['Pause now holds the game: the journal, friends, collection, skills, the town, outfits and names.', 'Tap ⚙ Settings for sound, play, comfort and text options; Done brings you back to Pause.'],
+    setup: (s) => { s.day(6).time(10).go('square'); } }
 ];

@@ -31,7 +31,7 @@ export class Account {
     const link = params.get('signin');
     if (link) {
       history.replaceState(null, '', location.pathname + location.search.replace(/[?&]signin=\w+/, '').replace(/^&/, '?'));
-      if (!(await this.api.verify(link))) this.host.view.showDialogue('That sign-in link has been used or has expired. Ask for a new one in Pause → Account.');
+      if (!(await this.api.verify(link))) this.host.view.showDialogue('That sign-in link has been used or has expired. Ask for a new one in Pause → Settings → Account.');
     }
     this.me = await this.api.me();
     if (!this.me) return;
@@ -70,7 +70,7 @@ export class Account {
     ]);
   }
 
-  /** Pause → Account. */
+  /** Pause → Settings → Account. */
   open() {
     if (this.me) this.signedInSheet(this.me); else this.signInSheet();
   }
@@ -125,7 +125,7 @@ export class Account {
         this.me = null;
         this.host.state.cloudVersion = undefined;
         await this.host.save();
-        view.showDialogue(`Your account is deleted. ${storeNote} The save on this device is still here; Start over in Pause clears it.`);
+        view.showDialogue(`Your account is deleted. ${storeNote} The save on this device is still here; Pause → Settings → Start over clears it.`);
       });
     });
   }
