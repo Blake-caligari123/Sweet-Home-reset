@@ -69,6 +69,8 @@ export class View {
   private nextBanner() {
     const text = this.banners[0];
     if (!text) return;
+    // A sheet or chat is open: the banner waits, rather than covering its buttons.
+    if (this.busy) { window.setTimeout(() => this.nextBanner(), 300); return; }
     const ms = bannerMs(text);
     const el = h('div', { class: 'banner', 'aria-hidden': 'true', style: { animationDuration: `${ms}ms` } }, text);
     this.root.append(el);

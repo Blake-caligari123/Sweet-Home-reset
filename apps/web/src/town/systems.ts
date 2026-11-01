@@ -12,6 +12,7 @@ import { TidyMeterLife } from './play/tidy-meter-life';
 import { spotlessToday } from './play/tidy-meter';
 import { milestoneFlag, milestoneReached, milestoneSparkles, totalTidied } from './play/milestones';
 import { collectionSets, newlyComplete, setFlag } from './bloom/sets';
+import { completionParts, completionPct } from './bloom/completion';
 import { TUNING } from './data/tuning';
 import { QuestLog } from './quests/quest-log';
 import { StoryPath } from './story/story-path';
@@ -93,6 +94,17 @@ export class TownSystems {
     view.feedback('fanfare', 'success');
     view.banner(`🧹 ${m.toLocaleString('en-AU')} spots tidied! +${gift} ✨`);
     this.host.refreshHud();
+  }
+
+  /** The whole town at 100%: the biggest cheer there is, once. */
+  checkComplete() {
+    const { state, content, view } = this.host;
+    if (state.has('town_complete') || completionPct(completionParts(state, content.pack)) < 100) return;
+    state.flag('town_complete');
+    state.sparkles += TUNING.townCompleteSparkles;
+    view.feedback('fanfare', 'success');
+    view.banner(`🏆 ${content.named('{town}')} is 100% complete! You did everything. +${TUNING.townCompleteSparkles} ✨`);
+    this.host.save();
   }
 
   /** A Collection set just finished (every treasure, critter or fish): a big cheer, once. */

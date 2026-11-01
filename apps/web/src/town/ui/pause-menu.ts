@@ -19,6 +19,9 @@ export interface PauseHost {
   openJournal(): void;
   openSkills(): void;
   openNeeds(): void;
+  /** The town's completion (bloom/completion.ts): its percentage, and the sheet. */
+  completion: number;
+  openCompletion(): void;
   /** The feature tour, on the test link only. */
   openTour: (() => void) | null;
   /** "Town Bloom: Waking · 3 of 8 finds". */
@@ -68,9 +71,11 @@ export function openPause(d: PauseHost) {
   skills.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openSkills(); });
   const town = h('button', { class: 'btn', type: 'button' }, '🏘 Town');
   town.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openNeeds(); });
+  const done = h('button', { class: 'btn', type: 'button', 'aria-label': `Completion, ${d.completion}%` }, `🏆 ${d.completion}%`);
+  done.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openCompletion(); });
   outfits.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openOutfits(); });
   const body: Node[] = [
-    h('div', { class: 'btn-row', style: { width: '100%' } }, friends, names, outfits, collection, skills, town),
+    h('div', { class: 'btn-row', style: { width: '100%' } }, friends, names, outfits, collection, skills, town, done),
     h('div', { class: 'list' },
       toggle('sound', 'Sound'), toggle('music', 'Music'), toggle('haptics', 'Haptics'),
       toggle('reducedMotion', 'Reduce motion'), toggle('relaxed', 'Relaxed mode (half Fluff costs, no dozing off)'), toggle('autoTool', 'Pick the right tool for me'),
