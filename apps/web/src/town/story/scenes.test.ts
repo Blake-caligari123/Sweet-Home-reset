@@ -124,7 +124,7 @@ describe('Hollowfern opening', () => {
 
   it('walks each newcomer up to their new cottage, never through it, the morning after it\'s built', () => {
     const arrivals = (pack.scenes ?? []).filter((x) => x.after?.startsWith('welcome_'));
-    expect(arrivals.map((x) => x.after)).toEqual(['welcome_sorrel', 'welcome_fig', 'welcome_wren', 'welcome_juniper']);
+    expect(arrivals.map((x) => x.after)).toEqual(['welcome_sorrel', 'welcome_fig', 'welcome_wren', 'welcome_juniper', 'welcome_marlo']);
     for (const sc of arrivals) {
       const who = sc.after!.replace('welcome_', '');
       const plot = pack.plots!.find((pl) => pl.allow?.includes(`cottage_${who}`))!;

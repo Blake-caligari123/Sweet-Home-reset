@@ -163,6 +163,13 @@
     "wren": {
       "flag": "home_wren"
     },
+    "invite_marlo": {
+      "day": 50,
+      "flag": "invite_marlo"
+    },
+    "marlo": {
+      "flag": "home_marlo"
+    },
     "invite_juniper": {
       "day": 31,
       "flag": "invite_juniper"

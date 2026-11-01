@@ -115,7 +115,10 @@ export function drawNeighbour24(species: string, c: { fur: string; belly: string
     for (const ex of side ? [11] : [8, 16]) { pc.rect(ex - 1, cy - 8, 3, 3, c.fur); pc.set(ex, cy - 9, c.fur); }
     if (dir !== 'up') tail();
   }
+  // A seal: no ears, just little flippers out to the sides.
+  if (species === 'seal') for (const fx of side ? [8] : [4, 20]) pc.ellipse(fx, cy + 4, 2, 1, c.fur);
   pc.ellipse(12, cy, species === 'mole' ? 8 : 7, 6, c.fur);
+  if (species === 'seal') for (const [x, y] of [[8, -3], [16, -4], [17, 1], [7, 2]]) pc.set(x, cy + y, c.accent); // a few speckles
   if (species === 'squirrel' && dir === 'up') { pc.ellipse(12, cy - 1, 5, 6, c.fur); pc.ellipse(12, cy - 7, 3, 2, c.fur); for (let y = cy - 8; y <= cy + 4; y += 2) pc.mul(12, y, 0.85); }
   if (species === 'hedgehog') {
     // Spines round the top and back, darker than the face.
@@ -133,6 +136,7 @@ export function drawNeighbour24(species: string, c: { fur: string; belly: string
     if (species === 'hedgehog' && front) { pc.rect(9, cy + 2, 7, 4, c.accent); pc.hline(10, cy + 1, 5, c.accent); }
     if (species === 'goat') pc.vline(side ? 18 : 12, cy + 4, 2, c.accent); // a little beard
     if (species === 'fox' && front) pc.ellipse(12, cy + 2, 2, 1, c.belly); // a pale muzzle
+    if (species === 'seal' && front) for (const x of [9, 10, 14, 15]) pc.set(x, cy + 2, c.accent); // whisker dots
   }
   if (species === 'otter' || species === 'mouse') { if (dir !== 'down') pc.line(side ? 5 : 12, cy + 4, side ? 2 : 12, cy + (side ? 1 : 7), c.fur); }
   // Light from the top-left.

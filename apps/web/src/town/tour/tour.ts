@@ -198,5 +198,9 @@ export const TOUR: TourCard[] = [
       if (!s.state.finds.found.includes('lamp_key')) s.state.finds.found.push('lamp_key');
       for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_sea_steps', 'sea_steps'], ['plot_harbour_gate', 'harbour_gate']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 44, readyDay: 46 };
       s.go('harbour');
-    } }
+    } },
+  { title: '🦭 Marlo the harbour keeper', steps: ['Marlo the seal has moved into a hut up from the quay. Say hello!', 'Marlo loves mackerel, rain and a good storm (from inside). Talk each day for their story about a lamp that went out.', 'In a normal game, Marlo\'s letter washes up on the beach on day 50.'],
+    setup: (s) => { s.day(51).time(9).flag('letter_marlo_1_read').flag('invite_marlo').flag('home_marlo').give('mackerel', 2); for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_sea_steps', 'sea_steps'], ['plot_harbour_gate', 'harbour_gate'], ['plot_harbour_hut', 'cottage_marlo']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 44, readyDay: 46 }; s.go('harbour'); } },
+  { title: '💡 Light the lighthouse', steps: ['Marlo is by the hut: tap "📜 Help me light the old lighthouse?".', 'Tidy the beach, ask Mabel about the old lamp, make something at a workbench, then tell Marlo.', 'When it\'s done, the lighthouse shines in a short scene.'],
+    setup: (s) => { s.day(52).time(9).flag('letter_marlo_1_read').flag('invite_marlo').flag('home_marlo').meet('marlo', 'mabel').give('twig', 6).give('pebble', 2).sparkles(60); for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_sea_steps', 'sea_steps'], ['plot_harbour_gate', 'harbour_gate'], ['plot_harbour_hut', 'cottage_marlo']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 44, readyDay: 46 }; s.go('harbour'); } }
 ];
