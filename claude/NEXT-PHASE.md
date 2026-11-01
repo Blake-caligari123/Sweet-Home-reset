@@ -700,6 +700,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - banners wait until the new place is showing
   - **Little dust puffs** from Puff's feet while walking.
 - **Hooked 4: rainbows (1 Nov):** on a dry morning after a rainy day, a soft six-band rainbow arcs over outdoor places, fading by noon. The morning opens with "🌈 A rainbow after the rain!" (`rainbowOn` in `play/weather.ts`). Fireflies at night, autumn leaves and winter snow were already there. The trip effects moved out of `game.ts` into `ui/travel-fx.ts`.
+- **Hooked 5: volume and battery (1 Nov):**
+  - **Volume sliders** in Pause for Sound and Music (0–100%), saved, beside the on/off switches.
+  - **Battery:** after 20 s with no touch, key or walking, the game draws at 24 frames a second until something happens. When the app is hidden, all audio rests (music and ambience), and wakes when it's back.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

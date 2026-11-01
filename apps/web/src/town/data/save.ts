@@ -123,7 +123,9 @@ export interface TownSave {
     /** Anonymous play counts (GDD A10); on unless turned off. */
     shareCounts?: boolean;
     /** Walk with the on-screen stick instead of tapping; how far the view is zoomed (tiles across). */
-    joystick?: boolean; zoomTiles?: number };
+    joystick?: boolean; zoomTiles?: number;
+    /** How loud the music and the sounds are, 0 to 1 (missing: full). */
+    musicVolume?: number; soundVolume?: number };
   [extra: string]: unknown;
 }
 

@@ -50,6 +50,12 @@ export function openPause(d: PauseHost) {
     });
     return h('div', { class: 'row' }, h('span', { class: 'label' }, label), b);
   };
+  // A volume slider: 0 to 100%, saved as 0 to 1.
+  const slider = (key: 'musicVolume' | 'soundVolume', label: string) => {
+    const input = h('input', { class: 'volume', type: 'range', min: '0', max: '100', step: '5', value: String(Math.round((s[key] ?? 1) * 100)), 'aria-label': `${label} volume` }) as HTMLInputElement;
+    input.addEventListener('input', () => { s[key] = Number(input.value) / 100; d.settingsChanged(); });
+    return h('div', { class: 'row' }, h('span', { class: 'label' }, `${label} volume`), input);
+  };
   // Text size steps through 100, 125 and 150%, so one button covers all three.
   const textSize = () => {
     const b = h('button', { class: 'btn small', type: 'button', 'aria-label': `Text size, ${textSizeOf(s)}%` }, `${textSizeOf(s)}%`);
@@ -77,7 +83,7 @@ export function openPause(d: PauseHost) {
   const body: Node[] = [
     h('div', { class: 'btn-row', style: { width: '100%' } }, friends, names, outfits, collection, skills, town, done),
     h('div', { class: 'list' },
-      toggle('sound', 'Sound'), toggle('music', 'Music'), toggle('haptics', 'Haptics'),
+      toggle('sound', 'Sound'), toggle('music', 'Music'), slider('soundVolume', 'Sound'), slider('musicVolume', 'Music'), toggle('haptics', 'Haptics'),
       toggle('reducedMotion', 'Reduce motion'), toggle('relaxed', 'Relaxed mode (half Fluff costs, no dozing off)'), toggle('autoTool', 'Pick the right tool for me'),
       toggle('tapOnly', 'Tap-only (one tap tidies a whole spot)'), toggle('joystick', 'Joystick (drag to walk)'), textSize(), toggle('highContrast', 'High contrast'))
   ];
