@@ -66,6 +66,7 @@ export function installDebugHooks(g: DebugTarget) {
     requests: () => s.requests,
     /** Skip the tips (hands over every tool), for tests of later play. */
     skipTips: () => g.guide.skip(),
+    playScene: (id: string) => g.playScene(id),
     /** Mark this area restored (for testing what happens after), as if the last mess had gone. */
     restoreHere: () => { g.mess().restore(); },
     /** Every coming-alive stage of this area at once, for screenshots. */

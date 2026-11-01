@@ -10252,7 +10252,33 @@
    "story.winter_prep.tease": "Mabel's counting lanterns. There aren't enough yet...",
    "story.lights.hint": "It's Winter Lights! Light up the town!",
    "story.lights.diary": "The town glows. Thimble's awake! Thank you, Keeper.",
-   "story.lights.tease": "The town lights up tomorrow. Will Thimble wake?"
+   "story.lights.tease": "The town lights up tomorrow. Will Thimble wake?",
+   "scene.chapter_spring.title": "Spring · One spot at a time",
+   "scene.chapter_spring.1": "A sleepy voice drifts up from the fountain...",
+   "scene.chapter_spring.2": "“You found me.”",
+   "scene.chapter_spring.3": "“The town remembers colour, one spot at a time.”",
+   "scene.chapter_summer.title": "Summer · The river remembers",
+   "scene.chapter_summer.1": "The fountain murmurs again...",
+   "scene.chapter_summer.2": "“Something old waits across the water.”",
+   "scene.chapter_summer.3": "Over the river, an old boathouse sits waiting.",
+   "scene.chapter_autumn.title": "Autumn · The old song",
+   "scene.chapter_autumn.1": "The fountain hums, so softly...",
+   "scene.chapter_autumn.2": "“Listen in the woods.”",
+   "scene.chapter_autumn.3": "“The town has a song.”",
+   "scene.chapter_winter.title": "Winter · Wake me when the town glows",
+   "scene.chapter_winter.1": "The fountain is cold now. Its voice is very faint.",
+   "scene.chapter_winter.2": "“I sleep by the warm spring, far below.”",
+   "scene.chapter_winter.3": "“Light up the town, Keeper, and I'll wake.”",
+   "scene.spring_end.title": "After the Fair",
+   "scene.spring_end.1": "The fountain glows warm for a moment...",
+   "scene.spring_end.2": "“Thank you, Keeper. There's more of me across the river.”",
+   "scene.summer_end.title": "After the Picnic",
+   "scene.summer_end.1": "The fountain glows warm for a moment...",
+   "scene.summer_end.2": "“The warm water stirs. Can you hear it singing?”",
+   "scene.autumn_end.title": "After Leaf Fest",
+   "scene.autumn_end.1": "The fountain glows warm for a moment...",
+   "scene.autumn_end.2": "“I sang that song to keep the water warm. Now you know.”",
+   "scene.opening.name": "The opening"
   }
  },
  "heartEvents": [
@@ -17157,7 +17183,1035 @@
       ]
      ]
     }
+   ],
+   "name": "scene.opening.name"
+  },
+  {
+   "id": "chapter_spring",
+   "title": "scene.chapter_spring.title",
+   "shots": [
+    {
+     "area": "square",
+     "ms": 16600,
+     "minutes": 480,
+     "season": "Spring",
+     "camera": [
+      [
+       14.5,
+       10.5,
+       0
+      ],
+      [
+       14.5,
+       11,
+       9000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       2.6
+      ],
+      [
+       4000,
+       2.6
+      ],
+      [
+       10000,
+       1.3
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3,
+       "from": 0.1,
+       "to": 0.6
+      }
+     ],
+     "bursts": [
+      [
+       14.5,
+       9.5,
+       300
+      ],
+      [
+       14,
+       9.5,
+       4200
+      ],
+      [
+       15,
+       9.5,
+       8800
+      ]
+     ],
+     "actors": [
+      {
+       "who": "puff",
+       "path": [
+        [
+         14,
+         13,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      }
+     ],
+     "emotes": [
+      [
+       4400,
+       "puff",
+       "❗"
+      ],
+      [
+       8800,
+       "puff",
+       "❓"
+      ],
+      [
+       12000,
+       "puff",
+       "♪"
+      ]
+     ],
+     "sounds": [
+      [
+       300,
+       "shimmer"
+      ],
+      [
+       4200,
+       "hum"
+      ],
+      [
+       11800,
+       "shimmer"
+      ]
+     ],
+     "captions": [
+      [
+       4000,
+       "scene.chapter_spring.1"
+      ],
+      [
+       8800,
+       "scene.chapter_spring.2"
+      ],
+      [
+       11600,
+       "scene.chapter_spring.3"
+      ]
+     ]
+    }
    ]
+  },
+  {
+   "id": "chapter_summer",
+   "title": "scene.chapter_summer.title",
+   "shots": [
+    {
+     "area": "square",
+     "ms": 8200,
+     "minutes": 480,
+     "season": "Summer",
+     "camera": [
+      [
+       14.5,
+       10.5,
+       0
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       2.6
+      ],
+      [
+       8200,
+       2.2
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3,
+       "from": 0.15,
+       "to": 0.6
+      }
+     ],
+     "bursts": [
+      [
+       14.5,
+       9.5,
+       300
+      ],
+      [
+       14,
+       9.5,
+       2600
+      ]
+     ],
+     "sounds": [
+      [
+       300,
+       "shimmer"
+      ],
+      [
+       4400,
+       "hum"
+      ]
+     ],
+     "captions": [
+      [
+       4000,
+       "scene.chapter_summer.1"
+      ]
+     ]
+    },
+    {
+     "area": "riverside",
+     "ms": 8000,
+     "minutes": 500,
+     "season": "Summer",
+     "camera": [
+      [
+       12,
+       8,
+       0
+      ],
+      [
+       20,
+       9.5,
+       8000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.3
+      ],
+      [
+       8000,
+       1.7
+      ]
+     ],
+     "music": "soft",
+     "sounds": [
+      [
+       0,
+       "wind"
+      ],
+      [
+       3000,
+       "drip"
+      ],
+      [
+       6000,
+       "drip"
+      ]
+     ],
+     "captions": [
+      [
+       0,
+       "scene.chapter_summer.2"
+      ]
+     ]
+    },
+    {
+     "area": "far_bank",
+     "ms": 8000,
+     "minutes": 520,
+     "season": "Summer",
+     "camera": [
+      [
+       13,
+       6,
+       0
+      ],
+      [
+       3,
+       5,
+       6500
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.3
+      ],
+      [
+       8000,
+       2.3
+      ]
+     ],
+     "music": "soft",
+     "glows": [
+      {
+       "x": 1,
+       "y": 5,
+       "r": 2,
+       "from": 0,
+       "to": 0.6
+      }
+     ],
+     "bursts": [
+      [
+       1,
+       5,
+       5600
+      ]
+     ],
+     "sounds": [
+      [
+       5600,
+       "shimmer"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.chapter_summer.3"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chapter_autumn",
+   "title": "scene.chapter_autumn.title",
+   "shots": [
+    {
+     "area": "square",
+     "ms": 8000,
+     "minutes": 480,
+     "season": "Autumn",
+     "camera": [
+      [
+       14.5,
+       10.5,
+       0
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       2.6
+      ],
+      [
+       8000,
+       2.2
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3,
+       "from": 0.15,
+       "to": 0.6
+      }
+     ],
+     "bursts": [
+      [
+       14.5,
+       9.5,
+       300
+      ],
+      [
+       14,
+       9.5,
+       2600
+      ]
+     ],
+     "sounds": [
+      [
+       300,
+       "shimmer"
+      ],
+      [
+       4400,
+       "hum"
+      ]
+     ],
+     "captions": [
+      [
+       4000,
+       "scene.chapter_autumn.1"
+      ]
+     ]
+    },
+    {
+     "area": "woodland",
+     "ms": 11000,
+     "minutes": 500,
+     "season": "Autumn",
+     "camera": [
+      [
+       4,
+       8,
+       0
+      ],
+      [
+       16,
+       8,
+       6000
+      ],
+      [
+       20,
+       7,
+       11000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.4
+      ],
+      [
+       11000,
+       1.9
+      ]
+     ],
+     "music": "off",
+     "sparkle": [
+      [
+       15,
+       8,
+       2500
+      ],
+      [
+       17,
+       6.5,
+       5000
+      ],
+      [
+       19,
+       6,
+       7500
+      ],
+      [
+       22,
+       6.5,
+       10500
+      ]
+     ],
+     "sounds": [
+      [
+       0,
+       "wind"
+      ],
+      [
+       2600,
+       "hum"
+      ],
+      [
+       7400,
+       "hum"
+      ]
+     ],
+     "captions": [
+      [
+       0,
+       "scene.chapter_autumn.2"
+      ],
+      [
+       4000,
+       "scene.chapter_autumn.3"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chapter_winter",
+   "title": "scene.chapter_winter.title",
+   "shots": [
+    {
+     "area": "square",
+     "ms": 9000,
+     "minutes": 480,
+     "season": "Winter",
+     "camera": [
+      [
+       14.5,
+       10.5,
+       0
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       2.6
+      ],
+      [
+       9000,
+       2.2
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3,
+       "from": 0.05,
+       "to": 0.25
+      }
+     ],
+     "bursts": [
+      [
+       14.5,
+       9.5,
+       300
+      ],
+      [
+       14,
+       9.5,
+       2600
+      ]
+     ],
+     "sounds": [
+      [
+       300,
+       "wind"
+      ],
+      [
+       4400,
+       "hum"
+      ]
+     ],
+     "captions": [
+      [
+       4000,
+       "scene.chapter_winter.1"
+      ]
+     ]
+    },
+    {
+     "area": "cave_1",
+     "ms": 7000,
+     "minutes": 480,
+     "season": "Winter",
+     "camera": [
+      [
+       9,
+       10,
+       0
+      ],
+      [
+       16,
+       6,
+       6000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.4
+      ],
+      [
+       7000,
+       2.0
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 17,
+       "y": 6,
+       "r": 2,
+       "from": 0.2,
+       "to": 0.6
+      }
+     ],
+     "sounds": [
+      [
+       700,
+       "drip"
+      ],
+      [
+       3800,
+       "drip"
+      ]
+     ],
+     "captions": [
+      [
+       0,
+       "scene.chapter_winter.2"
+      ]
+     ]
+    },
+    {
+     "area": "cave_4",
+     "ms": 9000,
+     "minutes": 480,
+     "season": "Winter",
+     "camera": [
+      [
+       9,
+       7,
+       0
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       2.0
+      ],
+      [
+       9000,
+       2.8
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 9.5,
+       "y": 4,
+       "r": 4,
+       "from": 0.15,
+       "to": 0.3
+      }
+     ],
+     "actors": [
+      {
+       "who": "thimble",
+       "path": [
+        [
+         9,
+         6,
+         0
+        ]
+       ],
+       "dir": "up",
+       "sleepFrom": 0,
+       "species": "bunny",
+       "colours": {
+        "fur": "#E9E2F0",
+        "belly": "#FBF7FD",
+        "accent": "#B8A9CF"
+       }
+      }
+     ],
+     "emotes": [
+      [
+       1500,
+       "thimble",
+       "💤"
+      ],
+      [
+       5500,
+       "thimble",
+       "💤"
+      ]
+     ],
+     "sounds": [
+      [
+       3000,
+       "drip"
+      ]
+     ],
+     "captions": [
+      [
+       0,
+       "scene.chapter_winter.3"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "spring_end",
+   "shots": [
+    {
+     "area": "square",
+     "ms": 10800,
+     "minutes": 1080,
+     "season": "Spring",
+     "camera": [
+      [
+       14.5,
+       11,
+       0
+      ],
+      [
+       14.5,
+       10.5,
+       6000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.2
+      ],
+      [
+       6000,
+       2.4
+      ]
+     ],
+     "music": "soft",
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3,
+       "from": 0.3,
+       "to": 0.9
+      }
+     ],
+     "bursts": [
+      [
+       14.5,
+       9.5,
+       600
+      ],
+      [
+       14,
+       9.5,
+       5000
+      ],
+      [
+       15,
+       9.5,
+       5000
+      ]
+     ],
+     "actors": [
+      {
+       "who": "puff",
+       "path": [
+        [
+         14,
+         13,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      }
+     ],
+     "emotes": [
+      [
+       1000,
+       "puff",
+       "❗"
+      ],
+      [
+       9000,
+       "puff",
+       "♪"
+      ]
+     ],
+     "sounds": [
+      [
+       600,
+       "shimmer"
+      ],
+      [
+       2600,
+       "hum"
+      ],
+      [
+       5000,
+       "shimmer"
+      ]
+     ],
+     "captions": [
+      [
+       600,
+       "scene.spring_end.1"
+      ],
+      [
+       5000,
+       "scene.spring_end.2"
+      ]
+     ]
+    }
+   ],
+   "name": "scene.spring_end.title"
+  },
+  {
+   "id": "summer_end",
+   "shots": [
+    {
+     "area": "square",
+     "ms": 10800,
+     "minutes": 1080,
+     "season": "Summer",
+     "camera": [
+      [
+       14.5,
+       11,
+       0
+      ],
+      [
+       14.5,
+       10.5,
+       6000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.2
+      ],
+      [
+       6000,
+       2.4
+      ]
+     ],
+     "music": "soft",
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3,
+       "from": 0.3,
+       "to": 0.9
+      }
+     ],
+     "bursts": [
+      [
+       14.5,
+       9.5,
+       600
+      ],
+      [
+       14,
+       9.5,
+       5000
+      ],
+      [
+       15,
+       9.5,
+       5000
+      ]
+     ],
+     "actors": [
+      {
+       "who": "puff",
+       "path": [
+        [
+         14,
+         13,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      }
+     ],
+     "emotes": [
+      [
+       1000,
+       "puff",
+       "❗"
+      ],
+      [
+       9000,
+       "puff",
+       "♪"
+      ]
+     ],
+     "sounds": [
+      [
+       600,
+       "shimmer"
+      ],
+      [
+       2600,
+       "hum"
+      ],
+      [
+       5000,
+       "shimmer"
+      ]
+     ],
+     "captions": [
+      [
+       600,
+       "scene.summer_end.1"
+      ],
+      [
+       5000,
+       "scene.summer_end.2"
+      ]
+     ]
+    }
+   ],
+   "name": "scene.summer_end.title"
+  },
+  {
+   "id": "autumn_end",
+   "shots": [
+    {
+     "area": "square",
+     "ms": 10800,
+     "minutes": 1080,
+     "season": "Autumn",
+     "camera": [
+      [
+       14.5,
+       11,
+       0
+      ],
+      [
+       14.5,
+       10.5,
+       6000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.2
+      ],
+      [
+       6000,
+       2.4
+      ]
+     ],
+     "music": "soft",
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3,
+       "from": 0.3,
+       "to": 0.9
+      }
+     ],
+     "bursts": [
+      [
+       14.5,
+       9.5,
+       600
+      ],
+      [
+       14,
+       9.5,
+       5000
+      ],
+      [
+       15,
+       9.5,
+       5000
+      ]
+     ],
+     "actors": [
+      {
+       "who": "puff",
+       "path": [
+        [
+         14,
+         13,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      }
+     ],
+     "emotes": [
+      [
+       1000,
+       "puff",
+       "❗"
+      ],
+      [
+       9000,
+       "puff",
+       "♪"
+      ]
+     ],
+     "sounds": [
+      [
+       600,
+       "shimmer"
+      ],
+      [
+       2600,
+       "hum"
+      ],
+      [
+       5000,
+       "shimmer"
+      ]
+     ],
+     "captions": [
+      [
+       600,
+       "scene.autumn_end.1"
+      ],
+      [
+       5000,
+       "scene.autumn_end.2"
+      ]
+     ]
+    }
+   ],
+   "name": "scene.autumn_end.title"
   }
  ],
  "story": {
@@ -17168,19 +18222,23 @@
    },
    {
     "id": "spring",
-    "name": "One spot at a time"
+    "name": "One spot at a time",
+    "scene": "chapter_spring"
    },
    {
     "id": "summer",
-    "name": "The river remembers"
+    "name": "The river remembers",
+    "scene": "chapter_summer"
    },
    {
     "id": "autumn",
-    "name": "The old song"
+    "name": "The old song",
+    "scene": "chapter_autumn"
    },
    {
     "id": "winter",
-    "name": "Wake me when the town glows"
+    "name": "Wake me when the town glows",
+    "scene": "chapter_winter"
    }
   ],
   "steps": [
@@ -17333,7 +18391,8 @@
      "type": "flag",
      "flag": "festival_spring_fair"
     },
-    "until": 14
+    "until": 14,
+    "scene": "spring_end"
    },
    {
     "id": "far_bank",
@@ -17455,7 +18514,8 @@
      "type": "flag",
      "flag": "festival_summer_picnic"
     },
-    "until": 28
+    "until": 28,
+    "scene": "summer_end"
    },
    {
     "id": "woodland",
@@ -17534,7 +18594,8 @@
      "type": "flag",
      "flag": "festival_autumn_leaf_fest"
     },
-    "until": 42
+    "until": 42,
+    "scene": "autumn_end"
    },
    {
     "id": "mabel",

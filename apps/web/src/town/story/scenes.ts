@@ -39,10 +39,10 @@ export type Emote = [number, string, string];
 const EMOTE_MS = 1800;
 
 /**
- * `full` and `grey` hold; `ripple` greys the place outward from a point between `start` and `end`
+ * `full` and `grey` hold; `now` shows the place as it really is in the save (a chapter scene); `ripple` greys the place outward from a point between `start` and `end`
  * ms; `bloom` is the other way: grey, with colour flooding out from a point to `reach` tiles.
  */
-export type ShotColour = { kind: 'full' } | { kind: 'grey' } | { kind: 'ripple'; from: [number, number]; start: number; end: number }
+export type ShotColour = { kind: 'full' } | { kind: 'grey' } | { kind: 'now' } | { kind: 'ripple'; from: [number, number]; start: number; end: number }
   | { kind: 'bloom'; from: [number, number]; start: number; end: number; reach: number };
 
 /** The music under a shot: the warm full loop, soft (the plain loop), or none (a real silence). */
@@ -74,7 +74,11 @@ export interface Shot {
   captions: [number, string][];
 }
 
-export interface SceneDef { id: string; shots: Shot[] }
+/** `title`: a title card (text id) over the start; `name`: what the journal's Memories calls it (the title if none). */
+export interface SceneDef { id: string; title?: string; name?: string; shots: Shot[] }
+
+/** How long a scene's title card stays up. */
+export const TITLE_MS = 4000;
 
 /** How close the camera is `ms` into a shot (1 = the play view). */
 export function zoomAt(shot: Shot, ms: number) {
@@ -149,7 +153,7 @@ export function facing(a: ShotActor, ms: number): Dir {
 
 /** How coloured a tile looks, 0 grey to 1 full colour, `ms` into the shot. */
 export function colourAt(c: ShotColour, x: number, y: number, ms: number) {
-  if (c.kind === 'full') return 1;
+  if (c.kind === 'full' || c.kind === 'now') return 1;
   if (c.kind === 'grey') return 0;
   if (c.kind === 'bloom') {
     const r = ease((ms - c.start) / (c.end - c.start)) * c.reach;
@@ -193,4 +197,4 @@ export function fadeAt(scene: SceneDef, i: number, ms: number) {
 }
 
 /** Whether a shot shows the mess: only once the place is grey (the town long ago had none). */
-export const showsMess = (s: Shot) => s.colour.kind === 'grey' || s.colour.kind === 'bloom';
+export const showsMess = (s: Shot) => s.colour.kind === 'grey' || s.colour.kind === 'bloom' || s.colour.kind === 'now';

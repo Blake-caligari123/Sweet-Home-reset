@@ -34,10 +34,13 @@ export interface StoryStep {
   goal: StoryGoal;
   /** Handed over with the ask (Otto's spare rod), and flags set (a recipe Pip teaches). */
   gift?: Record<string, number>; teach?: string[];
+  /** A cutscene once it's done (the fountain speaking after a chapter's festival). */
+  scene?: string;
   /** Text ids follow `story.<id>.`: ask (button), line (what they say), call (tracker before asking), hint (tracker), diary (journal), tease (bedtime, the night before). */
 }
 
-export interface StoryChapter { id: string; name: string }
+/** `scene`: the cutscene that opens the chapter, on the morning its first step comes up. */
+export interface StoryChapter { id: string; name: string; scene?: string }
 export interface StoryDef { chapters: StoryChapter[]; steps: StoryStep[] }
 
 /** How far along: the step on, whether it's been asked, progress on a counted goal, and the day the last step was done. */
@@ -98,6 +101,17 @@ export function tomorrow(def: StoryDef, s: StoryState, day: number): StoryStep |
   const next = def.steps[s.step];
   return s.day === day && next && next.day <= day + 1 ? next : null;
 }
+
+/** The chapter's opening scene, if today's step is the chapter's first and the scene hasn't played. */
+export function openingDue(def: StoryDef, s: StoryState, day: number, seen: (scene: string) => boolean): string | null {
+  const step = today(def, s, day);
+  if (!step || def.steps.findIndex((x) => x.chapter === step.chapter) !== s.step) return null;
+  const scene = def.chapters.find((c) => c.id === step.chapter)?.scene;
+  return scene && !seen(scene) ? scene : null;
+}
+
+/** A scene's seen flag (for Memories, and so an opening plays once). */
+export const seenFlag = (scene: string) => `scene_${scene}`;
 
 /** The chapter so far: [chapter, diary step ids done, steps in it]. */
 export function chapterNow(def: StoryDef, s: StoryState) {

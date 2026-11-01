@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { isUnlocked } from '../unlocks';
-import { chapterNow, done, hear, met, NEW_STORY, needsAsking, passed, today, tomorrow, type StoryDef, type StoryFacts, type StoryState } from './path';
+import { chapterNow, done, hear, met, NEW_STORY, needsAsking, openingDue, passed, today, tomorrow, type StoryDef, type StoryFacts, type StoryState } from './path';
 
 const def: StoryDef = {
   chapters: [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }],
@@ -47,6 +47,14 @@ describe('the Keeper\'s Story', () => {
     expect(tomorrow(def, at(1, { day: 1 }), 1)?.id).toBe('cook');
     expect(tomorrow(def, at(1, { day: 0 }), 1)).toBeNull();
     expect(tomorrow(def, at(2, { day: 1 }), 1)).toBeNull(); // the Fair's two days off
+  });
+
+  it('opens a chapter with its scene on the morning its first step comes up, once', () => {
+    const withScene: StoryDef = { ...def, chapters: [def.chapters[0], { ...def.chapters[1], scene: 'b_opens' }] };
+    expect(openingDue(withScene, at(2, { day: 2 }), 3, () => false)).toBe('b_opens');
+    expect(openingDue(withScene, at(2, { day: 2 }), 3, () => true)).toBeNull(); // seen already
+    expect(openingDue(withScene, at(1, { day: 1 }), 2, () => false)).toBeNull(); // chapter a has no scene
+    expect(openingDue(withScene, at(2, { day: 3 }), 3, () => false)).toBeNull(); // not today
   });
 
   it('knows the chapter so far', () => {
