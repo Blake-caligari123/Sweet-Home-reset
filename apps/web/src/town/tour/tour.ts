@@ -187,5 +187,16 @@ export const TOUR: TourCard[] = [
       if (!s.state.finds.found.includes('brass_acorn')) s.state.finds.found.push('brass_acorn');
       for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 };
       s.go('woodland');
+    } },
+  { title: '⚓ The Old Harbour', steps: ['The harbour gate at the east end of the beach is mended: walk right from the beach.', 'Jetties, old boats and three fishing spots: mackerel by day, lobster at night. Puffins in spring and summer, cormorants any day.', 'In a normal game, Mabel asks you to mend the gate in winter (day 49).'],
+    setup: (s) => { s.day(47).time(10).give('fishing_rod'); for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_sea_steps', 'sea_steps'], ['plot_harbour_gate', 'harbour_gate']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 44, readyDay: 46 }; s.go('beach'); } },
+  { title: '🧂 Salt Grumbles', steps: ['From winter, a crusty white Grumble sulks on the beach and at the harbour.', 'Sponge it 4 times to freshen it up and befriend it.'],
+    setup: (s) => { s.day(47).time(10); for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_sea_steps', 'sea_steps'], ['plot_harbour_gate', 'harbour_gate']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 44, readyDay: 46 }; s.go('beach'); } },
+  { title: '🏮 The net loft', steps: ['You found a lamp-room key at the harbour. A door has opened at the top of the harbour.', 'Step inside Thimble\'s old net loft, read the carving by the lamps, and tidy it up.', 'In a normal game the key turns up while tidying the Old Harbour.'],
+    setup: (s) => {
+      s.day(48).time(10);
+      if (!s.state.finds.found.includes('lamp_key')) s.state.finds.found.push('lamp_key');
+      for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_sea_steps', 'sea_steps'], ['plot_harbour_gate', 'harbour_gate']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 44, readyDay: 46 };
+      s.go('harbour');
     } }
 ];

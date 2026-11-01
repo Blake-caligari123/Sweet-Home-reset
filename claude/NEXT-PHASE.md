@@ -535,6 +535,18 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Tidy it to restore it (100 ✨).
   - Tour cards: 🍄 Mushroom logs, 🍂 Leaf Grumbles, 🦉 Woodland critters, 🌿 The quiet glade.
 - **Woodland and Orchard Hill, done for now:** Juniper, Orchard Hill, the autumn chapter, mushrooms, woodland critters, Leaf Grumbles and the quiet glade. Next district: the Harbour and Beach.
+- **6d.12 The Harbour and Beach: the Old Harbour (1 Nov).**
+  - **The harbour gate**, a repair at the east end of the beach. It's in the Keeper's plans from day 45 (winter): 200 ✨, 8 twigs and 6 pebbles, 2 nights, a big project the fund helps with. A town need ("A way to the old harbour") and a tracker hint point to it.
+    - It's also a winter story step: on day 49 Mabel asks, "What's past the rocks?"
+  - **The Old Harbour:** a sandy quay with a boardwalk, three jetties over the water, two old rowboats, crates and lamps. Seaweed and sand to tidy, and it can be restored (150 ✨).
+  - **Fish:** mackerel by day and lobster at night, at three fishing spots on the jetties. The General Store buys both.
+  - **Critters (18 in all):** puffins (spring and summer days) and cormorants (any day, harbour or beach).
+  - **Salt Grumbles:** crusty and white, on the beach and at the harbour from day 46. Sponge 4 times to freshen them up.
+  - **The net loft**, a secret:
+    - A lamp-room key turns up while tidying the harbour, and a door opens at the top of the quay.
+    - Inside: Thimble's old net loft, with two lamps and a carving: "A light for every late boat. T."
+    - Restoring it gives 120 ✨.
+  - Tour cards: ⚓ The Old Harbour, 🧂 Salt Grumbles, 🏮 The net loft.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

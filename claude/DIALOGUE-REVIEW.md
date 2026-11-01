@@ -1671,3 +1671,10 @@ For each step: who asks, the button, what they say, the tracker while waiting (c
 - Mushrooms: "Mushrooms! Earthy and good." / built: "The mushroom logs are set! Mushrooms grow in the shade."
 - Brass acorn: "A little brass acorn! The hedge rustles. A way through?" / about: "Warm to hold. It opens the way to the quiet glade."
 - The glade's stone: "On a mossy stone: 'Every song starts somewhere quiet. T.'"
+
+**The Old Harbour (6d.12)**
+- Sign: "The Old Harbour. Boats welcome, even slow ones." / net loft carving: "Carved by the lamps: 'A light for every late boat. T.'"
+- Salt Grumbles: "Crrrk." / "Hmph... all crusty." / "Splish! Fresh as a sea breeze!" / hint "Something crusty is grumbling by the sea."
+- Lamp-room key: "A little key with a lamp on it. A door by the harbour!" / "Brass, with a lamp. It opens the old net loft."
+- Gate: "The harbour gate could be mended. See the Keeper's plans." / "Rocks block the way. Maybe in winter." / "The harbour gate is mended! The old harbour is open."
+- Story (Mabel, day 49): "What's past the rocks?" / "The old harbour! Mend its gate, dear, and we'll see." / diary "We're mending the gate to the old harbour." / tease "Mabel keeps peering past the rocks at the beach..."
