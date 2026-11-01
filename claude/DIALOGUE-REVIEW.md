@@ -18,6 +18,9 @@ How a line is chosen: the most specific one that fits wins (a story moment, then
 - Hazel: "🧺 Help sort the pantry" · "Pop each thing on its shelf." · 🍎 Fruit · 🥕 Veg · 🍞 Baking · "Combo ×3!" · "All put away!" · "Another basket"
 - Otto: "🪨 Skip stones" · "Tap Throw! when the marker is in the green." · "6 skips! Throw 2 of 3" · "Best: 9 skips" · "Skip again"
 - Any game finished again the same day: "Lovely!"
+- This week: "📅 This week: Tidy 120 spots this week · Catch 8 fish this week · Play 5 games with friends this week" · "📅 Catch 8 fish this week: done! +60 ✨" · "🎁 The whole week's goals! A gift: a birdhouse for your home."
+- Pip: "💡 Light the lamps" · "Tapping a lamp flips it and the lamps beside it. Light them all!" · "Can be done in 3 taps" · "Another board"
+- Mabel: "🫖 Pour the tea" · "Hold to pour. Let go when the tea reaches the line." · Hold to pour · "Just right!" / "Nearly!" / "Oops, a bit off." · "Another pot"
 - Moss's chat: "📚 Sort a shelf" · "Tap two books to swap them. Colours in order, short to tall." · "Fewest swaps: 7" · done: "⭐⭐⭐ +20 ✨" (or "Lovely and neat!" after the first of the day) · "Another shelf"
 
 ## New in Phase 0 (28 Oct 2026): names and a sleepy Puff

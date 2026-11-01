@@ -19,6 +19,8 @@ export interface GoalKind {
   ready(f: GoalFacts): boolean;
   /** Picks a place for it (a visit, tidying somewhere). */
   place?: 'visited' | 'tidy';
+  /** A week's goal: bigger, picked on Mondays (this week's three). */
+  weekly?: boolean;
 }
 
 /** What Puff can do so far. */
@@ -44,6 +46,15 @@ const KINDS: GoalKind[] = [
   { id: 'job', family: 'town', count: 1, text: 'Finish a job from the notice board', counts: (e) => e.type === 'jobDone', ready: (f) => f.day >= 2 },
   { id: 'game', family: 'town', count: 1, text: 'Play a little game with a friend', counts: (e) => e.type === 'played', ready: (f) => f.games },
   { id: 'visit', family: 'town', count: 1, text: 'Pay a visit to {place}', place: 'visited', counts: (e, p) => e.type === 'entered' && e.area === p, ready: (f) => f.places.length > 2 }
+,
+  // The week's bigger goals: three each week from day 3, with a gift for all three.
+  { id: 'w_tidy', family: 'tidy', count: 120, text: 'Tidy {n} spots this week', weekly: true, counts: (e) => e.type === 'cleared', ready: () => true },
+  { id: 'w_fish', family: 'nature', count: 8, text: 'Catch {n} fish this week', weekly: true, counts: (e) => e.type === 'caught', ready: (f) => f.fish },
+  { id: 'w_critters', family: 'nature', count: 4, text: 'Spot {n} critters this week', weekly: true, counts: (e) => e.type === 'spotted', ready: (f) => f.day >= 3 },
+  { id: 'w_grow', family: 'grow', count: 8, text: 'Pick {n} crops this week', weekly: true, counts: (e) => e.type === 'picked', ready: (f) => f.crops },
+  { id: 'w_cook', family: 'make', count: 4, text: 'Cook {n} dishes this week', weekly: true, counts: (e) => e.type === 'made' && e.station === 'kitchen', ready: (f) => f.day >= 4 },
+  { id: 'w_games', family: 'town', count: 5, text: 'Play {n} games with friends this week', weekly: true, counts: (e) => e.type === 'played', ready: (f) => f.games },
+  { id: 'w_jobs', family: 'town', count: 4, text: 'Finish {n} board jobs this week', weekly: true, counts: (e) => e.type === 'jobDone', ready: (f) => f.day >= 2 }
 ];
 
 /** A goal for today: which kind, the place picked for it, and how far along. */
@@ -59,7 +70,7 @@ export const SAME_AS: Record<string, string> = { bake: 'cook', derby: 'fish', pa
 export function pickGoals(f: GoalFacts, avoid: string[] = [], salt = 0): Goal[] {
   if (f.day < 2) return []; // the first day has its own guide
   const rnd = seeded(f.day * 92821 + salt * 7 + 17);
-  const pool = KINDS.filter((k) => k.ready(f) && !avoid.includes(k.id));
+  const pool = KINDS.filter((k) => !k.weekly && k.ready(f) && !avoid.includes(k.id));
   const shuffled = pool.map((k) => ({ k, r: rnd() })).sort((a, b) => a.r - b.r).map((x) => x.k);
   const out: Goal[] = [];
   const families = new Set<string>();
@@ -70,6 +81,18 @@ export function pickGoals(f: GoalFacts, avoid: string[] = [], salt = 0): Goal[] 
     out.push({ kind: k.id, have: 0, ...(from.length ? { place: from[Math.floor(rnd() * from.length)] } : {}) });
   }
   return out;
+}
+
+/** Which week a day is in (1 = days 1 to 7). */
+export const weekOf = (day: number) => Math.floor((day - 1) / 7) + 1;
+
+/** This week's three bigger goals, from different families (none in the first two days). */
+export function pickWeekly(f: GoalFacts): Goal[] {
+  if (f.day < 3) return [];
+  const rnd = seeded(weekOf(f.day) * 6151 + 29);
+  const pool = KINDS.filter((k) => k.weekly && k.ready(f)).map((k) => ({ k, r: rnd() })).sort((a, b) => a.r - b.r).map((x) => x.k);
+  const families = new Set<string>();
+  return pool.filter((k) => !families.has(k.family) && families.add(k.family)).slice(0, 3).map((k) => ({ kind: k.id, have: 0 }));
 }
 
 export const kindOf = (g: Goal) => KINDS.find((k) => k.id === g.kind)!;

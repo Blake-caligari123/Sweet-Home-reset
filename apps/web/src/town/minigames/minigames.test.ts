@@ -53,3 +53,38 @@ describe('who plays what', () => {
     for (const id of [...PAIR_ITEMS, ...Object.values(PANTRY).flat()]) expect(pack.items[id]?.name, id).toBeTruthy();
   });
 });
+
+describe('light the lamps', () => {
+  it('deals a board that its taps can solve, flips neighbours, and grows', async () => {
+    const { allLit, dealLamps, lampStars, press } = await import('./lamps');
+    expect(press([true, true, true, true, true, true, true, true, true], 3, 4)).toEqual([true, false, true, false, false, false, true, false, true]);
+    expect(press(press(new Array(9).fill(true), 3, 0), 3, 0).every(Boolean)).toBe(true);
+    for (let d = 1; d < 90; d += 3) {
+      const b = dealLamps(d);
+      expect(allLit(b.lit)).toBe(false);
+      expect(b.size).toBe(d < 25 ? 3 : 4);
+      // Brute force on 3×3: a solution in par taps or fewer exists.
+      if (b.size === 3) {
+        let found = false;
+        for (let m = 0; m < 512 && !found; m += 1) {
+          const taps = [...Array(9).keys()].filter((i) => m & (1 << i));
+          if (taps.length > b.par) continue;
+          found = allLit(taps.reduce((lit, i) => press(lit, 3, i), b.lit));
+        }
+        expect(found, `day ${d}`).toBe(true);
+      }
+    }
+    expect(lampStars(3, 3)).toBe(3); expect(lampStars(6, 3)).toBe(2); expect(lampStars(9, 3)).toBe(1);
+  });
+});
+
+describe('pour the tea', () => {
+  it('fills over time, judges the line, spills past full', async () => {
+    const { judge, levelAfter, lineFor, teaStars } = await import('./tea');
+    expect(levelAfter(1700, 0)).toBeCloseTo(1); expect(levelAfter(600, 2)).toBeCloseTo(0.5);
+    const line = lineFor(9, 1);
+    expect(line).toBeGreaterThanOrEqual(0.55); expect(line).toBeLessThanOrEqual(0.9);
+    expect(judge(line + 0.02, line)).toBe('perfect'); expect(judge(line - 0.08, line)).toBe('close'); expect(judge(1.05, 0.98)).toBe('off');
+    expect(teaStars(['perfect', 'perfect', 'close'])).toBe(3); expect(teaStars(['close', 'close', 'close'])).toBe(2); expect(teaStars(['off', 'close', 'off'])).toBe(1);
+  });
+});

@@ -247,5 +247,11 @@ export const TOUR: TourCard[] = [
   { title: '🧺 Hazel\'s pantry', steps: ['Talk to Hazel and tap "🧺 Help sort the pantry".', 'Pop each thing on its shelf: fruit, veg or baking. Three right in a row starts a combo.'],
     setup: (s) => { s.day(10).time(9).flag('keeper_named').flag('keeper_day1_done').meet('hazel').go('bakery'); } },
   { title: '🪨 Skip stones with Otto', steps: ['Talk to Otto by the river and tap "🪨 Skip stones".', 'Tap Throw! when the marker is in the green. Dead centre skips 9 times. Three throws, the best counts.'],
-    setup: (s) => { s.day(10).time(7).meet('otto').go('riverside'); } }
+    setup: (s) => { s.day(10).time(7).meet('otto').go('riverside'); } },
+  { title: '💡 Light the lamps with Pip', steps: ['Talk to Pip in the workshop and tap "💡 Light the lamps".', 'Tapping a lamp flips it and the ones beside it. Light every lamp in as few taps as you can.', 'The board grows to 4×4 from day 25.'],
+    setup: (s) => { s.day(10).time(11).meet('pip').go('pip_workshop'); } },
+  { title: '🫖 Pour the tea with Mabel', steps: ['Mabel dozes on the beach by day, then sits in the square from 6 pm.', 'Tap "🫖 Pour the tea": hold to pour, and let go when the tea reaches the line. Three cups.'],
+    setup: (s) => { s.day(44).time(18, 30).meet('mabel').go('square'); } },
+  { title: '📅 This week\'s goals', steps: ['Every week brings three bigger goals: tidy 120 spots, catch 8 fish, play 5 games...', 'Each one is +60 ✨, and all three gives a gift for your home.', 'See them in 📔 the journal under This week.'],
+    setup: (s) => { s.day(15).time(9).give('fishing_rod').meet('bea', 'otto').go('square'); } }
 ];
