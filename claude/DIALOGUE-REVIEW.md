@@ -1659,3 +1659,9 @@ For each step: who asks, the button, what they say, the tracker while waiting (c
 - **Fig moves in**: "Fig wanders up from the river with a box of seeds." / "Fig: "Good soil. I can tell already.""
 - **Wren comes home**: "Pip spots a small figure crossing the bridge..." / "Pip: "Wren! You came back!""
 - **Juniper moves in**: "Juniper comes through the trees, fiddle in paw." / "Juniper: "There it is. The old tune.""
+
+**The big reveals and Thimble waking (K.5)**
+- **The boathouse**: "Under the dust: an old rowboat, mended with care." / "Someone loved this boat. Someone long ago..." / "Carved in the beam: "Thimble mended every boat."" / "{puff}: "Thimble... a Keeper, just like me?""
+- **The humming stone**: "At dusk on the hill, Juniper plays the old song..." / "Three notes, then a fourth. Again, softer." / "...and the old stone hums it back!" / "Deep under the hill, the warm water answers."
+- **Thimble's last carving**: "Down in the deepest cave, the spring is barely warm." / ""I rest by the warm spring. Wake me when the town glows."" / "And there, curled up by the water..." / "...is Thimble, fast asleep. Shh. Not yet."
+- **Thimble wakes**: "Every lantern in {town} is glowing." / "Far below, the warm spring stirs..." / “The town glows. I'm awake!” / "Thimble turns around, and smiles at everyone." / “Thank you, Keeper. I've missed you all so.”

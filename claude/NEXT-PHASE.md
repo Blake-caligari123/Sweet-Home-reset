@@ -569,6 +569,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **How it triggers:** the night a cottage finishes also sets `welcome_<id>`, and a scene with `after` plays the first morning that flag is set, once. Older saves already have their newcomers, so they don't get late arrivals.
   - **Fixed shape:** a test checks that each newcomer stops at their own front door and never walks through the cottage.
   - Tour card: 🏡 A newcomer arrives (Wren).
+- **K.5 The big reveals and Thimble waking (1 Nov).** These play the moment they happen (`now` scenes, once nothing else is open):
+  - **The boathouse**, the moment it's tidy. The camera finds the old rowboat, mended with care, then Puff walks to the beam and reads Thimble's carving: "Thimble... a Keeper, just like me?"
+  - **The humming stone**, when the autumn song quest is done. At dusk on Orchard Hill, Juniper plays the old song and the stone glows and hums it back.
+  - **Thimble's last carving**, when Puff first reaches the deepest cave (the winter story step). Puff reads "I rest by the warm spring. Wake me when the town glows.", then finds Thimble curled up asleep by the water.
+  - **Thimble wakes**, after the Winter Lights gifts. Every lantern glows and the fountain blazes. Thimble climbs out, back to us, then **turns around for the first time** and smiles at everyone: "Thank you, Keeper. I've missed you all so." This is the face saved for this moment (Blake's decision 5).
+  - Tour cards: 🔍 The big reveals, 🏮 Thimble wakes.
 - **Tidy-up:** the menus moved out of `game.ts` into `ui/menus.ts` (560 to 487 lines).
 - **K.2 The step-a-day path and the Keeper's journal (31 Oct, after Blake's "tie it all together so the player gets absolutely hooked").** `story/path.ts`, `story/story-path.ts`, `journal/`.
   - **One story step a day, all year.** 40 steps from day 1 to Winter Lights, in five chapters (`story` in the pack). Each step is a goal the game already knows: a building started, a place visited, a fish, a pet, a dish or a workbench make, a flag, or a quest taken on.
