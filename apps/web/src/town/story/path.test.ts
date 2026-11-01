@@ -74,6 +74,17 @@ describe('Hollowfern\'s year', () => {
     for (const c of story.chapters.slice(1)) expect(story.steps.filter((s) => s.chapter === c.id).at(-1)!.until, c.id).toBeDefined();
   });
 
+  it('sends Puff where the asker really is: a place named in a 📖 line is on their daily round', () => {
+    const PLACES: [RegExp, string[]][] = [[/bakery/i, ['bakery']], [/library/i, ['library']], [/river|footbridge/i, ['riverside']], [/square/i, ['square']],
+      [/flower shop/i, ['bea_shop']], [/workshop|workbench/i, ['pip_workshop']], [/beach|rocks/i, ['beach']], [/harbour|lighthouse/i, ['harbour', 'beach']], [/woods|hill/i, ['woodland']]];
+    const text = pack.strings!['en-AU'];
+    for (const s of story.steps.filter((x) => x.who)) {
+      const call = text[`story.${s.id}.call`];
+      const areas = new Set(pack.neighbours!.find((n) => n.id === s.who)!.schedule.map((x) => x.area));
+      for (const [word, places] of PLACES) if (word.test(call)) expect(places.some((pl) => areas.has(pl)), `${s.id}: "${call}"`).toBe(true);
+    }
+  });
+
   it('only asks for what has arrived by its day, and takes Puff into each quest when it opens', () => {
     for (const s of story.steps) {
       if (s.who && !['hazel', 'bea', 'pip', 'otto', 'moss'].includes(s.who)) expect(isUnlocked(s.who, { day: s.day, flags: [`home_${s.who}`] }), s.id).toBe(true);

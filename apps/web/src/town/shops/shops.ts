@@ -37,7 +37,7 @@ export interface ShopContext { state: TownState; minutes: number; day: number; i
 export type ShopResult = { ok: true } | { ok: false; reason: 'closed' | 'sparkles' | 'bag' | 'gone' };
 
 /** Bag upgrades and recipes are bought once; this flag remembers. */
-export const boughtFlag = (shop: ShopDef, e: StockEntry) => `bought_${shop.id}_${e.item}`;
+const boughtFlag = (shop: ShopDef, e: StockEntry) => `bought_${shop.id}_${e.item}`;
 const once = (e: StockEntry) => e.kind === 'bag' || e.kind === 'recipe' || e.kind === 'animal';
 
 export function isOpen(shop: ShopDef, minutes: number, day: number) {

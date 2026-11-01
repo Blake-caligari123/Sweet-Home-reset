@@ -1,7 +1,7 @@
 import { TUNING } from '../data/tuning';
 
 export interface Slot { id: string; count: number }
-export const STACK = 99;
+const STACK = 99;
 
 /** Puff's bag: a fixed number of slots, items stack up to 99. */
 export class Bag {

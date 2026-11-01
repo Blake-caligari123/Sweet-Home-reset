@@ -149,13 +149,13 @@ export class AreaMess {
   }
 }
 
-export function rle(a: Uint8Array) {
+function rle(a: Uint8Array) {
   const out: number[] = [];
   for (let i = 0; i < a.length;) { let j = i + 1; while (j < a.length && a[j] === a[i]) j += 1; out.push(a[i], j - i); i = j; }
   return out;
 }
 
-export function unrle(runs: number[], n: number) {
+function unrle(runs: number[], n: number) {
   const out = new Uint8Array(n); let k = 0;
   for (let i = 0; i + 1 < runs.length && k < n; i += 2) { const end = Math.min(n, k + runs[i + 1]); out.fill(runs[i], k, end); k = end; }
   return out;

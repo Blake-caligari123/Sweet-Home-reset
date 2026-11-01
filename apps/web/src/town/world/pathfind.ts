@@ -3,7 +3,7 @@
 export interface Grid { w: number; h: number; walkable: (x: number, y: number) => boolean }
 export interface Tile { x: number; y: number }
 
-export const NODE_CAP = 2000;
+const NODE_CAP = 2000;
 
 class Heap {
   private items: number[] = [];
