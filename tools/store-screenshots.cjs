@@ -3,7 +3,7 @@
 // which .gitignore keeps for Capacitor's generated projects).
 // Run with the dev server up: NODE_PATH=$(npm root -g) node tools/store-screenshots.cjs
 const { chromium } = require('playwright');
-const { mkdirSync } = require('node:fs');
+const { mkdirSync, readFileSync } = require('node:fs');
 const path = require('node:path');
 
 const URL = process.env.URL ?? 'http://localhost:5199/Sweet-Home-reset/test/?debug';
@@ -19,6 +19,10 @@ const SCENES = [
   { name: '06-fair', day: 14, minutes: 10 * 60, area: 'square', at: [15, 12] }
 ];
 
+// Each screenshot shows the story step of its own day in the tracker, not day 2's.
+const STEPS = JSON.parse(readFileSync(path.join(__dirname, '..', 'apps', 'web', 'public', 'packs-bundled', 'hollowfern', '1', 'pack.json'), 'utf8')).story.steps;
+const stepFor = (day) => STEPS.reduce((at, st, i) => (st.day <= day ? i : at), 0);
+
 (async () => {
   const browser = await chromium.launch();
   for (const [store, viewport] of Object.entries(SIZES)) {
@@ -31,7 +35,7 @@ const SCENES = [
       // The day before, then a night's sleep, so festivals, seasons and arrivals are set up as in play.
       await page.evaluate((day) => { const t = window.__town; t.skipTips(); t.setDay(day - 1); t.sleep(); }, s.day);
       await page.waitForTimeout(2500);
-      await page.evaluate((x) => { const t = window.__town; t.setMinutes(x.minutes); t.visit(x.area, x.at[0], x.at[1], true); t.restoreHere(); t.visit(x.area, x.at[0], x.at[1], true); t.showAlive(); t.face('down'); }, s);
+      await page.evaluate((x) => { const t = window.__town; t.setMinutes(x.minutes); t.visit(x.area, x.at[0], x.at[1], true); t.restoreHere(); t.visit(x.area, x.at[0], x.at[1], true); t.showAlive(); t.face('down'); t.setStory(x.step); t.addSparkles(x.day * 14 + 26); }, { ...s, step: stepFor(s.day) });
       await page.waitForTimeout(1500);
       // Letters, the pet picker and tips wait for an answer; a screenshot shows the town instead.
       for (let pass = 0; pass < 3; pass += 1) {

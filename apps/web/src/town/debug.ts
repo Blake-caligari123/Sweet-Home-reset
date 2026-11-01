@@ -67,6 +67,8 @@ export function installDebugHooks(g: DebugTarget) {
     /** Skip the tips (hands over every tool), for tests of later play. */
     skipTips: () => g.guide.skip(),
     playScene: (id: string) => g.playScene(id),
+    /** The Keeper's Story at this step, not yet asked (store screenshots show the day's own 📖 line). */
+    setStory: (step: number) => { s.story = { step, asked: false, count: 0, day: 0 }; g.refreshHud(); },
     /** Mark this area restored (for testing what happens after), as if the last mess had gone. */
     restoreHere: () => { g.mess().restore(); },
     /** Every coming-alive stage of this area at once, for screenshots. */
