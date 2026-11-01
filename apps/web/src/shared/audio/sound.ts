@@ -1,8 +1,19 @@
 // Every sound is synthesised with WebAudio, so there are no audio files to license or download.
+import { Ambience, type AmbienceKind } from './ambience';
+
 export const SOUND_IDS = ['scrub', 'wipe', 'pop', 'chime', 'fanfare', 'pff', 'thunk', 'boing', 'tap', 'coin', 'sparkle', 'fwip', 'combo',
   // Cutscene sounds (town/story/): footsteps, a yawn, a snore, Thimble's four-note hum, a cave drip, the grey's whoosh, wind, a waking blip, a magic shimmer.
   'step', 'yawn', 'snore', 'hum', 'drip', 'whoosh', 'wind', 'wake', 'shimmer'] as const;
 export type SoundId = (typeof SOUND_IDS)[number];
+
+/** The music's mood: how muffled, how quick, how much melody, how loud. */
+export type MusicMood = 'day' | 'indoor' | 'night' | 'cave';
+const MOODS: Record<MusicMood, { cutoff: number; tempo: number; melody: number; gain: number }> = {
+  day: { cutoff: 1500, tempo: 72, melody: 1, gain: 0.16 },
+  indoor: { cutoff: 1000, tempo: 70, melody: 0.8, gain: 0.13 },
+  night: { cutoff: 760, tempo: 58, melody: 0.45, gain: 0.11 },
+  cave: { cutoff: 560, tempo: 54, melody: 0.3, gain: 0.1 }
+};
 
 /** C major pentatonic, two octaves up from C5: the notes a cleared spot climbs as a place gets tidy. */
 const PENTATONIC = [523.3, 587.3, 659.3, 784, 880, 1046.5, 1174.7, 1318.5, 1568, 1760];
@@ -11,7 +22,35 @@ export class Sound {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
   private noise: AudioBuffer | null = null;
-  enabled = true;
+  private on = true;
+  private ambience: Ambience | null = null;
+  private place: [AmbienceKind, 'none' | 'out' | 'windows'] = ['none', 'none'];
+
+  /** Sound effects and ambience on or off (the music has its own switch). */
+  get enabled() { return this.on; }
+  set enabled(v: boolean) { this.on = v; this.applyPlace(); }
+
+  /** Where Puff is, for the ambience (shared/audio/ambience.ts). Free to call often. */
+  setPlace(kind: AmbienceKind, rain: 'none' | 'out' | 'windows') { this.place = [kind, rain]; this.applyPlace(); }
+
+  private applyPlace() {
+    if (!this.ctx || !this.master) return;
+    if (!this.ambience) this.ambience = new Ambience(this.ctx, this.master);
+    if (this.on) this.ambience.set(...this.place); else this.ambience.stop();
+  }
+
+  private mood = MOODS.day;
+
+  /** The music's mood for the place and time (indoors muffled, night slow and sparse); summer's a touch brighter. */
+  setMood(name: MusicMood, season = 'Spring') {
+    const next = MOODS[name];
+    const cutoff = next.cutoff + (season === 'Summer' ? 350 : season === 'Winter' ? -150 : 0);
+    if (this.mood === next && this.musicFilter?.frequency.value === cutoff) return;
+    this.mood = next;
+    if (!this.ctx || !this.musicFilter || !this.musicGain) return;
+    this.musicFilter.frequency.setTargetAtTime(cutoff, this.ctx.currentTime, 1.2);
+    if (this.musicTimer) this.musicGain.gain.setTargetAtTime(next.gain, this.ctx.currentTime, 1.2);
+  }
 
   /** Browsers only allow audio after a user gesture; call this from the first tap. */
   unlock() {
@@ -27,6 +66,7 @@ export class Sound {
     const data = this.noise.getChannelData(0);
     for (let i = 0; i < length; i += 1) data[i] = Math.random() * 2 - 1;
     this.startMusic();
+    this.applyPlace();
   }
 
   private tone(freq: number, start: number, dur: number, type: OscillatorType, gain: number, endFreq?: number) {
@@ -56,6 +96,7 @@ export class Sound {
   // ---- music: a calm lo-fi loop, written live so there is no audio file -------------------
 
   private musicGain: GainNode | null = null;
+  private musicFilter: BiquadFilterNode | null = null;
   private musicTimer = 0;
   private nextBeat = 0;
   private beat = 0;
@@ -68,11 +109,11 @@ export class Sound {
     if (!this.ctx || !this.musicOn || this.musicTimer) return;
     if (!this.musicGain) {
       this.musicGain = this.ctx.createGain();
-      const filter = this.ctx.createBiquadFilter();
-      filter.type = 'lowpass'; filter.frequency.value = 1500;
+      const filter = this.musicFilter = this.ctx.createBiquadFilter();
+      filter.type = 'lowpass'; filter.frequency.value = this.mood.cutoff;
       this.musicGain.connect(filter).connect(this.ctx.destination);
     }
-    this.musicGain.gain.setTargetAtTime(0.16, this.ctx.currentTime, 0.8);
+    this.musicGain.gain.setTargetAtTime(this.mood.gain, this.ctx.currentTime, 0.8);
     this.nextBeat = this.ctx.currentTime + 0.1;
     this.musicTimer = window.setInterval(() => this.schedule(), 120);
   }
@@ -95,7 +136,7 @@ export class Sound {
 
   private schedule() {
     const ctx = this.ctx!;
-    const eighth = 60 / 72 / 2;
+    const eighth = 60 / this.mood.tempo / 2;
     // Fmaj7 · Em7 · Dm7 · Cmaj7, one bar each.
     const chords = [[174.6, 220, 261.6, 329.6], [164.8, 196, 246.9, 293.7], [146.8, 174.6, 220, 261.6], [130.8, 164.8, 196, 246.9]];
     const scale = [523.3, 587.3, 659.3, 784, 880, 1046.5];
@@ -106,7 +147,7 @@ export class Sound {
       if (step === 0) chord.forEach((f) => this.note(f, t, eighth * 8.2, 'triangle', 0.05, 0.4));
       if (step === 0 || step === 4) this.note(chord[0] / 2, t, eighth * 3, 'sine', 0.09, 0.02);
       if (step % 2 === 1) this.hissAt(t, 0.04, 6000, 0.012);
-      if (Math.random() < (step % 2 ? 0.18 : 0.32)) this.note(scale[Math.floor(Math.random() * scale.length)], t, 0.6, 'sine', 0.035);
+      if (Math.random() < (step % 2 ? 0.18 : 0.32) * this.mood.melody) this.note(scale[Math.floor(Math.random() * scale.length)], t, 0.6, 'sine', 0.035);
       if (this.bloom >= 1 && step % 2 === 0) this.note(chord[(step / 2 + 1) % 4] * 2, t, 0.5, 'triangle', 0.022);
       if (this.bloom >= 2 && step === 0) this.note(chord[3] * 4, t, 2.2, 'sine', 0.018, 0.02);
       this.nextBeat += eighth;

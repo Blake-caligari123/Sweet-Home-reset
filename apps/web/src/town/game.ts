@@ -64,6 +64,7 @@ import { PetLayer } from './world/pet-layer';
 import { OutfitLayer } from './world/outfit-layer';
 import { TownAreas } from './world/town-areas';
 import { World } from './world/world';
+import { soundscapeFor } from './world/soundscape';
 
 /** At most this many extra scrubs from one rub. */
 
@@ -284,6 +285,7 @@ export class TownGame {
     this.world.follow(spot.x, spot.y - 8, true);
     this.guide.updateHighlight();
     this.systems.tidy.show();
+    this.updateSound();
     if (announce) { this.hud.announce(this.content.named(this.area.pack.name)); this.guide.handle({ type: 'entered', area: id }); }
   }
 
@@ -293,6 +295,7 @@ export class TownGame {
     if (!a) return;
     this.world.load(a, this.places.mess(id));
     this.world.alive.load([], 0); this.world.setCrops([]); this.world.setPickups([]);
+    this.sound.setPlace(soundscapeFor(a.pack, 12 * 60, false).ambience, 'none'); // the scene's place sounds like itself
   }
 
   /** Something in this area changed (a rock broke, a lantern lit): rebuild it and show it again where Puff stands. */
@@ -389,6 +392,13 @@ export class TownGame {
     morning({ state, view, clock: this.clock, content: this.content, refreshHud: () => this.refreshHud(), offer: () => void this.unlocker.offer() }, { ...night, news: this.systems.morningNews() });
   }
 
+  /** The place's ambience and the music's mood, for where Puff is, the time and the weather (world/soundscape.ts). */
+  private updateSound() {
+    const s = soundscapeFor(this.area.pack, this.clock.state.minutes, this.clock.weather === 'rainy');
+    this.sound.setPlace(s.ambience, s.rain);
+    this.sound.setMood(s.mood, this.clock.season);
+  }
+
   /** Pause → settings changed: apply them everywhere and save. */
   private applySettings() {
     const s = this.settings;
@@ -411,7 +421,7 @@ export class TownGame {
       const reveal = afterDue((this.content.pack.scenes ?? []).filter((s) => s.now), (f) => this.state.has(f), (id) => this.state.has(seenFlag(id)));
       if (reveal) { this.playStory(reveal); return; }
       for (const e of this.clock.advance(dt)) {
-        if (e === 'tick') { this.world.setSky(this.clock.season, this.clock.weather === 'rainy'); this.world.setTint(this.clock.state.minutes); }
+        if (e === 'tick') { this.world.setSky(this.clock.season, this.clock.weather === 'rainy'); this.world.setTint(this.clock.state.minutes); this.updateSound(); }
         if (e === 'late') { this.hud.setLate(true); this.view.say(`${this.state.names.puff}'s getting sleepy. Head home to bed.`); }
         if (e === 'doze' && !this.settings.relaxed) void this.endDay(true);
       }

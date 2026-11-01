@@ -665,6 +665,27 @@ These are the places Blake said "dealer's choice". Each can be changed:
 - **Satisfaction 5: the whole town shines (1 Nov):**
   - **🌟 The whole town is spotless:** clearing the last spot anywhere, when every restored place has nothing left to tidy, is the day's biggest cheer: a fanfare and 50 ✨, once a day. Mess drifting back overnight makes it a fresh, optional little goal each morning, with no streak and nothing lost by skipping.
   - **Puff hops for joy** when a place turns spotless or a Collection set is complete.
+- **Hooked 1: every place sounds like itself (1 Nov, Blake: "make it feel like a game people would want to be playing… do all of them and more"):**
+  - **Ambience** (`shared/audio/ambience.ts`, synthesised, no files): a soft bed for each kind of place, with little sounds now and then on top. Rain patters over it outdoors, and on the windows indoors.
+
+    | Place | What you hear |
+    |---|---|
+    | Square, lane and yard by day | birdsong |
+    | Woods, glade and orchard | rustling leaves and a woodpecker |
+    | River | lapping water and the odd plop |
+    | Beach and harbour | swelling waves and gulls |
+    | Caves | a low hum and drips |
+    | Indoors | a quiet room |
+    | Outdoors at night | crickets |
+
+  - **Music moods** (`setMood`):
+    - by day, the bright loop
+    - indoors, muffled and cosy
+    - at night, slower, with sparser melody
+    - in the caves, deep and sparse
+    - summer is a touch brighter, winter a touch softer
+  - Cutscenes sound like the place they show. `world/soundscape.ts` picks it all from the place, the time and the weather.
+  - Tour card: 🎧 How each place sounds.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
