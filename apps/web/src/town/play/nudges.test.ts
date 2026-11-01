@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { TownState } from '../state';
+import { hollowfern as pack } from '../data/test-pack';
 import { nudge } from './nudges';
 
 describe('nudges', () => {
@@ -28,5 +29,12 @@ describe('nudges', () => {
     expect(nudge(s, open(['grumble_dust', 'grumble_cobweb']))).toBe('grumble.cobweb.hint');
     s.flag('grumble_friend_cobweb');
     expect(nudge(s, open(['grumble_dust', 'grumble_cobweb']))).toBeNull();
+  });
+
+  it('points to every Grumble family and every later build, so nothing new arrives unannounced', () => {
+    for (const f of (pack.grumbleFamilies ?? []).slice(1)) expect(nudge(new TownState(), open([f.unlock])), f.id).toBe(`grumble.${f.id}.hint`);
+    expect(nudge(new TownState(), open(['mushroom_logs']))).toBe('build.mushroom_logs.hint');
+    expect(nudge(new TownState(), open(['riverbank_beds']))).toBe('build.riverbank_beds.hint');
+    expect(nudge(new TownState(), open(['harbour_gate']))).toBe('repair.harbour_gate.hint');
   });
 });

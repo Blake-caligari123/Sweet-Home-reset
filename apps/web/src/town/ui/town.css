@@ -175,3 +175,6 @@ html.high-contrast .muted { color: #4a3a32; }
   .sheet .list .row { padding: 8px 10px; }
   .sheet .btn-row { justify-content: center; }
 }
+
+/* Town banners wrap on a phone rather than running off both edges (a story line can be 60 letters). */
+#ui > .banner { white-space: normal; width: max-content; max-width: min(90vw, 26rem); text-align: center; line-height: 1.3; border-radius: 22px; font-size: 1.1rem; }

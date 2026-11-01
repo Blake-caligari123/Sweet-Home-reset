@@ -109,7 +109,7 @@ export class TownSystems {
     const page = journalPage({
       def: content.pack.story ?? { chapters: [], steps: [] }, story: state.story, day: this.host.day(),
       line: (id) => content.named(content.line(id) ?? ''), today: this.story.tracker(),
-      also: [jobs.tracker(), this.quests.tracker(), wants ? `☕ the café wants ${wants}` : null], tryNew, quests: this.quests.going()
+      also: [jobs.tracker(), this.quests.tracker(), wants ? `☕ the café wants ${wants}` : null], tryNew, quests: [...this.quests.going(), ...this.quests.offered()]
     });
     openJournal(view, page, memories);
   }

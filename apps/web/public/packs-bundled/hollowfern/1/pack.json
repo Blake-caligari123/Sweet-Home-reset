@@ -6027,7 +6027,7 @@
     {
      "x": 9,
      "y": 2,
-     "text": "Carved by the lamps: 'A light for every late boat. T.'"
+     "text": "By the lamps: 'A light for every boat out in the dark. T.'"
     }
    ],
    "doors": [
@@ -9935,8 +9935,8 @@
    "he_hazel_06.l05": "Snacks for busy days. Cook them when you like.",
    "he_hazel_08.l01": "{puff}, petal! Gran's tart. Help me get it right?",
    "he_hazel_08.l02": "Ooh. Yes please!",
-   "he_hazel_08.l03": "You dusted my counter on your very first day.",
-   "he_hazel_08.l04": "You've helped so much this spring, petal.",
+   "he_hazel_08.l03": "Gran baked it every Winter Lights, before the grey.",
+   "he_hazel_08.l04": "I've tried every year since. Now I've got you.",
    "he_hazel_08.l05": "I've never got it quite right. One step's missing.",
    "he_hazel_08.l06": "Maybe it isn't in the bowl. Maybe it's after?",
    "he_hazel_08.c07": "The missing step: share it while it's warm. Who first?",
@@ -10836,7 +10836,7 @@
    "wren.town.1": "{town}'s brighter than I ever remember it.",
    "wren.gift.loved": "For me?! Oh, this is the best. Thank you!",
    "wren.gift.liked": "Ooh, lovely! That's going by my window.",
-   "wren.gift.neutral": "A present! You're kind. Thank you!",
+   "wren.gift.neutral": "Oh, a present! You really are kind.",
    "wren.gift.disliked": "Hmm, not really for me. But thank you!",
    "wren.request.done": "Brilliant! Thanks, Keeper!",
    "req.wren_minnow": "Wren would love a minnow to share with Pip.",
@@ -11215,10 +11215,10 @@
    "scene.spring_end.1": "The fountain glows warm for a moment...",
    "scene.spring_end.2": "“Thank you, Keeper. There's more of me across the river.”",
    "scene.summer_end.title": "After the Picnic",
-   "scene.summer_end.1": "The fountain glows warm for a moment...",
+   "scene.summer_end.1": "The fountain shimmers in the warm dusk...",
    "scene.summer_end.2": "“The warm water stirs. Can you hear it singing?”",
    "scene.autumn_end.title": "After Leaf Fest",
-   "scene.autumn_end.1": "The fountain glows warm for a moment...",
+   "scene.autumn_end.1": "The fountain hums along with the evening...",
    "scene.autumn_end.2": "“I sang that song to keep the water warm. Now you know.”",
    "scene.opening.name": "The opening",
    "scene.arrive_sorrel.1": "Someone new comes up the lane, a bag on their back...",
@@ -11395,7 +11395,21 @@
    "quest.warm_baths.moss": "The spring under the caves warms the baths. It's sleepy too.",
    "quest.warm_baths.done": "When the spring wakes, my baths will steam again! Thank you.",
    "find.warm_stone": "A stone, still warm! Something deep below hums back.",
-   "find.warm_stone.about": "Smooth and warm. It opens a crack in the deepest cave."
+   "find.warm_stone.about": "Smooth and warm. It opens a crack in the deepest cave.",
+   "build.riverbank_beds.hint": "Riverbank beds are in the Keeper's plans: watercress!",
+   "build.mushroom_logs.hint": "Mushroom logs are in the Keeper's plans: grow mushrooms!",
+   "scene.reveal_glade.name": "The quiet glade",
+   "scene.reveal_glade.1": "Leaves cleared, the little glade is bright again.",
+   "scene.reveal_glade.2": "On the mossy stone: 'Every song starts somewhere quiet.'",
+   "scene.reveal_glade.3": "Thimble came here to hum the old song. You can feel it.",
+   "scene.reveal_loft.name": "The net loft",
+   "scene.reveal_loft.1": "Dust gone, the old lamps catch the light.",
+   "scene.reveal_loft.2": "Carved by them: 'A light for every boat out in the dark.'",
+   "scene.reveal_loft.3": "Thimble kept the harbour lit, too. Of course they did.",
+   "scene.reveal_nook.name": "Thimble's nook",
+   "scene.reveal_nook.1": "It's tidy now: a little armchair, a lamp, a teacup.",
+   "scene.reveal_nook.2": "Carved by the chair: 'Home is wherever someone waits.'",
+   "scene.reveal_nook.3": "Someone has been waiting a long time. Not for much longer."
   }
  },
  "heartEvents": [
@@ -21742,6 +21756,376 @@
       [
        11000,
        "scene.reveal_lighthouse.3"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "reveal_glade",
+   "name": "scene.reveal_glade.name",
+   "after": "restored_glade",
+   "now": true,
+   "shots": [
+    {
+     "area": "glade",
+     "ms": 16500,
+     "minutes": 600,
+     "season": "Autumn",
+     "camera": [
+      [
+       2,
+       5,
+       0
+      ],
+      [
+       8,
+       3,
+       6000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.6
+      ],
+      [
+       6000,
+       2.6
+      ],
+      [
+       16500,
+       2.6
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 8,
+       "y": 3,
+       "r": 1.6,
+       "from": 0,
+       "to": 0.6
+      }
+     ],
+     "bursts": [
+      [
+       8,
+       3,
+       6000
+      ]
+     ],
+     "actors": [
+      {
+       "who": "puff",
+       "path": [
+        [
+         2,
+         5,
+         0
+        ],
+        [
+         8,
+         4,
+         5500
+        ]
+       ],
+       "looks": [
+        [
+         5600,
+         "up"
+        ]
+       ],
+       "hops": [
+        11000
+       ]
+      }
+     ],
+     "emotes": [
+      [
+       6200,
+       "puff",
+       "❗"
+      ],
+      [
+       11000,
+       "puff",
+       "♪"
+      ]
+     ],
+     "sounds": [
+      [
+       6000,
+       "shimmer"
+      ],
+      [
+       1000,
+       "wind"
+      ],
+      [
+       8000,
+       "hum"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.reveal_glade.1"
+      ],
+      [
+       6000,
+       "scene.reveal_glade.2"
+      ],
+      [
+       11300,
+       "scene.reveal_glade.3"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "reveal_loft",
+   "name": "scene.reveal_loft.name",
+   "after": "restored_net_loft",
+   "now": true,
+   "shots": [
+    {
+     "area": "net_loft",
+     "ms": 16500,
+     "minutes": 960,
+     "season": "Winter",
+     "camera": [
+      [
+       5,
+       6,
+       0
+      ],
+      [
+       9,
+       2,
+       6000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.6
+      ],
+      [
+       6000,
+       2.6
+      ],
+      [
+       16500,
+       2.6
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 9,
+       "y": 2,
+       "r": 1.6,
+       "from": 0,
+       "to": 0.6
+      }
+     ],
+     "bursts": [
+      [
+       9,
+       2,
+       6000
+      ]
+     ],
+     "actors": [
+      {
+       "who": "puff",
+       "path": [
+        [
+         5,
+         6,
+         0
+        ],
+        [
+         9,
+         3,
+         5500
+        ]
+       ],
+       "looks": [
+        [
+         5600,
+         "up"
+        ]
+       ],
+       "hops": [
+        11000
+       ]
+      }
+     ],
+     "emotes": [
+      [
+       6200,
+       "puff",
+       "❗"
+      ],
+      [
+       11000,
+       "puff",
+       "♪"
+      ]
+     ],
+     "sounds": [
+      [
+       6000,
+       "shimmer"
+      ],
+      [
+       800,
+       "drip"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.reveal_loft.1"
+      ],
+      [
+       6000,
+       "scene.reveal_loft.2"
+      ],
+      [
+       11300,
+       "scene.reveal_loft.3"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "reveal_nook",
+   "name": "scene.reveal_nook.name",
+   "after": "restored_thimble_nook",
+   "now": true,
+   "shots": [
+    {
+     "area": "thimble_nook",
+     "ms": 17000,
+     "minutes": 1200,
+     "season": "Winter",
+     "camera": [
+      [
+       5,
+       6,
+       0
+      ],
+      [
+       4,
+       2,
+       6000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.6
+      ],
+      [
+       6000,
+       2.6
+      ],
+      [
+       17000,
+       2.6
+      ]
+     ],
+     "music": "soft",
+     "glows": [
+      {
+       "x": 4,
+       "y": 2,
+       "r": 1.6,
+       "from": 0,
+       "to": 0.6
+      }
+     ],
+     "bursts": [
+      [
+       4,
+       2,
+       6000
+      ]
+     ],
+     "actors": [
+      {
+       "who": "puff",
+       "path": [
+        [
+         5,
+         6,
+         0
+        ],
+        [
+         4,
+         3,
+         5500
+        ]
+       ],
+       "looks": [
+        [
+         5600,
+         "up"
+        ]
+       ],
+       "hops": [
+        11000
+       ]
+      }
+     ],
+     "emotes": [
+      [
+       6200,
+       "puff",
+       "❗"
+      ],
+      [
+       11000,
+       "puff",
+       "♪"
+      ]
+     ],
+     "sounds": [
+      [
+       6000,
+       "shimmer"
+      ],
+      [
+       1200,
+       "hum"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.reveal_nook.1"
+      ],
+      [
+       6000,
+       "scene.reveal_nook.2"
+      ],
+      [
+       11300,
+       "scene.reveal_nook.3"
       ]
      ]
     }
