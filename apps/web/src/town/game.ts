@@ -31,6 +31,7 @@ import { seenFlag } from './story/path';
 import { afterDue } from './story/scenes';
 import { ScenePlayer } from './story/scene-player';
 import { Menus } from './ui/menus';
+import { NeighbourBubbles } from './ui/neighbour-bubbles';
 import { MAX_RUB, Taps } from './play/taps';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
@@ -78,6 +79,7 @@ export class TownGame {
   private hud: Hud;
   private scenes!: ScenePlayer;
   private menus: Menus;
+  private bubbles!: NeighbourBubbles;
   private view: View;
   private content: Content;
   private clock = new Clock();
@@ -218,6 +220,11 @@ export class TownGame {
     this.homeLife = new HomeLife({ world: this.world, view: this.view, sound, content: this.content });
     this.scenes = new ScenePlayer({ world: this.world, ui, content: this.content, reducedMotion: () => !!settings.reducedMotion, show: (id) => this.showForScene(id), resume: () => this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet),
       sound: (id) => this.sound.play(id), music: (m) => this.sound.sceneMusic(m) });
+    this.bubbles = new NeighbourBubbles({
+      root: ui, visible: () => this.neighbours.visible(this.areaId), area: () => this.areaId, mood: (id) => this.life.mood(id),
+      met: (id) => !!this.state.friends[id]?.met, puff: () => ({ x: this.puff.fx, y: this.puff.fy }), toScreen: (x, y) => this.world.toScreen(x, y)
+    });
+    this.guide.listen((e) => { if (e.type === 'cleared' && e.area === this.areaId) this.bubbles.tidied(this.puff.x, this.puff.y); });
     this.fade = h('div', { class: 'fade', 'aria-hidden': 'true' });
     ui.append(this.fade);
     this.deviceId = (saved?.deviceId as string) ?? (crypto.randomUUID?.() ?? String(Math.random()).slice(2));
@@ -285,6 +292,7 @@ export class TownGame {
     this.world.follow(spot.x, spot.y - 8, true);
     this.guide.updateHighlight();
     this.systems.tidy.show();
+    this.bubbles?.clear();
     this.updateSound();
     if (announce) { this.hud.announce(this.content.named(this.area.pack.name)); this.guide.handle({ type: 'entered', area: id }); }
   }
@@ -454,6 +462,7 @@ export class TownGame {
     this.grumbles.tick(dt, this.view.busy || this.fading);
     this.pet.tick(dt);
     this.critters.tick(dt);
+    this.bubbles.tick(dt);
     this.world.follow(p.fx, p.fy - 8);
     this.world.update(dt);
     this.hudLive.tick();
