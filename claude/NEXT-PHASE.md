@@ -544,7 +544,7 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Salt Grumbles:** crusty and white, on the beach and at the harbour from day 46. Sponge 4 times to freshen them up.
   - **The net loft**, a secret:
     - A lamp-room key turns up while tidying the harbour, and a door opens at the top of the quay.
-    - Inside: Thimble's old net loft, with two lamps and a carving: "A light for every late boat. T."
+    - Inside: Thimble's old net loft, with two lamps and a carving: "A light for every boat out in the dark. T."
     - Restoring it gives 120 ✨.
   - Tour cards: ⚓ The Old Harbour, 🧂 Salt Grumbles, 🏮 The net loft.
 - **6d.13 Marlo the harbour keeper, and the lighthouse (1 Nov):** the fifth newcomer, a slow and steady seal who once kept a lamp on a far coast.
@@ -591,6 +591,18 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - the Deeps
 
   Each has its townsfolk, mess, critters, Grumbles, secrets, quests and story chapter. The year's story runs through all of them. Next: early access (6c, Blake's store steps in RELEASE-CHECKLIST), and more townsfolk toward about 20 at 1.0.
+- **Polish pass 1 (1 Nov, Blake: "tie it all together… make sure it ain't slop… fully polish it"):** from playing the first weeks and auditing the text.
+  - **Banners** wrap on a phone, rather than running off both edges, and stay up long enough to read (about a second per 15 letters, `bannerMs`).
+  - **Nothing arrives unannounced:**
+    - the journal's New to try now points to the drip and salt Grumbles, and to the riverbank beds and mushroom logs once they're in the plans
+    - a test checks every Grumble family has a nudge
+  - **Side quests on offer** show in the journal ("On offer: ask Otto…"), not only once they're taken on.
+  - **Every secret has its moment:** restoring the quiet glade, the net loft and Thimble's nook each plays a short reveal at the carving, like the boathouse, so Thimble's thread runs through all of them. Restoring any place now sets `restored_<id>`, outdoors too.
+  - **Text:**
+    - Hazel's 2nd and 8th heart scenes no longer share a line
+    - the three festival endings open differently
+    - Wren and Juniper no longer share a thank-you
+    - the net loft carving loses a banned word ("A light for every boat out in the dark")
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

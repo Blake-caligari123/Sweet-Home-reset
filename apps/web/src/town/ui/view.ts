@@ -9,7 +9,8 @@ export interface Button { label: string; primary?: boolean; onClick: () => void 
 export type Speaker = { name: string; portrait: HTMLElement };
 
 /** How long a banner shows (its CSS animation runs this long). */
-const BANNER_MS = 1900;
+/** How long a banner stays up: short ones pop, longer ones (a story line) stay long enough to read. */
+export const bannerMs = (text: string) => Math.max(1900, Math.round((text.length / 15) * 1000 + 1200));
 /** As long as the toast's CSS animation. */
 const TOAST_MS = 1600;
 
@@ -68,10 +69,11 @@ export class View {
   private nextBanner() {
     const text = this.banners[0];
     if (!text) return;
-    const el = h('div', { class: 'banner', 'aria-hidden': 'true' }, text);
+    const ms = bannerMs(text);
+    const el = h('div', { class: 'banner', 'aria-hidden': 'true', style: { animationDuration: `${ms}ms` } }, text);
     this.root.append(el);
     this.hud.announce(text);
-    window.setTimeout(() => { el.remove(); this.banners.shift(); this.nextBanner(); }, BANNER_MS);
+    window.setTimeout(() => { el.remove(); this.banners.shift(); this.nextBanner(); }, ms);
   }
 
   feedback(soundId: SoundId, haptic: HapticKind | null) {

@@ -1673,7 +1673,7 @@ For each step: who asks, the button, what they say, the tracker while waiting (c
 - The glade's stone: "On a mossy stone: 'Every song starts somewhere quiet. T.'"
 
 **The Old Harbour (6d.12)**
-- Sign: "The Old Harbour. Boats welcome, even slow ones." / net loft carving: "Carved by the lamps: 'A light for every late boat. T.'"
+- Sign: "The Old Harbour. Boats welcome, even slow ones." / net loft carving: "By the lamps: 'A light for every boat out in the dark. T.'"
 - Salt Grumbles: "Crrrk." / "Hmph... all crusty." / "Splish! Fresh as a sea breeze!" / hint "Something crusty is grumbling by the sea."
 - Lamp-room key: "A little key with a lamp on it. A door by the harbour!" / "Brass, with a lamp. It opens the old net loft."
 - Gate: "The harbour gate could be mended. See the Keeper's plans." / "Rocks block the way. Maybe in winter." / "The harbour gate is mended! The old harbour is open."

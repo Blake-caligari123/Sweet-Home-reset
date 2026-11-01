@@ -69,6 +69,13 @@ export class QuestLog {
       .map((q) => ({ name: q.name, hint: currentStep(q, state.quests, this.host.day())?.hint ?? 'More tomorrow' }));
   }
 
+  /** Quests someone Puff has met would offer today, for the journal: where to go to take one on. */
+  offered() {
+    const { state, content } = this.host;
+    return this.quests.filter((q) => offerable(q, state.quests, this.host.day(), state.flags) && state.friendOf(q.giver).met)
+      .map((q) => ({ name: q.name, hint: `On offer: ask ${content.neighbour(q.giver)?.name ?? q.giver} (📜 ${q.offer})` }));
+  }
+
   private stepped(q: QuestDef) {
     const { state, view, content } = this.host;
     if (!finished(q, state.quests)) {

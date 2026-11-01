@@ -426,7 +426,7 @@ export class PuffActions {
     view.banner(`${this.host.content.named(area.pack.name)} restored!${reward ? ` +${reward} ✨` : ''}`);
     this.host.guide.handle({ type: 'restored', area: id });
     this.host.life.restored(id);
-    if (area.pack.kind === 'home') state.flag(`restored_${id}`);
+    state.flag(`restored_${id}`); // homes and outdoor places alike (a secret's reveal waits on it)
     // Every area restores once, so each gets its before-and-after clip offer: homes, the yard, the square.
     const first = !state.has('shared_prompt');
     state.flag('shared_prompt');
