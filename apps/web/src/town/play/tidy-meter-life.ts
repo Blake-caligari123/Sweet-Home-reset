@@ -49,6 +49,7 @@ export class TidyMeterLife {
     state.sparkles += gift;
     const f = this.host.feet();
     world.sparkleBurst(Math.floor(f.x / T), Math.floor(f.y / T) - 1, 24);
+    world.cleanRing(Math.floor(f.x / T), Math.floor(f.y / T), true);
     view.feedback('combo', 'success');
     view.banner(`✨ ${this.host.content.named(name)} is spotless! +${gift} ✨`);
     this.host.refreshHud();

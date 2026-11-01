@@ -656,6 +656,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
     It's in Pause (🏆 with the %), never rounds up to 100, and never goes down. Reaching 100% is the biggest cheer in the game (1,000 ✨, once).
   - **Banners wait for sheets:** a banner never covers an open sheet or chat (one "New outfit" banner sat over Pause's buttons). It shows as soon as it's closed.
   - Tour card: 🏆 Town completion.
+- **Satisfaction 4: every clean lands, and the day adds up (1 Nov):**
+  - **Clean rings:** each spot cleared sends a soft ring swelling out and fading (`world/rings.ts`). A spotless place sends three big ones. There are none with reduced motion.
+  - **Sparkles tick up:** the ✨ count counts up over a moment with a pop when it grows, so earnings feel earned.
+  - **🌙 The day's recap** (`play/day-recap.ts`): as night falls, before the hint at tomorrow, one line sums up the day (spots tidied, places made spotless, fish, critters, crops, things made, Grumbles befriended, Sparkles earned). Only what happened is shown, and a quiet day shows nothing.
+  - **The before-and-after clip offer waits** for a quiet moment, never popping up over a chat, a sheet or the night falling.
+  - Tour card: 🌙 The day's recap.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

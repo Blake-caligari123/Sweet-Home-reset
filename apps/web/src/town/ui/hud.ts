@@ -158,7 +158,25 @@ export class Hud {
     this.clockLine.setAttribute('aria-label', clockLabel(day, time, night, rainy));
   }
 
-  setSparkles(n: number) { this.sparkleText.textContent = `✨ ${n}`; this.sparkleText.setAttribute('aria-label', sparklesLabel(n)); }
+  private sparklesShown = -1;
+  private sparkleTimer = 0;
+
+  /** The Sparkles count: going up, it ticks up over a moment with a little pop (going down, it just changes). */
+  setSparkles(n: number) {
+    this.sparkleText.setAttribute('aria-label', sparklesLabel(n));
+    const from = this.sparklesShown;
+    this.sparklesShown = n;
+    window.clearInterval(this.sparkleTimer);
+    if (from < 0 || n <= from || document.documentElement.classList.contains('reduce-motion')) { this.sparkleText.textContent = `✨ ${n}`; return; }
+    const steps = Math.min(12, n - from);
+    let k = 0;
+    this.sparkleText.classList.remove('pulse'); void this.sparkleText.offsetWidth; this.sparkleText.classList.add('pulse');
+    this.sparkleTimer = window.setInterval(() => {
+      k += 1;
+      this.sparkleText.textContent = `✨ ${Math.round(from + ((n - from) * k) / steps)}`;
+      if (k >= steps) window.clearInterval(this.sparkleTimer);
+    }, 40);
+  }
 
   setTracker(text: string) {
     this.tracker.textContent = text;

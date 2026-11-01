@@ -30,6 +30,8 @@ export const TOUR: TourCard[] = [
     setup: (s) => { s.state.finds.cleans.lane = 49; s.day(3).time(9).go('lane'); } },
   { title: '🏆 Town completion', steps: ['Pause → 🏆 shows how complete the town is: one number, and a bar for each part (places, story, collections, secrets, best friends, festivals).', 'It only ever goes up. Reach 100% for the biggest cheer in the game.'],
     setup: (s) => { for (const f of ['restored_burrow', 'restored_yard', 'restored_square', 'restored_bakery', 'festival_spring_fair']) s.flag(f); s.state.critters.push('ladybird', 'bumblebee', 'snail'); s.state.fishLog.push('minnow', 'trout'); s.state.story = { step: 14, asked: false, count: 0, day: 14 }; s.day(15).time(10).visited('boathouse').go('square'); } },
+  { title: '🌙 The day\'s recap', steps: ['Tidy a few spots here (each one rings a rising note and a little ring), then head to bed.', 'As night falls: your day summed up (spots tidied, places spotless, fish, critters, crops, Sparkles), then the hint at tomorrow.'],
+    setup: (s) => { s.day(3).time(18).go('lane'); } },
   { title: '📖 The Keeper\'s Story', steps: ['The 📖 line at the top is today\'s story step: Otto has something for you. Talk to him and tap "📖 What\'s that you\'ve got?", then catch a fish.', 'Tap the 📖 line (or Pause → 📔 Keeper\'s journal) for the story so far.', 'Go to bed: a hint at tomorrow shows as night falls.'],
     setup: (s) => { s.state.story = { step: 4, asked: false, count: 0, day: 4 }; s.state.fishCaught = 0; s.day(5).time(9).flag('keeper_named').meet('hazel', 'bea', 'pip', 'otto').go('riverside'); } },
   { title: '🗺 Getting around', steps: ['Tap 🗺 (top left) and pick a place to travel there.', 'Pause → Joystick: drag anywhere to walk.', 'Pinch (or the mouse wheel) to zoom.'],

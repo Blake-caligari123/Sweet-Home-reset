@@ -38,7 +38,8 @@
 .clock-box { grid-area: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
 .clock-line { display: flex; flex-direction: column; align-items: flex-end; padding: 4px 10px; border: 3px solid var(--line); border-radius: 14px; background: rgba(255, 248, 236, 0.95); font-weight: 900; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .clock-line .time { font-size: 0.85rem; }
-.sparkles { min-height: 34px; }
+.sparkles { min-height: 34px; font-variant-numeric: tabular-nums; }
+.sparkles.pulse { animation: pulse 0.45s ease 1; }
 .town-bottom {
   position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; gap: 6px;
   padding: 0 max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
@@ -60,6 +61,7 @@
 .fade-tease { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 0 24px; text-align: center; color: #f6ead8; }
 .fade-tease small { font-size: 14px; letter-spacing: 0.08em; opacity: 0.75; }
 .fade-tease p { margin: 0; font-size: 20px; line-height: 1.4; max-width: 30ch; }
+.fade-tease .fade-recap { font-size: 16px; margin-bottom: 18px; opacity: 0.9; }
 .dialogue {
   position: absolute; left: 50%; bottom: calc(max(8px, env(safe-area-inset-bottom)) + 96px); transform: translateX(-50%);
   width: min(440px, calc(100% - 24px)); display: flex; gap: 12px; align-items: flex-start; padding: 12px; pointer-events: auto;

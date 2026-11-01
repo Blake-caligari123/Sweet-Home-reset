@@ -217,6 +217,7 @@ export class PuffActions {
     if (WET.includes(type)) world.suds(t.x, t.y);
     if (result.cleared) {
       world.sparkleBurst(t.x, t.y, 8);
+      world.cleanRing(t.x, t.y);
       view.feedback('sparkle', 'medium');
       state.lastClean = type;
       if (pays && tool !== 'hands') state.fluff.spend(false, this.host.settings.relaxed ? 0.5 : 1);
@@ -430,7 +431,9 @@ export class PuffActions {
     // Every area restores once, so each gets its before-and-after clip offer: homes, the yard, the square.
     const first = !state.has('shared_prompt');
     state.flag('shared_prompt');
-    window.setTimeout(() => offerClip(view, area, first, state.names), CLIP_OFFER_MS);
+    // The offer waits for a quiet moment: not over a chat, a sheet or the night falling.
+    const offer = () => (view.busy ? window.setTimeout(offer, 500) : offerClip(view, area, first, state.names));
+    window.setTimeout(offer, CLIP_OFFER_MS);
     this.host.save();
   }
 }
