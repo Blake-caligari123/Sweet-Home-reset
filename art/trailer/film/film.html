@@ -1,0 +1,241 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>One Home</title>
+<style>
+@font-face{font-family:Fredoka;src:url(../fonts/fredoka.woff2) format('woff2');font-weight:700}
+@font-face{font-family:Cormorant;src:url(../fonts/cormorant.woff2) format('woff2');font-weight:600}
+@font-face{font-family:CormorantI;src:url(../fonts/cormorant_italic.woff2) format('woff2');font-weight:600}
+html,body{margin:0;background:#000}
+canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas>
+<script src="../lib/kit.js"></script>
+<script src="timeline.js"></script>
+<script>
+// "One Home": a dust bunny wakes in a grey burrow, finds that colour comes back wherever it tidies, and makes the
+// burrow a home by bedtime. Every time and place comes from timeline.js (written by timeline.py); see TREATMENT.md.
+const DURATION = TL.dur, CUE = TL.cues, PL = TL.places;   // (C is the kit's colour function)
+const PUFF_SCALE = .55;                                  // Puff's size on the painting (painting pixels per sprite pixel)
+
+// ---------------- Puff's acting ----------------
+function segAt(t) {
+  let last = TL.segs[0];
+  for (const s of TL.segs) { if (t >= s[1] && t < s[2]) return { s, k: (t - s[1]) / (s[2] - s[1]) }; if (t >= s[1]) last = s; }
+  return { s: last, k: 1 };
+}
+function posAt(t) {
+  const { s, k } = segAt(t);
+  const e = (s[0] === 'walk' || s[0] === 'carry') && s[2] - s[1] > .5 ? smooth(k) : k;
+  return [lerp(s[3][0], s[4][0], e), lerp(s[3][1], s[4][1], e)];
+}
+/** Pose → sprite, squash and stretch, lift, lean and facing, all from the segment Puff is in. */
+function actAt(t) {
+  const { s, k } = segAt(t), pose = s[0];
+  const [x, y] = posAt(t);
+  const dx = s[4][0] - s[3][0], dy = s[4][1] - s[3][1];
+  let a = { pose, x, y, name: 'puff_idle_down', frame: Math.floor(t * 7), flip: false, sqx: 1, sqy: 1, lift: 0, rot: 0 };
+  const walkSprite = () => {
+    a.frame = Math.floor(t * 11);
+    if (Math.abs(dx) >= Math.abs(dy) * .8) { a.name = 'puff_walk_right'; a.flip = dx < 0; }
+    else a.name = dy < 0 ? 'puff_walk_up' : 'puff_walk_down';
+    a.lift = Math.abs(Math.sin(t * 11 * Math.PI / 2)) * 5;              // a little bounce in the step
+  };
+  const arc = (h) => {                                                   // anticipation, flight, landing
+    if (k < .18) { const q = k / .18; a.sqx = 1 + .22 * q; a.sqy = 1 - .2 * q; }
+    else if (k < .85) { const q = (k - .18) / .67; a.lift = Math.sin(q * Math.PI) * h; a.sqx = .9; a.sqy = 1.14; }
+    else { const q = (k - .85) / .15; a.sqx = 1 + .18 * (1 - q); a.sqy = 1 - .16 * (1 - q); }
+  };
+  switch (pose) {
+    case 'hide': return null;
+    case 'pop': {
+      a.name = 'puff_blink_down'; a.frame = 1;
+      a.lift = Math.sin(k * Math.PI) * 95; a.sqx = 1 - .25 * Math.sin(k * Math.PI); a.sqy = 1 + .3 * Math.sin(k * Math.PI);
+      a.rot = (1 - k) * .4; break;
+    }
+    case 'waking': {
+      const land = t - CUE.land; if (land < .15) { a.sqx = 1.25 - land; a.sqy = .8 + land; }
+      if (t < CUE.wake) { a.name = 'puff_blink_down'; a.frame = 1; } break;
+    }
+    case 'look-l': case 'look-r': {
+      a.name = 'puff_walk_right'; a.frame = 0; a.flip = pose === 'look-l';
+      a.rot = (pose === 'look-l' ? -1 : 1) * .05 * Math.sin(Math.min(1, k * 3) * Math.PI / 2);
+      if (t > CUE.shiver) a.rot += Math.sin(t * 70) * .05;
+      break;
+    }
+    case 'walk': walkSprite(); break;
+    case 'carry': walkSprite(); a.lift *= .6; break;
+    case 'down': a.rot = .09 * Math.sin(Math.min(1, k * 4) * Math.PI / 2); a.sqy = .95; a.name = 'puff_walk_down'; a.frame = 0; break;
+    case 'hop': arc(55); break;
+    case 'bighop': arc(130); if (k > .35 && k < .7) a.rot = Math.sin(t * 40) * .18; break;
+    case 'sweep': {
+      const toward = s === segAt(9.5).s ? -1 : 1;                        // the first pile is to the left
+      a.name = 'puff_walk_right'; a.flip = toward < 0; a.frame = 1;
+      a.rot = toward * (.28 * Math.sin(k * Math.PI)); a.sqx = 1 + .15 * Math.sin(k * Math.PI); a.sqy = 1 - .12 * Math.sin(k * Math.PI); break;
+    }
+    case 'bump': { const q = Math.min(1, k * 3); a.rot = -.18 * Math.sin(q * Math.PI); a.sqx = 1 + .12 * (1 - q); a.sqy = 1 - .1 * (1 - q); break; }
+    case 'yawn': {
+      const w = Math.sin(k * Math.PI);
+      a.name = k > .2 && k < .8 ? 'puff_blink_down' : 'puff_idle_down'; a.frame = k > .2 && k < .8 ? 1 : 0;
+      a.sqx = 1 - .1 * w; a.sqy = 1 + .14 * w - .1 * Math.max(0, Math.sin(k * Math.PI * 2 - Math.PI)); break;
+    }
+    case 'tug': { a.rot = Math.sin(k * Math.PI * 6) * .16; a.sqx = 1 + .06 * Math.sin(k * Math.PI * 6); a.name = 'puff_walk_up'; a.frame = 0; break; }
+    case 'curl': { const q = smooth(k); a.name = 'puff_blink_down'; a.frame = 1; a.sqx = 1 + .18 * q; a.sqy = 1 - .2 * q; a.rot = .25 * q; break; }
+    case 'sleep': { a.name = 'puff_blink_down'; a.frame = 1; const b = Math.sin(t * 2.4); a.sqx = 1.18 + .02 * b; a.sqy = .8 + .03 * b; a.rot = .25; break; }
+  }
+  return a;
+}
+
+// ---------------- camera ----------------
+const CAM = [ // [t, x, y, z] keys, eased between; the tidy (7.8–19.8) follows Puff instead
+  [0, 430, 600, 4.6], [2.6, 430, 610, 4.4], [3.0, 450, 600, 3.7], [7.4, 505, 590, 3.0],
+  [19.8, 320, 470, 2.9], [22.2, 305, 455, 3.1], [23.4, 330, 470, 2.2], [26.4, 300, 400, 3.0], [27.4, 295, 340, 3.6],
+  [36, 896, 560, .62],
+];
+function camKeys(t) {
+  let i = CAM.findIndex(k => k[0] > t); if (i < 1) i = i === 0 ? 1 : CAM.length - 1;
+  const [t0, x0, y0, z0] = CAM[i - 1], [t1, x1, y1, z1] = CAM[i];
+  const k = i === CAM.length - 1 ? easeInOut(seg(t, 28.2, t1)) : easeInOut(seg(t, t0, t1));
+  return [lerp(x0, x1, k), lerp(y0, y1, k), lerp(z0, z1, k)];
+}
+function camAt(t) {
+  const keyed = camKeys(t);
+  const w = Math.min(seg(t, 7.4, 8.4), 1 - seg(t, 19.0, 19.8));          // how much the follow-cam takes over
+  if (w <= 0) return keyed;
+  let fx = 0, fy = 0; for (let i = 0; i < 8; i++) { const [x, y] = posAt(Math.max(0, t - i * .07)); fx += x; fy += y; }
+  fx /= 8; fy /= 8;
+  return [lerp(keyed[0], fx + 20, w), lerp(keyed[1], fy - 60, w), lerp(keyed[2], 2.6, w)];
+}
+
+// ---------------- the room ----------------
+function bloomR(b, t) { const k = seg(t, b[0], b[0] + b[4]); return { r: b[3] * easeOut(k), k }; }
+function room(t) {
+  const img = IMG.burrow, [x0, y0] = P(0, 0), w = img.width * pc.z, h = img.height * pc.z;
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(GREY.burrow, x0, y0, w, h);
+  ctx.save(); ctx.beginPath();
+  TL.blooms.forEach((b, i) => { if (t < b[0]) return; const { r } = bloomR(b, t); if (r <= 0) return; const [bx, by] = P(b[1], b[2]); inkPath(bx, by, r * pc.z, 31 + i, t); });
+  ctx.clip(); ctx.drawImage(img, x0, y0, w, h); ctx.restore();
+  // a soft glowing rim on every bloom while it spreads
+  TL.blooms.forEach(b => {
+    const { r, k } = bloomR(b, t); if (t < b[0] || k >= 1 || r <= 0) return;
+    const [bx, by] = P(b[1], b[2]);
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = (1 - k) * (b[5] === 'step' ? .35 : .7);
+    ctx.strokeStyle = '#fff1b0'; ctx.lineWidth = (b[5] === 'flood' ? 40 : 14) * (1 - k) + 2; ctx.shadowColor = '#ffe9a0'; ctx.shadowBlur = 30;
+    ctx.beginPath(); ctx.arc(bx, by, r * pc.z, 0, 7); ctx.stroke(); ctx.restore();
+  });
+}
+function windowRain(t) {
+  const wiped = seg(t, CUE.wipe - .1, CUE.wipe + .35), [wx, wy] = P(...PL.window), r = 50 * pc.z;
+  if (wiped < 1) {
+    ctx.save(); ctx.beginPath(); ctx.arc(wx, wy, r, 0, 7); ctx.clip();
+    ctx.fillStyle = `rgba(70,80,100,${.55 * (1 - wiped)})`; ctx.fillRect(wx - r, wy - r, r * 2, r * 2);
+    ctx.strokeStyle = `rgba(200,215,235,${.7 * (1 - wiped)})`; ctx.lineWidth = Math.max(1, 1.2 * pc.z);
+    const rr = rng(3);
+    for (let i = 0; i < 26; i++) { const x = wx - r + rr() * r * 2, sp = (.6 + rr()) * r * 1.6, y = wy - r + ((rr() * r * 2 + t * sp) % (r * 2)); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 2 * pc.z, y + 9 * pc.z); ctx.stroke(); }
+    ctx.restore();
+  }
+  const pullOut = 1 - seg(t, 28.4, 31.4);                               // the beams fade as the camera pulls back wide
+  if (wiped > 0 && pullOut > 0) shafts(t, PL.window[0], PL.window[1] + 20, .75 * wiped * pullOut, -.5);
+}
+function lampLight(t) {
+  const on = seg(t, CUE.lamp, CUE.lamp + .15); if (on <= 0) return;
+  const [lx, ly] = P(...PL.lamp); glow(lx, ly, 140 * pc.z, WARM, .55 * on + .05 * Math.sin(t * 3) * on);
+}
+/** The room's mood: a cool rainy dimness until the window is wiped, then warm, warmest after the flood. */
+function grade(t) {
+  const cool = 1 - seg(t, CUE.wipe - .2, CUE.wipe + .8), warm = seg(t, CUE.flood, CUE.flood + 2.5);
+  if (cool > 0) { ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = `rgba(150,160,190,${.55 * cool})`; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+  if (warm > 0) { ctx.save(); ctx.globalCompositeOperation = 'soft-light'; ctx.fillStyle = `rgba(255,200,130,${.35 * warm})`; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+}
+
+// ---------------- props ----------------
+function props(t) {
+  // the pile Puff is born from: still, twitching, then gone in the pop
+  if (t < CUE.pop) {
+    const tw = CUE.twitch.reduce((s, c) => s + Math.max(0, 1 - Math.abs(t - c) / .18), 0) + (t > 1.6 ? .3 * Math.max(0, Math.sin((t - 1.6) * 30)) : 0);
+    pspr('mess_dust', 4, PL.p0[0], PL.p0[1] + 8, 1.9, { sqx: 1 + .08 * tw, sqy: 1 - .1 * tw + .04 * Math.sin(t * 30) * tw });
+  }
+  [[PL.d1, 9.6, 2], [PL.d2, 10.8, 6]].forEach(([p, te, f]) => {
+    const k = seg(t, te - .05, te + .15), wob = t > te - .45 && t < te ? Math.sin(t * 50) * .06 : 0;
+    if (k < 1) pspr('mess_dust', f, p[0], p[1], 1.6 * (1 - easeOut(k)), { sqx: 1 + wob, sqy: 1 - wob });
+  });
+  // the sock: on the floor → flipped onto Puff's head → tossed into the basket
+  const flip = seg(t, CUE.sock_flip, CUE.sock_flip + .35), toss = seg(t, CUE.sock_toss, CUE.sock_in);
+  if (t < CUE.sock_flip) pspr('item_sock', 0, PL.sock[0], PL.sock[1], .85, { rot: -.6 });
+  else if (t < CUE.sock_toss) {
+    const a = actAt(t), headY = a.y - a.lift - 168 * PUFF_SCALE * a.sqy + 18;
+    const x = lerp(PL.sock[0], a.x, easeOut(flip)), y = lerp(PL.sock[1], headY, easeOut(flip)) - Math.sin(flip * Math.PI) * 60;
+    pspr('item_sock', 0, x, y, .85, { rot: lerp(-.6, Math.sin(t * 9) * .15, flip) + flip * 6.28 * (flip < 1 ? 1 : 0) });
+  } else if (t < CUE.sock_in) {
+    const a = actAt(CUE.sock_toss), sx = a.x, sy = a.y - 168 * PUFF_SCALE + 18;
+    pspr('item_sock', 0, lerp(sx, PL.basket[0], toss), lerp(sy, PL.basket[1] - 10, toss) - Math.sin(toss * Math.PI) * 90, .85, { rot: toss * 7 });
+  } else pspr('item_sock', 0, PL.basket[0] + 8, PL.basket[1] - 14, .75, { rot: .5 });
+}
+function burst(x, y, te, t, seed, big = 1) { const [sx, sy] = P(x, y); poof(sx, sy, te, t, seed, big * pc.z / 2.6); }
+
+// ---------------- Puff, and what Puff says ----------------
+function drawPuff(t) {
+  const a = actAt(t); if (!a) return;
+  const [sx, sy] = P(a.x, a.y), s = PUFF_SCALE * pc.z;
+  ctx.save(); ctx.globalAlpha = .24 * (1 - Math.min(.6, a.lift / 200)); ctx.fillStyle = '#2a1a12';
+  ctx.beginPath(); ctx.ellipse(sx, sy, 42 * s * a.sqx, 12 * s, 0, 0, 7); ctx.fill(); ctx.restore();
+  spr(a.name, a.frame, sx, sy - a.lift * pc.z, s, { flip: a.flip, sqx: a.sqx, sqy: a.sqy, rot: a.rot });
+}
+function bubble(text, t0, t1, t) {
+  const a = Math.min(seg(t, t0, t0 + .12), 1 - seg(t, t1 - .15, t1)); if (a <= 0) return;
+  const p = actAt(t), [sx, sy] = P(p.x, p.y - 168 * PUFF_SCALE - 26);
+  ctx.save(); ctx.globalAlpha = a; ctx.translate(sx, sy); const k = backOut(seg(t, t0, t0 + .25)); ctx.scale(k, k);
+  ctx.font = '700 64px Fredoka'; const w = ctx.measureText(text).width + 70;
+  ctx.fillStyle = '#fffaf0'; ctx.strokeStyle = '#7a5a48'; ctx.lineWidth = 7;
+  ctx.beginPath(); ctx.roundRect(-w / 2, -110, w, 96, 30); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-18, -16); ctx.lineTo(0, 12); ctx.lineTo(18, -16); ctx.fill(); ctx.stroke();
+  ctx.fillRect(-16, -22, 32, 10);
+  ctx.fillStyle = '#4a2c22'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(text, 0, -60);
+  ctx.restore();
+}
+function sleepZ(t) {
+  if (t < CUE.sleep - .4) return;
+  const [sx, sy] = P(PL.pillow[0] + 20, PL.pillow[1] - 70);
+  for (let i = 0; i < 3; i++) {
+    const d = ((t - CUE.sleep) * .45 + i / 3) % 1;
+    bold('z', sx + d * 70 * pc.z / 3 + i * 6, sy - d * 90 * pc.z / 3, (34 + 30 * d) * Math.min(1.4, pc.z / 2.5), { alpha: Math.sin(d * Math.PI) * seg(t, CUE.sleep - .4, CUE.sleep + .4), color: '#fff4dc', lw: 8 });
+  }
+}
+function titles(t) {
+  const one = Math.min(seg(t, CUE.one_home, CUE.one_home + .5), 1 - seg(t, CUE.title - .4, CUE.title));
+  if (one > 0) cine('one home.', W / 2, 1560, 96, one, { color: '#fff7e6', glow: 'rgba(120,70,30,.6)' });
+  const k = seg(t, CUE.title, CUE.title + .8);
+  if (k > 0) {
+    bold('Sweet Home Reset', W / 2, 330, 108, { alpha: k, scale: lerp(1.08, 1, easeOut(k)), color: '#fff7e6', stroke: '#4a2a1c' });
+    cine('help a sleepy little town get its sparkle back', W / 2, 440, 46, seg(t, CUE.title + .6, CUE.title + 1.3), { color: '#5a3424', glow: 'rgba(255,255,255,.6)' });
+    bold('coming soon', W / 2, 1640, 58, { alpha: seg(t, CUE.title + 1.2, CUE.title + 1.8), color: '#ffd84d', stroke: '#4a2a1c', lw: 12 });
+  }
+}
+
+window.draw = function (t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none'; ctx.globalCompositeOperation = 'source-over';
+  [pc.x, pc.y, pc.z] = camAt(t);
+  const bg = ctx.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#fbe6bf'); bg.addColorStop(1, '#f3c9a8');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  room(t);
+  windowRain(t);
+  lampLight(t);
+  props(t);
+  drawPuff(t);
+  // dust and sparkle bursts on the actions
+  burst(PL.p0[0], PL.p0[1] - 30, CUE.pop, t, 1, 1.4);
+  burst(PL.d1[0], PL.d1[1] - 30, 9.6, t, 2); burst(PL.d2[0], PL.d2[1] - 30, 10.8, t, 3);
+  burst(PL.basket[0], PL.basket[1] - 20, CUE.sock_in, t, 4, .7);
+  burst(PL.window[0], PL.window[1] + 30, CUE.wipe, t, 5, .8);
+  burst(PL.bed[0], PL.bed[1], CUE.flood, t, 6, 2.2);
+  if (t > CUE.flood) motes(t, seg(t, CUE.flood, CUE.flood + 2), 12);
+  grade(t);
+  bubble('Ooh.', CUE.ooh, CUE.music, t);
+  sleepZ(t);
+  vignette(.38);
+  titles(t);
+  if (t < .25) { ctx.fillStyle = `rgba(0,0,0,${1 - t / .25})`; ctx.fillRect(0, 0, W, H); }
+  if (t > DURATION - .5) { ctx.fillStyle = `rgba(0,0,0,${seg(t, DURATION - .5, DURATION)})`; ctx.fillRect(0, 0, W, H); }
+};
+window.ready = loadKit();
+if (!navigator.webdriver) { const s = performance.now(); (function loop() { window.draw(((performance.now() - s) / 1000) % DURATION); requestAnimationFrame(loop); })(); }
+</script></body></html>

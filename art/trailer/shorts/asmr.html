@@ -20,15 +20,6 @@ const WIPES = [[6.1, 7.5, 1, 470], [7.8, 9.2, -1, 640]];          // [start, end
 const DROPS = [[10.5, 420, 900], [11.2, 700, 1150], [11.9, 330, 1320], [12.5, 760, 760], [13.0, 540, 1050], [13.4, 860, 1380]];
 const BLINK = 15.7, SNEEZE = 17.2;
 
-// organic watercolour edge: a wobbly circle path
-function inkPath(x, y, r, seed, t) {
-  const rr = rng(seed), ph = [rr() * 6, rr() * 6, rr() * 6];
-  ctx.moveTo(x + r, y);
-  for (let a = 0; a <= 6.3; a += .08) {
-    const k = 1 + .07 * Math.sin(a * 3 + ph[0] + t * .4) + .05 * Math.sin(a * 7 + ph[1]) + .03 * Math.sin(a * 13 + ph[2]);
-    ctx.lineTo(x + Math.cos(a) * r * k, y + Math.sin(a) * r * k);
-  }
-}
 function caption(str, y, a, size = 52) {
   if (a <= 0) return;
   ctx.save(); ctx.globalAlpha = a; ctx.font = `700 ${size}px Fredoka, "Noto Color Emoji"`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';

@@ -54,6 +54,15 @@ function glow(x, y, r, color, a = 1) {
   ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2); ctx.restore();
 }
 const WARM = 'rgba(255,214,140,A)', GOLD = 'rgba(255,236,170,A)', PINK = 'rgba(255,170,200,A)', CYAN = 'rgba(150,230,255,A)';
+// an organic watercolour edge: a wobbly circle path (add to the current path; fill or clip with it)
+function inkPath(x, y, r, seed, t) {
+  const rr = rng(seed), ph = [rr() * 6, rr() * 6, rr() * 6];
+  ctx.moveTo(x + r, y);
+  for (let a = 0; a <= 6.3; a += .08) {
+    const k = 1 + .07 * Math.sin(a * 3 + ph[0] + t * .4) + .05 * Math.sin(a * 7 + ph[1]) + .03 * Math.sin(a * 13 + ph[2]);
+    ctx.lineTo(x + Math.cos(a) * r * k, y + Math.sin(a) * r * k);
+  }
+}
 function rr(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
 
 // sprites drawn at the current transform, anchored bottom-centre
