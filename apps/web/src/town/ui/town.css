@@ -155,3 +155,14 @@ html.high-contrast .muted { color: #4a3a32; }
 .journal-part { margin-top: 10px; }
 .journal-part p { margin: 4px 0; }
 .journal-line { font-style: italic; }
+
+/* Computers and big tablets: the HUD sits in a centred frame, sheets are wider, and settings
+   read left to right in two columns, so nothing's stretched to the far corners. */
+.sheet .row .label { text-align: left; }
+@media (min-width: 900px) and (min-height: 560px) {
+  .town-top, .town-bottom { max-width: 1100px; margin: 0 auto; }
+  .sheet { max-width: 620px; padding: 24px 28px; }
+  .sheet .list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 14px; width: 100%; }
+  .sheet .list .row { padding: 8px 10px; }
+  .sheet .btn-row { justify-content: center; }
+}

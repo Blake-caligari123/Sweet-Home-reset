@@ -110,7 +110,8 @@ export class View {
     const close = () => { el.remove(); this.release(); };
     closeBtn.addEventListener('click', () => { this.uiTap(); close(); onClose?.(); });
     this.root.append(el);
-    window.setTimeout(() => closeBtn.focus(), 30);
+    // Focus without scrolling, so a long sheet (Pause) opens at its top, not its Close button.
+    window.setTimeout(() => closeBtn.focus({ preventScroll: true }), 30);
     return close;
   }
 

@@ -561,3 +561,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Saves:** older saves catch up at once, with one banner rather than a pile of them.
   - Tour card: 📖 The Keeper's Story (day 5, Otto with the rod).
 
+### Computer screens (1 Nov, Blake: "on the web for people who use pc it looks really cluttered and gross and zoomed in")
+- **The view fits the screen's shorter side** (`world/zoom.ts` `fitTiles`).
+  - A phone held upright is unchanged at 11 tiles across.
+  - A big screen shows more of the town, so a tile is about 64 px rather than 80–130. A laptop sees most of a place at once.
+  - Mouse-wheel zoom still works, and a chosen zoom is kept.
+- **The HUD sits in a centred frame** (1100 px) on wide screens, rather than at the far corners.
+- **Sheets are wider on big screens,** with the Pause settings in two columns and labels next to their switches.
+- **Every sheet opens at its top:** focusing the Close button no longer scrolls a long sheet (Pause) to the bottom.
+
