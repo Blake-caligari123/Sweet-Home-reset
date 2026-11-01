@@ -11837,7 +11837,8 @@
    "he_thimble_10.l05": "Thank you for finding me, little puff.",
    "he_thimble_10.l06": "Thank you for waiting.",
    "req.thimble_tea": "Thimble would love a cup of tea. It's been years!",
-   "req.thimble_fountain": "Dust around the fountain, so Thimble can sit by it."
+   "req.thimble_fountain": "Dust around the fountain, so Thimble can sit by it.",
+   "weather.rainbow": "🌈 A rainbow after the rain!"
   }
  },
  "heartEvents": [

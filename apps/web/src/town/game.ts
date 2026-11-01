@@ -32,6 +32,7 @@ import { afterDue } from './story/scenes';
 import { ScenePlayer } from './story/scene-player';
 import { Menus } from './ui/menus';
 import { NeighbourBubbles } from './ui/neighbour-bubbles';
+import { TravelFx } from './ui/travel-fx';
 import { MAX_RUB, Taps } from './play/taps';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
@@ -66,6 +67,7 @@ import { OutfitLayer } from './world/outfit-layer';
 import { TownAreas } from './world/town-areas';
 import { World } from './world/world';
 import { soundscapeFor } from './world/soundscape';
+import { rainbowOn } from './play/weather';
 
 /** At most this many extra scrubs from one rub. */
 
@@ -80,6 +82,7 @@ export class TownGame {
   private scenes!: ScenePlayer;
   private menus: Menus;
   private bubbles!: NeighbourBubbles;
+  private trips!: TravelFx;
   private view: View;
   private content: Content;
   private clock = new Clock();
@@ -120,7 +123,7 @@ export class TownGame {
 
   constructor(
     private app: Application,
-    private ui: HTMLElement,
+    ui: HTMLElement,
     pack: TownPack,
     native: NativeBridge,
     private sound: Sound,
@@ -227,6 +230,7 @@ export class TownGame {
     this.guide.listen((e) => { if (e.type === 'cleared' && e.area === this.areaId) this.bubbles.tidied(this.puff.x, this.puff.y); });
     this.fade = h('div', { class: 'fade', 'aria-hidden': 'true' });
     ui.append(this.fade);
+    this.trips = new TravelFx({ ui, fade: this.fade, view: this.view, reducedMotion: () => !!this.settings.reducedMotion, puffOnScreen: () => this.world.toScreen(this.puff.fx, this.puff.fy - 10) });
     this.deviceId = (saved?.deviceId as string) ?? (crypto.randomUUID?.() ?? String(Math.random()).slice(2));
     let feet: Pt | undefined;
     if (saved) {
@@ -278,7 +282,7 @@ export class TownGame {
     // Stand at the tile's usual spot (or a saved exact spot), nudged onto open floor if needed.
     const spot = this.nav.nearestOpen(feet && this.nav.openAt(feet.x, feet.y) ? feet : { x: x * T + T / 2, y: y * T + FEET }) ?? { x: x * T + T / 2, y: y * T + FEET };
     this.puff.standAt(spot);
-    this.world.setSky(this.clock.season, this.clock.weather === 'rainy');
+    this.world.setSky(this.clock.season, this.clock.weather === 'rainy', rainbowOn(this.clock.state.day));
     this.world.load(this.area, this.mess);
     this.homeLife.enter(id, this.area.pack.alive ?? [], this.tidiness);
     this.grumbles.entered();
@@ -312,34 +316,8 @@ export class TownGame {
   private async travel(to: string, x: number, y: number) {
     if (this.fading) return;
     this.fading = true;
-    this.view.hold(); // banners wait until the new place is showing
-    // An iris closes on Puff and opens on Puff in the new place (a plain fade with reduced motion).
-    const iris = !this.settings.reducedMotion;
-    this.fade.classList.toggle('iris', iris);
-    if (iris) this.irisAt();
-    this.fade.classList.add('on');
-    await wait(this.settings.reducedMotion ? 0 : iris ? 320 : 250);
-    this.enterArea(to, x, y);
-    if (iris) this.irisAt();
-    this.fade.classList.remove('on');
-    this.placeCard(this.content.named(this.area.pack.name));
-    window.setTimeout(() => this.fade.classList.remove('iris'), 400);
-    this.view.release();
+    await this.trips.go(() => this.enterArea(to, x, y), () => this.content.named(this.area.pack.name));
     this.fading = false;
-  }
-
-  /** Centre the iris on Puff. */
-  private irisAt() {
-    const p = this.world.toScreen(this.puff.fx, this.puff.fy - 10);
-    this.fade.style.setProperty('--ix', `${p.x}px`); this.fade.style.setProperty('--iy', `${p.y}px`);
-  }
-
-  /** The place's name, briefly, as Puff arrives. */
-  private placeCard(name: string) {
-    this.ui.querySelector('.place-card')?.remove();
-    const card = h('div', { class: 'place-card', 'aria-hidden': 'true' }, `📍 ${name}`);
-    this.ui.append(card);
-    window.setTimeout(() => card.remove(), 1900);
   }
 
   // ---- input -------------------------------------------------------------------------------
@@ -452,7 +430,7 @@ export class TownGame {
       const reveal = afterDue((this.content.pack.scenes ?? []).filter((s) => s.now), (f) => this.state.has(f), (id) => this.state.has(seenFlag(id)));
       if (reveal) { this.playStory(reveal); return; }
       for (const e of this.clock.advance(dt)) {
-        if (e === 'tick') { this.world.setSky(this.clock.season, this.clock.weather === 'rainy'); this.world.setTint(this.clock.state.minutes); this.updateSound(); }
+        if (e === 'tick') { this.world.setSky(this.clock.season, this.clock.weather === 'rainy', rainbowOn(this.clock.state.day)); this.world.setTint(this.clock.state.minutes); this.updateSound(); }
         if (e === 'late') { this.hud.setLate(true); this.view.say(`${this.state.names.puff}'s getting sleepy. Head home to bed.`); }
         if (e === 'doze' && !this.settings.relaxed) void this.endDay(true);
       }

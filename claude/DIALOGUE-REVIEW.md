@@ -1885,3 +1885,9 @@ For each step: who asks, the button, what they say, the tracker while waiting (c
 - `he_thimble_10.l06`: Thank you for waiting.
 - `req.thimble_tea`: Thimble would love a cup of tea. It's been years!
 - `req.thimble_fountain`: Dust around the fountain, so Thimble can sit by it.
+
+**Polish lines (1 Nov)**
+- Rainbow morning: "🌈 A rainbow after the rain!"
+- Tidy meter: "🧹 A quarter tidy!" / "🧹 Halfway tidy!" / "🧹 Nearly there!" / "🧹 N left!" / "✨ {place} is spotless! +5 ✨" / "🌟 The whole town is spotless! +50 ✨"
+- Sets: "📖 {set} complete! All N! +150 ✨" · Milestones: "🧹 N spots tidied! +N ✨" · Completion: "🏆 {town} is 100% complete! You did everything."
+- First-day tips: "✓ Nice!" / "Lovely!" / "Tidy!" / "Great!" / "Neat!" / "Wonderful!" · Bag: "All neat and tidy!"
