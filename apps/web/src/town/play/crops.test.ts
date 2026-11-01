@@ -50,7 +50,7 @@ describe('crops', () => {
 
   it('has crops for spring, summer and autumn, each with seeds a shop sells that season, a harvest line, and sellable', () => {
     const crops = pack.crops ?? [];
-    expect(crops.map((c) => c.id)).toEqual(['radish', 'carrot', 'peas', 'strawberry', 'tomato', 'corn', 'pumpkin', 'watercress']);
+    expect(crops.map((c) => c.id)).toEqual(['radish', 'carrot', 'peas', 'strawberry', 'tomato', 'corn', 'pumpkin', 'watercress', 'mushroom']);
     for (const s of ['Spring', 'Summer', 'Autumn']) expect(crops.some((c) => (c.seasons ?? ['Spring']).includes(s)), s).toBe(true);
     const stock = (pack.shops ?? []).flatMap((s) => s.stock.map((e) => e.item));
     const buys = (pack.shops ?? []).flatMap((s) => s.buys ?? []);

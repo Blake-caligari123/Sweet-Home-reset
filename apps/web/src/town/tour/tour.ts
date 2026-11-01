@@ -152,7 +152,7 @@ export const TOUR: TourCard[] = [
     } },
   { title: '🌾 Reed Grumbles', steps: ['From summer, a new kind of Grumble rustles by the river: green and tangly.', 'Rake it 3 times to comb it out and befriend it.'],
     setup: (s) => { s.day(20).time(10); s.go('riverside'); } },
-  { title: '🦊 Juniper the fiddler', steps: ['Juniper has moved into a cottage at the Woodland Edge. Say hello!', 'Juniper heard an old tune in the woods. Talk each day to follow it.', 'In a normal game, Juniper\'s letter arrives in the Lane on day 40.'],
+  { title: '🦊 Juniper the fiddler', steps: ['Juniper has moved into a cottage at the Woodland Edge. Say hello!', 'Juniper heard an old tune in the woods. Talk each day to follow it.', 'In a normal game, Juniper\'s letter arrives in the Lane on day 31.'],
     setup: (s) => {
       s.day(41).time(8).flag('letter_juniper_1_read').flag('invite_juniper').flag('home_juniper').give('apple', 2);
       for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path'], ['plot_woodland_cottage', 'cottage_juniper']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 };
@@ -168,6 +168,24 @@ export const TOUR: TourCard[] = [
     setup: (s) => {
       s.day(44).time(8, 30).flag('letter_juniper_1_read').flag('invite_juniper').flag('home_juniper').flag('juniper_concert').meet('juniper', 'moss', 'mabel');
       for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path'], ['plot_woodland_cottage', 'cottage_juniper'], ['plot_hill_steps', 'hill_steps']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 };
+      s.go('woodland');
+    } },
+  { title: '🍄 Mushroom logs', steps: ['The mushroom logs are set in the woods. Tap the soil to plant mushroom spores.', 'The damp logs keep them watered. Mushrooms grow in spring and autumn, only here. Cook 2 into mushroom soup.', 'In a normal game the logs join the Keeper\'s plans on day 30, and the General Store sells spores.'],
+    setup: (s) => {
+      s.day(30).time(10).give('mushroom_spores', 3);
+      for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 };
+      s.state.plots.plot_mushroom_logs = { buildingId: 'mushroom_logs', stage: 2, startedDay: 29, readyDay: 30 };
+      s.go('woodland');
+    } },
+  { title: '🍂 Leaf Grumbles', steps: ['From autumn, a crunchy orange Grumble sulks in the woods and up on Orchard Hill.', 'Rake it 3 times into a neat pile to befriend it.'],
+    setup: (s) => { s.day(30).time(10); for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 }; s.go('woodland'); } },
+  { title: '🦉 Woodland critters', steps: ['Night in the woods: a copper moth flutters about, and a little owl is out.', 'By day look for a woodpecker (spring to autumn) and a stag beetle (summer). Pause → 📖 Collection says where.'],
+    setup: (s) => { s.day(30).time(21); for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 }; s.go('woodland'); } },
+  { title: '🌿 The quiet glade', steps: ['You found a brass acorn in the woods. A gap has opened in the hedge on the right.', 'Step through to a quiet glade, read the mossy stone, and tidy it up.', 'In a normal game the acorn turns up while tidying the Woodland Edge.'],
+    setup: (s) => {
+      s.day(31).time(10);
+      if (!s.state.finds.found.includes('brass_acorn')) s.state.finds.found.push('brass_acorn');
+      for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_overgrown_path', 'woodland_path']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 12, readyDay: 14 };
       s.go('woodland');
     } }
 ];

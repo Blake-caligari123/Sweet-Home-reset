@@ -121,7 +121,8 @@
     "tomato": 5,
     "corn": 6,
     "pumpkin": 7,
-    "watercress": 3
+    "watercress": 3,
+    "mushroom": 3
   },
   "unlocks": {
     "mabel": {
@@ -183,6 +184,12 @@
     },
     "grumble_soot": {
       "day": 16
+    },
+    "grumble_leaf": {
+      "day": 29
+    },
+    "mushroom_logs": {
+      "day": 30
     },
     "grumble_reed": {
       "day": 20

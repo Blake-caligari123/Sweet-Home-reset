@@ -521,6 +521,20 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - The answer ties the threads together: the warm water hums under the hill, and that's the song.
   - Reward: 200 ✨, a lantern and `chapter_autumn_song`. Juniper and Mabel each have a line afterwards.
   - Tour card: 🎻 Autumn chapter.
+- **6d.11 Woodland's own: mushrooms, critters, Leaf Grumbles and a secret glade (1 Nov).**
+  - **Mushrooms**, the district's crop:
+    - They grow only in the woods, in spring and autumn, 3 days (a new `cap` crop look).
+    - **Mushroom logs** join the Keeper's plans on day 30: 80 ✨ and 6 twigs, 1 night. They dig a 3×2 patch of soil in the shade, and the damp logs water it every morning.
+    - Spores at the General Store from day 29, which buys mushrooms and mushroom soup back.
+    - **Mushroom soup** (2 mushrooms) is a new kitchen recipe everyone knows.
+  - **Critters (16 in all):** a woodpecker (woods, spring to autumn days), a stag beetle (summer days), a copper moth (summer and autumn nights, woods or hill) and a little owl (any night, Orchard Hill or the woods).
+  - **Leaf Grumbles:** crunchy and autumn-orange, in the woods and on Orchard Hill from day 29. Rake 3 times into a neat pile. They have their own lines and a tracker hint.
+  - **The quiet glade**, a secret:
+    - A brass acorn turns up while tidying the Woodland Edge. From the next morning, a gap in the east hedge leads to a small glade.
+    - Inside: trees in a ring, a log bench and two mushrooms, and a mossy stone carved "Every song starts somewhere quiet. T.", one more thread of the old song.
+    - Tidy it to restore it (100 ✨).
+  - Tour cards: 🍄 Mushroom logs, 🍂 Leaf Grumbles, 🦉 Woodland critters, 🌿 The quiet glade.
+- **Woodland and Orchard Hill, done for now:** Juniper, Orchard Hill, the autumn chapter, mushrooms, woodland critters, Leaf Grumbles and the quiet glade. Next district: the Harbour and Beach.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
