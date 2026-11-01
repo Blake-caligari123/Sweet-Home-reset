@@ -1,4 +1,4 @@
-# Store listing: Sweet Home Reset (draft, 30 Oct 2026)
+# Store listing: Sweet Home Reset (draft, updated 1 Nov 2026)
 For App Store Connect and Google Play Console. Never name other games here, in keywords or in screenshots (CLAUDE.md). Blake checks the price points and support details before submitting. Screenshots are in `art/store/` (`node tools/store-screenshots.cjs`).
 
 ## Both stores
@@ -12,8 +12,8 @@ For App Store Connect and Google Play Console. Never name other games here, in k
 
 ## App Store
 - **Subtitle (30):** Tidy a town back to colour
-- **Promotional text (170):** A grey little town is waiting for a dust bunny with a big heart. Tidy homes until they glow, grow a garden, make six friends and bring the fountain back to life.
-- **Keywords (100):** cosy,cozy,cleaning,tidy,town,life sim,farming,garden,relaxing,friends,bunny,festival,pixel
+- **Promotional text (170):** A grey little town is waiting for a dust bunny with a big heart. Tidy it back to colour, make friends, and wake the sleepy Keeper under the fountain.
+- **Keywords (100):** cosy,cozy,cleaning,tidy,town,life sim,farming,fishing,garden,relaxing,friends,bunny,story,pixel
 - **In-app purchase:** "Full game" (product id `full_game`, non-consumable). Its description: "Unlock summer, autumn, winter and every future chapter. Yours to keep."
 
 ## Google Play
@@ -21,16 +21,19 @@ For App Store Connect and Google Play Console. Never name other games here, in k
 - **In-app product:** `full_game` (one-time), the same description as above.
 
 ## Full description (both)
-Puff, a little dust bunny born from the fountain's last sparkle, becomes the Keeper of a grey, quiet town. Every tidy brings the colour back.
+Puff, a little dust bunny born from the fountain's last sparkle, becomes the Keeper of a grey, quiet town. Every tidy brings the colour back, and somewhere under the fountain, the old Keeper is fast asleep.
 
-• Tidy with taps, rubs, sweeps and swipes, and watch rooms switch on and streets bloom.
-• Make friends with six neighbours (and newcomers), each with their own story to share.
-• Grow seasonal crops, cook, craft better tools and build up the town.
-• Repair the way to new places: the far bank, the woodland edge and the beach.
+• Tidy with taps, rubs, sweeps and swipes, and watch homes switch on and streets bloom.
+• Follow a gentle story through the year: a step a day from a friend, a Keeper's journal, and a hint at tomorrow each night.
+• Make friends with a whole town: the six old neighbours, five newcomers who move in as you build their homes, and one very sleepy Keeper.
+• Grow crops by the season, fish, cook, craft, keep hens and build up the town.
+• Mend the way to new places: the far bank, the woods and the orchard, the beach and an old harbour, and the caves below.
+• Find secret places, old carvings and the clues that lead to the Keeper before you.
 • Befriend the grumpy little Grumbles until they brighten into helpers.
-• Four seasons, four festivals and a gentle mystery under the fountain.
-• Gentle by design: nothing is ever lost or failed, no streaks, no timers you have to beat.
+• Four seasons, four festivals and little story scenes played out in the town itself.
+• Gentle by design: no streaks, no timers to beat, nothing to fall behind on. Skip a day and the story simply waits.
 • Accessibility options: tap-only play, three text sizes, high contrast, reduced motion, shapes that never rely on colour alone, and screen-reader support.
+• Plays beautifully on phones, tablets and computers, folded or unfolded.
 • No ads. No tracking. Plays offline. An account is optional.
 
 The first spring is free. One purchase unlocks the full year and every chapter to come.

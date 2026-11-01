@@ -1,7 +1,7 @@
 # CLAUDE.md: Sweet Home Reset (PixelVortex Games)
 
 ## Project
-A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the town of Hollowfern, befriends 6 neighbours and restores the Glimmerwell fountain, with an optional tiny real chore each day. v1 ships on **web/PWA, iOS App Store and Google Play together, with no phases**. Bundle ID `com.pixelvortexgames.sweethomereset` (web Services ID `com.pixelvortexgames.sweethomereset.web`). Repo: github.com/Blake-caligari123/Sweet-Home-reset.
+A cosy top-down town life sim: Puff the dust bunny ("they") tidies homes in the town of Hollowfern, befriends the townsfolk (the six old neighbours, five newcomers and, in year two, Thimble the old Keeper), follows a year-long story to wake Thimble and restores the Glimmerwell fountain, with an optional tiny real chore each day. v1 ships on **web/PWA, iOS App Store and Google Play together, with no phases**. Bundle ID `com.pixelvortexgames.sweethomereset` (web Services ID `com.pixelvortexgames.sweethomereset.web`). Repo: github.com/Blake-caligari123/Sweet-Home-reset.
 
 ## Stack
 - Client: TypeScript + Vite + PixiJS v8, DOM overlay UI, Capacitor for iOS/Android, vite-plugin-pwa.
