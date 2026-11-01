@@ -64,4 +64,4 @@ export function hearHappening(s: HappeningState, e: OnboardEvent): { state: Happ
 }
 
 /** Lost things a neighbour might drop (none they'd need straight back). */
-export const LOST_ITEMS = ['glass_marble', 'old_coin', 'tiny_key', 'pressed_flower', 'blue_feather', 'sea_glass', 'lost_button'];
+export const LOST_ITEMS = ['shell', 'button', 'brass_acorn', 'river_stone', 'book', 'cup', 'string'];

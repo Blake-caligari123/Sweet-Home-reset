@@ -63,8 +63,9 @@ describe('quest chains (NEXT-PHASE §5.3)', () => {
     const view = { banner: vi.fn(), feedback: vi.fn(), toast: vi.fn() } as unknown as View;
     const talk = { says: vi.fn() } as unknown as Conversations;
     let day = 6;
-    const log = new QuestLog({ state, content: new Content(pack, () => state.names), view, talk, day: () => day, refreshHud: () => {}, save: () => {} });
+    const log = new QuestLog({ state, content: new Content(pack, () => state.names), view, talk, day: () => day, refreshHud: () => {}, save: () => {}, arrived: () => true, where: () => 'the library' });
     const club = pack.quests![0];
+    expect(log.invite()).toMatch(/has a story for you\. Find them at the library\./);
     state.friendOf(club.giver).met = true;
     log.buttonsFor(club.giver).find((b) => b.label.includes(club.offer))!.onClick();
     expect(log.tracker()).toContain(club.steps[0].hint);
@@ -84,5 +85,26 @@ describe('quest chains (NEXT-PHASE §5.3)', () => {
       expect(x.untilDay! % 14, `${x.id} ends before the festival day`).not.toBe(0);
       expect(Math.ceil(x.untilDay! / 14), x.id).toBe(Math.ceil(x.fromDay / 14));
     }
+  });
+});
+
+describe('Hollowfern\'s little stories', () => {
+  it('only send Puff to neighbours who are in town by then, with every line written', () => {
+    const text = pack.strings!['en-AU'];
+    const OLD = ['hazel', 'bea', 'pip', 'otto', 'moss'];
+    for (const q of pack.quests!) {
+      expect(text[q.intro], q.id).toBeTruthy();
+      for (const s of q.steps) {
+        if (s.goal.type !== 'talk') continue;
+        expect(text[s.goal.line], `${q.id}: ${s.goal.line}`).toBeTruthy();
+        const who = s.goal.who;
+        // The old neighbours are always here; Mabel comes on day 43; a newcomer only in their own story (or once a quest needs their home).
+        const here = OLD.includes(who) || (who === 'mabel' && q.fromDay >= 43) || who === q.giver || q.needs === `home_${who}`;
+        expect(here, `${q.id} asks Puff to talk to ${who}`).toBe(true);
+      }
+    }
+    // Most of the first fortnight has a new little story.
+    const days = new Set(pack.quests!.map((q) => q.fromDay));
+    expect([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter((d) => days.has(d))).toHaveLength(11);
   });
 });
