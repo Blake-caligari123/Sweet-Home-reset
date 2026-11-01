@@ -26,6 +26,7 @@ import type { TownAreas } from '../world/town-areas';
 import type { World } from '../world/world';
 import { openBag } from './bag-sheet';
 import { openNaming } from './naming-sheet';
+import { meterOf } from '../play/tidy-meter';
 import { openPause } from './pause-menu';
 import type { Settings, View } from './view';
 
@@ -103,11 +104,13 @@ export class Menus {
 
   openMap() {
     const { view, state, content, places, clock } = this.h;
+    const today = state.spotless.day === clock.state.day ? state.spotless.areas : [];
     openMap({
       view, visited: state.visited, here: () => this.h.areaId(), named: (t) => content.named(t),
       areas: () => content.pack.areas.map((a) => places.get(a.id)?.pack ?? a),
-      go: (id, minutes) => { clock.pass(minutes); const s = places.get(id)!.pack.spawn; this.h.travel(id, s.x, s.y); }
-    });
+      go: (id, minutes) => { clock.pass(minutes); const s = places.get(id)!.pack.spawn; this.h.travel(id, s.x, s.y); },
+      meter: (id) => meterOf(places.mess(id))
+    }, today);
   }
 
   /** Name Puff and the town; `then` runs once the sheet closes. */

@@ -44,7 +44,7 @@ export function openFishing(d: FishingHost) {
     const fish = whichFish(here, clock.state.day, state.fishCaught);
     if (!fish) { settle('Nothing bites here right now.'); return; }
     if (!state.bag.canAdd(fish.id)) { settle('Bag\'s full! It swims away.'); return; }
-    state.bag.add(fish.id); state.fishCaught += 1;
+    state.bag.add(fish.id); state.fishCaught += 1; if (!state.fishLog.includes(fish.id)) state.fishLog.push(fish.id);
     bobber.replaceChildren(itemIcon(fish.id, 3));
     settle(`Caught: ${content.itemName(fish.id)}!`);
     view.feedback('fanfare', 'success');

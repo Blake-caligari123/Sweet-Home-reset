@@ -164,7 +164,7 @@ export class TownGame {
     });
     this.systems = new TownSystems({
       state: this.state, view: this.view, content: this.content, hud: this.hud, world: this.world, puff: this.puff, places: this.places, life: this.life, guide: this.guide, talk: this.talk, jobs: this.jobs,
-      day: () => this.clock.state.day, arrived: (k) => this.arrived(k), refreshHud: () => this.refreshHud(), save: () => void this.save(false), playScene: (id) => this.playStory(id)
+      day: () => this.clock.state.day, arrived: (k) => this.arrived(k), refreshHud: () => this.refreshHud(), save: () => void this.save(false), playScene: (id) => this.playStory(id), areaId: () => this.areaId
     });
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
     this.placing = new Placing({ ...core, places: this.places, area: () => this.areaId, refreshArea: () => this.refreshArea() });
@@ -283,6 +283,7 @@ export class TownGame {
     this.world.setTint(this.clock.state.minutes);
     this.world.follow(spot.x, spot.y - 8, true);
     this.guide.updateHighlight();
+    this.systems.tidy.show();
     if (announce) { this.hud.announce(this.content.named(this.area.pack.name)); this.guide.handle({ type: 'entered', area: id }); }
   }
 

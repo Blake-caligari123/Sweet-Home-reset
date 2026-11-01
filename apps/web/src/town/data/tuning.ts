@@ -13,6 +13,10 @@ export interface Tuning {
   fluffLowThreshold: number;
   dozeWakeFluffFraction: number;
   restoreThreshold: number;
+  /** Sparkles for making a place spotless (every last spot), once per place per day. */
+  spotlessSparkles: number;
+  /** Sparkles for completing a Collection set (every find, critter or fish), once each. */
+  setCompleteSparkles: number;
   messHitsTier1: Record<string, number>;
   bagSlotsStart: number;
   gardenPlotStart: [number, number];

@@ -8,6 +8,10 @@ import type { TownLife } from './life/town-life';
 import { openNeeds } from './needs/needs-sheet';
 import { TownNeeds } from './needs/town-needs';
 import { TidyChain } from './play/chain';
+import { TidyMeterLife } from './play/tidy-meter-life';
+import { spotlessToday } from './play/tidy-meter';
+import { collectionSets, newlyComplete, setFlag } from './bloom/sets';
+import { TUNING } from './data/tuning';
 import { QuestLog } from './quests/quest-log';
 import { StoryPath } from './story/story-path';
 import { journalPage } from './journal/journal';
@@ -31,6 +35,8 @@ export interface SystemsHost {
   state: TownState; view: View; content: Content; hud: Hud; world: World; puff: Puff; places: TownAreas; life: TownLife; guide: OnboardingGuide; talk: Conversations; jobs: Jobs;
   day(): number; arrived(key: string): boolean; refreshHud(): void; save(): void;
   playScene(id: string): void;
+  /** The place Puff is in. */
+  areaId(): string;
 }
 
 /**
@@ -45,6 +51,8 @@ export class TownSystems {
   private quests: QuestLog;
   /** The Keeper's Story: today's 📖 step (story/story-path.ts). */
   readonly story: StoryPath;
+  /** How tidy the current place is (play/tidy-meter.ts). */
+  readonly tidy: TidyMeterLife;
 
   constructor(private host: SystemsHost) {
     const { state, view, content, places, life } = host;
@@ -57,7 +65,31 @@ export class TownSystems {
     const cards = new CardHunt({ state, content, view });
     this.quests = new QuestLog({ state, content, view, talk: host.talk, day: () => host.day(), refreshHud: () => host.refreshHud(), save: () => host.save() });
     this.story = new StoryPath({ state, content, view, talk: host.talk, day: () => host.day(), refreshHud: () => host.refreshHud(), save: () => host.save(), playScene: (id) => host.playScene(id) });
-    host.guide.listen((e) => { skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); this.story.hear(e); });
+    this.tidy = new TidyMeterLife({
+      state, view, hud: host.hud, world: host.world, content, day: () => host.day(), feet: () => host.puff.feet, refreshHud: () => host.refreshHud(),
+      area: () => { const id = host.areaId(); return { id, name: places.get(id)?.pack.name ?? id, mess: places.mess(id) }; }
+    });
+    host.guide.listen((e) => { this.tidy.hear(e); if (e.type === 'found' || e.type === 'spotted' || e.type === 'caught') this.setsDone(); skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); this.story.hear(e); });
+  }
+
+  /** The journal's tally: places spotless today, and each Collection set. */
+  private tally() {
+    const { state, content } = this.host;
+    const icons = { finds: '🔍', critters: '🐞', fish: '🐟' } as const;
+    const spotless = spotlessToday(state, this.host.day());
+    return [...(spotless ? [`✨ ${spotless} spotless today`] : []), ...collectionSets(state, content.pack).map((s) => `${icons[s.id]} ${s.have}/${s.total}`)].join(' · ');
+  }
+
+  /** A Collection set just finished (every treasure, critter or fish): a big cheer, once. */
+  private setsDone() {
+    const { state, content, view } = this.host;
+    for (const s of newlyComplete(collectionSets(state, content.pack), (f) => state.has(f))) {
+      state.flag(setFlag(s.id));
+      state.sparkles += TUNING.setCompleteSparkles;
+      view.feedback('fanfare', 'success');
+      view.banner(`📖 ${s.name} complete! All ${s.total}! +${TUNING.setCompleteSparkles} ✨`);
+      this.host.refreshHud(); this.host.save();
+    }
   }
 
   /** After the night: today's story step, town needs met, who helped tidy, what the stall sold, and new farm animals. */
@@ -109,7 +141,7 @@ export class TownSystems {
     const page = journalPage({
       def: content.pack.story ?? { chapters: [], steps: [] }, story: state.story, day: this.host.day(),
       line: (id) => content.named(content.line(id) ?? ''), today: this.story.tracker(),
-      also: [jobs.tracker(), this.quests.tracker(), wants ? `☕ the café wants ${wants}` : null], tryNew, quests: [...this.quests.going(), ...this.quests.offered()]
+      also: [jobs.tracker(), this.quests.tracker(), wants ? `☕ the café wants ${wants}` : null], tryNew, quests: [...this.quests.going(), ...this.quests.offered()], tally: this.tally()
     });
     openJournal(view, page, memories);
   }

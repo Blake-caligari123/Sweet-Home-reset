@@ -28,3 +28,14 @@ describe('town map travel (NEXT-PHASE §9)', () => {
     for (const a of pack.areas) expect(hopsBetween(built, 'burrow', a.id), a.id).not.toBeNull();
   });
 });
+
+describe('map marks', () => {
+  it('shows how far along a place is, ✓ once restored, ✨ when spotless today, and nothing where there\'s no mess', async () => {
+    const { mapMark } = await import('./map-sheet');
+    expect(mapMark({ kind: 'progress', pct: 42 }, false)).toBe('42%');
+    expect(mapMark({ kind: 'left', left: 3 }, false)).toBe('✓');
+    expect(mapMark({ kind: 'spotless' }, true)).toBe('✨');
+    expect(mapMark({ kind: 'spotless' }, false)).toBe('✓');
+    expect(mapMark({ kind: 'none' }, false)).toBe('');
+  });
+});
