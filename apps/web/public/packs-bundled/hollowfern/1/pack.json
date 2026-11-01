@@ -11341,7 +11341,6 @@
    "build.done.hill_steps": "The hill steps are mended! Orchard Hill is open.",
    "quest.old_song.intro": "Three notes, then a fourth. Where does it come from? Help?",
    "quest.old_song.moss": "Thimble's songbook. Handle it gently. It's very old.",
-   "quest.old_song.mabel": "Hoo. We sang there as chicks. The stone sang back.",
    "quest.old_song.done": "The warm water hums under the hill. That's the song!",
    "juniper.chapter.1": "The town hums its own song. I'll play it forever.",
    "mabel.chapter.1": "Hoo. I'd forgotten the stone's song. Thank you, dear.",
@@ -11858,7 +11857,85 @@
    "happening.garden_day.news": "🌱 Garden day! A lovely day for growing.",
    "happening.garden_day.goal": "Water {n} crops",
    "happening.clean_sweep.news": "🧹 Clean sweep day! Let's make {town} shine.",
-   "happening.clean_sweep.goal": "Tidy {n} spots for the clean sweep"
+   "happening.clean_sweep.goal": "Tidy {n} spots for the clean sweep",
+   "quest.bea_list.hazel": "A list? Ooh, under the buns! A bit floury now, petal.",
+   "quest.bea_list.done": "My list! One: radishes. Two: thank you! Three: hug!",
+   "quest.bea_list.intro": "Three things! One: my list is gone. Two: help? Three: hi!",
+   "quest.pip_music_box.done": "Tink-tink-tink! It plays! That's an old town song, right?",
+   "quest.pip_music_box.intro": "It won't play! Sawdust in the gears, I think. Right?",
+   "quest.gran_recipe.moss": "... Page forty. Honey buns. Someone pressed a daisy here.",
+   "quest.gran_recipe.bea": "Two things! She grew them. And gave every one away!",
+   "quest.gran_recipe.done": "Gran's buns! A daisy on top, always. Oh, happy tears, petal.",
+   "quest.gran_recipe.intro": "Gran's honey bun recipe... I can't find it anywhere!",
+   "quest.brass_duck.done": "My duck! Found in the reeds! Duck-tective work! Heh heh.",
+   "quest.brass_duck.intro": "My brass duck floated off! It's a quack-astrophe. Heh.",
+   "quest.fountain_wishes.hazel": "Every spring! I wished for a bakery. Look at me now!",
+   "quest.fountain_wishes.done": "... Wishes that came true. ... I'll write that down. Thanks.",
+   "quest.fountain_wishes.intro": "... The fountain. People wished in it. Once. I wonder what.",
+   "quest.busy_bees.otto": "Bees? They love the warm steam by the bathhouse! Heh.",
+   "quest.busy_bees.done": "Warm bees! Clever bees! Three cheers, and one for you!",
+   "quest.busy_bees.intro": "My bees have gone humming off! Where could they be?",
+   "quest.bun_round.moss": "... Warm. ... Please tell her thank you. Quietly.",
+   "quest.bun_round.otto": "A bun! Now I'm on a roll! Heh heh heh.",
+   "quest.bun_round.done": "Oh, good! Here, the last one's yours, petal.",
+   "quest.bun_round.intro": "Fresh buns for the neighbours! Would you take them round?",
+   "quest.pip_drawings.bea": "Three things! Yes! My good side! Both sides are good!",
+   "quest.pip_drawings.otto": "Draw me with my best hat! It's a fin-tastic hat. Heh.",
+   "quest.pip_drawings.done": "Done! Look, I drew you too! In the middle! Right?",
+   "quest.pip_drawings.intro": "I'm drawing everyone in town! Can you ask them to pose?",
+   "quest.moss_bookmark.done": "... Yes. From a friend, long ago. ... Thank you. Truly.",
+   "quest.moss_bookmark.intro": "... My bookmark. A pressed fern. It's gone somewhere.",
+   "quest.sorrel_kettle.hazel": "Take my spare one, petal. Welcome tea for Sorrel!",
+   "quest.sorrel_kettle.done": "A kettle! Now it's home. Stay for a cup? Please?",
+   "quest.sorrel_kettle.intro": "Boxes everywhere, and no kettle! Moving day tea is a must!",
+   "quest.bea_secret_bed.pip": "A sign! 'BEA'S BED. SHH.' Is it straight? Right?",
+   "quest.bea_secret_bed.done": "Shh! Perfect! Now it's our secret. One: shh. Two: thanks!",
+   "quest.bea_secret_bed.intro": "Three things! A secret. A flower bed. Needs a sign!",
+   "quest.pip_kite.bea": "A ribbon! Yellow, for luck. And for bees.",
+   "quest.pip_kite.done": "It flies! Look at it go! Best kite ever. Right? Right!",
+   "quest.pip_kite.intro": "My kite blew away over the river! Can we make a new one?",
+   "quest.otto_regatta.pip": "A race! I'll paint a duck! A fast one! Right?",
+   "quest.otto_regatta.hazel": "I'll bring buns! Racing is hungry work, petal.",
+   "quest.otto_regatta.done": "Splendid! And the winner is... friendship! Heh. And Pip.",
+   "quest.otto_regatta.intro": "A duck race on the river! I need a few friends to cheer.",
+   "quest.bea_birthday.pip": "A card! With bees! Seven bees! Is seven enough? Right?",
+   "quest.bea_birthday.done": "Three things! Cake! A card! Friends! Best day ever!",
+   "quest.bea_birthday.intro": "It's Bea's birthday soon! Shh. Help me surprise her?",
+   "quest.fig_scarecrow.bea": "Two things! A daisy hat. And a smile. Crows like smiles.",
+   "quest.fig_scarecrow.done": "Oh, it waves! The crows will want to be friends now.",
+   "quest.fig_scarecrow.intro": "The crows keep visiting. I want a scarecrow. A kind one.",
+   "quest.moss_stars.otto": "By the river at night! The water shows them twice! Heh.",
+   "quest.moss_stars.done": "... Then I'll go. Tonight. ... Will you come too?",
+   "quest.moss_stars.intro": "... A book of stars. Old names. I'd like to see them.",
+   "quest.wren_compass.pip": "A spinny needle! Easy! A drop of oil, a tap. Done! Right?",
+   "quest.wren_compass.done": "North is north again! And I'll listen for the song too.",
+   "quest.wren_compass.intro": "My compass spins and spins! Can't sail by a dizzy needle.",
+   "quest.mabel_letters.moss": "... 'To Mabel. The well will wake. Wait for the bunny.'",
+   "quest.mabel_letters.done": "Hoo... from Thimble. And here you are, dear. Here you are.",
+   "quest.mabel_letters.intro": "Hoo. Old letters from a friend. The ink's run. Help me?",
+   "quest.hazel_new_bread.otto": "Mm! It's the yeast I could do! Heh. Tell her it's grand.",
+   "quest.hazel_new_bread.done": "Grand! Then it's on the shelf tomorrow. Thank you, petal!",
+   "quest.hazel_new_bread.intro": "A brand-new loaf! I need a taster. A brave one, petal.",
+   "quest.sorrel_nuts.bea": "Two things! Somewhere cool. And a sprig of mint on top!",
+   "quest.sorrel_nuts.done": "Mint! Clever Bea. My shelf's ready for snow now!",
+   "quest.sorrel_nuts.intro": "I store things for winter. Old habit! Help me fill my shelf?",
+   "quest.bathhouse_photo.moss": "... Every evening. ... Songs, steam, and Thimble's lamp.",
+   "quest.bathhouse_photo.done": "It does! Let's fill it again. Bath night, everyone! Heh.",
+   "quest.bathhouse_photo.intro": "My gran's bathhouse, long ago. Full of folk! I miss that.",
+   "quest.juniper_tune.pip": "A flute! From a reed! Toot! Did that sound right? Right?",
+   "quest.juniper_tune.done": "Oh... there it is. The fountain's song. Listen, Keeper.",
+   "quest.juniper_tune.intro": "A tune I half remember. I need a little flute to find it.",
+   "quest.fig_pumpkins.hazel": "Pumpkin pie for everyone! Bring it round, petal!",
+   "quest.fig_pumpkins.done": "A pie! Then it's the best pumpkin. Whatever its size!",
+   "quest.fig_pumpkins.intro": "The biggest pumpkin in town! Well. I hope. Help me?",
+   "quest.lantern_parade.hazel": "Hang two! The buns like a cosy glow. So do I.",
+   "quest.lantern_parade.done": "Two! Glowy! The whole town's going to twinkle! Right?",
+   "quest.lantern_parade.intro": "Lanterns! For the long nights! Want to help? Right?",
+   "quest.marlo_shells.mabel": "Hoo. They hum the sea's song, dear. Old as the well.",
+   "quest.marlo_shells.done": "Then my choir's ready. Listen... hear it, Keeper?",
+   "quest.marlo_shells.intro": "Shells sing, if you listen. I want a whole choir of them.",
+   "quest.wren_compass.moss": "... Some sailed by the fountain's song. The books say so.",
+   "quest.old_song.otto": "Gran said it hummed when the baths ran warm! Heh."
   }
  },
  "heartEvents": [
@@ -17855,12 +17932,12 @@
      "nextDay": true
     },
     {
-     "hint": "Ask Mabel about the stone on the hill",
+     "hint": "Ask Otto about the stone on the hill",
      "goal": {
       "type": "talk",
-      "who": "mabel",
+      "who": "otto",
       "ask": "Do you know the humming stone?",
-      "line": "quest.old_song.mabel"
+      "line": "quest.old_song.otto"
      }
     },
     {
@@ -17981,6 +18058,1024 @@
     "item": "honey",
     "qty": 1,
     "flag": "warm_baths_done"
+   }
+  },
+  {
+   "id": "bea_list",
+   "name": "Bea's list",
+   "giver": "bea",
+   "fromDay": 2,
+   "offer": "Have you seen my list?",
+   "intro": "quest.bea_list.intro",
+   "steps": [
+    {
+     "hint": "Ask Hazel at the bakery about Bea's list",
+     "goal": {
+      "type": "talk",
+      "who": "hazel",
+      "ask": "Did Bea leave a list here?",
+      "line": "quest.bea_list.hazel"
+     }
+    },
+    {
+     "hint": "Take the list back to Bea at the flower shop",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Found your list!",
+      "line": "quest.bea_list.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 30,
+    "item": "radish_seeds",
+    "qty": 3,
+    "flag": "bea_list_done"
+   }
+  },
+  {
+   "id": "pip_music_box",
+   "name": "Pip's music box",
+   "giver": "pip",
+   "fromDay": 2,
+   "offer": "Can you fix my music box?",
+   "intro": "quest.pip_music_box.intro",
+   "steps": [
+    {
+     "hint": "Tidy 5 spots in Pip's workshop",
+     "goal": {
+      "type": "cleared",
+      "count": 5,
+      "area": "pip_workshop"
+     }
+    },
+    {
+     "hint": "Tell Pip the workshop is tidy",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Try the music box now!",
+      "line": "quest.pip_music_box.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 30,
+    "item": "toy",
+    "qty": 1,
+    "flag": "pip_music_box_done"
+   }
+  },
+  {
+   "id": "gran_recipe",
+   "name": "Gran's honey buns",
+   "giver": "hazel",
+   "fromDay": 3,
+   "offer": "Need a hand, Hazel?",
+   "intro": "quest.gran_recipe.intro",
+   "steps": [
+    {
+     "hint": "Ask Moss in the library about old recipe books",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "Do you have a recipe book?",
+      "line": "quest.gran_recipe.moss"
+     }
+    },
+    {
+     "hint": "Ask Bea at the flower shop about the daisy",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Did Hazel's gran like daisies?",
+      "line": "quest.gran_recipe.bea"
+     }
+    },
+    {
+     "hint": "Bring Hazel the recipe at the bakery",
+     "goal": {
+      "type": "talk",
+      "who": "hazel",
+      "ask": "Honey buns, with a daisy!",
+      "line": "quest.gran_recipe.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 40,
+    "item": "honey",
+    "qty": 2,
+    "flag": "gran_recipe_done"
+   }
+  },
+  {
+   "id": "brass_duck",
+   "name": "Otto's brass duck",
+   "giver": "otto",
+   "fromDay": 4,
+   "offer": "Is something the matter?",
+   "intro": "quest.brass_duck.intro",
+   "steps": [
+    {
+     "hint": "Tidy 6 spots by the river: the duck may be under the weeds",
+     "goal": {
+      "type": "cleared",
+      "count": 6,
+      "area": "riverside"
+     }
+    },
+    {
+     "hint": "Show Otto the duck by the river or at the bathhouse",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "Is this your duck?",
+      "line": "quest.brass_duck.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 35,
+    "item": "shell",
+    "qty": 1,
+    "flag": "brass_duck_done"
+   }
+  },
+  {
+   "id": "fountain_wishes",
+   "name": "Wishes in the fountain",
+   "giver": "moss",
+   "fromDay": 5,
+   "offer": "What are you reading?",
+   "intro": "quest.fountain_wishes.intro",
+   "steps": [
+    {
+     "hint": "Tidy 6 spots in the Town Square, round the fountain",
+     "goal": {
+      "type": "cleared",
+      "count": 6,
+      "area": "square"
+     }
+    },
+    {
+     "hint": "Ask Hazel at the bakery about her wish",
+     "goal": {
+      "type": "talk",
+      "who": "hazel",
+      "ask": "Did you ever wish in the fountain?",
+      "line": "quest.fountain_wishes.hazel"
+     }
+    },
+    {
+     "hint": "Tell Moss in the library",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "Hazel wished for her bakery!",
+      "line": "quest.fountain_wishes.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 40,
+    "item": "brass_acorn",
+    "qty": 1,
+    "flag": "fountain_wishes_done"
+   }
+  },
+  {
+   "id": "busy_bees",
+   "name": "Where are the bees?",
+   "giver": "bea",
+   "fromDay": 6,
+   "offer": "Where are your bees?",
+   "intro": "quest.busy_bees.intro",
+   "steps": [
+    {
+     "hint": "Ask Otto at the bathhouse or the river",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "Have you seen Bea's bees?",
+      "line": "quest.busy_bees.otto"
+     }
+    },
+    {
+     "hint": "Spot a critter while you look about",
+     "goal": {
+      "type": "spotted",
+      "count": 1
+     }
+    },
+    {
+     "hint": "Tell Bea at the flower shop",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Your bees are at the bathhouse!",
+      "line": "quest.busy_bees.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 40,
+    "item": "flowers",
+    "qty": 1,
+    "flag": "busy_bees_done"
+   }
+  },
+  {
+   "id": "bun_round",
+   "name": "Hazel's bun round",
+   "giver": "hazel",
+   "fromDay": 7,
+   "offer": "Can I help today?",
+   "intro": "quest.bun_round.intro",
+   "steps": [
+    {
+     "hint": "Take a bun to Moss in the library",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "A warm bun from Hazel!",
+      "line": "quest.bun_round.moss"
+     }
+    },
+    {
+     "hint": "Take a bun to Otto at the bathhouse or the river",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "A warm bun from Hazel!",
+      "line": "quest.bun_round.otto"
+     }
+    },
+    {
+     "hint": "Tell Hazel at the bakery",
+     "goal": {
+      "type": "talk",
+      "who": "hazel",
+      "ask": "Everyone loved the buns!",
+      "line": "quest.bun_round.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 40,
+    "item": "biscuit",
+    "qty": 2,
+    "flag": "bun_round_done"
+   }
+  },
+  {
+   "id": "pip_drawings",
+   "name": "Pip's town drawings",
+   "giver": "pip",
+   "fromDay": 8,
+   "offer": "What are you drawing?",
+   "intro": "quest.pip_drawings.intro",
+   "steps": [
+    {
+     "hint": "Ask Bea at the flower shop to pose",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Pip wants to draw you!",
+      "line": "quest.pip_drawings.bea"
+     }
+    },
+    {
+     "hint": "Ask Otto to pose",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "Pip wants to draw you!",
+      "line": "quest.pip_drawings.otto"
+     }
+    },
+    {
+     "hint": "Tell Pip in the workshop",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "They said yes!",
+      "line": "quest.pip_drawings.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 45,
+    "item": "book",
+    "qty": 1,
+    "flag": "pip_drawings_done"
+   }
+  },
+  {
+   "id": "moss_bookmark",
+   "name": "Moss's bookmark",
+   "giver": "moss",
+   "fromDay": 9,
+   "offer": "You seem quiet today...",
+   "intro": "quest.moss_bookmark.intro",
+   "steps": [
+    {
+     "hint": "Tidy 8 spots in the library: it may be under the ink",
+     "goal": {
+      "type": "cleared",
+      "count": 8,
+      "area": "library"
+     }
+    },
+    {
+     "hint": "Give Moss the fern bookmark",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "Is this your fern?",
+      "line": "quest.moss_bookmark.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 45,
+    "item": "fern_pot",
+    "qty": 1,
+    "flag": "moss_bookmark_done"
+   }
+  },
+  {
+   "id": "sorrel_kettle",
+   "name": "Sorrel's kettle",
+   "giver": "sorrel",
+   "fromDay": 10,
+   "needs": "home_sorrel",
+   "offer": "All settled in?",
+   "intro": "quest.sorrel_kettle.intro",
+   "steps": [
+    {
+     "hint": "Ask Hazel at the bakery",
+     "goal": {
+      "type": "talk",
+      "who": "hazel",
+      "ask": "Could Sorrel borrow a kettle?",
+      "line": "quest.sorrel_kettle.hazel"
+     }
+    },
+    {
+     "hint": "Take the kettle to Sorrel",
+     "goal": {
+      "type": "talk",
+      "who": "sorrel",
+      "ask": "Here's a kettle from Hazel!",
+      "line": "quest.sorrel_kettle.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 45,
+    "item": "tea",
+    "qty": 2,
+    "flag": "sorrel_kettle_done"
+   }
+  },
+  {
+   "id": "bea_secret_bed",
+   "name": "Bea's secret flower bed",
+   "giver": "bea",
+   "fromDay": 11,
+   "offer": "What's that smile for?",
+   "intro": "quest.bea_secret_bed.intro",
+   "steps": [
+    {
+     "hint": "Pick 2 crops for Bea's bed",
+     "goal": {
+      "type": "picked",
+      "count": 2
+     }
+    },
+    {
+     "hint": "Ask Pip in the workshop for a sign",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Can you make a tiny sign?",
+      "line": "quest.bea_secret_bed.pip"
+     }
+    },
+    {
+     "hint": "Bring the sign to Bea",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Here's your sign!",
+      "line": "quest.bea_secret_bed.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 50,
+    "item": "flower_pot",
+    "qty": 1,
+    "flag": "bea_secret_bed_done"
+   }
+  },
+  {
+   "id": "pip_kite",
+   "name": "Pip's kite",
+   "giver": "pip",
+   "fromDay": 12,
+   "offer": "Why the long whiskers?",
+   "intro": "quest.pip_kite.intro",
+   "steps": [
+    {
+     "hint": "Make something at a workbench (the kite frame)",
+     "goal": {
+      "type": "made",
+      "count": 1,
+      "station": "bench"
+     }
+    },
+    {
+     "hint": "Ask Bea at the flower shop for a ribbon",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Can Pip have a ribbon?",
+      "line": "quest.pip_kite.bea"
+     }
+    },
+    {
+     "hint": "Bring the kite to Pip",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "The kite's ready!",
+      "line": "quest.pip_kite.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 50,
+    "item": "string",
+    "qty": 1,
+    "flag": "pip_kite_done"
+   }
+  },
+  {
+   "id": "otto_regatta",
+   "name": "Otto's duck race",
+   "giver": "otto",
+   "fromDay": 16,
+   "offer": "What's the plan, Otto?",
+   "intro": "quest.otto_regatta.intro",
+   "steps": [
+    {
+     "hint": "Invite Pip from the workshop",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Will you come to Otto's duck race?",
+      "line": "quest.otto_regatta.pip"
+     }
+    },
+    {
+     "hint": "Invite Hazel from the bakery",
+     "goal": {
+      "type": "talk",
+      "who": "hazel",
+      "ask": "Will you come to Otto's duck race?",
+      "line": "quest.otto_regatta.hazel"
+     }
+    },
+    {
+     "hint": "Catch a fish while the ducks get ready",
+     "goal": {
+      "type": "caught",
+      "count": 1
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Tell Otto by the river",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "Everyone's coming!",
+      "line": "quest.otto_regatta.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 60,
+    "item": "toy_boat",
+    "qty": 1,
+    "flag": "otto_regatta_done"
+   }
+  },
+  {
+   "id": "bea_birthday",
+   "name": "A surprise for Bea",
+   "giver": "hazel",
+   "fromDay": 19,
+   "offer": "Planning something, Hazel?",
+   "intro": "quest.bea_birthday.intro",
+   "steps": [
+    {
+     "hint": "Cook something in your kitchen for Bea",
+     "goal": {
+      "type": "made",
+      "count": 1,
+      "station": "kitchen"
+     }
+    },
+    {
+     "hint": "Ask Pip in the workshop for a card",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Can you make Bea a card?",
+      "line": "quest.bea_birthday.pip"
+     }
+    },
+    {
+     "hint": "Surprise Bea at the flower shop",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Happy birthday, Bea!",
+      "line": "quest.bea_birthday.done"
+     },
+     "nextDay": true
+    }
+   ],
+   "reward": {
+    "sparkles": 70,
+    "item": "cushion",
+    "qty": 1,
+    "flag": "bea_birthday_done"
+   }
+  },
+  {
+   "id": "fig_scarecrow",
+   "name": "Fig's friendly scarecrow",
+   "giver": "fig",
+   "fromDay": 22,
+   "needs": "home_fig",
+   "offer": "How are the seeds?",
+   "intro": "quest.fig_scarecrow.intro",
+   "steps": [
+    {
+     "hint": "Make something at a workbench for its frame",
+     "goal": {
+      "type": "made",
+      "count": 1,
+      "station": "bench"
+     }
+    },
+    {
+     "hint": "Ask Bea at the flower shop",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Could Fig's scarecrow have flowers?",
+      "line": "quest.fig_scarecrow.bea"
+     }
+    },
+    {
+     "hint": "Bring it to Fig",
+     "goal": {
+      "type": "talk",
+      "who": "fig",
+      "ask": "The scarecrow's ready!",
+      "line": "quest.fig_scarecrow.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 60,
+    "item": "garden_chair",
+    "qty": 1,
+    "flag": "fig_scarecrow_done"
+   }
+  },
+  {
+   "id": "moss_stars",
+   "name": "Moss's star book",
+   "giver": "moss",
+   "fromDay": 26,
+   "offer": "A new book, Moss?",
+   "intro": "quest.moss_stars.intro",
+   "steps": [
+    {
+     "hint": "Ask Otto where the stars are brightest",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "Where are the stars brightest?",
+      "line": "quest.moss_stars.otto"
+     }
+    },
+    {
+     "hint": "Spot a critter while you wait for dusk",
+     "goal": {
+      "type": "spotted",
+      "count": 1
+     }
+    },
+    {
+     "hint": "Tell Moss in the library",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "The stars are brightest by the river!",
+      "line": "quest.moss_stars.done"
+     },
+     "nextDay": true
+    }
+   ],
+   "reward": {
+    "sparkles": 60,
+    "item": "lantern",
+    "qty": 1,
+    "flag": "moss_stars_done"
+   }
+  },
+  {
+   "id": "wren_compass",
+   "name": "Wren's compass",
+   "giver": "wren",
+   "fromDay": 33,
+   "needs": "home_wren",
+   "offer": "Where are you off to?",
+   "intro": "quest.wren_compass.intro",
+   "steps": [
+    {
+     "hint": "Ask Pip in the workshop",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Can you mend a compass?",
+      "line": "quest.wren_compass.pip"
+     }
+    },
+    {
+     "hint": "Ask Moss in the library",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "Did the old sailors use compasses?",
+      "line": "quest.wren_compass.moss"
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Take the compass back to Wren",
+     "goal": {
+      "type": "talk",
+      "who": "wren",
+      "ask": "Pip mended your compass!",
+      "line": "quest.wren_compass.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 70,
+    "item": "lantern",
+    "qty": 1,
+    "flag": "wren_compass_done"
+   }
+  },
+  {
+   "id": "mabel_letters",
+   "name": "Mabel's old letters",
+   "giver": "mabel",
+   "fromDay": 44,
+   "offer": "What have you got there?",
+   "intro": "quest.mabel_letters.intro",
+   "steps": [
+    {
+     "hint": "Ask Moss in the library",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "Can you read these old letters?",
+      "line": "quest.mabel_letters.moss"
+     }
+    },
+    {
+     "hint": "Tell Mabel in the square (from 6 pm)",
+     "goal": {
+      "type": "talk",
+      "who": "mabel",
+      "ask": "The letters say to wait for a bunny!",
+      "line": "quest.mabel_letters.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 80,
+    "item": "envelope",
+    "qty": 1,
+    "flag": "mabel_letters_done"
+   }
+  },
+  {
+   "id": "hazel_new_bread",
+   "name": "Hazel's new loaf",
+   "giver": "hazel",
+   "fromDay": 28,
+   "offer": "Something new in the oven?",
+   "intro": "quest.hazel_new_bread.intro",
+   "steps": [
+    {
+     "hint": "Cook something in your kitchen to swap with Hazel",
+     "goal": {
+      "type": "made",
+      "count": 1,
+      "station": "kitchen"
+     }
+    },
+    {
+     "hint": "Ask Otto to taste it",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "Will you taste Hazel's new loaf?",
+      "line": "quest.hazel_new_bread.otto"
+     }
+    },
+    {
+     "hint": "Tell Hazel at the bakery",
+     "goal": {
+      "type": "talk",
+      "who": "hazel",
+      "ask": "Otto says it's grand!",
+      "line": "quest.hazel_new_bread.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 60,
+    "item": "bread",
+    "qty": 2,
+    "flag": "hazel_new_bread_done"
+   }
+  },
+  {
+   "id": "sorrel_nuts",
+   "name": "Sorrel's winter store",
+   "giver": "sorrel",
+   "fromDay": 30,
+   "needs": "home_sorrel",
+   "offer": "Busy as ever, Sorrel?",
+   "intro": "quest.sorrel_nuts.intro",
+   "steps": [
+    {
+     "hint": "Pick 3 crops for Sorrel's store",
+     "goal": {
+      "type": "picked",
+      "count": 3
+     }
+    },
+    {
+     "hint": "Ask Bea at the flower shop",
+     "goal": {
+      "type": "talk",
+      "who": "bea",
+      "ask": "Any tips for keeping crops fresh?",
+      "line": "quest.sorrel_nuts.bea"
+     }
+    },
+    {
+     "hint": "Tell Sorrel",
+     "goal": {
+      "type": "talk",
+      "who": "sorrel",
+      "ask": "Cool, with mint on top!",
+      "line": "quest.sorrel_nuts.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 60,
+    "item": "brass_acorn",
+    "qty": 1,
+    "flag": "sorrel_nuts_done"
+   }
+  },
+  {
+   "id": "bathhouse_photo",
+   "name": "The old bathhouse",
+   "giver": "otto",
+   "fromDay": 35,
+   "offer": "What's that picture, Otto?",
+   "intro": "quest.bathhouse_photo.intro",
+   "steps": [
+    {
+     "hint": "Tidy 8 spots in the bathhouse",
+     "goal": {
+      "type": "cleared",
+      "count": 8,
+      "area": "bathhouse"
+     }
+    },
+    {
+     "hint": "Ask Moss in the library",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "Was the bathhouse busy, long ago?",
+      "line": "quest.bathhouse_photo.moss"
+     }
+    },
+    {
+     "hint": "Tell Otto",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "The bathhouse looks like the picture!",
+      "line": "quest.bathhouse_photo.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 70,
+    "item": "towel",
+    "qty": 1,
+    "flag": "bathhouse_photo_done"
+   }
+  },
+  {
+   "id": "juniper_tune",
+   "name": "Juniper's half-remembered tune",
+   "giver": "juniper",
+   "fromDay": 39,
+   "needs": "home_juniper",
+   "offer": "Humming something?",
+   "intro": "quest.juniper_tune.intro",
+   "steps": [
+    {
+     "hint": "Ask Pip in the workshop",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Can you make a tiny flute?",
+      "line": "quest.juniper_tune.pip"
+     }
+    },
+    {
+     "hint": "Make something at a workbench to finish the flute",
+     "goal": {
+      "type": "made",
+      "count": 1,
+      "station": "bench"
+     }
+    },
+    {
+     "hint": "Bring Juniper the flute",
+     "goal": {
+      "type": "talk",
+      "who": "juniper",
+      "ask": "Here's your flute!",
+      "line": "quest.juniper_tune.done"
+     },
+     "nextDay": true
+    }
+   ],
+   "reward": {
+    "sparkles": 80,
+    "item": "string",
+    "qty": 1,
+    "flag": "juniper_tune_done"
+   }
+  },
+  {
+   "id": "fig_pumpkins",
+   "name": "Fig's prize pumpkin",
+   "giver": "fig",
+   "fromDay": 40,
+   "needs": "home_fig",
+   "offer": "Big plans, Fig?",
+   "intro": "quest.fig_pumpkins.intro",
+   "steps": [
+    {
+     "hint": "Pick 4 crops to make room in the beds",
+     "goal": {
+      "type": "picked",
+      "count": 4
+     }
+    },
+    {
+     "hint": "Ask Hazel at the bakery",
+     "goal": {
+      "type": "talk",
+      "who": "hazel",
+      "ask": "Could you bake with Fig's pumpkin?",
+      "line": "quest.fig_pumpkins.hazel"
+     }
+    },
+    {
+     "hint": "Tell Fig",
+     "goal": {
+      "type": "talk",
+      "who": "fig",
+      "ask": "Hazel will bake a pie!",
+      "line": "quest.fig_pumpkins.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 80,
+    "item": "pumpkin_seeds",
+    "qty": 2,
+    "flag": "fig_pumpkins_done"
+   }
+  },
+  {
+   "id": "lantern_parade",
+   "name": "Lanterns for winter",
+   "giver": "pip",
+   "fromDay": 48,
+   "offer": "What are you building?",
+   "intro": "quest.lantern_parade.intro",
+   "steps": [
+    {
+     "hint": "Make 2 things at a workbench for the lanterns",
+     "goal": {
+      "type": "made",
+      "count": 2,
+      "station": "bench"
+     }
+    },
+    {
+     "hint": "Ask Hazel at the bakery",
+     "goal": {
+      "type": "talk",
+      "who": "hazel",
+      "ask": "Can we hang a lantern at the bakery?",
+      "line": "quest.lantern_parade.hazel"
+     }
+    },
+    {
+     "hint": "Tell Pip in the workshop",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Hazel wants two lanterns!",
+      "line": "quest.lantern_parade.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 90,
+    "item": "lantern",
+    "qty": 1,
+    "flag": "lantern_parade_done"
+   }
+  },
+  {
+   "id": "marlo_shells",
+   "name": "Marlo's shell song",
+   "giver": "marlo",
+   "fromDay": 53,
+   "needs": "home_marlo",
+   "offer": "What's that you're listening to?",
+   "intro": "quest.marlo_shells.intro",
+   "steps": [
+    {
+     "hint": "Tidy 8 spots on the beach for shells",
+     "goal": {
+      "type": "cleared",
+      "count": 8,
+      "area": "beach"
+     }
+    },
+    {
+     "hint": "Ask Mabel in the square (from 6 pm)",
+     "goal": {
+      "type": "talk",
+      "who": "mabel",
+      "ask": "Do shells really sing?",
+      "line": "quest.marlo_shells.mabel"
+     }
+    },
+    {
+     "hint": "Tell Marlo at the harbour",
+     "goal": {
+      "type": "talk",
+      "who": "marlo",
+      "ask": "Mabel says shells hum the sea's song!",
+      "line": "quest.marlo_shells.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 90,
+    "item": "shell",
+    "qty": 3,
+    "flag": "marlo_shells_done"
    }
   }
  ],

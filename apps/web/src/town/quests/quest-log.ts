@@ -5,7 +5,9 @@ import type { TownState } from '../state';
 import type { Button, View } from '../ui/view';
 import { advance, currentStep, finished, hearQuest, offerable, start, type QuestDef } from './quests';
 
-export interface QuestHost { state: TownState; content: Content; view: View; talk: Conversations; day(): number; refreshHud(): void; save(): void }
+export interface QuestHost { state: TownState; content: Content; view: View; talk: Conversations; day(): number; refreshHud(): void; save(): void;
+  /** Whether a neighbour is in town yet, and the name of the place they're at right now. */
+  arrived(id: string): boolean; where(id: string): string | null }
 
 /** Quests in play: offered and advanced in chat boxes, moved on by what Puff does, rewarded at the end. */
 export class QuestLog {
@@ -62,6 +64,26 @@ export class QuestLog {
     return going.length ? `📜 ${going[0].name}: more tomorrow` : null;
   }
 
+  /** Stories waiting to be told today: on offer, from someone who's in town. The newest first. */
+  private waiting() {
+    const { state } = this.host;
+    return this.quests.filter((q) => offerable(q, state.quests, this.host.day(), state.flags) && this.host.arrived(q.giver)).sort((a, b) => b.fromDay - a.fromDay);
+  }
+
+  /** The tracker, once the day's story step and any quest under way are done: who has a story waiting, and where they are. */
+  invite() {
+    const [q] = this.waiting();
+    const who = q && this.host.content.neighbour(q.giver);
+    if (!q || !who) return null;
+    const where = this.host.where(q.giver);
+    return `📜 ${who.name} has a story for you${where ? `. Find them at ${where}` : ''}.`;
+  }
+
+  /** The morning card: the stories waiting today (two at most). */
+  morning(): string[] {
+    return this.waiting().slice(0, 2).map((q) => `📜 ${this.host.content.neighbour(q.giver)?.name ?? q.giver} has a story: ${q.name}`);
+  }
+
   /** Quests under way, for the journal: name and the step on (or more tomorrow). */
   going() {
     const { state } = this.host;
@@ -79,9 +101,8 @@ export class QuestLog {
   private stepped(q: QuestDef) {
     const { state, view, content } = this.host;
     if (!finished(q, state.quests)) {
+      // The tracker shows the next step, with a glow (ui/hud.ts).
       view.feedback('chime', 'light');
-      const next = currentStep(q, state.quests, this.host.day());
-      view.toast(next ? `📜 ${next.hint}` : `📜 ${q.name}: more tomorrow`);
     } else {
       const { sparkles, item, qty = 1, flag } = q.reward;
       state.sparkles += sparkles;

@@ -304,3 +304,6 @@ html.high-contrast .muted { color: #4a3a32; }
 @media (prefers-reduced-motion: reduce) { .goals-chip.pop { animation: none; } }
 /* Toasts (a tidy chain) sit below the tracker, clear of the Fluff and tidy meters. */
 #ui > .toast { top: calc(max(10px, env(safe-area-inset-top)) + 178px); }
+.tracker.fresh { animation: tracker-fresh 1.2s ease; }
+@keyframes tracker-fresh { 0% { transform: scale(1.06); box-shadow: 0 0 0 3px #f2d479, 0 3px 0 var(--line, #5a4636); } 100% { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tracker.fresh { animation: none; } }

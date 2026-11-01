@@ -257,5 +257,7 @@ export const TOUR: TourCard[] = [
   { title: '☀ Good morning card', steps: ['Go to bed (tap the burrow bed).', 'In the morning, one card has it all: the date and sky, Puff\'s note (tick the tiny chore right there), today\'s story step, the happening, the goals and the town\'s news.', 'Tap Let\'s go! and the day begins.'],
     setup: (s) => { s.day(11).time(21).flag('keeper_named').meet('hazel').visited('square', 'lane').go('burrow'); } },
   { title: '⚙ A tidier Pause', steps: ['Pause now holds the game: the journal, friends, collection, skills, the town, outfits and names.', 'Tap ⚙ Settings for sound, play, comfort and text options; Done brings you back to Pause.'],
-    setup: (s) => { s.day(6).time(10).go('square'); } }
+    setup: (s) => { s.day(6).time(10).go('square'); } },
+  { title: '📜 Little stories', steps: ['Most days now bring a new little story from a neighbour: Bea\'s list, Pip\'s music box, Gran\'s honey buns, Otto\'s brass duck...', 'Once today\'s 📖 step is done, the tracker says who has a story waiting and where to find them. The morning card lists them too.', 'Tap their 📜 button in the chat to take it on: each one sends you round town, talking to friends.'],
+    setup: (s) => { s.state.story = { step: 2, asked: false, count: 0, day: 3 }; s.day(3).time(9).flag('keeper_named').flag('keeper_day1_done').meet('hazel').go('bakery'); } }
 ];

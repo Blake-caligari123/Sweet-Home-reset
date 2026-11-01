@@ -34,3 +34,11 @@ describe('daily happenings', () => {
     expect(inSparkleHour(16 * 60 + 30)).toBe(true); expect(inSparkleHour(18 * 60)).toBe(false);
   });
 });
+
+describe('lost treasures', () => {
+  it('are real bag items, with names', async () => {
+    const { hollowfern: pack } = await import('../data/test-pack');
+    const { LOST_ITEMS } = await import('./happenings');
+    for (const id of LOST_ITEMS) expect(pack.items[id]?.name, id).toBeTruthy();
+  });
+});

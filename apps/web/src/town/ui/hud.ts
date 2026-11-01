@@ -192,9 +192,14 @@ export class Hud {
     }, 40);
   }
 
+  /** What to do next. A new line gives a little glow, so the eye finds it (and it unfolds if folded). */
   setTracker(text: string) {
+    if (text === this.tracker.textContent) return;
+    const fresh = !!this.tracker.textContent && !!text;
     this.tracker.textContent = text;
     this.tracker.hidden = !text;
+    if (!fresh) return;
+    this.tracker.classList.remove('folded', 'fresh'); void this.tracker.offsetWidth; this.tracker.classList.add('fresh');
   }
 
   setPrompt(text: string) { this.prompt.textContent = text; this.prompt.hidden = !text; }

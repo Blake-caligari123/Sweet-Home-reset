@@ -743,6 +743,18 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **Banners keep up:** the same banner twice in a row shows once; when three or more are waiting, they go by quicker; and at bedtime any still waiting are cleared (the night's recap sums up the day), so news never spills onto the night screen.
   - The tidy-chain toast sits below the tracker instead of over the Fluff meter.
   - "This week" lists drop the repeated "this week" under their heading.
+- **Little stories every day (1 Nov, Blake: "we need more to do during each day story wise. Right now you do one thing on day 2-5 and it just says after to clean what you can find"):**
+  - **25 new short story quests** (two to four steps each), so most days bring a new one, and any not yet taken stay on offer. They send Puff round town talking to friends, with a little doing in between:
+    - Spring: Bea's list, Pip's music box, Gran's honey buns, Otto's brass duck, wishes in the fountain, where are the bees?, Hazel's bun round, Pip's town drawings, Moss's bookmark, Sorrel's kettle, Bea's secret flower bed, Pip's kite.
+    - Summer: Otto's duck race, a surprise for Bea, Fig's friendly scarecrow, Moss's star book, Hazel's new loaf.
+    - Autumn: Sorrel's winter store, the old bathhouse, Wren's compass, Juniper's half-remembered tune, Fig's prize pumpkin.
+    - Winter: Mabel's old letters (from Thimble: "wait for the bunny"), lanterns for winter, Marlo's shell song.
+  - Each one ends with Sparkles and a gift: seeds, honey, a lantern, a cushion and the like.
+  - **Pointing the way:** once today's 📖 step and any quest under way are done, the tracker says who has a story waiting and where they are right now ("📜 Bea has a story for you. Find them at Bea's flower shop."). The morning card lists up to two waiting stories. In chat boxes the story and quest buttons come first, before games and trades. The journal lists up to three on offer.
+  - **Fixes:**
+    - Juniper's old song asked Puff to talk to Mabel, who arrives on day 43, so the autumn chapter could stall for days. It now asks Otto.
+    - Lost-treasure happenings now drop real bag items (a shell, a button, a brass acorn…) instead of collection finds.
+    - A test checks that every story only sends Puff to neighbours already in town, and that every line is written.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
