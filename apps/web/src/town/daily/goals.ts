@@ -22,7 +22,9 @@ export interface GoalKind {
 }
 
 /** What Puff can do so far. */
-export interface GoalFacts { day: number; shelf: boolean; tools: string[]; fish: boolean; crops: boolean; animals: boolean; grumbles: boolean; places: string[]; tidyPlaces: string[] }
+export interface GoalFacts { day: number;
+  /** Neighbours Puff knows who have a mini-game to play. */
+  games: boolean; tools: string[]; fish: boolean; crops: boolean; animals: boolean; grumbles: boolean; places: string[]; tidyPlaces: string[] }
 
 const KINDS: GoalKind[] = [
   { id: 'tidy', family: 'tidy', count: 15, text: 'Tidy {n} spots anywhere', counts: (e) => e.type === 'cleared', ready: () => true },
@@ -40,18 +42,18 @@ const KINDS: GoalKind[] = [
   { id: 'cook', family: 'make', count: 1, text: 'Cook something in your kitchen', counts: (e) => e.type === 'made' && e.station === 'kitchen', ready: (f) => f.day >= 4 },
   { id: 'craft', family: 'make', count: 1, text: 'Make something at a workbench', counts: (e) => e.type === 'made' && e.station === 'bench', ready: (f) => f.day >= 9 },
   { id: 'job', family: 'town', count: 1, text: 'Finish a job from the notice board', counts: (e) => e.type === 'jobDone', ready: (f) => f.day >= 2 },
-  { id: 'shelf', family: 'town', count: 1, text: 'Sort a shelf with Moss', counts: (e) => e.type === 'sorted', ready: (f) => f.shelf },
+  { id: 'game', family: 'town', count: 1, text: 'Play a little game with a friend', counts: (e) => e.type === 'played', ready: (f) => f.games },
   { id: 'visit', family: 'town', count: 1, text: 'Pay a visit to {place}', place: 'visited', counts: (e, p) => e.type === 'entered' && e.area === p, ready: (f) => f.places.length > 2 }
 ];
 
 /** A goal for today: which kind, the place picked for it, and how far along. */
 export interface Goal { kind: string; place?: string; have: number }
 export interface DailyGoals { day: number; goals: Goal[]; bonus: boolean;
-  /** Moss's shelf sorted today (its Sparkles are once a day; it's free to play again). */
-  shelf?: boolean }
+  /** Mini-games finished today (each gives Sparkles once a day; they're free to play again). */
+  played?: string[] }
 
 /** A day's happening already asks for these (daily/happenings.ts), so the goals pick something else. */
-export const SAME_AS: Record<string, string> = { bake: 'cook', derby: 'fish', parade: 'critter', breeze: 'weeds' };
+export const SAME_AS: Record<string, string> = { bake: 'cook', derby: 'fish', parade: 'critter', breeze: 'weeds', games_day: 'game', garden_day: 'water', clean_sweep: 'tidy' };
 
 /** Today's three: different families, picked the same way on any device for the same day and save. */
 export function pickGoals(f: GoalFacts, avoid: string[] = [], salt = 0): Goal[] {

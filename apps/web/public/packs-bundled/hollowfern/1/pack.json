@@ -11852,7 +11852,13 @@
    "happening.parade.news": "🐞 The critters are out and about today!",
    "happening.parade.goal": "Spot {n} critters on their outing",
    "happening.sparkle_hour.news": "✨ Sparkle hour at 4pm: extra ✨ for every tidy!",
-   "happening.sparkle_hour.start": "✨ Sparkle hour! Every tidy-up gives extra ✨"
+   "happening.sparkle_hour.start": "✨ Sparkle hour! Every tidy-up gives extra ✨",
+   "happening.games_day.news": "🎲 It's games day! Everyone wants to play.",
+   "happening.games_day.goal": "Play {n} little games with friends",
+   "happening.garden_day.news": "🌱 Garden day! A lovely day for growing.",
+   "happening.garden_day.goal": "Water {n} crops",
+   "happening.clean_sweep.news": "🧹 Clean sweep day! Let's make {town} shine.",
+   "happening.clean_sweep.goal": "Tidy {n} spots for the clean sweep"
   }
  },
  "heartEvents": [

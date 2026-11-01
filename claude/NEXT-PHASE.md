@@ -724,7 +724,13 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - ✨ **sparkle hour**, 4 to 6 pm: every tidy-up gives +2 ✨ extra
     That day's goals skip the one the happening already asks for.
   - **Sort the shelf** (`minigames/shelf.ts`, `minigames/shelf-sheet.ts`), the first mini-game: talk to Moss and tap "📚 Sort a shelf". Swap books two at a time until the colours run in order, short to tall within each colour. Each book glows as it lands, and the shelf hops when it's done. The fewest swaps earn 3 stars. The first shelf each day gives 5/10/20 ✨; after that, "Another shelf" deals a fresh one, just for fun. Shelves grow from 8 books in 2 colours to 16 in 4 through the year.
-  - Numbers are in tuning (`dailyGoalSparkles`, `dailyBonusSparkles`, `happeningSparkles`, `sparkleHourBonus`, `shelfSparkles`). There are 4 new tour cards and a new play test (a day's goals, and a lost treasure found).
+  - Numbers are in tuning (`dailyGoalSparkles`, `dailyBonusSparkles`, `happeningSparkles`, `sparkleHourBonus`, `gameSparkles`). There are 4 new tour cards and a new play test (a day's goals, and a lost treasure found).
+- **Mini-games with friends (1 Nov):** three more, each in a neighbour's chat box. Every game's first finish each day gives 5/10/20 ✨ by stars; after that, play on for fun. They share `minigames/games.ts` (the host, the star line, "another round") and `minigame-buttons.ts` (who plays what).
+  - 🌱 **Garden pairs with Bea** (`pairs.ts`): 12 face-down cards (16 from day 30), turn two at a time, matches stay up and glow, a miss peeks then flips back. Few misses earn 3 stars.
+  - 🧺 **Hazel's pantry** (`pantry.ts`): 12 things from the market (16 later), one at a time, each onto Fruit, Veg or Baking. Three right in a row starts a combo sound; a wrong shelf just wiggles. No slips earns 3 stars.
+  - 🪨 **Skip stones with Otto** (`skip.ts`): a marker swings along a bar; tap Throw! in the green. Dead centre skips 9 times. Three throws, each quicker, with the green somewhere new; the best throw counts.
+  - The daily goal "Sort a shelf with Moss" is now "Play a little game with a friend" (any of the four).
+  - Three more happenings, so days repeat less: 🎲 **games day** (play 2 games), 🌱 **garden day** (water 5 crops), 🧹 **clean sweep** (tidy 30 spots). That's 9 kinds now.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

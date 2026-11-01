@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { goalDone, goalText, hearGoal, kindOf, pickGoals, type GoalFacts } from './goals';
 
-const early: GoalFacts = { day: 2, shelf: false, tools: ['hands', 'duster'], fish: false, crops: false, animals: false, grumbles: false, places: ['burrow', 'yard'], tidyPlaces: ['yard'] };
-const later: GoalFacts = { day: 20, shelf: true, tools: ['hands', 'duster', 'sponge', 'rake', 'can'], fish: true, crops: true, animals: true, grumbles: true, places: ['burrow', 'yard', 'square', 'lane', 'riverside'], tidyPlaces: ['yard', 'square', 'lane'] };
+const early: GoalFacts = { day: 2, games: false, tools: ['hands', 'duster'], fish: false, crops: false, animals: false, grumbles: false, places: ['burrow', 'yard'], tidyPlaces: ['yard'] };
+const later: GoalFacts = { day: 20, games: true, tools: ['hands', 'duster', 'sponge', 'rake', 'can'], fish: true, crops: true, animals: true, grumbles: true, places: ['burrow', 'yard', 'square', 'lane', 'riverside'], tidyPlaces: ['yard', 'square', 'lane'] };
 
 describe('today\'s little goals', () => {
   it('picks three different kinds, only things Puff can do yet, the same for the same day', () => {

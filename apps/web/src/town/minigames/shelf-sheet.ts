@@ -1,18 +1,13 @@
 import { h } from '../../shared/ui/dom';
-import type { View } from '../ui/view';
+import { againButton, starLine, type GameHost } from './games';
 import { inPlace, isSorted, par, shelfFor, stars, swap } from './shelf';
 
 /** Book colours: rose, butter, sage, sky (the shelf runs in this order). */
 const COLOURS = ['#e8a0a0', '#f2c879', '#a9cda0', '#9db8e0'];
 
-export interface ShelfHost {
-  view: View; day(): number;
-  /** A finish, with its stars: the host rewards the first of the day. */
-  finished(stars: number): string;
-}
 
 /** Moss's shelf: tap a book, then another, to swap them. Books glow as they click into place. */
-export function openShelf(d: ShelfHost, round = 0) {
+export function openShelf(d: GameHost, round = 0) {
   const { view } = d;
   let books = shelfFor(d.day(), round);
   const best = par(books);
@@ -46,10 +41,8 @@ export function openShelf(d: ShelfHost, round = 0) {
     const s = stars(swaps, best);
     view.feedback('fanfare', 'success');
     row.classList.add('sorted');
-    status.textContent = `${'⭐'.repeat(s)}${'☆'.repeat(3 - s)}  ${d.finished(s)}`;
-    const again = h('button', { class: 'btn small', type: 'button' }, 'Another shelf');
-    again.addEventListener('click', () => { view.closeTopSheet(); openShelf(d, round + 1); });
-    status.after(again);
+    status.textContent = `${starLine(s)}  ${d.finished(s)}`;
+    status.after(againButton(view, 'Another shelf', () => openShelf(d, round + 1)));
   };
   draw();
   view.sheet('📚 Sort the shelf', [h('p', { class: 'muted' }, 'Tap two books to swap them. Colours in order, short to tall.'), row, count, status]);

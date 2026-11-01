@@ -241,5 +241,11 @@ export const TOUR: TourCard[] = [
   { title: '🍃 Blustery days and more', steps: ['Two days in three, something is on in town: a blustery night, a fishing contest, a bake sale, a critter outing or a sparkle hour.', 'This one: the wind blew leaves into a few places. Rake up 12 for +40 ✨.'],
     setup: (s) => { s.state.tools.rake = Math.max(1, s.state.tools.rake ?? 0); s.day(16).time(9).visited('yard', 'square', 'lane').happening('breeze').go('yard'); } },
   { title: '📚 Sort the shelf', steps: ['Talk to Moss and tap "📚 Sort a shelf".', 'Tap two books to swap them, until the colours run in order, short to tall. Books glow as they land.', 'The fewest swaps earns 3 stars. The first shelf each day gives Sparkles; play on as long as you like.'],
-    setup: (s) => { s.day(10).time(10).meet('moss').go('library'); } }
+    setup: (s) => { s.day(10).time(10).meet('moss').go('library'); } },
+  { title: '🌱 Garden pairs with Bea', steps: ['Talk to Bea and tap "🌱 Play garden pairs".', 'Turn two cards at a time to find matching pairs. Matches stay up and glow.', 'Few misses earn 3 stars. Each game gives Sparkles on its first finish of the day.'],
+    setup: (s) => { s.day(10).time(10).meet('bea').go('bea_shop'); } },
+  { title: '🧺 Hazel\'s pantry', steps: ['Talk to Hazel and tap "🧺 Help sort the pantry".', 'Pop each thing on its shelf: fruit, veg or baking. Three right in a row starts a combo.'],
+    setup: (s) => { s.day(10).time(9).flag('keeper_named').flag('keeper_day1_done').meet('hazel').go('bakery'); } },
+  { title: '🪨 Skip stones with Otto', steps: ['Talk to Otto by the river and tap "🪨 Skip stones".', 'Tap Throw! when the marker is in the green. Dead centre skips 9 times. Three throws, the best counts.'],
+    setup: (s) => { s.day(10).time(7).meet('otto').go('riverside'); } }
 ];

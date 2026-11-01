@@ -5,6 +5,7 @@ import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import type { View } from '../ui/view';
 import type { TownAreas } from '../world/town-areas';
+import { GAMES } from '../minigames/minigame-buttons';
 import { goalDone, goalText, hearGoal, kindOf, pickGoals, SAME_AS, type GoalFacts } from './goals';
 
 export interface DailyHost { state: TownState; view: View; content: Content; places: TownAreas; day(): number; refreshHud(): void; save(): void; hop(): void }
@@ -20,7 +21,7 @@ export class DailyGoalsLife {
     const { state, content, places } = this.h;
     const named = (id: string) => content.pack.areas.some((a) => a.id === id);
     return {
-      day: this.h.day(), shelf: !!state.friends.moss?.met, tools: Object.keys(state.tools).filter((t) => state.tools[t] > 0),
+      day: this.h.day(), games: GAMES.some((g) => state.friends[g.who]?.met), tools: Object.keys(state.tools).filter((t) => state.tools[t] > 0),
       fish: state.bag.count('fishing_rod') > 0 || state.fishCaught > 0, crops: state.crops.length > 0,
       animals: ownedAnimals(content.pack.animals ?? [], state.flags).length > 0, grumbles: state.grumbles.list.length > 0,
       places: state.visited.filter((a) => a !== 'burrow' && a !== 'yard' && named(a)),

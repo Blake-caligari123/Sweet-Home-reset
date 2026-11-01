@@ -13,6 +13,11 @@ How a line is chosen: the most specific one that fits wins (a story moment, then
   - "🧁 It's bake sale day! Everyone's cooking." · Cook 2 treats for the bake sale
   - "🐞 The critters are out and about today!" · Spot 2 critters on their outing
   - "✨ Sparkle hour at 4pm: extra ✨ for every tidy!" · at 4pm: "✨ Sparkle hour! Every tidy-up gives extra ✨"
+- More happenings: "🎲 It's games day! Everyone wants to play." · Play 2 little games with friends · "🌱 Garden day! A lovely day for growing." · Water 5 crops · "🧹 Clean sweep day! Let's make {town} shine." · Tidy 30 spots for the clean sweep
+- Bea: "🌱 Play garden pairs" · "Turn two cards at a time to find the pairs." · Pairs: 3 of 6 · Misses: 2 · "Deal again"
+- Hazel: "🧺 Help sort the pantry" · "Pop each thing on its shelf." · 🍎 Fruit · 🥕 Veg · 🍞 Baking · "Combo ×3!" · "All put away!" · "Another basket"
+- Otto: "🪨 Skip stones" · "Tap Throw! when the marker is in the green." · "6 skips! Throw 2 of 3" · "Best: 9 skips" · "Skip again"
+- Any game finished again the same day: "Lovely!"
 - Moss's chat: "📚 Sort a shelf" · "Tap two books to swap them. Colours in order, short to tall." · "Fewest swaps: 7" · done: "⭐⭐⭐ +20 ✨" (or "Lovely and neat!" after the first of the day) · "Another shelf"
 
 ## New in Phase 0 (28 Oct 2026): names and a sleepy Puff

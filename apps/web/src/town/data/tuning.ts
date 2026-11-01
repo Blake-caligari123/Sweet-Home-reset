@@ -23,8 +23,8 @@ export interface Tuning {
   dailyGoalSparkles: number; dailyBonusSparkles: number;
   /** Today's happening done, and the extra per tidy in sparkle hour (daily/happenings.ts). */
   happeningSparkles: number; sparkleHourBonus: number;
-  /** Moss's shelf, the first sort of the day: Sparkles for 1, 2 and 3 stars (minigames/shelf.ts). */
-  shelfSparkles: number[];
+  /** A mini-game's first finish of the day: Sparkles for 1, 2 and 3 stars (minigames/). */
+  gameSparkles: number[];
   /** Sparkles for completing a Collection set (every find, critter or fish), once each. */
   setCompleteSparkles: number;
   /** Sparkles for the whole town reaching 100% (bloom/completion.ts). */

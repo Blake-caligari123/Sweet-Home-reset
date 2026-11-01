@@ -5,10 +5,11 @@ import type { GoalFacts } from './goals';
 // Daily happenings (Blake: "there isn't enough to do during a day… still repetitive"): on most
 // days something different is going on in town, so no two days feel alike. A blustery night
 // blows leaves everywhere, a neighbour drops something precious, Otto runs a fishing contest,
-// there's a bake sale, the critters come out, or a sparkle hour in the afternoon. Each has a
+// there's a bake sale, the critters come out, a sparkle hour in the afternoon, a games day,
+// a garden day, or a big clean sweep. Each has a
 // bigger goal of its own, with nothing lost by letting it pass. Pure rules; happening-life.ts runs them.
 
-export const HAPPENING_IDS = ['breeze', 'lost', 'derby', 'bake', 'parade', 'sparkle_hour'] as const;
+export const HAPPENING_IDS = ['breeze', 'lost', 'derby', 'bake', 'parade', 'sparkle_hour', 'games_day', 'garden_day', 'clean_sweep'] as const;
 export type HappeningId = (typeof HAPPENING_IDS)[number];
 
 export interface HappeningFacts extends GoalFacts {
@@ -30,7 +31,10 @@ const HAPPENINGS: HappeningDef[] = [
   { id: 'derby', count: 3, ready: (f) => f.fish && f.otto, counts: (e) => e.type === 'caught' },
   { id: 'bake', count: 2, ready: (f) => f.day >= 5, counts: (e) => e.type === 'made' && e.station === 'kitchen' },
   { id: 'parade', count: 2, ready: (f) => f.day >= 6, counts: (e) => e.type === 'spotted' },
-  { id: 'sparkle_hour', count: 0, ready: () => true }
+  { id: 'sparkle_hour', count: 0, ready: () => true },
+  { id: 'games_day', count: 2, ready: (f) => f.games, counts: (e) => e.type === 'played' },
+  { id: 'garden_day', count: 5, ready: (f) => f.crops, counts: (e) => e.type === 'watered' },
+  { id: 'clean_sweep', count: 30, ready: (f) => f.day >= 4, counts: (e) => e.type === 'cleared' }
 ];
 export const happening = (id: HappeningId) => HAPPENINGS.find((h) => h.id === id)!;
 
