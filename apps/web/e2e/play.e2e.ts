@@ -59,3 +59,29 @@ test('the bag tidies up, keeping every item', async ({ page }) => {
   const bag = await page.evaluate(() => (window.__town.debug() as { bag: { id: string; count: number }[] }).bag);
   expect(bag.find((s) => s.id === 'pebble')?.count).toBe(5);
 });
+
+test('a new day brings three goals, and a lost treasure can be found and given back', async ({ page }) => {
+  await newGame(page);
+  await page.evaluate(() => { window.__town.setDay(8); window.__town.visit('square', 10, 10); window.__town.visit('lane', 10, 10); });
+  await page.evaluate(() => window.__town.sleep());
+  await page.waitForTimeout(500);
+  for (const t of ['Not today', 'Maybe later', 'OK']) { const b = page.locator('.dialogue button', { hasText: t }); if (await b.count()) await b.first().click(); }
+  await settle(page);
+  type Today = { goals: { kind: string }[]; happening: { id: string | null; lost?: { item: string; area: string; owner: string; found?: boolean } } };
+  const today = await page.evaluate(() => window.__town.today()) as Today;
+  expect(today.goals).toHaveLength(3);
+  expect(new Set(today.goals.map((g) => g.kind)).size).toBe(3);
+  // A lost treasure: hidden in clutter somewhere outdoors; tidying there finds it.
+  await page.evaluate(() => { window.__town.meet('hazel'); window.__town.happening('lost'); });
+  const lost = (await page.evaluate(() => window.__town.today()) as Today).happening.lost;
+  expect(lost?.owner).toBe('hazel');
+  await page.evaluate((a) => window.__town.visit(a, 10, 10), lost!.area);
+  await page.waitForTimeout(600);
+  const spot = (await page.evaluate(() => window.__town.mess()) as { x: number; y: number; item?: string }[]).find((m) => m.item === lost!.item);
+  expect(spot).toBeDefined();
+  for (let i = 0; i < 6 && !(await page.evaluate(() => window.__town.today()) as Today).happening.lost?.found; i += 1) {
+    await page.evaluate((s) => { window.__town.setFluff(100); window.__town.tapTile(s.x, s.y); }, spot!);
+    await settle(page);
+  }
+  expect((await page.evaluate(() => window.__town.today()) as Today).happening.lost?.found).toBe(true);
+});

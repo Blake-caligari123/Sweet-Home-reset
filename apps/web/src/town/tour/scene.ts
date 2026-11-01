@@ -1,3 +1,4 @@
+import type { HappeningId } from '../daily/happenings';
 import type { DebugTarget } from '../debug';
 
 /** What a tour card can set up: the day and time, where Puff is, and a few things in the save. */
@@ -19,5 +20,7 @@ export class Scene {
   restore(area: string) { this.g.messFor(area).restore(); return this; }
   /** Play a cutscene over everything (the how-to sheet waits underneath). */
   playScene(id: string) { this.g.playScene(id); return this; }
+  /** Today's happening, started now (a lost thing dropped, leaves blown in). */
+  happening(id: HappeningId) { this.g.happening(id); return this; }
   visited(...areas: string[]) { for (const a of areas) this.state.visit(a); return this; }
 }

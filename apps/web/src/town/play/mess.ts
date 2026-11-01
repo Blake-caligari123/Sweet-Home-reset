@@ -75,6 +75,7 @@ export class AreaMess {
       const i = s.y * this.w + s.x;
       if (this.type[i]) continue;
       this.type[i] = MESS_TYPES.indexOf(s.type); this.hp[i] = TUNING.messHitsTier1[s.type] ?? 1; this.fresh[i] = 1;
+      if (s.item) this.item[i] = s.item;
       tiles.push(i);
     }
     return tiles;

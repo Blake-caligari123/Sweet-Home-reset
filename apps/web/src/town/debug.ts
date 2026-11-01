@@ -1,3 +1,4 @@
+import type { HappeningId } from './daily/happenings';
 import type { Area } from './data/area';
 import type { GrumbleLife } from './grumbles/grumble-life';
 import type { Neighbours } from './neighbours/neighbours';
@@ -31,6 +32,8 @@ export interface DebugTarget {
   refreshHud(): void;
   /** Go to bed now: the night runs as usual. */
   sleep(): Promise<void>;
+  /** Start a daily happening now, with its morning news (daily/happenings.ts). */
+  happening(id: HappeningId): void;
 }
 
 /** Test hooks for automated playthroughs (`window.__town`), only with ?debug in the URL. */
@@ -40,6 +43,8 @@ export function installDebugHooks(g: DebugTarget) {
     tileToScreen: (x: number, y: number) => g.world.toScreen((x + 0.5) * T, (y + 0.5) * T),
     debug: () => ({ area: g.areaId(), puff: { x: g.puff.x, y: g.puff.y }, fluff: s.fluff.value, sparkles: s.sparkles, bag: s.bag.slots.filter(Boolean), tools: s.tools, step: s.onboarding.current?.id ?? 'done', progress: g.mess().progress, day: g.clock.state.day, minutes: g.clock.state.minutes, crops: s.crops }),
     setMinutes: (m: number) => { g.clock.state.minutes = m; },
+    happening: (id: HappeningId) => g.happening(id),
+    today: () => ({ goals: s.daily.goals, happening: s.happening }),
     setDay: (d: number) => { g.clock.state.day = d; g.jobs.post(); },
     sleep: () => g.sleep(),
     /** Rain and motes drifting in the world right now. */
@@ -89,6 +94,7 @@ export function installDebugHooks(g: DebugTarget) {
     addSparkles: (n: number) => { s.sparkles += n; g.refreshHud(); },
     /** Friendship points straight in, to reach heart events in tests. */
     addPoints: (id: string, n: number) => { s.friendOf(id).points += Math.max(0, n); },
+    meet: (id: string) => { s.friendOf(id).met = true; },
     /** Puff's skill XP, and a moment as if Puff did it (skills and tips hear it). */
     skills: () => s.skills,
     /** Give thank-you notes from a neighbour (neighbours/tokens.ts). */

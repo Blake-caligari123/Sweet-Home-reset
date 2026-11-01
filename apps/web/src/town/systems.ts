@@ -17,6 +17,9 @@ import { completionParts, completionPct, rankFor } from './bloom/completion';
 import { TUNING } from './data/tuning';
 import { QuestLog } from './quests/quest-log';
 import { StoryPath } from './story/story-path';
+import { DailyGoalsLife } from './daily/daily-life';
+import { HappeningLife } from './daily/happening-life';
+import { openShelf } from './minigames/shelf-sheet';
 import { journalPage } from './journal/journal';
 import { openJournal } from './journal/journal-sheet';
 import type { Jobs } from './requests/jobs';
@@ -36,7 +39,7 @@ import type { World } from './world/world';
 
 export interface SystemsHost {
   state: TownState; view: View; content: Content; hud: Hud; world: World; puff: Puff; places: TownAreas; life: TownLife; guide: OnboardingGuide; talk: Conversations; jobs: Jobs;
-  day(): number; arrived(key: string): boolean; refreshHud(): void; save(): void;
+  day(): number; minutes(): number; arrived(key: string): boolean; refreshHud(): void; save(): void;
   playScene(id: string): void;
   /** The place Puff is in. */
   areaId(): string;
@@ -59,6 +62,10 @@ export class TownSystems {
   readonly story: StoryPath;
   /** How tidy the current place is (play/tidy-meter.ts). */
   readonly tidy: TidyMeterLife;
+  /** Today's little goals (daily/). */
+  readonly goals: DailyGoalsLife;
+  /** Today's happening: a blustery night, a lost thing, a contest (daily/). */
+  readonly happening: HappeningLife;
 
   constructor(private host: SystemsHost) {
     const { state, view, content, places, life } = host;
@@ -76,9 +83,15 @@ export class TownSystems {
       restored: () => content.pack.areas.filter((a) => state.has(`restored_${a.id}`) && ((a.mess?.length ?? 0) > 0 || a.restoreReward)).map((a) => a.id), hop: () => host.puff.hop(), left: (id) => places.mess(id).remaining,
       area: () => { const id = host.areaId(); return { id, name: places.get(id)?.pack.name ?? id, mess: places.mess(id) }; }
     });
+    this.goals = new DailyGoalsLife({ state, view, content, places, day: () => host.day(), refreshHud: () => host.refreshHud(), save: () => host.save(), hop: () => host.puff.hop() });
+    this.happening = new HappeningLife({
+      state, view, content, places, day: () => host.day(), minutes: () => host.minutes(), refreshHud: () => host.refreshHud(), save: () => host.save(), hop: () => host.puff.hop(),
+      facts: () => ({ ...this.goals.facts(), friends: Object.keys(state.friends).filter((id) => state.friends[id].met && content.neighbour(id)), otto: arrived('otto') }),
+      thank: (id, text) => { const def = content.neighbour(id); if (def) host.talk.says(def, text, TUNING.friendship.loved, false); }
+    });
     // Milestones wait a moment, so the clean is counted first (bloom/finds).
     this.sparklesAtDawn = state.sparkles;
-    host.guide.listen((e) => { this.today = tallyHear(this.today, e); this.tidy.hear(e); if (e.type === 'found' || e.type === 'spotted' || e.type === 'caught' || e.type === 'picked') this.setsDone(); if (e.type === 'cleared') queueMicrotask(() => this.milestone()); skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); this.story.hear(e); });
+    host.guide.listen((e) => { this.today = tallyHear(this.today, e); this.tidy.hear(e); if (e.type === 'found' || e.type === 'spotted' || e.type === 'caught' || e.type === 'picked') this.setsDone(); if (e.type === 'cleared') queueMicrotask(() => this.milestone()); skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); this.story.hear(e); this.goals.hear(e); this.happening.hear(e); });
   }
 
   /** The journal's tally: places spotless today, and each Collection set. */
@@ -106,7 +119,7 @@ export class TownSystems {
   recap() { return recapLine(this.today, spotlessToday(this.host.state, this.host.day()), Math.max(0, this.host.state.sparkles - this.sparklesAtDawn)); }
 
   /** A new morning: a fresh tally. */
-  newDay() { this.today = emptyTally(); this.sparklesAtDawn = this.host.state.sparkles; }
+  newDay() { this.today = emptyTally(); this.happening.start(); this.sparklesAtDawn = this.host.state.sparkles; }
 
   /** The whole town at 100%: the biggest cheer there is, once. */
   checkComplete() {
@@ -142,7 +155,7 @@ export class TownSystems {
   }
 
   /** After the night: today's story step, town needs met, who helped tidy, what the stall sold, and new farm animals. */
-  morningNews() { return [...this.story.morning(), ...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews(), ...this.farmNews()]; }
+  morningNews() { return [...this.story.morning(), ...this.happening.morning(), ...this.goals.morning(), ...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews(), ...this.farmNews()]; }
 
   private farmNews() {
     const { state, content } = this.host;
@@ -177,7 +190,22 @@ export class TownSystems {
   buttonsFor(id: string) {
     const { state, content, view } = this.host;
     const changed = () => { this.host.refreshHud(); this.host.save(); };
-    return [...this.story.buttonsFor(id), ...this.quests.buttonsFor(id), ...cafeButtons({ state, content, view, day: () => this.host.day(), changed }, id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
+    return [...this.happening.buttonsFor(id), ...this.shelfButtons(id), ...this.story.buttonsFor(id), ...this.quests.buttonsFor(id), ...cafeButtons({ state, content, view, day: () => this.host.day(), changed }, id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
+  }
+
+  /** Moss's 📚 shelf to sort: Sparkles for the first of the day, as many more as Puff likes for fun. */
+  private shelfButtons(id: string) {
+    if (id !== 'moss') return [];
+    const { state, view } = this.host;
+    return [{ label: '📚 Sort a shelf', onClick: () => openShelf({ view, day: () => this.host.day(), finished: (stars) => {
+      this.host.guide.handle({ type: 'sorted' });
+      if (state.daily.shelf) return 'Lovely and neat!';
+      state.daily.shelf = true;
+      const gift = TUNING.shelfSparkles[stars - 1];
+      state.sparkles += gift;
+      this.host.refreshHud(); this.host.save();
+      return `+${gift} ✨`;
+    } }) }];
   }
 
   /** The tracker line for a quest under way, if any. */
@@ -190,7 +218,7 @@ export class TownSystems {
     const page = journalPage({
       def: content.pack.story ?? { chapters: [], steps: [] }, story: state.story, day: this.host.day(),
       line: (id) => content.named(content.line(id) ?? ''), today: this.story.tracker(),
-      also: [jobs.tracker(), this.quests.tracker(), wants ? `☕ the café wants ${wants}` : null], tryNew, quests: [...this.quests.going(), ...this.quests.offered()], tally: this.tally()
+      also: [jobs.tracker(), this.quests.tracker(), wants ? `☕ the café wants ${wants}` : null], tryNew, quests: [...this.quests.going(), ...this.quests.offered()], tally: this.tally(), goals: [...this.happening.lines(), ...this.goals.lines()]
     });
     openJournal(view, page, memories);
   }
