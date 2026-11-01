@@ -33,3 +33,13 @@ export function completionPct(parts: CompletionPart[]) {
   const avg = parts.reduce((n, p) => n + Math.min(1, p.have / p.total), 0) / parts.length;
   return avg >= 1 ? 100 : Math.min(99, Math.floor(avg * 100));
 }
+
+/** Keeper ranks: a title that grows with the town's completion (never goes down). */
+export const RANKS: [number, string][] = [[0, 'New Keeper'], [10, 'Little Keeper'], [25, 'Tidy Keeper'], [50, 'Town Keeper'], [75, 'Grand Keeper'], [100, 'Keeper of {town}']];
+
+/** The rank for a completion %, and its place in the list. */
+export function rankFor(pct: number): { index: number; title: string } {
+  let index = 0;
+  RANKS.forEach(([at], i) => { if (pct >= at) index = i; });
+  return { index, title: RANKS[index][1] };
+}

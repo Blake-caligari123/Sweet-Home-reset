@@ -13,7 +13,7 @@ import { spotlessToday } from './play/tidy-meter';
 import { emptyTally, recapLine, tallyHear } from './play/day-recap';
 import { milestoneFlag, milestoneReached, milestoneSparkles, totalTidied } from './play/milestones';
 import { collectionSets, newlyComplete, setFlag } from './bloom/sets';
-import { completionParts, completionPct } from './bloom/completion';
+import { completionParts, completionPct, rankFor } from './bloom/completion';
 import { TUNING } from './data/tuning';
 import { QuestLog } from './quests/quest-log';
 import { StoryPath } from './story/story-path';
@@ -111,7 +111,16 @@ export class TownSystems {
   /** The whole town at 100%: the biggest cheer there is, once. */
   checkComplete() {
     const { state, content, view } = this.host;
-    if (state.has('town_complete') || completionPct(completionParts(state, content.pack)) < 100) return;
+    const pct = completionPct(completionParts(state, content.pack));
+    // A new Keeper rank (bloom/completion.ts): a cheer each time the title grows, once each.
+    const rank = rankFor(pct);
+    if (rank.index > 0 && !state.has(`rank_${rank.index}`)) {
+      for (let i = 1; i <= rank.index; i += 1) state.flag(`rank_${i}`);
+      view.feedback('fanfare', 'success');
+      view.banner(`🎖 ${state.names.puff} is now a ${content.named(rank.title)}!`);
+      this.host.save();
+    }
+    if (state.has('town_complete') || pct < 100) return;
     state.flag('town_complete');
     state.sparkles += TUNING.townCompleteSparkles;
     view.feedback('fanfare', 'success');
