@@ -662,6 +662,9 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **🌙 The day's recap** (`play/day-recap.ts`): as night falls, before the hint at tomorrow, one line sums up the day (spots tidied, places made spotless, fish, critters, crops, things made, Grumbles befriended, Sparkles earned). Only what happened is shown, and a quiet day shows nothing.
   - **The before-and-after clip offer waits** for a quiet moment, never popping up over a chat, a sheet or the night falling.
   - Tour card: 🌙 The day's recap.
+- **Satisfaction 5: the whole town shines (1 Nov):**
+  - **🌟 The whole town is spotless:** clearing the last spot anywhere, when every restored place has nothing left to tidy, is the day's biggest cheer: a fanfare and 50 ✨, once a day. Mess drifting back overnight makes it a fresh, optional little goal each morning, with no streak and nothing lost by skipping.
+  - **Puff hops for joy** when a place turns spotless or a Collection set is complete.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

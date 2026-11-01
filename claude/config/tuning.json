@@ -17,6 +17,7 @@
   "dozeWakeFluffFraction": 0.5,
   "restoreThreshold": 0.95,
   "spotlessSparkles": 5,
+  "townSpotlessSparkles": 50,
   "setCompleteSparkles": 150,
   "townCompleteSparkles": 1000,
   "tidyMilestones": [50, 100, 250, 500, 1000, 2500, 5000],
