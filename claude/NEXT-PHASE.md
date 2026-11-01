@@ -570,3 +570,10 @@ These are the places Blake said "dealer's choice". Each can be changed:
 - **Sheets are wider on big screens,** with the Pause settings in two columns and labels next to their switches.
 - **Every sheet opens at its top:** focusing the Close button no longer scrolls a long sheet (Pause) to the bottom.
 
+### iPhone Duo and other foldables (1 Nov, Blake: "optimise for iPhone duo … a big sale point")
+- **Unfolding shows more of the town, not bigger tiles** (`fitTiles`). Folded is 11 tiles across like any phone, and unfolded (a short side of 560 px or more) is at least 14.
+- **Either way up:** the web app's manifest no longer locks to portrait. In the iOS build, keep all orientations (RELEASE-CHECKLIST).
+- **Edge to edge:** both pages set `viewport-fit=cover`, and the HUD, captions and Skip keep clear of the screen's edges.
+- The test page no longer lets a pinch zoom the web page; pinch zooms the game.
+- **Folding and unfolding mid-play are smooth**, checked at stand-in sizes (folded about 440×650; unfolded 640×900 and 900×640, at 3× density): walking, the opening cutscene, Pause and the journal. Nothing resets or gets cut off. Apple's exact point sizes still need checking on a real Duo.
+

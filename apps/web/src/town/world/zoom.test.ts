@@ -17,6 +17,7 @@ describe('zoom', () => {
 
   it('fits a phone as before and shows more of the town on a big screen, so tiles stay about 64 px', () => {
     expect(fitTiles(390)).toBe(VIEW_TILES); // a phone's width
+    expect(fitTiles(640)).toBe(14); // unfolded (iPhone Duo's inner screen): more town, not bigger tiles
     expect(fitTiles(900)).toBe(14); // a laptop's height
     expect(fitTiles(2160)).toBe(TUNING.zoomTiles[1]); // never further out than pinching allows
   });

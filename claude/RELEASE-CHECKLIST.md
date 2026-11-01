@@ -23,7 +23,12 @@ What's left before v1.0 (VISION §12–13, Phase 5 "done when Blake approves the
 - [ ] `VITE_RELEASE=1` in every public build (web, iOS, Android): it hides the 🧪 Feature tour, which is for testing and changes the save.
 - [ ] Sign in with Apple: a Services ID `com.pixelvortexgames.sweethomereset.web` and a key; the server side is ready, and the button goes in once these exist.
 - [ ] Universal Links / App Links for sign-in emails, once the real domain exists (`capacitor.config.ts` notes the placeholder).
-- [ ] iOS: `npx cap add ios`, `npx cap sync`, archive in Xcode, TestFlight. Android: `npx cap sync`, signed bundle, internal testing track.
+- [ ] iOS: `npx cap add ios`, `npx cap sync`, archive in Xcode, TestFlight.
+- [ ] **iPhone Duo (foldable):**
+  - In Xcode, keep Portrait, Landscape Left and Landscape Right ticked (the generated Info.plist has them), so the near-square inner screen works held sideways.
+  - On a real Duo (or the Simulator), test both screens, and fold and unfold while walking, in a sheet and in the opening.
+  - Check App Store Connect for a Duo screenshot size and add screenshots if it asks.
+- [ ] Android: `npx cap sync`, signed bundle, internal testing track.
 
 ## 5. Store pages
 - [ ] Copy: `claude/STORE-LISTING.md`. Ratings and privacy forms: `claude/IARC-ANSWERS.md`.

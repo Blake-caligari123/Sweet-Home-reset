@@ -13,7 +13,8 @@ export const pwaManifest: Partial<ManifestOptions> = {
   description: 'Tidy a grey little town back to colour, make friends and grow a cosy home.',
   lang: 'en-AU',
   display: 'standalone',
-  orientation: 'portrait',
+  // Either way up: a foldable's nearly square inner screen (iPhone Duo) is often held sideways.
+  orientation: 'any',
   start_url: '.',
   scope: '.',
   background_color: '#f8e8be',
