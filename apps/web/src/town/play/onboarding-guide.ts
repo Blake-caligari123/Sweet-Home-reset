@@ -1,3 +1,4 @@
+import { TUNING } from '../data/tuning';
 import type { TownState } from '../state';
 import type { Hud } from '../ui/hud';
 import { TOOL_NAMES } from '../ui/hud';
@@ -16,6 +17,9 @@ export interface GuideHost {
   highlight(tiles: Tile[]): void;
   refreshHud(): void;
 }
+
+/** Little cheers for each tip done, in turn. */
+const CHEERS = ['Nice!', 'Lovely!', 'Tidy!', 'Great!', 'Neat!', 'Wonderful!'];
 
 /** Which mess each burrow tip points at, and how many spots to light up. */
 const TIP_MESS: Record<string, [string, number]> = { dust: ['dust', 4], stain: ['stain', 3], sock: ['clutter', 3] };
@@ -48,6 +52,10 @@ export class OnboardingGuide {
   private finish(done: Step[]) {
     const { state } = this.host;
     if (!done.length) return;
+    // Every tip done is a little win: a chime, a cheer and a couple of Sparkles to watch tick up.
+    state.sparkles += TUNING.tipSparkles * done.length;
+    this.host.view.feedback('chime', 'light');
+    this.host.view.toast(`✓ ${CHEERS[state.onboarding.step % CHEERS.length]} +${TUNING.tipSparkles * done.length} ✨`);
     for (const step of done) {
       for (const t of step.grant ?? []) this.grantTool(t);
       for (const [id, n] of Object.entries(step.gift ?? {})) state.bag.add(id, n);

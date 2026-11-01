@@ -692,6 +692,13 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **How they feel:** ♪ when happy, 💤 asleep.
   - **Noticing Puff:** a 👋 as Puff comes near (someone Puff has met, at most once a minute), and 😊 ✨ 💛 for tidying right beside them.
   - Tour card: 💬 A living town.
+- **Hooked 3: a first day of little wins, and smooth trips (1 Nov):**
+  - **Every first-day tip done is a little win:** a chime, a cheer ("✓ Lovely! +2 ✨") and two Sparkles ticking up. The tip line shows how far along the first day is ("(3/16)"), so it has an end in sight.
+  - **Trips between places:**
+    - an iris closes on Puff and opens on Puff in the new place (a plain fade with reduced motion)
+    - a "📍 Town Square" card as Puff arrives
+    - banners wait until the new place is showing
+  - **Little dust puffs** from Puff's feet while walking.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
