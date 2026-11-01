@@ -703,6 +703,14 @@ These are the places Blake said "dealer's choice". Each can be changed:
 - **Hooked 5: volume and battery (1 Nov):**
   - **Volume sliders** in Pause for Sound and Music (0–100%), saved, beside the on/off switches.
   - **Battery:** after 20 s with no touch, key or walking, the game draws at 24 frames a second until something happens. When the app is hidden, all audio rests (music and ambience), and wakes when it's back.
+- **Hooked 6: play tests (1 Nov):** `npm run e2e` in `apps/web` (or `npx playwright test`) plays the main paths in a real browser against the dev server, in about a minute:
+  - a new game (opening, naming, the first tip and its +2 ✨)
+  - tidying a place to spotless and seeing the map's tally
+  - the story (Otto asks, the step moves on, the journal remembers)
+  - a night's sleep, with the save surviving a reload
+  - the bag's Tidy up keeping every item
+
+  These sit beside the full-year soak (`tools/year-soak.cjs`). `@playwright/test` is pinned to 1.63.0 to match the browser on the machine.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
