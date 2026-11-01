@@ -117,6 +117,8 @@ export class TownGame {
   private hudLive: HudLive;
   private sweep: Sweep;
   private fading = false;
+  /** When the player last touched, typed or Puff last walked: idle a while, and the frame rate rests (battery). */
+  private lastActive = 0;
   private autosaveMs = 0;
   private fade: HTMLElement;
   private deviceId: string;
@@ -247,6 +249,7 @@ export class TownGame {
     this.stick = new Joystick(ui);
     if (settings.zoomTiles) this.world.zoomTo(settings.zoomTiles);
     this.bindInput(ui);
+    for (const ev of ['pointerdown', 'keydown', 'wheel']) window.addEventListener(ev, () => { this.lastActive = performance.now(); }, { passive: true, capture: true });
     app.ticker.add((t) => this.update(t.deltaMS));
     window.addEventListener('resize', () => { app.resize(); this.world.resize(); });
     this.refreshHud();
@@ -401,6 +404,13 @@ export class TownGame {
     morning({ state, view, clock: this.clock, content: this.content, refreshHud: () => this.refreshHud(), offer: () => void this.unlocker.offer() }, { ...night, news: this.systems.morningNews() });
   }
 
+  /** No touch, key or walking for 20 s: draw at 24 frames a second until something happens (battery). */
+  private restWhenIdle() {
+    const now = performance.now();
+    if (this.puff.path.length || this.scenes.playing || this.fading) this.lastActive = now;
+    this.app.ticker.maxFPS = now - this.lastActive > 20000 ? 24 : 0;
+  }
+
   /** The place's ambience and the music's mood, for where Puff is, the time and the weather (world/soundscape.ts). */
   private updateSound() {
     const s = soundscapeFor(this.area.pack, this.clock.state.minutes, this.clock.weather === 'rainy');
@@ -412,6 +422,7 @@ export class TownGame {
   private applySettings() {
     const s = this.settings;
     this.sound.enabled = s.sound; this.sound.musicOn = s.music;
+    this.sound.setVolumes(s.soundVolume ?? 1, s.musicVolume ?? 1);
     if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
     this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = this.critters.reducedMotion = s.reducedMotion;
     applyLook(s);
@@ -423,6 +434,7 @@ export class TownGame {
 
   private update(dt: number) {
     dt = Math.min(dt, 100);
+    this.restWhenIdle();
     if (this.scenes.playing) { this.scenes.tick(dt); this.world.update(dt); return; } // the town stands still for a cutscene
     const p = this.puff;
     if (!this.view.busy && !this.fading) {

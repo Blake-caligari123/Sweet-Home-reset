@@ -59,6 +59,7 @@ applyLook(settings);
 const sound = new Sound();
 sound.enabled = settings.sound;
 sound.musicOn = settings.music;
+sound.setVolumes(settings.soundVolume ?? 1, settings.musicVolume ?? 1);
 document.addEventListener('pointerdown', () => sound.unlock(), { capture: true });
 document.addEventListener('keydown', () => sound.unlock(), { capture: true });
 
@@ -77,7 +78,7 @@ async function start() {
   if (new URLSearchParams(location.search).has('fps')) showFrameStats();
   void native.onBack(() => game.back());
   const flush = () => game.saveNow();
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { flush(); sound.stopMusic(); } else sound.startMusic(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { flush(); sound.sleep(); } else sound.wake(); });
   window.addEventListener('pagehide', flush);
 }
 

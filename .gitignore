@@ -17,3 +17,7 @@ android/
 # Asset tools
 tools/.venv/
 __pycache__/
+
+# Play tests (apps/web/e2e)
+test-results/
+playwright-report/

@@ -26,6 +26,20 @@ export class Sound {
   private ambience: Ambience | null = null;
   private place: [AmbienceKind, 'none' | 'out' | 'windows'] = ['none', 'none'];
 
+  private sfxLevel = 1;
+  private musicLevel = 1;
+
+  /** How loud the sounds (and ambience) and the music are, 0 to 1. */
+  setVolumes(sounds: number, music: number) {
+    this.sfxLevel = Math.max(0, Math.min(1, sounds)); this.musicLevel = Math.max(0, Math.min(1, music));
+    if (this.ctx && this.master) this.master.gain.setTargetAtTime(0.5 * this.sfxLevel, this.ctx.currentTime, 0.05);
+    if (this.ctx && this.musicGain && this.musicTimer) this.musicGain.gain.setTargetAtTime(this.mood.gain * this.musicLevel, this.ctx.currentTime, 0.1);
+  }
+
+  /** The page is hidden: everything rests (music, ambience, all of it), and wakes when it's back. */
+  sleep() { void this.ctx?.suspend(); }
+  wake() { if (this.ctx) void this.ctx.resume(); }
+
   /** Sound effects and ambience on or off (the music has its own switch). */
   get enabled() { return this.on; }
   set enabled(v: boolean) { this.on = v; this.applyPlace(); }
@@ -49,7 +63,7 @@ export class Sound {
     this.mood = next;
     if (!this.ctx || !this.musicFilter || !this.musicGain) return;
     this.musicFilter.frequency.setTargetAtTime(cutoff, this.ctx.currentTime, 1.2);
-    if (this.musicTimer) this.musicGain.gain.setTargetAtTime(next.gain, this.ctx.currentTime, 1.2);
+    if (this.musicTimer) this.musicGain.gain.setTargetAtTime(next.gain * this.musicLevel, this.ctx.currentTime, 1.2);
   }
 
   /** Browsers only allow audio after a user gesture; call this from the first tap. */
@@ -59,7 +73,7 @@ export class Sound {
     if (!Ctor) return;
     this.ctx = new Ctor();
     this.master = this.ctx.createGain();
-    this.master.gain.value = 0.5;
+    this.master.gain.value = 0.5 * this.sfxLevel;
     this.master.connect(this.ctx.destination);
     const length = this.ctx.sampleRate * 0.5;
     this.noise = this.ctx.createBuffer(1, length, this.ctx.sampleRate);
@@ -113,7 +127,7 @@ export class Sound {
       filter.type = 'lowpass'; filter.frequency.value = this.mood.cutoff;
       this.musicGain.connect(filter).connect(this.ctx.destination);
     }
-    this.musicGain.gain.setTargetAtTime(this.mood.gain, this.ctx.currentTime, 0.8);
+    this.musicGain.gain.setTargetAtTime(this.mood.gain * this.musicLevel, this.ctx.currentTime, 0.8);
     this.nextBeat = this.ctx.currentTime + 0.1;
     this.musicTimer = window.setInterval(() => this.schedule(), 120);
   }
