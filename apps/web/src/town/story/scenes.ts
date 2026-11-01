@@ -38,8 +38,15 @@ export type Emote = [number, string, string];
 /** How long an emote stays up. */
 const EMOTE_MS = 1800;
 
-/** `full` and `grey` hold; `ripple` greys the place outward from a point between `start` and `end` ms. */
-export type ShotColour = { kind: 'full' } | { kind: 'grey' } | { kind: 'ripple'; from: [number, number]; start: number; end: number };
+/**
+ * `full` and `grey` hold; `ripple` greys the place outward from a point between `start` and `end`
+ * ms; `bloom` is the other way: grey, with colour flooding out from a point to `reach` tiles.
+ */
+export type ShotColour = { kind: 'full' } | { kind: 'grey' } | { kind: 'ripple'; from: [number, number]; start: number; end: number }
+  | { kind: 'bloom'; from: [number, number]; start: number; end: number; reach: number };
+
+/** The music under a shot: the warm full loop, soft (the plain loop), or none (a real silence). */
+export type ShotMusic = 'warm' | 'soft' | 'off';
 
 export interface Shot {
   area: string;
@@ -58,11 +65,42 @@ export interface Shot {
   bursts?: Key[];
   glows?: ShotGlow[];
   emotes?: Emote[];
+  /** The camera pushing in or pulling back: [ms, zoom] keys, eased between (1 is the play view). */
+  zoom?: [number, number][];
+  /** Sounds on cue: [ms, sound id]. */
+  sounds?: [number, string][];
+  music?: ShotMusic;
   /** Captions: [ms, text id]. Each stays up until the next. */
   captions: [number, string][];
 }
 
 export interface SceneDef { id: string; shots: Shot[] }
+
+/** How close the camera is `ms` into a shot (1 = the play view). */
+export function zoomAt(shot: Shot, ms: number) {
+  const keys = shot.zoom;
+  if (!keys?.length) return 1;
+  if (ms <= keys[0][0]) return keys[0][1];
+  for (let i = 1; i < keys.length; i += 1) {
+    const [at, a] = keys[i - 1]; const [bt, b] = keys[i];
+    if (ms <= bt) return a + (b - a) * ease((ms - at) / Math.max(1, bt - at));
+  }
+  return keys[keys.length - 1][1];
+}
+
+/** The sounds that fall between two moments of a shot (after `from`, up to and including `to`). */
+export const soundsBetween = (shot: Shot, from: number, to: number) => (shot.sounds ?? []).filter(([at]) => at > from && at <= to).map(([, id]) => id);
+
+/**
+ * How long each caption stays up (to the next, or the shot's end), and how long it needs: at
+ * least 1.8 s, and about a second per 15 letters plus 1.5 s to read.
+ */
+export function captionHolds(scene: SceneDef, text: (id: string) => string) {
+  return scene.shots.flatMap((shot) => shot.captions.map(([at, id], i) => {
+    const until = shot.captions[i + 1]?.[0] ?? shot.ms;
+    return { id, holds: until - at, needs: Math.max(1800, (text(id).length / 15) * 1000 + 1500) };
+  }));
+}
 
 /** How strong a glow is `ms` into a shot of `length`. */
 export const glowAt = (g: ShotGlow, ms: number, length: number) => g.from + (g.to - g.from) * ease(ms / length);
@@ -113,6 +151,11 @@ export function facing(a: ShotActor, ms: number): Dir {
 export function colourAt(c: ShotColour, x: number, y: number, ms: number) {
   if (c.kind === 'full') return 1;
   if (c.kind === 'grey') return 0;
+  if (c.kind === 'bloom') {
+    const r = ease((ms - c.start) / (c.end - c.start)) * c.reach;
+    if (ms < c.start) return 0;
+    return Math.max(0, Math.min(1, (r - Math.hypot(x - c.from[0], y - c.from[1]) + 1.5) / 1.5));
+  }
   const reach = 40; // tiles: past the far corner of any place
   const r = ease((ms - c.start) / (c.end - c.start)) * reach;
   const d = Math.hypot(x - c.from[0], y - c.from[1]);
@@ -150,4 +193,4 @@ export function fadeAt(scene: SceneDef, i: number, ms: number) {
 }
 
 /** Whether a shot shows the mess: only once the place is grey (the town long ago had none). */
-export const showsMess = (s: Shot) => s.colour.kind === 'grey';
+export const showsMess = (s: Shot) => s.colour.kind === 'grey' || s.colour.kind === 'bloom';
