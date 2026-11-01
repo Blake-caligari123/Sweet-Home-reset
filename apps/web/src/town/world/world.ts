@@ -17,11 +17,10 @@ import { paintedArea } from './backgrounds';
 import { FULL_COLOUR, MESS_TYPES, type AreaMess } from '../play/mess';
 import { blinkClip, breathScale, CLIP_FPS, messSprite, neighbourClip, puffClip, type SpriteBank } from './sprites';
 import { RIPPLE_MS } from '../data/tuning';
+import { fitTiles, VIEW_TILES } from './zoom';
 
 // The world layer (FRONTEND-PLAN §3): baked ground, a drained overlay whose per-tile alpha
 // follows the colour array, mess sprites, actors sorted by foot y, effects and the time tint.
-// The logical view is about 11 tiles wide, scaled by whole device pixels.
-export const VIEW_TILES = 11;
 const MARKER_MS = 450;
 /** Blink sequence over idle: half-closed, closed, half-closed. */
 const BLINK_SEQ = [0, 1, 0];
@@ -122,8 +121,10 @@ export class World {
   private animClock = 0;
   private markerMs = 0;
   private scale = 1;
-  /** Tiles across the view (pinch zoom changes it; world/zoom.ts). */
+  /** Tiles across the screen's shorter side (pinch zoom changes it; world/zoom.ts). */
   viewTiles = VIEW_TILES;
+  /** Until the player zooms, the view fits the screen (a big screen shows more of the town). */
+  private fitted = true;
   private cam = { x: 0, y: 0 };
   reducedMotion = false;
 
@@ -316,7 +317,10 @@ export class World {
   resize() {
     const { width, height } = this.app.screen;
     const dpr = this.app.renderer.resolution;
-    const k = Math.max(1, Math.floor((width * dpr) / (this.viewTiles * T)));
+    // Fitted to the shorter side, so a wide computer screen isn't zoomed right in.
+    const short = Math.min(width, height);
+    if (this.fitted) this.viewTiles = fitTiles(short);
+    const k = Math.max(1, Math.floor((short * dpr) / (this.viewTiles * T)));
     this.scale = k / dpr;
     this.stage.scale.set(this.scale);
     this.backdrop.clear().rect(0, 0, width, height).fill(this.area?.pack.edge ?? P.ink);
@@ -326,7 +330,7 @@ export class World {
   }
 
   /** Show this many tiles across (pinch zoom), at the nearest crisp pixel scale. */
-  zoomTo(tiles: number) { this.viewTiles = tiles; this.resize(); }
+  zoomTo(tiles: number) { this.viewTiles = tiles; this.fitted = false; this.resize(); }
 
   /** Centre the camera on a world pixel point, clamped to the map; small maps sit centred. */
   follow(px: number, py: number, snap = false) {
