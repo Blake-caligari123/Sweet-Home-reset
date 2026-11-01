@@ -34,6 +34,8 @@ export const TOUR: TourCard[] = [
     setup: (s) => { s.day(3).time(18).go('lane'); } },
   { title: '🎧 How each place sounds', steps: ['Sound on! The river laps here. Use 🗺 to hear the waves and gulls at the beach, birds in the square, rustling woods, drips in the caves, and a quiet room indoors.', 'At night the birds hand over to crickets and the music slows; rain patters outside and on the windows indoors.'],
     setup: (s) => { s.day(20).time(10).visited('square', 'riverside', 'beach', 'woodland', 'cave_1', 'bakery', 'far_bank').go('riverside'); } },
+  { title: '💬 A living town', steps: ['Watch the neighbours: little bubbles show what they\'re up to (bread, books, a fishing rod, a hum when they\'re happy).', 'Walk up to someone you\'ve met for a 👋, and tidy right beside them for a 😊.'],
+    setup: (s) => { s.day(14).time(11).meet('hazel', 'bea', 'pip', 'otto', 'moss').go('square'); } },
   { title: '📖 The Keeper\'s Story', steps: ['The 📖 line at the top is today\'s story step: Otto has something for you. Talk to him and tap "📖 What\'s that you\'ve got?", then catch a fish.', 'Tap the 📖 line (or Pause → 📔 Keeper\'s journal) for the story so far.', 'Go to bed: a hint at tomorrow shows as night falls.'],
     setup: (s) => { s.state.story = { step: 4, asked: false, count: 0, day: 4 }; s.state.fishCaught = 0; s.day(5).time(9).flag('keeper_named').meet('hazel', 'bea', 'pip', 'otto').go('riverside'); } },
   { title: '🗺 Getting around', steps: ['Tap 🗺 (top left) and pick a place to travel there.', 'Pause → Joystick: drag anywhere to walk.', 'Pinch (or the mouse wheel) to zoom.'],

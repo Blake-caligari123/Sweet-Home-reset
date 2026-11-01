@@ -686,6 +686,12 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - summer is a touch brighter, winter a touch softer
   - Cutscenes sound like the place they show. `world/soundscape.ts` picks it all from the place, the time and the weather.
   - Tour card: 🎧 How each place sounds.
+- **Hooked 2: a living town (1 Nov):** now and then a little bubble pops up over a neighbour (`life/bubbles.ts`, `ui/neighbour-bubbles.ts`). They're spaced so the town stays calm.
+  - **What they're up to:** 🍞 at the bakery, 📖 in the library, 🎣 by the river, ⚓ at the harbour, 🌸 at the flower shop.
+  - **Their own thing:** Juniper's 🎻, Wren's ⛵.
+  - **How they feel:** ♪ when happy, 💤 asleep.
+  - **Noticing Puff:** a 👋 as Puff comes near (someone Puff has met, at most once a minute), and 😊 ✨ 💛 for tidying right beside them.
+  - Tour card: 💬 A living town.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
