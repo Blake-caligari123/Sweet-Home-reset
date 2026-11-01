@@ -456,6 +456,7 @@ export class TownGame {
     this.systems.moods.show();
     this.guide.unstick();
     this.systems.story.check();
+    this.systems.checkComplete();
     const step = this.state.onboarding.current;
     const up = bloomUp(this.state, this.places.restoredCount());
     if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }

@@ -4,6 +4,9 @@ export const SOUND_IDS = ['scrub', 'wipe', 'pop', 'chime', 'fanfare', 'pff', 'th
   'step', 'yawn', 'snore', 'hum', 'drip', 'whoosh', 'wind', 'wake', 'shimmer'] as const;
 export type SoundId = (typeof SOUND_IDS)[number];
 
+/** C major pentatonic, two octaves up from C5: the notes a cleared spot climbs as a place gets tidy. */
+const PENTATONIC = [523.3, 587.3, 659.3, 784, 880, 1046.5, 1174.7, 1318.5, 1568, 1760];
+
 export class Sound {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
@@ -150,7 +153,14 @@ export class Sound {
       case 'fwip': this.hiss(0, 0.06, 2600 * lift, 2, 0.1); this.tone(500, 0, 0.06, 'sine', 0.05, 1400); break;
       case 'combo': [784, 988, 1175].forEach((f, i) => this.tone(f, i * 0.06, 0.18, 'square', 0.035)); break;
       case 'coin': this.tone(1320, 0, 0.08, 'square', 0.04); this.tone(1760, 0.07, 0.12, 'square', 0.04); break;
-      case 'sparkle': [0, 0.05, 0.1].forEach((s, i) => this.tone(2093 * Math.pow(2, i / 6), s, 0.12, 'sine', 0.05)); break;
+      case 'sparkle': {
+        // A spot cleared: a note climbing a pentatonic scale as the place gets tidier (never a sour
+        // note, whatever the order), with the old shimmer on top. Finishing a room plays a little tune.
+        const note = PENTATONIC[Math.min(PENTATONIC.length - 1, Math.floor(level * PENTATONIC.length))];
+        this.tone(note, 0, 0.16, 'triangle', 0.07);
+        [0, 0.05, 0.1].forEach((s, i) => this.tone(2093 * Math.pow(2, i / 6), s + 0.02, 0.12, 'sine', 0.035));
+        break;
+      }
       case 'chime': [523, 659, 784].forEach((f, i) => this.tone(f * lift, i * 0.08, 0.5, 'triangle', 0.14)); break;
       case 'fanfare': [523, 659, 784, 1047, 1319].forEach((f, i) => this.tone(f, i * 0.1, 0.6, 'triangle', 0.15)); this.play('sparkle'); break;
       case 'step': this.hiss(0, 0.05, 520, 1.1, 0.05); break;

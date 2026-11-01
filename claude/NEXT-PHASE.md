@@ -643,6 +643,19 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **🥕 Harvest log**, a fourth Collection set: every kind of crop grown and picked, with when (and where) it grows. It has its own stamp and completion cheer.
   - **🧹 Tidying milestones:** every spot ever tidied counts (`play/milestones.ts`). Passing 50, 100, 250, 500, 1,000, 2,500 and 5,000 is a cheer and a fifth of that in Sparkles, once each. A save already past several milestones gets one cheer for the biggest.
   - Tour cards: 🎒 Tidy up the bag, 🧹 Tidying milestones.
+- **Satisfaction 3: a tune, a number, and banners that wait (1 Nov):**
+  - **Cleaning plays a tune:** each spot cleared rings a note on a pentatonic scale that climbs as the place gets tidier, so a room finishes on a little rising melody. A pentatonic scale never plays a sour note, whatever the order.
+  - **🏆 Town completion** (`bloom/completion.ts`): one percentage for the whole town, made of equal parts. Each part has a bar and a ✓:
+    - places restored
+    - the Keeper's Story
+    - treasures, critters, fish and harvest
+    - secret places
+    - best friends at 10 hearts
+    - festivals enjoyed
+
+    It's in Pause (🏆 with the %), never rounds up to 100, and never goes down. Reaching 100% is the biggest cheer in the game (1,000 ✨, once).
+  - **Banners wait for sheets:** a banner never covers an open sheet or chat (one "New outfit" banner sat over Pause's buttons). It shows as soon as it's closed.
+  - Tour card: 🏆 Town completion.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
