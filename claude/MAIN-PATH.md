@@ -108,6 +108,7 @@ Your answers: played out in the town itself, about a minute at the start, plus c
 - Every scene can be watched again from the journal ("Memories").
 
 ### The opening (built: one continuous take, about 60 seconds)
+Remade on 1 Nov, directed like a film (NEXT-PHASE K.1). It opens close on the fountain and pulls back. The camera pushes in on the key moments, an iris moves between places, there's sound and music with real silences, and it ends with colour blooming out from Puff. About 72 seconds.
 Remade twice after Blake's notes: first "fluid and make sense, not just random shots", then "the story makes sense but not what's going on in the cutscene". Now every caption has something on screen showing it:
 1. **The square, long ago:** the fountain glows warm and sparkles, and Thimble (from behind) hums ♪ beside it while the neighbours stroll. *"Long ago, {town} glowed with colour." / "Thimble, its Keeper, kept the fountain's water warm."*
 2. **Snow begins:** Thimble yawns 💤 and climbs down into the fountain. *"One winter, Thimble grew very, very sleepy..." / "...and climbed down inside the fountain."*

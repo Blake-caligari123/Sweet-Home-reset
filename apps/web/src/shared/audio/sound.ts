@@ -1,5 +1,8 @@
 // Every sound is synthesised with WebAudio, so there are no audio files to license or download.
-export type SoundId = 'scrub' | 'wipe' | 'pop' | 'chime' | 'fanfare' | 'pff' | 'thunk' | 'boing' | 'tap' | 'coin' | 'sparkle' | 'fwip' | 'combo';
+export const SOUND_IDS = ['scrub', 'wipe', 'pop', 'chime', 'fanfare', 'pff', 'thunk', 'boing', 'tap', 'coin', 'sparkle', 'fwip', 'combo',
+  // Cutscene sounds (town/story/): footsteps, a yawn, a snore, Thimble's four-note hum, a cave drip, the grey's whoosh, wind, a waking blip, a magic shimmer.
+  'step', 'yawn', 'snore', 'hum', 'drip', 'whoosh', 'wind', 'wake', 'shimmer'] as const;
+export type SoundId = (typeof SOUND_IDS)[number];
 
 export class Sound {
   private ctx: AudioContext | null = null;
@@ -118,6 +121,20 @@ export class Sound {
     src.start(at, Math.random() * 0.3); src.stop(at + dur + 0.02);
   }
 
+  private bloomBefore: number | null = null;
+
+  /** A cutscene's music: warm (every layer), soft (the plain loop) or off (a real silence); null hands it back to play. */
+  sceneMusic(m: 'warm' | 'soft' | 'off' | null) {
+    if (m === null) {
+      if (this.bloomBefore !== null) { this.bloom = this.bloomBefore; this.bloomBefore = null; }
+      this.startMusic(); return;
+    }
+    if (this.bloomBefore === null) this.bloomBefore = this.bloom;
+    if (m === 'off') { this.stopMusic(); return; }
+    this.bloom = m === 'warm' ? 2 : 0;
+    this.startMusic();
+  }
+
   /** `level` 0..1 raises pitch one semitone per 10% clean. */
   play(id: SoundId, level = 0) {
     if (!this.enabled || !this.ctx || this.ctx.state !== 'running') return;
@@ -136,6 +153,16 @@ export class Sound {
       case 'sparkle': [0, 0.05, 0.1].forEach((s, i) => this.tone(2093 * Math.pow(2, i / 6), s, 0.12, 'sine', 0.05)); break;
       case 'chime': [523, 659, 784].forEach((f, i) => this.tone(f * lift, i * 0.08, 0.5, 'triangle', 0.14)); break;
       case 'fanfare': [523, 659, 784, 1047, 1319].forEach((f, i) => this.tone(f, i * 0.1, 0.6, 'triangle', 0.15)); this.play('sparkle'); break;
+      case 'step': this.hiss(0, 0.05, 520, 1.1, 0.05); break;
+      case 'yawn': this.tone(540, 0, 0.75, 'sine', 0.07, 250); break;
+      case 'snore': this.tone(150, 0, 0.7, 'sine', 0.045, 110); break;
+      // The town's old song: three notes, then a fourth (Juniper finds it in autumn).
+      case 'hum': [392, 440, 523, 659].forEach((f, i) => this.tone(f, i * 0.38 + (i === 3 ? 0.2 : 0), 0.42, 'triangle', 0.07)); break;
+      case 'drip': this.tone(1400, 0, 0.08, 'sine', 0.07, 700); this.tone(880, 0.1, 0.18, 'sine', 0.025, 620); break;
+      case 'whoosh': this.hiss(0, 1.5, 420, 0.5, 0.11); this.tone(320, 0, 1.5, 'sine', 0.05, 70); break;
+      case 'wind': this.hiss(0, 2.6, 700, 0.4, 0.06); break;
+      case 'wake': this.tone(660, 0, 0.14, 'square', 0.045, 1320); break;
+      case 'shimmer': [1047, 1319, 1568, 2093].forEach((f, i) => this.tone(f, i * 0.07, 0.35, 'triangle', 0.045)); break;
     }
   }
 }

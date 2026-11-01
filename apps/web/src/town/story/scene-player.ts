@@ -1,12 +1,13 @@
 import { Graphics } from 'pixi.js';
 import { P } from '../../shared/art/palette';
 import { h } from '../../shared/ui/dom';
+import type { SoundId } from '../../shared/audio/sound';
 import type { Content } from '../data/content';
 import { FEET_TO_BASE } from '../play/targets';
 import { T } from '../world/art/texture';
 import { FEET } from '../world/nav';
 import type { NeighbourView, World } from '../world/world';
-import { asleep, hopping, captionAt, colourAt, emotesAt, facing, fadeAt, glowAt, minutesAt, nextCaption, pointAt, showsMess, type SceneDef, type Shot } from './scenes';
+import { asleep, hopping, captionAt, colourAt, emotesAt, facing, fadeAt, glowAt, minutesAt, nextCaption, pointAt, showsMess, soundsBetween, zoomAt, type SceneDef, type Shot, type ShotMusic } from './scenes';
 
 export interface ScenePlayerHost {
   world: World; ui: HTMLElement; content: Content;
@@ -15,7 +16,13 @@ export interface ScenePlayerHost {
   show(area: string): void;
   /** Back to play, where Puff was (and the real season's sky). */
   resume(): void;
+  sound(id: SoundId): void;
+  /** The music under a shot; null hands it back to play. */
+  music(m: ShotMusic | null): void;
 }
+
+/** Bubbles that make a sound as they pop up (the rest blip softly). */
+const EMOTE_SOUND: Record<string, SoundId> = { '🥱': 'yawn', '💤': 'snore', '❗': 'wake' };
 
 /** A tile's foot point in world px (where a character stands). */
 const foot = (x: number, y: number) => ({ x: x * T + T / 2, y: y * T + FEET + FEET_TO_BASE });
@@ -26,7 +33,7 @@ const foot = (x: number, y: number) => ({ x: x * T + T / 2, y: y * T + FEET + FE
  * with the action. Tap jumps to the next caption; Skip ends it. The game's own loop stands still.
  */
 export class ScenePlayer {
-  private run: { scene: SceneDef; shot: number; ms: number; done: () => void; caption: HTMLElement; dim: HTMLElement; bubbles: HTMLElement; overlay: HTMLElement; shown: string; said: string | null; bursts: Set<string> } | null = null;
+  private run: { scene: SceneDef; shot: number; ms: number; done: () => void; caption: HTMLElement; dim: HTMLElement; bubbles: HTMLElement; overlay: HTMLElement; shown: string; said: string | null; bursts: Set<string>; popped: Set<string>; scored: number; stepMs: number } | null = null;
   private sparkle = new Graphics();
   private glow = new Graphics();
 
@@ -51,20 +58,27 @@ export class ScenePlayer {
     overlay.addEventListener('click', (e) => { if (e.target === skip) this.finish(); else this.tapOn(); });
     this.host.ui.append(overlay);
     this.host.ui.classList.add('scene-playing');
-    this.run = { scene, shot: 0, ms: 0, done, caption, dim, bubbles, overlay, shown: '', said: null, bursts: new Set() };
+    this.run = { scene, shot: 0, ms: 0, done, caption, dim, bubbles, overlay, shown: '', said: null, bursts: new Set(), popped: new Set(), scored: -1, stepMs: 0 };
+    this.cue(scene.shots[0], -1, 0);
     this.draw(0);
   }
 
   tick(dt: number) {
     const r = this.run;
     if (!r) return;
+    let from = r.ms;
     r.ms += dt;
     while (r.ms >= r.scene.shots[r.shot].ms) {
-      r.ms -= r.scene.shots[r.shot].ms; r.shot += 1;
+      this.cue(r.scene.shots[r.shot], from, r.scene.shots[r.shot].ms);
+      r.ms -= r.scene.shots[r.shot].ms; r.shot += 1; from = -1;
       if (r.shot >= r.scene.shots.length) { this.finish(); return; }
     }
+    this.cue(r.scene.shots[r.shot], from, r.ms);
     this.draw(dt);
   }
+
+  /** The sounds on cue between two moments (tapping ahead skips them, like the action). */
+  private cue(shot: Shot, from: number, to: number) { for (const id of soundsBetween(shot, from, to)) this.host.sound(id as SoundId); }
 
   /** A tap: on to the next caption (or the end). */
   private tapOn() {
@@ -85,13 +99,14 @@ export class ScenePlayer {
       this.host.show(shot.area); r.shown = shot.area;
       world.showMess(showsMess(shot));
     }
+    if (r.scored !== r.shot) { r.scored = r.shot; this.host.music(shot.music ?? 'soft'); }
+    world.setSceneZoom(this.host.reducedMotion() ? (shot.zoom?.[0]?.[1] ?? 1) : zoomAt(shot, ms));
     world.setSky(shot.season ?? 'Spring', false);
     world.setTint(minutesAt(shot, ms));
     world.setSceneColour((x, y) => colourAt(shot.colour, x, y, ms));
     if (shot.colour.kind === 'ripple' && ms >= shot.colour.end) world.showMess(true);
     const text = captionAt(shot, ms);
     if (text !== r.said) { r.said = text; r.caption.textContent = text ? (content.line(text) ?? '') : ''; }
-    r.dim.style.opacity = String(fadeAt(r.scene, r.shot, ms));
     this.drawActors(shot, ms, dt);
     this.drawSparkle(shot, ms);
     this.drawGlows(shot, ms);
@@ -101,7 +116,32 @@ export class ScenePlayer {
     }
     const cam = typeof shot.camera === 'string' ? this.subject(shot, shot.camera, ms) : pointAt(shot.camera, ms);
     if (cam) world.follow(cam.x * T + T / 2, cam.y * T + T / 2, this.host.reducedMotion() || ms < 1 || dt === 0);
+    this.iris(fadeAt(r.scene, r.shot, ms), cam);
+    this.footsteps(shot, ms, dt);
     this.drawEmotes(shot, ms);
+  }
+
+  /**
+   * Moving between places: an iris closes on whoever the story is following and opens on them in
+   * the next place, the way a game does it (a plain dim with reduced motion).
+   */
+  private iris(fade: number, cam: { x: number; y: number } | null) {
+    const { dim } = this.run!;
+    if (this.host.reducedMotion() || !cam) { dim.style.opacity = String(fade); dim.style.removeProperty('--ir'); return; }
+    const c = this.host.world.toScreen(cam.x * T + T / 2, cam.y * T + T / 2);
+    const far = Math.hypot(window.innerWidth, window.innerHeight);
+    dim.style.opacity = fade > 0 ? '1' : '0';
+    dim.style.setProperty('--ix', `${c.x}px`); dim.style.setProperty('--iy', `${c.y}px`);
+    dim.style.setProperty('--ir', `${Math.round((1 - fade) * far)}px`);
+  }
+
+  /** Soft footsteps for whoever the camera follows, while they walk. */
+  private footsteps(shot: Shot, ms: number, dt: number) {
+    const r = this.run!;
+    const a = typeof shot.camera === 'string' ? shot.actors?.find((x) => x.who === shot.camera) : null;
+    if (!a || !pointAt(a.path, ms).moving) { r.stepMs = 0; return; }
+    r.stepMs += dt;
+    if (r.stepMs >= 280) { r.stepMs -= 280; this.host.sound('step'); }
   }
 
   /** The warm glows (the fountain, the spring), pulsing gently. */
@@ -121,6 +161,10 @@ export class ScenePlayer {
     const r = this.run!;
     const { world } = this.host;
     const now = emotesAt(shot, ms);
+    for (const [at, who, icon] of now) {
+      const key = `${r.shot}:${at}:${who}`;
+      if (!r.popped.has(key)) { r.popped.add(key); this.host.sound(EMOTE_SOUND[icon] ?? 'tap'); }
+    }
     r.bubbles.replaceChildren(...now.flatMap(([, who, icon]) => {
       const a = who === 'sparkle' ? null : shot.actors?.find((x) => x.who === who);
       const p = a ? pointAt(a.path, ms) : null;
@@ -178,7 +222,8 @@ export class ScenePlayer {
     this.sparkle.visible = false; this.glow.clear();
     const { world } = this.host;
     world.drawNeighbours([]);
-    world.showMess(true); world.showPuff(true);
+    world.showMess(true); world.showPuff(true); world.setSceneZoom(1);
+    this.host.music(null);
     this.host.resume();
     world.setSceneColour(null);
     r.done();

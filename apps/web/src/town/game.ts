@@ -216,7 +216,8 @@ export class TownGame {
       area: () => this.area, areaId: () => this.areaId, nav: () => this.nav, here: () => this.here, fading: () => this.fading, refreshHud: () => this.refreshHud()
     });
     this.homeLife = new HomeLife({ world: this.world, view: this.view, sound, content: this.content });
-    this.scenes = new ScenePlayer({ world: this.world, ui, content: this.content, reducedMotion: () => !!settings.reducedMotion, show: (id) => this.showForScene(id), resume: () => this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet) });
+    this.scenes = new ScenePlayer({ world: this.world, ui, content: this.content, reducedMotion: () => !!settings.reducedMotion, show: (id) => this.showForScene(id), resume: () => this.enterArea(this.areaId, this.puff.x, this.puff.y, false, this.puff.feet),
+      sound: (id) => this.sound.play(id), music: (m) => this.sound.sceneMusic(m) });
     this.fade = h('div', { class: 'fade', 'aria-hidden': 'true' });
     ui.append(this.fade);
     this.deviceId = (saved?.deviceId as string) ?? (crypto.randomUUID?.() ?? String(Math.random()).slice(2));

@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
-import { captionAt, colourAt, ease, facing, hopping, fadeAt, minutesAt, nextCaption, pointAt, sceneLength, type Key, type SceneDef, type ShotColour } from './scenes';
+import { SOUND_IDS } from '../../shared/audio/sound';
+import { captionAt, captionHolds, colourAt, ease, facing, hopping, fadeAt, minutesAt, nextCaption, pointAt, sceneLength, soundsBetween, zoomAt, type Key, type SceneDef, type Shot, type ShotColour } from './scenes';
 
 const walk: Key[] = [[2, 4, 0], [6, 4, 2000], [6, 8, 4000]];
 
@@ -30,6 +31,18 @@ describe('scene timeline', () => {
     expect(colourAt(c, 15, 10, 1000)).toBeLessThan(colourAt(c, 0, 0, 1000));
     expect(colourAt(c, 0, 0, 4000)).toBe(0);
     expect(colourAt({ kind: 'full' }, 3, 3, 0)).toBe(1);
+    // And back: colour blooms out from a point, near first, never past its reach.
+    const b: ShotColour = { kind: 'bloom', from: [4, 8], start: 0, end: 2000, reach: 5 };
+    expect(colourAt(b, 4, 8, 1000)).toBe(1); expect(colourAt(b, 12, 8, 1000)).toBe(0);
+    expect(colourAt(b, 4, 12, 2000)).toBe(1); expect(colourAt(b, 4, 15, 2000)).toBe(0);
+  });
+
+  it('pushes in and pulls back smoothly, and plays each sound once as the moment passes', () => {
+    const shot: Shot = { area: 'square', ms: 4000, minutes: 600, camera: walk, colour: { kind: 'full' }, captions: [], zoom: [[0, 3], [1000, 3], [3000, 1]], sounds: [[0, 'hum'], [2000, 'whoosh']] };
+    expect(zoomAt(shot, 500)).toBe(3); expect(zoomAt(shot, 2000)).toBe(2); expect(zoomAt(shot, 3500)).toBe(1);
+    expect(zoomAt({ ...shot, zoom: undefined }, 100)).toBe(1);
+    expect(soundsBetween(shot, -1, 0)).toEqual(['hum']);
+    expect(soundsBetween(shot, 0, 1999)).toEqual([]); expect(soundsBetween(shot, 1999, 2016)).toEqual(['whoosh']);
   });
 
   it('changes captions with the action, and a tap jumps to the next one', () => {
@@ -58,14 +71,27 @@ describe('Hollowfern opening', () => {
   const open = (area: string) => new Area(pack.areas.find((a) => a.id === area)!);
 
   it('runs as one story in about a minute: the bright town, Thimble leaving, the grey, the sparkle home', () => {
-    expect(sceneLength(scene)).toBeGreaterThan(40_000); expect(sceneLength(scene)).toBeLessThanOrEqual(70_000);
+    expect(sceneLength(scene)).toBeGreaterThan(40_000); expect(sceneLength(scene)).toBeLessThanOrEqual(75_000);
     expect(scene.shots[0].colour.kind).toBe('full');
     expect(scene.shots.some((s) => s.colour.kind === 'ripple')).toBe(true);
-    expect(scene.shots.map((s) => s.area)).toEqual(['square', 'square', 'cave_4', 'square', 'square', 'yard', 'burrow']);
+    expect(scene.shots.map((s) => s.area)).toEqual(['square', 'square', 'cave_4', 'square', 'square', 'yard', 'burrow', 'burrow']);
     // Thimble goes down into the fountain (the way to the caves) and sleeps by the Old Spring.
     expect(pack.areas.find((a) => a.id === 'square')!.props.find((p) => p.type === 'fountain')?.to).toBe('cave_1');
     expect(scene.shots[2].actors?.find((a) => a.who === 'thimble')?.sleepFrom).toBeDefined();
     expect(scene.shots.at(-1)!.actors?.some((a) => a.who === 'puff')).toBe(true);
+  });
+
+  it('is directed like a film: a hook up close, a pull back over the grey, real silences, and an ending that echoes the start', () => {
+    const [first] = scene.shots; const last = scene.shots.at(-1)!;
+    expect(zoomAt(first, 0)).toBeGreaterThanOrEqual(2.5); // opens close on the warm fountain...
+    expect(zoomAt(first, first.ms)).toBe(1); // ...and pulls back to the whole bright town
+    const grey = scene.shots.find((s) => s.colour.kind === 'ripple')!;
+    expect(zoomAt(grey, grey.ms)).toBeLessThan(zoomAt(grey, 0));
+    expect(scene.shots.filter((s) => s.music === 'off').length).toBeGreaterThanOrEqual(2);
+    expect(last.colour.kind).toBe('bloom'); expect(last.music).toBe('warm');
+    for (const s of scene.shots) for (const [, id] of s.sounds ?? []) expect(SOUND_IDS, id).toContain(id);
+    // Pace for the reader: every caption stays up long enough to read.
+    for (const c of captionHolds(scene, (id) => text[id])) expect(c.holds, c.id).toBeGreaterThanOrEqual(c.needs);
   });
 
   it('carries the sparkle through real doors: out of the square, across the yard, into the burrow', () => {

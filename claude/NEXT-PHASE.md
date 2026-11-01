@@ -544,6 +544,15 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - The sparkle leaves a glittering trail, drifts past the sleepers, and tries the armchair and the basket before the bed.
     - Puff wakes, looks left and right, and hops (`looks` and `hops` in `story/scenes.ts`).
   - Tour card: 🎬 The opening.
+  - **Directed like a film (1 Nov).** Blake shared a film-making toolkit (lemomo-ai/lemo-opuscar, MIT). It makes rendered videos, not in-game scenes, so none of its code is used, but its directing guide set the bar for the remake:
+    - **A hook in the first seconds:** it opens close on the warm fountain as Thimble hums, then pulls back to the whole bright town.
+    - **Camera moves with a reason:** push in on Thimble growing sleepy and asleep by the spring, and on Puff waking (big in the frame). The signature shot pulls back over the square as the grey ripples out. Shots can now zoom (`zoom` keys); the play view is untouched.
+    - **Transitions from the medium:** moving between places, an iris closes on the subject and opens in the next place, as a game would (a plain dim with reduced motion).
+    - **Sound is half of it:**
+      - Sounds are synthesised in code: Thimble's four-note hum (the old song Juniper finds in autumn), wind, a cave drip, the grey's whoosh, yawns, snores, a waking blip, shimmers, footsteps for whoever the camera follows, and a blip as each bubble pops up.
+      - The music is warm in the bright town and soft in the snow. There are **real silences** in the cave and as the grey spreads; the whoosh is the first sound after the silence. The music comes back with the sparkle, goes quiet again in the burrow, then warms as Puff wakes.
+    - **An ending that echoes the start:** the first spot of colour and a warm glow bloom out from Puff, as the fountain glowed at the beginning (`bloom` colour).
+    - **Paced for reading:** a test checks every caption stays up for at least 1.8 s, and about a second per 15 letters plus 1.5 s.
 - **K.2 The step-a-day path and the Keeper's journal (31 Oct, after Blake's "tie it all together so the player gets absolutely hooked").** `story/path.ts`, `story/story-path.ts`, `journal/`.
   - **One story step a day, all year.** 40 steps from day 1 to Winter Lights, in five chapters (`story` in the pack). Each step is a goal the game already knows: a building started, a place visited, a fish, a pet, a dish or a workbench make, a flag, or a quest taken on.
   - **A neighbour asks.** The tracker shows 📖 first ("Otto has something for you by the river."). That neighbour's chat box has a 📖 button: they say their line, may hand something over (Otto's spare rod, Hazel's soup veg, Pip's copper duster recipe), and the tracker becomes the job. Quest steps are asked with the quest's own 📜 button, and the quest then runs alongside the story.

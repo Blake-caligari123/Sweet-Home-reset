@@ -125,6 +125,8 @@ export class World {
   viewTiles = VIEW_TILES;
   /** Until the player zooms, the view fits the screen (a big screen shows more of the town). */
   private fitted = true;
+  /** A cutscene's push in (above 1) or pull back (below 1), smooth rather than crisp steps; 1 in play. */
+  private push = 1;
   private cam = { x: 0, y: 0 };
   reducedMotion = false;
 
@@ -322,7 +324,7 @@ export class World {
     if (this.fitted) this.viewTiles = fitTiles(short);
     const k = Math.max(1, Math.floor((short * dpr) / (this.viewTiles * T)));
     this.scale = k / dpr;
-    this.stage.scale.set(this.scale);
+    this.stage.scale.set(this.scale * this.push);
     this.backdrop.clear().rect(0, 0, width, height).fill(this.area?.pack.edge ?? P.ink);
     this.root.hitArea = this.app.screen;
     this.vignette.width = width; this.vignette.height = height;
@@ -332,18 +334,22 @@ export class World {
   /** Show this many tiles across (pinch zoom), at the nearest crisp pixel scale. */
   zoomTo(tiles: number) { this.viewTiles = tiles; this.fitted = false; this.resize(); }
 
+  /** A cutscene's camera push: 1 is the play view, 2 twice as close (story/scene-player.ts). */
+  setSceneZoom(z: number) { this.push = z; this.stage.scale.set(this.scale * z); }
+
   /** Centre the camera on a world pixel point, clamped to the map; small maps sit centred. */
   follow(px: number, py: number, snap = false) {
     if (!this.area) return;
     const { width, height } = this.app.screen;
-    const viewW = width / this.scale; const viewH = height / this.scale;
+    const s = this.scale * this.push;
+    const viewW = width / s; const viewH = height / s;
     const mapW = this.area.w * T; const mapH = this.area.h * T;
     const targetX = mapW <= viewW ? (mapW - viewW) / 2 : Math.max(0, Math.min(mapW - viewW, px - viewW / 2));
     const targetY = mapH <= viewH ? (mapH - viewH) / 2 : Math.max(0, Math.min(mapH - viewH, py - viewH / 2));
     this.cam.x = snap ? targetX : this.cam.x + (targetX - this.cam.x) * 0.2;
     this.cam.y = snap ? targetY : this.cam.y + (targetY - this.cam.y) * 0.2;
     const dpr = this.app.renderer.resolution;
-    this.stage.position.set(Math.round(-this.cam.x * this.scale * dpr) / dpr, Math.round(-this.cam.y * this.scale * dpr) / dpr);
+    this.stage.position.set(Math.round(-this.cam.x * s * dpr) / dpr, Math.round(-this.cam.y * s * dpr) / dpr);
   }
 
   /** Screen point → tile. */
