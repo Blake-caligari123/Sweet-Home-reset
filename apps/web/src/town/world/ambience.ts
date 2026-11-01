@@ -7,7 +7,7 @@ import type { Area } from '../data/area';
 
 // Gentle life in the world: petals drift outdoors by day, fireflies wander at night, dust motes
 // float in homes, rain falls outdoors on rainy days, and lamps glow after dusk. Purely visual, never blocks a tap.
-export const AMBIENT_MAX = 22;
+const AMBIENT_MAX = 22;
 export const isNight = (minutes: number) => minutes >= 19 * 60 || minutes < 6 * 60;
 const isDusk = (minutes: number) => minutes >= 18 * 60 || minutes < 6 * 60 + 30;
 

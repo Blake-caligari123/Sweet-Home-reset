@@ -3,11 +3,11 @@
 // an old build. Here we also check every few minutes and whenever the game comes back to the
 // front, and swap to the new build at a calm moment: just opened or resumed, or when it goes to
 // the background (the game saves on hide), never in the middle of play.
-export const CHECK_EVERY_MS = 10 * 60 * 1000;
+const CHECK_EVERY_MS = 10 * 60 * 1000;
 /** Within this long of the game opening or coming back to the front, reloading costs nothing. */
 export const FRESH_MS = 20_000;
 /** Give the save-on-hide a moment to land before swapping builds in the background. */
-export const HIDDEN_RELOAD_DELAY_MS = 1500;
+const HIDDEN_RELOAD_DELAY_MS = 1500;
 
 export function reloadNow(state: { hidden: boolean; msSinceShown: number }) {
   return state.hidden || state.msSinceShown < FRESH_MS;

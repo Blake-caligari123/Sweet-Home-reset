@@ -233,7 +233,8 @@ export class Conversations {
           (f.known ?? []).length ? h('p', { class: 'muted' }, `Likes: ${(f.known ?? []).map((i) => content.itemName(i)).join(', ')}`) : '',
           tokensOf(state, d.id) ? h('p', { class: 'muted' }, `💌 ${tokensOf(state, d.id)} thank-you note${tokensOf(state, d.id) === 1 ? '' : 's'}: trade them with ${d.name}`) : '')));
     }
-    const more = content.neighbours.size - met.length;
+    // Only folk who've arrived in town (newcomers and Thimble stay a surprise until they do).
+    const more = [...content.neighbours.values()].filter((d) => !state.friends[d.id]?.met && this.host.neighbours.arrived(d.id)).length;
     const body: Node[] = met.length ? [list] : [h('p', {}, `${this.host.state.names.puff} hasn't met anyone yet. Say hello around town!`)];
     if (more > 0 && met.length) body.push(h('p', { class: 'muted' }, `${more} more neighbour${more === 1 ? '' : 's'} to meet.`));
     view.sheet('Friends', body);

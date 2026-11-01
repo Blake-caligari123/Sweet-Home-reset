@@ -22,7 +22,7 @@ import type { RequestState } from '../requests/requests';
 // Backup is written first, then main; a corrupt main loads the backup. Unknown fields are kept.
 // Schema 3 is "save v2" in NEW-FEATURES §7.
 export const SCHEMA_VERSION = TOWN_SAVE_SCHEMA;
-export const CATALOGUE_VERSION = 1;
+const CATALOGUE_VERSION = 1;
 
 export interface TownSave {
   schemaVersion: number;
@@ -152,7 +152,7 @@ export function migrate(raw: unknown, migrations: Record<number, Migration> = MI
   return isSave(save) ? (save as TownSave) : null;
 }
 
-export function isSave(s: Record<string, unknown>) {
+function isSave(s: Record<string, unknown>) {
   return typeof s.day === 'number' && s.day >= 1 && typeof s.minutes === 'number' && typeof s.area === 'string'
     && !!s.fluff && typeof s.sparkles === 'number' && Array.isArray(s.bag) && !!s.areas && typeof s.areas === 'object';
 }

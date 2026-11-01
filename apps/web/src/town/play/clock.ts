@@ -5,7 +5,7 @@ import { weatherFor } from './weather';
 export const DAY_START = 6 * 60;
 export const DAY_END = 26 * 60;
 export const LATE_AT = 25 * 60;
-export const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const;
+const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const;
 export const DAYS_PER_SEASON = 14;
 
 /** The season a day falls in (14 days each, around the year). */

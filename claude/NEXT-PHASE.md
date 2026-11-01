@@ -616,6 +616,16 @@ These are the places Blake said "dealer's choice". Each can be changed:
     5. "Two Keepers, one {town}."
   - **Tastes, trades and jobs:** loves tea and honey; jobs are a cup of tea, and dusting round the fountain.
   - Tour card: 🐰 Thimble, year two.
+- **Polish pass 2 (1 Nov):**
+  - **📖 lines send Puff where people really are.** Several said the wrong place:
+    - Hazel "in the square" (she never leaves the bakery)
+    - Bea "wants to see your garden" (she never visits the yard)
+    - Fig "waiting by the path to the woods" (Fig never goes there)
+    - Mabel with no place at all, though before the sea steps the square at dusk is the only place to find her
+
+    A new test checks that any place named in a 📖 line is on that person's daily round.
+  - **Friends** counts only folk who've arrived. Before, it said "8 more neighbours to meet" on day 5, counting newcomers still to come and Thimble.
+  - **Code:** 14 exports used only in their own file are no longer exported (town and shared code; the frozen room game is left alone).
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

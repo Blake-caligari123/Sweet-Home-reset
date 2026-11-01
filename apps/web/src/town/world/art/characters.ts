@@ -3,7 +3,7 @@ import { PixelCanvas } from '../../../shared/art/pixel-canvas';
 
 // ---- Puff at 24 px (simplified face per A11.3) ------------------------------------------------
 
-export const PUFF_PX = 24;
+const PUFF_PX = 24;
 export type Dir = 'down' | 'up' | 'right' | 'left';
 
 export function drawPuff24(dir: Dir, frame: number, pose: 'walk' | 'idle' | 'swing' | 'sleep' | 'hop' = 'idle') {

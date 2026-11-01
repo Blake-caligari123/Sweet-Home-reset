@@ -3,7 +3,7 @@ import { P } from '../art/palette';
 import { PixelCanvas } from '../art/pixel-canvas';
 import { toTexture } from './textures';
 
-export const MAX_PARTICLES = 400;
+const MAX_PARTICLES = 400;
 type Kind = 'dot' | 'suds' | 'sparkle' | 'puff';
 
 interface Particle { sprite: Sprite; x: number; y: number; vx: number; vy: number; g: number; life: number; age: number }

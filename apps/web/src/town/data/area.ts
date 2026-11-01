@@ -137,7 +137,7 @@ export class Area {
 
 /** Placed spots first, then scattered ones on whatever tiles are left: a placed item is never lost. */
 /** Every mess spot: placed ones as given, scattered ones from their rect (never on a `skip` tile; the dice still roll there, so the rest stay put). */
-export function expandMess(defs: MessDef[], skip: (x: number, y: number) => boolean = () => false): MessSpot[] {
+function expandMess(defs: MessDef[], skip: (x: number, y: number) => boolean = () => false): MessSpot[] {
   const out: MessSpot[] = defs.filter((d): d is MessSpot => !('rect' in d));
   const taken = new Set(out.map((m) => `${m.x},${m.y}`));
   for (const d of defs) {
