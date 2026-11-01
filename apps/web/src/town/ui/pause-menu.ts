@@ -21,6 +21,8 @@ export interface PauseHost {
   openNeeds(): void;
   /** The town's completion (bloom/completion.ts): its percentage, and the sheet. */
   completion: number;
+  /** Puff's Keeper rank (bloom/completion.ts). */
+  rank: string;
   openCompletion(): void;
   /** The feature tour, on the test link only. */
   openTour: (() => void) | null;
@@ -77,7 +79,7 @@ export function openPause(d: PauseHost) {
   skills.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openSkills(); });
   const town = h('button', { class: 'btn', type: 'button' }, '🏘 Town');
   town.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openNeeds(); });
-  const done = h('button', { class: 'btn', type: 'button', 'aria-label': `Completion, ${d.completion}%` }, `🏆 ${d.completion}%`);
+  const done = h('button', { class: 'btn', type: 'button', 'aria-label': `${d.rank}, completion ${d.completion}%` }, `🎖 ${d.rank} · 🏆 ${d.completion}%`);
   done.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openCompletion(); });
   outfits.addEventListener('click', () => { view.uiTap(); view.closeTopSheet(); d.openOutfits(); });
   const body: Node[] = [

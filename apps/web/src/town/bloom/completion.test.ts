@@ -18,3 +18,14 @@ describe('town completion', () => {
     expect(completionPct([...full, { id: 'c', icon: '', label: '', have: 199, total: 200 }])).toBe(99);
   });
 });
+
+describe('Keeper ranks', () => {
+  it('grow with the town, from New Keeper to Keeper of the town', async () => {
+    const { rankFor } = await import('./completion');
+    expect(rankFor(0).title).toBe('New Keeper');
+    expect(rankFor(9).title).toBe('New Keeper');
+    expect(rankFor(10).title).toBe('Little Keeper');
+    expect(rankFor(60).title).toBe('Town Keeper');
+    expect(rankFor(100)).toEqual({ index: 5, title: 'Keeper of {town}' });
+  });
+});

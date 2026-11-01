@@ -27,7 +27,7 @@ import type { World } from '../world/world';
 import { openBag } from './bag-sheet';
 import { openNaming } from './naming-sheet';
 import { meterOf } from '../play/tidy-meter';
-import { completionParts, completionPct } from '../bloom/completion';
+import { completionParts, completionPct, rankFor } from '../bloom/completion';
 import { openCompletion } from '../bloom/completion-sheet';
 import { openPause } from './pause-menu';
 import type { Settings, View } from './view';
@@ -97,6 +97,7 @@ export class Menus {
       openSkills: () => systems.openSkills(),
       openNeeds: () => systems.openNeeds(),
       completion: completionPct(completionParts(state, content.pack)),
+      rank: content.named(rankFor(completionPct(completionParts(state, content.pack))).title),
       openCompletion: () => openCompletion(view, state, content.pack, content.named('{town}')),
       openTour: tour ? () => openTour(view, tour(), () => { this.h.refreshHud(); this.h.save(); }) : null,
       townLine: `🌸 Town Bloom: ${content.line(`bloom.${state.bloom}`)} · ${state.finds.found.length} of ${content.pack.finds?.length ?? 0} finds`,

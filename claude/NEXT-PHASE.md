@@ -711,6 +711,7 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - the bag's Tidy up keeping every item
 
   These sit beside the full-year soak (`tools/year-soak.cjs`). `@playwright/test` is pinned to 1.63.0 to match the browser on the machine.
+- **Hooked 7: Keeper ranks (1 Nov):** Puff's title grows with the town's completion: New Keeper → Little Keeper (10%) → Tidy Keeper (25%) → Town Keeper (50%) → Grand Keeper (75%) → Keeper of {town} (100%). Each new rank is a fanfare and a banner, once ("🎖 Puff is now a Tidy Keeper!"). The rank shows in Pause beside the 🏆 %, and it never goes down.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
