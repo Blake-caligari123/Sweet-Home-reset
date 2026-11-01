@@ -1,6 +1,6 @@
 /* Town HUD (GDD v3 A5 / A11.3): top-left Fluff, top-centre tracker, top-right clock and
    Sparkles, bottom tool band with a context prompt. Live text, 44 pt targets. */
-#ui > .town-hud, #ui > .fade, #ui > .banner { pointer-events: none; }
+#ui > .town-hud, #ui > .fade, #ui > .banner, #ui > .npc-bubbles { pointer-events: none; }
 #ui > .fade.on { pointer-events: auto; }
 .town-hud { position: absolute; inset: 0; }
 .town-hud button { pointer-events: auto; }
@@ -227,3 +227,9 @@ html.high-contrast .muted { color: #4a3a32; }
 @keyframes slot-pop { 0% { transform: scale(0.6); opacity: 0.4; } 100% { transform: scale(1); opacity: 1; } }
 .reduce-motion .bag-grid.tidied .bag-slot { animation: none; }
 .set-bar.big { height: 16px; width: 100%; margin-bottom: 6px; }
+
+/* Neighbour bubbles (ui/neighbour-bubbles.ts): a little icon over someone's head now and then. */
+.npc-bubbles { position: absolute; inset: 0; pointer-events: none; }
+.npc-bubble { position: absolute; transform: translate(-50%, -100%); background: #fff8ec; border: 2px solid #534239; border-radius: 10px; padding: 0 5px; font-size: 1rem; line-height: 1.45; box-shadow: 0 2px 0 rgba(83, 66, 57, 0.35); animation: npc-pop 0.3s cubic-bezier(.2, 1.6, .4, 1) both; }
+@keyframes npc-pop { 0% { transform: translate(-50%, -80%) scale(0.4); opacity: 0; } 100% { transform: translate(-50%, -100%) scale(1); opacity: 1; } }
+.reduce-motion .npc-bubble { animation: none; }
