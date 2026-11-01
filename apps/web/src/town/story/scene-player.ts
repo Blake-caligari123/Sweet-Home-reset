@@ -7,7 +7,7 @@ import { FEET_TO_BASE } from '../play/targets';
 import { T } from '../world/art/texture';
 import { FEET } from '../world/nav';
 import type { NeighbourView, World } from '../world/world';
-import { asleep, hopping, captionAt, colourAt, emotesAt, facing, fadeAt, glowAt, minutesAt, nextCaption, pointAt, showsMess, soundsBetween, zoomAt, type SceneDef, type Shot, type ShotMusic } from './scenes';
+import { asleep, hopping, captionAt, colourAt, emotesAt, facing, fadeAt, glowAt, minutesAt, nextCaption, pointAt, showsMess, soundsBetween, TITLE_MS, zoomAt, type SceneDef, type Shot, type ShotMusic } from './scenes';
 
 export interface ScenePlayerHost {
   world: World; ui: HTMLElement; content: Content;
@@ -33,7 +33,7 @@ const foot = (x: number, y: number) => ({ x: x * T + T / 2, y: y * T + FEET + FE
  * with the action. Tap jumps to the next caption; Skip ends it. The game's own loop stands still.
  */
 export class ScenePlayer {
-  private run: { scene: SceneDef; shot: number; ms: number; done: () => void; caption: HTMLElement; dim: HTMLElement; bubbles: HTMLElement; overlay: HTMLElement; shown: string; said: string | null; bursts: Set<string>; popped: Set<string>; scored: number; stepMs: number } | null = null;
+  private run: { scene: SceneDef; shot: number; ms: number; done: () => void; caption: HTMLElement; title: HTMLElement; dim: HTMLElement; bubbles: HTMLElement; overlay: HTMLElement; shown: string; said: string | null; bursts: Set<string>; popped: Set<string>; scored: number; framed: number; stepMs: number } | null = null;
   private sparkle = new Graphics();
   private glow = new Graphics();
 
@@ -54,11 +54,12 @@ export class ScenePlayer {
     const skip = h('button', { class: 'btn small scene-skip', type: 'button' }, 'Skip');
     const dim = h('div', { class: 'scene-dim' });
     const bubbles = h('div', { class: 'scene-bubbles', 'aria-hidden': 'true' });
-    const overlay = h('div', { class: 'scene', role: 'dialog', 'aria-label': 'Story' }, bubbles, dim, skip, caption);
+    const title = h('p', { class: 'scene-title', 'aria-live': 'polite' }, scene.title ? (this.host.content.line(scene.title) ?? '') : '');
+    const overlay = h('div', { class: 'scene', role: 'dialog', 'aria-label': 'Story' }, bubbles, dim, title, skip, caption);
     overlay.addEventListener('click', (e) => { if (e.target === skip) this.finish(); else this.tapOn(); });
     this.host.ui.append(overlay);
     this.host.ui.classList.add('scene-playing');
-    this.run = { scene, shot: 0, ms: 0, done, caption, dim, bubbles, overlay, shown: '', said: null, bursts: new Set(), popped: new Set(), scored: -1, stepMs: 0 };
+    this.run = { scene, shot: 0, ms: 0, done, caption, title, dim, bubbles, overlay, shown: '', said: null, bursts: new Set(), popped: new Set(), scored: -1, framed: -1, stepMs: 0 };
     this.cue(scene.shots[0], -1, 0);
     this.draw(0);
   }
@@ -103,10 +104,17 @@ export class ScenePlayer {
     world.setSceneZoom(this.host.reducedMotion() ? (shot.zoom?.[0]?.[1] ?? 1) : zoomAt(shot, ms));
     world.setSky(shot.season ?? 'Spring', false);
     world.setTint(minutesAt(shot, ms));
-    world.setSceneColour((x, y) => colourAt(shot.colour, x, y, ms));
+    world.setSceneColour(shot.colour.kind === 'now' ? null : (x, y) => colourAt(shot.colour, x, y, ms));
+    r.title.classList.toggle('on', r.shot === 0 && ms < TITLE_MS);
     if (shot.colour.kind === 'ripple' && ms >= shot.colour.end) world.showMess(true);
     const text = captionAt(shot, ms);
-    if (text !== r.said) { r.said = text; r.caption.textContent = text ? (content.line(text) ?? '') : ''; }
+    if (text !== r.said) {
+      r.said = text;
+      const line = text ? content.line(text) ?? '' : '';
+      r.caption.textContent = line;
+      // Thimble's far-away voice (a line in quotes) reads softer than the telling.
+      r.caption.classList.toggle('voice', /^["“]/.test(line));
+    }
     this.drawActors(shot, ms, dt);
     this.drawSparkle(shot, ms);
     this.drawGlows(shot, ms);
@@ -115,7 +123,9 @@ export class ScenePlayer {
       if (ms >= at && !r.bursts.has(key)) { r.bursts.add(key); if (!this.host.reducedMotion()) world.sparkleBurst(x, y, 10); }
     }
     const cam = typeof shot.camera === 'string' ? this.subject(shot, shot.camera, ms) : pointAt(shot.camera, ms);
-    if (cam) world.follow(cam.x * T + T / 2, cam.y * T + T / 2, this.host.reducedMotion() || ms < 1 || dt === 0);
+    // A new shot starts framed on its subject; within a shot the camera glides after them.
+    const fresh = r.framed !== r.shot;
+    if (cam) { world.follow(cam.x * T + T / 2, cam.y * T + T / 2, this.host.reducedMotion() || fresh || dt === 0); r.framed = r.shot; }
     this.iris(fadeAt(r.scene, r.shot, ms), cam);
     this.footsteps(shot, ms, dt);
     this.drawEmotes(shot, ms);

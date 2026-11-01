@@ -141,9 +141,13 @@ html.high-contrast .muted { color: #4a3a32; }
 .cook-pad { width: 180px; height: 180px; display: grid; place-items: center; font-size: 4rem; border: 3px solid var(--line); background: var(--butter-3); touch-action: none; user-select: none; cursor: pointer; }
 
 /* Cutscenes (story/scene-player.ts): the HUD steps aside, a caption sits along the bottom, Skip in the corner. */
-.scene-playing .town-hud { visibility: hidden; }
+/* While a cutscene plays, only the scene shows: no HUD, letters, sheets or banners on top (they wait underneath). */
+.scene-playing > :not(.scene) { visibility: hidden; }
 .scene { position: fixed; inset: 0; z-index: 1000; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding: 16px 16px calc(28px + env(safe-area-inset-bottom)); background: linear-gradient(to top, rgba(47, 58, 78, 0.55), transparent 35%); }
 .scene-caption { position: relative; margin: 0 auto; max-width: 30rem; text-align: center; color: #fff8ec; font-size: 1.15rem; line-height: 1.4; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); }
+.scene-title { position: absolute; left: 0; right: 0; top: 38%; margin: 0; padding: 0 24px; text-align: center; color: #fff8ec; font-size: 1.6rem; font-weight: 900; letter-spacing: 0.04em; text-shadow: 0 2px 6px rgba(47, 58, 78, 0.8); opacity: 0; transition: opacity 600ms ease; pointer-events: none; }
+.scene-title.on { opacity: 1; }
+.scene-caption.voice { font-style: italic; color: #f1e6ff; text-shadow: 0 0 10px rgba(184, 169, 207, 0.9), 0 1px 2px rgba(0, 0, 0, 0.6); }
 .scene-skip { position: absolute; top: calc(12px + env(safe-area-inset-top)); right: calc(12px + env(safe-area-inset-right)); }
 .scene-dim { position: absolute; inset: 0; background: #2f3a4e; opacity: 0; pointer-events: none; }
 /* The iris between places: a circle closing on the subject (scene-player.ts sets --ix, --iy and --ir). */

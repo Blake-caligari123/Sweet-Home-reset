@@ -32,6 +32,7 @@ import { TownSystems } from './systems';
 import { Scene } from './tour/scene';
 import { TOUR_ON } from './tour/tour';
 import { openTour } from './tour/tour-sheet';
+import { seenFlag } from './story/path';
 import { ScenePlayer } from './story/scene-player';
 import { MAX_RUB, Taps } from './play/taps';
 import { connect } from './connect';
@@ -172,7 +173,7 @@ export class TownGame {
     });
     this.systems = new TownSystems({
       state: this.state, view: this.view, content: this.content, hud: this.hud, world: this.world, puff: this.puff, places: this.places, life: this.life, guide: this.guide, talk: this.talk, jobs: this.jobs,
-      day: () => this.clock.state.day, arrived: (k) => this.arrived(k), refreshHud: () => this.refreshHud(), save: () => void this.save(false)
+      day: () => this.clock.state.day, arrived: (k) => this.arrived(k), refreshHud: () => this.refreshHud(), save: () => void this.save(false), playScene: (id) => this.playStory(id)
     });
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
     this.placing = new Placing({ ...core, places: this.places, area: () => this.areaId, refreshArea: () => this.refreshArea() });
@@ -250,7 +251,7 @@ export class TownGame {
       world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide, grumbles: this.grumbles,
       areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
       messFor: (id) => this.places.mess(id), spawnOf: (id) => this.places.get(id)!.pack.spawn,
-      enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), playScene: (id) => this.scenes.play(id, () => {}), rebuild: () => this.places.rebuild(this.state), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
+      enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), playScene: (id) => this.playStory(id), rebuild: () => this.places.rebuild(this.state), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
     };
   }
 
@@ -381,6 +382,9 @@ export class TownGame {
     view.release();
     this.guide.handle({ type: 'slept' });
     this.refreshHud();
+    // A new chapter opens with the fountain speaking, before the morning's news.
+    const opening = this.systems.story.sceneDue();
+    if (opening) await new Promise<void>((done) => this.playStory(opening, done));
     morning({ state, view, clock: this.clock, content: this.content, refreshHud: () => this.refreshHud(), offer: () => void this.unlocker.offer() }, { ...night, news: this.systems.morningNews() });
   }
 
@@ -522,9 +526,17 @@ export class TownGame {
     return this.content.line(nudge(this.state, (k) => this.arrived(k), letter ? letter.hint ?? 'letter.hint' : null) ?? undefined) ?? null;
   }
 
+  /** Play a cutscene and remember it was seen (for the journal's Memories). */
+  private playStory(id: string, then: () => void = () => {}) {
+    this.state.flag(seenFlag(id));
+    this.scenes.play(id, () => { this.refreshHud(); then(); });
+  }
+
   private openJournal() {
     const tryNew = this.nudgeLine();
-    this.systems.openJournal(tryNew && this.content.named(tryNew), [{ label: 'The opening', play: () => this.scenes.play('opening', () => this.refreshHud()) }]);
+    const memories = (this.content.pack.scenes ?? []).filter((s) => s.id === 'opening' || this.state.has(seenFlag(s.id)))
+      .map((s) => ({ label: this.content.line(s.name ?? s.title) ?? s.id, play: () => this.playStory(s.id) }));
+    this.systems.openJournal(tryNew && this.content.named(tryNew), memories);
   }
 
   // ---- save --------------------------------------------------------------------------------

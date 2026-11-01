@@ -1644,3 +1644,12 @@ For each step: who asks, the button, what they say, the tracker while waiting (c
 - **winter_prep** (day 52, mabel): call: "Mabel needs help getting ready for Winter Lights." / diary: "Mabel and I are getting the town ready to glow." / tease: "Mabel's counting lanterns. There aren't enough yet..."
 - **lights** (day 56): hint: "It's Winter Lights! Light up the town!" / diary: "The town glows. Thimble's awake! Thank you, Keeper." / tease: "The town lights up tomorrow. Will Thimble wake?"
 - Night fade: "🌙 Tomorrow...". Journal: "That's today's story. More tomorrow!" / "The story carries on on day N." / "The year's story is told. The town glows!" / "The first page is waiting to be written."
+
+**Chapter cutscenes (K.3): the fountain speaks in Thimble's voice (lines in quotes)**
+- **Spring · One spot at a time**: "A sleepy voice drifts up from the fountain..." / “You found me.” / “The town remembers colour, one spot at a time.”
+- **Summer · The river remembers**: "The fountain murmurs again..." / “Something old waits across the water.” / "Over the river, an old boathouse sits waiting."
+- **Autumn · The old song**: "The fountain hums, so softly..." / “Listen in the woods.” / “The town has a song.”
+- **Winter · Wake me when the town glows**: "The fountain is cold now. Its voice is very faint." / “I sleep by the warm spring, far below.” / “Light up the town, Keeper, and I'll wake.”
+- **After the Fair**: "The fountain glows warm for a moment..." / “Thank you, Keeper. There's more of me across the river.”
+- **After the Picnic**: "The fountain glows warm for a moment..." / “The warm water stirs. Can you hear it singing?”
+- **After Leaf Fest**: "The fountain glows warm for a moment..." / “I sang that song to keep the water warm. Now you know.”

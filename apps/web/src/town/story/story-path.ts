@@ -3,9 +3,11 @@ import type { Conversations } from '../neighbours/conversations';
 import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import type { Button, View } from '../ui/view';
-import { done, hear, met, needsAsking, passed, today, tomorrow, type StoryDef, type StoryFacts, type StoryStep } from './path';
+import { done, hear, met, needsAsking, openingDue, passed, seenFlag, today, tomorrow, type StoryDef, type StoryFacts, type StoryStep } from './path';
 
-export interface StoryHost { state: TownState; content: Content; view: View; talk: Conversations; day(): number; refreshHud(): void; save(): void }
+export interface StoryHost { state: TownState; content: Content; view: View; talk: Conversations; day(): number; refreshHud(): void; save(): void;
+  /** Play a cutscene (story/scene-player.ts). */
+  playScene(id: string): void }
 
 /**
  * The Keeper's Story in play (story/path.ts): the 📖 tracker line, the neighbour's chat-box
@@ -64,7 +66,11 @@ export class StoryPath {
     view.feedback('chime', 'success');
     view.banner(`📖 ${this.text(step, 'diary')}`);
     this.host.refreshHud(); this.host.save();
+    if (step.scene) this.host.playScene(step.scene);
   }
+
+  /** In the morning, before the news: a new chapter's opening scene, once. */
+  sceneDue() { return openingDue(this.def, this.host.state.story, this.host.day(), (id) => this.host.state.has(seenFlag(id))); }
 
   /** Someone's waiting to ask (a quest step is open until the quest is taken on, then it's done). */
   private calling(step: StoryStep) { return needsAsking(step, this.host.state.story) || step.goal.type === 'quest'; }

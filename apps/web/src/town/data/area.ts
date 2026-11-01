@@ -217,7 +217,7 @@ export function validateTownPack(input: unknown): TownPack {
   }
   for (const c of p.crops ?? []) if (!p.items[c.id] || !p.items[c.seed]) throw new Error(`crop ${c.id}: unknown item`);
   for (const c of p.critters ?? []) if (!c.id || !c.name || !c.hint || !c.areas?.length || c.areas.some((a) => !ids.has(a))) throw new Error(`critter ${c.id}: shape`);
-  for (const sc of p.scenes ?? []) if (!sc.id || !sc.shots?.length || sc.shots.some((x) => !ids.has(x.area) || x.captions.some(([, id]) => typeof text[id] !== 'string'))) throw new Error(`scene ${sc.id}: shape`);
+  for (const sc of p.scenes ?? []) if (!sc.id || !sc.shots?.length || [sc.title, sc.name].some((t) => t && typeof text[t] !== 'string') || sc.shots.some((x) => !ids.has(x.area) || x.captions.some(([, id]) => typeof text[id] !== 'string'))) throw new Error(`scene ${sc.id}: shape`);
   for (const a of p.animals ?? []) if (!a.id || !p.items[a.gives] || !ids.has(a.area)) throw new Error(`animal ${a.id}: shape`);
   for (const f of p.fish ?? []) if (!f.id || !p.items[f.id] || !f.areas?.length || f.areas.some((a) => !ids.has(a))) throw new Error(`fish ${f.id}: shape`);
   for (const q of p.quests ?? []) {
@@ -254,12 +254,14 @@ function validateStory(p: TownPack, who: Set<string>, areas: Set<string>, text: 
   const chapters = new Set(story.chapters.map((c) => c.id));
   const buildings = new Set((p.buildings ?? []).map((b) => b.id));
   const quests = new Set((p.quests ?? []).map((q) => q.id));
+  const scenes = new Set((p.scenes ?? []).map((s) => s.id));
+  for (const c of story.chapters) if (c.scene && !scenes.has(c.scene)) throw new Error(`story chapter ${c.id}: no scene ${c.scene}`);
   story.steps.forEach((st, i) => {
     const g = st.goal;
     const bad = !chapters.has(st.chapter) || (st.who && !who.has(st.who))
       || (g.type === 'built' && [g.building].flat().some((b) => !buildings.has(b)))
       || (g.type === 'visited' && !areas.has(g.area)) || (g.type === 'quest' && !quests.has(g.id))
-      || Object.keys(st.gift ?? {}).some((id) => !p.items[id]);
+      || Object.keys(st.gift ?? {}).some((id) => !p.items[id]) || (st.scene && !scenes.has(st.scene));
     if (bad) throw new Error(`story ${st.id}: shape`);
     const asks = st.who && g.type !== 'quest';
     const parts = ['diary', ...(i ? ['tease'] : []), ...(st.who ? ['call'] : []), ...(g.type === 'quest' ? [] : ['hint']), ...(asks ? ['ask', 'line'] : [])];

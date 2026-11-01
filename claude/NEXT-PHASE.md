@@ -553,6 +553,14 @@ These are the places Blake said "dealer's choice". Each can be changed:
       - The music is warm in the bright town and soft in the snow. There are **real silences** in the cave and as the grey spreads; the whoosh is the first sound after the silence. The music comes back with the sparkle, goes quiet again in the burrow, then warms as Puff wakes.
     - **An ending that echoes the start:** the first spot of colour and a warm glow bloom out from Puff, as the fountain glowed at the beginning (`bloom` colour).
     - **Paced for reading:** a test checks every caption stays up for at least 1.8 s, and about a second per 15 letters plus 1.5 s.
+- **K.3 Chapter cutscenes (1 Nov).** The fountain speaks in Thimble's sleepy, far-away voice. Those lines are in quotes and shown in soft italics.
+  - **Chapter openings** play on the first morning of each chapter, before the morning's news: spring (day 4), summer (15), autumn (29) and winter (43).
+    - Each opens with a title card (for example "Summer · The river remembers"), close on the fountain. The camera then goes where the chapter happens: across the river to the waiting boathouse, through the woods following a humming wisp, or down the cave to Thimble asleep by the warm spring.
+    - They show the town as it really is in the save (`now` colour).
+  - **Chapter endings** play when the Fair, the Picnic and Leaf Fest are done: dusk, Puff by the fountain as it glows, and Thimble's thank-you. Winter's ending is the Winter Lights finale.
+  - **Memories:** every scene seen is listed in the journal to watch again.
+  - **Fixes:** while a scene plays, everything else in the interface waits hidden underneath (letters, sheets, banners), and each new shot starts framed on its subject.
+  - Tour card: 🎞 Chapter cutscenes (the last night of spring; sleep and summer opens).
 - **K.2 The step-a-day path and the Keeper's journal (31 Oct, after Blake's "tie it all together so the player gets absolutely hooked").** `story/path.ts`, `story/story-path.ts`, `journal/`.
   - **One story step a day, all year.** 40 steps from day 1 to Winter Lights, in five chapters (`story` in the pack). Each step is a goal the game already knows: a building started, a place visited, a fish, a pet, a dish or a workbench make, a flag, or a quest taken on.
   - **A neighbour asks.** The tracker shows 📖 first ("Otto has something for you by the river."). That neighbour's chat box has a 📖 button: they say their line, may hand something over (Otto's spare rod, Hazel's soup veg, Pip's copper duster recipe), and the tracker becomes the job. Quest steps are asked with the quest's own 📜 button, and the quest then runs alongside the story.

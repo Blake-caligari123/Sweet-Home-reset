@@ -11,6 +11,8 @@ export const TOUR_ON = import.meta.env.VITE_RELEASE !== '1';
 export const TOUR: TourCard[] = [
   { title: '🎬 The opening', steps: ['The story of the town plays out: long ago, Thimble, the colour going grey, and Puff\'s first sparkle.', 'Tap for the next caption, or Skip. A new game plays it once before naming.'],
     setup: (s) => { s.playScene('opening'); } },
+  { title: '🎞 Chapter cutscenes', steps: ['It\'s the last night of spring. Go to bed (tap the burrow bed).', 'In the morning, summer opens: a title card, then the fountain\'s sleepy voice leads across the water. Sound on!', 'Pause → 📔 Keeper\'s journal → Memories plays any you\'ve seen again.'],
+    setup: (s) => { s.state.story = { step: 14, asked: false, count: 0, day: 14 }; s.day(14).time(21).flag('keeper_named').go('burrow'); } },
   { title: '📖 The Keeper\'s Story', steps: ['The 📖 line at the top is today\'s story step: Otto has something for you. Talk to him and tap "📖 What\'s that you\'ve got?", then catch a fish.', 'Tap the 📖 line (or Pause → 📔 Keeper\'s journal) for the story so far.', 'Go to bed: a hint at tomorrow shows as night falls.'],
     setup: (s) => { s.state.story = { step: 4, asked: false, count: 0, day: 4 }; s.state.fishCaught = 0; s.day(5).time(9).flag('keeper_named').meet('hazel', 'bea', 'pip', 'otto').go('riverside'); } },
   { title: '🗺 Getting around', steps: ['Tap 🗺 (top left) and pick a place to travel there.', 'Pause → Joystick: drag anywhere to walk.', 'Pinch (or the mouse wheel) to zoom.'],

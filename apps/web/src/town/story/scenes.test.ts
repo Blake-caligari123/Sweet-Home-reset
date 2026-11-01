@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
 import { SOUND_IDS } from '../../shared/audio/sound';
-import { captionAt, captionHolds, colourAt, ease, facing, hopping, fadeAt, minutesAt, nextCaption, pointAt, sceneLength, soundsBetween, zoomAt, type Key, type SceneDef, type Shot, type ShotColour } from './scenes';
+import { captionAt, captionHolds, colourAt, ease, facing, hopping, fadeAt, minutesAt, nextCaption, pointAt, sceneLength, soundsBetween, TITLE_MS, zoomAt, type Key, type SceneDef, type Shot, type ShotColour } from './scenes';
 
 const walk: Key[] = [[2, 4, 0], [6, 4, 2000], [6, 8, 4000]];
 
@@ -94,6 +94,20 @@ describe('Hollowfern opening', () => {
     for (const c of captionHolds(scene, (id) => text[id])) expect(c.holds, c.id).toBeGreaterThanOrEqual(c.needs);
   });
 
+  it('paces every scene for reading, and keeps a chapter title card clear of the captions', () => {
+    for (const sc of pack.scenes ?? []) {
+      for (const c of captionHolds(sc, (id) => text[id])) expect(c.holds, `${sc.id} ${c.id}`).toBeGreaterThanOrEqual(c.needs);
+      if (sc.title) expect(sc.shots[0].captions[0]?.[0] ?? Infinity, sc.id).toBeGreaterThanOrEqual(TITLE_MS);
+      for (const s of sc.shots) for (const [, id] of s.sounds ?? []) expect(SOUND_IDS, `${sc.id} ${id}`).toContain(id);
+    }
+  });
+
+  it('opens each season\'s chapter with the fountain, and closes the first three after their festivals', () => {
+    const story = pack.story!;
+    for (const c of story.chapters.slice(1)) expect((pack.scenes ?? []).some((x) => x.id === c.scene), c.id).toBe(true);
+    expect(story.steps.filter((x) => x.scene).map((x) => x.id)).toEqual(['fair', 'picnic', 'leaf_fest']);
+  });
+
   it('carries the sparkle through real doors: out of the square, across the yard, into the burrow', () => {
     const doorTo = (from: string, to: string) => pack.areas.find((a) => a.id === from)!.doors.filter((d) => d.to === to);
     const ends = (i: number) => { const p = scene.shots[i].sparkle!; return { first: p[0], last: p[p.length - 1] }; };
@@ -103,8 +117,8 @@ describe('Hollowfern opening', () => {
     expect(doorTo('burrow', 'yard').some((d) => d.x === ends(6).first[0] && Math.abs(d.y - ends(6).first[1]) <= 1)).toBe(true);
   });
 
-  it('shows Thimble only from behind, keeps captions short, and walks everyone on open ground', () => {
-    for (const shot of scene.shots) {
+  it('shows Thimble only from behind, keeps captions short, and walks everyone on open ground (every scene)', () => {
+    for (const shot of (pack.scenes ?? []).flatMap((x) => x.shots)) {
       for (const [, who] of shot.emotes ?? []) expect(shot.actors?.some((a) => a.who === who), `${shot.area} emote ${who}`).toBe(true);
       for (const [, id] of shot.captions) { expect(text[id], id).toBeTruthy(); expect(text[id].length, id).toBeLessThanOrEqual(60); }
       const area = open(shot.area);
