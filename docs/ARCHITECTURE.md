@@ -100,7 +100,9 @@ town/
   daily/        goals.ts (today's three little goals: kinds, picking, counting), daily-life.ts (the cheers, the morning
                 line, the journal list), happenings.ts (the day's happening: which, and its goal), happening-life.ts
                 (setting it up: leaves blown in, a lost thing dropped; the give-back button; sparkle hour)
-  minigames/    shelf.ts (sort the shelf: deal, swap, par and stars), shelf-sheet.ts (Moss's shelf to sort)
+  minigames/    games.ts (what a game sheet needs; stars; another round), minigame-buttons.ts (who plays which game),
+                shelf.ts + shelf-sheet.ts (Moss: sort the shelf), pairs.ts + pairs-sheet.ts (Bea: garden pairs),
+                pantry.ts + pantry-sheet.ts (Hazel: sort the pantry), skip.ts + skip-sheet.ts (Otto: skip stones)
   fishing/      fishing.ts (what bites where and when, the catch), fishing-sheet.ts (cast, wait, Reel in!)
   cafe/         cafe.ts (today's café orders, from dishes Puff can cook), cafe-buttons.ts (handing dishes over
                 in the keeper's chat)

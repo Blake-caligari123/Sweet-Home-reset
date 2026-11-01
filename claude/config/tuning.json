@@ -23,7 +23,7 @@
   "dailyBonusSparkles": 40,
   "happeningSparkles": 40,
   "sparkleHourBonus": 2,
-  "shelfSparkles": [5, 10, 20],
+  "gameSparkles": [5, 10, 20],
   "setCompleteSparkles": 150,
   "townCompleteSparkles": 1000,
   "tidyMilestones": [50, 100, 250, 500, 1000, 2500, 5000],

@@ -26,8 +26,8 @@ export type OnboardEvent =
   | { type: 'caught'; fish: string }
   | { type: 'spotted'; critter: string }
   | { type: 'tended'; animal: string }
-  // Moss's shelf sorted (minigames/shelf.ts).
-  | { type: 'sorted' };
+  // A mini-game finished (minigames/).
+  | { type: 'played'; game: string };
 
 export interface Step {
   id: string;

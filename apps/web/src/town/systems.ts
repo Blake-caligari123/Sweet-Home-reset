@@ -19,7 +19,7 @@ import { QuestLog } from './quests/quest-log';
 import { StoryPath } from './story/story-path';
 import { DailyGoalsLife } from './daily/daily-life';
 import { HappeningLife } from './daily/happening-life';
-import { openShelf } from './minigames/shelf-sheet';
+import { gameButtons } from './minigames/minigame-buttons';
 import { journalPage } from './journal/journal';
 import { openJournal } from './journal/journal-sheet';
 import type { Jobs } from './requests/jobs';
@@ -190,22 +190,22 @@ export class TownSystems {
   buttonsFor(id: string) {
     const { state, content, view } = this.host;
     const changed = () => { this.host.refreshHud(); this.host.save(); };
-    return [...this.happening.buttonsFor(id), ...this.shelfButtons(id), ...this.story.buttonsFor(id), ...this.quests.buttonsFor(id), ...cafeButtons({ state, content, view, day: () => this.host.day(), changed }, id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
+    return [...this.happening.buttonsFor(id), ...this.gameButtons(id), ...this.story.buttonsFor(id), ...this.quests.buttonsFor(id), ...cafeButtons({ state, content, view, day: () => this.host.day(), changed }, id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
   }
 
-  /** Moss's 📚 shelf to sort: Sparkles for the first of the day, as many more as Puff likes for fun. */
-  private shelfButtons(id: string) {
-    if (id !== 'moss') return [];
+  /** A neighbour's mini-game (minigames/): Sparkles for the first finish of each game each day, as many more as Puff likes for fun. */
+  private gameButtons(id: string) {
     const { state, view } = this.host;
-    return [{ label: '📚 Sort a shelf', onClick: () => openShelf({ view, day: () => this.host.day(), finished: (stars) => {
-      this.host.guide.handle({ type: 'sorted' });
-      if (state.daily.shelf) return 'Lovely and neat!';
-      state.daily.shelf = true;
-      const gift = TUNING.shelfSparkles[stars - 1];
+    return gameButtons(id, (game) => ({ view, day: () => this.host.day(), itemName: (i) => this.host.content.itemName(i), finished: (stars) => {
+      this.host.guide.handle({ type: 'played', game });
+      const played = state.daily.played ?? [];
+      if (played.includes(game)) return 'Lovely!';
+      state.daily.played = [...played, game];
+      const gift = TUNING.gameSparkles[stars - 1];
       state.sparkles += gift;
       this.host.refreshHud(); this.host.save();
       return `+${gift} ✨`;
-    } }) }];
+    } }));
   }
 
   /** The tracker line for a quest under way, if any. */

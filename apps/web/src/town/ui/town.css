@@ -256,3 +256,21 @@ html.high-contrast .muted { color: #4a3a32; }
 .shelf.sorted .book:nth-child(3n) { animation-delay: 0.12s; }
 @keyframes shelf-hop { 40% { transform: translateY(-6px); } }
 @media (prefers-reduced-motion: reduce) { .shelf .book, .shelf.sorted .book { transition: none; animation: none; } }
+
+/* Garden pairs, the pantry and skip stones (minigames/). */
+.pairs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 8px auto; max-width: 300px; }
+.pairs .card { aspect-ratio: 1; display: grid; place-items: center; padding: 0; border: 2px solid #5a4636; border-radius: 6px; background: #a9cda0; font-size: 1.3rem; cursor: pointer; transition: transform 0.15s ease, background 0.15s ease; }
+.pairs .card.up { background: #fff8ea; transform: rotateY(0deg); }
+.pairs .card.matched { box-shadow: 0 0 6px 2px rgba(255, 230, 140, 0.9); }
+.pairs.sorted .card { animation: shelf-hop 0.5s ease both; }
+.pantry-item { display: grid; place-items: center; min-height: 64px; margin: 6px 0; }
+.pantry { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 6px 0; }
+.pantry-shelf { display: flex; flex-direction: column; align-items: center; gap: 4px; min-height: 76px; padding: 6px 4px; }
+.pantry-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 1px; max-width: 100%; }
+.pantry-shelf.nope { animation: nope 0.3s ease; }
+@keyframes nope { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.skip-bar { position: relative; align-self: stretch; width: 100%; box-sizing: border-box; height: 22px; margin: 12px 4px; border: 2px solid #5a4636; border-radius: 11px; background: #9db8e0; overflow: hidden; }
+.skip-sweet { position: absolute; top: 0; bottom: 0; background: #a9cda0; }
+.skip-marker { position: absolute; top: -2px; bottom: -2px; width: 6px; border-radius: 3px; background: #5a4636; }
+.skip-water { min-height: 1.6em; font-size: 1.1rem; letter-spacing: 0.05em; }
+@media (prefers-reduced-motion: reduce) { .pairs .card, .pairs.sorted .card, .pantry-shelf.nope { transition: none; animation: none; } }
