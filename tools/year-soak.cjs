@@ -10,12 +10,15 @@ const { chromium } = require('playwright');
   await page.goto(process.env.URL ?? 'http://localhost:5199/Sweet-Home-reset/test/?debug'); await page.click('text=Let\'s tidy!'); await page.click('.scene-skip'); await page.waitForSelector('.name-input');
   await page.keyboard.press('Escape'); await page.waitForTimeout(800);
   await page.evaluate(() => window.__town.skipTips());
-  const tour = ['square', 'lane', 'riverside', 'yard', 'far_bank', 'cave_1', 'beach', 'woodland'];
+  const tour = ['square', 'lane', 'riverside', 'yard', 'far_bank', 'cave_1', 'beach', 'woodland', 'harbour', 'orchard_hill'];
   const log = [];
   for (let d = 1; d <= 57; d += 1) {
-    await page.evaluate(() => window.__town.sleep()); await page.waitForTimeout(500); await dismiss();
+    // Mornings can open with a cutscene (a new chapter, a newcomer): skip them as they come.
+    let slept = false; const sleeping = page.evaluate(() => window.__town.sleep()).then(() => { slept = true; });
+    while (!slept) { await page.locator('.scene-skip').click({ timeout: 300 }).catch(() => {}); await page.waitForTimeout(200); }
+    await sleeping; await page.waitForTimeout(500); await page.locator('.scene-skip').click({ timeout: 300 }).catch(() => {}); await dismiss();
     const info = await page.evaluate(() => ({ day: window.__town.debug().day, area: window.__town.debug().area }));
-    for (const a of tour) { await page.evaluate((id) => { const t = window.__town; try { t.visit(id, ...({ square: [15, 13], lane: [5, 12], riverside: [14, 2], yard: [12, 6], far_bank: [20, 2], cave_1: [9, 10], beach: [2, 7], woodland: [2, 8] })[id], true); } catch (e) { console.error('visit ' + id + ' ' + e); } }, a); await page.waitForTimeout(60); }
+    for (const a of tour) { await page.evaluate((id) => { const t = window.__town; try { t.visit(id, ...({ square: [15, 13], lane: [5, 12], riverside: [14, 2], yard: [12, 6], far_bank: [20, 2], cave_1: [9, 10], beach: [2, 7], woodland: [2, 8], harbour: [1, 7], orchard_hill: [1, 8] })[id], true); } catch (e) { console.error('visit ' + id + ' ' + e); } }, a); await page.waitForTimeout(60); }
     const n = (await page.evaluate(() => window.__town.neighbours())).length;
     log.push(`${info.day}:${n}`);
     if (errors.length) { console.log('ERR on day', info.day, errors.slice(0, 3)); break; }
