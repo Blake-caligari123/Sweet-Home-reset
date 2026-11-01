@@ -18,6 +18,7 @@
   "restoreThreshold": 0.95,
   "spotlessSparkles": 5,
   "setCompleteSparkles": 150,
+  "tidyMilestones": [50, 100, 250, 500, 1000, 2500, 5000],
   "messHitsTier1": {
     "dust": 1,
     "cobweb": 2,

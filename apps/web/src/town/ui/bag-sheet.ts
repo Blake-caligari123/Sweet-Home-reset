@@ -28,6 +28,28 @@ export function openBag(d: { state: TownState; view: View; content: Content; onb
       grid.append(cell);
     });
   };
+  // One tap tidies the bag: like with like, stacks merged, gaps at the end, each slot popping into place.
+  const tidy = h('button', { class: 'btn small', type: 'button' }, '✨ Tidy up');
+  tidy.addEventListener('click', () => {
+    state.bag.tidy((id) => kindRank(content, id));
+    render();
+    grid.classList.remove('tidied'); void grid.offsetWidth; grid.classList.add('tidied');
+    view.feedback('combo', 'light');
+    info.textContent = 'All neat and tidy!';
+  });
   render();
-  view.sheet('Bag', [grid, info]);
+  view.sheet('Bag', [grid, tidy, info]);
+}
+
+/** Which shelf of the bag a thing goes on: decor, seeds, crops and fruit, cooking, fish, then building bits and treasures. */
+function kindRank(content: Content, id: string) {
+  const item = content.pack.items[id];
+  const pack = content.pack;
+  if (item?.decor) return 0;
+  if (/_seeds$|_spores$/.test(id)) return 1;
+  if ((pack.crops ?? []).some((c) => c.id === id) || ['apple', 'pear', 'plum', 'berries', 'mushroom'].includes(id)) return 2;
+  if ((pack.recipes ?? []).some((r) => r.station === 'kitchen' && 'item' in r.makes && r.makes.item === id) || item?.snack) return 3;
+  if ((pack.fish ?? []).some((f) => f.id === id)) return 4;
+  if (['twig', 'pebble', 'ore_copper', 'ore_silver', 'shard_colour', 'gem_blue'].includes(id)) return 5;
+  return 6;
 }

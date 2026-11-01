@@ -22,6 +22,20 @@ export class Bag {
     return true;
   }
 
+  /**
+   * Tidy the bag (one tap, very satisfying): stacks merge, like things sit together in `rank`
+   * order (then by name), and empty slots gather at the end. Nothing is ever lost.
+   */
+  tidy(rank: (id: string) => number) {
+    const totals = new Map<string, number>();
+    for (const s of this.slots) if (s) totals.set(s.id, (totals.get(s.id) ?? 0) + s.count);
+    const ids = [...totals.keys()].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+    const next: (Slot | null)[] = [];
+    for (const id of ids) for (let n = totals.get(id)!; n > 0; n -= STACK) next.push({ id, count: Math.min(STACK, n) });
+    while (next.length < this.slots.length) next.push(null);
+    this.slots = next;
+  }
+
   /** A bigger bag (Pip's 6-heart gift): new empty slots on the end. */
   grow(n: number) { for (let i = 0; i < n; i += 1) this.slots.push(null); }
 
