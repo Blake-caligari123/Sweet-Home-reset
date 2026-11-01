@@ -295,7 +295,7 @@ export class World {
   }
 
   /** The season and whether it's raining, for the outdoor tint and what drifts through the air. */
-  setSky(season: string, rainy: boolean) { this.ambience.season = season; this.ambience.rainy = rainy; }
+  setSky(season: string, rainy: boolean, rainbow = false) { this.ambience.season = season; this.ambience.rainy = rainy; this.ambience.rainbow = rainbow; }
 
   /** Time-of-day shade over the world only (never the HUD), eased through the day (lighting.ts); Puff glows a little after dark. */
   setTint(minutes: number) {

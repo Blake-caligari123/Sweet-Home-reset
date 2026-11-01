@@ -1,4 +1,4 @@
-import { Container, Sprite, Texture, type Graphics } from 'pixi.js';
+import { Container, Graphics, Sprite, Texture } from 'pixi.js';
 import { P } from '../../shared/art/palette';
 import { PixelCanvas } from '../../shared/art/pixel-canvas';
 import { toTexture } from '../../shared/render/textures';
@@ -65,6 +65,9 @@ export class Ambience {
   private clock = 0;
   minutes = 12 * 60;
   rainy = false;
+  /** A rainbow over outdoor places this morning (play/weather.ts rainbowOn). */
+  rainbow = false;
+  private arc: Graphics | null = null;
   season = 'Spring';
   reducedMotion = false;
 
@@ -90,6 +93,14 @@ export class Ambience {
       s.alpha = 0;
       this.lights.addChild(s);
       this.glows.push(s);
+    }
+    this.arc?.destroy(); this.arc = null;
+    if (this.rainbow && area.pack.kind === 'outdoor') {
+      // Six soft bands, low over the far side of the place.
+      const g = this.arc = new Graphics();
+      const cx = (area.w * T) / 2; const cy = area.h * T * 0.95; const r = area.w * T * 0.55;
+      ['#E8846B', '#F4C2A8', '#F3DD8C', '#A9CDA0', '#8FB5D9', '#B8A9CF'].forEach((c, i) => g.arc(cx, cy, r - i * 4, Math.PI, Math.PI * 2).stroke({ width: 4, color: c, alpha: 0.5 }));
+      this.container.addChildAt(g, 0);
     }
     // Start with a few already drifting so a new area never looks empty.
     for (let i = 0; i < 8; i += 1) this.spawn(true);
@@ -132,6 +143,8 @@ export class Ambience {
 
   update(dt: number) {
     this.clock += dt;
+    // The rainbow fades away towards noon.
+    if (this.arc) this.arc.alpha = Math.max(0, Math.min(1, (12 * 60 - this.minutes) / 120));
     const glow = isNight(this.minutes) ? 1 : isDusk(this.minutes) ? 0.55 : 0;
     for (let i = 0; i < this.glows.length; i += 1) {
       const flicker = this.reducedMotion ? 0 : Math.sin(this.clock / 400 + i * 1.7) * 0.06;

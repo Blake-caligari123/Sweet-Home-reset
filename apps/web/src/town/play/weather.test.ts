@@ -31,3 +31,14 @@ describe('weather', () => {
     expect(on(6)).toEqual([['say', 'weather.rain']]);
   });
 });
+
+describe('rainbows', () => {
+  it('come out on a dry morning after a rainy day, and say so', async () => {
+    const { rainbowOn, weatherFor, morningNews } = await import('./weather');
+    const day = Array.from({ length: 60 }, (_, i) => i + 2).find((d) => weatherFor(d - 1) === 'rainy' && weatherFor(d) === 'sunny')!;
+    expect(rainbowOn(day)).toBe(true);
+    expect(rainbowOn(day - 1)).toBe(false); // the rainy day itself
+    const news = morningNews({ state: { day, minutes: 360 }, season: 'Spring', dayOfSeason: 3, weather: 'sunny' } as never);
+    expect(news).toContainEqual(['banner', 'weather.rainbow']);
+  });
+});

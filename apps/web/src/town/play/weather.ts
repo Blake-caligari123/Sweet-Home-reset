@@ -15,10 +15,14 @@ export function weatherFor(day: number): Weather {
   return seeded(day * 7919 + 131)() < TUNING.weather.rainChance[season] ? 'rainy' : 'sunny';
 }
 
+/** A dry morning after a rainy day: a rainbow until noon. */
+export const rainbowOn = (day: number) => day > 1 && weatherFor(day - 1) === 'rainy' && weatherFor(day) === 'sunny';
+
 /** What the morning brings to say: a new season (a banner), rain. As [how, text id]. */
 export function morningNews(clock: Pick<Clock, 'state' | 'season' | 'dayOfSeason' | 'weather'>): ['banner' | 'say', string][] {
   const out: ['banner' | 'say', string][] = [];
   if (clock.dayOfSeason === 1 && clock.state.day > 1) out.push(['banner', `season.${clock.season.toLowerCase()}`]);
   if (clock.weather === 'rainy') out.push(['say', 'weather.rain']);
+  if (rainbowOn(clock.state.day)) out.push(['banner', 'weather.rainbow']);
   return out;
 }
