@@ -4,6 +4,7 @@ Every video here is drawn in code on a canvas from the game's own sprites and ar
 
 | Video | Folder | Length | What it is |
 |---|---|---|---|
+| **`one_home.mp4`** | `film/` | 36 s | **"One Home": the planned animated short** (treatment in `film/TREATMENT.md`) |
 | `sweet_home_reset_trailer.mp4` | `.` | 33 s | The first upbeat trailer |
 | `sweet_home_reset_cinematic.mp4` | `cinematic/` | 55 s | Cinematic story trailer (store page, press) |
 | `shr_loop_a/b/c.mp4` | `viral/` | 16 s | Seamless tidy loop in three hook captions (A/B test) |
@@ -20,6 +21,7 @@ Every video here is drawn in code on a canvas from the game's own sprites and ar
 - `viral/PLAN.md`: the research and the posting/testing plan.
 - `capture/capture.js`: records real gameplay from the town game (`?debug` hooks, Playwright's virtual clock, every frame at 1080×1920).
 - `gameplay/`: a scenario (`*.scenario.js`), a cut list (`*.cut.js`, slow-motion and holds) and an edit (`*.edit.js`) per short, played by `edit.html`; `sound.py` scores each one from the capture's events.
+- `film/`: "One Home": `TREATMENT.md` (the plan), `timeline.py` (every time and place, for picture and sound), `film.html`, `score.py`.
 - `CREDITS`: third-party material and licences.
 
 ## Commands (from `art/trailer/`)
