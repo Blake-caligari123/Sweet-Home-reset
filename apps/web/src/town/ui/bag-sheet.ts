@@ -42,7 +42,7 @@ export function openBag(d: { state: TownState; view: View; content: Content; onb
 }
 
 /** Which shelf of the bag a thing goes on: decor, seeds, crops and fruit, cooking, fish, then building bits and treasures. */
-export function kindRank(content: Content, id: string) {
+function kindRank(content: Content, id: string) {
   const item = content.pack.items[id];
   const pack = content.pack;
   if (item?.decor) return 0;
