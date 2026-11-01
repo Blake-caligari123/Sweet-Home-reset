@@ -16,6 +16,8 @@
   "fluffLowThreshold": 20,
   "dozeWakeFluffFraction": 0.5,
   "restoreThreshold": 0.95,
+  "spotlessSparkles": 5,
+  "setCompleteSparkles": 150,
   "messHitsTier1": {
     "dust": 1,
     "cobweb": 2,

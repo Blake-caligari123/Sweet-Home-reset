@@ -8,6 +8,7 @@ export function openJournal(view: View, page: JournalPage, memories: { label: st
   const dots = h('p', { class: 'journal-dots', 'aria-label': `${page.done} of ${page.total} done` }, '●'.repeat(page.done) + '○'.repeat(Math.max(0, page.total - page.done)));
   const body: Node[] = [
     h('p', { class: 'journal-chapter' }, `📖 ${page.chapter}`), dots,
+    ...(page.tally ? [h('p', { class: 'muted' }, page.tally)] : []),
     section('Today', h('p', { class: 'note' }, page.today), ...page.also.map((a) => h('p', { class: 'muted' }, `You could also: ${a}`))),
     section('The story so far', ...(page.diary.length ? page.diary.map((d) => h('p', { class: 'journal-line' }, d)) : [h('p', { class: 'muted' }, 'The first page is waiting to be written.')]),
       ...page.past.map((c) => h('p', { class: 'muted' }, `✓ ${c}`)))

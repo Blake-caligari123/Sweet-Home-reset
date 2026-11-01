@@ -2,6 +2,7 @@ import type { CafeState } from '../cafe/cafe';
 import type { Memory } from '../life/memory';
 import type { QuestLogState } from '../quests/quests';
 import type { StoryState } from '../story/path';
+import type { SpotlessState } from '../play/tidy-meter';
 import type { PuffDay } from '../skills/puff-mood';
 import type { StallState } from '../stall/stall';
 import type { FarmState } from '../farm/animals';
@@ -84,6 +85,8 @@ export interface TownSave {
   tokens?: Record<string, number>;
   /** How far each quest has got. */
   quests?: QuestLogState;
+  /** Places made spotless today (play/tidy-meter.ts). */
+  spotless?: SpotlessState;
   /** How far along the Keeper's Story is. */
   story?: StoryState;
   /** What's out on Puff's market stall. */
@@ -92,6 +95,8 @@ export interface TownSave {
   cafe?: CafeState;
   /** Fish caught, all told. */
   fishCaught?: number;
+  /** Each kind of fish caught at least once (the Collection's fish log). */
+  fishLog?: string[];
   /** Critters spotted. */
   critters?: string[];
   /** The farm animals' care. */

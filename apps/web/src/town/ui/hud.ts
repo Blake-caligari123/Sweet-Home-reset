@@ -1,3 +1,4 @@
+import type { Meter } from '../play/tidy-meter';
 import { P } from '../../shared/art/palette';
 import { PixelCanvas } from '../../shared/art/pixel-canvas';
 import { clear, h } from '../../shared/ui/dom';
@@ -78,9 +79,12 @@ export class Hud {
     this.moodButton = h('button', { class: 'icon-btn mood-btn', type: 'button', 'aria-label': 'Puff\'s mood' }, '🙂');
     this.moodButton.addEventListener('click', handlers.mood);
     const fluffMeter = this.fluffMeter = h('div', { class: 'fluff', role: 'meter', 'aria-label': 'Fluff', 'aria-valuemin': 0 }, this.fluffIcon, h('div', { class: 'fluff-bar' }, this.fluffBar), this.fluffNum);
+    this.tidyFill = h('i');
+    this.tidyText = h('span', { class: 'tidy-text' }, '');
+    this.tidy = h('div', { class: 'tidy-meter', role: 'meter', 'aria-label': 'How tidy this place is', hidden: true }, h('div', { class: 'tidy-bar' }, this.tidyFill), this.tidyText);
     this.root = h('div', { class: 'town-hud' },
       h('header', { class: 'town-top' },
-        h('div', { class: 'top-left' }, h('div', { class: 'top-buttons' }, pause, map, this.moodButton), fluffMeter),
+        h('div', { class: 'top-left' }, h('div', { class: 'top-buttons' }, pause, map, this.moodButton), fluffMeter, this.tidy),
         this.tracker,
         h('div', { class: 'clock-box' }, this.clockLine = h('div', { class: 'clock-line', role: 'img', 'aria-label': clockLabel('Spring 1', '6:00 am', false, false) }, this.dayText, this.timeText), this.sparkleText)
       ),
@@ -122,6 +126,26 @@ export class Hud {
     this.setFluffIcon(tired);
     return tired;
   }
+
+  private tidy: HTMLElement;
+  private tidyFill: HTMLElement;
+  private tidyText: HTMLElement;
+
+  /** The tidy meter (play/tidy-meter.ts): a filling bar, the last few spots, or spotless. */
+  setTidy(m: Meter) {
+    this.tidy.hidden = m.kind === 'none';
+    if (m.kind === 'none') return;
+    const pct = m.kind === 'progress' ? m.pct : 100;
+    this.tidyFill.style.width = `${pct}%`;
+    this.tidy.classList.toggle('spotless', m.kind === 'spotless');
+    this.tidy.classList.toggle('done', m.kind !== 'progress');
+    const text = m.kind === 'progress' ? `🧹 ${pct}%` : m.kind === 'left' ? `🧹 ${m.left} left` : '✨ Spotless';
+    this.tidyText.textContent = text;
+    this.tidy.setAttribute('aria-valuenow', String(pct)); this.tidy.setAttribute('aria-valuetext', text.replace('🧹 ', ''));
+  }
+
+  /** A little bounce on the tidy meter (a quarter mark, the last spot). */
+  pulseTidy() { const el = this.tidy; el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }
 
   pulseFluff() {
     const el = this.fluffMeter;

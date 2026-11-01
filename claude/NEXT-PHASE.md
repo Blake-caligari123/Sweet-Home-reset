@@ -626,6 +626,18 @@ These are the places Blake said "dealer's choice". Each can be changed:
     A new test checks that any place named in a 📖 line is on that person's daily round.
   - **Friends** counts only folk who've arrived. Before, it said "8 more neighbours to meet" on day 5, counting newcomers still to come and Thimble.
   - **Code:** 14 exports used only in their own file are no longer exported (town and shared code; the frozen room game is left alone).
+- **Satisfaction 1: things to complete (1 Nov, Blake: "make it a real awesome game… tickle people's OCD and dopamine"):** always kind, never a penalty or a streak.
+  - **The tidy meter** sits under the Fluff bar (`play/tidy-meter.ts`, `tidy-meter-life.ts`):
+    - Before a place is restored, a bar fills toward 100%, with a ping and a toast at each quarter ("Halfway tidy!").
+    - After, it counts down the last spots ("3 left!").
+    - Clearing every last one makes the place **✨ Spotless**: a cheer and 5 ✨, once per place per day. Mess drifting back overnight is just tomorrow's chance.
+  - **The map** shows each place's tidy %, ✓ restored or ✨ spotless today, and a tally at the top ("4 of 9 places restored · ✨ 2 spotless today").
+  - **Collection sets** (`bloom/sets.ts`):
+    - Treasures, the Critter journal and a new **Fish log** (each kind caught, and where and when to cast for the rest).
+    - Each set has a filling bar and a **✓ Complete!** stamp.
+    - Finishing a set is a big moment, once: a fanfare and 150 ✨.
+  - **The journal** has a tally line: spotless today, and each set's count.
+  - Tour cards: 🧹 Tidy meter and spotless places, 🐟 Completing a collection.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
