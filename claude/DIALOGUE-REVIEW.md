@@ -1790,3 +1790,9 @@ For each step: who asks, the button, what they say, the tracker while waiting (c
 - `story.lighthouse.call`: Marlo is gazing up at the dark lighthouse.
 - `story.lighthouse.diary`: Marlo and I are going to light the lighthouse!
 - `story.lighthouse.tease`: Marlo keeps looking up at the old lighthouse...
+
+**The Deeps (6d.14)**
+- Drip Grumbles: "Plip." / "Hmph... all soggy." / "Ahh! Dry and cosy at last!" / hint "Something drippy is grumbling in the caves."
+- Otto's cold baths: "Help me find out why my baths are cold?" / "My baths have gone cold. Will you find out why?" / Moss: "The spring under the caves warms the baths. It's sleepy too." / Otto: "When the spring wakes, my baths will steam again! Thank you."
+- Warm stone: "A stone, still warm! Something deep below hums back." / "Smooth and warm. It opens a crack in the deepest cave."
+- Thimble's nook: "Carved by the armchair: 'Home is wherever someone waits. T.'"

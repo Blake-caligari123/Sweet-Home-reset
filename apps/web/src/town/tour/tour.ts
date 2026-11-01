@@ -202,5 +202,18 @@ export const TOUR: TourCard[] = [
   { title: '🦭 Marlo the harbour keeper', steps: ['Marlo the seal has moved into a hut up from the quay. Say hello!', 'Marlo loves mackerel, rain and a good storm (from inside). Talk each day for their story about a lamp that went out.', 'In a normal game, Marlo\'s letter washes up on the beach on day 50.'],
     setup: (s) => { s.day(51).time(9).flag('letter_marlo_1_read').flag('invite_marlo').flag('home_marlo').give('mackerel', 2); for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_sea_steps', 'sea_steps'], ['plot_harbour_gate', 'harbour_gate'], ['plot_harbour_hut', 'cottage_marlo']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 44, readyDay: 46 }; s.go('harbour'); } },
   { title: '💡 Light the lighthouse', steps: ['Marlo is by the hut: tap "📜 Help me light the old lighthouse?".', 'Tidy the beach, ask Mabel about the old lamp, make something at a workbench, then tell Marlo.', 'When it\'s done, the lighthouse shines in a short scene.'],
-    setup: (s) => { s.day(52).time(9).flag('letter_marlo_1_read').flag('invite_marlo').flag('home_marlo').meet('marlo', 'mabel').give('twig', 6).give('pebble', 2).sparkles(60); for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_sea_steps', 'sea_steps'], ['plot_harbour_gate', 'harbour_gate'], ['plot_harbour_hut', 'cottage_marlo']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 44, readyDay: 46 }; s.go('harbour'); } }
+    setup: (s) => { s.day(52).time(9).flag('letter_marlo_1_read').flag('invite_marlo').flag('home_marlo').meet('marlo', 'mabel').give('twig', 6).give('pebble', 2).sparkles(60); for (const [plot, b] of [['plot_footbridge', 'footbridge'], ['plot_sea_steps', 'sea_steps'], ['plot_harbour_gate', 'harbour_gate'], ['plot_harbour_hut', 'cottage_marlo']]) s.state.plots[plot] = { buildingId: b, stage: 2, startedDay: 44, readyDay: 46 }; s.go('harbour'); } },
+  { title: '🦇 Down in the Deeps', steps: ['In the caves: glow worms in the Glow Garden, and cave bats fluttering about.', 'The Warm Deep has a fishing spot in its pool: cast for a glowfin.', 'Pause → 📖 Collection says where each critter lives.'],
+    setup: (s) => { s.day(33).time(10).give('fishing_rod'); for (const f of ['cave_leaf_1', 'cave_leaf_2', 'cave_leaf_3', 'cave_leaf_4']) s.flag(f); s.go('cave_2'); } },
+  { title: '💧 Drip Grumbles', steps: ['From summer, a soggy blue-grey Grumble sulks in the caves.', 'Sponge it 3 times to dry it off and befriend it.'],
+    setup: (s) => { s.day(24).time(10); for (const f of ['cave_leaf_1', 'cave_leaf_2', 'cave_leaf_3', 'cave_leaf_4']) s.flag(f); s.go('cave_1'); } },
+  { title: '♨ Otto\'s cold baths', steps: ['Otto\'s baths have gone cold. Find Otto and tap "📜 Help me find out why my baths are cold?".', 'Spot a critter in the caves, catch a glowfin, ask Moss the next day, then tell Otto.'],
+    setup: (s) => { s.day(46).time(10).meet('otto', 'moss').give('fishing_rod'); for (const f of ['cave_leaf_1', 'cave_leaf_2', 'cave_leaf_3', 'cave_leaf_4']) s.flag(f); s.go('riverside'); } },
+  { title: '🏡 Thimble\'s nook', steps: ['You found a warm stone in the net loft. In the deepest cave, a crack has opened in the right-hand wall.', 'Step through to Thimble\'s own little home, read the carving by the armchair, and tidy it up.', 'In a normal game the stone turns up while tidying the net loft.'],
+    setup: (s) => {
+      s.day(47).time(10);
+      if (!s.state.finds.found.includes('warm_stone')) s.state.finds.found.push('warm_stone');
+      for (const f of ['cave_leaf_1', 'cave_leaf_2', 'cave_leaf_3', 'cave_leaf_4']) s.flag(f);
+      s.go('cave_4');
+    } }
 ];

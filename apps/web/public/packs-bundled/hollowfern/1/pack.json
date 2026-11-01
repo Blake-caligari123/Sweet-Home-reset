@@ -406,6 +406,13 @@
   },
   "lamp_key": {
    "name": "Lamp-room key"
+  },
+  "glowfin": {
+   "name": "Glowfin",
+   "sell": 45
+  },
+  "warm_stone": {
+   "name": "Warm stone"
   }
  },
  "areas": [
@@ -4127,6 +4134,12 @@
      "y": 10,
      "action": "hatch",
      "to": "cave_3"
+    },
+    {
+     "type": "fishing_spot",
+     "x": 11,
+     "y": 5,
+     "action": "fish"
     }
    ],
    "signs": [
@@ -4965,6 +4978,14 @@
      "to": "cave_3",
      "toX": 3,
      "toY": 9
+    },
+    {
+     "x": 19,
+     "y": 6,
+     "to": "thimble_nook",
+     "toX": 5,
+     "toY": 6,
+     "needsFind": "warm_stone"
     }
    ],
    "mess": [],
@@ -6051,6 +6072,116 @@
     "y": 6
    },
    "restoreReward": 120
+  },
+  {
+   "id": "thimble_nook",
+   "name": "Thimble's nook",
+   "kind": "home",
+   "drained": true,
+   "edge": "#534239",
+   "theme": {
+    "wall": "#E9DCF0",
+    "wallAccent": "#DCCBE6",
+    "floor": "#C9A98E",
+    "floorShade": "#B8957A",
+    "rug": "#B8A9CF",
+    "rugShade": "#A393BF"
+   },
+   "legend": {
+    "#": "wall",
+    ".": "wood",
+    ",": "rug",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "############",
+    "############",
+    "#..........#",
+    "#..........#",
+    "#...,,,,...#",
+    "#...,,,,...#",
+    "#..........#",
+    "#####m######"
+   ],
+   "props": [
+    {
+     "type": "armchair",
+     "x": 2,
+     "y": 2
+    },
+    {
+     "type": "table",
+     "x": 5,
+     "y": 4
+    },
+    {
+     "type": "lamp",
+     "x": 9,
+     "y": 2
+    },
+    {
+     "type": "shelf",
+     "x": 6,
+     "y": 2,
+     "w": 2
+    },
+    {
+     "type": "plant",
+     "x": 10,
+     "y": 5
+    },
+    {
+     "type": "carving",
+     "x": 4,
+     "y": 2,
+     "action": "sign"
+    }
+   ],
+   "signs": [
+    {
+     "x": 4,
+     "y": 2,
+     "text": "Carved by the armchair: 'Home is wherever someone waits. T.'"
+    }
+   ],
+   "doors": [
+    {
+     "x": 5,
+     "y": 7,
+     "to": "cave_4",
+     "toX": 18,
+     "toY": 6
+    }
+   ],
+   "mess": [
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      2,
+      10,
+      5
+     ],
+     "density": 0.3,
+     "seed": 221
+    },
+    {
+     "type": "cobweb",
+     "x": 1,
+     "y": 3
+    },
+    {
+     "type": "cobweb",
+     "x": 10,
+     "y": 3
+    }
+   ],
+   "spawn": {
+    "x": 5,
+    "y": 6
+   },
+   "restoreReward": 150
   }
  ],
  "neighbours": [
@@ -11255,7 +11386,16 @@
    "story.marlo.tease": "A letter on the beach smells faintly of the sea...",
    "story.lighthouse.call": "Marlo is gazing up at the dark lighthouse.",
    "story.lighthouse.diary": "Marlo and I are going to light the lighthouse!",
-   "story.lighthouse.tease": "Marlo keeps looking up at the old lighthouse..."
+   "story.lighthouse.tease": "Marlo keeps looking up at the old lighthouse...",
+   "grumble.drip.before.1": "Plip.",
+   "grumble.drip.before.2": "Hmph... all soggy.",
+   "grumble.drip.after.1": "Ahh! Dry and cosy at last!",
+   "grumble.drip.hint": "Something drippy is grumbling in the caves.",
+   "quest.warm_baths.intro": "My baths have gone cold. Will you find out why?",
+   "quest.warm_baths.moss": "The spring under the caves warms the baths. It's sleepy too.",
+   "quest.warm_baths.done": "When the spring wakes, my baths will steam again! Thank you.",
+   "find.warm_stone": "A stone, still warm! Something deep below hums back.",
+   "find.warm_stone.about": "Smooth and warm. It opens a crack in the deepest cave."
   }
  },
  "heartEvents": [
@@ -14416,7 +14556,8 @@
     "mushroom",
     "mushroom_soup",
     "mackerel",
-    "lobster"
+    "lobster",
+    "glowfin"
    ]
   },
   {
@@ -15239,6 +15380,18 @@
    "tint": "#A9CDA0"
   },
   {
+   "id": "drip",
+   "tool": "sponge",
+   "hits": 3,
+   "areas": [
+    "cave_1",
+    "cave_2",
+    "cave_3"
+   ],
+   "unlock": "grumble_drip",
+   "tint": "#8FA6C0"
+  },
+  {
    "id": "leaf",
    "tool": "rake",
    "hits": 3,
@@ -15831,6 +15984,13 @@
    "name": "Lamp-room key",
    "areas": [
     "harbour"
+   ]
+  },
+  {
+   "id": "warm_stone",
+   "name": "Warm stone",
+   "areas": [
+    "net_loft"
    ]
   }
  ],
@@ -17087,6 +17247,55 @@
     "qty": 1,
     "flag": "lighthouse_lit"
    }
+  },
+  {
+   "id": "warm_baths",
+   "name": "Otto's cold baths",
+   "giver": "otto",
+   "fromDay": 46,
+   "offer": "Help me find out why my baths are cold?",
+   "intro": "quest.warm_baths.intro",
+   "steps": [
+    {
+     "hint": "Spot a critter down in the caves",
+     "goal": {
+      "type": "spotted",
+      "count": 1
+     }
+    },
+    {
+     "hint": "Catch a glowfin in the Warm Deep's pool",
+     "goal": {
+      "type": "caught",
+      "count": 1
+     }
+    },
+    {
+     "hint": "Ask Moss why the baths went cold",
+     "goal": {
+      "type": "talk",
+      "who": "moss",
+      "ask": "Why did the baths go cold?",
+      "line": "quest.warm_baths.moss"
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Tell Otto what you learned",
+     "goal": {
+      "type": "talk",
+      "who": "otto",
+      "ask": "The spring will warm again!",
+      "line": "quest.warm_baths.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 180,
+    "item": "honey",
+    "qty": 1,
+    "flag": "warm_baths_done"
+   }
   }
  ],
  "cafe": {
@@ -17160,6 +17369,12 @@
     "harbour"
    ],
    "time": "night"
+  },
+  {
+   "id": "glowfin",
+   "areas": [
+    "cave_2"
+   ]
   }
  ],
  "critters": [
@@ -17420,6 +17635,28 @@
    ],
    "time": "day",
    "hint": "Drying its wings by the sea, any day"
+  },
+  {
+   "id": "glow_worm",
+   "name": "Glow worm",
+   "kind": "firefly",
+   "colour": "#9FD8E8",
+   "areas": [
+    "cave_3"
+   ],
+   "hint": "Any time, glowing in the Glow Garden"
+  },
+  {
+   "id": "cave_bat",
+   "name": "Cave bat",
+   "kind": "bird",
+   "colour": "#4A3F55",
+   "areas": [
+    "cave_1",
+    "cave_2",
+    "cave_4"
+   ],
+   "hint": "Fluttering about the caves, any time"
   }
  ],
  "animals": [
