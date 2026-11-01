@@ -13,6 +13,9 @@ export const TOUR: TourCard[] = [
     setup: (s) => { s.playScene('opening'); } },
   { title: '🎞 Chapter cutscenes', steps: ['It\'s the last night of spring. Go to bed (tap the burrow bed).', 'In the morning, summer opens: a title card, then the fountain\'s sleepy voice leads across the water. Sound on!', 'Pause → 📔 Keeper\'s journal → Memories plays any you\'ve seen again.'],
     setup: (s) => { s.state.story = { step: 14, asked: false, count: 0, day: 14 }; s.day(14).time(21).flag('keeper_named').go('burrow'); } },
+  { title: '🏡 A newcomer arrives', steps: ['Wren\'s cottage is finished tonight. Go to bed (tap the burrow bed).', 'In the morning Wren crosses the bridge and Pip runs to meet them. Sorrel, Fig and Juniper each get their own arrival too.', 'Pause → 📔 Keeper\'s journal → Memories plays it again.'],
+    setup: (s) => { s.day(31).time(21).flag('keeper_named').flag('letter_wren_1_read').flag('invite_wren').flag('home_wren').flag('welcome_wren').meet('pip');
+      s.state.plots.plot_far_bank_cottage = { buildingId: 'cottage_wren', stage: 2, startedDay: 29, readyDay: 31 }; s.go('burrow'); } },
   { title: '📖 The Keeper\'s Story', steps: ['The 📖 line at the top is today\'s story step: Otto has something for you. Talk to him and tap "📖 What\'s that you\'ve got?", then catch a fish.', 'Tap the 📖 line (or Pause → 📔 Keeper\'s journal) for the story so far.', 'Go to bed: a hint at tomorrow shows as night falls.'],
     setup: (s) => { s.state.story = { step: 4, asked: false, count: 0, day: 4 }; s.state.fishCaught = 0; s.day(5).time(9).flag('keeper_named').meet('hazel', 'bea', 'pip', 'otto').go('riverside'); } },
   { title: '🗺 Getting around', steps: ['Tap 🗺 (top left) and pick a place to travel there.', 'Pause → Joystick: drag anywhere to walk.', 'Pinch (or the mouse wheel) to zoom.'],

@@ -3,6 +3,7 @@ import type { Conversations } from '../neighbours/conversations';
 import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import type { Button, View } from '../ui/view';
+import { afterDue } from './scenes';
 import { done, hear, met, needsAsking, openingDue, passed, seenFlag, today, tomorrow, type StoryDef, type StoryFacts, type StoryStep } from './path';
 
 export interface StoryHost { state: TownState; content: Content; view: View; talk: Conversations; day(): number; refreshHud(): void; save(): void;
@@ -69,8 +70,12 @@ export class StoryPath {
     if (step.scene) this.host.playScene(step.scene);
   }
 
-  /** In the morning, before the news: a new chapter's opening scene, once. */
-  sceneDue() { return openingDue(this.def, this.host.state.story, this.host.day(), (id) => this.host.state.has(seenFlag(id))); }
+  /** In the morning, before the news: a new chapter's opening scene, or a newcomer arriving, once each. */
+  sceneDue() {
+    const { state, content } = this.host;
+    const seen = (id: string) => state.has(seenFlag(id));
+    return openingDue(this.def, state.story, this.host.day(), seen) ?? afterDue(content.pack.scenes ?? [], (f) => state.has(f), seen);
+  }
 
   /** Someone's waiting to ask (a quest step is open until the quest is taken on, then it's done). */
   private calling(step: StoryStep) { return needsAsking(step, this.host.state.story) || step.goal.type === 'quest'; }

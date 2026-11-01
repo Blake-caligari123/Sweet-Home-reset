@@ -24,6 +24,7 @@ export function overnight(state: TownState, pack: { buildings: BuildingDef[]; pl
   }
   regrow(state.caves, endedDay + 1);
   const finished = resolveBuilds(state.plots, pack.buildings, endedDay).flatMap((id) => pack.buildings.filter((b) => b.id === state.plots[id].buildingId));
-  for (const b of finished) if (b.effect === 'home' && b.home) state.flag(`home_${b.home}`);
+  // Moved in: home_ for good, and welcome_ for the arrival scene the next morning (story/scenes.ts `after`).
+  for (const b of finished) if (b.effect === 'home' && b.home) { state.flag(`home_${b.home}`); state.flag(`welcome_${b.home}`); }
   return finished;
 }

@@ -74,8 +74,15 @@ export interface Shot {
   captions: [number, string][];
 }
 
-/** `title`: a title card (text id) over the start; `name`: what the journal's Memories calls it (the title if none). */
-export interface SceneDef { id: string; title?: string; name?: string; shots: Shot[] }
+/**
+ * `title`: a title card (text id) over the start; `name`: what the journal's Memories calls it
+ * (the title if none); `after`: plays the first morning this flag is set (a newcomer moving in).
+ */
+export interface SceneDef { id: string; title?: string; name?: string; after?: string; shots: Shot[] }
+
+/** The first scene waiting on a flag that's now set, and not yet seen. */
+export const afterDue = (scenes: SceneDef[], has: (flag: string) => boolean, seen: (id: string) => boolean) =>
+  scenes.find((s) => s.after && has(s.after) && !seen(s.id))?.id ?? null;
 
 /** How long a scene's title card stays up. */
 export const TITLE_MS = 4000;

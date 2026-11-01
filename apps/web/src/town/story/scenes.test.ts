@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { Area } from '../data/area';
 import { SOUND_IDS } from '../../shared/audio/sound';
-import { captionAt, captionHolds, colourAt, ease, facing, hopping, fadeAt, minutesAt, nextCaption, pointAt, sceneLength, soundsBetween, TITLE_MS, zoomAt, type Key, type SceneDef, type Shot, type ShotColour } from './scenes';
+import { afterDue, captionAt, captionHolds, colourAt, ease, facing, hopping, fadeAt, minutesAt, nextCaption, pointAt, sceneLength, soundsBetween, TITLE_MS, zoomAt, type Key, type SceneDef, type Shot, type ShotColour } from './scenes';
 
 const walk: Key[] = [[2, 4, 0], [6, 4, 2000], [6, 8, 4000]];
 
@@ -35,6 +35,13 @@ describe('scene timeline', () => {
     const b: ShotColour = { kind: 'bloom', from: [4, 8], start: 0, end: 2000, reach: 5 };
     expect(colourAt(b, 4, 8, 1000)).toBe(1); expect(colourAt(b, 12, 8, 1000)).toBe(0);
     expect(colourAt(b, 4, 12, 2000)).toBe(1); expect(colourAt(b, 4, 15, 2000)).toBe(0);
+  });
+
+  it('plays a scene waiting on a flag the first morning it\'s set, once', () => {
+    const scenes: SceneDef[] = [{ id: 'a', shots: [] }, { id: 'b', after: 'welcome_fig', shots: [] }];
+    expect(afterDue(scenes, () => false, () => false)).toBeNull();
+    expect(afterDue(scenes, (f) => f === 'welcome_fig', () => false)).toBe('b');
+    expect(afterDue(scenes, (f) => f === 'welcome_fig', (id) => id === 'b')).toBeNull();
   });
 
   it('pushes in and pulls back smoothly, and plays each sound once as the moment passes', () => {
@@ -106,6 +113,23 @@ describe('Hollowfern opening', () => {
     const story = pack.story!;
     for (const c of story.chapters.slice(1)) expect((pack.scenes ?? []).some((x) => x.id === c.scene), c.id).toBe(true);
     expect(story.steps.filter((x) => x.scene).map((x) => x.id)).toEqual(['fair', 'picnic', 'leaf_fest']);
+  });
+
+  it('walks each newcomer up to their new cottage, never through it, the morning after it\'s built', () => {
+    const arrivals = (pack.scenes ?? []).filter((x) => x.after?.startsWith('welcome_'));
+    expect(arrivals.map((x) => x.after)).toEqual(['welcome_sorrel', 'welcome_fig', 'welcome_wren', 'welcome_juniper']);
+    for (const sc of arrivals) {
+      const who = sc.after!.replace('welcome_', '');
+      const plot = pack.plots!.find((pl) => pl.allow?.includes(`cottage_${who}`))!;
+      const shot = sc.shots[0];
+      expect(shot.area, who).toBe(plot.area);
+      for (const a of shot.actors ?? []) for (let ms = 0; ms < shot.ms; ms += 100) {
+        const p = pointAt(a.path, ms); const x = Math.round(p.x); const y = Math.round(p.y);
+        expect(x >= plot.x && x < plot.x + plot.w && y >= plot.y && y < plot.y + plot.h, `${who} ${a.who} ${x},${y}`).toBe(false);
+      }
+      const end = shot.actors![0].path.at(-1)!;
+      expect(end[1], `${who} stops in front`).toBe(plot.y + plot.h); // at the front door
+    }
   });
 
   it('carries the sparkle through real doors: out of the square, across the yard, into the burrow', () => {
