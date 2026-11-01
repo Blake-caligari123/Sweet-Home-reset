@@ -103,7 +103,9 @@
    "name": "River stone"
   },
   "mushroom": {
-   "name": "Mushroom"
+   "name": "Mushroom",
+   "snack": 18,
+   "sell": 26
   },
   "tea": {
    "name": "Tea leaves"
@@ -382,6 +384,17 @@
    "name": "Plum",
    "snack": 25,
    "sell": 24
+  },
+  "mushroom_spores": {
+   "name": "Mushroom spores"
+  },
+  "mushroom_soup": {
+   "name": "Mushroom soup",
+   "snack": 45,
+   "sell": 60
+  },
+  "brass_acorn": {
+   "name": "Brass acorn"
   }
  },
  "areas": [
@@ -4435,7 +4448,8 @@
     "p": "path",
     "f": "flowers",
     "~": "water",
-    "j": "wood"
+    "j": "wood",
+    "s": "soil"
    },
    "map": [
     "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
@@ -4569,6 +4583,14 @@
      "toX": 1,
      "toY": 8,
      "closedText": "Old steps lead up a hill, all tumbled. Maybe in autumn."
+    },
+    {
+     "x": 29,
+     "y": 5,
+     "to": "glade",
+     "toX": 1,
+     "toY": 5,
+     "needsFind": "brass_acorn"
     }
    ],
    "mess": [
@@ -5572,6 +5594,150 @@
     "y": 8
    },
    "restoreReward": 150
+  },
+  {
+   "id": "glade",
+   "name": "The Quiet Glade",
+   "kind": "outdoor",
+   "drained": true,
+   "edge": "#79B176",
+   "theme": {
+    "wall": "#F7D2BF",
+    "wallAccent": "#F4C2A8",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#A9CDA0",
+    "rugShade": "#79B176"
+   },
+   "legend": {
+    "h": "hedge",
+    "g": "grass",
+    "p": "path",
+    "f": "flowers"
+   },
+   "map": [
+    "hhhhhhhhhhhhhhhh",
+    "hggggggggggggggh",
+    "hggggfgggggfgggh",
+    "hggggggggggggggh",
+    "hgggggppppgggggh",
+    "pppppppggppggggh",
+    "hgggggppppgggggh",
+    "hggggggggggggggh",
+    "hggfgggggggggfgh",
+    "hhhhhhhhhhhhhhhh"
+   ],
+   "props": [
+    {
+     "type": "tree",
+     "x": 1,
+     "y": 1,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 12,
+     "y": 1,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 1,
+     "y": 7,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "tree",
+     "x": 12,
+     "y": 7,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "type": "carving",
+     "x": 8,
+     "y": 3,
+     "action": "sign"
+    },
+    {
+     "type": "bench",
+     "x": 7,
+     "y": 7,
+     "w": 2
+    },
+    {
+     "type": "bush",
+     "x": 5,
+     "y": 2
+    },
+    {
+     "type": "bush",
+     "x": 10,
+     "y": 8
+    }
+   ],
+   "signs": [
+    {
+     "x": 8,
+     "y": 3,
+     "text": "On a mossy stone: 'Every song starts somewhere quiet. T.'"
+    }
+   ],
+   "doors": [
+    {
+     "x": 0,
+     "y": 5,
+     "to": "woodland",
+     "toX": 28,
+     "toY": 5
+    }
+   ],
+   "mess": [
+    {
+     "type": "leaves",
+     "rect": [
+      1,
+      1,
+      14,
+      8
+     ],
+     "density": 0.12,
+     "seed": 191
+    },
+    {
+     "type": "weeds",
+     "rect": [
+      1,
+      1,
+      14,
+      8
+     ],
+     "density": 0.06,
+     "seed": 193
+    }
+   ],
+   "pickups": [
+    {
+     "id": "glade_mushroom_1",
+     "x": 4,
+     "y": 6,
+     "item": "mushroom"
+    },
+    {
+     "id": "glade_mushroom_2",
+     "x": 11,
+     "y": 4,
+     "item": "mushroom"
+    }
+   ],
+   "spawn": {
+    "x": 1,
+    "y": 5
+   },
+   "restoreReward": 100
   }
  ],
  "neighbours": [
@@ -10311,7 +10477,15 @@
    "scene.thimble_wakes.2": "Far below, the warm spring stirs...",
    "scene.thimble_wakes.3": "“The town glows. I'm awake!”",
    "scene.thimble_wakes.4": "Thimble turns around, and smiles at everyone.",
-   "scene.thimble_wakes.5": "“Thank you, Keeper. I've missed you all so.”"
+   "scene.thimble_wakes.5": "“Thank you, Keeper. I've missed you all so.”",
+   "build.done.mushroom_logs": "The mushroom logs are set! Mushrooms grow in the shade.",
+   "crop.mushroom.harvest": "Mushrooms! Earthy and good.",
+   "grumble.leaf.before.1": "Crunch.",
+   "grumble.leaf.before.2": "Hmph... all in a heap.",
+   "grumble.leaf.after.1": "Rustle! Neat and tidy, thank you!",
+   "grumble.leaf.hint": "Something crunchy is grumbling in the woods.",
+   "find.brass_acorn": "A little brass acorn! The hedge rustles. A way through?",
+   "find.brass_acorn.about": "Warm to hold. It opens the way to the quiet glade."
   }
  },
  "heartEvents": [
@@ -13195,6 +13369,16 @@
      "kind": "animal",
      "price": 350,
      "fromDay": 14
+    },
+    {
+     "item": "mushroom_spores",
+     "price": 40,
+     "qty": 3,
+     "fromDay": 29,
+     "seasons": [
+      "Spring",
+      "Autumn"
+     ]
     }
    ],
    "buys": [
@@ -13230,7 +13414,9 @@
     "pancakes",
     "watercress",
     "pear",
-    "plum"
+    "plum",
+    "mushroom",
+    "mushroom_soup"
    ]
   },
   {
@@ -13515,6 +13701,19 @@
     "hill_steps"
    ],
    "unlock": "hill_steps"
+  },
+  {
+   "id": "plot_mushroom_logs",
+   "name": "In the shade",
+   "area": "woodland",
+   "x": 10,
+   "y": 12,
+   "w": 3,
+   "h": 2,
+   "allow": [
+    "mushroom_logs"
+   ],
+   "unlock": "mushroom_logs"
   }
  ],
  "buildings": [
@@ -13892,6 +14091,25 @@
     }
    ],
    "project": true
+  },
+  {
+   "id": "mushroom_logs",
+   "name": "Mushroom logs",
+   "nights": 1,
+   "cost": {
+    "sparkles": 80,
+    "items": {
+     "twig": 6
+    }
+   },
+   "prop": {
+    "type": "bed_edge",
+    "w": 3,
+    "h": 2,
+    "walkable": true
+   },
+   "paves": "s",
+   "effect": "waters_nearby"
   }
  ],
  "grumbleFamilies": [
@@ -13950,6 +14168,17 @@
    ],
    "unlock": "grumble_reed",
    "tint": "#A9CDA0"
+  },
+  {
+   "id": "leaf",
+   "tool": "rake",
+   "hits": 3,
+   "areas": [
+    "woodland",
+    "orchard_hill"
+   ],
+   "unlock": "grumble_leaf",
+   "tint": "#D9894A"
   }
  ],
  "pets": [
@@ -14332,6 +14561,20 @@
     }
    },
    "learn": "he_pip_04_done"
+  },
+  {
+   "id": "mushroom_soup",
+   "name": "Mushroom soup",
+   "station": "kitchen",
+   "makes": {
+    "item": "mushroom_soup",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "mushroom": 2
+    }
+   }
   }
  ],
  "crops": [
@@ -14402,6 +14645,18 @@
    ],
    "areas": [
     "riverside"
+   ]
+  },
+  {
+   "id": "mushroom",
+   "seed": "mushroom_spores",
+   "look": "cap",
+   "seasons": [
+    "Spring",
+    "Autumn"
+   ],
+   "areas": [
+    "woodland"
    ]
   }
  ],
@@ -14482,6 +14737,13 @@
    "name": "Old boathouse key",
    "areas": [
     "far_bank"
+   ]
+  },
+  {
+   "id": "brass_acorn",
+   "name": "Brass acorn",
+   "areas": [
+    "woodland"
    ]
   }
  ],
@@ -15870,6 +16132,64 @@
    ],
    "time": "day",
    "hint": "On the Far Bank in spring"
+  },
+  {
+   "id": "woodpecker",
+   "name": "Woodpecker",
+   "kind": "bird",
+   "colour": "#C26A4A",
+   "areas": [
+    "woodland"
+   ],
+   "seasons": [
+    "Spring",
+    "Summer",
+    "Autumn"
+   ],
+   "time": "day",
+   "hint": "Tapping in the woods, spring to autumn days"
+  },
+  {
+   "id": "stag_beetle",
+   "name": "Stag beetle",
+   "kind": "beetle",
+   "colour": "#6E5240",
+   "areas": [
+    "woodland"
+   ],
+   "seasons": [
+    "Summer"
+   ],
+   "time": "day",
+   "hint": "Summer days at the Woodland Edge"
+  },
+  {
+   "id": "copper_moth",
+   "name": "Copper moth",
+   "kind": "butterfly",
+   "colour": "#D9894A",
+   "areas": [
+    "woodland",
+    "orchard_hill"
+   ],
+   "seasons": [
+    "Summer",
+    "Autumn"
+   ],
+   "time": "night",
+   "hint": "Summer and autumn nights, woods or hill"
+  },
+  {
+   "id": "owl",
+   "name": "Little owl",
+   "kind": "bird",
+   "colour": "#B8A48C",
+   "areas": [
+    "orchard_hill",
+    "woodland"
+   ],
+   "time": "night",
+   "hint": "Any night up on Orchard Hill"
   }
  ],
  "animals": [

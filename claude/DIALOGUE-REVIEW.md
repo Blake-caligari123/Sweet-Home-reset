@@ -1665,3 +1665,9 @@ For each step: who asks, the button, what they say, the tracker while waiting (c
 - **The humming stone**: "At dusk on the hill, Juniper plays the old song..." / "Three notes, then a fourth. Again, softer." / "...and the old stone hums it back!" / "Deep under the hill, the warm water answers."
 - **Thimble's last carving**: "Down in the deepest cave, the spring is barely warm." / ""I rest by the warm spring. Wake me when the town glows."" / "And there, curled up by the water..." / "...is Thimble, fast asleep. Shh. Not yet."
 - **Thimble wakes**: "Every lantern in {town} is glowing." / "Far below, the warm spring stirs..." / “The town glows. I'm awake!” / "Thimble turns around, and smiles at everyone." / “Thank you, Keeper. I've missed you all so.”
+
+**Woodland's own (6d.11)**
+- Leaf Grumbles: "Crunch." / "Hmph... all in a heap." / "Rustle! Neat and tidy, thank you!" / hint "Something crunchy is grumbling in the woods."
+- Mushrooms: "Mushrooms! Earthy and good." / built: "The mushroom logs are set! Mushrooms grow in the shade."
+- Brass acorn: "A little brass acorn! The hedge rustles. A way through?" / about: "Warm to hold. It opens the way to the quiet glade."
+- The glade's stone: "On a mossy stone: 'Every song starts somewhere quiet. T.'"

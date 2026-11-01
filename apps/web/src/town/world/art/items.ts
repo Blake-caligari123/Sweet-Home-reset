@@ -126,6 +126,9 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'plum': pc.ellipseBox(ox + 7, oy + 8, 4, 4, '#8E6FA8', P.outline); pc.vline(ox + 7, oy + 2, 2, P.brown); pc.set(ox + 8, oy + 3, P.sage); pc.set(ox + 5, oy + 6, P.white); break;
     case 'watercress': for (const [x, y] of [[4, 8], [7, 5], [10, 8], [7, 10]]) { pc.ellipseBox(ox + x, oy + y, 2, 2, P.sage, P.outline); pc.set(ox + x - 1, oy + y - 1, P.sageLight); } pc.vline(ox + 7, oy + 11, 3, P.sageShade); break;
     case 'watercress_seeds': b(3, 1, 8, 12, P.blueLight, 1); for (const [x, y] of [[6, 6], [8, 7]]) pc.ellipseBox(ox + x, oy + y, 1, 1, P.sage, P.outline); pc.vline(ox + 7, oy + 2, 2, P.sage); break;
+    case 'mushroom_spores': b(3, 1, 8, 12, P.brownLight, 1); pc.ellipseBox(ox + 7, oy + 7, 2, 1, P.cream, P.outline); for (const [x, y] of [[5, 10], [9, 10], [7, 11]]) pc.set(ox + x, oy + y, P.cream); break;
+    case 'mushroom_soup': pc.ellipseBox(ox + 7, oy + 9, 6, 3, P.cream, P.outline); pc.ellipse(ox + 7, oy + 8, 5, 1, P.brownLight); pc.set(ox + 5, oy + 8, P.cream); pc.set(ox + 9, oy + 8, P.sage); for (const x of [5, 9]) pc.vline(ox + x, oy + 2, 3, P.white); break;
+    case 'brass_acorn': pc.ellipseBox(ox + 7, oy + 9, 3, 4, P.butterShade, P.outline); pc.ellipseBox(ox + 7, oy + 5, 4, 2, P.brownShade, P.outline); pc.vline(ox + 7, oy + 1, 2, P.brownShade); pc.set(ox + 6, oy + 8, P.butterLight); break;
     case 'rare_seeds': b(3, 1, 8, 12, P.blueLight, 1); pc.ellipseBox(ox + 7, oy + 6, 2, 2, P.butter, P.outline); pc.set(ox + 7, oy + 6, P.white); pc.vline(ox + 7, oy + 2, 2, P.sage); break;
     case 'button': pc.ellipseBox(ox + 7, oy + 7, 4, 4, P.peach, P.outline); for (const [x, y] of [[6, 6], [8, 6], [6, 8], [8, 8]]) pc.set(ox + x, oy + y, P.peachShade); break;
     case 'silk_thread': b(4, 3, 6, 9, P.brownLight, 1); pc.rect(ox + 5, oy + 5, 4, 5, P.white); pc.line(ox + 9, oy + 7, ox + 12, oy + 11, P.white); break;
@@ -225,6 +228,9 @@ export function drawCrop(stage: number, watered: boolean, look = 'round') {
     case 'stalk': // corn: a tall stalk with a golden cob
       pc.vline(8, 1, 13, P.sageShade); pc.line(8, 6, 4, 3, P.sage); pc.line(8, 9, 12, 5, P.sage);
       pc.ellipseBox(10, 9, 1, 3, P.butter, P.outline);
+      break;
+    case 'cap': // mushrooms: three little caps on pale stems, peeping out of the soil
+      for (const [x, y, r] of [[5, 10, 3], [10, 8, 3], [9, 12, 2]]) { pc.rect(x - 1, y, 2, 3, P.cream); pc.ellipseBox(x, y, r, 2, P.brownLight, P.outline); pc.set(x - 1, y - 1, P.cream); }
       break;
     case 'leaf': // watercress: a low clump of round leaves
       for (const [x, y] of [[5, 9], [8, 7], [11, 9], [6, 12], [10, 12], [8, 10]]) { pc.ellipseBox(x, y, 2, 2, P.sage, P.outline); pc.set(x - 1, y - 1, P.sageLight); }

@@ -1,7 +1,7 @@
 import type { TownState } from '../state';
 
 /** The Grumble families after dust, each pointed to until Puff first befriends one. */
-const LATER_GRUMBLES = ['cobweb', 'mud', 'soot', 'reed'];
+const LATER_GRUMBLES = ['cobweb', 'mud', 'soot', 'reed', 'leaf'];
 
 /** Repairs as they come due: [unlock key, plot, tracker hint]. */
 const REPAIRS = [['footbridge', 'plot_footbridge', 'repair.hint'], ['overgrown_path', 'plot_overgrown_path', 'repair.overgrown_path.hint'], ['sea_steps', 'plot_sea_steps', 'repair.sea_steps.hint'], ['hill_steps', 'plot_hill_steps', 'repair.hill_steps.hint']];
