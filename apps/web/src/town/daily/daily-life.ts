@@ -97,13 +97,16 @@ export class DailyGoalsLife {
 
   /** The morning's lines: the week's three on its first morning (or the first day there are any), then today's three. */
   morning(): string[] {
-    const week = this.weekly.length && ((this.h.day() - 1) % 7 === 0 || this.h.day() === 3) ? [`📅 This week: ${this.weekly.map((g) => this.text(g)).join(' · ')}`] : [];
+    const week = this.weekly.length && ((this.h.day() - 1) % 7 === 0 || this.h.day() === 3) ? [`📅 This week: ${this.weekly.map((g) => this.text(g).replace(/ this week$/, '')).join(' · ')}`] : [];
     return [...week, ...(this.goals.length ? [`🎯 Today's goals: ${this.goals.map((g) => this.text(g)).join(' · ')}`] : [])];
   }
 
+  /** Today's goals done, of how many (the HUD chip). */
+  progress(): [number, number] { return [this.goals.filter(goalDone).length, this.goals.length]; }
+
   /** For the journal: each goal ticked or with its count so far. */
   lines(): string[] { return this.goals.map((g) => this.line(g)); }
-  weekLines(): string[] { return this.weekly.map((g) => this.line(g)); }
+  weekLines(): string[] { return this.weekly.map((g) => this.line(g).replace(' this week', '')); }
 
   private line(g: Goal) { return goalDone(g) ? `✅ ${this.text(g)}` : `⬜ ${this.text(g)}${kindOf(g).count > 1 ? ` (${g.have}/${kindOf(g).count})` : ''}`; }
 }

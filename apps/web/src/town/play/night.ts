@@ -5,6 +5,7 @@ import type { Jobs } from '../requests/jobs';
 import type { TownState } from '../state';
 import { newJobsLine } from '../ui/a11y';
 import type { View } from '../ui/view';
+import { openMorning } from '../ui/morning-card';
 import type { TownAreas } from '../world/town-areas';
 import type { Clock } from './clock';
 import { morningLetter } from './letter';
@@ -37,15 +38,18 @@ export function passNight(h: NightHost, dozed: boolean): { built: BuildingDef[];
   return { built, rested };
 }
 
-/** Awake: the morning letter, then a new season or rain, then what was built overnight and the town's news (needs met, neighbours helping); the unlock postcard on top when it's due. */
+/** Awake: one Good morning card with the date and sky, Puff's note, and today's news; the unlock postcard after it when it's due. */
 export function morning(h: { state: TownState; view: View; clock: Clock; content: Content; refreshHud(): void; offer(): void }, night: { built: BuildingDef[]; rested: boolean; news: string[] }) {
   const { built } = night;
-  const { view, content } = h;
-  morningLetter(h);
-  for (const [kind, id] of morningNews(h.clock)) (kind === 'banner' ? view.banner : view.say).call(view, content.line(id) ?? '');
+  const { view, content, clock } = h;
+  const letter = morningLetter(h);
+  const news = morningNews(clock).map(([, id]) => content.named(content.line(id) ?? ''));
+  const season = clock.dayOfSeason === 1 && clock.state.day > 1 ? news.shift() ?? null : null;
+  const sky = news.length ? news.join(' ') : '☀ Sunny';
+  const builtLines = built.map((b) => b.home ? content.line(`home.${b.home}`) ?? '' : content.line(`build.done.${b.id}`) ?? (content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
   // Unaccepted jobs come down each night, so every one up now is new today.
-  view.hud.announce(newJobsLine(h.state.requests.list.filter((r) => !r.accepted).length));
-  for (const b of built) view.banner(b.home ? content.line(`home.${b.home}`) ?? '' : content.line(`build.done.${b.id}`) ?? (content.line('build.done') ?? '').replace('{building}', b.name.toLowerCase()));
-  for (const line of night.news) view.banner(line);
-  if (night.rested && offerTonight(h.state.restNights)) h.offer();
+  const jobs = newJobsLine(h.state.requests.list.filter((r) => !r.accepted).length);
+  view.hud.announce(jobs);
+  openMorning(view, { date: `${clock.season} ${clock.dayOfSeason}`, sky, season, note: letter.note, lines: [...builtLines.map((l) => `🏡 ${l}`), ...night.news, ...(jobs ? [`📋 ${jobs}`] : [])] },
+    letter, () => { if (night.rested && offerTonight(h.state.restNights)) h.offer(); });
 }

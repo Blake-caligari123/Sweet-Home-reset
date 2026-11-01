@@ -144,7 +144,8 @@ export class TownGame {
       pause: () => { this.view.uiTap(); this.menus.openPause(); },
       map: () => { this.view.uiTap(); if (!this.dash.active) this.menus.openMap(); },
       mood: () => { this.view.uiTap(); this.systems.moods.say(); },
-      tracker: (text) => { this.view.uiTap(); if (!text.startsWith('📖')) return false; this.menus.openJournal(); return true; }
+      tracker: (text) => { this.view.uiTap(); if (!text.startsWith('📖')) return false; this.menus.openJournal(); return true; },
+      goals: () => { this.view.uiTap(); this.menus.openJournal(); }
     });
     this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress, () => this.state.names.puff);
     /** What most parts of the game share. */
@@ -374,6 +375,7 @@ export class TownGame {
     const { state, view } = this;
     view.hold();
     this.fading = true;
+    view.clearBanners();
     this.puff.pose = 'sleep';
     if (dozed) view.say('Zzz... just resting my fluff.');
     await wait(dozed ? 1400 : 300);
@@ -488,6 +490,7 @@ export class TownGame {
     if (!owned.includes(this.selected)) this.selected = owned[0];
     this.hud.setTools(owned, this.selected, this.state.tools);
     this.hud.setSparkles(this.state.sparkles);
+    this.hud.setGoals(...this.systems.goals.progress());
     this.systems.moods.show();
     this.guide.unstick();
     this.systems.story.check();

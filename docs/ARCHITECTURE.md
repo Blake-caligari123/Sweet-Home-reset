@@ -100,6 +100,7 @@ town/
   daily/        goals.ts (today's three little goals: kinds, picking, counting), daily-life.ts (the cheers, the morning
                 line, the journal list), happenings.ts (the day's happening: which, and its goal), happening-life.ts
                 (setting it up: leaves blown in, a lost thing dropped; the give-back button; sparkle hour)
+  (ui/morning-card.ts: the Good morning card: date, sky, Puff's note and the day's news in one)
   minigames/    games.ts (what a game sheet needs; stars; another round), minigame-buttons.ts (who plays which game),
                 shelf.ts + shelf-sheet.ts (Moss: sort the shelf), pairs.ts + pairs-sheet.ts (Bea: garden pairs),
                 pantry.ts + pantry-sheet.ts (Hazel: sort the pantry), skip.ts + skip-sheet.ts (Otto: skip stones),
@@ -112,7 +113,7 @@ town/
                 can set up), tour-sheet.ts (Pause → Feature tour)
   travel/       map.ts (places visited, trip time by doors on the way), map-sheet.ts (the town map)
   account/      api.ts (calls to the server), sync-rules.ts (send, or ask which save to keep), account-sheet.ts
-                (Pause → Account: email sign-in, sync after bedtime, export, delete), counts.ts (anonymous play counts)
+                (Pause → Settings → Account: email sign-in, sync after bedtime, export, delete), counts.ts (anonymous play counts)
   unlock/       unlock.ts (the free spring: rest nights and when the postcard shows), parental-gate.ts,
                 store.ts (web Stripe, phone RevenueCat, or none), unlock-card.ts (the postcard, the grown-up check, restore)
   bloom/        bloom.ts (Town Bloom points and levels; surprise finds every few cleans),

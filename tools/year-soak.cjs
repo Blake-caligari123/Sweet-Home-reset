@@ -6,7 +6,7 @@ const { chromium } = require('playwright');
   const b = await chromium.launch();
   const page = await (await b.newContext({ viewport: { width: 390, height: 844 } })).newPage();
   const errors = []; page.on('pageerror', (e) => errors.push(String(e))); page.on('console', (m) => { if (m.type() === 'error') errors.push('console: ' + m.text()); });
-  const dismiss = async () => { for (const t of ['Not today', 'Maybe later', 'OK', 'Later']) { const l = page.locator('button', { hasText: t }); for (let k = 0; k < 3 && await l.count(); k += 1) await l.first().click({ timeout: 500 }).catch(() => {}); } };
+  const dismiss = async () => { for (const t of ['Let\'s go!', 'Not today', 'Maybe later', 'OK', 'Later']) { const l = page.locator('button', { hasText: t }); for (let k = 0; k < 3 && await l.count(); k += 1) await l.first().click({ timeout: 500 }).catch(() => {}); } };
   await page.goto(process.env.URL ?? 'http://localhost:5199/Sweet-Home-reset/test/?debug'); await page.click('text=Let\'s tidy!'); await page.click('.scene-skip'); await page.waitForSelector('.name-input');
   await page.keyboard.press('Escape'); await page.waitForTimeout(800);
   await page.evaluate(() => window.__town.skipTips());

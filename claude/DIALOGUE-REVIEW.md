@@ -19,6 +19,8 @@ How a line is chosen: the most specific one that fits wins (a story moment, then
 - Otto: "🪨 Skip stones" · "Tap Throw! when the marker is in the green." · "6 skips! Throw 2 of 3" · "Best: 9 skips" · "Skip again"
 - Any game finished again the same day: "Lovely!"
 - This week: "📅 This week: Tidy 120 spots this week · Catch 8 fish this week · Play 5 games with friends this week" · "📅 Catch 8 fish this week: done! +60 ✨" · "🎁 The whole week's goals! A gift: a birdhouse for your home."
+- Good morning card: "☀ Good morning!" · "Summer 6 · ☀ Sunny" · Puff's note · I did it! / Not today · "🏡 …", "📋 3 new jobs on the notice board." · **Let's go!**
+- Pause: "Back to town" · "⚙ Settings" (Sound · Play · Comfort) · Done · goals chip "🎯 1/3" / "🌟 3/3"
 - Pip: "💡 Light the lamps" · "Tapping a lamp flips it and the lamps beside it. Light them all!" · "Can be done in 3 taps" · "Another board"
 - Mabel: "🫖 Pour the tea" · "Hold to pour. Let go when the tea reaches the line." · Hold to pour · "Just right!" / "Nearly!" / "Oops, a bit off." · "Another pot"
 - Moss's chat: "📚 Sort a shelf" · "Tap two books to swap them. Colours in order, short to tall." · "Fewest swaps: 7" · done: "⭐⭐⭐ +20 ✨" (or "Lovely and neat!" after the first of the day) · "Another shelf"
@@ -1094,7 +1096,7 @@ Heard only with a screen reader, never shown on screen.
 - **Signed in:** "Signed in as {email}." Sync now / Export my data / Sign out / Delete account. Banner after a link: "Signed in! Your town can follow you now."
 - **Clash:** "Two saves! This device: Spring 3 · 30 Oct, 9:57 am. Cloud: Spring 9 · 30 Oct, 9:15 pm. Which should {puff} keep? The other stays safe in history for 30 days." (This device / Cloud save)
 - **Delete:** "Delete your account? Your cloud save and history go now, and the account within 30 days." then "Are you sure? This can't be undone." then "Your account is deleted. {store note} The save on this device is still here; Start over in Pause clears it."
-- Others: "Synced!", "Signed out. Your save stays on this device.", "Sync isn't reachable right now. Your save is safe on this device.", "That sign-in link has been used or has expired. Ask for a new one in Pause → Account."
+- Others: "Synced!", "Signed out. Your save stays on this device.", "Sync isn't reachable right now. Your save is safe on this device.", "That sign-in link has been used or has expired. Ask for a new one in Pause → Settings → Account."
 
 # Living townsfolk (Phase 6a.2)
 **Moods (happy / low)**

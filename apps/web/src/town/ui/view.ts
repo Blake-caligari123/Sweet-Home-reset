@@ -22,6 +22,8 @@ export class View {
   private bubbleMs = 0;
   /** Banners waiting their turn, so two at once (a restore and a new tool) read one after another. */
   private banners: string[] = [];
+  /** Bumped when the queue is cleared, so a banner timing out from before doesn't take a new one with it. */
+  private bannerRound = 0;
   private toastEl: HTMLElement | null = null;
 
   constructor(
@@ -62,6 +64,8 @@ export class View {
     window.setTimeout(() => { if (this.toastEl === el) { el.remove(); this.toastEl = null; } }, TOAST_MS);
   }
   banner(text: string) {
+    // The same news twice in a row is said once.
+    if (!text || this.banners.at(-1) === text) return;
     this.banners.push(text);
     if (this.banners.length === 1) this.nextBanner();
   }
@@ -71,11 +75,21 @@ export class View {
     if (!text) return;
     // A sheet or chat is open: the banner waits, rather than covering its buttons.
     if (this.busy) { window.setTimeout(() => this.nextBanner(), 300); return; }
-    const ms = bannerMs(text);
+    // A queue building up (a busy moment): the waiting ones go by quicker, so news keeps up with play.
+    const ms = Math.round(bannerMs(text) * (this.banners.length > 2 ? 0.6 : 1));
     const el = h('div', { class: 'banner', 'aria-hidden': 'true', style: { animationDuration: `${ms}ms` } }, text);
+    el.classList.add('queued-banner');
     this.root.append(el);
     this.hud.announce(text);
-    window.setTimeout(() => { el.remove(); this.banners.shift(); this.nextBanner(); }, ms);
+    const round = this.bannerRound;
+    window.setTimeout(() => { el.remove(); if (round !== this.bannerRound) return; this.banners.shift(); this.nextBanner(); }, ms);
+  }
+
+  /** Bedtime: news still waiting is dropped (the night's recap sums up the day). */
+  clearBanners() {
+    this.bannerRound += 1;
+    this.banners = [];
+    for (const el of this.root.querySelectorAll('.queued-banner')) el.remove();
   }
 
   feedback(soundId: SoundId, haptic: HapticKind | null) {

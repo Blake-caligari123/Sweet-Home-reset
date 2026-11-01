@@ -3,7 +3,7 @@ import pkg from '../../../package.json';
 import type { View } from './view';
 
 /**
- * Pause → About: the version, who made it and the privacy policy.
+ * Pause → Settings → About: the version, who made it and the privacy policy.
  */
 export function aboutLines(version: string) {
   return [

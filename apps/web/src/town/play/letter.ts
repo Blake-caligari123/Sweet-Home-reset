@@ -37,24 +37,26 @@ export function letterText(lastClean: string, day: number, puff: string) {
   return `Dear friend, yesterday I ${did}.${known ? ' My paws sparkle!' : ''} Maybe ${chore}? Or just have tea. Both are lovely. ♥ ${puff}`;
 }
 
-/** Each morning: Puff's letter with one optional real chore. Ticking it gives a Cosy Boost (5 a real day at most). */
+/** Each morning: Puff's letter and its chore. `did` ticks the chore (a Cosy Boost, 5 a real day at most) and says how it went. */
 export function morningLetter(d: { state: TownState; view: View; clock: Clock; refreshHud(): void }) {
   const { state, view } = d;
   const today = localDate();
   if (state.chores.day !== today) state.chores = { ...state.chores, day: today, keys: [] };
   const key = `day${d.clock.state.day}`;
-  view.ask(letterText(state.lastClean, d.clock.state.day, state.names.puff), [
-    { label: 'I did it!', primary: true, onClick: () => {
-      if (state.chores.keys.length >= TUNING.realChoreCapPerDay) { view.say('That\'s loads today. Rest counts too.'); return; }
+  const note = letterText(state.lastClean, d.clock.state.day, state.names.puff);
+  state.lastClean = 'none';
+  return {
+    note,
+    did: () => {
+      if (state.chores.keys.length >= TUNING.realChoreCapPerDay) return 'That\'s loads today. Rest counts too.';
       state.chores.keys.push(key); state.chores.total += 1;
       state.sparkles += TUNING.realChoreReward.sparkles;
       state.fluff.boost = TUNING.realChoreReward.maxFluffBonus;
       state.fluff.eat(TUNING.realChoreReward.maxFluffBonus);
       view.feedback('coin', 'success');
-      view.banner(`Cosy Boost! +${TUNING.realChoreReward.sparkles} ✨ +${TUNING.realChoreReward.maxFluffBonus} Fluff today`);
       d.refreshHud();
-    } },
-    { label: 'Not today', onClick: () => view.say('Tea it is. Lovely.') }
-  ]);
-  state.lastClean = 'none';
+      return `Cosy Boost! +${TUNING.realChoreReward.sparkles} ✨ +${TUNING.realChoreReward.maxFluffBonus} Fluff today`;
+    },
+    skip: () => 'Tea it is. Lovely.'
+  };
 }
