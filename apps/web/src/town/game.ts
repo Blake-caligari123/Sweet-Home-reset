@@ -2,7 +2,6 @@ import type { Application } from 'pixi.js';
 import type { Sound } from '../shared/audio/sound';
 import type { NativeBridge } from '../shared/native';
 import { h } from '../shared/ui/dom';
-import { openBuildBoard } from './build/build-sheet';
 import { openWorkbench } from './craft/craft-sheet';
 import { openFishing } from './fishing/fishing-sheet';
 import type { TownPack } from './data/area';
@@ -15,25 +14,22 @@ import { TidyDash } from './festivals/tidy-dash';
 import { GrumbleLife } from './grumbles/grumble-life';
 import { CritterLife } from './critters/critter-life';
 import { PetLife } from './pets/pet-life';
-import { openOutfits } from './outfits/outfit-sheet';
 import { newlyEarned } from './outfits/outfits';
 import { Conversations } from './neighbours/conversations';
 import { Neighbours } from './neighbours/neighbours';
 import { installDebugHooks, type DebugTarget } from './debug';
 import type { Account } from './account/account-sheet';
 import type { Counts } from './account/counts';
-import { openMap } from './travel/map-sheet';
 import { stickTarget } from './play/stick';
 import { Joystick } from './ui/joystick';
 import { TownLife } from './life/town-life';
-import { openCollection } from './bloom/collection-sheet';
 import { perkIn } from './skills/skills';
 import { TownSystems } from './systems';
 import { Scene } from './tour/scene';
 import { TOUR_ON } from './tour/tour';
-import { openTour } from './tour/tour-sheet';
 import { seenFlag } from './story/path';
 import { ScenePlayer } from './story/scene-player';
+import { Menus } from './ui/menus';
 import { MAX_RUB, Taps } from './play/taps';
 import { connect } from './connect';
 import type { Unlocker } from './unlock/unlock-card';
@@ -48,21 +44,14 @@ import { morning, passNight } from './play/night';
 import { applyLook } from './ui/a11y';
 import type { ToolId } from './play/mess';
 import { OnboardingGuide } from './play/onboarding-guide';
-import { nudge } from './play/nudges';
 import { bloomUp } from './bloom/bloom';
-import { lettersWaiting } from './letters/letters';
 import { Puff } from './play/puff';
 import { FEET_TO_BASE, type Here } from './play/targets';
 import { Jobs } from './requests/jobs';
-import { openShop } from './shops/shop-sheet';
-import { isOpen } from './shops/shops';
 import { TownState } from './state';
-import { openBag } from './ui/bag-sheet';
 import { Hud, TOOL_SLOTS } from './ui/hud';
 import { HudLive } from './ui/hud-live';
 import { bindKeyboard } from './ui/keyboard';
-import { openNaming } from './ui/naming-sheet';
-import { openPause } from './ui/pause-menu';
 import { PointerInput } from './ui/pointer-input';
 import { View, type Settings } from './ui/view';
 import { isUnlocked } from './unlocks';
@@ -86,6 +75,7 @@ export class TownGame {
   private world: World;
   private hud: Hud;
   private scenes!: ScenePlayer;
+  private menus: Menus;
   private view: View;
   private content: Content;
   private clock = new Clock();
@@ -141,11 +131,11 @@ export class TownGame {
     app.stage.addChild(this.world.root);
     this.hud = new Hud(ui, {
       tool: (t) => { this.view.uiTap(); this.selected = t; this.refreshHud(); },
-      bag: () => { this.view.uiTap(); this.openBag(); },
-      pause: () => { this.view.uiTap(); this.openPause(); },
-      map: () => { this.view.uiTap(); if (!this.dash.active) this.openMap(); },
+      bag: () => { this.view.uiTap(); this.menus.openBag(); },
+      pause: () => { this.view.uiTap(); this.menus.openPause(); },
+      map: () => { this.view.uiTap(); if (!this.dash.active) this.menus.openMap(); },
       mood: () => { this.view.uiTap(); this.systems.moods.say(); },
-      tracker: (text) => { this.view.uiTap(); if (!text.startsWith('📖')) return false; this.openJournal(); return true; }
+      tracker: (text) => { this.view.uiTap(); if (!text.startsWith('📖')) return false; this.menus.openJournal(); return true; }
     });
     this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress, () => this.state.names.puff);
     /** What most parts of the game share. */
@@ -157,7 +147,7 @@ export class TownGame {
       facePuff: (x, y) => { this.puff.faceAlong(x - this.puff.fx, y - this.puff.fy); return this.puff.dir; },
       hopPuff: () => this.puff.hop(),
       sparkleAtPuff: (n) => this.world.sparkleBurst(Math.floor(this.puff.fx / T), Math.floor(this.puff.fy / T), n),
-      extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.shopButtonsFor(id), ...this.systems.buttonsFor(id)],
+      extraButtons: (id) => [...this.jobs.deliveriesFor(id), ...this.menus.shopButtonsFor(id), ...this.systems.buttonsFor(id)],
       onboard: (e) => this.guide.handle(e),
       refreshHud: () => this.refreshHud(),
       save: () => void this.save(false)
@@ -182,6 +172,13 @@ export class TownGame {
     this.lanterns = new Lanterns({ ...core, refreshArea: () => this.refreshArea(), playStory: (id) => this.talk.playStory(id) });
     // The unlock's store and the optional account, as this build is set up (connect.ts).
     ({ unlocker: this.unlocker, account: this.account, counts: this.counts } = connect({ state: this.state, view: this.view, settings, native, snapshot: () => this.snapshot(), save: () => this.save(false) }));
+    this.menus = new Menus({
+      state: this.state, view: this.view, content: this.content, clock: this.clock, places: this.places, world: this.world, puff: this.puff, settings, sound: this.sound,
+      talk: this.talk, systems: this.systems, guide: this.guide, unlocker: this.unlocker, account: this.account, placing: this.placing,
+      areaId: () => this.areaId, arrived: (k) => this.arrived(k), enterArea: (id, x, y, announce, feet) => this.enterArea(id, x, y, announce, feet),
+      travel: (id, x, y) => void this.travel(id, x, y), refreshHud: () => this.refreshHud(), save: () => void this.save(false),
+      settingsChanged: () => this.applySettings(), tour: TOUR_ON ? () => new Scene(this.hooks()) : null, playStory: (id) => this.playStory(id)
+    });
     this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.taps.tap(x, y) });
     this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.taps.scrub({ x, y }, MAX_RUB) });
     this.grumbleLayer = new GrumbleLayer(this.world.actors);
@@ -202,10 +199,10 @@ export class TownGame {
       select: (t) => { this.selected = t; },
       travel: (to, x, y) => void this.travel(to, x, y),
       sleep: () => void this.endDay(false),
-      openBuild: () => this.openBuild(),
+      openBuild: () => this.menus.openBuild(),
       pickUpDecor: (x, y) => this.placing.pickUp(x, y),
       openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false), made: (st) => this.guide.handle({ type: 'made', station: st }), tapOnly: !!this.settings.tapOnly }, station),
-      openShop: (shop) => this.openShop(shop),
+      openShop: (shop) => this.menus.openShop(shop),
       openStall: () => this.systems.openStall(),
       tendAnimal: (id) => this.systems.tendAnimal(id),
       openFishing: () => openFishing({ state: this.state, view: this.view, content: this.content, clock: this.clock, area: () => this.areaId, onboard: (e) => this.guide.handle(e), changed: () => { this.refreshHud(); void this.save(false); } }),
@@ -241,7 +238,7 @@ export class TownGame {
     window.addEventListener('resize', () => { app.resize(); this.world.resize(); });
     this.refreshHud();
     // A new game opens with the story of the town (story/scenes.ts), then naming.
-    if (!saved) this.scenes.play('opening', () => this.openNames(() => window.setTimeout(() => this.view.say('Ooh. Grey. Let\'s fix that.'), 600)));
+    if (!saved) this.scenes.play('opening', () => this.menus.openNames(() => window.setTimeout(() => this.view.say('Ooh. Grey. Let\'s fix that.'), 600)));
     if (new URLSearchParams(location.search).has('debug')) installDebugHooks(this.hooks());
   }
 
@@ -332,7 +329,7 @@ export class TownGame {
     bindKeyboard({
       puff: this.puff, nav: () => this.nav, busy: () => this.view.busy, back: () => this.back(), tap: (x, y) => this.taps.tap(x, y),
       selectSlot: (n) => { const t = TOOL_SLOTS[n - 1]; if (this.state.tools[t]) { this.selected = t; this.refreshHud(); } },
-      openBag: () => this.openBag()
+      openBag: () => this.menus.openBag()
     });
   }
 
@@ -341,7 +338,7 @@ export class TownGame {
     if (this.view.closeTopSheet()) return;
     if (this.placing.active) { this.placing.stop(); this.refreshHud(); return; }
     if (this.view.root.querySelector('.dialogue') || this.fading) return;
-    this.openPause();
+    this.menus.openPause();
   }
 
   /**
@@ -388,73 +385,15 @@ export class TownGame {
     morning({ state, view, clock: this.clock, content: this.content, refreshHud: () => this.refreshHud(), offer: () => void this.unlocker.offer() }, { ...night, news: this.systems.morningNews() });
   }
 
-  // ---- sheets ------------------------------------------------------------------------------
-
-  private openShop(shop: NonNullable<TownPack['shops']>[number]) {
-    openShop({ state: this.state, view: this.view, content: this.content, clock: this.clock, refreshHud: () => this.refreshHud(), save: () => void this.save(false) }, shop);
-  }
-
-  /** "Browse" in a shopkeeper's chat box while their shop is open. */
-  private shopButtonsFor(id: string) {
-    return (this.content.pack.shops ?? []).filter((s) => s.keeper === id && isOpen(s, this.clock.state.minutes, this.clock.state.day))
-      .map((s) => ({ label: `Browse ${s.name.replace(/^.*'s /, '')}`, onClick: () => this.openShop(s) }));
-  }
-
-  private openBuild() {
-    openBuildBoard({
-      state: this.state, view: this.view, content: this.content, clock: this.clock, arrived: (k) => this.arrived(k),
-      started: (plot) => {
-        this.places.rebuild(this.state);
-        if (plot.area === this.areaId) this.enterArea(this.areaId, this.puff.x, this.puff.y, false, { x: this.puff.fx, y: this.puff.fy });
-        this.world.sparkleBurst(plot.x, plot.y, 10);
-        this.refreshHud();
-        void this.save(false);
-      }
-    });
-  }
-
-  private openBag() {
-    openBag({ state: this.state, view: this.view, content: this.content, onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), place: (id) => { this.placing.start(id); this.refreshHud(); } });
-  }
-
-  private openPause() {
-    openPause({
-      view: this.view, settings: this.settings, sound: this.sound,
-      settingsChanged: () => {
-        const s = this.settings;
-        this.sound.enabled = s.sound; this.sound.musicOn = s.music;
-        if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
-        this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = this.critters.reducedMotion = s.reducedMotion;
-        applyLook(s);
-        this.stick.shown = !!s.joystick;
-        void this.save(false);
-      },
-      openFriends: () => this.talk.openFriends(),
-      openNames: () => this.openNames(),
-      openOutfits: () => openOutfits(this.view, this.content, this.state, () => void this.save(false)),
-      openCollection: () => openCollection(this.view, this.content, this.state),
-      openJournal: () => this.openJournal(),
-      openSkills: () => this.systems.openSkills(),
-      openNeeds: () => this.systems.openNeeds(),
-      openTour: TOUR_ON ? () => openTour(this.view, new Scene(this.hooks()), () => { this.refreshHud(); void this.save(false); }) : null,
-      townLine: `🌸 Town Bloom: ${this.content.line(`bloom.${this.state.bloom}`)} · ${this.state.finds.found.length} of ${this.content.pack.finds?.length ?? 0} finds`,
-      skipTips: this.state.onboarding.skippable ? () => this.guide.skip() : null,
-      restore: this.unlocker.gate ? () => void this.unlocker.restore() : null,
-      openAccount: this.account ? () => this.account?.open() : null
-    });
-  }
-
-  private openMap() {
-    openMap({
-      view: this.view, visited: this.state.visited, here: () => this.areaId, named: (t) => this.content.named(t),
-      areas: () => this.content.pack.areas.map((a) => this.places.get(a.id)?.pack ?? a),
-      go: (id, minutes) => { this.clock.pass(minutes); const s = this.places.get(id)!.pack.spawn; void this.travel(id, s.x, s.y); }
-    });
-  }
-
-  /** Name Puff and the town; `then` runs once the sheet closes. */
-  private openNames(then?: () => void) {
-    openNaming(this.view, this.state.names, (names) => { this.state.names = names; this.refreshHud(); void this.save(false); then?.(); });
+  /** Pause → settings changed: apply them everywhere and save. */
+  private applySettings() {
+    const s = this.settings;
+    this.sound.enabled = s.sound; this.sound.musicOn = s.music;
+    if (s.music) this.sound.startMusic(); else this.sound.stopMusic();
+    this.world.reducedMotion = this.grumbleLayer.reducedMotion = this.petLayer.reducedMotion = this.critters.reducedMotion = s.reducedMotion;
+    applyLook(s);
+    this.stick.shown = !!s.joystick;
+    void this.save(false);
   }
 
   // ---- loop --------------------------------------------------------------------------------
@@ -516,27 +455,14 @@ export class TownGame {
     const up = bloomUp(this.state, this.places.restoredCount());
     if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }
     for (const o of newlyEarned(this.state, this.content.pack.outfits ?? [])) this.view.banner(`👒 New outfit: ${o.name}! (Pause → Outfits)`);
-    const next = this.nudgeLine();
+    const next = this.menus.nudgeLine();
     this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? step.hint : this.systems.story.tracker() ?? this.jobs.tracker() ?? this.systems.questHint() ?? next ?? 'Explore {town} and tidy what you find.'));
-  }
-
-  /** The newest thing to try (a letter waiting, a Grumble, a repair due), if any. */
-  private nudgeLine() {
-    const [letter] = lettersWaiting(this.content.pack.letters ?? [], this.clock.state.day, this.state.flags);
-    return this.content.line(nudge(this.state, (k) => this.arrived(k), letter ? letter.hint ?? 'letter.hint' : null) ?? undefined) ?? null;
   }
 
   /** Play a cutscene and remember it was seen (for the journal's Memories). */
   private playStory(id: string, then: () => void = () => {}) {
     this.state.flag(seenFlag(id));
     this.scenes.play(id, () => { this.refreshHud(); then(); });
-  }
-
-  private openJournal() {
-    const tryNew = this.nudgeLine();
-    const memories = (this.content.pack.scenes ?? []).filter((s) => s.id === 'opening' || this.state.has(seenFlag(s.id)))
-      .map((s) => ({ label: this.content.line(s.name ?? s.title) ?? s.id, play: () => this.playStory(s.id) }));
-    this.systems.openJournal(tryNew && this.content.named(tryNew), memories);
   }
 
   // ---- save --------------------------------------------------------------------------------

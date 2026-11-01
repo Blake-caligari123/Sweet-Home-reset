@@ -128,7 +128,7 @@ town/
   pets/         pets.ts (pet kinds, the trail the pet follows), pet-sheet.ts (choose and name),
                 pet-life.ts (the pet in play: the doorstep offer, following, pats)
   shops/        shops.ts (hours, stock, buying and selling), shop-sheet.ts (the shop screen)
-  ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), prompt.ts (the line above
+  ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), menus.ts (opens Pause, the map, bag, journal, names, shops and plans for game.ts), prompt.ts (the line above
                 the tool bar), pointer-input.ts (fingers on the world, pinch zoom), joystick.ts (the on-screen stick), keyboard.ts, hud-live.ts (clock,
                 Fluff, prompt and bubble each frame), bag-sheet.ts,
                 naming-sheet.ts, pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css, pixel.css (pixel-style menus)
