@@ -34,6 +34,9 @@ export function markSpotless(s: SpotlessState, area: string, day: number): { sta
   return { state: { day, areas: [...areas, area] }, first: true };
 }
 
+/** Every restored place has nothing left to tidy (and there's more than one): the whole town shines. */
+export const wholeTownSpotless = (restored: string[], left: (id: string) => number) => restored.length > 1 && restored.every((id) => left(id) === 0);
+
 /** Sparkles for a spotless place. */
 export const spotlessSparkles = () => TUNING.spotlessSparkles;
 

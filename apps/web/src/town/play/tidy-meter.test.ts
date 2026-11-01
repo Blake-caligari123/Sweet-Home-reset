@@ -25,3 +25,13 @@ describe('the tidy meter', () => {
     expect(markSpotless(a.state, 'lane', 4)).toEqual({ state: { day: 4, areas: ['lane'] }, first: true });
   });
 });
+
+describe('the whole town spotless', () => {
+  it('shines when every restored place has nothing left, and not with just one place', async () => {
+    const { wholeTownSpotless } = await import('./tidy-meter');
+    const left = (m: Record<string, number>) => (id: string) => m[id] ?? 0;
+    expect(wholeTownSpotless(['lane', 'square'], left({}))).toBe(true);
+    expect(wholeTownSpotless(['lane', 'square'], left({ square: 2 }))).toBe(false);
+    expect(wholeTownSpotless(['lane'], left({}))).toBe(false);
+  });
+});

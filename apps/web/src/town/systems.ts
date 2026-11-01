@@ -73,6 +73,7 @@ export class TownSystems {
     this.story = new StoryPath({ state, content, view, talk: host.talk, day: () => host.day(), refreshHud: () => host.refreshHud(), save: () => host.save(), playScene: (id) => host.playScene(id) });
     this.tidy = new TidyMeterLife({
       state, view, hud: host.hud, world: host.world, content, day: () => host.day(), feet: () => host.puff.feet, refreshHud: () => host.refreshHud(),
+      restored: () => content.pack.areas.filter((a) => state.has(`restored_${a.id}`) && ((a.mess?.length ?? 0) > 0 || a.restoreReward)).map((a) => a.id), hop: () => host.puff.hop(), left: (id) => places.mess(id).remaining,
       area: () => { const id = host.areaId(); return { id, name: places.get(id)?.pack.name ?? id, mess: places.mess(id) }; }
     });
     // Milestones wait a moment, so the clean is counted first (bloom/finds).
@@ -126,6 +127,7 @@ export class TownSystems {
       state.sparkles += TUNING.setCompleteSparkles;
       view.feedback('fanfare', 'success');
       view.banner(`📖 ${s.name} complete! All ${s.total}! +${TUNING.setCompleteSparkles} ✨`);
+      this.host.puff.hop();
       this.host.refreshHud(); this.host.save();
     }
   }

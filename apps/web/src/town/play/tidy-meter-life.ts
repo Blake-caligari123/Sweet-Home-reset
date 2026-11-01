@@ -5,13 +5,19 @@ import type { View } from '../ui/view';
 import { T } from '../world/art/texture';
 import type { World } from '../world/world';
 import type { OnboardEvent } from './onboarding';
-import { markSpotless, meterOf, quarterPassed, spotlessSparkles, type Meter, type MessLike } from './tidy-meter';
+import { TUNING } from '../data/tuning';
+import { markSpotless, meterOf, quarterPassed, spotlessSparkles, wholeTownSpotless, type Meter, type MessLike } from './tidy-meter';
 
 export interface TidyMeterHost {
   state: TownState; view: View; hud: Hud; world: World; content: Content;
   /** The place Puff is in, and its mess. */
   area(): { id: string; name: string; mess: MessLike };
   day(): number; feet(): { x: number; y: number }; refreshHud(): void;
+  /** Every place restored so far, and how many spots each has left (for the whole-town cheer). */
+  restored(): string[];
+  left(id: string): number;
+  /** Puff's happy hop. */
+  hop(): void;
 }
 
 /** Keeps the tidy meter in step with play: a ping at each quarter, a countdown of the last spots, and a cheer when a place is spotless. */
@@ -52,6 +58,19 @@ export class TidyMeterLife {
     world.cleanRing(Math.floor(f.x / T), Math.floor(f.y / T), true);
     view.feedback('combo', 'success');
     view.banner(`✨ ${this.host.content.named(name)} is spotless! +${gift} ✨`);
+    this.host.hop();
+    this.wholeTown();
     this.host.refreshHud();
+  }
+
+  /** Every restored place spotless today: the whole town shines, once a day. */
+  private wholeTown() {
+    const { state, view } = this.host;
+    const day = this.host.day();
+    if (state.has(`town_spotless_${day}`) || !wholeTownSpotless(this.host.restored(), (id) => this.host.left(id))) return;
+    state.flag(`town_spotless_${day}`);
+    state.sparkles += TUNING.townSpotlessSparkles;
+    view.feedback('fanfare', 'success');
+    view.banner(`🌟 The whole town is spotless! +${TUNING.townSpotlessSparkles} ✨`);
   }
 }
