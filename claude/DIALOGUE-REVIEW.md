@@ -1678,3 +1678,115 @@ For each step: who asks, the button, what they say, the tracker while waiting (c
 - Lamp-room key: "A little key with a lamp on it. A door by the harbour!" / "Brass, with a lamp. It opens the old net loft."
 - Gate: "The harbour gate could be mended. See the Keeper's plans." / "Rocks block the way. Maybe in winter." / "The harbour gate is mended! The old harbour is open."
 - Story (Mabel, day 49): "What's past the rocks?" / "The old harbour! Mend its gate, dear, and we'll see." / diary "We're mending the gate to the old harbour." / tease "Mabel keeps peering past the rocks at the beach..."
+
+**Marlo (6d.13)**
+- `marlo.meet.1`: Oh! Hello. I'm Marlo. I look after harbours. Slowly.
+- `marlo.busy.1`: Counting boats. There are none. Tomorrow?
+- `marlo.busy.2`: The tide's turning. Let's chat tomorrow.
+- `marlo.busy.3`: Still unpacking my nets. Tomorrow, friend?
+- `marlo.morning.1`: Morning! The sea was very calm last night.
+- `marlo.morning.2`: Up with the gulls. They are very loud.
+- `marlo.day.1`: A harbour wants boats. We'll get some, one day.
+- `marlo.day.2`: I mended a net. It took all morning. Worth it.
+- `marlo.evening.1`: Evening is when the boats come home. In theory.
+- `marlo.evening.2`: The sea goes all pink at this hour.
+- `marlo.night.1`: Goodnight, Keeper. The waves will sing me off.
+- `marlo.night.2`: Can't sleep. Listening for the lighthouse.
+- `marlo.spring.1`: Spring tides are the biggest. Hold your hat!
+- `marlo.spring.2`: Puffins are back! I counted twelve.
+- `marlo.spring.3`: The rock pools are full of tiny things.
+- `marlo.summer.1`: Summer sea is warm enough for a paddle.
+- `marlo.autumn.1`: Autumn storms. I love a good storm, from inside.
+- `marlo.winter.1`: Winter waves are grey and grand. Like me!
+- `marlo.rainy.1`: Rain! A seal's favourite weather.
+- `marlo.rainy.2`: Everyone hides from rain. Not me. I'm already wet!
+- `marlo.h0.1`: Thank you for my hut. It smells of salt. Perfect.
+- `marlo.h0.2`: Do boats ever come here? I hope they will.
+- `marlo.h0.3`: I'm not quick, but I'm steady. Like the tide.
+- `marlo.h3.1`: Mabel told me stories of the old harbour. So busy!
+- `marlo.h3.2`: Otto and I swam to the rocks. He won. I let him.
+- `marlo.h3.3`: You tidy like the tide: a little at a time.
+- `marlo.h6.1`: I used to light a lamp on a far coast, long ago.
+- `marlo.h6.2`: I'm glad I came. I nearly didn't.
+- `marlo.h6.3`: Pip asked if seals can fly. I said, only in dreams.
+- `marlo.h9.1`: You're my anchor, Keeper. Is that soppy? I mean it.
+- `marlo.h9.2`: I'd mend every boat in town for you.
+- `marlo.h9.3`: {town} is the kindest harbour I've known.
+- `marlo.visit.1`: Hello! I followed the smell of toast.
+- `marlo.visit.2`: A burrow! Cosy. Very dry. Too dry?
+- `marlo.festival.1`: A fair! I'll guard the bunting from the gulls.
+- `marlo.festival.summer_picnic`: A picnic by the sea would be grand.
+- `marlo.festival.autumn_leaf_fest`: Leaves! We don't get many on the water.
+- `marlo.festival.winter_lights`: Lights on the water. My favourite thing.
+- `marlo.mood.happy`: The sea is sparkling today. So am I!
+- `marlo.mood.low`: A grey-sea sort of day. It will clear.
+- `marlo.shelter.1`: Everyone else ran in. I stayed for the rain.
+- `marlo.about_mabel.1`: Mabel remembers the harbour full. I'd like to see that.
+- `marlo.about_otto.1`: Otto seems tired. Maybe a swim would help him?
+- `marlo.town.1`: The town's lights reach the harbour now. Lovely.
+- `marlo.chapter.1`: The lighthouse shines again. Boats will find us now.
+- `marlo.gift.loved`: For me? Oh, that's the best catch of the day!
+- `marlo.gift.liked`: How kind. That's going on my shelf.
+- `marlo.gift.neutral`: A present! Thank you, friend.
+- `marlo.gift.disliked`: Hmm, not for a seal. But thank you!
+- `marlo.request.done`: Thank you, Keeper. Steady work!
+- `mabel.about_marlo.1`: Hoo. Marlo listens to the sea like I used to.
+- `otto.about_marlo.1`: Marlo swims nearly as well as me. Nearly!
+- `he_marlo_02.l01`: I came by sea, you know. Followed the coast for weeks.
+- `he_marlo_02.l02`: Every harbour had a light. Except one.
+- `he_marlo_02.l03`: Which one?
+- `he_marlo_02.l04`: The one I used to keep. It went out. I left.
+- `he_marlo_02.l05`: You're here now, though.
+- `he_marlo_02.l06`: I am. Funny how the tide works.
+- `he_marlo_04.l01`: Mabel says boats used to fill this harbour.
+- `he_marlo_04.l02`: Then the town went grey, and they stopped coming.
+- `he_marlo_04.l03`: They could come back.
+- `he_marlo_04.l04`: Only if they can find us. In the dark, they can't.
+- `he_marlo_04.l05`: So we need a light.
+- `he_marlo_04.l06`: We need a light. Yes.
+- `he_marlo_06.l01`: Can I tell you about my old lamp?
+- `he_marlo_06.l02`: One stormy night I fell asleep. It went out.
+- `he_marlo_06.l03`: A little boat couldn't find the way. All safe, in the end.
+- `he_marlo_06.l04`: Everyone was safe. That matters.
+- `he_marlo_06.l05`: It does. But I never lit another lamp.
+- `he_marlo_06.l06`: Maybe this harbour could help with that.
+- `he_marlo_08.l01`: I climbed the lighthouse today. Just to look.
+- `he_marlo_08.l02`: The lamp's still there. Dusty. Waiting.
+- `he_marlo_08.l03`: Like Thimble's fountain.
+- `he_marlo_08.l04`: Just like that. Things wait for us, don't they?
+- `he_marlo_08.l05`: We could light it together.
+- `he_marlo_08.l06`: Together. I'd like that very much.
+- `he_marlo_10.l01`: I've decided. I'm staying. For good.
+- `he_marlo_10.l02`: This is the first harbour that felt like home.
+- `he_marlo_10.l03`: Because of the lighthouse?
+- `he_marlo_10.l04`: Because of you, Keeper. And everyone.
+- `he_marlo_10.l05`: Welcome home, Marlo.
+- `he_marlo_10.l06`: Home. Steady as the tide. Thank you.
+- `req.marlo_mackerel`: Marlo would love a mackerel. A seal has needs.
+- `req.marlo_shore`: Clear the weeds by the sea steps for Marlo's walks.
+- `letter.marlo_1.title`: A letter that smells of the sea
+- `letter.marlo_1.hint`: There's a letter on the beach.
+- `letter.marlo_1.sent`: Off it goes! Let's find Marlo a home.
+- `letter.marlo_1.l1`: Dear Keeper, I'm Marlo. I look after harbours.
+- `letter.marlo_1.l2`: I hear yours is open again. Does it need a keeper?
+- `letter.marlo_1.l3`: I'm slow, but steady. I'd mind it well. Marlo
+- `letter.marlo_1.r1`: Yes! The harbour needs you!
+- `letter.marlo_1.r2`: Come and stay. The sea is lovely here.
+- `home.marlo`: Marlo's moved into the harbour! Go and say hello.
+- `invite.marlo.hint`: Marlo needs a home. See the Keeper's plans.
+- `quest.lighthouse.intro`: The lighthouse lamp is dusty. Help me wake it?
+- `quest.lighthouse.mabel`: Hoo. Thimble polished it every winter. Glass and patience.
+- `quest.lighthouse.done`: Tonight it shines again. Boats will find us. Thank you!
+- `scene.arrive_marlo.name`: Marlo moves in
+- `scene.arrive_marlo.1`: A round, whiskery someone waddles along the quay...
+- `scene.arrive_marlo.2`: Marlo: "Oh, a real harbour. I'm home."
+- `scene.reveal_lighthouse.name`: The lighthouse shines
+- `scene.reveal_lighthouse.1`: At dusk, Marlo and {puff} wait by the old lighthouse...
+- `scene.reveal_lighthouse.2`: ...and the lamp flickers, then shines!
+- `scene.reveal_lighthouse.3`: Marlo: "Every boat can find {town} now."
+- `story.marlo.hint`: Read Marlo's letter on the beach, then start the hut
+- `story.marlo.diary`: Marlo the seal is coming to keep our harbour!
+- `story.marlo.tease`: A letter on the beach smells faintly of the sea...
+- `story.lighthouse.call`: Marlo is gazing up at the dark lighthouse.
+- `story.lighthouse.diary`: Marlo and I are going to light the lighthouse!
+- `story.lighthouse.tease`: Marlo keeps looking up at the old lighthouse...

@@ -209,6 +209,19 @@ describe('Hollowfern plots', () => {
     for (const pk of wood.pickups ?? []) expect(nav.findPathNear(spawn, { x0: pk.x * T, y0: pk.y * T, x1: (pk.x + 1) * T, y1: (pk.y + 1) * T }, REACH), pk.id).toBeTruthy();
   });
 
+  it('lets Marlo move into the harbour: a letter on the beach invites, a hut goes up the quay, the way stays open', () => {
+    expect((pack.letters ?? []).find((l) => l.from === 'marlo')!.gives).toContain('invite_marlo');
+    const plot = plots.find((p) => p.allow.includes('cottage_marlo'))!;
+    expect([plot.area, plot.unlock]).toEqual(['harbour', 'invite_marlo']);
+    const quay = pack.areas.find((a) => a.id === 'harbour')!;
+    const built = new Area(withBuilds(quay, plots, { [plot.id]: { buildingId: 'cottage_marlo', stage: 2, startedDay: 1, readyDay: 2 } }, buildings));
+    const nav = navFor(built);
+    const spawn = nav.nearestOpen({ x: quay.spawn.x * T + T / 2, y: quay.spawn.y * T + FEET })!;
+    const marlo = pack.neighbours!.find((n) => n.id === 'marlo')!;
+    for (const st of marlo.schedule.filter((x) => x.area === 'harbour')) expect(nav.findPathNear(spawn, { x0: st.x * T, y0: st.y * T, x1: (st.x + 1) * T, y1: (st.y + 1) * T }, 0), `${st.x},${st.y}`).toBeTruthy();
+    for (const pk of quay.pickups ?? []) expect(nav.findPathNear(spawn, { x0: pk.x * T, y0: pk.y * T, x1: (pk.x + 1) * T, y1: (pk.y + 1) * T }, REACH), pk.id).toBeTruthy();
+  });
+
   it('mends the tumbled steps off the Woodland Edge in autumn, opening Orchard Hill and its pears and plums', () => {
     const p = plots.find((x) => x.id === 'plot_hill_steps')!;
     expect([p.area, p.unlock]).toEqual(['woodland', 'hill_steps']);

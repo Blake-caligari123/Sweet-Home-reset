@@ -7141,6 +7141,114 @@
      "tokens": 2
     }
    ]
+  },
+  {
+   "id": "marlo",
+   "name": "Marlo",
+   "species": "seal",
+   "colours": {
+    "fur": "#9AA6B2",
+    "belly": "#E4E8EC",
+    "accent": "#5E6A78"
+   },
+   "loves": [
+    "mackerel",
+    "fish_stew"
+   ],
+   "likes": [
+    "tea",
+    "shell",
+    "bread",
+    "honey"
+   ],
+   "dislikes": [
+    "cobweb",
+    "lint"
+   ],
+   "schedule": [
+    {
+     "at": 480,
+     "area": "harbour",
+     "x": 24,
+     "y": 5,
+     "dir": "down"
+    },
+    {
+     "at": 660,
+     "area": "beach",
+     "x": 18,
+     "y": 7,
+     "dir": "down"
+    },
+    {
+     "at": 900,
+     "area": "harbour",
+     "x": 6,
+     "y": 9,
+     "dir": "down"
+    },
+    {
+     "at": 1080,
+     "area": "square",
+     "x": 12,
+     "y": 16,
+     "dir": "down"
+    },
+    {
+     "at": 1260,
+     "area": "harbour",
+     "x": 24,
+     "y": 5,
+     "dir": "up",
+     "sleep": true
+    }
+   ],
+   "visits": [
+    {
+     "every": 14,
+     "on": 0,
+     "at": 600,
+     "until": 960,
+     "area": "square",
+     "x": 23,
+     "y": 14,
+     "dir": "down"
+    },
+    {
+     "every": 7,
+     "on": 2,
+     "at": 600,
+     "until": 660,
+     "area": "yard",
+     "x": 17,
+     "y": 7,
+     "dir": "down"
+    }
+   ],
+   "weather": "rainy",
+   "changes": [
+    {
+     "when": "rain",
+     "at": 900,
+     "until": 1260,
+     "area": "beach",
+     "x": 12,
+     "y": 8,
+     "dir": "down"
+    }
+   ],
+   "thanks": [
+    {
+     "item": "tea",
+     "qty": 1,
+     "tokens": 1
+    },
+    {
+     "item": "mackerel",
+     "qty": 1,
+     "tokens": 2
+    }
+   ]
   }
  ],
  "dialogue": {
@@ -8055,6 +8163,14 @@
     "id": "otto.chapter.1",
     "flag": "chapter_summer_thimble",
     "once": true
+   },
+   {
+    "id": "otto.about_marlo.1",
+    "about": "marlo",
+    "aboutMood": [
+     "happy",
+     "glowing"
+    ]
    }
   ],
   "moss": [
@@ -8516,6 +8632,14 @@
     "id": "mabel.chapter.1",
     "flag": "chapter_autumn_song",
     "once": true
+   },
+   {
+    "id": "mabel.about_marlo.1",
+    "about": "marlo",
+    "aboutMood": [
+     "happy",
+     "glowing"
+    ]
    }
   ],
   "sorrel": [
@@ -9341,6 +9465,214 @@
    {
     "id": "juniper.chapter.1",
     "flag": "chapter_autumn_song",
+    "once": true
+   }
+  ],
+  "marlo": [
+   {
+    "id": "marlo.meet.1",
+    "meet": true
+   },
+   {
+    "id": "marlo.busy.1",
+    "busy": true
+   },
+   {
+    "id": "marlo.busy.2",
+    "busy": true
+   },
+   {
+    "id": "marlo.busy.3",
+    "busy": true
+   },
+   {
+    "id": "marlo.morning.1",
+    "time": "morning"
+   },
+   {
+    "id": "marlo.morning.2",
+    "time": "morning"
+   },
+   {
+    "id": "marlo.day.1",
+    "time": "day"
+   },
+   {
+    "id": "marlo.day.2",
+    "time": "day"
+   },
+   {
+    "id": "marlo.evening.1",
+    "time": "evening"
+   },
+   {
+    "id": "marlo.evening.2",
+    "time": "evening"
+   },
+   {
+    "id": "marlo.night.1",
+    "time": "night"
+   },
+   {
+    "id": "marlo.night.2",
+    "time": "night"
+   },
+   {
+    "id": "marlo.spring.1",
+    "season": "spring"
+   },
+   {
+    "id": "marlo.spring.2",
+    "season": "spring"
+   },
+   {
+    "id": "marlo.spring.3",
+    "season": "spring"
+   },
+   {
+    "id": "marlo.summer.1",
+    "season": "summer"
+   },
+   {
+    "id": "marlo.autumn.1",
+    "season": "autumn"
+   },
+   {
+    "id": "marlo.winter.1",
+    "season": "winter"
+   },
+   {
+    "id": "marlo.rainy.1",
+    "weather": "rainy"
+   },
+   {
+    "id": "marlo.rainy.2",
+    "weather": "rainy"
+   },
+   {
+    "id": "marlo.h0.1",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "marlo.h0.2",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "marlo.h0.3",
+    "heartsMin": 0,
+    "heartsMax": 2
+   },
+   {
+    "id": "marlo.h3.1",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "marlo.h3.2",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "marlo.h3.3",
+    "heartsMin": 3,
+    "heartsMax": 5
+   },
+   {
+    "id": "marlo.h6.1",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "marlo.h6.2",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "marlo.h6.3",
+    "heartsMin": 6,
+    "heartsMax": 8
+   },
+   {
+    "id": "marlo.h9.1",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "marlo.h9.2",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "marlo.h9.3",
+    "heartsMin": 9,
+    "heartsMax": 10
+   },
+   {
+    "id": "marlo.visit.1",
+    "area": "yard"
+   },
+   {
+    "id": "marlo.visit.2",
+    "area": "yard"
+   },
+   {
+    "id": "marlo.festival.1",
+    "festival": "spring_fair"
+   },
+   {
+    "id": "marlo.festival.summer_picnic",
+    "festival": "summer_picnic"
+   },
+   {
+    "id": "marlo.festival.autumn_leaf_fest",
+    "festival": "autumn_leaf_fest"
+   },
+   {
+    "id": "marlo.festival.winter_lights",
+    "festival": "winter_lights"
+   },
+   {
+    "id": "marlo.mood.happy",
+    "mood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "marlo.mood.low",
+    "mood": [
+     "low"
+    ]
+   },
+   {
+    "id": "marlo.shelter.1",
+    "weather": "rainy",
+    "area": "beach"
+   },
+   {
+    "id": "marlo.about_mabel.1",
+    "about": "mabel",
+    "aboutMood": [
+     "happy",
+     "glowing"
+    ]
+   },
+   {
+    "id": "marlo.about_otto.1",
+    "about": "otto",
+    "aboutMood": [
+     "low"
+    ]
+   },
+   {
+    "id": "marlo.town.1",
+    "bloomMin": 3
+   },
+   {
+    "id": "marlo.chapter.1",
+    "flag": "lighthouse_lit",
     "once": true
    }
   ]
@@ -10813,7 +11145,117 @@
    "story.harbour.call": "Mabel is peering past the rocks on the beach.",
    "story.harbour.hint": "Mend the harbour gate from the Keeper's plans",
    "story.harbour.diary": "We're mending the gate to the old harbour.",
-   "story.harbour.tease": "Mabel keeps peering past the rocks at the beach..."
+   "story.harbour.tease": "Mabel keeps peering past the rocks at the beach...",
+   "marlo.meet.1": "Oh! Hello. I'm Marlo. I look after harbours. Slowly.",
+   "marlo.busy.1": "Counting boats. There are none. Tomorrow?",
+   "marlo.busy.2": "The tide's turning. Let's chat tomorrow.",
+   "marlo.busy.3": "Still unpacking my nets. Tomorrow, friend?",
+   "marlo.morning.1": "Morning! The sea was very calm last night.",
+   "marlo.morning.2": "Up with the gulls. They are very loud.",
+   "marlo.day.1": "A harbour wants boats. We'll get some, one day.",
+   "marlo.day.2": "I mended a net. It took all morning. Worth it.",
+   "marlo.evening.1": "Evening is when the boats come home. In theory.",
+   "marlo.evening.2": "The sea goes all pink at this hour.",
+   "marlo.night.1": "Goodnight, Keeper. The waves will sing me off.",
+   "marlo.night.2": "Can't sleep. Listening for the lighthouse.",
+   "marlo.spring.1": "Spring tides are the biggest. Hold your hat!",
+   "marlo.spring.2": "Puffins are back! I counted twelve.",
+   "marlo.spring.3": "The rock pools are full of tiny things.",
+   "marlo.summer.1": "Summer sea is warm enough for a paddle.",
+   "marlo.autumn.1": "Autumn storms. I love a good storm, from inside.",
+   "marlo.winter.1": "Winter waves are grey and grand. Like me!",
+   "marlo.rainy.1": "Rain! A seal's favourite weather.",
+   "marlo.rainy.2": "Everyone hides from rain. Not me. I'm already wet!",
+   "marlo.h0.1": "Thank you for my hut. It smells of salt. Perfect.",
+   "marlo.h0.2": "Do boats ever come here? I hope they will.",
+   "marlo.h0.3": "I'm not quick, but I'm steady. Like the tide.",
+   "marlo.h3.1": "Mabel told me stories of the old harbour. So busy!",
+   "marlo.h3.2": "Otto and I swam to the rocks. He won. I let him.",
+   "marlo.h3.3": "You tidy like the tide: a little at a time.",
+   "marlo.h6.1": "I used to light a lamp on a far coast, long ago.",
+   "marlo.h6.2": "I'm glad I came. I nearly didn't.",
+   "marlo.h6.3": "Pip asked if seals can fly. I said, only in dreams.",
+   "marlo.h9.1": "You're my anchor, Keeper. Is that soppy? I mean it.",
+   "marlo.h9.2": "I'd mend every boat in town for you.",
+   "marlo.h9.3": "{town} is the kindest harbour I've known.",
+   "marlo.visit.1": "Hello! I followed the smell of toast.",
+   "marlo.visit.2": "A burrow! Cosy. Very dry. Too dry?",
+   "marlo.festival.1": "A fair! I'll guard the bunting from the gulls.",
+   "marlo.festival.summer_picnic": "A picnic by the sea would be grand.",
+   "marlo.festival.autumn_leaf_fest": "Leaves! We don't get many on the water.",
+   "marlo.festival.winter_lights": "Lights on the water. My favourite thing.",
+   "marlo.mood.happy": "The sea is sparkling today. So am I!",
+   "marlo.mood.low": "A grey-sea sort of day. It will clear.",
+   "marlo.shelter.1": "Everyone else ran in. I stayed for the rain.",
+   "marlo.about_mabel.1": "Mabel remembers the harbour full. I'd like to see that.",
+   "marlo.about_otto.1": "Otto seems tired. Maybe a swim would help him?",
+   "marlo.town.1": "The town's lights reach the harbour now. Lovely.",
+   "marlo.chapter.1": "The lighthouse shines again. Boats will find us now.",
+   "marlo.gift.loved": "For me? Oh, that's the best catch of the day!",
+   "marlo.gift.liked": "How kind. That's going on my shelf.",
+   "marlo.gift.neutral": "A present! Thank you, friend.",
+   "marlo.gift.disliked": "Hmm, not for a seal. But thank you!",
+   "marlo.request.done": "Thank you, Keeper. Steady work!",
+   "mabel.about_marlo.1": "Hoo. Marlo listens to the sea like I used to.",
+   "otto.about_marlo.1": "Marlo swims nearly as well as me. Nearly!",
+   "he_marlo_02.l01": "I came by sea, you know. Followed the coast for weeks.",
+   "he_marlo_02.l02": "Every harbour had a light. Except one.",
+   "he_marlo_02.l03": "Which one?",
+   "he_marlo_02.l04": "The one I used to keep. It went out. I left.",
+   "he_marlo_02.l05": "You're here now, though.",
+   "he_marlo_02.l06": "I am. Funny how the tide works.",
+   "he_marlo_04.l01": "Mabel says boats used to fill this harbour.",
+   "he_marlo_04.l02": "Then the town went grey, and they stopped coming.",
+   "he_marlo_04.l03": "They could come back.",
+   "he_marlo_04.l04": "Only if they can find us. In the dark, they can't.",
+   "he_marlo_04.l05": "So we need a light.",
+   "he_marlo_04.l06": "We need a light. Yes.",
+   "he_marlo_06.l01": "Can I tell you about my old lamp?",
+   "he_marlo_06.l02": "One stormy night I fell asleep. It went out.",
+   "he_marlo_06.l03": "A little boat couldn't find the way. All safe, in the end.",
+   "he_marlo_06.l04": "Everyone was safe. That matters.",
+   "he_marlo_06.l05": "It does. But I never lit another lamp.",
+   "he_marlo_06.l06": "Maybe this harbour could help with that.",
+   "he_marlo_08.l01": "I climbed the lighthouse today. Just to look.",
+   "he_marlo_08.l02": "The lamp's still there. Dusty. Waiting.",
+   "he_marlo_08.l03": "Like Thimble's fountain.",
+   "he_marlo_08.l04": "Just like that. Things wait for us, don't they?",
+   "he_marlo_08.l05": "We could light it together.",
+   "he_marlo_08.l06": "Together. I'd like that very much.",
+   "he_marlo_10.l01": "I've decided. I'm staying. For good.",
+   "he_marlo_10.l02": "This is the first harbour that felt like home.",
+   "he_marlo_10.l03": "Because of the lighthouse?",
+   "he_marlo_10.l04": "Because of you, Keeper. And everyone.",
+   "he_marlo_10.l05": "Welcome home, Marlo.",
+   "he_marlo_10.l06": "Home. Steady as the tide. Thank you.",
+   "req.marlo_mackerel": "Marlo would love a mackerel. A seal has needs.",
+   "req.marlo_shore": "Clear the weeds by the sea steps for Marlo's walks.",
+   "letter.marlo_1.title": "A letter that smells of the sea",
+   "letter.marlo_1.hint": "There's a letter on the beach.",
+   "letter.marlo_1.sent": "Off it goes! Let's find Marlo a home.",
+   "letter.marlo_1.l1": "Dear Keeper, I'm Marlo. I look after harbours.",
+   "letter.marlo_1.l2": "I hear yours is open again. Does it need a keeper?",
+   "letter.marlo_1.l3": "I'm slow, but steady. I'd mind it well. Marlo",
+   "letter.marlo_1.r1": "Yes! The harbour needs you!",
+   "letter.marlo_1.r2": "Come and stay. The sea is lovely here.",
+   "home.marlo": "Marlo's moved into the harbour! Go and say hello.",
+   "invite.marlo.hint": "Marlo needs a home. See the Keeper's plans.",
+   "quest.lighthouse.intro": "The lighthouse lamp is dusty. Help me wake it?",
+   "quest.lighthouse.mabel": "Hoo. Thimble polished it every winter. Glass and patience.",
+   "quest.lighthouse.done": "Tonight it shines again. Boats will find us. Thank you!",
+   "scene.arrive_marlo.name": "Marlo moves in",
+   "scene.arrive_marlo.1": "A round, whiskery someone waddles along the quay...",
+   "scene.arrive_marlo.2": "Marlo: \"Oh, a real harbour. I'm home.\"",
+   "scene.reveal_lighthouse.name": "The lighthouse shines",
+   "scene.reveal_lighthouse.1": "At dusk, Marlo and {puff} wait by the old lighthouse...",
+   "scene.reveal_lighthouse.2": "...and the lamp flickers, then shines!",
+   "scene.reveal_lighthouse.3": "Marlo: \"Every boat can find {town} now.\"",
+   "story.marlo.hint": "Read Marlo's letter on the beach, then start the hut",
+   "story.marlo.diary": "Marlo the seal is coming to keep our harbour!",
+   "story.marlo.tease": "A letter on the beach smells faintly of the sea...",
+   "story.lighthouse.call": "Marlo is gazing up at the dark lighthouse.",
+   "story.lighthouse.diary": "Marlo and I are going to light the lighthouse!",
+   "story.lighthouse.tease": "Marlo keeps looking up at the old lighthouse..."
   }
  },
  "heartEvents": [
@@ -13159,6 +13601,209 @@
    "rewards": {
     "sparkles": 100
    }
+  },
+  {
+   "id": "he_marlo_02",
+   "neighbourId": "marlo",
+   "hearts": 2,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_02.l01"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_02.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_marlo_02.l03"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_02.l04"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_marlo_02.l05"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_02.l06"
+    }
+   ],
+   "skippable": true
+  },
+  {
+   "id": "he_marlo_04",
+   "neighbourId": "marlo",
+   "hearts": 4,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_04.l01"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_04.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_marlo_04.l03"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_04.l04"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_marlo_04.l05"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_04.l06"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_marlo_02"
+    ]
+   }
+  },
+  {
+   "id": "he_marlo_06",
+   "neighbourId": "marlo",
+   "hearts": 6,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_06.l01"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_06.l02"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_06.l03"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_marlo_06.l04"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_06.l05"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_marlo_06.l06"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_marlo_04"
+    ]
+   },
+   "rewards": {
+    "flags": [
+     "marlo_lamp_story"
+    ]
+   }
+  },
+  {
+   "id": "he_marlo_08",
+   "neighbourId": "marlo",
+   "hearts": 8,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_08.l01"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_08.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_marlo_08.l03"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_08.l04"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_marlo_08.l05"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_08.l06"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_marlo_06"
+    ]
+   }
+  },
+  {
+   "id": "he_marlo_10",
+   "neighbourId": "marlo",
+   "hearts": 10,
+   "trigger": {
+    "type": "talk"
+   },
+   "scene": [
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_10.l01"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_10.l02"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_marlo_10.l03"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_10.l04"
+    },
+    {
+     "speaker": "puff",
+     "line": "he_marlo_10.l05"
+    },
+    {
+     "speaker": "marlo",
+     "line": "he_marlo_10.l06"
+    }
+   ],
+   "skippable": true,
+   "conditions": {
+    "seen": [
+     "he_marlo_08"
+    ]
+   },
+   "rewards": {
+    "sparkles": 100
+   }
   }
  ],
  "requests": [
@@ -13530,6 +14175,31 @@
    ],
    "mess": "dust",
    "fromDay": 42
+  },
+  {
+   "id": "marlo_mackerel",
+   "neighbourId": "marlo",
+   "kind": "bring",
+   "text": "req.marlo_mackerel",
+   "sparkles": 40,
+   "item": "mackerel",
+   "fromDay": 51
+  },
+  {
+   "id": "marlo_shore",
+   "neighbourId": "marlo",
+   "kind": "clean",
+   "text": "req.marlo_shore",
+   "sparkles": 40,
+   "area": "riverside",
+   "rect": [
+    24,
+    8,
+    4,
+    1
+   ],
+   "mess": "weeds",
+   "fromDay": 51
   }
  ],
  "shops": [
@@ -14057,6 +14727,19 @@
     "harbour_gate"
    ],
    "unlock": "harbour_gate"
+  },
+  {
+   "id": "plot_harbour_hut",
+   "name": "Up from the quay",
+   "area": "harbour",
+   "x": 22,
+   "y": 1,
+   "w": 4,
+   "h": 3,
+   "allow": [
+    "cottage_marlo"
+   ],
+   "unlock": "invite_marlo"
   }
  ],
  "buildings": [
@@ -14479,6 +15162,22 @@
      "toY": 7
     }
    ],
+   "project": true
+  },
+  {
+   "id": "cottage_marlo",
+   "name": "Marlo's hut",
+   "nights": 2,
+   "cost": {
+    "sparkles": 200
+   },
+   "prop": {
+    "type": "cottage",
+    "w": 4,
+    "h": 3
+   },
+   "effect": "home",
+   "home": "marlo",
    "project": true
   }
  ],
@@ -15463,6 +16162,36 @@
    "gives": [
     "invite_juniper"
    ]
+  },
+  {
+   "id": "marlo_1",
+   "from": "marlo",
+   "day": 50,
+   "area": "beach",
+   "x": 10,
+   "y": 8,
+   "item": "envelope",
+   "title": "letter.marlo_1.title",
+   "hint": "letter.marlo_1.hint",
+   "sent": "letter.marlo_1.sent",
+   "lines": [
+    "letter.marlo_1.l1",
+    "letter.marlo_1.l2",
+    "letter.marlo_1.l3"
+   ],
+   "replies": [
+    {
+     "label": "letter.marlo_1.r1",
+     "flag": "reply_marlo_1_yes"
+    },
+    {
+     "label": "letter.marlo_1.r2",
+     "flag": "reply_marlo_1_welcome"
+    }
+   ],
+   "gives": [
+    "invite_marlo"
+   ]
   }
  ],
  "festivals": [
@@ -15787,6 +16516,16 @@
    ],
    "fund": 80,
    "unlock": "harbour_gate"
+  },
+  {
+   "id": "marlo_home",
+   "name": "A home for Marlo",
+   "hint": "Marlo needs a hut at the harbour. The town fund will help!",
+   "metBy": [
+    "cottage_marlo"
+   ],
+   "fund": 60,
+   "unlock": "invite_marlo"
   }
  ],
  "cards": [
@@ -16294,6 +17033,59 @@
     "item": "lantern",
     "qty": 1,
     "flag": "chapter_autumn_song"
+   }
+  },
+  {
+   "id": "lighthouse",
+   "name": "Light the lighthouse",
+   "giver": "marlo",
+   "fromDay": 52,
+   "needs": "home_marlo",
+   "offer": "Help me light the old lighthouse?",
+   "intro": "quest.lighthouse.intro",
+   "steps": [
+    {
+     "hint": "Tidy 6 spots on the beach by the lighthouse",
+     "goal": {
+      "type": "cleared",
+      "area": "beach",
+      "count": 6
+     }
+    },
+    {
+     "hint": "Ask Mabel how the old lamp worked",
+     "goal": {
+      "type": "talk",
+      "who": "mabel",
+      "ask": "How did the old lamp work?",
+      "line": "quest.lighthouse.mabel"
+     },
+     "nextDay": true
+    },
+    {
+     "hint": "Make something at a workbench for the lamp",
+     "goal": {
+      "type": "made",
+      "station": "bench",
+      "count": 1
+     }
+    },
+    {
+     "hint": "Tell Marlo the lamp is ready",
+     "goal": {
+      "type": "talk",
+      "who": "marlo",
+      "ask": "The lamp is ready!",
+      "line": "quest.lighthouse.done"
+     },
+     "nextDay": true
+    }
+   ],
+   "reward": {
+    "sparkles": 200,
+    "item": "lantern",
+    "qty": 1,
+    "flag": "lighthouse_lit"
    }
   }
  ],
@@ -20442,6 +21234,281 @@
      ]
     }
    ]
+  },
+  {
+   "id": "arrive_marlo",
+   "name": "scene.arrive_marlo.name",
+   "after": "welcome_marlo",
+   "shots": [
+    {
+     "area": "harbour",
+     "ms": 14000,
+     "minutes": 540,
+     "season": "Winter",
+     "camera": "marlo",
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.3
+      ],
+      [
+       7000,
+       1.7
+      ],
+      [
+       9000,
+       2.4
+      ],
+      [
+       14000,
+       2.4
+      ]
+     ],
+     "music": "warm",
+     "actors": [
+      {
+       "who": "marlo",
+       "path": [
+        [
+         2,
+         7,
+         0
+        ],
+        [
+         20,
+         7,
+         4800
+        ],
+        [
+         23,
+         5,
+         6400
+        ],
+        [
+         23,
+         4,
+         7000
+        ]
+       ],
+       "looks": [
+        [
+         7200,
+         "left"
+        ],
+        [
+         7800,
+         "right"
+        ],
+        [
+         8400,
+         "up"
+        ],
+        [
+         9200,
+         "down"
+        ]
+       ]
+      }
+     ],
+     "bursts": [
+      [
+       23,
+       2,
+       8600
+      ]
+     ],
+     "emotes": [
+      [
+       7300,
+       "marlo",
+       "👀"
+      ],
+      [
+       9400,
+       "marlo",
+       "👋"
+      ]
+     ],
+     "sounds": [
+      [
+       8600,
+       "shimmer"
+      ],
+      [
+       0,
+       "wind"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.arrive_marlo.1"
+      ],
+      [
+       6000,
+       "scene.arrive_marlo.2"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "reveal_lighthouse",
+   "name": "scene.reveal_lighthouse.name",
+   "after": "lighthouse_lit",
+   "now": true,
+   "shots": [
+    {
+     "area": "beach",
+     "ms": 17000,
+     "minutes": [
+      1110,
+      1200
+     ],
+     "season": "Winter",
+     "camera": [
+      [
+       18,
+       7,
+       0
+      ],
+      [
+       22,
+       4,
+       8000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.3
+      ],
+      [
+       8000,
+       2.0
+      ],
+      [
+       17000,
+       1.6
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 22.5,
+       "y": 2.2,
+       "r": 5,
+       "from": 0,
+       "to": 1
+      }
+     ],
+     "bursts": [
+      [
+       22.5,
+       2.2,
+       6000
+      ],
+      [
+       22.5,
+       2.2,
+       10000
+      ]
+     ],
+     "actors": [
+      {
+       "who": "marlo",
+       "path": [
+        [
+         20,
+         7,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      },
+      {
+       "who": "puff",
+       "path": [
+        [
+         17,
+         8,
+         0
+        ],
+        [
+         19,
+         7,
+         2500
+        ]
+       ],
+       "looks": [
+        [
+         2600,
+         "up"
+        ]
+       ],
+       "hops": [
+        11000
+       ]
+      }
+     ],
+     "emotes": [
+      [
+       6200,
+       "puff",
+       "❗"
+      ],
+      [
+       6600,
+       "marlo",
+       "😊"
+      ],
+      [
+       11000,
+       "marlo",
+       "❤"
+      ]
+     ],
+     "sounds": [
+      [
+       0,
+       "wind"
+      ],
+      [
+       6000,
+       "shimmer"
+      ],
+      [
+       10000,
+       "fanfare"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.reveal_lighthouse.1"
+      ],
+      [
+       6000,
+       "scene.reveal_lighthouse.2"
+      ],
+      [
+       11000,
+       "scene.reveal_lighthouse.3"
+      ]
+     ]
+    }
+   ]
   }
  ],
  "story": {
@@ -20879,6 +21946,15 @@
     }
    },
    {
+    "id": "marlo",
+    "day": 50,
+    "chapter": "winter",
+    "goal": {
+     "type": "built",
+     "building": "cottage_marlo"
+    }
+   },
+   {
     "id": "winter_prep",
     "day": 52,
     "chapter": "winter",
@@ -20888,6 +21964,16 @@
     },
     "who": "mabel",
     "until": 55
+   },
+   {
+    "id": "lighthouse",
+    "day": 53,
+    "chapter": "winter",
+    "who": "marlo",
+    "goal": {
+     "type": "quest",
+     "id": "lighthouse"
+    }
    },
    {
     "id": "lights",

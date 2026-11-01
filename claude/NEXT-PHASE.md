@@ -547,6 +547,27 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Inside: Thimble's old net loft, with two lamps and a carving: "A light for every late boat. T."
     - Restoring it gives 120 ✨.
   - Tour cards: ⚓ The Old Harbour, 🧂 Salt Grumbles, 🏮 The net loft.
+- **6d.13 Marlo the harbour keeper, and the lighthouse (1 Nov):** the fifth newcomer, a slow and steady seal who once kept a lamp on a far coast.
+  - **Moving in:** a letter on the beach on day 50 (`invite_marlo`) opens the "Up from the quay" plot at the harbour. Once the hut is built (the fund helps), Marlo moves in (`home_marlo`) and arrives in a short scene the next morning. There's a town need and a tracker nudge, and it's a winter story step.
+  - **Daily life:** the harbour in the morning, the beach at 11, back to the jetties in the afternoon, the square at dusk, home at night. In the rain Marlo stays out on the beach ("A seal's favourite weather"). Weekly yard visits, and fair days.
+  - **Lines:** 45, including opinions about Mabel and Otto, and Mabel and Otto about Marlo.
+  - **Tastes and trades:** loves mackerel and fish stew. Thank-you notes trade for tea or mackerel.
+  - **Jobs:** a mackerel, and clearing the weeds by the sea steps.
+  - **Heart arc (5 scenes):**
+    1. Following the coast to the one harbour whose light went out.
+    2. Boats can't come back if they can't find the town.
+    3. The stormy night their old lamp went out (everyone was safe).
+    4. Climbing the lighthouse to find the lamp waiting, "like Thimble's fountain".
+    5. Staying for good.
+  - **Light the lighthouse**, the harbour's quest, from day 52. It's also a winter story step.
+    1. Tidy 6 spots on the beach.
+    2. Next day: ask Mabel how the old lamp worked ("Thimble polished it every winter").
+    3. Make something at a workbench.
+    4. Next day: tell Marlo.
+    - Reward: 200 ✨, a lantern and `lighthouse_lit`. Then a short scene: at dusk the lamp flickers and shines.
+  - A code-drawn seal: no ears, little flippers, speckles and whisker dots.
+  - Tour cards: 🦭 Marlo the harbour keeper, 💡 Light the lighthouse.
+- **The Harbour and Beach, done for now:** the Old Harbour, its fish, critters, salt Grumbles and net loft, Marlo, and the lighthouse. Next district: the Deeps.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
