@@ -98,6 +98,7 @@ export class World {
   readonly glows = new Container();
   /** Rings swelling from cleared spots (world/rings.ts). */
   private rings = new Rings();
+  private stepMs = 0;
   readonly particles = new Particles();
   private tint = new Graphics();
   /** A soft light around Puff after dark. */
@@ -386,6 +387,11 @@ export class World {
 
   drawPuff(v: PuffView, dt: number) {
     this.animClock += dt;
+    // Little dust puffs from Puff's feet while walking (none with reduced motion).
+    if (v.pose === 'walk' && !this.reducedMotion) {
+      this.stepMs += dt;
+      if (this.stepMs >= 300) { this.stepMs = 0; this.particles.burst('puff', v.x, v.y - 1, 2, [P.greyLight, P.white], 10, -5); }
+    } else this.stepMs = 0;
     const clip = this.sprites ? puffClip(v.dir, v.pose, this.sprites.has, v.tool) : null;
     let lift = 0;
     if (clip && this.sprites) {

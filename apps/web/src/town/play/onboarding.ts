@@ -83,6 +83,8 @@ export class Onboarding {
   constructor(public step = 0, public ahead: Record<string, number> = {}) {}
 
   get current(): Step | null { return STEPS[this.step] ?? null; }
+  /** Which tip this is, of how many (shown on the tracker so the first day has an end in sight). */
+  get progress(): [number, number] { return [Math.min(this.step + 1, STEPS.length), STEPS.length]; }
   get done() { return this.step >= STEPS.length; }
   /** The tips still lead somewhere before the last one (bed), so an early night gets a gentle check. */
   get moreBeforeBed() { return !!this.current && this.current.id !== 'bed'; }

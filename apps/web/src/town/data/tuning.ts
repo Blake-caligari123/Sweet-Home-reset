@@ -15,6 +15,8 @@ export interface Tuning {
   restoreThreshold: number;
   /** Sparkles for making a place spotless (every last spot), once per place per day. */
   spotlessSparkles: number;
+  /** Sparkles for each first-day tip done (play/onboarding-guide.ts). */
+  tipSparkles: number;
   /** Sparkles for every restored place spotless the same day (play/tidy-meter.ts), once a day. */
   townSpotlessSparkles: number;
   /** Sparkles for completing a Collection set (every find, critter or fish), once each. */

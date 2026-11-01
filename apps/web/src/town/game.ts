@@ -120,7 +120,7 @@ export class TownGame {
 
   constructor(
     private app: Application,
-    ui: HTMLElement,
+    private ui: HTMLElement,
     pack: TownPack,
     native: NativeBridge,
     private sound: Sound,
@@ -312,11 +312,34 @@ export class TownGame {
   private async travel(to: string, x: number, y: number) {
     if (this.fading) return;
     this.fading = true;
+    this.view.hold(); // banners wait until the new place is showing
+    // An iris closes on Puff and opens on Puff in the new place (a plain fade with reduced motion).
+    const iris = !this.settings.reducedMotion;
+    this.fade.classList.toggle('iris', iris);
+    if (iris) this.irisAt();
     this.fade.classList.add('on');
-    await wait(this.settings.reducedMotion ? 0 : 250);
+    await wait(this.settings.reducedMotion ? 0 : iris ? 320 : 250);
     this.enterArea(to, x, y);
+    if (iris) this.irisAt();
     this.fade.classList.remove('on');
+    this.placeCard(this.content.named(this.area.pack.name));
+    window.setTimeout(() => this.fade.classList.remove('iris'), 400);
+    this.view.release();
     this.fading = false;
+  }
+
+  /** Centre the iris on Puff. */
+  private irisAt() {
+    const p = this.world.toScreen(this.puff.fx, this.puff.fy - 10);
+    this.fade.style.setProperty('--ix', `${p.x}px`); this.fade.style.setProperty('--iy', `${p.y}px`);
+  }
+
+  /** The place's name, briefly, as Puff arrives. */
+  private placeCard(name: string) {
+    this.ui.querySelector('.place-card')?.remove();
+    const card = h('div', { class: 'place-card', 'aria-hidden': 'true' }, `📍 ${name}`);
+    this.ui.append(card);
+    window.setTimeout(() => card.remove(), 1900);
   }
 
   // ---- input -------------------------------------------------------------------------------
@@ -483,7 +506,7 @@ export class TownGame {
     if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }
     for (const o of newlyEarned(this.state, this.content.pack.outfits ?? [])) this.view.banner(`👒 New outfit: ${o.name}! (Pause → Outfits)`);
     const next = this.menus.nudgeLine();
-    this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? step.hint : this.systems.story.tracker() ?? this.jobs.tracker() ?? this.systems.questHint() ?? next ?? 'Explore {town} and tidy what you find.'));
+    this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? `${step.hint} (${this.state.onboarding.progress.join('/')})` : this.systems.story.tracker() ?? this.jobs.tracker() ?? this.systems.questHint() ?? next ?? 'Explore {town} and tidy what you find.'));
   }
 
   /** Play a cutscene and remember it was seen (for the journal's Memories). */
