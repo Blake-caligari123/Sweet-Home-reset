@@ -11,6 +11,7 @@ export function openJournal(view: View, page: JournalPage, memories: { label: st
     ...(page.tally ? [h('p', { class: 'muted' }, page.tally)] : []),
     section('Today', h('p', { class: 'note' }, page.today), ...page.also.map((a) => h('p', { class: 'muted' }, `You could also: ${a}`))),
     ...(page.goals.length ? [section('🎯 Today\'s goals', ...page.goals.map((g) => h('p', { class: 'journal-line' }, g)))] : []),
+    ...(page.week.length ? [section('📅 This week', ...page.week.map((g) => h('p', { class: 'journal-line' }, g)))] : []),
     section('The story so far', ...(page.diary.length ? page.diary.map((d) => h('p', { class: 'journal-line' }, d)) : [h('p', { class: 'muted' }, 'The first page is waiting to be written.')]),
       ...page.past.map((c) => h('p', { class: 'muted' }, `✓ ${c}`)))
   ];

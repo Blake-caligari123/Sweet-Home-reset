@@ -731,6 +731,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - 🪨 **Skip stones with Otto** (`skip.ts`): a marker swings along a bar; tap Throw! in the green. Dead centre skips 9 times. Three throws, each quicker, with the green somewhere new; the best throw counts.
   - The daily goal "Sort a shelf with Moss" is now "Play a little game with a friend" (any of the four).
   - Three more happenings, so days repeat less: 🎲 **games day** (play 2 games), 🌱 **garden day** (water 5 crops), 🧹 **clean sweep** (tidy 30 spots). That's 9 kinds now.
+- **This week's goals and two more games (1 Nov):**
+  - **📅 This week** (`pickWeekly` in `daily/goals.ts`, run by `daily-life.ts`): from day 3, three bigger goals a week from different families: tidy 120 spots, catch 8 fish, spot 4 critters, pick 8 crops, cook 4 dishes, play 5 games, finish 4 board jobs. Each is a fanfare and +60 ✨. All three gives a gift for the home, a different one each week (birdhouse, floor lamp, planter box, garden chair…). Told on the week's first morning, listed in the journal under 📅 This week. Weeks are days 1–7, 8–14 and so on.
+  - 💡 **Light the lamps with Pip** (`minigames/lamps.ts`): tapping a lamp flips it and its neighbours; light them all. 3×3 boards, 4×4 from day 25. Each is dealt by flipping a lit board, so it can always be done in the taps shown.
+  - 🫖 **Pour the tea with Mabel** (`minigames/tea.ts`): hold to pour, let go at the dashed line. Three cups, each quicker, the line somewhere new; past the brim is a spill. Mabel is in the square from 6 pm.
+  - Six mini-games now, one each for Moss, Bea, Hazel, Otto, Pip and Mabel.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

@@ -274,3 +274,15 @@ html.high-contrast .muted { color: #4a3a32; }
 .skip-marker { position: absolute; top: -2px; bottom: -2px; width: 6px; border-radius: 3px; background: #5a4636; }
 .skip-water { min-height: 1.6em; font-size: 1.1rem; letter-spacing: 0.05em; }
 @media (prefers-reduced-motion: reduce) { .pairs .card, .pairs.sorted .card, .pantry-shelf.nope { transition: none; animation: none; } }
+
+/* Pip's lamps and Mabel's tea (minigames/). */
+.lamps { display: grid; gap: 6px; margin: 8px auto; width: min(240px, 100%); }
+.lamps .lamp { aspect-ratio: 1; padding: 0; border: 2px solid #5a4636; border-radius: 50%; background: #6b6070; font-size: 1.4rem; cursor: pointer; transition: background 0.15s ease, box-shadow 0.15s ease; }
+.lamps .lamp.on { background: #f2d479; box-shadow: 0 0 10px 3px rgba(255, 220, 120, 0.8); }
+.lamps.sorted .lamp { animation: shelf-hop 0.5s ease both; }
+.tea-cup { position: relative; width: 90px; height: 110px; margin: 10px auto; border: 3px solid #5a4636; border-top: none; border-radius: 0 0 20px 20px; background: #fff8ea; overflow: hidden; }
+.tea-fill { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: #c98f5a; }
+.tea-line { position: absolute; left: -2px; right: -2px; height: 0; border-top: 2px dashed #5a4636; }
+.tea-cup.spilt { animation: nope 0.3s ease; }
+.tea-pour { touch-action: none; user-select: none; -webkit-user-select: none; }
+@media (prefers-reduced-motion: reduce) { .lamps .lamp, .lamps.sorted .lamp, .tea-cup.spilt { transition: none; animation: none; } }

@@ -28,3 +28,17 @@ describe('today\'s little goals', () => {
     expect(goalText({ kind: 'visit', place: 'lane', have: 0 }, () => 'Neighbour Lane')).toBe('Pay a visit to Neighbour Lane');
   });
 });
+
+describe('this week\'s goals', () => {
+  it('picks three bigger ones a week, from different families, the same all week', async () => {
+    const { pickWeekly, weekOf } = await import('./goals');
+    expect(weekOf(1)).toBe(1); expect(weekOf(7)).toBe(1); expect(weekOf(8)).toBe(2);
+    expect(pickWeekly({ ...later, day: 2 })).toEqual([]);
+    const w = pickWeekly({ ...later, day: 22 });
+    expect(w).toHaveLength(3);
+    expect(w.every((g) => g.kind.startsWith('w_'))).toBe(true);
+    expect(new Set(w.map((g) => kindOf(g).family)).size).toBe(3);
+    expect(pickWeekly({ ...later, day: 28 })).toEqual(w);
+    for (let d = 2; d < 40; d += 1) for (const g of pickGoals({ ...later, day: d })) expect(g.kind.startsWith('w_')).toBe(false);
+  });
+});

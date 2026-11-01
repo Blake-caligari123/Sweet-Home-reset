@@ -6,7 +6,7 @@ import type { TownState } from '../state';
 import type { View } from '../ui/view';
 import type { TownAreas } from '../world/town-areas';
 import { GAMES } from '../minigames/minigame-buttons';
-import { goalDone, goalText, hearGoal, kindOf, pickGoals, SAME_AS, type GoalFacts } from './goals';
+import { goalDone, goalText, hearGoal, kindOf, pickGoals, pickWeekly, SAME_AS, weekOf, type Goal, type GoalFacts } from './goals';
 
 export interface DailyHost { state: TownState; view: View; content: Content; places: TownAreas; day(): number; refreshHud(): void; save(): void; hop(): void }
 
@@ -37,10 +37,46 @@ export class DailyGoalsLife {
     return state.daily.goals;
   }
 
+  /** This week's bigger goals, picked fresh each week. */
+  get weekly() {
+    const { state } = this.h;
+    const week = weekOf(this.h.day());
+    // The first week's goals start on day 3, once the first days' guide is done.
+    if (state.weekly.day !== week || (!state.weekly.goals.length && this.h.day() >= 3)) state.weekly = { day: week, goals: pickWeekly(this.facts()), bonus: false };
+    return state.weekly.goals;
+  }
+
   hear(e: OnboardEvent) {
+    this.hearDaily(e);
+    this.hearWeekly(e);
+  }
+
+  private hearWeekly(e: OnboardEvent) {
+    const { state, view, content } = this.h;
+    const r = hearGoal(this.weekly, e);
+    if (!moved(r.goals, state.weekly.goals)) return;
+    state.weekly.goals = r.goals;
+    for (const g of r.done) {
+      state.sparkles += TUNING.weeklyGoalSparkles;
+      view.feedback('fanfare', 'success');
+      view.banner(`📅 ${this.text(g)}: done! +${TUNING.weeklyGoalSparkles} ✨`);
+    }
+    if (r.done.length && !state.weekly.bonus && r.goals.every(goalDone)) {
+      state.weekly.bonus = true;
+      const gifts = TUNING.weeklyGifts;
+      const gift = gifts[(state.weekly.day - 1) % gifts.length];
+      state.bag.add(gift);
+      view.feedback('fanfare', 'success');
+      view.banner(`🎁 The whole week's goals! A gift: a ${content.itemName(gift).toLowerCase()} for your home.`);
+      this.h.hop();
+    }
+    if (r.done.length) { this.h.refreshHud(); this.h.save(); }
+  }
+
+  private hearDaily(e: OnboardEvent) {
     const { state, view, content } = this.h;
     const r = hearGoal(this.goals, e);
-    if (r.goals.every((g, i) => g.have === state.daily.goals[i].have)) return;
+    if (!moved(r.goals, state.daily.goals)) return;
     state.daily.goals = r.goals;
     for (const g of r.done) {
       state.sparkles += TUNING.dailyGoalSparkles;
@@ -57,13 +93,20 @@ export class DailyGoalsLife {
     if (r.done.length) { this.h.refreshHud(); this.h.save(); }
   }
 
-  private text(g: (typeof this.goals)[number]) { return goalText(g, (id) => this.h.content.named(this.h.places.get(id)?.pack.name ?? id)); }
+  private text(g: Goal) { return goalText(g, (id) => this.h.content.named(this.h.places.get(id)?.pack.name ?? id)); }
 
-  /** The morning's line: today's three. */
-  morning(): string[] { return !this.goals.length ? [] : [`🎯 Today's goals: ${this.goals.map((g) => this.text(g)).join(' · ')}`]; }
+  /** The morning's lines: the week's three on its first morning (or the first day there are any), then today's three. */
+  morning(): string[] {
+    const week = this.weekly.length && ((this.h.day() - 1) % 7 === 0 || this.h.day() === 3) ? [`📅 This week: ${this.weekly.map((g) => this.text(g)).join(' · ')}`] : [];
+    return [...week, ...(this.goals.length ? [`🎯 Today's goals: ${this.goals.map((g) => this.text(g)).join(' · ')}`] : [])];
+  }
 
   /** For the journal: each goal ticked or with its count so far. */
-  lines(): string[] {
-    return this.goals.map((g) => goalDone(g) ? `✅ ${this.text(g)}` : `⬜ ${this.text(g)}${kindOf(g).count > 1 ? ` (${g.have}/${kindOf(g).count})` : ''}`);
-  }
+  lines(): string[] { return this.goals.map((g) => this.line(g)); }
+  weekLines(): string[] { return this.weekly.map((g) => this.line(g)); }
+
+  private line(g: Goal) { return goalDone(g) ? `✅ ${this.text(g)}` : `⬜ ${this.text(g)}${kindOf(g).count > 1 ? ` (${g.have}/${kindOf(g).count})` : ''}`; }
 }
+
+/** Did a moment move any goal on? */
+const moved = (next: Goal[], was: Goal[]) => next.some((g, i) => g.have !== was[i].have);

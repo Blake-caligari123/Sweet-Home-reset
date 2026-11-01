@@ -91,6 +91,8 @@ export interface TownSave {
   spotless?: SpotlessState;
   /** Today's little goals (daily/goals.ts). */
   daily?: DailyGoals;
+  /** This week's goals (`day` holds the week number). */
+  weekly?: DailyGoals;
   /** Today's happening (daily/happenings.ts). */
   happening?: HappeningState;
   /** How far along the Keeper's Story is. */

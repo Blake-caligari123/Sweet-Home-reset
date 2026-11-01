@@ -20,6 +20,8 @@ export interface JournalInput {
   tally?: string;
   /** Today's little goals, ticked or counted (daily/). */
   goals?: string[];
+  /** This week's goals. */
+  week?: string[];
 }
 
 export interface JournalPage {
@@ -28,7 +30,7 @@ export interface JournalPage {
   /** This chapter's story so far, and the chapters already told. */
   diary: string[]; past: string[];
   tryNew: string | null; quests: { name: string; hint: string }[];
-  tally: string; goals: string[];
+  tally: string; goals: string[]; week: string[];
 }
 
 export function journalPage(i: JournalInput): JournalPage {
@@ -43,6 +45,6 @@ export function journalPage(i: JournalInput): JournalPage {
     also: i.also.filter((x): x is string => !!x).slice(0, 2),
     diary: now.done.map((id) => i.line(`story.${id}.diary`)),
     past: def.chapters.slice(0, Math.max(0, at)).map((c) => c.name),
-    tryNew: i.tryNew, quests: i.quests, tally: i.tally ?? '', goals: i.goals ?? []
+    tryNew: i.tryNew, quests: i.quests, tally: i.tally ?? '', goals: i.goals ?? [], week: i.week ?? []
   };
 }

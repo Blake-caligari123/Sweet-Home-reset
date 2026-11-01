@@ -24,7 +24,7 @@ import { Onboarding } from './play/onboarding';
 import type { Taken } from './play/pickups';
 
 /** The parts of a save that hold Puff's progress. */
-export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights' | 'cloudVersion' | 'visited' | 'memories' | 'dramas' | 'skills' | 'puffDay' | 'fund' | 'needsMet' | 'tokens' | 'quests' | 'story' | 'spotless' | 'daily' | 'happening' | 'stall' | 'cafe' | 'fishCaught' | 'fishLog' | 'critters' | 'farm'>;
+export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights' | 'cloudVersion' | 'visited' | 'memories' | 'dramas' | 'skills' | 'puffDay' | 'fund' | 'needsMet' | 'tokens' | 'quests' | 'story' | 'spotless' | 'daily' | 'weekly' | 'happening' | 'stall' | 'cafe' | 'fishCaught' | 'fishLog' | 'critters' | 'farm'>;
 
 export interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
 
@@ -85,6 +85,8 @@ export class TownState {
   spotless: SpotlessState = { day: 0, areas: [] };
   /** Today's little goals (daily/goals.ts). */
   daily: DailyGoals = { day: 0, goals: [], bonus: false };
+  /** This week's goals (`day` holds the week number). */
+  weekly: DailyGoals = { day: 0, goals: [], bonus: false };
   happening: HappeningState = NO_HAPPENING;
   /** What's out on Puff's market stall (stall/stall.ts). */
   stall: StallState = { slots: [] };
@@ -117,7 +119,7 @@ export class TownState {
       fluff: { value: this.fluff.value, max: this.fluff.max, boost: this.fluff.boost }, sparkles: this.sparkles,
       bag: this.bag.slots, tools: this.tools, crops: this.crops, flags: this.flags, friends: this.friends,
       onboarding: this.onboarding.step, onboardingAhead: this.onboarding.ahead, chores: this.chores,
-      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet, bloom: this.bloom, finds: this.finds, outfit: this.outfit, decor: this.decor, caves: this.caves, townJobs: this.townJobs, dashBest: this.dashBest, unlock: this.unlock, restNights: this.restNights, cloudVersion: this.cloudVersion, visited: this.visited, memories: this.memories, dramas: this.dramas, skills: this.skills, puffDay: this.puffDay, fund: this.fund, needsMet: this.needsMet, tokens: this.tokens, quests: this.quests, story: this.story, spotless: this.spotless, daily: this.daily, happening: this.happening, stall: this.stall, cafe: this.cafe, fishCaught: this.fishCaught, fishLog: this.fishLog, critters: this.critters, farm: this.farm
+      requests: this.requests, picked: this.picked, lastClean: this.lastClean, names: this.names, plots: this.plots, grumbles: this.grumbles, pet: this.pet, bloom: this.bloom, finds: this.finds, outfit: this.outfit, decor: this.decor, caves: this.caves, townJobs: this.townJobs, dashBest: this.dashBest, unlock: this.unlock, restNights: this.restNights, cloudVersion: this.cloudVersion, visited: this.visited, memories: this.memories, dramas: this.dramas, skills: this.skills, puffDay: this.puffDay, fund: this.fund, needsMet: this.needsMet, tokens: this.tokens, quests: this.quests, story: this.story, spotless: this.spotless, daily: this.daily, weekly: this.weekly, happening: this.happening, stall: this.stall, cafe: this.cafe, fishCaught: this.fishCaught, fishLog: this.fishLog, critters: this.critters, farm: this.farm
     };
   }
 
@@ -156,6 +158,7 @@ export class TownState {
     this.tokens = save.tokens && typeof save.tokens === 'object' ? save.tokens : {};
     this.quests = save.quests && typeof save.quests === 'object' ? save.quests : {};
     this.happening = save.happening?.day ? save.happening : NO_HAPPENING;
+    this.weekly = Array.isArray(save.weekly?.goals) ? save.weekly : { day: 0, goals: [], bonus: false };
     this.daily = Array.isArray(save.daily?.goals) ? save.daily : { day: 0, goals: [], bonus: false };
     this.spotless = Array.isArray(save.spotless?.areas) ? save.spotless : { day: 0, areas: [] };
     this.story = typeof save.story?.step === 'number' ? save.story : { ...NEW_STORY };

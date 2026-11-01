@@ -25,6 +25,8 @@ export interface Tuning {
   happeningSparkles: number; sparkleHourBonus: number;
   /** A mini-game's first finish of the day: Sparkles for 1, 2 and 3 stars (minigames/). */
   gameSparkles: number[];
+  /** This week's goals: Sparkles for each, and the home gift for all three (a different one each week). */
+  weeklyGoalSparkles: number; weeklyGifts: string[];
   /** Sparkles for completing a Collection set (every find, critter or fish), once each. */
   setCompleteSparkles: number;
   /** Sparkles for the whole town reaching 100% (bloom/completion.ts). */
