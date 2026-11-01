@@ -10290,7 +10290,28 @@
    "scene.arrive_sorrel.name": "Sorrel moves in",
    "scene.arrive_fig.name": "Fig moves in",
    "scene.arrive_wren.name": "Wren comes home",
-   "scene.arrive_juniper.name": "Juniper moves in"
+   "scene.arrive_juniper.name": "Juniper moves in",
+   "scene.reveal_boathouse.name": "The boathouse",
+   "scene.reveal_boathouse.1": "Under the dust: an old rowboat, mended with care.",
+   "scene.reveal_boathouse.2": "Someone loved this boat. Someone long ago...",
+   "scene.reveal_boathouse.3": "Carved in the beam: \"Thimble mended every boat.\"",
+   "scene.reveal_boathouse.4": "{puff}: \"Thimble... a Keeper, just like me?\"",
+   "scene.reveal_stone.name": "The humming stone",
+   "scene.reveal_stone.1": "At dusk on the hill, Juniper plays the old song...",
+   "scene.reveal_stone.2": "Three notes, then a fourth. Again, softer.",
+   "scene.reveal_stone.3": "...and the old stone hums it back!",
+   "scene.reveal_stone.4": "Deep under the hill, the warm water answers.",
+   "scene.reveal_carving.name": "Thimble's last carving",
+   "scene.reveal_carving.1": "Down in the deepest cave, the spring is barely warm.",
+   "scene.reveal_carving.2": "\"I rest by the warm spring. Wake me when the town glows.\"",
+   "scene.reveal_carving.3": "And there, curled up by the water...",
+   "scene.reveal_carving.4": "...is Thimble, fast asleep. Shh. Not yet.",
+   "scene.thimble_wakes.name": "Thimble wakes",
+   "scene.thimble_wakes.1": "Every lantern in {town} is glowing.",
+   "scene.thimble_wakes.2": "Far below, the warm spring stirs...",
+   "scene.thimble_wakes.3": "“The town glows. I'm awake!”",
+   "scene.thimble_wakes.4": "Thimble turns around, and smiles at everyone.",
+   "scene.thimble_wakes.5": "“Thank you, Keeper. I've missed you all so.”"
   }
  },
  "heartEvents": [
@@ -18749,6 +18770,920 @@
      ]
     }
    ]
+  },
+  {
+   "id": "reveal_boathouse",
+   "name": "scene.reveal_boathouse.name",
+   "after": "restored_boathouse",
+   "now": true,
+   "shots": [
+    {
+     "area": "boathouse",
+     "ms": 19500,
+     "minutes": 900,
+     "season": "Summer",
+     "camera": [
+      [
+       5,
+       6,
+       0
+      ],
+      [
+       5,
+       5,
+       5000
+      ],
+      [
+       8,
+       3.5,
+       10000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.6
+      ],
+      [
+       5000,
+       2.2
+      ],
+      [
+       10000,
+       3.0
+      ],
+      [
+       19000,
+       3.0
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 9,
+       "y": 2,
+       "r": 1.5,
+       "from": 0,
+       "to": 0.6
+      }
+     ],
+     "bursts": [
+      [
+       9,
+       2,
+       10000
+      ]
+     ],
+     "actors": [
+      {
+       "who": "puff",
+       "path": [
+        [
+         5,
+         6,
+         0
+        ],
+        [
+         5,
+         6,
+         3000
+        ],
+        [
+         8,
+         6,
+         5000
+        ],
+        [
+         8,
+         3,
+         8500
+        ]
+       ],
+       "looks": [
+        [
+         1000,
+         "up"
+        ],
+        [
+         8600,
+         "right"
+        ],
+        [
+         9200,
+         "up"
+        ]
+       ]
+      }
+     ],
+     "emotes": [
+      [
+       1200,
+       "puff",
+       "👀"
+      ],
+      [
+       10200,
+       "puff",
+       "❗"
+      ],
+      [
+       15000,
+       "puff",
+       "❓"
+      ]
+     ],
+     "sounds": [
+      [
+       600,
+       "drip"
+      ],
+      [
+       5200,
+       "drip"
+      ],
+      [
+       10000,
+       "shimmer"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.reveal_boathouse.1"
+      ],
+      [
+       5300,
+       "scene.reveal_boathouse.2"
+      ],
+      [
+       10000,
+       "scene.reveal_boathouse.3"
+      ],
+      [
+       15000,
+       "scene.reveal_boathouse.4"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "reveal_stone",
+   "name": "scene.reveal_stone.name",
+   "after": "chapter_autumn_song",
+   "now": true,
+   "shots": [
+    {
+     "area": "orchard_hill",
+     "ms": 19000,
+     "minutes": [
+      1080,
+      1140
+     ],
+     "season": "Autumn",
+     "camera": [
+      [
+       20,
+       7,
+       0
+      ],
+      [
+       24,
+       4,
+       6000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.3
+      ],
+      [
+       6000,
+       2.0
+      ],
+      [
+       14000,
+       2.8
+      ],
+      [
+       19000,
+       2.4
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 24,
+       "y": 3,
+       "r": 2.5,
+       "from": 0,
+       "to": 0.9
+      }
+     ],
+     "bursts": [
+      [
+       24,
+       3,
+       9800
+      ],
+      [
+       24,
+       3,
+       13800
+      ]
+     ],
+     "actors": [
+      {
+       "who": "juniper",
+       "path": [
+        [
+         23,
+         5,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      },
+      {
+       "who": "puff",
+       "path": [
+        [
+         19,
+         8,
+         0
+        ],
+        [
+         21,
+         5,
+         4500
+        ]
+       ],
+       "looks": [
+        [
+         4600,
+         "right"
+        ],
+        [
+         6000,
+         "up"
+        ]
+       ],
+       "hops": [
+        14200
+       ]
+      }
+     ],
+     "emotes": [
+      [
+       1500,
+       "juniper",
+       "♪"
+      ],
+      [
+       5600,
+       "juniper",
+       "♪"
+      ],
+      [
+       9800,
+       "puff",
+       "❗"
+      ],
+      [
+       14000,
+       "juniper",
+       "😊"
+      ]
+     ],
+     "sounds": [
+      [
+       1500,
+       "hum"
+      ],
+      [
+       5600,
+       "hum"
+      ],
+      [
+       9800,
+       "hum"
+      ],
+      [
+       9900,
+       "shimmer"
+      ],
+      [
+       13800,
+       "shimmer"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.reveal_stone.1"
+      ],
+      [
+       5200,
+       "scene.reveal_stone.2"
+      ],
+      [
+       9800,
+       "scene.reveal_stone.3"
+      ],
+      [
+       14400,
+       "scene.reveal_stone.4"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "reveal_carving",
+   "name": "scene.reveal_carving.name",
+   "shots": [
+    {
+     "area": "cave_4",
+     "ms": 24000,
+     "minutes": 900,
+     "season": "Winter",
+     "camera": [
+      [
+       9,
+       9,
+       0
+      ],
+      [
+       15,
+       4,
+       7000
+      ],
+      [
+       15,
+       4,
+       12500
+      ],
+      [
+       10,
+       6,
+       17000
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.4
+      ],
+      [
+       7000,
+       2.4
+      ],
+      [
+       12500,
+       2.4
+      ],
+      [
+       17000,
+       2.8
+      ],
+      [
+       24000,
+       2.8
+      ]
+     ],
+     "music": "off",
+     "glows": [
+      {
+       "x": 16,
+       "y": 2,
+       "r": 1.5,
+       "from": 0,
+       "to": 0.5
+      },
+      {
+       "x": 9.5,
+       "y": 4,
+       "r": 3.5,
+       "from": 0.15,
+       "to": 0.25
+      }
+     ],
+     "bursts": [
+      [
+       16,
+       2,
+       7200
+      ]
+     ],
+     "actors": [
+      {
+       "who": "puff",
+       "path": [
+        [
+         9,
+         9,
+         0
+        ],
+        [
+         14,
+         7,
+         3000
+        ],
+        [
+         14,
+         6,
+         3500
+        ],
+        [
+         16,
+         6,
+         4300
+        ],
+        [
+         16,
+         3,
+         6500
+        ],
+        [
+         16,
+         3,
+         12500
+        ],
+        [
+         14,
+         5,
+         14500
+        ],
+        [
+         13,
+         6,
+         15200
+        ],
+        [
+         11,
+         6,
+         16500
+        ]
+       ],
+       "looks": [
+        [
+         6600,
+         "up"
+        ],
+        [
+         16600,
+         "left"
+        ]
+       ]
+      },
+      {
+       "who": "thimble",
+       "path": [
+        [
+         9,
+         6,
+         0
+        ]
+       ],
+       "dir": "up",
+       "sleepFrom": 0,
+       "species": "bunny",
+       "colours": {
+        "fur": "#E9E2F0",
+        "belly": "#FBF7FD",
+        "accent": "#B8A9CF"
+       }
+      }
+     ],
+     "emotes": [
+      [
+       7200,
+       "puff",
+       "❗"
+      ],
+      [
+       13500,
+       "thimble",
+       "💤"
+      ],
+      [
+       17000,
+       "puff",
+       "❤"
+      ],
+      [
+       21000,
+       "thimble",
+       "💤"
+      ]
+     ],
+     "sounds": [
+      [
+       800,
+       "drip"
+      ],
+      [
+       7200,
+       "shimmer"
+      ],
+      [
+       11000,
+       "drip"
+      ],
+      [
+       17000,
+       "snore"
+      ],
+      [
+       21000,
+       "snore"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.reveal_carving.1"
+      ],
+      [
+       7200,
+       "scene.reveal_carving.2"
+      ],
+      [
+       12500,
+       "scene.reveal_carving.3"
+      ],
+      [
+       17500,
+       "scene.reveal_carving.4"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "thimble_wakes",
+   "name": "scene.thimble_wakes.name",
+   "after": "year_one_chapter",
+   "now": true,
+   "shots": [
+    {
+     "area": "square",
+     "ms": 24000,
+     "minutes": 1200,
+     "season": "Winter",
+     "camera": [
+      [
+       14.5,
+       12,
+       0
+      ]
+     ],
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       0.9
+      ],
+      [
+       4000,
+       1.2
+      ],
+      [
+       8500,
+       2.0
+      ],
+      [
+       13000,
+       2.6
+      ],
+      [
+       19000,
+       2.6
+      ],
+      [
+       24000,
+       1.4
+      ]
+     ],
+     "music": "soft",
+     "glows": [
+      {
+       "x": 14.5,
+       "y": 9.5,
+       "r": 3.5,
+       "from": 0.4,
+       "to": 1
+      }
+     ],
+     "bursts": [
+      [
+       14.5,
+       9.5,
+       4500
+      ],
+      [
+       14,
+       11,
+       9000
+      ],
+      [
+       15,
+       11,
+       9000
+      ],
+      [
+       14,
+       12,
+       13500
+      ],
+      [
+       14.5,
+       9.5,
+       18000
+      ],
+      [
+       13,
+       9.5,
+       18000
+      ],
+      [
+       16,
+       9.5,
+       18000
+      ]
+     ],
+     "actors": [
+      {
+       "who": "hazel",
+       "path": [
+        [
+         17,
+         13,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      },
+      {
+       "who": "bea",
+       "path": [
+        [
+         18,
+         14,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      },
+      {
+       "who": "pip",
+       "path": [
+        [
+         11,
+         13,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      },
+      {
+       "who": "otto",
+       "path": [
+        [
+         20,
+         14,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      },
+      {
+       "who": "moss",
+       "path": [
+        [
+         9,
+         14,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      },
+      {
+       "who": "mabel",
+       "path": [
+        [
+         12,
+         14,
+         0
+        ]
+       ],
+       "looks": [
+        [
+         0,
+         "up"
+        ]
+       ]
+      },
+      {
+       "who": "puff",
+       "path": [
+        [
+         14,
+         15,
+         0
+        ],
+        [
+         14,
+         14,
+         2500
+        ]
+       ],
+       "looks": [
+        [
+         2600,
+         "up"
+        ]
+       ],
+       "hops": [
+        14000,
+        14800
+       ]
+      },
+      {
+       "who": "thimble",
+       "path": [
+        [
+         14,
+         12,
+         0
+        ]
+       ],
+       "from": 9000,
+       "looks": [
+        [
+         9000,
+         "up"
+        ],
+        [
+         13500,
+         "down"
+        ]
+       ],
+       "species": "bunny",
+       "colours": {
+        "fur": "#E9E2F0",
+        "belly": "#FBF7FD",
+        "accent": "#B8A9CF"
+       }
+      }
+     ],
+     "emotes": [
+      [
+       9400,
+       "pip",
+       "❗"
+      ],
+      [
+       9600,
+       "hazel",
+       "❗"
+      ],
+      [
+       9800,
+       "mabel",
+       "❗"
+      ],
+      [
+       13800,
+       "puff",
+       "❗"
+      ],
+      [
+       14400,
+       "bea",
+       "😊"
+      ],
+      [
+       14600,
+       "otto",
+       "😄"
+      ],
+      [
+       15000,
+       "moss",
+       "📖"
+      ],
+      [
+       18400,
+       "thimble",
+       "♪"
+      ],
+      [
+       19000,
+       "pip",
+       "❤"
+      ]
+     ],
+     "sounds": [
+      [
+       0,
+       "shimmer"
+      ],
+      [
+       4500,
+       "wind"
+      ],
+      [
+       8800,
+       "hum"
+      ],
+      [
+       9000,
+       "shimmer"
+      ],
+      [
+       13500,
+       "wake"
+      ],
+      [
+       14000,
+       "boing"
+      ],
+      [
+       14800,
+       "boing"
+      ],
+      [
+       18000,
+       "fanfare"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.thimble_wakes.1"
+      ],
+      [
+       4500,
+       "scene.thimble_wakes.2"
+      ],
+      [
+       9000,
+       "scene.thimble_wakes.3"
+      ],
+      [
+       13500,
+       "scene.thimble_wakes.4"
+      ],
+      [
+       18000,
+       "scene.thimble_wakes.5"
+      ]
+     ]
+    }
+   ]
   }
  ],
  "story": {
@@ -19161,7 +20096,8 @@
      "type": "visited",
      "area": "cave_4"
     },
-    "who": "moss"
+    "who": "moss",
+    "scene": "reveal_carving"
    },
    {
     "id": "lanterns",

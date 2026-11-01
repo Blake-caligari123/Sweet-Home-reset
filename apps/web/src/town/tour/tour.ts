@@ -16,6 +16,10 @@ export const TOUR: TourCard[] = [
   { title: '🏡 A newcomer arrives', steps: ['Wren\'s cottage is finished tonight. Go to bed (tap the burrow bed).', 'In the morning Wren crosses the bridge and Pip runs to meet them. Sorrel, Fig and Juniper each get their own arrival too.', 'Pause → 📔 Keeper\'s journal → Memories plays it again.'],
     setup: (s) => { s.day(31).time(21).flag('keeper_named').flag('letter_wren_1_read').flag('invite_wren').flag('home_wren').flag('welcome_wren').meet('pip');
       s.state.plots.plot_far_bank_cottage = { buildingId: 'cottage_wren', stage: 2, startedDay: 29, readyDay: 31 }; s.go('burrow'); } },
+  { title: '🔍 The big reveals', steps: ['Close this: the boathouse is tidy, so its reveal plays straight away (the mended boat, Thimble\'s carving).', 'The humming stone (autumn) and Thimble\'s last carving (deepest cave) play at their moments too; both are in Pause → 📔 Keeper\'s journal → Memories here.'],
+    setup: (s) => { s.flag('scene_reveal_stone').flag('scene_reveal_carving').day(17).time(15).flag('restored_boathouse').go('far_bank'); } },
+  { title: '🏮 Thimble wakes', steps: ['Winter Lights is done and the neighbours have brought their gifts. Close this.', 'Every lantern glows, the fountain blazes, and Thimble climbs out and turns around: the first time you see their face. Sound on!'],
+    setup: (s) => { s.day(56).time(20).flag('keeper_named').flag('year_one_chapter').go('square'); } },
   { title: '📖 The Keeper\'s Story', steps: ['The 📖 line at the top is today\'s story step: Otto has something for you. Talk to him and tap "📖 What\'s that you\'ve got?", then catch a fish.', 'Tap the 📖 line (or Pause → 📔 Keeper\'s journal) for the story so far.', 'Go to bed: a hint at tomorrow shows as night falls.'],
     setup: (s) => { s.state.story = { step: 4, asked: false, count: 0, day: 4 }; s.state.fishCaught = 0; s.day(5).time(9).flag('keeper_named').meet('hazel', 'bea', 'pip', 'otto').go('riverside'); } },
   { title: '🗺 Getting around', steps: ['Tap 🗺 (top left) and pick a place to travel there.', 'Pause → Joystick: drag anywhere to walk.', 'Pinch (or the mouse wheel) to zoom.'],

@@ -28,6 +28,7 @@ import { TownSystems } from './systems';
 import { Scene } from './tour/scene';
 import { TOUR_ON } from './tour/tour';
 import { seenFlag } from './story/path';
+import { afterDue } from './story/scenes';
 import { ScenePlayer } from './story/scene-player';
 import { Menus } from './ui/menus';
 import { MAX_RUB, Taps } from './play/taps';
@@ -403,6 +404,9 @@ export class TownGame {
     if (this.scenes.playing) { this.scenes.tick(dt); this.world.update(dt); return; } // the town stands still for a cutscene
     const p = this.puff;
     if (!this.view.busy && !this.fading) {
+      // A big reveal plays the moment it happens, once nothing else is open (story/scenes.ts `now`).
+      const reveal = afterDue((this.content.pack.scenes ?? []).filter((s) => s.now), (f) => this.state.has(f), (id) => this.state.has(seenFlag(id)));
+      if (reveal) { this.playStory(reveal); return; }
       for (const e of this.clock.advance(dt)) {
         if (e === 'tick') { this.world.setSky(this.clock.season, this.clock.weather === 'rainy'); this.world.setTint(this.clock.state.minutes); }
         if (e === 'late') { this.hud.setLate(true); this.view.say(`${this.state.names.puff}'s getting sleepy. Head home to bed.`); }

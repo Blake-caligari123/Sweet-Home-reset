@@ -76,9 +76,10 @@ export interface Shot {
 
 /**
  * `title`: a title card (text id) over the start; `name`: what the journal's Memories calls it
- * (the title if none); `after`: plays the first morning this flag is set (a newcomer moving in).
+ * (the title if none); `after`: plays the first morning this flag is set (a newcomer moving in),
+ * or, with `now`, as soon as Puff is free (a big reveal, the moment it happens).
  */
-export interface SceneDef { id: string; title?: string; name?: string; after?: string; shots: Shot[] }
+export interface SceneDef { id: string; title?: string; name?: string; after?: string; now?: boolean; shots: Shot[] }
 
 /** The first scene waiting on a flag that's now set, and not yet seen. */
 export const afterDue = (scenes: SceneDef[], has: (flag: string) => boolean, seen: (id: string) => boolean) =>

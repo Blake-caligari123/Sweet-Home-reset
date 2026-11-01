@@ -109,10 +109,17 @@ describe('Hollowfern opening', () => {
     }
   });
 
+  it('saves Thimble\'s face for Winter Lights: they wake, then turn around', () => {
+    const wake = (pack.scenes ?? []).find((x) => x.id === 'thimble_wakes')!;
+    expect(wake.after).toBe('year_one_chapter'); expect(wake.now).toBe(true);
+    const thimble = wake.shots[0].actors!.find((a) => a.who === 'thimble')!;
+    expect(facing(thimble, thimble.from!)).toBe('up'); expect(facing(thimble, wake.shots[0].ms - 1)).toBe('down');
+  });
+
   it('opens each season\'s chapter with the fountain, and closes the first three after their festivals', () => {
     const story = pack.story!;
     for (const c of story.chapters.slice(1)) expect((pack.scenes ?? []).some((x) => x.id === c.scene), c.id).toBe(true);
-    expect(story.steps.filter((x) => x.scene).map((x) => x.id)).toEqual(['fair', 'picnic', 'leaf_fest']);
+    expect(story.steps.filter((x) => x.scene).map((x) => x.id)).toEqual(['fair', 'picnic', 'leaf_fest', 'deep_cave']);
   });
 
   it('walks each newcomer up to their new cottage, never through it, the morning after it\'s built', () => {
@@ -141,8 +148,8 @@ describe('Hollowfern opening', () => {
     expect(doorTo('burrow', 'yard').some((d) => d.x === ends(6).first[0] && Math.abs(d.y - ends(6).first[1]) <= 1)).toBe(true);
   });
 
-  it('shows Thimble only from behind, keeps captions short, and walks everyone on open ground (every scene)', () => {
-    for (const shot of (pack.scenes ?? []).flatMap((x) => x.shots)) {
+  it('shows Thimble only from behind (until they wake at Winter Lights), keeps captions short, and walks everyone on open ground (every scene)', () => {
+    for (const shot of (pack.scenes ?? []).filter((x) => x.id !== 'thimble_wakes').flatMap((x) => x.shots)) {
       for (const [, who] of shot.emotes ?? []) expect(shot.actors?.some((a) => a.who === who), `${shot.area} emote ${who}`).toBe(true);
       for (const [, id] of shot.captions) { expect(text[id], id).toBeTruthy(); expect(text[id].length, id).toBeLessThanOrEqual(60); }
       const area = open(shot.area);
