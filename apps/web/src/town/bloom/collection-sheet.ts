@@ -43,6 +43,14 @@ export function openCollection(view: View, content: Content, state: TownState) {
       h('div', { class: 'bag-slot', 'aria-hidden': 'true' }, have ? itemIcon(f.id) : h('b', { style: { position: 'static', fontSize: '1.2rem' } }, '?')),
       h('div', { class: 'friend-body' }, h('p', { class: 'friend-name' }, have ? content.itemName(f.id) : 'Not caught yet'), h('p', { class: 'muted' }, `${places(f.areas)}${when}${seasons}`)));
   });
+  // The harvest log: every kind of crop grown and picked, and when it grows.
+  const cropRows = (content.pack.crops ?? []).map((c) => {
+    const have = state.has(`grown_${c.id}`);
+    const where = c.areas?.length ? `, only at ${places(c.areas)}` : '';
+    return h('div', { class: 'friend' },
+      h('div', { class: 'bag-slot', 'aria-hidden': 'true' }, have ? itemIcon(c.id) : h('b', { style: { position: 'static', fontSize: '1.2rem' } }, '?')),
+      h('div', { class: 'friend-body' }, h('p', { class: 'friend-name' }, have ? content.itemName(c.id) : 'Not grown yet'), h('p', { class: 'muted' }, `${(c.seasons ?? ['Spring']).join(', ')}${where}`)));
+  });
   const sets = collectionSets(state, content.pack);
   const head = (id: CollectionSet['id'], icon: string) => {
     const set = sets.find((x) => x.id === id)!;
@@ -55,5 +63,6 @@ export function openCollection(view: View, content: Content, state: TownState) {
   view.sheet('Collection', [
     head('finds', '🔍'), h('div', { class: 'friends' }, ...rows), h('p', { class: 'muted' }, 'Little treasures turn up while you tidy, all over town.'),
     ...(critters.length ? [head('critters', '🐞'), h('div', { class: 'friends' }, ...critterRows), h('p', { class: 'muted' }, 'Tap a critter to spot it. They come and go with the seasons, the time and the weather.')] : []),
-    ...(fishRows.length ? [head('fish', '🐟'), h('div', { class: 'friends' }, ...fishRows), h('p', { class: 'muted' }, 'Each fishing spot has its own catch. Some only bite at night.')] : [])]);
+    ...(fishRows.length ? [head('fish', '🐟'), h('div', { class: 'friends' }, ...fishRows), h('p', { class: 'muted' }, 'Each fishing spot has its own catch. Some only bite at night.')] : []),
+    ...(cropRows.length ? [head('harvest', '🥕'), h('div', { class: 'friends' }, ...cropRows), h('p', { class: 'muted' }, 'Grow each crop and pick it once to fill the log.')] : [])]);
 }

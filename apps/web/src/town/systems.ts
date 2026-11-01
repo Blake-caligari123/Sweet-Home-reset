@@ -10,6 +10,7 @@ import { TownNeeds } from './needs/town-needs';
 import { TidyChain } from './play/chain';
 import { TidyMeterLife } from './play/tidy-meter-life';
 import { spotlessToday } from './play/tidy-meter';
+import { milestoneFlag, milestoneReached, milestoneSparkles, totalTidied } from './play/milestones';
 import { collectionSets, newlyComplete, setFlag } from './bloom/sets';
 import { TUNING } from './data/tuning';
 import { QuestLog } from './quests/quest-log';
@@ -69,15 +70,29 @@ export class TownSystems {
       state, view, hud: host.hud, world: host.world, content, day: () => host.day(), feet: () => host.puff.feet, refreshHud: () => host.refreshHud(),
       area: () => { const id = host.areaId(); return { id, name: places.get(id)?.pack.name ?? id, mess: places.mess(id) }; }
     });
-    host.guide.listen((e) => { this.tidy.hear(e); if (e.type === 'found' || e.type === 'spotted' || e.type === 'caught') this.setsDone(); skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); this.story.hear(e); });
+    // Milestones wait a moment, so the clean is counted first (bloom/finds).
+    host.guide.listen((e) => { this.tidy.hear(e); if (e.type === 'found' || e.type === 'spotted' || e.type === 'caught' || e.type === 'picked') this.setsDone(); if (e.type === 'cleared') queueMicrotask(() => this.milestone()); skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); this.story.hear(e); });
   }
 
   /** The journal's tally: places spotless today, and each Collection set. */
   private tally() {
     const { state, content } = this.host;
-    const icons = { finds: '🔍', critters: '🐞', fish: '🐟' } as const;
+    const icons = { finds: '🔍', critters: '🐞', fish: '🐟', harvest: '🥕' } as const;
     const spotless = spotlessToday(state, this.host.day());
     return [...(spotless ? [`✨ ${spotless} spotless today`] : []), ...collectionSets(state, content.pack).map((s) => `${icons[s.id]} ${s.have}/${s.total}`)].join(' · ');
+  }
+
+  /** A tidying milestone (50, 100, 250… spots in all): a cheer and Sparkles, once each. */
+  private milestone() {
+    const { state, view } = this.host;
+    const m = milestoneReached(totalTidied(state), (f) => state.has(f));
+    if (!m) return;
+    for (const lower of TUNING.tidyMilestones.filter((x) => x <= m)) state.flag(milestoneFlag(lower)); // passed together, cheered once
+    const gift = milestoneSparkles(m);
+    state.sparkles += gift;
+    view.feedback('fanfare', 'success');
+    view.banner(`🧹 ${m.toLocaleString('en-AU')} spots tidied! +${gift} ✨`);
+    this.host.refreshHud();
   }
 
   /** A Collection set just finished (every treasure, critter or fish): a big cheer, once. */

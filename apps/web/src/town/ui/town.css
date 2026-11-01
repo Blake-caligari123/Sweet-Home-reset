@@ -195,3 +195,32 @@ html.high-contrast .muted { color: #4a3a32; }
 .set-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--butter), var(--peach)); }
 .set-head.done .set-bar > i { background: var(--sage); }
 .set-stamp { display: inline-block; margin: 6px 0 0; padding: 2px 10px; border: 2px solid var(--line); border-radius: 8px; background: var(--butter); font-weight: 900; transform: rotate(-3deg); }
+
+/* The bag's Tidy up: each slot pops into its new place, one after another. */
+.bag-grid.tidied .bag-slot { animation: slot-pop 0.35s cubic-bezier(.2, 1.6, .4, 1) both; }
+.bag-grid.tidied .bag-slot:nth-child(1) { animation-delay: 0ms; }
+.bag-grid.tidied .bag-slot:nth-child(2) { animation-delay: 25ms; }
+.bag-grid.tidied .bag-slot:nth-child(3) { animation-delay: 50ms; }
+.bag-grid.tidied .bag-slot:nth-child(4) { animation-delay: 75ms; }
+.bag-grid.tidied .bag-slot:nth-child(5) { animation-delay: 100ms; }
+.bag-grid.tidied .bag-slot:nth-child(6) { animation-delay: 125ms; }
+.bag-grid.tidied .bag-slot:nth-child(7) { animation-delay: 150ms; }
+.bag-grid.tidied .bag-slot:nth-child(8) { animation-delay: 175ms; }
+.bag-grid.tidied .bag-slot:nth-child(9) { animation-delay: 200ms; }
+.bag-grid.tidied .bag-slot:nth-child(10) { animation-delay: 225ms; }
+.bag-grid.tidied .bag-slot:nth-child(11) { animation-delay: 250ms; }
+.bag-grid.tidied .bag-slot:nth-child(12) { animation-delay: 275ms; }
+.bag-grid.tidied .bag-slot:nth-child(13) { animation-delay: 300ms; }
+.bag-grid.tidied .bag-slot:nth-child(14) { animation-delay: 325ms; }
+.bag-grid.tidied .bag-slot:nth-child(15) { animation-delay: 350ms; }
+.bag-grid.tidied .bag-slot:nth-child(16) { animation-delay: 375ms; }
+.bag-grid.tidied .bag-slot:nth-child(17) { animation-delay: 400ms; }
+.bag-grid.tidied .bag-slot:nth-child(18) { animation-delay: 425ms; }
+.bag-grid.tidied .bag-slot:nth-child(19) { animation-delay: 450ms; }
+.bag-grid.tidied .bag-slot:nth-child(20) { animation-delay: 475ms; }
+.bag-grid.tidied .bag-slot:nth-child(21) { animation-delay: 500ms; }
+.bag-grid.tidied .bag-slot:nth-child(22) { animation-delay: 525ms; }
+.bag-grid.tidied .bag-slot:nth-child(23) { animation-delay: 550ms; }
+.bag-grid.tidied .bag-slot:nth-child(24) { animation-delay: 575ms; }
+@keyframes slot-pop { 0% { transform: scale(0.6); opacity: 0.4; } 100% { transform: scale(1); opacity: 1; } }
+.reduce-motion .bag-grid.tidied .bag-slot { animation: none; }

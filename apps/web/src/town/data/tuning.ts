@@ -17,6 +17,8 @@ export interface Tuning {
   spotlessSparkles: number;
   /** Sparkles for completing a Collection set (every find, critter or fish), once each. */
   setCompleteSparkles: number;
+  /** Lifetime spots tidied that earn a cheer (play/milestones.ts). */
+  tidyMilestones: number[];
   messHitsTier1: Record<string, number>;
   bagSlotsStart: number;
   gardenPlotStart: [number, number];

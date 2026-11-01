@@ -20,3 +20,13 @@ describe('bag', () => {
     expect(b.remove('a')).toBe(false);
   });
 });
+
+describe('tidying the bag', () => {
+  it('merges stacks, groups like with like, and gathers the gaps at the end', () => {
+    const b = new Bag([{ id: 'pebble', count: 3 }, null, { id: 'apple', count: 2 }, { id: 'pebble', count: 4 }, null, { id: 'radish_seeds', count: 5 }]);
+    const rank = (id: string) => ({ radish_seeds: 1, apple: 2, pebble: 5 } as Record<string, number>)[id] ?? 9;
+    b.tidy(rank);
+    expect(b.slots).toEqual([{ id: 'radish_seeds', count: 5 }, { id: 'apple', count: 2 }, { id: 'pebble', count: 7 }, null, null, null]);
+    expect(b.count('pebble')).toBe(7);
+  });
+});
