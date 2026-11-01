@@ -13,7 +13,7 @@ What's left before v1.0 (VISION §12–13, Phase 5 "done when Blake approves the
 - [ ] A real Stripe test-mode run: buy, refund (BACKEND-PLAN §9).
 
 ## 3. The purchase
-- [ ] Pick the price point: A$14.99 is provisional (`config/pricing.json`). Check the nearest App Store and Play tiers, then update the file.
+- [ ] Price point: A$4.99 (`config/pricing.json`, Blake 1 Nov). Check it matches an App Store and Play tier, set the same in App Store Connect, Play Console and the Stripe price.
 - [ ] App Store Connect: non-consumable in-app purchase `full_game`. Play Console: one-time product `full_game`.
 - [ ] RevenueCat: entitlement `full_game` with both products in the current offering; copy the public SDK keys.
 - [ ] Stripe: product "Full game" with a one-time AUD price (its id is `STRIPE_PRICE_FULL_GAME`).
