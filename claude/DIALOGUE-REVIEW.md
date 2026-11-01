@@ -1063,7 +1063,7 @@ Heard only with a screen reader, never shown on screen.
 - Spring was lovely! Summer, autumn and winter are waiting: new places, festivals and every friend's story.
 - One unlock, yours to keep, with every future chapter included.
 - Spring carries on either way. Nothing is ever lost.
-- Buttons: "Unlock the full game · A$14.99" / "Not now". Puff either way: "Best spring ever."
+- Buttons: "Unlock the full game · A$4.99" / "Not now". Puff either way: "Best spring ever."
 - **Grown-up check:** "Ask a grown-up: what is seven times nine?" Wrong: "Not quite. A grown-up can help with this one." (Go on / Not now)
 - **Bought:** banner "🌸 The full year is yours! Summer is on its way."
 - **Restore, nothing found:** "No unlock found for this account yet."

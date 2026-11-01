@@ -338,7 +338,7 @@ One new thing every couple of days, each with one tip or letter:
     - iOS and Android buy through RevenueCat's `full_game` entitlement (plugin pinned at 13.7.4, loaded only on phones). The phones show the store's own price, never a web price.
   - Restore purchases is in Pause.
   - The gate only switches on in a build that sells the unlock (`VITE_API_ORIGIN` on the web, `VITE_RC_IOS_KEY` or `VITE_RC_ANDROID_KEY` on phones), so the test link still plays the whole year. `?debug&store=fake` pretends, for playthroughs.
-  - Decided without asking: A$14.99, provisional in `config/pricing.json` until checked against a store price point.
+  - Decided without asking: A$14.99, provisional. **Changed by Blake (1 Nov 2026): A$4.99**, because it's a phone game first. In `config/pricing.json`.
 
 - **Phase 5d (30 Oct): the server (`apps/api`), BACKEND-PLAN steps 2–16 for one unlock.**
   - Sign-in: email magic links (16+ box for a new account, 5 links an hour per email, 20 per IP), and Sign in with Apple (token checked against Apple's keys, account linked by Apple id or verified email, Apple's token revoked on deletion).

@@ -26,7 +26,7 @@ Today the game works but feels basic in every way Blake named: there's too littl
 | Visiting friends' towns | Later | **1.0** (after early access opens) |
 | Puff | Walks and tidies | **Skills with perks, new moves, moods with small effects**, joystick or tap |
 | Town | Plots + free decor | **Town needs**, working buildings with their own small economy, **new districts** |
-| Price | A$14.99 | **Lower during early access, higher at 1.0** (§10) |
+| Price | A$14.99 | **A$4.99** (Blake, 1 Nov: a phone game, not PC pricing) |
 | Art credit | In About | Removed |
 
 ## 4. How everything connects
