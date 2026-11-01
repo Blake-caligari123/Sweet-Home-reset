@@ -97,6 +97,10 @@ town/
                 chat boxes, the tracker line, rewards)
   critters/     critters.ts (who's about where and when, where they sit), critter-life.ts (placing, drawing and
                 spotting them; the journal lives in the Collection)
+  daily/        goals.ts (today's three little goals: kinds, picking, counting), daily-life.ts (the cheers, the morning
+                line, the journal list), happenings.ts (the day's happening: which, and its goal), happening-life.ts
+                (setting it up: leaves blown in, a lost thing dropped; the give-back button; sparkle hour)
+  minigames/    shelf.ts (sort the shelf: deal, swap, par and stars), shelf-sheet.ts (Moss's shelf to sort)
   fishing/      fishing.ts (what bites where and when, the catch), fishing-sheet.ts (cast, wait, Reel in!)
   cafe/         cafe.ts (today's café orders, from dishes Puff can cook), cafe-buttons.ts (handing dishes over
                 in the keeper's chat)

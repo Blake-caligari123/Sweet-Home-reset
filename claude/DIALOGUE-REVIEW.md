@@ -4,6 +4,17 @@ Drafted from `claude/STORY.md` for Blake to review (M2 step 2). Edit any line he
 
 How a line is chosen: the most specific one that fits wins (a story moment, then hearts, weather, season, time of day), skipping the last 5 heard. The first chat each day gives +1 friendship; later chats that day use the short "second chat" lines.
 
+## New 1 Nov 2026: today's goals, happenings and the shelf
+- Morning: "🎯 Today's goals: Tidy 15 spots anywhere · Catch 2 fish · Plant 3 seeds" · done: "🎯 Catch 2 fish: done! +15 ✨" · all three: "🌟 All of today's goals! {puff} beams. +40 ✨"
+- Happenings (news, then the goal):
+  - "🍃 A blustery night! Leaves blew all over {town}." · Tidy 12 bits the wind blew in
+  - "🔎 {who} dropped their {item} in {place}!" · Find {who}'s {item} in {place} · found: "Found {who}'s {item}! Take it back to them." · button "Give back the {item}" · they say: "My {item}! Oh, thank you, {puff}!"
+  - "🎣 Otto's fishing contest is on today!" · Catch 3 fish for the contest
+  - "🧁 It's bake sale day! Everyone's cooking." · Cook 2 treats for the bake sale
+  - "🐞 The critters are out and about today!" · Spot 2 critters on their outing
+  - "✨ Sparkle hour at 4pm: extra ✨ for every tidy!" · at 4pm: "✨ Sparkle hour! Every tidy-up gives extra ✨"
+- Moss's chat: "📚 Sort a shelf" · "Tap two books to swap them. Colours in order, short to tall." · "Fewest swaps: 7" · done: "⭐⭐⭐ +20 ✨" (or "Lovely and neat!" after the first of the day) · "Another shelf"
+
 ## New in Phase 0 (28 Oct 2026): names and a sleepy Puff
 Players name Puff and the town at the start (and from Pause → Names). Lines say `{puff}` and `{town}`, filled in with the player's names (Puff and Hollowfern unless they change them), so every line that used to say "Puff" or "Hollowfern" now follows the player's choice.
 - Naming sheet: **Names** · "Call them anything you like. You can change these later in the pause menu." · *Your dust bunny* · *Your town* · **Done**

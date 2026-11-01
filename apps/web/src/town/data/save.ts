@@ -3,6 +3,8 @@ import type { Memory } from '../life/memory';
 import type { QuestLogState } from '../quests/quests';
 import type { StoryState } from '../story/path';
 import type { SpotlessState } from '../play/tidy-meter';
+import type { DailyGoals } from '../daily/goals';
+import type { HappeningState } from '../daily/happenings';
 import type { PuffDay } from '../skills/puff-mood';
 import type { StallState } from '../stall/stall';
 import type { FarmState } from '../farm/animals';
@@ -87,6 +89,10 @@ export interface TownSave {
   quests?: QuestLogState;
   /** Places made spotless today (play/tidy-meter.ts). */
   spotless?: SpotlessState;
+  /** Today's little goals (daily/goals.ts). */
+  daily?: DailyGoals;
+  /** Today's happening (daily/happenings.ts). */
+  happening?: HappeningState;
   /** How far along the Keeper's Story is. */
   story?: StoryState;
   /** What's out on Puff's market stall. */

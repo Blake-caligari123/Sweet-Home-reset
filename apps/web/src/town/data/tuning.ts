@@ -19,6 +19,12 @@ export interface Tuning {
   tipSparkles: number;
   /** Sparkles for every restored place spotless the same day (play/tidy-meter.ts), once a day. */
   townSpotlessSparkles: number;
+  /** Today's little goals (daily/goals.ts): each one done, and all three. */
+  dailyGoalSparkles: number; dailyBonusSparkles: number;
+  /** Today's happening done, and the extra per tidy in sparkle hour (daily/happenings.ts). */
+  happeningSparkles: number; sparkleHourBonus: number;
+  /** Moss's shelf, the first sort of the day: Sparkles for 1, 2 and 3 stars (minigames/shelf.ts). */
+  shelfSparkles: number[];
   /** Sparkles for completing a Collection set (every find, critter or fish), once each. */
   setCompleteSparkles: number;
   /** Sparkles for the whole town reaching 100% (bloom/completion.ts). */

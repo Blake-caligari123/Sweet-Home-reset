@@ -713,6 +713,19 @@ These are the places Blake said "dealer's choice". Each can be changed:
   These sit beside the full-year soak (`tools/year-soak.cjs`). `@playwright/test` is pinned to 1.63.0 to match the browser on the machine.
 - **Hooked 7: Keeper ranks (1 Nov):** Puff's title grows with the town's completion: New Keeper → Little Keeper (10%) → Tidy Keeper (25%) → Town Keeper (50%) → Grand Keeper (75%) → Keeper of {town} (100%). Each new rank is a fanfare and a banner, once ("🎖 Puff is now a Tidy Keeper!"). The rank shows in Pause beside the 🏆 %, and it never goes down.
 
+- **More to do each day (1 Nov, Blake: "there isn't enough to do during a day so it gets boring fast and still repetitive"):** three new layers, so no two days feel the same.
+  - **Today's little goals** (`daily/goals.ts`, `daily/daily-life.ts`): from day 2, three small goals each morning, each from a different family (tidying, nature, growing, making, town), picked from what Puff can already do: tidy 15 spots, tidy 8 in a named place, rake, sponge, catch 2 fish, spot a critter, befriend a Grumble, plant, water, pick, tend the animals, cook, make something at a bench, finish a board job, visit a place, sort a shelf with Moss. Each one done: a chime and +15 ✨. All three: a fanfare, a hop and +40 more. In the morning news and the journal's new 🎯 section. No streak; a skipped day costs nothing.
+  - **Daily happenings** (`daily/happenings.ts`, `daily/happening-life.ts`): two days in three from day 3 (never on a festival, never the same two days running), something is on in town, with a bigger goal worth +40 ✨:
+    - 🍃 a **blustery night** blows leaves into up to three outdoor places: rake up 12
+    - 🔎 a **lost treasure**: a neighbour Puff knows drops something (a blue feather, an old coin…) somewhere outdoors, hidden in clutter. Tidy there to find it, then give it back from their chat box for a big thank-you and friendship.
+    - 🎣 **Otto's fishing contest**: catch 3 fish
+    - 🧁 **bake sale day**: cook 2 treats
+    - 🐞 **the critters' outing**: spot 2
+    - ✨ **sparkle hour**, 4 to 6 pm: every tidy-up gives +2 ✨ extra
+    That day's goals skip the one the happening already asks for.
+  - **Sort the shelf** (`minigames/shelf.ts`, `minigames/shelf-sheet.ts`), the first mini-game: talk to Moss and tap "📚 Sort a shelf". Swap books two at a time until the colours run in order, short to tall within each colour. Each book glows as it lands, and the shelf hops when it's done. The fewest swaps earn 3 stars. The first shelf each day gives 5/10/20 ✨; after that, "Another shelf" deals a fresh one, just for fun. Shelves grow from 8 books in 2 colours to 16 in 4 through the year.
+  - Numbers are in tuning (`dailyGoalSparkles`, `dailyBonusSparkles`, `happeningSparkles`, `sparkleHourBonus`, `shelfSparkles`). There are 4 new tour cards and a new play test (a day's goals, and a lost treasure found).
+
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
   - A cutscene is one continuous take made of shots (`scenes` in the pack). Within a place, the camera follows whoever the story is about: a character, or the sparkle.

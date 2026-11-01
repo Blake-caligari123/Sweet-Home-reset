@@ -233,5 +233,13 @@ export const TOUR: TourCard[] = [
       if (!s.state.finds.found.includes('warm_stone')) s.state.finds.found.push('warm_stone');
       for (const f of ['cave_leaf_1', 'cave_leaf_2', 'cave_leaf_3', 'cave_leaf_4']) s.flag(f);
       s.go('cave_4');
-    } }
+    } },
+  { title: '🎯 Today\'s goals', steps: ['Every day from day 2 brings three little goals, all different: tidy somewhere, catch a fish, cook, visit a friend...', 'Each one done is a cheer and +15 ✨, and all three is +40 more.', 'See them in the morning news and in 📔 the journal.'],
+    setup: (s) => { s.day(12).time(9).give('fishing_rod').visited('yard', 'square', 'lane', 'riverside').go('square'); } },
+  { title: '🔎 A lost treasure', steps: ['On some days a neighbour drops something precious somewhere outdoors.', 'Tidy the place in the news to find it hidden in the clutter, then take it back to them for a big thank-you.'],
+    setup: (s) => { s.day(14).time(9).meet('hazel').visited('yard', 'square', 'lane').happening('lost').go('square'); } },
+  { title: '🍃 Blustery days and more', steps: ['Two days in three, something is on in town: a blustery night, a fishing contest, a bake sale, a critter outing or a sparkle hour.', 'This one: the wind blew leaves into a few places. Rake up 12 for +40 ✨.'],
+    setup: (s) => { s.state.tools.rake = Math.max(1, s.state.tools.rake ?? 0); s.day(16).time(9).visited('yard', 'square', 'lane').happening('breeze').go('yard'); } },
+  { title: '📚 Sort the shelf', steps: ['Talk to Moss and tap "📚 Sort a shelf".', 'Tap two books to swap them, until the colours run in order, short to tall. Books glow as they land.', 'The fewest swaps earns 3 stars. The first shelf each day gives Sparkles; play on as long as you like.'],
+    setup: (s) => { s.day(10).time(10).meet('moss').go('library'); } }
 ];

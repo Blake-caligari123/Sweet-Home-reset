@@ -172,7 +172,7 @@ export class TownGame {
     });
     this.systems = new TownSystems({
       state: this.state, view: this.view, content: this.content, hud: this.hud, world: this.world, puff: this.puff, places: this.places, life: this.life, guide: this.guide, talk: this.talk, jobs: this.jobs,
-      day: () => this.clock.state.day, arrived: (k) => this.arrived(k), refreshHud: () => this.refreshHud(), save: () => void this.save(false), playScene: (id) => this.playStory(id), areaId: () => this.areaId
+      day: () => this.clock.state.day, minutes: () => this.clock.state.minutes, arrived: (k) => this.arrived(k), refreshHud: () => this.refreshHud(), save: () => void this.save(false), playScene: (id) => this.playStory(id), areaId: () => this.areaId
     });
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
     this.placing = new Placing({ ...core, places: this.places, area: () => this.areaId, refreshArea: () => this.refreshArea() });
@@ -264,7 +264,8 @@ export class TownGame {
       world: this.world, puff: this.puff, state: this.state, clock: this.clock, jobs: this.jobs, neighbours: this.neighbours, view: this.view, guide: this.guide, grumbles: this.grumbles,
       areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
       messFor: (id) => this.places.mess(id), spawnOf: (id) => this.places.get(id)!.pack.spawn,
-      enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), playScene: (id) => this.playStory(id), rebuild: () => this.places.rebuild(this.state), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false)
+      enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), playScene: (id) => this.playStory(id), rebuild: () => this.places.rebuild(this.state), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false),
+      happening: (id) => { this.systems.happening.start(id); for (const l of this.systems.happening.morning()) this.view.banner(l); }
     };
   }
 

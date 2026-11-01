@@ -11838,7 +11838,21 @@
    "he_thimble_10.l06": "Thank you for waiting.",
    "req.thimble_tea": "Thimble would love a cup of tea. It's been years!",
    "req.thimble_fountain": "Dust around the fountain, so Thimble can sit by it.",
-   "weather.rainbow": "🌈 A rainbow after the rain!"
+   "weather.rainbow": "🌈 A rainbow after the rain!",
+   "happening.breeze.news": "🍃 A blustery night! Leaves blew all over {town}.",
+   "happening.breeze.goal": "Tidy {n} bits the wind blew in",
+   "happening.lost.news": "🔎 {who} dropped their {item} in {place}!",
+   "happening.lost.goal": "Find {who}'s {item} in {place}",
+   "happening.lost.found": "Found {who}'s {item}! Take it back to them.",
+   "happening.lost.thanks": "My {item}! Oh, thank you, {puff}!",
+   "happening.derby.news": "🎣 Otto's fishing contest is on today!",
+   "happening.derby.goal": "Catch {n} fish for the contest",
+   "happening.bake.news": "🧁 It's bake sale day! Everyone's cooking.",
+   "happening.bake.goal": "Cook {n} treats for the bake sale",
+   "happening.parade.news": "🐞 The critters are out and about today!",
+   "happening.parade.goal": "Spot {n} critters on their outing",
+   "happening.sparkle_hour.news": "✨ Sparkle hour at 4pm: extra ✨ for every tidy!",
+   "happening.sparkle_hour.start": "✨ Sparkle hour! Every tidy-up gives extra ✨"
   }
  },
  "heartEvents": [
