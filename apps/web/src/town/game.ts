@@ -379,7 +379,7 @@ export class TownGame {
     view.release();
     this.guide.handle({ type: 'slept' });
     this.refreshHud();
-    // A new chapter opens with the fountain speaking, before the morning's news.
+    // A new chapter opens with the fountain speaking, or a newcomer arrives, before the morning's news.
     const opening = this.systems.story.sceneDue();
     if (opening) await new Promise<void>((done) => this.playStory(opening, done));
     morning({ state, view, clock: this.clock, content: this.content, refreshHud: () => this.refreshHud(), offer: () => void this.unlocker.offer() }, { ...night, news: this.systems.morningNews() });

@@ -10278,7 +10278,19 @@
    "scene.autumn_end.title": "After Leaf Fest",
    "scene.autumn_end.1": "The fountain glows warm for a moment...",
    "scene.autumn_end.2": "“I sang that song to keep the water warm. Now you know.”",
-   "scene.opening.name": "The opening"
+   "scene.opening.name": "The opening",
+   "scene.arrive_sorrel.1": "Someone new comes up the lane, a bag on their back...",
+   "scene.arrive_sorrel.2": "Sorrel: \"A home! A real one! Hello, {town}!\"",
+   "scene.arrive_fig.1": "Fig wanders up from the river with a box of seeds.",
+   "scene.arrive_fig.2": "Fig: \"Good soil. I can tell already.\"",
+   "scene.arrive_wren.1": "Pip spots a small figure crossing the bridge...",
+   "scene.arrive_wren.2": "Pip: \"Wren! You came back!\"",
+   "scene.arrive_juniper.1": "Juniper comes through the trees, fiddle in paw.",
+   "scene.arrive_juniper.2": "Juniper: \"There it is. The old tune.\"",
+   "scene.arrive_sorrel.name": "Sorrel moves in",
+   "scene.arrive_fig.name": "Fig moves in",
+   "scene.arrive_wren.name": "Wren comes home",
+   "scene.arrive_juniper.name": "Juniper moves in"
   }
  },
  "heartEvents": [
@@ -18212,6 +18224,531 @@
     }
    ],
    "name": "scene.autumn_end.title"
+  },
+  {
+   "id": "arrive_sorrel",
+   "name": "scene.arrive_sorrel.name",
+   "after": "welcome_sorrel",
+   "shots": [
+    {
+     "area": "lane",
+     "ms": 14000,
+     "minutes": 540,
+     "season": "Spring",
+     "camera": "sorrel",
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.3
+      ],
+      [
+       7000,
+       1.7
+      ],
+      [
+       9000,
+       2.4
+      ],
+      [
+       14000,
+       2.4
+      ]
+     ],
+     "music": "warm",
+     "actors": [
+      {
+       "who": "sorrel",
+       "path": [
+        [
+         12,
+         9,
+         0
+        ],
+        [
+         14,
+         10,
+         1400
+        ],
+        [
+         14,
+         12,
+         2800
+        ],
+        [
+         16,
+         14,
+         4200
+        ],
+        [
+         21,
+         14,
+         7000
+        ]
+       ],
+       "looks": [
+        [
+         7200,
+         "left"
+        ],
+        [
+         7800,
+         "right"
+        ],
+        [
+         8400,
+         "up"
+        ],
+        [
+         9200,
+         "down"
+        ]
+       ]
+      }
+     ],
+     "bursts": [
+      [
+       21,
+       12,
+       8600
+      ]
+     ],
+     "emotes": [
+      [
+       7300,
+       "sorrel",
+       "👀"
+      ],
+      [
+       9400,
+       "sorrel",
+       "👋"
+      ]
+     ],
+     "sounds": [
+      [
+       8600,
+       "shimmer"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.arrive_sorrel.1"
+      ],
+      [
+       6000,
+       "scene.arrive_sorrel.2"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "arrive_fig",
+   "name": "scene.arrive_fig.name",
+   "after": "welcome_fig",
+   "shots": [
+    {
+     "area": "riverside",
+     "ms": 14000,
+     "minutes": 540,
+     "season": "Summer",
+     "camera": "fig",
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.3
+      ],
+      [
+       7000,
+       1.7
+      ],
+      [
+       9000,
+       2.4
+      ],
+      [
+       14000,
+       2.4
+      ]
+     ],
+     "music": "warm",
+     "actors": [
+      {
+       "who": "fig",
+       "path": [
+        [
+         14,
+         1,
+         0
+        ],
+        [
+         14,
+         5,
+         2400
+        ],
+        [
+         7,
+         5,
+         7000
+        ]
+       ],
+       "looks": [
+        [
+         7200,
+         "left"
+        ],
+        [
+         7800,
+         "right"
+        ],
+        [
+         8400,
+         "up"
+        ],
+        [
+         9200,
+         "down"
+        ]
+       ]
+      }
+     ],
+     "bursts": [
+      [
+       7,
+       3,
+       8600
+      ]
+     ],
+     "emotes": [
+      [
+       7300,
+       "fig",
+       "👀"
+      ],
+      [
+       9400,
+       "fig",
+       "👋"
+      ],
+      [
+       1200,
+       "fig",
+       "🌱"
+      ]
+     ],
+     "sounds": [
+      [
+       8600,
+       "shimmer"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.arrive_fig.1"
+      ],
+      [
+       6000,
+       "scene.arrive_fig.2"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "arrive_wren",
+   "name": "scene.arrive_wren.name",
+   "after": "welcome_wren",
+   "shots": [
+    {
+     "area": "far_bank",
+     "ms": 14000,
+     "minutes": 540,
+     "season": "Autumn",
+     "camera": "wren",
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.3
+      ],
+      [
+       7000,
+       1.7
+      ],
+      [
+       9000,
+       2.4
+      ],
+      [
+       14000,
+       2.4
+      ]
+     ],
+     "music": "warm",
+     "actors": [
+      {
+       "who": "wren",
+       "path": [
+        [
+         20,
+         1,
+         0
+        ],
+        [
+         20,
+         5,
+         2400
+        ],
+        [
+         11,
+         5,
+         7000
+        ]
+       ],
+       "looks": [
+        [
+         7200,
+         "left"
+        ],
+        [
+         7800,
+         "right"
+        ],
+        [
+         8400,
+         "up"
+        ],
+        [
+         9200,
+         "down"
+        ]
+       ]
+      },
+      {
+       "who": "pip",
+       "path": [
+        [
+         4,
+         6,
+         0
+        ],
+        [
+         4,
+         6,
+         2500
+        ],
+        [
+         9,
+         5,
+         6800
+        ]
+       ],
+       "hops": [
+        7400,
+        8200
+       ]
+      }
+     ],
+     "bursts": [
+      [
+       11,
+       3,
+       8600
+      ]
+     ],
+     "emotes": [
+      [
+       7300,
+       "wren",
+       "👀"
+      ],
+      [
+       9400,
+       "wren",
+       "👋"
+      ],
+      [
+       2600,
+       "pip",
+       "❗"
+      ],
+      [
+       7400,
+       "pip",
+       "😄"
+      ],
+      [
+       8000,
+       "wren",
+       "❤"
+      ]
+     ],
+     "sounds": [
+      [
+       8600,
+       "shimmer"
+      ],
+      [
+       7400,
+       "boing"
+      ],
+      [
+       8200,
+       "boing"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.arrive_wren.1"
+      ],
+      [
+       6000,
+       "scene.arrive_wren.2"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "arrive_juniper",
+   "name": "scene.arrive_juniper.name",
+   "after": "welcome_juniper",
+   "shots": [
+    {
+     "area": "woodland",
+     "ms": 14000,
+     "minutes": 540,
+     "season": "Autumn",
+     "camera": "juniper",
+     "colour": {
+      "kind": "now"
+     },
+     "zoom": [
+      [
+       0,
+       1.3
+      ],
+      [
+       7000,
+       1.7
+      ],
+      [
+       9000,
+       2.4
+      ],
+      [
+       14000,
+       2.4
+      ]
+     ],
+     "music": "warm",
+     "actors": [
+      {
+       "who": "juniper",
+       "path": [
+        [
+         15,
+         9,
+         0
+        ],
+        [
+         15,
+         3,
+         3600
+        ],
+        [
+         23,
+         3,
+         6200
+        ],
+        [
+         24,
+         4,
+         7000
+        ]
+       ],
+       "looks": [
+        [
+         7200,
+         "left"
+        ],
+        [
+         7800,
+         "right"
+        ],
+        [
+         8400,
+         "up"
+        ],
+        [
+         9200,
+         "down"
+        ]
+       ]
+      }
+     ],
+     "bursts": [
+      [
+       24,
+       2,
+       8600
+      ]
+     ],
+     "emotes": [
+      [
+       7300,
+       "juniper",
+       "👀"
+      ],
+      [
+       9400,
+       "juniper",
+       "👋"
+      ],
+      [
+       9600,
+       "juniper",
+       "♪"
+      ],
+      [
+       11000,
+       "juniper",
+       "♪"
+      ]
+     ],
+     "sounds": [
+      [
+       8600,
+       "shimmer"
+      ],
+      [
+       9600,
+       "hum"
+      ]
+     ],
+     "captions": [
+      [
+       300,
+       "scene.arrive_juniper.1"
+      ],
+      [
+       6000,
+       "scene.arrive_juniper.2"
+      ]
+     ]
+    }
+   ]
   }
  ],
  "story": {

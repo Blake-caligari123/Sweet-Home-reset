@@ -1653,3 +1653,9 @@ For each step: who asks, the button, what they say, the tracker while waiting (c
 - **After the Fair**: "The fountain glows warm for a moment..." / “Thank you, Keeper. There's more of me across the river.”
 - **After the Picnic**: "The fountain glows warm for a moment..." / “The warm water stirs. Can you hear it singing?”
 - **After Leaf Fest**: "The fountain glows warm for a moment..." / “I sang that song to keep the water warm. Now you know.”
+
+**Newcomers arriving (K.4)**
+- **Sorrel moves in**: "Someone new comes up the lane, a bag on their back..." / "Sorrel: "A home! A real one! Hello, {town}!""
+- **Fig moves in**: "Fig wanders up from the river with a box of seeds." / "Fig: "Good soil. I can tell already.""
+- **Wren comes home**: "Pip spots a small figure crossing the bridge..." / "Pip: "Wren! You came back!""
+- **Juniper moves in**: "Juniper comes through the trees, fiddle in paw." / "Juniper: "There it is. The old tune.""

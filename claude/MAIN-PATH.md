@@ -151,7 +151,8 @@ The camera finds the new cottage, and the newcomer walks up with a bag, looks ar
     - Day 48 is Pip's "make something for Winter Lights", in place of the Otto and Mabel splash drama, which still happens on its own.
     - Quest steps (the reading club, the festival preps, the summer and autumn chapters, the first sail, Fig's garden) are done once the quest is taken on. The quest then runs alongside the next days' steps, so the Fair prep doesn't hold up the café or the bridge.
 - **K.3 (1 Nov)** Chapter openings and festival endings as cutscenes in Thimble's voice (see NEXT-PHASE).
-- **Next:** newcomers arriving, the big reveals, and the Winter Lights wake.
+- **K.4 (1 Nov)** Newcomers arriving.
+- **Next:** the big reveals, and the Winter Lights wake.
 
 ## What changes in the code
 - `story/`: the Keeper's Story steps as pack data (`story` in the pack: day, who, goal, line). Goals reuse the quest ones, so a step can be a talk, tidy, cook, fish, find, build or quest. It's one daily step, and it can tick itself off from things already done.

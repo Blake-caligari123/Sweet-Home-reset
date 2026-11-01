@@ -75,5 +75,6 @@ describe('overnight', () => {
     expect(s.has('home_sorrel')).toBe(false);
     overnight(s, { buildings: [cottage], plots: [cp] }, 8, false);
     expect(s.has('home_sorrel')).toBe(true);
+    expect(s.has('welcome_sorrel')).toBe(true); // the arrival scene plays in the morning
   });
 });
