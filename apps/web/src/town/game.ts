@@ -363,9 +363,10 @@ export class TownGame {
     await wait(dozed ? 1400 : 300);
     // The Keeper's Story hints at tomorrow while the night falls (story/story-path.ts).
     const tease = this.systems.story.tease();
-    if (tease) this.fade.append(h('div', { class: 'fade-tease' }, h('small', {}, '🌙 Tomorrow...'), h('p', {}, tease)));
+    const recap = this.systems.recap();
+    if (tease || recap) this.fade.append(h('div', { class: 'fade-tease' }, ...(recap ? [h('small', {}, '🌙 Today'), h('p', { class: 'fade-recap' }, recap)] : []), ...(tease ? [h('small', {}, '🌙 Tomorrow...'), h('p', {}, tease)] : [])));
     this.fade.classList.add('on', 'night');
-    await wait((this.settings.reducedMotion ? 200 : 900) + (tease ? 2800 : 0));
+    await wait((this.settings.reducedMotion ? 200 : 900) + (tease ? 2800 : 0) + (recap ? 1800 : 0));
     const night = passNight({ state, clock: this.clock, content: this.content, jobs: this.jobs, places: this.places, grumbles: this.grumbles, gate: this.unlocker.gate }, dozed);
     this.hud.setLate(false);
     // Wake up beside the bed: the burrow's spawn tile.
@@ -379,6 +380,7 @@ export class TownGame {
     this.fade.replaceChildren();
     this.fading = false;
     view.release();
+    this.systems.newDay();
     this.guide.handle({ type: 'slept' });
     this.refreshHud();
     // A new chapter opens with the fountain speaking, or a newcomer arrives, before the morning's news.

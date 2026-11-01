@@ -10,6 +10,7 @@ import { TownNeeds } from './needs/town-needs';
 import { TidyChain } from './play/chain';
 import { TidyMeterLife } from './play/tidy-meter-life';
 import { spotlessToday } from './play/tidy-meter';
+import { emptyTally, recapLine, tallyHear } from './play/day-recap';
 import { milestoneFlag, milestoneReached, milestoneSparkles, totalTidied } from './play/milestones';
 import { collectionSets, newlyComplete, setFlag } from './bloom/sets';
 import { completionParts, completionPct } from './bloom/completion';
@@ -51,6 +52,9 @@ export class TownSystems {
   private needs: TownNeeds;
   private helpers: Helpers;
   private quests: QuestLog;
+  /** Today's doings, for the bedtime recap (play/day-recap.ts). */
+  private today = emptyTally();
+  private sparklesAtDawn = 0;
   /** The Keeper's Story: today's 📖 step (story/story-path.ts). */
   readonly story: StoryPath;
   /** How tidy the current place is (play/tidy-meter.ts). */
@@ -72,7 +76,8 @@ export class TownSystems {
       area: () => { const id = host.areaId(); return { id, name: places.get(id)?.pack.name ?? id, mess: places.mess(id) }; }
     });
     // Milestones wait a moment, so the clean is counted first (bloom/finds).
-    host.guide.listen((e) => { this.tidy.hear(e); if (e.type === 'found' || e.type === 'spotted' || e.type === 'caught' || e.type === 'picked') this.setsDone(); if (e.type === 'cleared') queueMicrotask(() => this.milestone()); skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); this.story.hear(e); });
+    this.sparklesAtDawn = state.sparkles;
+    host.guide.listen((e) => { this.today = tallyHear(this.today, e); this.tidy.hear(e); if (e.type === 'found' || e.type === 'spotted' || e.type === 'caught' || e.type === 'picked') this.setsDone(); if (e.type === 'cleared') queueMicrotask(() => this.milestone()); skills.hear(e); this.moods.hear(e); chain.hear(e); cards.hear(e); this.quests.hear(e); host.jobs.hear(e); this.story.hear(e); });
   }
 
   /** The journal's tally: places spotless today, and each Collection set. */
@@ -95,6 +100,12 @@ export class TownSystems {
     view.banner(`🧹 ${m.toLocaleString('en-AU')} spots tidied! +${gift} ✨`);
     this.host.refreshHud();
   }
+
+  /** At bedtime: the day summed up, or null after a quiet one. */
+  recap() { return recapLine(this.today, spotlessToday(this.host.state, this.host.day()), Math.max(0, this.host.state.sparkles - this.sparklesAtDawn)); }
+
+  /** A new morning: a fresh tally. */
+  newDay() { this.today = emptyTally(); this.sparklesAtDawn = this.host.state.sparkles; }
 
   /** The whole town at 100%: the biggest cheer there is, once. */
   checkComplete() {
