@@ -204,6 +204,9 @@
     "grumble_salt": {
       "day": 46
     },
+    "grumble_drip": {
+      "day": 24
+    },
     "grumble_reed": {
       "day": 20
     },

@@ -568,6 +568,29 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - A code-drawn seal: no ears, little flippers, speckles and whisker dots.
   - Tour cards: 🦭 Marlo the harbour keeper, 💡 Light the lighthouse.
 - **The Harbour and Beach, done for now:** the Old Harbour, its fish, critters, salt Grumbles and net loft, Marlo, and the lighthouse. Next district: the Deeps.
+- **6d.14 The Deeps (1 Nov):** the caves get their own life, beyond mining.
+  - **Critters (20 in all):** glow worms in the Glow Garden and cave bats across the other floors, any time.
+  - **The glowfin:** a pale glowing fish in the Warm Deep's pool (a new fishing spot). The General Store buys it.
+  - **Drip Grumbles:** soggy and blue-grey, in the top three cave floors from day 24. Sponge 3 times to dry them off.
+  - **Otto's cold baths**, the Deeps' quest from day 46 (Otto):
+    1. Spot a critter in the caves.
+    2. Catch a glowfin.
+    3. Next day: ask Moss why the baths went cold ("The spring under the caves warms the baths. It's sleepy too.").
+    4. Tell Otto.
+    - Reward: 180 ✨, honey and `warm_baths_done`.
+  - **Thimble's nook**, the last secret:
+    - A warm stone turns up while tidying the net loft. From the next morning, a crack opens in the deepest cave's east wall.
+    - Behind it is Thimble's own little home: an armchair, a table, a lamp and a shelf, with a carving: "Home is wherever someone waits. T."
+    - Restoring it gives 150 ✨.
+  - Tour cards: 🦇 Down in the Deeps, 💧 Drip Grumbles, ♨ Otto's cold baths, 🏡 Thimble's nook.
+- **All six districts are in (1 Nov):**
+  - Old Town and Puff's Hollow
+  - Riverside and the Far Bank
+  - Woodland and Orchard Hill
+  - the Harbour and Beach
+  - the Deeps
+
+  Each has its townsfolk, mess, critters, Grumbles, secrets, quests and story chapter. The year's story runs through all of them. Next: early access (6c, Blake's store steps in RELEASE-CHECKLIST), and more townsfolk toward about 20 at 1.0.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
