@@ -153,6 +153,7 @@ The camera finds the new cottage, and the newcomer walks up with a bag, looks ar
 - **K.3 (1 Nov)** Chapter openings and festival endings as cutscenes in Thimble's voice (see NEXT-PHASE).
 - **K.4 (1 Nov)** Newcomers arriving.
 - **K.5 (1 Nov)** The big reveals (boathouse, humming stone, Thimble's last carving) and Thimble waking at Winter Lights. The cutscene plan above is now all built.
+- **Year two (1 Nov):** Thimble lives in town as a neighbour after waking (decision 4).
 
 ## What changes in the code
 - `story/`: the Keeper's Story steps as pack data (`story` in the pack: day, who, goal, line). Goals reuse the quest ones, so a step can be a talk, tidy, cook, fish, find, build or quest. It's one daily step, and it can tick itself off from things already done.

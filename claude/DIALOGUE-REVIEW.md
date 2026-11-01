@@ -1796,3 +1796,92 @@ For each step: who asks, the button, what they say, the tracker while waiting (c
 - Otto's cold baths: "Help me find out why my baths are cold?" / "My baths have gone cold. Will you find out why?" / Moss: "The spring under the caves warms the baths. It's sleepy too." / Otto: "When the spring wakes, my baths will steam again! Thank you."
 - Warm stone: "A stone, still warm! Something deep below hums back." / "Smooth and warm. It opens a crack in the deepest cave."
 - Thimble's nook: "Carved by the armchair: 'Home is wherever someone waits. T.'"
+
+**Thimble, year two**
+- `thimble.meet.1`: Hello again, Keeper. I'm Thimble. Properly, this time.
+- `thimble.busy.1`: Still waking up. Everything's so bright! Tomorrow?
+- `thimble.busy.2`: I was learning the bakery bell. Tomorrow, Keeper?
+- `thimble.busy.3`: I napped for years. One more little nap. Tomorrow?
+- `thimble.morning.1`: Morning! I keep the fountain company first thing.
+- `thimble.morning.2`: The water hums when you say hello to it. Try it!
+- `thimble.day.1`: So many new faces! I'm learning everyone's names.
+- `thimble.day.2`: Moss lent me my own songbook. I'd forgotten it.
+- `thimble.evening.1`: The lamps come on one by one. I never tire of it.
+- `thimble.evening.2`: Dusk was always my favourite. The town settles.
+- `thimble.night.1`: Goodnight, Keeper. I'll be in my nook. Awake!
+- `thimble.night.2`: I like being awake at night now. Just a little.
+- `thimble.spring.1`: Spring! I slept through so many. Not this one.
+- `thimble.spring.2`: The blossom smells like the old days. Lovely.
+- `thimble.spring.3`: Do you know, you tidy faster than I ever did.
+- `thimble.summer.1`: Summer water is the warmest. The baths will steam!
+- `thimble.autumn.1`: Juniper plays my old song better than I hummed it.
+- `thimble.winter.1`: Winter used to make me sleepy. Now it makes me glad.
+- `thimble.rainy.1`: Rain! The spring loves it. So do I.
+- `thimble.rainy.2`: Hiding in the library with Moss. We talk books.
+- `thimble.h0.1`: You woke me up, you know. And the whole town.
+- `thimble.h0.2`: Sorrel, Fig, Wren, Juniper, Marlo... so many friends!
+- `thimble.h0.3`: I'm a little shy. It's been a long sleep.
+- `thimble.h3.1`: Otto's gran used to sing in the baths. So does Otto!
+- `thimble.h3.2`: Hazel makes her gran's tart. I remember her gran!
+- `thimble.h3.3`: Pip asked if I snore. I said, only in winter.
+- `thimble.h6.1`: I used to think I had to keep the town on my own.
+- `thimble.h6.2`: Mabel and I sang on the hill as chicks. Well, she did.
+- `thimble.h6.3`: You found every carving. I left them hoping.
+- `thimble.h9.1`: Two Keepers! The town is lucky. So am I.
+- `thimble.h9.2`: You're my dearest friend, Keeper. Truly.
+- `thimble.h9.3`: {town} glows because of you. Never forget it.
+- `thimble.visit.1`: Hello! Your burrow is so cosy. May I?
+- `thimble.visit.2`: I brought a song for your garden. Hum along?
+- `thimble.festival.1`: A fair! I used to bring the bunting.
+- `thimble.festival.summer_picnic`: A picnic! I'll bring the honey.
+- `thimble.festival.autumn_leaf_fest`: Leaf Fest, and my old song. I may cry. Happily.
+- `thimble.festival.winter_lights`: Winter Lights. The night you woke me. My favourite.
+- `thimble.mood.happy`: Everything is warm and humming today!
+- `thimble.mood.low`: A sleepy sort of day. I'll be fine with tea.
+- `thimble.shelter.1`: Rainy days are for books. Moss agrees.
+- `thimble.about_moss.1`: Moss wrote down everything I forgot. What a friend.
+- `thimble.about_hazel.1`: Hazel seems tired. Shall we bring her tea?
+- `thimble.town.1`: Every corner of {town} glows now. Thank you.
+- `thimble.gift.loved`: For me? Oh, Keeper. That's just perfect.
+- `thimble.gift.liked`: How lovely! It's going in my nook.
+- `thimble.gift.neutral`: A present? You're very sweet. Thank you!
+- `thimble.gift.disliked`: Hmm, not my sort of thing. Still, thank you!
+- `thimble.request.done`: Thank you, Keeper. Just like old times.
+- `hazel.thimble_back.1`: Thimble's back! I'll bake their favourite. All of them.
+- `moss.thimble_back.1`: Thimble is awake! I have so many questions. So many.
+- `mabel.thimble_back.1`: Hoo. Thimble. I never stopped hoping. Never.
+- `otto.thimble_back.1`: Thimble's awake! The baths will be warm by spring!
+- `pip.thimble_back.1`: Thimble is REAL! And they like my toys!
+- `bea.thimble_back.1`: Thimble remembered my gran's flowers. I had to sit down.
+- `he_thimble_02.l01`: Can I tell you what it was like, asleep?
+- `he_thimble_02.l02`: Warm and dark. I could hear the town, far away.
+- `he_thimble_02.l03`: Then it went quiet. Grey-quiet.
+- `he_thimble_02.l04`: And then?
+- `he_thimble_02.l05`: Then a little scrubbing noise. That was you.
+- `he_thimble_02.l06`: I was just tidying!
+- `he_thimble_04.l01`: I've been reading my old notes. Moss kept them all.
+- `he_thimble_04.l02`: I wrote, 'The town keeps itself, if it's loved.'
+- `he_thimble_04.l03`: That's true now.
+- `he_thimble_04.l04`: It is. You made it true.
+- `he_thimble_04.l05`: I only kept the water warm. You kept the people.
+- `he_thimble_04.l06`: We kept each other.
+- `he_thimble_06.l01`: I fell asleep because I was so tired. Too tired.
+- `he_thimble_06.l02`: I thought keeping the town was a job for one.
+- `he_thimble_06.l03`: It's not, though.
+- `he_thimble_06.l04`: No. Look at everyone. They all help.
+- `he_thimble_06.l05`: Next winter, if I'm sleepy, I'll just say so.
+- `he_thimble_06.l06`: And we'll bring tea.
+- `he_thimble_08.l01`: Will you come to the Old Spring with me?
+- `he_thimble_08.l02`: I want to hum the song there. Just once.
+- `he_thimble_08.l03`: Can I hum too?
+- `he_thimble_08.l04`: You must! It needs two Keepers now.
+- `he_thimble_08.l05`: Three notes, then a fourth. There. Hear it hum back?
+- `he_thimble_08.l06`: It's warm! The water's warm!
+- `he_thimble_10.l01`: I've decided what I'll do, now I'm awake.
+- `he_thimble_10.l02`: I'll keep the fountain. You keep the town.
+- `he_thimble_10.l03`: Together?
+- `he_thimble_10.l04`: Together. Two Keepers, one {town}.
+- `he_thimble_10.l05`: Thank you for finding me, little puff.
+- `he_thimble_10.l06`: Thank you for waiting.
+- `req.thimble_tea`: Thimble would love a cup of tea. It's been years!
+- `req.thimble_fountain`: Dust around the fountain, so Thimble can sit by it.
