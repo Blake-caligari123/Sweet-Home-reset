@@ -395,6 +395,17 @@
   },
   "brass_acorn": {
    "name": "Brass acorn"
+  },
+  "mackerel": {
+   "name": "Mackerel",
+   "sell": 30
+  },
+  "lobster": {
+   "name": "Lobster",
+   "sell": 55
+  },
+  "lamp_key": {
+   "name": "Lamp-room key"
   }
  },
  "areas": [
@@ -5738,6 +5749,308 @@
     "y": 5
    },
    "restoreReward": 100
+  },
+  {
+   "id": "harbour",
+   "name": "The Old Harbour",
+   "kind": "outdoor",
+   "drained": true,
+   "edge": "#79B176",
+   "theme": {
+    "wall": "#F7D2BF",
+    "wallAccent": "#F4C2A8",
+    "floor": "#C5A691",
+    "floorShade": "#B9937A",
+    "rug": "#A9CDA0",
+    "rugShade": "#79B176"
+   },
+   "legend": {
+    "h": "hedge",
+    "d": "sand",
+    "p": "path",
+    "j": "wood",
+    "~": "water"
+   },
+   "map": [
+    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+    "hddddddddddddddddddddddddddddh",
+    "hddddddddddddddddddddddddddddh",
+    "hddddddddddddddddddddddddddddh",
+    "hddddddddddddddddddddddddddddh",
+    "hddddddddddddddddddddddddddddh",
+    "hppppppppppppppppppppppppppddh",
+    "pppppppppppppppppppppppppppddh",
+    "hddddddddddddddddddddddddddddh",
+    "hddddddddddddddddddddddddddddh",
+    "~~~~~jj~~~~~~~~jj~~~~~~~jj~~~~",
+    "~~~~~jj~~~~~~~~jj~~~~~~~jj~~~~",
+    "~~~~~jj~~~~~~~~jj~~~~~~~jj~~~~",
+    "~~~~~jj~~~~~~~~jj~~~~~~~jj~~~~",
+    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+   ],
+   "props": [
+    {
+     "type": "crate",
+     "x": 3,
+     "y": 3
+    },
+    {
+     "type": "crate",
+     "x": 4,
+     "y": 3
+    },
+    {
+     "type": "crate",
+     "x": 27,
+     "y": 8
+    },
+    {
+     "type": "rowboat",
+     "x": 8,
+     "y": 11,
+     "w": 4
+    },
+    {
+     "type": "rowboat",
+     "x": 18,
+     "y": 12,
+     "w": 4
+    },
+    {
+     "type": "lamppost",
+     "x": 10,
+     "y": 5
+    },
+    {
+     "type": "lamppost",
+     "x": 20,
+     "y": 5
+    },
+    {
+     "type": "bench",
+     "x": 13,
+     "y": 4,
+     "w": 2
+    },
+    {
+     "type": "sign",
+     "x": 2,
+     "y": 5
+    },
+    {
+     "type": "fishing_spot",
+     "x": 7,
+     "y": 13,
+     "action": "fish"
+    },
+    {
+     "type": "fishing_spot",
+     "x": 17,
+     "y": 13,
+     "action": "fish"
+    },
+    {
+     "type": "fishing_spot",
+     "x": 26,
+     "y": 13,
+     "action": "fish"
+    }
+   ],
+   "signs": [
+    {
+     "x": 2,
+     "y": 5,
+     "text": "The Old Harbour. Boats welcome, even slow ones."
+    }
+   ],
+   "doors": [
+    {
+     "x": 0,
+     "y": 7,
+     "to": "beach",
+     "toX": 28,
+     "toY": 7
+    },
+    {
+     "x": 12,
+     "y": 0,
+     "to": "net_loft",
+     "toX": 5,
+     "toY": 6,
+     "needsFind": "lamp_key"
+    }
+   ],
+   "mess": [
+    {
+     "type": "seaweed",
+     "rect": [
+      1,
+      1,
+      28,
+      8
+     ],
+     "density": 0.08,
+     "seed": 201
+    },
+    {
+     "type": "sand",
+     "rect": [
+      1,
+      8,
+      28,
+      2
+     ],
+     "density": 0.1,
+     "seed": 203
+    }
+   ],
+   "pickups": [
+    {
+     "id": "harbour_shell_1",
+     "x": 8,
+     "y": 9,
+     "item": "shell"
+    },
+    {
+     "id": "harbour_shell_2",
+     "x": 21,
+     "y": 9,
+     "item": "shell"
+    },
+    {
+     "id": "harbour_twig_1",
+     "x": 26,
+     "y": 2,
+     "item": "twig"
+    },
+    {
+     "id": "harbour_pebble_1",
+     "x": 16,
+     "y": 2,
+     "item": "pebble"
+    }
+   ],
+   "spawn": {
+    "x": 1,
+    "y": 7
+   },
+   "restoreReward": 150
+  },
+  {
+   "id": "net_loft",
+   "name": "The net loft",
+   "kind": "home",
+   "drained": true,
+   "edge": "#3E4A52",
+   "theme": {
+    "wall": "#C9D6DE",
+    "wallAccent": "#B3C4CF",
+    "floor": "#A98E78",
+    "floorShade": "#977C66",
+    "rug": "#A9BFD6",
+    "rugShade": "#8FA6C0"
+   },
+   "legend": {
+    "#": "wall",
+    ".": "wood",
+    "~": "water",
+    "m": "mat",
+    " ": "void"
+   },
+   "map": [
+    "############",
+    "############",
+    "#..........#",
+    "#..........#",
+    "#..........#",
+    "#..........#",
+    "#..........#",
+    "#####m######"
+   ],
+   "props": [
+    {
+     "type": "lantern",
+     "x": 5,
+     "y": 2
+    },
+    {
+     "type": "lantern",
+     "x": 6,
+     "y": 2
+    },
+    {
+     "type": "carving",
+     "x": 9,
+     "y": 2,
+     "action": "sign"
+    },
+    {
+     "type": "shelf",
+     "x": 1,
+     "y": 2,
+     "w": 2
+    },
+    {
+     "type": "crate",
+     "x": 10,
+     "y": 5
+    },
+    {
+     "type": "crate",
+     "x": 1,
+     "y": 5
+    }
+   ],
+   "signs": [
+    {
+     "x": 9,
+     "y": 2,
+     "text": "Carved by the lamps: 'A light for every late boat. T.'"
+    }
+   ],
+   "doors": [
+    {
+     "x": 5,
+     "y": 7,
+     "to": "harbour",
+     "toX": 12,
+     "toY": 1
+    }
+   ],
+   "mess": [
+    {
+     "type": "dust",
+     "rect": [
+      1,
+      2,
+      10,
+      5
+     ],
+     "density": 0.25,
+     "seed": 211
+    },
+    {
+     "type": "cobweb",
+     "x": 1,
+     "y": 3
+    },
+    {
+     "type": "cobweb",
+     "x": 10,
+     "y": 3
+    },
+    {
+     "type": "seaweed",
+     "x": 7,
+     "y": 5
+    }
+   ],
+   "spawn": {
+    "x": 5,
+    "y": 6
+   },
+   "restoreReward": 120
   }
  ],
  "neighbours": [
@@ -10485,7 +10798,22 @@
    "grumble.leaf.after.1": "Rustle! Neat and tidy, thank you!",
    "grumble.leaf.hint": "Something crunchy is grumbling in the woods.",
    "find.brass_acorn": "A little brass acorn! The hedge rustles. A way through?",
-   "find.brass_acorn.about": "Warm to hold. It opens the way to the quiet glade."
+   "find.brass_acorn.about": "Warm to hold. It opens the way to the quiet glade.",
+   "repair.harbour_gate.hint": "The harbour gate could be mended. See the Keeper's plans.",
+   "repair.wait.plot_harbour_gate": "Rocks block the way. Maybe in winter.",
+   "build.done.harbour_gate": "The harbour gate is mended! The old harbour is open.",
+   "grumble.salt.before.1": "Crrrk.",
+   "grumble.salt.before.2": "Hmph... all crusty.",
+   "grumble.salt.after.1": "Splish! Fresh as a sea breeze!",
+   "grumble.salt.hint": "Something crusty is grumbling by the sea.",
+   "find.lamp_key": "A little key with a lamp on it. A door by the harbour!",
+   "find.lamp_key.about": "Brass, with a lamp. It opens the old net loft.",
+   "story.harbour.ask": "What's past the rocks?",
+   "story.harbour.line": "The old harbour! Mend its gate, dear, and we'll see.",
+   "story.harbour.call": "Mabel is peering past the rocks on the beach.",
+   "story.harbour.hint": "Mend the harbour gate from the Keeper's plans",
+   "story.harbour.diary": "We're mending the gate to the old harbour.",
+   "story.harbour.tease": "Mabel keeps peering past the rocks at the beach..."
   }
  },
  "heartEvents": [
@@ -13416,7 +13744,9 @@
     "pear",
     "plum",
     "mushroom",
-    "mushroom_soup"
+    "mushroom_soup",
+    "mackerel",
+    "lobster"
    ]
   },
   {
@@ -13714,6 +14044,19 @@
     "mushroom_logs"
    ],
    "unlock": "mushroom_logs"
+  },
+  {
+   "id": "plot_harbour_gate",
+   "name": "Past the rocks",
+   "area": "beach",
+   "x": 27,
+   "y": 7,
+   "w": 2,
+   "h": 1,
+   "allow": [
+    "harbour_gate"
+   ],
+   "unlock": "harbour_gate"
   }
  ],
  "buildings": [
@@ -14110,6 +14453,33 @@
    },
    "paves": "s",
    "effect": "waters_nearby"
+  },
+  {
+   "id": "harbour_gate",
+   "name": "Harbour gate",
+   "nights": 2,
+   "cost": {
+    "sparkles": 200,
+    "items": {
+     "twig": 8,
+     "pebble": 6
+    }
+   },
+   "prop": {
+    "type": "stepping_stones",
+    "walkable": true
+   },
+   "paves": "d",
+   "doors": [
+    {
+     "x": 29,
+     "y": 7,
+     "to": "harbour",
+     "toX": 1,
+     "toY": 7
+    }
+   ],
+   "project": true
   }
  ],
  "grumbleFamilies": [
@@ -14179,6 +14549,17 @@
    ],
    "unlock": "grumble_leaf",
    "tint": "#D9894A"
+  },
+  {
+   "id": "salt",
+   "tool": "sponge",
+   "hits": 4,
+   "areas": [
+    "beach",
+    "harbour"
+   ],
+   "unlock": "grumble_salt",
+   "tint": "#E8E4D8"
   }
  ],
  "pets": [
@@ -14744,6 +15125,13 @@
    "name": "Brass acorn",
    "areas": [
     "woodland"
+   ]
+  },
+  {
+   "id": "lamp_key",
+   "name": "Lamp-room key",
+   "areas": [
+    "harbour"
    ]
   }
  ],
@@ -15389,6 +15777,16 @@
    ],
    "fund": 80,
    "unlock": "hill_steps"
+  },
+  {
+   "id": "harbour",
+   "name": "A way to the old harbour",
+   "hint": "Mend the harbour gate at the beach (Keeper's plans).",
+   "metBy": [
+    "harbour_gate"
+   ],
+   "fund": 80,
+   "unlock": "harbour_gate"
   }
  ],
  "cards": [
@@ -15957,6 +16355,19 @@
     "beach"
    ],
    "time": "day"
+  },
+  {
+   "id": "mackerel",
+   "areas": [
+    "harbour"
+   ]
+  },
+  {
+   "id": "lobster",
+   "areas": [
+    "harbour"
+   ],
+   "time": "night"
   }
  ],
  "critters": [
@@ -16190,6 +16601,33 @@
    ],
    "time": "night",
    "hint": "Any night up on Orchard Hill"
+  },
+  {
+   "id": "puffin",
+   "name": "Puffin",
+   "kind": "bird",
+   "colour": "#3E3A45",
+   "areas": [
+    "harbour"
+   ],
+   "seasons": [
+    "Spring",
+    "Summer"
+   ],
+   "time": "day",
+   "hint": "Spring and summer days at the old harbour"
+  },
+  {
+   "id": "cormorant",
+   "name": "Cormorant",
+   "kind": "bird",
+   "colour": "#2F3540",
+   "areas": [
+    "harbour",
+    "beach"
+   ],
+   "time": "day",
+   "hint": "Drying its wings by the sea, any day"
   }
  ],
  "animals": [
@@ -20429,6 +20867,16 @@
      "count": 1
     },
     "who": "pip"
+   },
+   {
+    "id": "harbour",
+    "day": 49,
+    "chapter": "winter",
+    "who": "mabel",
+    "goal": {
+     "type": "built",
+     "building": "harbour_gate"
+    }
    },
    {
     "id": "winter_prep",

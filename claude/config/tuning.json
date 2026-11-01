@@ -191,6 +191,12 @@
     "mushroom_logs": {
       "day": 30
     },
+    "harbour_gate": {
+      "day": 45
+    },
+    "grumble_salt": {
+      "day": 46
+    },
     "grumble_reed": {
       "day": 20
     },
