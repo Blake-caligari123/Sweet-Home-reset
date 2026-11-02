@@ -5,9 +5,12 @@ import { seeded } from '../../shared/art/pixel-canvas';
 
 export const PAIR_ITEMS = ['carrot', 'strawberry', 'corn', 'pear', 'egg', 'honey', 'bread', 'milk'];
 
+/** Sorrel's stash: the things a squirrel tucks away for winter. */
+export const STASH_ITEMS = ['acorn', 'apple', 'pear', 'berries', 'mushroom', 'honey', 'plum', 'twig'];
+
 /** Today's cards: 6 pairs, 8 later in the year, shuffled. */
-export function dealPairs(day: number, round = 0): string[] {
-  const pairs = PAIR_ITEMS.slice(0, day < 30 ? 6 : 8);
+export function dealPairs(day: number, round = 0, items: string[] = PAIR_ITEMS): string[] {
+  const pairs = items.slice(0, day < 30 ? 6 : 8);
   const cards = [...pairs, ...pairs];
   const r = seeded(day * 3331 + round * 97 + 1);
   for (let i = cards.length - 1; i > 0; i -= 1) { const j = Math.floor(r() * (i + 1)); [cards[i], cards[j]] = [cards[j], cards[i]]; }

@@ -6,6 +6,7 @@ import { itemIcon } from '../ui/hud';
 import { drawCritter } from '../world/art/critters';
 import type { View } from '../ui/view';
 import { collectionSets, type CollectionSet } from './sets';
+import { CONSTELLATIONS } from '../stars/constellations';
 
 /**
  * The Collection (Pause → Collection, and Moss's table): every surprise find with its little story,
@@ -51,6 +52,13 @@ export function openCollection(view: View, content: Content, state: TownState) {
       h('div', { class: 'bag-slot', 'aria-hidden': 'true' }, have ? itemIcon(c.id) : h('b', { style: { position: 'static', fontSize: '1.2rem' } }, '?')),
       h('div', { class: 'friend-body' }, h('p', { class: 'friend-name' }, have ? content.itemName(c.id) : 'Not grown yet'), h('p', { class: 'muted' }, `${(c.seasons ?? ['Spring']).join(', ')}${where}`)));
   });
+  // The star book: constellations found through the telescope (stars/), and when to look for the rest.
+  const starRows = CONSTELLATIONS.map((c) => {
+    const have = state.starsSeen.includes(c.id);
+    return h('div', { class: 'friend' },
+      h('div', { class: 'bag-slot', 'aria-hidden': 'true' }, h('b', { style: { position: 'static', fontSize: '1.2rem' } }, have ? '⭐' : '?')),
+      h('div', { class: 'friend-body' }, h('p', { class: 'friend-name' }, have ? c.name : 'Not found yet'), h('p', { class: 'muted' }, c.seasons ? `Up in ${c.seasons.join(' and ').toLowerCase()}` : 'Up all year')));
+  });
   const sets = collectionSets(state, content.pack);
   const head = (id: CollectionSet['id'], icon: string) => {
     const set = sets.find((x) => x.id === id)!;
@@ -64,5 +72,7 @@ export function openCollection(view: View, content: Content, state: TownState) {
     head('finds', '🔍'), h('div', { class: 'friends' }, ...rows), h('p', { class: 'muted' }, 'Little treasures turn up while you tidy, all over town.'),
     ...(critters.length ? [head('critters', '🐞'), h('div', { class: 'friends' }, ...critterRows), h('p', { class: 'muted' }, 'Tap a critter to spot it. They come and go with the seasons, the time and the weather.')] : []),
     ...(fishRows.length ? [head('fish', '🐟'), h('div', { class: 'friends' }, ...fishRows), h('p', { class: 'muted' }, 'Each fishing spot has its own catch. Some only bite at night.')] : []),
-    ...(cropRows.length ? [head('harvest', '🥕'), h('div', { class: 'friends' }, ...cropRows), h('p', { class: 'muted' }, 'Grow each crop and pick it once to fill the log.')] : [])]);
+    ...(cropRows.length ? [head('harvest', '🥕'), h('div', { class: 'friends' }, ...cropRows), h('p', { class: 'muted' }, 'Grow each crop and pick it once to fill the log.')] : []),
+    h('div', { class: 'set-head' }, h('h3', {}, `🔭 Star book · ${state.starsSeen.length} of ${CONSTELLATIONS.length}`)), h('div', { class: 'friends' }, ...starRows),
+    h('p', { class: 'muted' }, 'Look through a telescope after 8 pm. The Wandering Cart sometimes has one.')]);
 }

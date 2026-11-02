@@ -3,7 +3,10 @@ import { againButton, starLine, type GameHost } from './games';
 import { allLit, dealLamps, lampStars, press } from './lamps';
 
 /** Pip's lamps: tap a lamp to flip it and its neighbours, until every lamp glows. */
-export function openLamps(d: GameHost, round = 0) {
+export interface LampsLook { title: string; intro: string; on: string; sea?: boolean }
+const LAMPS: LampsLook = { title: '💡 Light the lamps', intro: 'Tapping a lamp flips it and the lamps beside it. Light them all!', on: '💡' };
+
+export function openLamps(d: GameHost, round = 0, look: LampsLook = LAMPS) {
   const { view } = d;
   const board = dealLamps(d.day(), round);
   let lit = board.lit; let taps = 0;
@@ -12,7 +15,7 @@ export function openLamps(d: GameHost, round = 0) {
   const status = h('p', { class: 'muted' }, `Can be done in ${board.par} taps`);
   const draw = () => {
     grid.replaceChildren(...lit.map((on, i) => {
-      const el = h('button', { class: `lamp${on ? ' on' : ''}`, type: 'button', 'aria-label': `Lamp ${i + 1}, ${on ? 'lit' : 'dark'}` }, on ? '💡' : '');
+      const el = h('button', { class: `lamp${on ? ' on' : ''}`, type: 'button', 'aria-label': `Lamp ${i + 1}, ${on ? 'lit' : 'dark'}` }, on ? look.on : '');
       el.addEventListener('click', () => tap(i));
       return el;
     }));
@@ -29,9 +32,10 @@ export function openLamps(d: GameHost, round = 0) {
       view.feedback('fanfare', 'success');
       grid.classList.add('sorted');
       status.textContent = `${starLine(stars)}  ${d.finished(stars)}`;
-      status.after(againButton(view, 'Another board', () => openLamps(d, round + 1)));
+      status.after(againButton(view, 'Another board', () => openLamps(d, round + 1, look)));
     }
   };
   draw();
-  view.sheet('💡 Light the lamps', [h('p', { class: 'muted' }, 'Tapping a lamp flips it and the lamps beside it. Light them all!'), grid, count, status]);
+  if (look.sea) grid.classList.add('sea');
+  view.sheet(look.title, [h('p', { class: 'muted' }, look.intro), grid, count, status]);
 }

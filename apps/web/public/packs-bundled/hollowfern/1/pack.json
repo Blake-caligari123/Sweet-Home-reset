@@ -12120,7 +12120,18 @@
    "stars.day": "The stars are asleep. Come back after 8 pm!",
    "stars.new": "A new one for the star book!",
    "stars.again": "An old friend in the sky.",
-   "ideas.tracker": "🌿 Free time! Tap for cosy things to do."
+   "ideas.tracker": "🌿 Free time! Tap for cosy things to do.",
+   "pet.menu": "{pet} looks up at you, tail going.",
+   "pet.which_trick": "Which trick, {pet}?",
+   "pet.learned": "🐾 {pet} learned a new trick: {trick}!",
+   "pet.trick.sit": "{pet} sits, very proud. Good {pet}!",
+   "pet.trick.spin": "{pet} spins in a happy circle!",
+   "pet.trick.roll": "{pet} rolls right over. Wheee!",
+   "pet.trick.paw": "High five! {pet} pats your paw.",
+   "pet.trick.dance": "{pet} does a happy little dance!",
+   "pet.walk.start": "Walk time! Let's visit three places outdoors.",
+   "pet.walk.step": "Walk with {pet}: {n} of {of} places",
+   "pet.walk.done": "What a lovely walk with {pet}!"
   }
  },
  "heartEvents": [

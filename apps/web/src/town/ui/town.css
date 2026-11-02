@@ -329,3 +329,12 @@ html.high-contrast .muted { color: #4a3a32; }
 @keyframes twinkle { 50% { opacity: 0.55; } }
 .star-name { font-size: 1.25rem; font-weight: 700; }
 @media (prefers-reduced-motion: reduce) { .star::before, .star-sky.done .star::before { animation: none; } }
+
+/* Juniper's bells and Marlo's buoys (minigames/). */
+.bells { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: min(240px, 100%); margin: 8px auto; }
+.bell { aspect-ratio: 1; border: 0; box-shadow: inset 0 0 0 3px #534239, inset 0 -6px 0 rgba(83, 66, 57, 0.25); cursor: pointer; }
+.bell.lit { animation: bell-ring 0.4s steps(3); }
+@keyframes bell-ring { 0% { filter: brightness(1.35); transform: translateY(-3px); } 100% { filter: none; transform: none; } }
+.lamps.sea .lamp { background: #7296bc; }
+.lamps.sea .lamp.on { background: #f9edc2; }
+@media (prefers-reduced-motion: reduce) { .bell.lit { animation: none; outline: 3px solid #534239; } }

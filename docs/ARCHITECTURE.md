@@ -111,7 +111,8 @@ town/
   minigames/    games.ts (what a game sheet needs; stars; another round), minigame-buttons.ts (who plays which game),
                 shelf.ts + shelf-sheet.ts (Moss: sort the shelf), pairs.ts + pairs-sheet.ts (Bea: garden pairs),
                 pantry.ts + pantry-sheet.ts (Hazel: sort the pantry), skip.ts + skip-sheet.ts (Otto: skip stones),
-                lamps.ts + lamps-sheet.ts (Pip: light the lamps), tea.ts + tea-sheet.ts (Mabel: pour the tea)
+                lamps.ts + lamps-sheet.ts (Pip: light the lamps), tea.ts + tea-sheet.ts (Mabel: pour the tea),
+                echo.ts + echo-sheet.ts (Juniper: echo the tune); the newcomers' games are themed versions (minigame-buttons.ts)
   fishing/      fishing.ts (what bites where and when, the catch), fishing-sheet.ts (cast, wait, Reel in!)
   cafe/         cafe.ts (today's café orders, from dishes Puff can cook), cafe-buttons.ts (handing dishes over
                 in the keeper's chat)

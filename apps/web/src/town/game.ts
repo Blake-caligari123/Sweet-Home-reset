@@ -279,6 +279,7 @@ export class TownGame {
       areaId: () => this.areaId, area: () => this.area, mess: () => this.mess, nav: () => this.nav, fading: () => this.fading,
       messFor: (id) => this.places.mess(id), spawnOf: (id) => this.places.get(id)!.pack.spawn,
       enterArea: (id, x, y, announce) => this.enterArea(id, x, y, announce), playScene: (id) => this.playStory(id), rebuild: () => this.places.rebuild(this.state), tap: (x, y) => this.taps.tap(x, y), refreshHud: () => this.refreshHud(), sleep: () => this.endDay(false),
+      tapPet: () => this.pet.pat(),
       happening: (id) => { this.systems.happening.start(id); for (const l of this.systems.happening.morning()) this.view.banner(l); }
     };
   }

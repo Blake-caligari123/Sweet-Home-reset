@@ -1,22 +1,20 @@
 import { h } from '../../shared/ui/dom';
 import { itemIcon } from '../ui/hud';
 import { againButton, starLine, type GameHost } from './games';
-import { basket, pantryStars, shelfOf, SHELVES, type Shelf } from './pantry';
-
-const LABELS: Record<Shelf, string> = { fruit: '🍎 Fruit', veg: '🥕 Veg', baking: '🍞 Baking' };
+import { basket, PANTRY_SET, pantryStars, shelfIn, type SortSet } from './pantry';
 
 /** Hazel's pantry: each thing from the basket onto its shelf. A run of right ones builds a combo. */
-export function openPantry(d: GameHost, round = 0) {
+export function openPantry(d: GameHost, round = 0, set: SortSet = PANTRY_SET) {
   const { view } = d;
-  const items = basket(d.day(), round);
+  const items = basket(d.day(), round, set);
   let at = 0; let slips = 0; let run = 0;
   const shown = h('div', { class: 'pantry-item' });
   const label = h('p', { class: 'muted' }, '');
   const count = h('p', { class: 'friend-name' }, '');
   const status = h('p', { class: 'muted' }, '');
-  const filled: Record<Shelf, HTMLElement> = { fruit: h('div', { class: 'pantry-row' }), veg: h('div', { class: 'pantry-row' }), baking: h('div', { class: 'pantry-row' }) };
-  const buttons = SHELVES.map((sh) => {
-    const b = h('button', { class: 'btn pantry-shelf', type: 'button' }, LABELS[sh], filled[sh]);
+  const filled: Record<string, HTMLElement> = Object.fromEntries(set.shelves.map((s) => [s.id, h('div', { class: 'pantry-row' })]));
+  const buttons = set.shelves.map(({ id: sh, label }) => {
+    const b = h('button', { class: 'btn pantry-shelf', type: 'button' }, label, filled[sh]);
     b.addEventListener('click', () => put(sh, b));
     return b;
   });
@@ -26,10 +24,10 @@ export function openPantry(d: GameHost, round = 0) {
     count.textContent = at < items.length ? `${at + 1} of ${items.length}` : 'All put away!';
     status.textContent = run >= 3 ? `Combo ×${run}!` : slips ? `Slips: ${slips}` : '';
   };
-  const put = (sh: Shelf, b: HTMLElement) => {
+  const put = (sh: string, b: HTMLElement) => {
     if (at >= items.length) return;
     const item = items[at];
-    if (shelfOf(item) !== sh) {
+    if (shelfIn(set, item) !== sh) {
       slips += 1; run = 0;
       view.feedback('pff', null);
       b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope');
@@ -43,9 +41,9 @@ export function openPantry(d: GameHost, round = 0) {
       const stars = pantryStars(slips);
       view.feedback('fanfare', 'success');
       status.textContent = `${starLine(stars)}  ${d.finished(stars)}`;
-      status.after(againButton(view, 'Another basket', () => openPantry(d, round + 1)));
+      status.after(againButton(view, set.again, () => openPantry(d, round + 1, set)));
     }
   };
   draw();
-  view.sheet('🧺 Sort the pantry', [h('p', { class: 'muted' }, 'Pop each thing on its shelf.'), shown, label, count, h('div', { class: 'pantry' }, ...buttons), status]);
+  view.sheet(set.title, [h('p', { class: 'muted' }, set.intro), shown, label, count, h('div', { class: 'pantry', style: { gridTemplateColumns: `repeat(${set.shelves.length}, 1fr)` } }, ...buttons), status]);
 }
