@@ -19,7 +19,7 @@ export function overnight(state: TownState, pack: { buildings: BuildingDef[]; pl
   const season = seasonOf(endedDay);
   for (const c of state.crops) {
     const def = pack.crops?.find((d) => d.id === c.crop);
-    if ((c.watered || glass.has(c.area)) && (!def || grows(def, season, glass.has(c.area)))) c.days += 1;
+    if ((c.watered || glass.has(c.area)) && (!def || grows(def, season, glass.has(c.area)))) c.days += c.fed ? 2 : 1;
     c.watered = (rainTomorrow && !!pack.outdoor?.has(c.area)) || nearWater(c, state.plots, pack.plots, pack.buildings, TUNING.wellReach);
   }
   regrow(state.caves, endedDay + 1);

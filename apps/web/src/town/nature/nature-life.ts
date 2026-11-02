@@ -8,6 +8,7 @@ import type { Target } from '../play/targets';
 import type { TownState } from '../state';
 import type { View } from '../ui/view';
 import type { World } from '../world/world';
+import { COMPOST_FROM, compostDue } from '../play/crops';
 import { freshDay, gatherYield, natureKey } from './nature';
 
 export interface NatureHost {
@@ -107,6 +108,17 @@ export class Nature {
     this.host.onboard({ type: 'chopped' });
     this.host.refreshArea();
     this.host.refreshHud(); this.host.save();
+  }
+
+  /** Raking weeds, leaves or mud: every few make a scoop of compost for the garden. */
+  hear(e: OnboardEvent) {
+    if (e.type !== 'cleared' || !COMPOST_FROM.includes(e.mess)) return;
+    const { state, view, content } = this.host;
+    const raked = (state.nature.raked ?? 0) + 1;
+    state.nature = { ...state.nature, raked };
+    if (!compostDue(raked, TUNING.compostEvery) || !state.bag.canAdd('compost')) return;
+    state.bag.add('compost');
+    view.toast(`🪣 ${content.line('compost.got') ?? ''}`);
   }
 
   stump() { this.host.view.say(this.line('nature.stump')); }

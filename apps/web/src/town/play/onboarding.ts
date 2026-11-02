@@ -29,7 +29,9 @@ export type OnboardEvent =
   // A mini-game finished (minigames/).
   | { type: 'played'; game: string }
   // The cosy outdoors (nature/): a tree shaken or bush foraged, a tree felled, a sit on a bench.
-  | { type: 'gathered' } | { type: 'chopped' } | { type: 'rested' };
+  | { type: 'gathered' } | { type: 'chopped' } | { type: 'rested' }
+  // A crop given compost (play/crops.ts).
+  | { type: 'fed' };
 
 export interface Step {
   id: string;

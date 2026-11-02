@@ -763,6 +763,10 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - New daily goals (shake or forage 3 times, chop a tree, sit on a bench) and weekly goals (chop 3 trees, gather 12 times). Quests can ask for `gathered`, and a quest can hand over a tool.
   - The toolbar tightens on narrow phones so the Bag always shows with six tools ("Water" for the can).
   - Numbers are in tuning (`nature`).
+- **Deeper farming (2 Nov):**
+  - **🪣 Compost:** every 5 weeds, leaves or mud raked gives a scoop of compost (`compostEvery`). Tap a watered, growing crop with compost in the bag to feed it. A fed crop grows two days on each watered night, shows a dark ring of rich soil, and gives one extra when picked. A new daily goal: give a crop some compost.
+  - **New crops:** potato (spring and autumn, 4 days), sunflower (summer, 6), cabbage (autumn, 5) and **kale, which grows outdoors in winter** (4), so the garden has something every season. Each has its own look in the soil (tuber, flower, head), seeds at the General Store in season, a harvest line, and a sell price.
+  - **New dishes:** roast potatoes (2 potatoes) and kale soup (kale + potato).
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

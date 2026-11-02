@@ -26,7 +26,9 @@ export interface GoalKind {
 /** What Puff can do so far. */
 export interface GoalFacts { day: number;
   /** Neighbours Puff knows who have a mini-game to play. */
-  games: boolean; tools: string[]; fish: boolean; crops: boolean; animals: boolean; grumbles: boolean; places: string[]; tidyPlaces: string[] }
+  games: boolean;
+  /** Compost in the bag, for feeding crops. */
+  compost?: boolean; tools: string[]; fish: boolean; crops: boolean; animals: boolean; grumbles: boolean; places: string[]; tidyPlaces: string[] }
 
 const KINDS: GoalKind[] = [
   { id: 'tidy', family: 'tidy', count: 15, text: 'Tidy {n} spots anywhere', counts: (e) => e.type === 'cleared', ready: () => true },
@@ -43,6 +45,7 @@ const KINDS: GoalKind[] = [
   { id: 'plant', family: 'grow', count: 3, text: 'Plant {n} seeds', counts: (e) => e.type === 'planted', ready: (f) => f.tools.includes('can') },
   { id: 'water', family: 'grow', count: 3, text: 'Water {n} crops', counts: (e) => e.type === 'watered', ready: (f) => f.crops },
   { id: 'pick', family: 'grow', count: 2, text: 'Pick {n} crops', counts: (e) => e.type === 'picked', ready: (f) => f.crops },
+  { id: 'feed', family: 'grow', count: 1, text: 'Give a crop some compost', counts: (e) => e.type === 'fed', ready: (f) => f.crops && !!f.compost },
   { id: 'tend', family: 'grow', count: 1, text: 'Look after your farm animals', counts: (e) => e.type === 'tended', ready: (f) => f.animals },
   { id: 'cook', family: 'make', count: 1, text: 'Cook something in your kitchen', counts: (e) => e.type === 'made' && e.station === 'kitchen', ready: (f) => f.day >= 4 },
   { id: 'craft', family: 'make', count: 1, text: 'Make something at a workbench', counts: (e) => e.type === 'made' && e.station === 'bench', ready: (f) => f.day >= 9 },

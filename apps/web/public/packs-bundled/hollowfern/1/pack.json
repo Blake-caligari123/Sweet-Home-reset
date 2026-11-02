@@ -433,6 +433,50 @@
    "decor": {
     "prop": "campfire"
    }
+  },
+  "potato": {
+   "name": "Potato",
+   "sell": 18,
+   "snack": 20
+  },
+  "potato_seeds": {
+   "name": "Potato seeds"
+  },
+  "sunflower": {
+   "name": "Sunflower",
+   "sell": 30
+  },
+  "sunflower_seeds": {
+   "name": "Sunflower seeds"
+  },
+  "cabbage": {
+   "name": "Cabbage",
+   "sell": 28,
+   "snack": 20
+  },
+  "cabbage_seeds": {
+   "name": "Cabbage seeds"
+  },
+  "kale": {
+   "name": "Kale",
+   "sell": 26,
+   "snack": 20
+  },
+  "kale_seeds": {
+   "name": "Kale seeds"
+  },
+  "compost": {
+   "name": "Compost"
+  },
+  "kale_soup": {
+   "name": "Kale soup",
+   "snack": 60,
+   "sell": 70
+  },
+  "roast_potatoes": {
+   "name": "Roast potatoes",
+   "snack": 55,
+   "sell": 60
   }
  },
  "areas": [
@@ -11994,7 +12038,14 @@
    "rest.evening": "{puff} watches the sky go peach and gold.",
    "rest.night": "{puff} counts the stars. One, two... lots.",
    "quest.pip_axe.intro": "A little axe, for a little Keeper! It needs twigs. Right?",
-   "quest.pip_axe.done": "Your own axe! Yard and wild woods only, right? Right!"
+   "quest.pip_axe.done": "Your own axe! Yard and wild woods only, right? Right!",
+   "crop.potato.harvest": "Potatoes! Knobbly and golden.",
+   "crop.sunflower.harvest": "A sunflower! Taller than {puff}.",
+   "crop.cabbage.harvest": "A cabbage! Round as a hug.",
+   "crop.kale.harvest": "Kale! It loves the frost.",
+   "crop.fed": "A handful of compost. Grow, little one! Twice as fast.",
+   "crop.growing_fed": "Growing fast on its compost. No rush.",
+   "compost.got": "A scoop of compost for the garden!"
   }
  },
  "heartEvents": [
@@ -15339,6 +15390,39 @@
       "Spring",
       "Autumn"
      ]
+    },
+    {
+     "item": "potato_seeds",
+     "price": 30,
+     "qty": 3,
+     "seasons": [
+      "Spring",
+      "Autumn"
+     ]
+    },
+    {
+     "item": "sunflower_seeds",
+     "price": 50,
+     "qty": 3,
+     "seasons": [
+      "Summer"
+     ]
+    },
+    {
+     "item": "cabbage_seeds",
+     "price": 50,
+     "qty": 3,
+     "seasons": [
+      "Autumn"
+     ]
+    },
+    {
+     "item": "kale_seeds",
+     "price": 40,
+     "qty": 3,
+     "seasons": [
+      "Winter"
+     ]
     }
    ],
    "buys": [
@@ -15381,7 +15465,13 @@
     "lobster",
     "glowfin",
     "log",
-    "acorn"
+    "acorn",
+    "potato",
+    "sunflower",
+    "cabbage",
+    "kale",
+    "kale_soup",
+    "roast_potatoes"
    ]
   },
   {
@@ -16666,6 +16756,35 @@
     }
    },
    "learn": "pip_axe_done"
+  },
+  {
+   "id": "roast_potatoes",
+   "name": "Roast potatoes",
+   "station": "kitchen",
+   "makes": {
+    "item": "roast_potatoes",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "potato": 2
+    }
+   }
+  },
+  {
+   "id": "kale_soup",
+   "name": "Kale soup",
+   "station": "kitchen",
+   "makes": {
+    "item": "kale_soup",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "kale": 1,
+     "potato": 1
+    }
+   }
   }
  ],
  "crops": [
@@ -16748,6 +16867,39 @@
    ],
    "areas": [
     "woodland"
+   ]
+  },
+  {
+   "id": "potato",
+   "seed": "potato_seeds",
+   "look": "tuber",
+   "seasons": [
+    "Spring",
+    "Autumn"
+   ]
+  },
+  {
+   "id": "sunflower",
+   "seed": "sunflower_seeds",
+   "look": "flower",
+   "seasons": [
+    "Summer"
+   ]
+  },
+  {
+   "id": "cabbage",
+   "seed": "cabbage_seeds",
+   "look": "head",
+   "seasons": [
+    "Autumn"
+   ]
+  },
+  {
+   "id": "kale",
+   "seed": "kale_seeds",
+   "look": "leaf",
+   "seasons": [
+    "Winter"
    ]
   }
  ],
