@@ -104,6 +104,8 @@ town/
   nature/       nature.ts (trees, bushes and benches outdoors: what a shake gives by season, felled trees as stumps
                 and saplings), nature-life.ts (shaking, foraging, chopping with the axe, sitting on a bench)
   garden/       hives.ts (beehives: honey overnight, more beside flower beds, none in winter), hive-life.ts (collecting honey)
+  ui/skin/      frames.ts (the satchel skin: parchment, wood, tag, ribbon, slot and shelf frames as CSS border-images),
+                icons.ts (pixel icons for the game's emoji), iconize.ts (swaps them into the UI's text); styles in ui/skin.css
   minigames/    games.ts (what a game sheet needs; stars; another round), minigame-buttons.ts (who plays which game),
                 shelf.ts + shelf-sheet.ts (Moss: sort the shelf), pairs.ts + pairs-sheet.ts (Bea: garden pairs),
                 pantry.ts + pantry-sheet.ts (Hazel: sort the pantry), skip.ts + skip-sheet.ts (Otto: skip stones),
@@ -142,7 +144,7 @@ town/
   ui/           hud.ts, view.ts (dialogs, sheets, banners, feedback), menus.ts (opens Pause, the map, bag, journal, names, shops and plans for game.ts), prompt.ts (the line above
                 the tool bar), pointer-input.ts (fingers on the world, pinch zoom), joystick.ts (the on-screen stick), keyboard.ts, hud-live.ts (clock,
                 Fluff, prompt and bubble each frame), bag-sheet.ts,
-                naming-sheet.ts, pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css, pixel.css (pixel-style menus)
+                naming-sheet.ts, pause-menu.ts, reveal.ts (share clip offer), frame-stats.ts, town.css, skin.css (the satchel skin; see ui/skin/)
 ```
 
 ### How the pieces talk

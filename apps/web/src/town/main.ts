@@ -14,12 +14,21 @@ import { SpriteBank } from './world/sprites';
 import { TUNING } from './data/tuning';
 import '../shared/style.css';
 import './ui/town.css';
-import './ui/pixel.css';
+import '@fontsource/pixelify-sans/400.css';
+import '@fontsource/pixelify-sans/500.css';
+import '@fontsource/pixelify-sans/600.css';
+import '@fontsource/pixelify-sans/700.css';
+import './ui/skin.css';
+import { installFrames } from './ui/skin/frames';
+import { startIconize } from './ui/skin/iconize';
 
 // Milestone 1 test build of the GDD v3 town game, served at /test/ while the room game
 // keeps the main link (GDD v3 A1).
 const host = document.querySelector<HTMLElement>('#app')!;
 const ui = document.querySelector<HTMLElement>('#ui')!;
+// The satchel skin: pixel frames as CSS variables, and pixel icons for the text's emoji.
+installFrames();
+startIconize(ui);
 
 const native = await loadNativeBridge();
 // Start fetching character sprite sheets now; the game swaps them in when they land.

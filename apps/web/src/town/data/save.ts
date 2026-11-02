@@ -132,6 +132,8 @@ export interface TownSave {
   settings: { sound: boolean; music: boolean; haptics: boolean; reducedMotion: boolean; relaxed: boolean; autoTool: boolean;
     /** Accessibility (FRONTEND-PLAN §11); missing in older saves, so off. */
     bigText?: boolean; highContrast?: boolean; tapOnly?: boolean;
+    /** A plain rounded font instead of the pixel one (ui/skin.css). */
+    easyFont?: boolean;
     /** Text size as a percent (100, 125, 150); older saves only have `bigText`. */
     textSize?: number;
     /** Anonymous play counts (GDD A10); on unless turned off. */
