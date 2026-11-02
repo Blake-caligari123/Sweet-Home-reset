@@ -5,7 +5,8 @@ import { drawPet } from './art/pets';
 import type { SpriteBank } from './sprites';
 
 /** The pet to draw: feet at x, y (world px). */
-export interface PetView { kind: string; x: number; y: number; left: boolean; moving: boolean }
+/** `trick`: one being done, and how far into it (ms). */
+export interface PetView { kind: string; x: number; y: number; left: boolean; moving: boolean; trick?: { id: string; ms: number } }
 
 const frames = new Map<string, Texture>();
 function petTexture(kind: string, frame: number) {
@@ -44,9 +45,17 @@ export class PetLayer {
     const tick = Math.floor(this.clock / (v.moving ? 140 : 400));
     const k = art && this.bank ? 1 / this.bank.scale(sheet) : 1;
     this.sprite.texture = art ? art[still ? 0 : tick % art.length] : petTexture(v.kind, still ? 0 : tick % 2);
-    this.sprite.scale.set(v.left ? -k : k, k);
+    // A trick (pets/tricks.ts): a spin, a roll, a sit, a high five or a happy dance.
+    const t = this.reducedMotion ? undefined : v.trick;
+    const ms = t?.ms ?? 0;
+    const flip = t?.id === 'spin' || t?.id === 'dance' ? Math.floor(ms / 130) % 2 === 1 : false;
+    const hop = t?.id === 'dance' ? -Math.abs(Math.sin(ms / 110)) * 4 : t?.id === 'paw' ? -Math.abs(Math.sin(ms / 160)) * 3 : t?.id === 'spin' ? -2 : 0;
+    const squash = t?.id === 'sit' ? 0.82 : 1;
+    this.sprite.rotation = t?.id === 'roll' ? Math.min(1, ms / 900) * Math.PI * 2 * (v.left ? -1 : 1) : 0;
+    this.sprite.anchor.set(0.5, t?.id === 'roll' ? 0.6 : 1);
+    this.sprite.scale.set((v.left !== flip ? -k : k), k * squash);
     const x = Math.round(v.x); const y = Math.round(v.y);
-    this.sprite.position.set(x, y); this.sprite.zIndex = y;
+    this.sprite.position.set(x, y + Math.round(hop) - (t?.id === 'roll' ? 5 : 0)); this.sprite.zIndex = y;
     this.shadow.position.set(x, y - 1); this.shadow.zIndex = y - 1;
   }
 }

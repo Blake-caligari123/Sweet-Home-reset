@@ -32,6 +32,8 @@ export interface DebugTarget {
   refreshHud(): void;
   /** Go to bed now: the night runs as usual. */
   sleep(): Promise<void>;
+  /** Tap the pet (its menu: pat, trick, walk). */
+  tapPet(): void;
   /** Start a daily happening now, with its morning news (daily/happenings.ts). */
   happening(id: HappeningId): void;
 }
@@ -44,6 +46,7 @@ export function installDebugHooks(g: DebugTarget) {
     debug: () => ({ area: g.areaId(), puff: { x: g.puff.x, y: g.puff.y }, fluff: s.fluff.value, sparkles: s.sparkles, bag: s.bag.slots.filter(Boolean), tools: s.tools, step: s.onboarding.current?.id ?? 'done', progress: g.mess().progress, day: g.clock.state.day, minutes: g.clock.state.minutes, crops: s.crops }),
     setMinutes: (m: number) => { g.clock.state.minutes = m; },
     happening: (id: HappeningId) => g.happening(id),
+    tapPet: () => g.tapPet(),
     today: () => ({ goals: s.daily.goals, happening: s.happening }),
     setDay: (d: number) => { g.clock.state.day = d; g.jobs.post(); },
     sleep: () => g.sleep(),

@@ -9,6 +9,7 @@ import type { PetLayer } from '../world/pet-layer';
 import type { World } from '../world/world';
 import { openPetChoice } from './pet-sheet';
 import { sniff, Trail } from './pets';
+import { knownTricks, newTrick, pat, startWalk, walkTo, WALK_PLACES, type TrickId } from './tricks';
 
 export interface PetHost {
   state: TownState; view: View; content: Content; world: World; layer: PetLayer;
@@ -61,6 +62,7 @@ export class PetLife {
   entered(area: string) {
     this.trail.reset(this.host.puff()); this.last = null;
     if (area === DOORSTEP) window.setTimeout(() => this.offer(), OFFER_DELAY_MS);
+    this.walkHere(area);
     window.setTimeout(() => this.sniffAround(area), SNIFF_DELAY_MS);
   }
 
@@ -84,12 +86,85 @@ export class PetLife {
     return !!this.host.state.pet && Math.abs(px - s.x) <= 9 && py >= s.y + FEET_TO_BASE - 14 && py <= s.y + FEET_TO_BASE + 2;
   }
 
-  /** A pat: a happy wiggle and a sparkle (just for joy; nothing to keep up). */
+  /** Tapping the pet: a pat, a trick, or a walk together. */
   pat() {
+    const { state, view } = this.host;
+    const pet = state.pet;
+    if (!pet) return;
+    const walking = pet.walk?.day === this.host.day() && !pet.walk.done;
+    const walked = pet.walk?.day === this.host.day() && pet.walk.done;
+    view.ask(this.say('pet.menu'), [
+      { label: `🐾 Pat ${pet.name}`, primary: true, onClick: () => this.givePat() },
+      { label: '✨ Do a trick!', onClick: () => this.chooseTrick() },
+      ...(walked ? [] : [{ label: walking ? `🌳 Walk: ${pet.walk!.places.length}/${WALK_PLACES} places` : '🌳 Go for a walk', onClick: () => this.walk() }]),
+      { label: 'Bye!', onClick: () => {} }
+    ]);
+  }
+
+  private givePat() {
+    const { state, view } = this.host;
+    const pet = state.pet!;
+    const before = pet.bond ?? 0;
+    pat(pet, this.host.day(), TUNING.petPatsPerDay);
     const s = this.trail.spot;
     this.host.world.sparkleBurst(Math.floor(s.x / T), Math.floor(s.y / T), 8);
-    this.host.view.feedback('boing', 'light');
-    this.host.view.say(this.say(`pet.pat.${(this.pats++ % 3) + 1}`));
+    view.feedback('boing', 'light');
+    view.say(this.say(`pet.pat.${(this.pats++ % 3) + 1}`));
+    this.learned(before);
+    this.host.save();
+  }
+
+  /** A new trick learned as the bond grows: a cheer, once. */
+  private learned(before: number) {
+    const t = newTrick(before, this.host.state.pet?.bond ?? 0);
+    if (!t) return;
+    this.host.view.feedback('fanfare', 'success');
+    this.host.view.banner(this.say('pet.learned').replace('{trick}', t.name));
+  }
+
+  private trick: { id: TrickId; ms: number } | null = null;
+
+  private chooseTrick() {
+    const { view } = this.host;
+    const known = knownTricks(this.host.state.pet?.bond ?? 0);
+    view.ask(this.say('pet.which_trick'), [...known.map((t) => ({ label: t.name, onClick: () => this.doTrick(t.id) })), { label: 'Maybe later', onClick: () => {} }]);
+  }
+
+  private doTrick(id: TrickId) {
+    this.trick = { id, ms: 0 };
+    this.host.view.feedback(id === 'dance' ? 'combo' : 'pop', 'light');
+    const s = this.trail.spot;
+    this.host.world.sparkleBurst(Math.floor(s.x / T), Math.floor(s.y / T), 6);
+    this.host.view.say(this.say(`pet.trick.${id}`));
+  }
+
+  /** A walk: three outdoor places together today; the pet finds something at the end. */
+  private walk() {
+    const { state, view } = this.host;
+    const pet = state.pet!;
+    if (!startWalk(pet, this.host.day())) return;
+    view.say(this.say('pet.walk.start'));
+    this.host.save();
+  }
+
+  /** Puff and the pet arrive somewhere outdoors: a step on today's walk. */
+  private walkHere(area: string) {
+    const { state, view, content } = this.host;
+    const pet = state.pet;
+    if (!pet || content.pack.areas.find((a) => a.id === area)?.kind !== 'outdoor') return;
+    const r = walkTo(pet, this.host.day(), area);
+    if (!r) return;
+    if (!r.finished) { view.toast(`🐾 ${this.say('pet.walk.step').replace('{n}', String(r.count)).replace('{of}', String(WALK_PLACES))}`); this.host.save(); return; }
+    const before = pet.bond ?? 0;
+    pet.bond = before + TUNING.petWalkBond;
+    state.sparkles += TUNING.petWalkSparkles;
+    const def = content.pack.pets?.find((p) => p.id === pet.kind);
+    const gift = def?.finds?.[this.host.day() % def.finds.length];
+    if (gift && state.bag.canAdd(gift)) state.bag.add(gift);
+    view.feedback('fanfare', 'success');
+    view.banner(`🐾 ${this.say('pet.walk.done')} +${TUNING.petWalkSparkles} ✨${gift ? ` and ${content.itemName(gift).toLowerCase()}` : ''}`);
+    this.learned(before);
+    this.host.refreshHud(); this.host.save();
   }
 
   /** Each frame: follow Puff's trail and draw. */
@@ -102,7 +177,8 @@ export class PetLife {
     const left = this.last ? s.x < this.last.x - 0.05 || (s.x <= this.last.x + 0.05 && this.leftWas) : false;
     this.leftWas = left;
     this.last = s;
-    this.host.layer.draw({ kind: pet.kind, x: s.x, y: s.y + FEET_TO_BASE, left, moving }, dt);
+    if (this.trick) { this.trick.ms += dt; if (this.trick.ms > 1100) this.trick = null; }
+    this.host.layer.draw({ kind: pet.kind, x: s.x, y: s.y + FEET_TO_BASE, left, moving, trick: this.trick ?? undefined }, dt);
   }
 
 }

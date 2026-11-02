@@ -89,6 +89,8 @@ export interface Tuning {
   hiveHolds: number;
   /** A new constellation for the star book (stars/). */
   starSparkles: number;
+  /** The pet (pets/tricks.ts): pats a day that grow the bond, a walk's bond and Sparkles. */
+  petPatsPerDay: number; petWalkBond: number; petWalkSparkles: number;
   /** Crops that grow back after picking: days from picked to ready again. */
   cropRegrowDays?: Record<string, number>;
   /** The year-one schedule (VISION §8): when each thing arrives. Read only through `isUnlocked`. */

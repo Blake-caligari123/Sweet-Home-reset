@@ -88,3 +88,28 @@ describe('pour the tea', () => {
     expect(teaStars(['perfect', 'perfect', 'close'])).toBe(3); expect(teaStars(['close', 'close', 'close'])).toBe(2); expect(teaStars(['off', 'close', 'off'])).toBe(1);
   });
 });
+
+describe('echo the tune', () => {
+  it('plays a tune with no note twice running, and hears it back', async () => {
+    const { echo, echoStars, tune, LAST } = await import('./echo');
+    const t = tune(9);
+    expect(t).toHaveLength(LAST);
+    for (let i = 1; i < t.length; i += 1) expect(t[i]).not.toBe(t[i - 1]);
+    expect(echo(t, [t[0]], 3)).toBe('more');
+    expect(echo(t, [t[0], t[1], t[2]], 3)).toBe('right');
+    expect(echo(t, [(t[0] + 1) % 4], 3)).toBe('slip');
+    expect(echoStars(0)).toBe(3); expect(echoStars(4)).toBe(1);
+  });
+
+  it('themes the shared games for the newcomers with real items', async () => {
+    const { hollowfern: pack } = await import('../data/test-pack');
+    const { STASH_ITEMS } = await import('./pairs');
+    const { SEED_SET } = await import('./pantry');
+    for (const id of [...STASH_ITEMS, ...SEED_SET.shelves.flatMap((s) => s.items)]) expect(pack.items[id]?.name, id).toBeTruthy();
+    // Each seed is in the tin for a season it really grows in.
+    for (const s of SEED_SET.shelves) for (const seed of s.items) {
+      const crop = pack.crops!.find((c) => c.seed === seed)!;
+      expect((crop.seasons ?? ['Spring']).map((x) => x.toLowerCase()), seed).toContain(s.id);
+    }
+  });
+});

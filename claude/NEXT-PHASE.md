@@ -791,6 +791,21 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **🛒 The Wandering Cart** (`shops/shops.ts` `visits`, `withCarts`): a striped cart in the Town Square every five days from day 8 (8 am to 8 pm). It sells a telescope (150 ✨), rare seeds, a lantern, a potted fern, a flower pot, bait and honey. The morning card says when it's in town.
   - **🔭 Stargazing** (`stars/constellations.ts`, `star-sheet.ts`, `stargaze.ts`): place the telescope anywhere and tap it after 8 pm. One constellation is up each night (new ones first, by season): the Teapot, the Big Broom, Puff's Ears, the Acorn, the Sleepy Owl, the Lantern, the Little Boat and Pip's Kite. Tap its bright stars among the faint ones, the lines join up and its name shows. A new one goes in the star book for +20 ✨ (`starSparkles`). Before dark: "The stars are asleep. Come back after 8 pm!"
 
+- **Pets, the newcomers' games and the star book (2 Nov):**
+  - **🐾 Pet tricks and walks** (`pets/tricks.ts`, `pets/pet-life.ts`, `world/pet-layer.ts`): tapping the pet opens a little menu: Pat, Do a trick, Go for a walk.
+    - Pats (3 a day count, `petPatsPerDay`) and walks grow the pet's bond, and tricks come with it: Sit (from the start), Spin (5), Roll over (12), High five (20), Happy dance (32). Each new one is a fanfare and a banner.
+    - Each trick is its own little animation: a squash to sit, flips to spin, a full roll, a hop for a high five, a bouncing dance.
+    - A walk is three outdoor places together in a day. Its end gives bond (`petWalkBond`), +15 ✨ (`petWalkSparkles`) and something the pet finds. Nothing fades or is lost by not walking.
+  - **🌰 A game for every newcomer** (`minigames/`): the shared games now take a theme (`PairsLook`, `SortSet`, `SkipLook`, `LampsLook`), plus one new game:
+    - Sorrel: 🌰 stash pairs (acorns, fruit, honey…)
+    - Fig: 🌱 seed tins (each packet into the season it's sown in, four tins)
+    - Wren: ⛵ paper boats (catch the breeze)
+    - Marlo: 🛟 light the buoys (the lamp puzzle on the sea)
+    - Juniper: 🎵 **Echo the tune**, new (`echo.ts`): four bells play a tune, Puff plays it back, one note longer each time from three to six, and a slip just replays it.
+
+    That's 11 games, one per neighbour.
+  - **🔭 The star book** in the Collection: each constellation found, and the seasons to look for the rest.
+
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
   - A cutscene is one continuous take made of shots (`scenes` in the pack). Within a place, the camera follows whoever the story is about: a character, or the sparkle.

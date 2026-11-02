@@ -148,6 +148,9 @@
   "compostEvery": 5,
   "hiveHolds": 3,
   "starSparkles": 20,
+  "petPatsPerDay": 3,
+  "petWalkBond": 3,
+  "petWalkSparkles": 15,
   "unlocks": {
     "mabel": {
       "day": 43

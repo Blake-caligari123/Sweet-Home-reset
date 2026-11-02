@@ -283,5 +283,11 @@ export const TOUR: TourCard[] = [
   { title: '🔭 Stargazing', steps: ['A telescope stands in your yard and it\'s night. Tap it.', 'One constellation is up each night. Tap its bright stars and the lines join up: the Teapot, the Big Broom, Puff\'s Ears and more.', 'Each new one goes in your star book, with Sparkles.'],
     setup: (s) => { s.state.decor = [...s.state.decor.filter((d) => d.item !== 'telescope'), { area: 'yard', x: 13, y: 8, item: 'telescope' }]; s.day(9).time(21).go('yard'); } },
   { title: '🌿 Things to do', steps: ['Pause → 🌿 Things to do lists the cosy things on offer right now: crops to pick, honey waiting, who\'s up for a game and where, fishing, the cart, the stars...', 'When there\'s no story or quest on, the tracker says "Free time!" and opens it too.'],
-    setup: (s) => { s.give('fishing_rod').meet('bea', 'otto').day(10).time(10).go('yard'); } }
+    setup: (s) => { s.give('fishing_rod').meet('bea', 'otto').day(10).time(10).go('yard'); } },
+  { title: '🐾 Pet tricks and walks', steps: ['Tap your pet: pat them, ask for a trick, or go for a walk.', 'Pats (three a day count) and walks grow your bond, and new tricks come with it: Sit, Spin, Roll over, High five, Happy dance.', 'A walk is three outdoor places together in a day. At the end: Sparkles and a little find.'],
+    setup: (s) => { s.state.pet = { kind: 'cat', name: 'Mochi', day: 4, bond: 19 }; s.day(10).time(10).go('yard'); } },
+  { title: '🌰 Games with the newcomers', steps: ['Every neighbour now has a game in their chat: Sorrel\'s stash pairs, Fig\'s seed tins, Wren\'s paper boats, Juniper\'s echo the tune and Marlo\'s buoys.', 'Here\'s Juniper, in the square. Tap "🎵 Echo the tune": listen to the bells, then play it back. Each tune grows a note, three to six.'],
+    setup: (s) => { s.flag('letter_juniper_1_read').flag('invite_juniper').flag('home_juniper').flag('welcome_juniper').flag('scene_arrive_juniper').meet('juniper').day(40).time(12).go('square'); } },
+  { title: '🔭 The star book', steps: ['Pause → 📖 Collection now ends with the star book: every constellation found, and when to look for the rest.'],
+    setup: (s) => { s.state.starsSeen = ['teapot', 'kite']; s.day(9).time(10).go('yard'); } }
 ];
