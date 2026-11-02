@@ -5,6 +5,7 @@ import type { StoryState } from '../story/path';
 import type { SpotlessState } from '../play/tidy-meter';
 import type { DailyGoals } from '../daily/goals';
 import type { NatureState } from '../nature/nature';
+import type { Hives } from '../garden/hives';
 import type { HappeningState } from '../daily/happenings';
 import type { PuffDay } from '../skills/puff-mood';
 import type { StallState } from '../stall/stall';
@@ -94,6 +95,8 @@ export interface TownSave {
   daily?: DailyGoals;
   /** Trees shaken and bushes foraged today, and trees felled (nature/). */
   nature?: NatureState;
+  /** Honey waiting in each beehive (garden/hives.ts). */
+  hives?: Hives;
   /** This week's goals (`day` holds the week number). */
   weekly?: DailyGoals;
   /** Today's happening (daily/happenings.ts). */

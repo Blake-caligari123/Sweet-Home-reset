@@ -767,6 +767,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **🪣 Compost:** every 5 weeds, leaves or mud raked gives a scoop of compost (`compostEvery`). Tap a watered, growing crop with compost in the bag to feed it. A fed crop grows two days on each watered night, shows a dark ring of rich soil, and gives one extra when picked. A new daily goal: give a crop some compost.
   - **New crops:** potato (spring and autumn, 4 days), sunflower (summer, 6), cabbage (autumn, 5) and **kale, which grows outdoors in winter** (4), so the garden has something every season. Each has its own look in the soil (tuber, flower, head), seeds at the General Store in season, a harvest line, and a sell price.
   - **New dishes:** roast potatoes (2 potatoes) and kale soup (kale + potato).
+- **Bees, flowers and bait (2 Nov):**
+  - **🐝 Beehives** (`garden/hives.ts`, `garden/hive-life.ts`): made at Pip's bench (2 logs and some flowers), taught by finishing Bea's "Where are the bees?" story, placed like any decor. Each night a hive makes a jar of honey, two if flowers grow in the same place, up to 3 (`hiveHolds`). In winter the bees rest. Tap the hive to collect ("Collect honey"); with none waiting, Puff can leave the bees be or pick the hive up. Honey now sells (30 ✨), and Bea loves it.
+  - **🌼 Flower beds:** daisies (spring), poppies (summer), asters (autumn) and snowdrops (winter), with seeds at Bea's shop in season. They're planted like crops, bloom in 3 days, and bloom again 2 days after picking. Each is a gift a neighbour likes: Bea daisies, Hazel poppies, Mabel asters, Moss snowdrops.
+  - **🪱 Fishing bait:** at the General Store from day 5 (5 for 15 ✨). At the ripples, 🪱 Use bait makes bites come sooner (`baitBiteShare`), and every other catch is a rare fish where one swims: golden trout (river, spring and summer days), pike (far bank), sunfish (beach, summer), eel (harbour, nights). Bait is used only on a catch. The four new fish join the Collection.
+  - The context line now names the outdoor actions (shake the tree, have a rummage, sit a while, go fishing, collect honey).
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

@@ -151,10 +151,11 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
     case 'peas': pc.ellipseBox(ox + 7, oy + 7, 5, 2, P.sage, P.outline); for (const x of [4, 7, 10]) pc.ellipse(ox + x, oy + 7, 1, 1, P.sageLight); break;
     case 'strawberry': pc.ellipseBox(ox + 7, oy + 8, 4, 4, P.peachShade, P.outline); for (const [x, y] of [[5, 7], [8, 9], [9, 6]]) pc.set(ox + x, oy + y, P.butterLight); pc.hline(ox + 5, oy + 3, 5, P.sageShade); break;
     case 'veggie_soup': case 'kale_soup': pc.ellipseBox(ox + 7, oy + 9, 6, 3, P.cream, P.outline); pc.ellipse(ox + 7, oy + 8, 5, 1, P.peachShade); pc.set(ox + 5, oy + 8, P.sage); pc.set(ox + 9, oy + 8, P.peach); for (const x of [5, 8]) pc.vline(ox + x, oy + 2, 3, P.white); break;
-    case 'minnow': case 'trout': case 'moonfish': case 'perch': case 'carp': case 'sardine': case 'mackerel': case 'glowfin': { // a little fish, each its own colour
-      const body = ({ minnow: P.greyLight, trout: P.peachLight, moonfish: P.blueLight, perch: P.sage, carp: P.butter, sardine: P.blue, mackerel: P.blueShade, glowfin: P.butterLight } as Record<string, string>)[item];
+    case 'minnow': case 'trout': case 'moonfish': case 'perch': case 'carp': case 'sardine': case 'mackerel': case 'glowfin': case 'golden_trout': case 'pike': case 'sunfish': case 'eel': { // a little fish, each its own colour
+      const body = ({ minnow: P.greyLight, trout: P.peachLight, moonfish: P.blueLight, perch: P.sage, carp: P.butter, sardine: P.blue, mackerel: P.blueShade, glowfin: P.butterLight, golden_trout: P.butter, pike: P.sageShade, sunfish: P.peach, eel: P.greyShade } as Record<string, string>)[item];
       pc.ellipseBox(ox + 6, oy + 7, 4, 3, body, P.outline); pc.line(ox + 10, oy + 7, ox + 13, oy + 4, P.outline); pc.line(ox + 10, oy + 7, ox + 13, oy + 10, P.outline); pc.vline(ox + 13, oy + 5, 5, body);
-      pc.set(ox + 4, oy + 6, P.ink); if (item === 'moonfish') pc.set(ox + 7, oy + 5, P.white);
+      pc.set(ox + 4, oy + 6, P.ink); if (item === 'moonfish' || item === 'golden_trout') pc.set(ox + 7, oy + 5, P.white);
+      if (item === 'golden_trout') { pc.set(ox + 6, oy + 9, P.white); pc.set(ox + 9, oy + 6, P.butterLight); }
       break;
     }
     case 'lobster': pc.ellipseBox(ox + 7, oy + 8, 2, 4, P.peachShade, P.outline); for (const x of [3, 11]) pc.ellipseBox(ox + x, oy + 3, 2, 1, P.peachShade, P.outline); pc.line(ox + 6, oy + 12, ox + 4, oy + 13, P.peachShade); pc.line(ox + 8, oy + 12, ox + 10, oy + 13, P.peachShade); pc.set(ox + 6, oy + 6, P.ink); pc.set(ox + 8, oy + 6, P.ink); break;
@@ -207,6 +208,21 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
       pc.line(ox + 7, oy + 7, ox + 5, oy + 3, P.brown); pc.ellipseBox(ox + 4, oy + 3, 1, 1, P.sage, P.outline); break;
     case 'woodpile': for (const [lx, ly] of [[1, 8], [7, 8], [4, 4]]) { pc.box(ox + lx, oy + ly, 6, 4, P.brown, P.outline); pc.set(ox + lx + 5, oy + ly + 2, P.butterLight); } break;
     case 'campfire': pc.line(ox + 3, oy + 12, ox + 11, oy + 8, P.brown); pc.line(ox + 3, oy + 8, ox + 11, oy + 12, P.brownShade); pc.ellipse(ox + 7, oy + 6, 3, 4, P.peach); pc.ellipse(ox + 7, oy + 7, 1, 2, P.butter); break;
+    case 'bait': pc.box(ox + 3, oy + 6, 8, 7, P.blueLight, P.outline, 1); pc.ellipse(ox + 7, oy + 6, 4, 1, P.brownShade); pc.line(ox + 5, oy + 5, ox + 8, oy + 3, P.peach); pc.set(ox + 9, oy + 3, P.peach); break;
+    case 'beehive': pc.ellipseBox(ox + 7, oy + 8, 5, 5, P.butter, P.outline); for (const y of [5, 8, 11]) pc.hline(ox + 3, oy + y, 9, P.butterShade); pc.ellipse(ox + 7, oy + 11, 1, 1, P.ink); break;
+    case 'daisy': case 'poppy': case 'aster': case 'snowdrop': {
+      const c = ({ daisy: P.white, poppy: P.peachShade, aster: P.blueLight, snowdrop: P.cream } as Record<string, string>)[item];
+      pc.vline(ox + 7, oy + 7, 7, P.sageShade); pc.ellipse(ox + 5, oy + 10, 2, 1, P.sage);
+      for (const [x, y] of [[5, 4], [9, 4], [7, 2], [7, 6], [5, 6], [9, 6]]) pc.ellipse(ox + x, oy + y, 1, 1, c);
+      pc.set(ox + 7, oy + 4, item === 'snowdrop' ? P.sage : P.butter);
+      break;
+    }
+    case 'daisy_seeds': case 'poppy_seeds': case 'aster_seeds': case 'snowdrop_seeds': {
+      b(3, 1, 8, 12, P.cream, 1);
+      const c = ({ daisy_seeds: P.butter, poppy_seeds: P.peachShade, aster_seeds: P.blueLight, snowdrop_seeds: P.white } as Record<string, string>)[item];
+      for (const [x, y] of [[6, 6], [8, 6], [7, 5], [7, 7]]) pc.set(ox + x, oy + y, c); pc.vline(ox + 7, oy + 8, 3, P.sage);
+      break;
+    }
     case 'compost': pc.box(ox + 3, oy + 4, 8, 9, P.brownLight, P.outline, 1); pc.ellipse(ox + 7, oy + 4, 4, 1, P.brownShade); pc.set(ox + 5, oy + 4, P.sage); pc.set(ox + 9, oy + 3, P.peach); break;
     case 'sunflower': pc.vline(ox + 7, oy + 7, 7, P.sageShade); pc.ellipseBox(ox + 7, oy + 5, 5, 4, P.butter, P.outline); pc.ellipse(ox + 7, oy + 5, 2, 2, P.brownShade); break;
     case 'cabbage': case 'kale': pc.ellipseBox(ox + 7, oy + 8, 5, 5, item === 'kale' ? P.sageShade : P.sageLight, P.outline); pc.line(ox + 7, oy + 4, ox + 7, oy + 12, P.sage); pc.set(ox + 5, oy + 6, P.white); break;
@@ -228,7 +244,8 @@ export function drawItemIcon(pc: PixelCanvas, item: string, ox = 0, oy = 0) {
 
 /** A crop in soil: seed, sprout, then ready, drawn by its look (round root, long root, pods, berries). */
 export function drawCrop(stage: number, watered: boolean, lookAndFed = 'round') {
-  const [look, fed] = lookAndFed.split(':');
+  const [lookAndKind, fed] = lookAndFed.split(':');
+  const [look, kind] = lookAndKind.split('.');
   const pc = new PixelCanvas(T, T);
   // Compost: a dark ring of rich soil round the plant.
   if (fed) { pc.ellipse(8, 13, 6, 2, P.brownShade); pc.set(3, 13, P.butterShade); pc.set(13, 12, P.butterShade); }
@@ -260,6 +277,12 @@ export function drawCrop(stage: number, watered: boolean, lookAndFed = 'round') 
       pc.vline(8, 4, 10, P.sageShade); pc.ellipse(5, 9, 2, 1, P.sage); pc.ellipse(11, 7, 2, 1, P.sage);
       pc.ellipseBox(8, 4, 4, 3, P.butter, P.outline); pc.ellipse(8, 4, 2, 1, P.brownShade);
       break;
+    case 'bloom': { // a flower bed: a clump of leaves and blooms in the flower's own colour
+      const c = ({ daisy: P.white, poppy: P.peachShade, aster: P.blueLight, snowdrop: P.cream } as Record<string, string>)[kind ?? ''] ?? P.peach;
+      pc.ellipse(8, 12, 5, 2, P.sage);
+      for (const [x, y] of [[4, 7], [8, 5], [12, 8], [6, 10], [10, 10]]) { pc.vline(x, y + 1, 12 - y, P.sageShade); pc.ellipseBox(x, y, 1, 1, c, P.outline); pc.set(x, y, kind === 'snowdrop' ? P.sageLight : P.butter); }
+      break;
+    }
     case 'head': // cabbage: a round green head in its outer leaves
       pc.ellipse(8, 11, 6, 3, P.sageShade); pc.ellipseBox(8, 9, 4, 4, P.sageLight, P.outline); pc.line(8, 6, 8, 12, P.sage); pc.set(6, 8, P.white);
       break;

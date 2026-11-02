@@ -103,6 +103,7 @@ town/
   (ui/morning-card.ts: the Good morning card: date, sky, Puff's note and the day's news in one)
   nature/       nature.ts (trees, bushes and benches outdoors: what a shake gives by season, felled trees as stumps
                 and saplings), nature-life.ts (shaking, foraging, chopping with the axe, sitting on a bench)
+  garden/       hives.ts (beehives: honey overnight, more beside flower beds, none in winter), hive-life.ts (collecting honey)
   minigames/    games.ts (what a game sheet needs; stars; another round), minigame-buttons.ts (who plays which game),
                 shelf.ts + shelf-sheet.ts (Moss: sort the shelf), pairs.ts + pairs-sheet.ts (Bea: garden pairs),
                 pantry.ts + pantry-sheet.ts (Hazel: sort the pantry), skip.ts + skip-sheet.ts (Otto: skip stones),

@@ -36,3 +36,15 @@ describe('fishing', () => {
     for (const f of pack.fish!) expect(pack.items[f.id]?.sell, f.id).toBeGreaterThan(0);
   });
 });
+
+describe('bait', () => {
+  it('brings the rare fish, every other catch, and only with bait', () => {
+    const fish = [{ id: 'minnow', areas: ['riverside'] }, { id: 'golden_trout', areas: ['riverside'], bait: true }];
+    expect(fishHere(fish, 'riverside', 'Spring', 600).map((f) => f.id)).toEqual(['minnow']);
+    const here = fishHere(fish, 'riverside', 'Spring', 600, true);
+    expect(here.map((f) => f.id)).toEqual(['minnow', 'golden_trout']);
+    expect(whichFish(here, 3, 0, true)?.id).toBe('golden_trout');
+    expect(whichFish(here, 3, 1, true)?.id).toBe('minnow');
+    expect(whichFish(here, 3, 0, false)?.id).toBe('minnow');
+  });
+});

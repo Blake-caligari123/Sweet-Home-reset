@@ -4,7 +4,8 @@ import type { Here, Target } from '../play/targets';
 
 const CLEAN: Record<string, string> = { dust: 'Dust it', stain: 'Sponge the stain', weeds: 'Rake the weeds', grime: 'Scrub the grime', cobweb: 'Dust the cobweb',
   flour: 'Dust the flour', sawdust: 'Dust the sawdust', ink: 'Sponge the ink', soap: 'Sponge the soap scum', sand: 'Rake the sand', seaweed: 'Rake the seaweed' };
-const USE: Record<string, string> = { putaway: 'Put things away', sleep: 'Go to bed', sign: 'Read the sign', board: 'Read the notice board', mailbox: 'Check the mail', shop: 'Browse the shop', build: 'Look at the Keeper\'s plans', craft: 'Use the workbench', cook: 'Cook something', museum: 'Look at Moss\'s collection', decor: 'Pick it up', mine: 'Mine the rock', hatch: 'Climb down', repair: 'Look at the broken bridge', festival: 'Visit the fair stall', light: 'Light the lantern' };
+const USE: Record<string, string> = { putaway: 'Put things away', sleep: 'Go to bed', sign: 'Read the sign', board: 'Read the notice board', mailbox: 'Check the mail', shop: 'Browse the shop', build: 'Look at the Keeper\'s plans', craft: 'Use the workbench', cook: 'Cook something', museum: 'Look at Moss\'s collection', decor: 'Pick it up', mine: 'Mine the rock', hatch: 'Climb down', repair: 'Look at the broken bridge', festival: 'Visit the fair stall', light: 'Light the lantern',
+  tree: 'Shake the tree', bush: 'Have a rummage', sit: 'Sit a while', stump: 'Look at the stump', sapling: 'Look at the sapling', fish: 'Go fishing' };
 
 /** The context line above the tool bar: what Puff is facing or about to do. */
 export function promptFor(t: Target | null, here: Here, crops: Crop[], content: Content): string {
@@ -23,7 +24,7 @@ export function promptFor(t: Target | null, here: Here, crops: Crop[], content: 
     case 'pickup': { const p = here.pickups.find((x) => x.id === t.id); return p?.letter ? 'Read the letter' : p ? `Take the ${name(p.item)}` : ''; }
     case 'neighbour': return `Say hello to ${content.neighbour(t.id)?.name ?? 'them'}`;
     case 'grumble': return 'Brighten the Grumble';
-    case 'prop': return USE[t.action] ?? '';
+    case 'prop': return t.action === 'decor' && here.area.tapPropAt(t.x, t.y)?.type === 'beehive' ? 'Collect honey' : USE[t.action] ?? '';
     default: return '';
   }
 }

@@ -45,7 +45,8 @@
    "name": "Berries"
   },
   "honey": {
-   "name": "Honey"
+   "name": "Honey",
+   "sell": 30
   },
   "rare_seeds": {
    "name": "Rare seeds"
@@ -477,6 +478,59 @@
    "name": "Roast potatoes",
    "snack": 55,
    "sell": 60
+  },
+  "bait": {
+   "name": "Bait"
+  },
+  "beehive": {
+   "name": "Beehive",
+   "decor": {
+    "prop": "beehive"
+   }
+  },
+  "daisy": {
+   "name": "Daisy",
+   "sell": 14
+  },
+  "daisy_seeds": {
+   "name": "Daisy seeds"
+  },
+  "poppy": {
+   "name": "Poppy",
+   "sell": 14
+  },
+  "poppy_seeds": {
+   "name": "Poppy seeds"
+  },
+  "aster": {
+   "name": "Aster",
+   "sell": 14
+  },
+  "aster_seeds": {
+   "name": "Aster seeds"
+  },
+  "snowdrop": {
+   "name": "Snowdrop",
+   "sell": 14
+  },
+  "snowdrop_seeds": {
+   "name": "Snowdrop seeds"
+  },
+  "golden_trout": {
+   "name": "Golden trout",
+   "sell": 90
+  },
+  "pike": {
+   "name": "Pike",
+   "sell": 70
+  },
+  "sunfish": {
+   "name": "Sunfish",
+   "sell": 75
+  },
+  "eel": {
+   "name": "Eel",
+   "sell": 80
   }
  },
  "areas": [
@@ -6266,7 +6320,8 @@
     "berries",
     "honey",
     "radish",
-    "veggie_soup"
+    "veggie_soup",
+    "poppy"
    ],
    "dislikes": [
     "clay",
@@ -6368,7 +6423,8 @@
     "flowers",
     "string",
     "radish_seeds",
-    "strawberry"
+    "strawberry",
+    "daisy"
    ],
    "dislikes": [
     "weeds",
@@ -6729,7 +6785,8 @@
     "tea",
     "old_map",
     "lint",
-    "veggie_soup"
+    "veggie_soup",
+    "snowdrop"
    ],
    "dislikes": [
     "flowers",
@@ -6839,7 +6896,8 @@
     "book",
     "honey",
     "silk_thread",
-    "veggie_soup"
+    "veggie_soup",
+    "aster"
    ],
    "dislikes": [
     "mud",
@@ -12045,7 +12103,13 @@
    "crop.kale.harvest": "Kale! It loves the frost.",
    "crop.fed": "A handful of compost. Grow, little one! Twice as fast.",
    "crop.growing_fed": "Growing fast on its compost. No rush.",
-   "compost.got": "A scoop of compost for the garden!"
+   "compost.got": "A scoop of compost for the garden!",
+   "crop.daisy.harvest": "Daisies! Fresh as the morning. More will bloom.",
+   "crop.poppy.harvest": "Poppies! Red as a ladybird. More will bloom.",
+   "crop.aster.harvest": "Asters! Little purple stars. More will bloom.",
+   "crop.snowdrop.harvest": "Snowdrops! Brave little bells in the cold. More will bloom.",
+   "hive.collect": "Bzz! Golden honey, warm from the hive.",
+   "hive.busy": "Bzz... the bees are busy. Honey by morning!"
   }
  },
  "heartEvents": [
@@ -15423,6 +15487,12 @@
      "seasons": [
       "Winter"
      ]
+    },
+    {
+     "item": "bait",
+     "price": 15,
+     "qty": 5,
+     "fromDay": 5
     }
    ],
    "buys": [
@@ -15471,7 +15541,16 @@
     "cabbage",
     "kale",
     "kale_soup",
-    "roast_potatoes"
+    "roast_potatoes",
+    "honey",
+    "daisy",
+    "poppy",
+    "aster",
+    "snowdrop",
+    "golden_trout",
+    "pike",
+    "sunfish",
+    "eel"
    ]
   },
   {
@@ -15509,6 +15588,38 @@
      "qty": 3,
      "seasons": [
       "Summer"
+     ]
+    },
+    {
+     "item": "daisy_seeds",
+     "price": 25,
+     "qty": 3,
+     "seasons": [
+      "Spring"
+     ]
+    },
+    {
+     "item": "poppy_seeds",
+     "price": 25,
+     "qty": 3,
+     "seasons": [
+      "Summer"
+     ]
+    },
+    {
+     "item": "aster_seeds",
+     "price": 25,
+     "qty": 3,
+     "seasons": [
+      "Autumn"
+     ]
+    },
+    {
+     "item": "snowdrop_seeds",
+     "price": 25,
+     "qty": 3,
+     "seasons": [
+      "Winter"
      ]
     }
    ]
@@ -16785,6 +16896,21 @@
      "potato": 1
     }
    }
+  },
+  {
+   "id": "beehive",
+   "name": "Beehive",
+   "makes": {
+    "item": "beehive",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "log": 2,
+     "flowers": 1
+    }
+   },
+   "learn": "busy_bees_done"
   }
  ],
  "crops": [
@@ -16898,6 +17024,38 @@
    "id": "kale",
    "seed": "kale_seeds",
    "look": "leaf",
+   "seasons": [
+    "Winter"
+   ]
+  },
+  {
+   "id": "daisy",
+   "seed": "daisy_seeds",
+   "look": "bloom",
+   "seasons": [
+    "Spring"
+   ]
+  },
+  {
+   "id": "poppy",
+   "seed": "poppy_seeds",
+   "look": "bloom",
+   "seasons": [
+    "Summer"
+   ]
+  },
+  {
+   "id": "aster",
+   "seed": "aster_seeds",
+   "look": "bloom",
+   "seasons": [
+    "Autumn"
+   ]
+  },
+  {
+   "id": "snowdrop",
+   "seed": "snowdrop_seeds",
+   "look": "bloom",
    "seasons": [
     "Winter"
    ]
@@ -19434,6 +19592,43 @@
    "areas": [
     "cave_2"
    ]
+  },
+  {
+   "id": "golden_trout",
+   "areas": [
+    "riverside"
+   ],
+   "seasons": [
+    "Spring",
+    "Summer"
+   ],
+   "time": "day",
+   "bait": true
+  },
+  {
+   "id": "pike",
+   "areas": [
+    "far_bank"
+   ],
+   "bait": true
+  },
+  {
+   "id": "sunfish",
+   "areas": [
+    "beach"
+   ],
+   "seasons": [
+    "Summer"
+   ],
+   "bait": true
+  },
+  {
+   "id": "eel",
+   "areas": [
+    "harbour"
+   ],
+   "time": "night",
+   "bait": true
   }
  ],
  "critters": [

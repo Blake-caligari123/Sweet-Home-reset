@@ -68,7 +68,7 @@ export interface Tuning {
   /** The café: dishes it wants a day, and what it pays over the shops' price. */
   cafe: { ordersPerDay: number; markup: number };
   /** Fishing: how long until a bite (shortest, longest), and how long a bite lasts to reel in. */
-  fishing: { biteMs: [number, number]; windowMs: number };
+  fishing: { biteMs: [number, number]; windowMs: number; baitBiteShare: number };
   /** The town fund: what each neighbour chips in each morning, happy (or glowing) and otherwise. */
   townFund: { perHappy: number; perOther: number };
   /** Puff's own moods (NEXT-PHASE §5.2): a happy swing's share of the usual time, a curious Puff's share of cleans between finds. */
@@ -85,6 +85,8 @@ export interface Tuning {
   cropDays?: Record<string, number>;
   /** One compost for every this many weeds, leaves or mud raked (play/crops.ts). */
   compostEvery: number;
+  /** Honey a beehive holds before it's collected (garden/hives.ts). */
+  hiveHolds: number;
   /** Crops that grow back after picking: days from picked to ready again. */
   cropRegrowDays?: Record<string, number>;
   /** The year-one schedule (VISION §8): when each thing arrives. Read only through `isUnlocked`. */
