@@ -11,6 +11,7 @@ import { fishHere, reel, whichFish } from './fishing';
 export interface FishingHost { state: TownState; view: View; content: Content; clock: Clock; area(): string; onboard(e: OnboardEvent): void; changed(): void }
 
 const ROD = 'fishing_rod';
+const BAIT = 'bait';
 
 /** At the ripples: cast, wait for the bite, tap Reel in! in time. Cast again as often as Puff likes. */
 export function openFishing(d: FishingHost) {
@@ -19,6 +20,19 @@ export function openFishing(d: FishingHost) {
   const status = h('p', { class: 'friend-name' }, '');
   const bobber = h('p', { style: { fontSize: '2.4rem', margin: '6px 0' }, 'aria-hidden': 'true' }, '🎣');
   const btn = h('button', { class: 'btn big', type: 'button' }, 'Reel in!');
+  // Bait (2 Nov): quicker bites, and the rare fish come to it. Used up only on a catch.
+  let bait = state.bag.count(BAIT) > 0;
+  const baitBtn = h('button', { class: 'btn small', type: 'button', role: 'switch' });
+  const showBait = () => {
+    const n = state.bag.count(BAIT);
+    if (!n) bait = false;
+    baitBtn.hidden = !n;
+    baitBtn.setAttribute('aria-checked', String(bait));
+    baitBtn.textContent = `🪱 ${bait ? 'Using bait' : 'Use bait'} (${n})`;
+    baitBtn.classList.toggle('primary', bait);
+  };
+  baitBtn.addEventListener('click', () => { view.uiTap(); bait = !bait; showBait(); });
+  showBait();
   // waiting: line in the water; bite: the window to reel; done: caught or got away (tap to cast again).
   let phase: 'waiting' | 'bite' | 'done' = 'waiting';
   let biteAt = Infinity; let timer = 0;
@@ -27,7 +41,7 @@ export function openFishing(d: FishingHost) {
     phase = 'waiting'; biteAt = Infinity;
     bobber.textContent = '🎣'; btn.textContent = 'Reel in!'; btn.classList.remove('primary');
     status.textContent = 'Waiting for a bite…';
-    const [lo, hi] = TUNING.fishing.biteMs;
+    const [lo, hi] = TUNING.fishing.biteMs.map((ms) => ms * (bait ? TUNING.fishing.baitBiteShare : 1));
     timer = window.setTimeout(() => {
       phase = 'bite'; biteAt = performance.now();
       bobber.textContent = '💦'; status.textContent = 'A bite! Reel in!'; btn.classList.add('primary');
@@ -40,17 +54,18 @@ export function openFishing(d: FishingHost) {
     const r = reel(biteAt, performance.now(), TUNING.fishing.windowMs);
     bobber.textContent = '〰';
     if (r !== 'caught') { settle(r === 'early' ? 'Too soon! The fish swam off.' : 'It got away!'); return; }
-    const here = fishHere(content.pack.fish ?? [], d.area(), clock.season, clock.state.minutes);
-    const fish = whichFish(here, clock.state.day, state.fishCaught);
+    const here = fishHere(content.pack.fish ?? [], d.area(), clock.season, clock.state.minutes, bait);
+    const fish = whichFish(here, clock.state.day, state.fishCaught, bait);
     if (!fish) { settle('Nothing bites here right now.'); return; }
     if (!state.bag.canAdd(fish.id)) { settle('Bag\'s full! It swims away.'); return; }
+    if (bait) { state.bag.remove(BAIT); showBait(); }
     state.bag.add(fish.id); state.fishCaught += 1; if (!state.fishLog.includes(fish.id)) state.fishLog.push(fish.id);
     bobber.replaceChildren(itemIcon(fish.id, 3));
-    settle(`Caught: ${content.itemName(fish.id)}!`);
+    settle(`Caught: ${content.itemName(fish.id)}!${fish.bait ? ' A rare one!' : ''}`);
     view.feedback('fanfare', 'success');
     d.onboard({ type: 'caught', fish: fish.id });
     d.changed();
   });
-  view.sheet('Fishing', [h('p', { class: 'muted' }, 'Wait for the splash, then tap Reel in! quickly.'), bobber, status, btn]);
+  view.sheet('Fishing', [h('p', { class: 'muted' }, 'Wait for the splash, then tap Reel in! quickly.'), bobber, status, btn, baitBtn]);
   startCast();
 }

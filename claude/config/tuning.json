@@ -102,7 +102,7 @@
   "wellReach": 3,
   "stall": { "markup": 1.25, "salesBase": 2, "salesPerBloom": 2 },
   "cafe": { "ordersPerDay": 2, "markup": 1.5 },
-  "fishing": { "biteMs": [1500, 4000], "windowMs": 1100 },
+  "fishing": { "biteMs": [1500, 4000], "windowMs": 1100, "baitBiteShare": 0.6 },
   "townFund": { "perHappy": 5, "perOther": 2 },
   "puffMood": { "happySwingShare": 0.85, "curiousFindShare": 0.75, "cosyBurrow": 0.9, "curiousPlaces": 3 },
   "skills": {
@@ -139,9 +139,14 @@
     "potato": 4,
     "sunflower": 6,
     "cabbage": 5,
-    "kale": 4
+    "kale": 4,
+    "daisy": 3,
+    "poppy": 3,
+    "aster": 3,
+    "snowdrop": 3
   },
   "compostEvery": 5,
+  "hiveHolds": 3,
   "unlocks": {
     "mabel": {
       "day": 43
@@ -265,7 +270,11 @@
   },
   "cropRegrowDays": {
     "strawberry": 3,
-    "tomato": 3
+    "tomato": 3,
+    "daisy": 2,
+    "poppy": 2,
+    "aster": 2,
+    "snowdrop": 2
   },
   "bloomLevels": [
     0,

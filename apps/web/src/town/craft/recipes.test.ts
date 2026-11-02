@@ -70,13 +70,13 @@ describe('Hollowfern Silver tools', () => {
 });
 
 describe('Hollowfern furniture', () => {
-  it('makes outdoor decor at Pip\'s bench, taught by Pip\'s heart events, from forage', () => {
+  it('makes outdoor decor at Pip\'s bench, taught by Pip (or a story: Bea\'s bees teach the beehive), from forage', () => {
     const furniture = (pack.recipes ?? []).filter((r) => (r.station ?? 'bench') === 'bench' && 'item' in r.makes);
     expect(furniture.length).toBeGreaterThanOrEqual(4);
     // Taught by Pip: a heart event, or one of Pip's stories (the little axe).
-    const heartDone = new Set([...(pack.heartEvents ?? []).filter((e) => e.neighbourId === 'pip').map((e) => `${e.id}_done`), ...(pack.quests ?? []).filter((q) => q.giver === 'pip').map((q) => q.reward.flag)]);
+    const heartDone = new Set([...(pack.heartEvents ?? []).filter((e) => e.neighbourId === 'pip').map((e) => `${e.id}_done`), ...(pack.quests ?? []).filter((q) => q.giver === 'pip' || q.id === 'busy_bees').map((q) => q.reward.flag)]);
     // Picked up about town, or from the trees (a shake gives twigs; the axe gives logs).
-    const NATURE = ['twig', 'acorn', 'log'];
+    const NATURE = ['twig', 'acorn', 'log', 'flowers'];
     for (const r of furniture) {
       expect('item' in r.makes && pack.items[r.makes.item]?.decor, r.id).toBeTruthy();
       expect(heartDone.has(r.learn ?? ''), `${r.id} taught by Pip`).toBe(true);

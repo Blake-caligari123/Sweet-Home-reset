@@ -7,7 +7,7 @@ import type { Crop } from '../state';
 // lost), and under a greenhouse anything grows any time.
 
 /** `look`: how it's drawn (round root, long root, pods, berries, a tall stalk, a big pumpkin, leaves, mushroom caps). `seasons`: when it grows (default spring). `areas`: only planted there (watercress wants the wet riverbank). */
-export interface CropDef { id: string; seed: string; look: 'round' | 'long' | 'pod' | 'berry' | 'stalk' | 'pumpkin' | 'leaf' | 'cap' | 'flower' | 'head' | 'tuber'; seasons?: string[]; areas?: string[] }
+export interface CropDef { id: string; seed: string; look: 'round' | 'long' | 'pod' | 'berry' | 'stalk' | 'pumpkin' | 'leaf' | 'cap' | 'flower' | 'head' | 'tuber' | 'bloom'; seasons?: string[]; areas?: string[] }
 
 /** Whether it grows in this season, or anyway, under glass. */
 export const grows = (def: CropDef, season: string, glass: boolean) => glass || (def.seasons ?? ['Spring']).includes(season);

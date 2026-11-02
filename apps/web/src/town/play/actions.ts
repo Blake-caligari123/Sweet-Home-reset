@@ -8,6 +8,7 @@ import { openCollection } from '../bloom/collection-sheet';
 import { setDone } from '../bloom/finds';
 import type { Mining } from '../caves/mining';
 import type { Nature } from '../nature/nature-life';
+import { HIVE } from '../garden/hives';
 import type { Lanterns } from '../festivals/lanterns';
 import type { TidyDash } from '../festivals/tidy-dash';
 import { openLetter } from '../letters/letter-sheet';
@@ -53,6 +54,8 @@ export interface ActionsHost {
   openWorkbench(station: 'bench' | 'kitchen'): void;
   /** A farm animal: collect what it gives, and a pat and feed for today. */
   tendAnimal(id: string): void;
+  /** A beehive: collect its honey, or pick it up (garden/hive-life.ts). */
+  hive(x: number, y: number): void;
   /** A placed decor piece: back into the bag. */
   pickUpDecor(x: number, y: number): void;
   openShop(shop: NonNullable<TownPack['shops']>[number]): void;
@@ -92,7 +95,7 @@ export class PuffActions {
   cropsHere() {
     const id = this.host.here().id;
     const look = (crop: string) => this.cropDef(crop)?.look ?? 'round';
-    return this.host.state.crops.filter((c) => c.area === id).map((c) => ({ x: c.x, y: c.y, stage: stageOf(c), watered: c.watered, look: `${look(c.crop)}${c.fed ? ':fed' : ''}` }));
+    return this.host.state.crops.filter((c) => c.area === id).map((c) => ({ x: c.x, y: c.y, stage: stageOf(c), watered: c.watered, look: `${look(c.crop)}${look(c.crop) === 'bloom' ? `.${c.crop}` : ''}${c.fed ? ':fed' : ''}` }));
   }
 
   useDoor(x: number, y: number) {
@@ -304,6 +307,7 @@ export class PuffActions {
       }
       case 'decor': {
         const p = this.host.here().area.tapPropAt(t.x, t.y);
+        if (p?.type === HIVE) { this.host.hive(p.x, p.y); return; }
         if (p) view.confirm(`Pick up the ${content.itemName(state.decor.find((d) => d.x === p.x && d.y === p.y && d.area === this.host.here().id)?.item ?? '').toLowerCase()}?`, 'Pick up', () => this.host.pickUpDecor(p.x, p.y));
         return;
       }

@@ -153,6 +153,13 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       if (p.type === 'rock_large') pc.set(x + 9, y + 9, P.butter);
       break;
     }
+    case 'beehive': // a round straw skep on a little stand, a bee or two about
+      pc.box(x + 4, y + 12, 8, 3, P.brown, P.outline);
+      pc.ellipseBox(x + 8, y + 7, 6, 6, P.butter, P.outline);
+      for (const ly of [y + 3, y + 6, y + 9]) pc.hline(x + 3, ly, 11, P.butterShade);
+      pc.ellipse(x + 8, y + 10, 1, 1, P.ink); pc.set(x + 6, y + 3, P.butterLight);
+      pc.set(x + 13, y + 1, P.ink); pc.set(x + 14, y + 1, P.butter); pc.set(x + 2, y + 4, P.ink); pc.set(x + 1, y + 4, P.butter);
+      break;
     case 'woodpile': // logs stacked for the winter
       for (const [lx, ly] of [[2, 10], [8, 10], [5, 6]]) { pc.box(x + lx, y + ly, 7, 5, P.brown, P.outline); pc.ellipseBox(x + lx + 6, y + ly + 2, 1, 2, P.butterLight, P.outline); }
       pc.hline(x + 3, y + 11, 4, P.brownLight); pc.hline(x + 6, y + 7, 4, P.brownLight);

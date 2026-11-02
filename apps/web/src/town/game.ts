@@ -41,6 +41,7 @@ import { Clock, LATE_AT } from './play/clock';
 import { Carry } from './play/carry';
 import { Mining } from './caves/mining';
 import { Nature } from './nature/nature-life';
+import { tapHive } from './garden/hive-life';
 import { Placing } from './decor/placing';
 import { Sweep } from './play/sweep';
 import { HomeLife } from './play/home-life';
@@ -215,6 +216,7 @@ export class TownGame {
       sleep: () => void this.endDay(false),
       openBuild: () => this.menus.openBuild(),
       pickUpDecor: (x, y) => this.placing.pickUp(x, y),
+      hive: (x, y) => tapHive({ state: this.state, view: this.view, content: this.content, world: this.world, area: () => this.areaId, pickUp: (px, py) => this.placing.pickUp(px, py), refreshHud: () => this.refreshHud(), save: () => void this.save(false) }, x, y),
       openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false), made: (st) => this.guide.handle({ type: 'made', station: st }), tapOnly: !!this.settings.tapOnly }, station),
       openShop: (shop) => this.menus.openShop(shop),
       openStall: () => this.systems.openStall(),

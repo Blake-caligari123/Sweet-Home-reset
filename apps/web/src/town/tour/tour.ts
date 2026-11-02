@@ -269,5 +269,11 @@ export const TOUR: TourCard[] = [
   { title: '📖 The story waits for you', steps: ['The story never moves on without you. Miss a festival? Its host tells you all about it (and saves you a treat), then the story carries on.', 'Here, the Spring Fair has been and gone: see Hazel at the bakery.'],
     setup: (s) => { s.state.story = { step: 13, asked: false, count: 0, day: 13 }; s.day(16).time(9).flag('keeper_named').flag('keeper_day1_done').meet('hazel').go('bakery'); } },
   { title: '🪣 Compost and new crops', steps: ['Raking weeds, leaves or mud makes compost: a scoop every 5.', 'Tap a watered crop with compost in your bag to feed it: it grows twice as fast on watered nights and gives one extra when picked.', 'New crops: potatoes (spring and autumn), sunflowers (summer), cabbages (autumn) and kale, which grows right through winter. Seeds at the General Store; roast potatoes and kale soup in the kitchen.'],
-    setup: (s) => { s.give('potato_seeds', 3).give('compost', 2).day(6).time(9).go('yard'); } }
+    setup: (s) => { s.give('potato_seeds', 3).give('compost', 2).day(6).time(9).go('yard'); } },
+  { title: '🐝 Beehives and honey', steps: ['A beehive is in your yard, full of honey. Tap it to collect.', 'Hives fill overnight: a jar a night, two if flowers grow in the same place, up to three. The bees rest in winter.', 'Make a hive at Pip\'s bench (2 logs and some flowers) once you\'ve found Bea\'s bees. Bea loves honey!'],
+    setup: (s) => { s.state.decor = [...s.state.decor.filter((d) => d.item !== 'beehive'), { area: 'yard', x: 6, y: 5, item: 'beehive' }]; s.state.hives['yard:6,5'] = 3; s.flag('busy_bees_done').day(12).time(9).go('yard'); } },
+  { title: '🌼 Flower beds', steps: ['Bea\'s shop sells flower seeds for each season: daisies, poppies, asters, and snowdrops in winter.', 'Plant them in soil like any crop. Once picked they bloom again in two days, and bees nearby make double honey.', 'Neighbours like them as gifts: Bea daisies, Hazel poppies, Mabel asters, Moss snowdrops.'],
+    setup: (s) => { s.give('daisy_seeds', 3).day(6).time(9).go('yard'); } },
+  { title: '🪱 Fishing with bait', steps: ['Bait comes from the General Store, 5 for 15 ✨. At the ripples, turn on 🪱 Use bait.', 'Bites come quicker, and every other catch is a rare fish where one swims: a golden trout by the river, a pike on the far bank, a sunfish at the beach in summer, an eel in the harbour at night.', 'Bait is only used up on a catch.'],
+    setup: (s) => { s.give('fishing_rod').give('bait', 5).day(6).time(10).go('riverside'); } }
 ];
