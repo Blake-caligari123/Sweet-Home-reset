@@ -289,5 +289,11 @@ export const TOUR: TourCard[] = [
   { title: '🌰 Games with the newcomers', steps: ['Every neighbour now has a game in their chat: Sorrel\'s stash pairs, Fig\'s seed tins, Wren\'s paper boats, Juniper\'s echo the tune and Marlo\'s buoys.', 'Here\'s Juniper, in the square. Tap "🎵 Echo the tune": listen to the bells, then play it back. Each tune grows a note, three to six.'],
     setup: (s) => { s.flag('letter_juniper_1_read').flag('invite_juniper').flag('home_juniper').flag('welcome_juniper').flag('scene_arrive_juniper').meet('juniper').day(40).time(12).go('square'); } },
   { title: '🔭 The star book', steps: ['Pause → 📖 Collection now ends with the star book: every constellation found, and when to look for the rest.'],
-    setup: (s) => { s.state.starsSeen = ['teapot', 'kite']; s.day(9).time(10).go('yard'); } }
+    setup: (s) => { s.state.starsSeen = ['teapot', 'kite']; s.day(9).time(10).go('yard'); } },
+  { title: '📷 Photo mode', steps: ['Pause → 📷 Photo: the HUD steps away and a parchment frame with the place and day goes round the view.', 'Walk Puff about to pose, then tap 📷 Snap to save or share the picture. Frame: on/off for a clean shot.'],
+    setup: (s) => { s.day(12).time(17).go('square'); } },
+  { title: '☕ Tea at yours', steps: ['Any friend with two hearts or more can be asked "☕ Come round for tea tomorrow?" in their chat.', 'Next day at 3 pm they sit at your kitchen table. Talk to them for "☕ Have tea together": friendship, Sparkles and a cosy chat.', 'Here, Hazel is already at the table.'],
+    setup: (s) => { s.state.friendOf('hazel').points = Math.max(s.state.friendOf('hazel').points, 40); s.meet('hazel').flag('keeper_named').flag('keeper_day1_done'); s.state.tea = { day: 12, who: 'hazel' }; s.day(12).time(15, 20).go('burrow'); } },
+  { title: '🧺 Pet bed and ball', steps: ['The General Store sells a pet bed and a ball from day 4. Place them anywhere.', 'Tap the bed and your pet trots over for a nap; tap the ball and they chase it. A little bond, once a day each.'],
+    setup: (s) => { s.state.pet = { kind: 'pup', name: 'Biscuit', day: 4, bond: 3 }; s.state.decor = [...s.state.decor.filter((d) => d.item !== 'pet_bed' && d.item !== 'pet_ball'), { area: 'yard', x: 7, y: 6, item: 'pet_bed' }, { area: 'yard', x: 12, y: 8, item: 'pet_ball' }]; s.day(10).time(10).go('yard'); } }
 ];

@@ -10,6 +10,8 @@ export interface IdeaFacts {
   /** Friends with a game, and where they are now. */
   games: { name: string; game: string; where: string | null }[];
   goalsLeft: number; happening: string | null; tired: boolean;
+  /** Tea: who's coming today, or whether there's a friend to ask (visits/tea.ts). */
+  teaGuest?: string | null; canTea?: boolean;
 }
 
 /** The ideas, most timely first: what's ready now, then what's always nice. */
@@ -20,10 +22,12 @@ export function ideas(f: IdeaFacts): string[] {
   if (f.ready) out.push(`🥕 ${f.ready} crop${f.ready === 1 ? ' is' : 's are'} ready to pick.`);
   if (f.thirsty) out.push(`🌱 ${f.thirsty} crop${f.thirsty === 1 ? ' wants' : 's want'} a drink today.`);
   if (f.honey) out.push(`🐝 Your hive has ${f.honey} honey waiting.`);
+  if (f.teaGuest) out.push(`☕ ${f.teaGuest} is coming round for tea at 3 pm. Pop home!`);
   if (f.happening) out.push(f.happening);
   if (f.goalsLeft) out.push(`🎯 ${f.goalsLeft} of today's goals to go.`);
   if (f.tired) out.push('🪑 Feeling sleepy? Sit on a bench a while, or have a snack.');
   for (const g of f.games.slice(0, 2)) out.push(`🎲 ${g.game} with ${g.name}${g.where ? ` (at ${g.where})` : ''}.`);
+  if (f.canTea && !f.teaGuest) out.push('☕ Ask a friend round for tea tomorrow (two hearts or more).');
   if (f.rod) out.push(f.bait ? '🎣 Go fishing with bait: a rare one might bite.' : '🎣 Cast a line at the river, the beach or the harbour.');
   if (f.gathered < 6 && !f.night) out.push('🌳 Shake the trees and rummage in the bushes for twigs, fruit and flowers.');
   if (f.axe && !f.night) out.push('🪓 Chop a tree in your yard or the woods for logs.');

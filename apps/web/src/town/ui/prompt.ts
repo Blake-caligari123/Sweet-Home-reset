@@ -26,7 +26,7 @@ export function promptFor(t: Target | null, here: Here, crops: Crop[], content: 
     case 'grumble': return 'Brighten the Grumble';
     case 'prop': {
       const type = t.action === 'decor' ? here.area.tapPropAt(t.x, t.y)?.type : null;
-      return type === 'beehive' ? 'Collect honey' : type === 'telescope' ? 'Look at the stars' : USE[t.action] ?? '';
+      return type === 'beehive' ? 'Collect honey' : type === 'telescope' ? 'Look at the stars' : type === 'pet_bed' ? 'Nap time' : type === 'pet_ball' ? 'Throw the ball' : USE[t.action] ?? '';
     }
     default: return '';
   }

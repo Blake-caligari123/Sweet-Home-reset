@@ -806,6 +806,11 @@ These are the places Blake said "dealer's choice". Each can be changed:
     That's 11 games, one per neighbour.
   - **🔭 The star book** in the Collection: each constellation found, and the seasons to look for the rest.
 
+- **Photo mode, tea at yours, and the pet's bed and ball (2 Nov):**
+  - **📷 Photo mode** (`ui/photo-mode.ts`, Pause → 📷 Photo): the HUD steps away and a parchment frame with the place and day goes round the view. Puff can still walk about to pose. 📷 Snap captures exactly what's on screen with a stitched cream border and the caption, then shares it (the phone's share sheet) or saves a PNG. Frame: on/off gives a clean shot.
+  - **☕ Tea at yours** (`visits/tea.ts`, `visits/tea-life.ts`): any friend of two hearts or more can be asked "☕ Come round for tea tomorrow?" (one invite at a time). Next day they come to the burrow's kitchen table at 3 pm and stay until 5:30 pm; their routine gets the visit, like the set visits. Talking to them there gives "☕ Have tea together": a cosy line, friendship +12, +15 ✨ (`teaFriendship`, `teaSparkles`). The morning card and Things to do mention the guest. A missed tea is just a quiet afternoon.
+  - **🧺 Pet bed and ball** (`pets/pet-life.ts`): sold at the General Store from day 4, placed like decor. Tap the bed and the pet trots over for a nap (it stays until Puff wanders off or pats it). Tap the ball and it chases it, spins, and comes back. Each gives a little bond once a day.
+
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.
   - A cutscene is one continuous take made of shots (`scenes` in the pack). Within a place, the camera follows whoever the story is about: a character, or the sparkle.

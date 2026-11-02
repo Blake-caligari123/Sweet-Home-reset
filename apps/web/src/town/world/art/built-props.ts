@@ -164,6 +164,13 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       pc.box(x + 27, y - 4, 3, 4, P.butter, P.ink);
       break;
     }
+    case 'pet_bed': // a round cushioned basket
+      pc.ellipseBox(x + 8, y + 11, 7, 4, P.brownLight, P.ink); pc.ellipse(x + 8, y + 11, 5, 2, P.peachLight); pc.ellipse(x + 6, y + 10, 2, 1, P.cream);
+      pc.hline(x + 3, y + 13, 10, P.brown);
+      break;
+    case 'pet_ball': // a striped ball
+      pc.ellipseBox(x + 8, y + 11, 3, 3, P.peachShade, P.ink); pc.vline(x + 8, y + 9, 5, P.cream); pc.set(x + 7, y + 10, P.white);
+      break;
     case 'telescope': // a brass telescope on a little tripod, tipped up at the sky
       pc.line(x + 8, y + 9, x + 4, y + 15, P.brownShade); pc.line(x + 8, y + 9, x + 12, y + 15, P.brownShade); pc.vline(x + 8, y + 9, 6, P.brown);
       pc.line(x + 3, y + 9, x + 13, y + 2, P.ink); pc.line(x + 3, y + 8, x + 13, y + 1, P.butterShade); pc.line(x + 4, y + 8, x + 13, y + 2, P.butter);
