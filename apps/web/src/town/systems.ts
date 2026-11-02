@@ -20,7 +20,12 @@ import { scheduleFor, stopAt } from './neighbours/neighbours';
 import { StoryPath } from './story/story-path';
 import { DailyGoalsLife } from './daily/daily-life';
 import { HappeningLife } from './daily/happening-life';
-import { gameButtons } from './minigames/minigame-buttons';
+import { GAMES, gameButtons } from './minigames/minigame-buttons';
+import { ideas } from './chill/ideas';
+import { openIdeas } from './chill/ideas-sheet';
+import { isNight } from './stars/constellations';
+import { stageOf } from './play/crops';
+import { visitingToday } from './shops/shops';
 import { journalPage } from './journal/journal';
 import { openJournal } from './journal/journal-sheet';
 import type { Jobs } from './requests/jobs';
@@ -79,13 +84,7 @@ export class TownSystems {
     const cards = new CardHunt({ state, content, view });
     this.quests = new QuestLog({
       state, content, view, talk: host.talk, day: () => host.day(), refreshHud: () => host.refreshHud(), save: () => host.save(), arrived,
-      where: (id) => {
-        const def = content.neighbour(id);
-        if (!def) return null;
-        const plan = scheduleFor(def, host.day());
-        const area = plan[stopAt(plan, host.minutes())]?.area;
-        return area ? content.named(places.get(area)?.pack.name ?? area) : null;
-      }
+      where: (id) => this.whereIs(id)
     });
     this.story = new StoryPath({ state, content, view, talk: host.talk, day: () => host.day(), refreshHud: () => host.refreshHud(), save: () => host.save(), playScene: (id) => host.playScene(id) });
     this.tidy = new TidyMeterLife({
@@ -165,7 +164,41 @@ export class TownSystems {
   }
 
   /** After the night: today's story step, town needs met, who helped tidy, what the stall sold, and new farm animals. */
-  morningNews() { return [...this.story.morning(), ...this.happening.morning(), ...this.quests.morning(), ...this.goals.morning(), ...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews(), ...this.farmNews()]; }
+  morningNews() { return [...this.story.morning(), ...this.cartNews(), ...this.happening.morning(), ...this.quests.morning(), ...this.goals.morning(), ...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews(), ...this.farmNews()]; }
+
+  /** The name of the place a neighbour is at right now, from their routine. */
+  private whereIs(id: string) {
+    const { content, places } = this.host;
+    const def = content.neighbour(id);
+    if (!def) return null;
+    const plan = scheduleFor(def, this.host.day());
+    const area = plan[stopAt(plan, this.host.minutes())]?.area;
+    return area ? content.named(places.get(area)?.pack.name ?? area) : null;
+  }
+
+  /** 🌿 Things to do (chill/ideas.ts): what's on right now, for a quiet day. */
+  openIdeas() {
+    const { state, content, view } = this.host;
+    const day = this.host.day(); const minutes = this.host.minutes();
+    const [done, total] = this.goals.progress();
+    const happening = this.happening.lines()[0];
+    openIdeas(view, ideas({
+      night: isNight(minutes), telescope: state.decor.some((d) => d.item === 'telescope') || state.bag.count('telescope') > 0,
+      cartToday: (content.pack.shops ?? []).some((s) => s.visits && visitingToday(s, day)),
+      rod: state.bag.count('fishing_rod') > 0, bait: state.bag.count('bait') > 0,
+      thirsty: state.crops.filter((c) => !c.watered && stageOf(c) < 2).length, ready: state.crops.filter((c) => stageOf(c) === 2).length,
+      honey: Object.values(state.hives).reduce((a, b) => a + b, 0),
+      gathered: state.nature.day === day ? state.nature.gathered.length : 0, axe: !!state.tools.axe,
+      games: GAMES.filter((g) => state.friends[g.who]?.met).map((g) => ({ name: content.neighbour(g.who)?.name ?? g.who, game: g.title, where: this.whereIs(g.who) })),
+      goalsLeft: total - done, happening: happening && !happening.startsWith('🌟') ? happening : null, tired: state.fluff.value < 30
+    }));
+  }
+
+  /** The Wandering Cart in town today (shops/shops.ts). */
+  private cartNews() {
+    const { content } = this.host;
+    return (content.pack.shops ?? []).some((s) => s.visits && visitingToday(s, this.host.day())) ? [content.line('trader.news') ?? ''] : [];
+  }
 
   private farmNews() {
     const { state, content } = this.host;

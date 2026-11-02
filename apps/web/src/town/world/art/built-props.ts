@@ -153,6 +153,22 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       if (p.type === 'rock_large') pc.set(x + 9, y + 9, P.butter);
       break;
     }
+    case 'trader_cart': { // the Wandering Cart: a little wagon with a striped canopy, crates and a lantern
+      for (let sx = 0; sx < 32; sx += 4) { pc.rect(x + sx, y - 12, 4, 5, (sx / 4) % 2 ? P.cream : P.peachShade); }
+      pc.hline(x, y - 12, 32, P.ink); pc.hline(x, y - 7, 32, P.ink);
+      for (let sx = 0; sx < 32; sx += 4) pc.set(x + sx + 2, y - 6, (sx / 4) % 2 ? P.cream : P.peachShade);
+      pc.vline(x + 1, y - 7, 12, P.brownShade); pc.vline(x + 30, y - 7, 12, P.brownShade);
+      pc.box(x, y + 3, 32, 8, P.brown, P.ink); pc.hline(x + 1, y + 4, 30, P.brownLight);
+      for (const [bx, c] of [[4, P.sage], [12, P.butter], [20, P.blueLight]] as const) { pc.box(x + bx, y - 2, 7, 6, c, P.ink); pc.set(x + bx + 2, y, P.white); }
+      for (const wx of [6, 25]) { pc.ellipseBox(x + wx, y + 12, 3, 3, P.brownShade, P.ink); pc.set(x + wx, y + 12, P.butterShade); }
+      pc.box(x + 27, y - 4, 3, 4, P.butter, P.ink);
+      break;
+    }
+    case 'telescope': // a brass telescope on a little tripod, tipped up at the sky
+      pc.line(x + 8, y + 9, x + 4, y + 15, P.brownShade); pc.line(x + 8, y + 9, x + 12, y + 15, P.brownShade); pc.vline(x + 8, y + 9, 6, P.brown);
+      pc.line(x + 3, y + 9, x + 13, y + 2, P.ink); pc.line(x + 3, y + 8, x + 13, y + 1, P.butterShade); pc.line(x + 4, y + 8, x + 13, y + 2, P.butter);
+      pc.ellipseBox(x + 13, y + 2, 1, 2, P.blueLight, P.ink);
+      break;
     case 'beehive': // a round straw skep on a little stand, a bee or two about
       pc.box(x + 4, y + 12, 8, 3, P.brown, P.outline);
       pc.ellipseBox(x + 8, y + 7, 6, 6, P.butter, P.outline);

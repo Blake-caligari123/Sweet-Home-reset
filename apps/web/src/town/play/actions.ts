@@ -54,6 +54,8 @@ export interface ActionsHost {
   openWorkbench(station: 'bench' | 'kitchen'): void;
   /** A farm animal: collect what it gives, and a pat and feed for today. */
   tendAnimal(id: string): void;
+  /** The telescope: tonight's constellation (stars/stargaze.ts). */
+  stargaze(): void;
   /** A beehive: collect its honey, or pick it up (garden/hive-life.ts). */
   hive(x: number, y: number): void;
   /** A placed decor piece: back into the bag. */
@@ -308,6 +310,7 @@ export class PuffActions {
       case 'decor': {
         const p = this.host.here().area.tapPropAt(t.x, t.y);
         if (p?.type === HIVE) { this.host.hive(p.x, p.y); return; }
+        if (p?.type === 'telescope') { this.host.stargaze(); return; }
         if (p) view.confirm(`Pick up the ${content.itemName(state.decor.find((d) => d.x === p.x && d.y === p.y && d.area === this.host.here().id)?.item ?? '').toLowerCase()}?`, 'Pick up', () => this.host.pickUpDecor(p.x, p.y));
         return;
       }

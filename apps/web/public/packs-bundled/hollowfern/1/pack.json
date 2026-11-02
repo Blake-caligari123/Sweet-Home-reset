@@ -531,6 +531,12 @@
   "eel": {
    "name": "Eel",
    "sell": 80
+  },
+  "telescope": {
+   "name": "Telescope",
+   "decor": {
+    "prop": "telescope"
+   }
   }
  },
  "areas": [
@@ -12109,7 +12115,12 @@
    "crop.aster.harvest": "Asters! Little purple stars. More will bloom.",
    "crop.snowdrop.harvest": "Snowdrops! Brave little bells in the cold. More will bloom.",
    "hive.collect": "Bzz! Golden honey, warm from the hive.",
-   "hive.busy": "Bzz... the bees are busy. Honey by morning!"
+   "hive.busy": "Bzz... the bees are busy. Honey by morning!",
+   "trader.news": "🛒 The Wandering Cart is in the Town Square today!",
+   "stars.day": "The stars are asleep. Come back after 8 pm!",
+   "stars.new": "A new one for the star book!",
+   "stars.again": "An old friend in the sky.",
+   "ideas.tracker": "🌿 Free time! Tap for cosy things to do."
   }
  },
  "heartEvents": [
@@ -15640,6 +15651,54 @@
      "price": 50
     }
    ]
+  },
+  {
+   "id": "trader",
+   "name": "The Wandering Cart",
+   "opens": 480,
+   "closes": 1200,
+   "openFromDay": 5,
+   "visits": {
+    "every": 5,
+    "from": 8,
+    "area": "square",
+    "x": 19,
+    "y": 12
+   },
+   "stock": [
+    {
+     "item": "telescope",
+     "price": 150
+    },
+    {
+     "item": "rare_seeds",
+     "price": 60,
+     "qty": 1
+    },
+    {
+     "item": "lantern",
+     "price": 40
+    },
+    {
+     "item": "fern_pot",
+     "price": 30
+    },
+    {
+     "item": "flower_pot",
+     "price": 30
+    },
+    {
+     "item": "bait",
+     "price": 12,
+     "qty": 5
+    },
+    {
+     "item": "honey",
+     "price": 35,
+     "qty": 1
+    }
+   ],
+   "buys": []
   }
  ],
  "plots": [
