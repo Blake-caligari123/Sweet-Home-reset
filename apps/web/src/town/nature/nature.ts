@@ -10,8 +10,8 @@ import type { AreaPack } from '../data/area';
 /** What tapping each kind of prop does outdoors. */
 const ACTIONS: Record<string, string> = { tree: 'tree', fruit_tree: 'tree', bush: 'bush', bench: 'sit' };
 
-/** Gathered today (by prop), and when each tree was felled. */
-export interface NatureState { day: number; gathered: string[]; felled: Record<string, number> }
+/** Gathered today (by prop), when each tree was felled, and weeds and leaves raked (for compost). */
+export interface NatureState { day: number; gathered: string[]; felled: Record<string, number>; raked?: number }
 export const NEW_NATURE: NatureState = { day: 0, gathered: [], felled: {} };
 
 /** A prop's key: its place and top-left tile. */

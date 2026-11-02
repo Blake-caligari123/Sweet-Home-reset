@@ -83,6 +83,8 @@ export interface Tuning {
   toolSwingMs?: number;
   putAwaySparkles?: number;
   cropDays?: Record<string, number>;
+  /** One compost for every this many weeds, leaves or mud raked (play/crops.ts). */
+  compostEvery: number;
   /** Crops that grow back after picking: days from picked to ready again. */
   cropRegrowDays?: Record<string, number>;
   /** The year-one schedule (VISION §8): when each thing arrives. Read only through `isUnlocked`. */

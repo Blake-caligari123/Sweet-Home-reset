@@ -92,7 +92,7 @@ export class PuffActions {
   cropsHere() {
     const id = this.host.here().id;
     const look = (crop: string) => this.cropDef(crop)?.look ?? 'round';
-    return this.host.state.crops.filter((c) => c.area === id).map((c) => ({ x: c.x, y: c.y, stage: stageOf(c), watered: c.watered, look: look(c.crop) }));
+    return this.host.state.crops.filter((c) => c.area === id).map((c) => ({ x: c.x, y: c.y, stage: stageOf(c), watered: c.watered, look: `${look(c.crop)}${c.fed ? ':fed' : ''}` }));
   }
 
   useDoor(x: number, y: number) {
@@ -359,17 +359,25 @@ export class PuffActions {
     if (crop && !def) return; // a crop this version doesn't know: left as it is
     if (crop && def) {
       if (stageOf(crop) === 2) {
-        if (!state.bag.canAdd(crop.crop)) { view.say('Bag\'s full!'); return; }
-        state.bag.add(crop.crop);
+        const bonus = crop.fed ? 1 : 0;
+        if (!state.bag.canAdd(crop.crop, 1 + bonus)) { view.say('Bag\'s full!'); return; }
+        state.bag.add(crop.crop, 1 + bonus);
+        if (bonus) this.host.world.sparkleBurst(x, y, 8);
         if (harvest(crop, def) === 'picked') state.crops.splice(state.crops.indexOf(crop), 1);
         state.flag(`grown_${def.id}`); this.host.guide.handle({ type: 'picked', crop: def.id });
-        view.say(content.line(`crop.${def.id}.harvest`) ?? ''); view.feedback('coin', 'medium');
+        view.say(`${content.line(`crop.${def.id}.harvest`) ?? ''}${bonus ? ' And one more, thanks to the compost!' : ''}`); view.feedback('coin', 'medium');
       } else if (!crop.watered) {
         if (!state.tools.can) { view.say('Seeds need water. A can would help.'); return; }
         crop.watered = true; this.host.select('can');
         view.feedback('wipe', 'light');
         this.host.guide.handle({ type: 'watered' });
-      } else view.say('Growing. No rush.');
+      } else if (!crop.fed && state.bag.count('compost') > 0) {
+        // A handful of compost: grows twice as fast on watered nights, and an extra one at picking.
+        state.bag.remove('compost'); crop.fed = true;
+        view.say(content.line('crop.fed') ?? ''); view.feedback('pop', 'light');
+        this.host.world.sparkleBurst(x, y, 5);
+        this.host.guide.handle({ type: 'fed' });
+      } else view.say(crop.fed ? content.line('crop.growing_fed') ?? '' : 'Growing. No rush.');
     } else {
       const here = this.host.here().id;
       const glass = areasWith('waters_garden', state.plots, content.pack.plots ?? [], content.pack.buildings ?? []).has(here);

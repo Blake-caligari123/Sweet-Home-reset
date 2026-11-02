@@ -181,6 +181,7 @@ export class TownGame {
     this.placing = new Placing({ ...core, places: this.places, area: () => this.areaId, refreshArea: () => this.refreshArea() });
     this.mining = new Mining({ ...core, puff: this.puff, settings, area: () => this.areaId, day: () => this.clock.state.day, refreshArea: () => this.refreshArea() });
     this.nature = new Nature({ ...core, puff: this.puff, settings, here: () => ({ id: this.areaId, area: this.area }), selected: () => this.selected, onboard: (e) => this.guide.handle(e), refreshArea: () => this.refreshArea() });
+    this.guide.listen((e) => this.nature.hear(e));
     this.dash = new TidyDash({ ...core, area: () => this.areaId, areaOf: (id) => this.places.get(id)!, messFor: (id) => this.places.mess(id), syncMess: (i) => this.world.syncMess(i), playStory: (id) => this.talk.playStory(id) });
     this.lanterns = new Lanterns({ ...core, refreshArea: () => this.refreshArea(), playStory: (id) => this.talk.playStory(id) });
     // The unlock's store and the optional account, as this build is set up (connect.ts).

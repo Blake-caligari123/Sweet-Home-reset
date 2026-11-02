@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import type { Crop } from '../state';
-import { grows, harvest, seedsIn, stageOf, type CropDef } from './crops';
+import { compostDue, grows, harvest, seedsIn, stageOf, type CropDef } from './crops';
 
 const radish: CropDef = { id: 'radish', seed: 'radish_seeds', look: 'round' };
 const berry: CropDef = { id: 'strawberry', seed: 'strawberry_seeds', look: 'berry' };
@@ -48,10 +48,10 @@ describe('crops', () => {
     expect((pack.plots ?? []).find((p) => p.allow.includes('riverbank_beds'))?.area).toBe('riverside');
   });
 
-  it('has crops for spring, summer and autumn, each with seeds a shop sells that season, a harvest line, and sellable', () => {
+  it('has crops for every season (kale in winter), each with seeds a shop sells that season, a harvest line, and sellable', () => {
     const crops = pack.crops ?? [];
-    expect(crops.map((c) => c.id)).toEqual(['radish', 'carrot', 'peas', 'strawberry', 'tomato', 'corn', 'pumpkin', 'watercress', 'mushroom']);
-    for (const s of ['Spring', 'Summer', 'Autumn']) expect(crops.some((c) => (c.seasons ?? ['Spring']).includes(s)), s).toBe(true);
+    expect(crops.map((c) => c.id)).toEqual(['radish', 'carrot', 'peas', 'strawberry', 'tomato', 'corn', 'pumpkin', 'watercress', 'mushroom', 'potato', 'sunflower', 'cabbage', 'kale']);
+    for (const s of ['Spring', 'Summer', 'Autumn', 'Winter']) expect(crops.some((c) => (c.seasons ?? ['Spring']).includes(s)), s).toBe(true);
     const stock = (pack.shops ?? []).flatMap((s) => s.stock.map((e) => e.item));
     const buys = (pack.shops ?? []).flatMap((s) => s.buys ?? []);
     for (const c of crops) {
@@ -60,5 +60,15 @@ describe('crops', () => {
       expect(pack.items[c.id]?.sell, c.id).toBeGreaterThan(0);
       expect(pack.strings!['en-AU'][`crop.${c.id}.harvest`], c.id).toBeTruthy();
     }
+  });
+
+  it('grows twice as fast with compost, and gives one more at picking', async () => {
+    const { overnight } = await import('./overnight');
+    const { TownState } = await import('../state');
+    const st = new TownState();
+    st.crops.push({ area: 'yard', x: 1, y: 1, crop: 'radish', days: 0, watered: true, fed: true });
+    overnight(st, { buildings: [], plots: [], crops: pack.crops }, 1, false);
+    expect(st.crops[0].days).toBe(2);
+    expect(compostDue(5, 5)).toBe(true); expect(compostDue(4, 5)).toBe(false); expect(compostDue(0, 5)).toBe(false);
   });
 });

@@ -21,7 +21,7 @@ export class DailyGoalsLife {
     const { state, content, places } = this.h;
     const named = (id: string) => content.pack.areas.some((a) => a.id === id);
     return {
-      day: this.h.day(), games: GAMES.some((g) => state.friends[g.who]?.met), tools: Object.keys(state.tools).filter((t) => state.tools[t] > 0),
+      day: this.h.day(), games: GAMES.some((g) => state.friends[g.who]?.met), compost: state.bag.count('compost') > 0, tools: Object.keys(state.tools).filter((t) => state.tools[t] > 0),
       fish: state.bag.count('fishing_rod') > 0 || state.fishCaught > 0, crops: state.crops.length > 0,
       animals: ownedAnimals(content.pack.animals ?? [], state.flags).length > 0, grumbles: state.grumbles.list.length > 0,
       places: state.visited.filter((a) => a !== 'burrow' && a !== 'yard' && named(a)),

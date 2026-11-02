@@ -7,7 +7,7 @@ import type { Crop } from '../state';
 // lost), and under a greenhouse anything grows any time.
 
 /** `look`: how it's drawn (round root, long root, pods, berries, a tall stalk, a big pumpkin, leaves, mushroom caps). `seasons`: when it grows (default spring). `areas`: only planted there (watercress wants the wet riverbank). */
-export interface CropDef { id: string; seed: string; look: 'round' | 'long' | 'pod' | 'berry' | 'stalk' | 'pumpkin' | 'leaf' | 'cap'; seasons?: string[]; areas?: string[] }
+export interface CropDef { id: string; seed: string; look: 'round' | 'long' | 'pod' | 'berry' | 'stalk' | 'pumpkin' | 'leaf' | 'cap' | 'flower' | 'head' | 'tuber'; seasons?: string[]; areas?: string[] }
 
 /** Whether it grows in this season, or anyway, under glass. */
 export const grows = (def: CropDef, season: string, glass: boolean) => glass || (def.seasons ?? ['Spring']).includes(season);
@@ -23,11 +23,16 @@ const regrowDays = (crop: string) => TUNING.cropRegrowDays?.[crop];
 /** Pick it: `picked` (it's gone), `regrows` (back to a sprout), or `growing` (not ready, nothing happens). */
 export function harvest(c: Crop, def: CropDef): 'picked' | 'regrows' | 'growing' {
   if (stageOf(c) < 2) return 'growing';
+  c.fed = false;
   const back = regrowDays(def.id);
   if (!back) return 'picked';
   c.days = cropDays(c.crop) - back;
   return 'regrows';
 }
+
+/** Compost from raking: one every few weeds or leaves (and mud) cleared. */
+export const COMPOST_FROM = ['weeds', 'leaves', 'mud'];
+export const compostDue = (raked: number, every: number) => raked > 0 && raked % every === 0;
 
 /** The kinds of seed Puff is carrying that would grow here now (`area`: where Puff is; leave it out for anywhere). */
 export function seedsIn(bag: { count(id: string): number }, crops: CropDef[], season: string, glass: boolean, area?: string) {

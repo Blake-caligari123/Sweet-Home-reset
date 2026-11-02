@@ -135,8 +135,13 @@
     "corn": 6,
     "pumpkin": 7,
     "watercress": 3,
-    "mushroom": 3
+    "mushroom": 3,
+    "potato": 4,
+    "sunflower": 6,
+    "cabbage": 5,
+    "kale": 4
   },
+  "compostEvery": 5,
   "unlocks": {
     "mabel": {
       "day": 43

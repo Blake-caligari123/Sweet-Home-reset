@@ -27,7 +27,8 @@ import type { Taken } from './play/pickups';
 /** The parts of a save that hold Puff's progress. */
 export type ProgressSave = Pick<TownSave, 'fluff' | 'sparkles' | 'bag' | 'tools' | 'crops' | 'flags' | 'friends' | 'onboarding' | 'onboardingAhead' | 'chores' | 'requests' | 'picked' | 'lastClean' | 'names' | 'plots' | 'grumbles' | 'pet' | 'bloom' | 'finds' | 'outfit' | 'decor' | 'caves' | 'townJobs' | 'dashBest' | 'unlock' | 'restNights' | 'cloudVersion' | 'visited' | 'memories' | 'dramas' | 'skills' | 'puffDay' | 'fund' | 'needsMet' | 'tokens' | 'quests' | 'story' | 'spotless' | 'daily' | 'nature' | 'weekly' | 'happening' | 'stall' | 'cafe' | 'fishCaught' | 'fishLog' | 'critters' | 'farm'>;
 
-export interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean }
+/** `fed`: given compost: it grows two days a watered night, and gives an extra one when picked. */
+export interface Crop { area: string; x: number; y: number; crop: string; days: number; watered: boolean; fed?: boolean }
 
 /**
  * Puff's progress: everything the save keeps apart from the clock, areas and where Puff stands.

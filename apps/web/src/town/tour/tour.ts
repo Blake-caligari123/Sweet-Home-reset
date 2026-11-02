@@ -267,5 +267,7 @@ export const TOUR: TourCard[] = [
   { title: '🪑 Sit a while', steps: ['Tap any bench to sit and rest: +12 Fluff, and half an hour drifts by while Puff takes in the view.', 'Different thoughts in the morning, the day, the evening and at night.'],
     setup: (s) => { s.state.fluff.value = 40; s.day(16).time(17, 30).go('square'); } },
   { title: '📖 The story waits for you', steps: ['The story never moves on without you. Miss a festival? Its host tells you all about it (and saves you a treat), then the story carries on.', 'Here, the Spring Fair has been and gone: see Hazel at the bakery.'],
-    setup: (s) => { s.state.story = { step: 13, asked: false, count: 0, day: 13 }; s.day(16).time(9).flag('keeper_named').flag('keeper_day1_done').meet('hazel').go('bakery'); } }
+    setup: (s) => { s.state.story = { step: 13, asked: false, count: 0, day: 13 }; s.day(16).time(9).flag('keeper_named').flag('keeper_day1_done').meet('hazel').go('bakery'); } },
+  { title: '🪣 Compost and new crops', steps: ['Raking weeds, leaves or mud makes compost: a scoop every 5.', 'Tap a watered crop with compost in your bag to feed it: it grows twice as fast on watered nights and gives one extra when picked.', 'New crops: potatoes (spring and autumn), sunflowers (summer), cabbages (autumn) and kale, which grows right through winter. Seeds at the General Store; roast potatoes and kale soup in the kitchen.'],
+    setup: (s) => { s.give('potato_seeds', 3).give('compost', 2).day(6).time(9).go('yard'); } }
 ];
