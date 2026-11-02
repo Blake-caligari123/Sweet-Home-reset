@@ -9,6 +9,7 @@ import type { TownSave } from '../data/save';
 import { TUNING } from '../data/tuning';
 import { AreaMess } from '../play/mess';
 import { returningMess } from '../play/mess-return';
+import { NEW_NATURE, withNature, type NatureState } from '../nature/nature';
 import { navFor, type NavGrid } from './nav';
 
 /**
@@ -47,13 +48,13 @@ export class TownAreas {
   }
 
   /** Areas as they stand today: what's built on their plots, rocks still standing, festival lanterns, animals, secret doors found, then the decor placed in them. */
-  rebuild(s: { plots: Record<string, PlotState>; decor: Placed[]; caves: CaveState; flags: string[]; finds: { found: string[] } }) {
+  rebuild(s: { plots: Record<string, PlotState>; decor: Placed[]; caves: CaveState; flags: string[]; finds: { found: string[] }; nature?: NatureState }) {
     const { areas, plots: defs = [], buildings = [], items, animals = [] } = this.pack;
     const { plots, decor } = s;
     const day = this.day();
     const festival = festivalToday(this.pack.festivals ?? [], day);
-    for (const a of areas.filter((x) => defs.some((p) => p.area === x.id) || decor.some((d) => d.area === x.id) || x.rocks?.length || x.id === festival?.area || animals.some((an) => an.area === x.id) || x.doors.some((d) => d.needsFind) || this.built.has(x.id))) {
-      const built = withSecrets(withAnimals(withLanterns(withRocks(withBuilds(a, defs, plots, buildings), a.rocks ?? [], s.caves), festival, s.flags, day), animals, s.flags), s.finds.found);
+    for (const a of areas.filter((x) => defs.some((p) => p.area === x.id) || decor.some((d) => d.area === x.id) || x.rocks?.length || x.id === festival?.area || animals.some((an) => an.area === x.id) || x.doors.some((d) => d.needsFind) || x.kind === 'outdoor' || this.built.has(x.id))) {
+      const built = withNature(withSecrets(withAnimals(withLanterns(withRocks(withBuilds(a, defs, plots, buildings), a.rocks ?? [], s.caves), festival, s.flags, day), animals, s.flags), s.finds.found), s.nature ?? NEW_NATURE, day, TUNING.nature);
       this.built.set(a.id, built);
       this.areas.set(a.id, new Area(withDecor(built, decor, items)));
       this.navs.delete(a.id);

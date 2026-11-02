@@ -40,6 +40,7 @@ import { PuffActions } from './play/actions';
 import { Clock, LATE_AT } from './play/clock';
 import { Carry } from './play/carry';
 import { Mining } from './caves/mining';
+import { Nature } from './nature/nature-life';
 import { Placing } from './decor/placing';
 import { Sweep } from './play/sweep';
 import { HomeLife } from './play/home-life';
@@ -106,6 +107,7 @@ export class TownGame {
   private outfitLayer: OutfitLayer;
   private carry: Carry;
   private mining: Mining;
+  private nature: Nature;
   private dash: TidyDash;
   private lanterns: Lanterns;
   private unlocker: Unlocker;
@@ -178,6 +180,7 @@ export class TownGame {
     this.hudLive = new HudLive({ clock: this.clock, hud: this.hud, view: this.view, state: this.state, puff: this.puff, world: this.world, content: this.content, here: () => this.here });
     this.placing = new Placing({ ...core, places: this.places, area: () => this.areaId, refreshArea: () => this.refreshArea() });
     this.mining = new Mining({ ...core, puff: this.puff, settings, area: () => this.areaId, day: () => this.clock.state.day, refreshArea: () => this.refreshArea() });
+    this.nature = new Nature({ ...core, puff: this.puff, settings, here: () => ({ id: this.areaId, area: this.area }), selected: () => this.selected, onboard: (e) => this.guide.handle(e), refreshArea: () => this.refreshArea() });
     this.dash = new TidyDash({ ...core, area: () => this.areaId, areaOf: (id) => this.places.get(id)!, messFor: (id) => this.places.mess(id), syncMess: (i) => this.world.syncMess(i), playStory: (id) => this.talk.playStory(id) });
     this.lanterns = new Lanterns({ ...core, refreshArea: () => this.refreshArea(), playStory: (id) => this.talk.playStory(id) });
     // The unlock's store and the optional account, as this build is set up (connect.ts).
@@ -202,7 +205,7 @@ export class TownGame {
     this.pet = new PetLife({ ...core, layer: this.petLayer, arrived: (k) => this.arrived(k), puff: () => this.puff.feet, day: () => this.clock.state.day });
     this.actions = new PuffActions({
       state: this.state, view: this.view, content: this.content, clock: this.clock, settings,
-      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, life: this.life, grumbles: this.grumbles, mining: this.mining, dash: this.dash, lanterns: this.lanterns, arrived: (k) => this.arrived(k),
+      puff: this.puff, world: this.world, hud: this.hud, jobs: this.jobs, talk: this.talk, guide: this.guide, life: this.life, grumbles: this.grumbles, mining: this.mining, nature: this.nature, dash: this.dash, lanterns: this.lanterns, arrived: (k) => this.arrived(k),
       here: () => ({ id: this.areaId, area: this.area, mess: this.mess, nav: this.nav }),
       selected: () => this.selected,
       mood: () => this.systems.moods.now(),

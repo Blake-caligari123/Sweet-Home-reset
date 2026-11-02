@@ -27,7 +27,9 @@ export type OnboardEvent =
   | { type: 'spotted'; critter: string }
   | { type: 'tended'; animal: string }
   // A mini-game finished (minigames/).
-  | { type: 'played'; game: string };
+  | { type: 'played'; game: string }
+  // The cosy outdoors (nature/): a tree shaken or bush foraged, a tree felled, a sit on a bench.
+  | { type: 'gathered' } | { type: 'chopped' } | { type: 'rested' };
 
 export interface Step {
   id: string;

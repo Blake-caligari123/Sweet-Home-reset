@@ -4,7 +4,13 @@ Drafted from `claude/STORY.md` for Blake to review (M2 step 2). Edit any line he
 
 How a line is chosen: the most specific one that fits wins (a story moment, then hearts, weather, season, time of day), skipping the last 5 heard. The first chat each day gives +1 friendship; later chats that day use the short "second chat" lines.
 
-## New 1 Nov 2026: little stories (side quests every day)
+## New 2 Nov 2026: the story waits, and the cosy outdoors
+- Festival catch-ups (the story waits for these): Hazel "📖 How was the Spring Fair?" → "Lovely! The fountain glimmered. Here, I saved you one!" · Otto "How was the Summer Picnic?" → "Grand! The fountain sighed, like a song. Have a roll! Heh." · Sorrel "How was Leaf Fest?" → "Leaves everywhere! The fountain hummed an old tune." · Mabel "Can I light the last lantern?" → "Hoo. There. Light it, dear, and watch the fountain..." (then the finale). Prep: "Sorry I couldn't help get ready!" → Hazel "No matter, petal! Many paws made light work." / Otto "Water under the bridge! Heh. We got it all done." / Sorrel "Don't worry! Squirrels are great at leaf piles!" / Mabel "Hoo. No harm, dear. The lanterns are waiting for you."
+- Trees and bushes: "Shake, shake! +2 twig" · "A little rummage... +1 berries" · "This tree's had a good shake today. Tomorrow!" · "Nothing more in this bush today. Tomorrow!"
+- The axe: "🪵 Timber! +2 logs" · "A stump now. A sapling will sprout in a few days." · "A tidy stump. A sapling will sprout here soon." · "A little sapling, growing back. It'll be a tree soon!" · "This tree's the town's. Your yard and wild woods only!" · "Too sleepy to chop. A snack, or a sit on a bench?"
+- Pip's story "A little axe": "What are you making, Pip?" · "A little axe, for a little Keeper! It needs twigs. Right?" · "Here are the twigs!" → "Your own axe! Yard and wild woods only, right? Right!"
+- Benches: "{puff} sits and watches the dew sparkle." · "{puff} sits a while. The clouds drift by." · "{puff} watches the sky go peach and gold." · "{puff} counts the stars. One, two... lots." (+12 Fluff)
+ (side quests every day)
 Each is offered from the giver's chat (📜 button) from its day; the tracker and the morning card say who has one waiting. Old song: Puff now asks Otto (not Mabel, who arrives day 43) about the humming stone: "Gran said it hummed when the baths ran warm! Heh."
 
 - **Bea's list** (day 2, Bea): 📜 "Have you seen my list?" · "Three things! One: my list is gone. Two: help? Three: hi!" · Hazel: "Did Bea leave a list here?" → "A list? Ooh, under the buns! A bit floury now, petal." · Bea: "Found your list!" → "My list! One: radishes. Two: thank you! Three: hug!"

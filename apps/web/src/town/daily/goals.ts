@@ -34,6 +34,9 @@ const KINDS: GoalKind[] = [
   { id: 'weeds', family: 'tidy', count: 6, text: 'Rake up {n} weeds, leaves or mud', counts: (e) => e.type === 'cleared' && (e.mess === 'weeds' || e.mess === 'leaves' || e.mess === 'mud'), ready: (f) => f.tools.includes('rake') },
   { id: 'dust', family: 'tidy', count: 8, text: 'Dust away {n} dusty spots', counts: (e) => e.type === 'cleared' && ['dust', 'cobweb', 'crumbs', 'flour', 'sawdust'].includes(e.mess), ready: () => true },
   { id: 'wipe', family: 'tidy', count: 4, text: 'Sponge away {n} stains or smudges', counts: (e) => e.type === 'cleared' && ['stain', 'grime', 'fog', 'ink', 'soap'].includes(e.mess), ready: (f) => f.tools.includes('sponge') },
+  { id: 'gather', family: 'nature', count: 3, text: 'Shake trees or forage bushes {n} times', counts: (e) => e.type === 'gathered', ready: (f) => f.day >= 3 },
+  { id: 'chop', family: 'make', count: 1, text: 'Chop a tree for logs', counts: (e) => e.type === 'chopped', ready: (f) => f.tools.includes('axe') },
+  { id: 'rest', family: 'town', count: 1, text: 'Sit on a bench and rest a while', counts: (e) => e.type === 'rested', ready: (f) => f.day >= 3 },
   { id: 'fish', family: 'nature', count: 2, text: 'Catch {n} fish', counts: (e) => e.type === 'caught', ready: (f) => f.fish },
   { id: 'critter', family: 'nature', count: 1, text: 'Spot a critter', counts: (e) => e.type === 'spotted', ready: (f) => f.day >= 3 },
   { id: 'grumble', family: 'nature', count: 1, text: 'Befriend a Grumble', counts: (e) => e.type === 'befriended', ready: (f) => f.grumbles },
@@ -54,6 +57,8 @@ const KINDS: GoalKind[] = [
   { id: 'w_grow', family: 'grow', count: 8, text: 'Pick {n} crops this week', weekly: true, counts: (e) => e.type === 'picked', ready: (f) => f.crops },
   { id: 'w_cook', family: 'make', count: 4, text: 'Cook {n} dishes this week', weekly: true, counts: (e) => e.type === 'made' && e.station === 'kitchen', ready: (f) => f.day >= 4 },
   { id: 'w_games', family: 'town', count: 5, text: 'Play {n} games with friends this week', weekly: true, counts: (e) => e.type === 'played', ready: (f) => f.games },
+  { id: 'w_logs', family: 'make', count: 3, text: 'Chop {n} trees this week', weekly: true, counts: (e) => e.type === 'chopped', ready: (f) => f.tools.includes('axe') },
+  { id: 'w_gather', family: 'nature', count: 12, text: 'Gather from trees and bushes {n} times this week', weekly: true, counts: (e) => e.type === 'gathered', ready: (f) => f.day >= 3 },
   { id: 'w_jobs', family: 'town', count: 4, text: 'Finish {n} board jobs this week', weekly: true, counts: (e) => e.type === 'jobDone', ready: (f) => f.day >= 2 }
 ];
 

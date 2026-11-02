@@ -11,6 +11,7 @@ export function propShadow(pc: PixelCanvas, p: PropDef) {
   const strip = (k: number[]) => k.forEach((m, i) => { for (let dx = 0; dx < w; dx += 1) pc.mul(x + dx, y + h + i, m); });
   switch (p.type) {
     case 'tree': case 'fruit_tree': pc.shadowEllipse(x + w / 2 + 3, y + h - 3, w / 2 + 3, 5, 0.7); break;
+    case 'stump': case 'sapling': pc.shadowEllipse(x + w / 2 + 1, y + h - 2, 7, 3, 0.75); break;
     case 'burrow': pc.shadowEllipse(x + w / 2 + 4, y + h - 4, w / 2 + 1, 6, 0.74); break;
     case 'fountain': pc.shadowEllipse(x + w / 2 + 2, y + h / 2 + 4, w / 2, h / 2 - 2, 0.78); break;
     case 'bush': pc.shadowEllipse(x + 9, y + 14, 7, 2, 0.72); break;
@@ -190,6 +191,15 @@ export function drawProp(pc: PixelCanvas, p: PropDef) {
         // Apples by default; a pack colour makes pears or plums.
         if (p.type === 'fruit_tree') for (const [ax, ay] of [[-7, 18], [5, 12], [8, 22], [-2, 25], [-9, 10], [1, 6]]) { k.ellipse(cx + ax, ay, 1, 1, p.colour ?? P.peachShade); k.set(cx + ax, ay - 1, p.colour ? P.white : P.peach); }
       });
+      break;
+    case 'stump': // a felled tree's stump: rings on top; a sapling comes in a few days
+      pc.box(x + 9, y + h - 9, 14, 8, P.brown, P.outline); pc.ellipseBox(x + 16, y + h - 9, 7, 3, P.butterLight, P.outline);
+      pc.ellipse(x + 16, y + h - 9, 4, 1, P.brownLight); pc.set(x + 16, y + h - 9, P.brown);
+      pc.vline(x + 12, y + h - 7, 5, P.brownShade); pc.set(x + 21, y + h - 4, P.sage);
+      break;
+    case 'sapling': // a young tree growing back
+      pc.vline(x + 16, y + h - 12, 11, P.brown); pc.vline(x + 17, y + h - 10, 9, P.brownShade);
+      cutout(pc, x + 8, y + h - 22, 18, 14, (k) => foliage(k, [[9, 7, 6, 5], [5, 9, 3, 3], [13, 9, 3, 3]], x + y));
       break;
     case 'bush':
       cutout(pc, x - 2, y - 3, 20, 19, (k) => {

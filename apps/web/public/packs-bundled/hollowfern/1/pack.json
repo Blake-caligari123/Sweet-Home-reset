@@ -413,6 +413,26 @@
   },
   "warm_stone": {
    "name": "Warm stone"
+  },
+  "log": {
+   "name": "Log",
+   "sell": 10
+  },
+  "acorn": {
+   "name": "Acorn",
+   "sell": 4
+  },
+  "woodpile": {
+   "name": "Woodpile",
+   "decor": {
+    "prop": "woodpile"
+   }
+  },
+  "campfire": {
+   "name": "Campfire",
+   "decor": {
+    "prop": "campfire"
+   }
   }
  },
  "areas": [
@@ -11935,7 +11955,46 @@
    "quest.marlo_shells.done": "Then my choir's ready. Listen... hear it, Keeper?",
    "quest.marlo_shells.intro": "Shells sing, if you listen. I want a whole choir of them.",
    "quest.wren_compass.moss": "... Some sailed by the fountain's song. The books say so.",
-   "quest.old_song.otto": "Gran said it hummed when the baths ran warm! Heh."
+   "quest.old_song.otto": "Gran said it hummed when the baths ran warm! Heh.",
+   "story.spring_prep.missed.call": "Hazel wants a word about the Fair. Pop into the bakery!",
+   "story.spring_prep.missed.ask": "Sorry I couldn't help get ready!",
+   "story.spring_prep.missed.line": "No matter, petal! Many paws made light work.",
+   "story.fair.missed.call": "Hazel saved you a treat from the Fair. Pop in!",
+   "story.fair.missed.ask": "How was the Spring Fair?",
+   "story.fair.missed.line": "Lovely! The fountain glimmered. Here, I saved you one!",
+   "story.summer_prep.missed.call": "Otto wants a word about the Picnic. Try the river.",
+   "story.summer_prep.missed.ask": "Sorry I couldn't help get ready!",
+   "story.summer_prep.missed.line": "Water under the bridge! Heh. We got it all done.",
+   "story.picnic.missed.call": "Otto has Picnic stories for you. Try the river.",
+   "story.picnic.missed.ask": "How was the Summer Picnic?",
+   "story.picnic.missed.line": "Grand! The fountain sighed, like a song. Have a roll! Heh.",
+   "story.autumn_prep.missed.call": "Sorrel wants a word about Leaf Fest.",
+   "story.autumn_prep.missed.ask": "Sorry I couldn't help get ready!",
+   "story.autumn_prep.missed.line": "Don't worry! Squirrels are great at leaf piles!",
+   "story.leaf_fest.missed.call": "Sorrel can't wait to tell you about Leaf Fest!",
+   "story.leaf_fest.missed.ask": "How was Leaf Fest?",
+   "story.leaf_fest.missed.line": "Leaves everywhere! The fountain hummed an old tune.",
+   "story.winter_prep.missed.call": "Mabel would like a word. The square, from 6 pm.",
+   "story.winter_prep.missed.ask": "Sorry I couldn't help get ready!",
+   "story.winter_prep.missed.line": "Hoo. No harm, dear. The lanterns are waiting for you.",
+   "story.lights.missed.call": "Mabel kept the last lantern for you. Square, from 6 pm.",
+   "story.lights.missed.ask": "Can I light the last lantern?",
+   "story.lights.missed.line": "Hoo. There. Light it, dear, and watch the fountain...",
+   "nature.shake": "Shake, shake!",
+   "nature.rummage": "A little rummage...",
+   "nature.tree_done": "This tree's had a good shake today. Tomorrow!",
+   "nature.bush_done": "Nothing more in this bush today. Tomorrow!",
+   "nature.not_here": "This tree's the town's. Your yard and wild woods only!",
+   "nature.tired": "Too sleepy to chop. A snack, or a sit on a bench?",
+   "nature.felled": "A stump now. A sapling will sprout in a few days.",
+   "nature.stump": "A tidy stump. A sapling will sprout here soon.",
+   "nature.sapling": "A little sapling, growing back. It'll be a tree soon!",
+   "rest.morning": "{puff} sits and watches the dew sparkle.",
+   "rest.day": "{puff} sits a while. The clouds drift by.",
+   "rest.evening": "{puff} watches the sky go peach and gold.",
+   "rest.night": "{puff} counts the stars. One, two... lots.",
+   "quest.pip_axe.intro": "A little axe, for a little Keeper! It needs twigs. Right?",
+   "quest.pip_axe.done": "Your own axe! Yard and wild woods only, right? Right!"
   }
  },
  "heartEvents": [
@@ -15320,7 +15379,9 @@
     "mushroom_soup",
     "mackerel",
     "lobster",
-    "glowfin"
+    "glowfin",
+    "log",
+    "acorn"
    ]
   },
   {
@@ -16456,7 +16517,8 @@
    "cost": {
     "sparkles": 10,
     "items": {
-     "twig": 4
+     "log": 1,
+     "twig": 2
     }
    },
    "learn": "he_pip_02_done"
@@ -16486,7 +16548,8 @@
    "cost": {
     "sparkles": 30,
     "items": {
-     "twig": 6,
+     "log": 2,
+     "twig": 2,
      "pebble": 1
     }
    },
@@ -16502,7 +16565,8 @@
    "cost": {
     "sparkles": 15,
     "items": {
-     "twig": 3,
+     "log": 1,
+     "twig": 1,
      "pebble": 1
     }
    },
@@ -16553,7 +16617,8 @@
    "cost": {
     "sparkles": 25,
     "items": {
-     "twig": 6
+     "log": 2,
+     "twig": 2
     }
    },
    "learn": "he_pip_04_done"
@@ -16571,6 +16636,36 @@
      "mushroom": 2
     }
    }
+  },
+  {
+   "id": "woodpile",
+   "name": "Woodpile",
+   "makes": {
+    "item": "woodpile",
+    "qty": 1
+   },
+   "cost": {
+    "items": {
+     "log": 3
+    }
+   },
+   "learn": "pip_axe_done"
+  },
+  {
+   "id": "campfire",
+   "name": "Campfire",
+   "makes": {
+    "item": "campfire",
+    "qty": 1
+   },
+   "cost": {
+    "sparkles": 10,
+    "items": {
+     "log": 2,
+     "pebble": 3
+    }
+   },
+   "learn": "pip_axe_done"
   }
  ],
  "crops": [
@@ -19076,6 +19171,37 @@
     "item": "shell",
     "qty": 3,
     "flag": "marlo_shells_done"
+   }
+  },
+  {
+   "id": "pip_axe",
+   "name": "A little axe",
+   "giver": "pip",
+   "fromDay": 3,
+   "offer": "What are you making, Pip?",
+   "intro": "quest.pip_axe.intro",
+   "steps": [
+    {
+     "hint": "Shake 2 trees for twigs: tap a tree with your paws",
+     "goal": {
+      "type": "gathered",
+      "count": 2
+     }
+    },
+    {
+     "hint": "Bring the twigs to Pip in the workshop",
+     "goal": {
+      "type": "talk",
+      "who": "pip",
+      "ask": "Here are the twigs!",
+      "line": "quest.pip_axe.done"
+     }
+    }
+   ],
+   "reward": {
+    "sparkles": 20,
+    "tool": "axe",
+    "flag": "pip_axe_done"
    }
   }
  ],
@@ -24077,7 +24203,11 @@
      "flag": "festival_spring_fair"
     },
     "until": 14,
-    "scene": "spring_end"
+    "scene": "spring_end",
+    "host": "hazel",
+    "gift": {
+     "biscuit": 1
+    }
    },
    {
     "id": "far_bank",
@@ -24200,7 +24330,11 @@
      "flag": "festival_summer_picnic"
     },
     "until": 28,
-    "scene": "summer_end"
+    "scene": "summer_end",
+    "host": "otto",
+    "gift": {
+     "bread": 1
+    }
    },
    {
     "id": "woodland",
@@ -24280,7 +24414,11 @@
      "flag": "festival_autumn_leaf_fest"
     },
     "until": 42,
-    "scene": "autumn_end"
+    "scene": "autumn_end",
+    "host": "sorrel",
+    "gift": {
+     "apple": 1
+    }
    },
    {
     "id": "mabel",
@@ -24371,7 +24509,9 @@
      "type": "flag",
      "flag": "festival_winter_lights"
     },
-    "until": 56
+    "until": 56,
+    "host": "mabel",
+    "hostScene": "winter_finale"
    }
   ]
  }

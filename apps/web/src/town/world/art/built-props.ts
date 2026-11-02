@@ -153,6 +153,15 @@ export function drawBuiltProp(pc: PixelCanvas, p: PropDef) {
       if (p.type === 'rock_large') pc.set(x + 9, y + 9, P.butter);
       break;
     }
+    case 'woodpile': // logs stacked for the winter
+      for (const [lx, ly] of [[2, 10], [8, 10], [5, 6]]) { pc.box(x + lx, y + ly, 7, 5, P.brown, P.outline); pc.ellipseBox(x + lx + 6, y + ly + 2, 1, 2, P.butterLight, P.outline); }
+      pc.hline(x + 3, y + 11, 4, P.brownLight); pc.hline(x + 6, y + 7, 4, P.brownLight);
+      break;
+    case 'campfire': // a ring of stones round crossed logs and a small, friendly flame
+      for (const [sx, sy] of [[2, 12], [5, 14], [10, 14], [13, 12], [3, 9], [12, 9]]) pc.ellipseBox(x + sx, y + sy, 1, 1, P.grey, P.outline);
+      pc.line(x + 4, y + 13, x + 11, y + 9, P.brown); pc.line(x + 4, y + 9, x + 11, y + 13, P.brownShade);
+      pc.ellipse(x + 8, y + 8, 3, 4, P.peach); pc.ellipse(x + 8, y + 9, 2, 2, P.butter); pc.set(x + 8, y + 5, P.peachShade);
+      break;
     case 'flower_pot':
       pc.box(x + 4, y + 8, 8, 7, P.peachShade, P.outline, 1); pc.hline(x + 4, y + 9, 8, P.peach);
       pc.ellipse(x + 8, y + 6, 4, 3, P.sage); pc.ellipse(x + 7, y + 5, 2, 2, P.sageLight);

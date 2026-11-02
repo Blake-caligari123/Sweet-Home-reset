@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hollowfern as pack } from '../data/test-pack';
 import { isUnlocked } from '../unlocks';
-import { chapterNow, done, hear, met, NEW_STORY, needsAsking, openingDue, passed, today, tomorrow, type StoryDef, type StoryFacts, type StoryState } from './path';
+import { askerOf, caughtUp, chapterNow, done, hear, met, NEW_STORY, needsAsking, openingDue, passed, today, tomorrow, type StoryDef, type StoryFacts, type StoryState } from './path';
 
 const def: StoryDef = {
   chapters: [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }],
@@ -43,6 +43,14 @@ describe('the Keeper\'s Story', () => {
     expect(passed(def.steps[0], 99)).toBe(false);
   });
 
+  it('never moves on by itself: a festival gone by waits for a chat with its host', () => {
+    const fair = { ...def.steps[2], host: 'hazel' };
+    expect(askerOf(fair, 3)).toBeUndefined(); // on the day, the festival itself is the step
+    expect(askerOf(fair, 4)).toBe('hazel');
+    expect(askerOf({ ...def.steps[1], until: 2 }, 5)).toBe('hazel'); // a prep quest's asker catches Puff up
+    expect(caughtUp(at(2))).toBe(false); expect(caughtUp(at(2, { asked: true }))).toBe(true);
+  });
+
   it('hints at tomorrow\'s step only after today\'s is done', () => {
     expect(tomorrow(def, at(1, { day: 1 }), 1)?.id).toBe('cook');
     expect(tomorrow(def, at(1, { day: 0 }), 1)).toBeNull();
@@ -72,6 +80,15 @@ describe('Hollowfern\'s year', () => {
     expect(days[0]).toBe(1); expect(story.steps.at(-1)!.goal).toEqual({ type: 'flag', flag: 'festival_winter_lights' });
     expect(story.steps.length).toBeGreaterThanOrEqual(36);
     for (const c of story.chapters.slice(1)) expect(story.steps.filter((s) => s.chapter === c.id).at(-1)!.until, c.id).toBeDefined();
+  });
+
+  it('has a catch-up chat for every festival day, with someone to have it with (and Winter Lights plays the finale)', () => {
+    const text = pack.strings!['en-AU'];
+    for (const s of story.steps.filter((x) => x.until !== undefined)) {
+      expect(s.host ?? s.who, s.id).toBeTruthy();
+      for (const part of ['call', 'ask', 'line']) expect(text[`story.${s.id}.missed.${part}`], `${s.id} ${part}`).toBeTruthy();
+    }
+    expect(story.steps.find((x) => x.id === 'lights')!.hostScene).toBe('winter_finale');
   });
 
   it('sends Puff where the asker really is: a place named in a 📖 line is on their daily round', () => {

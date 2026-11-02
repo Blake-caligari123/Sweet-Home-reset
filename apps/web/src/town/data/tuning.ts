@@ -98,6 +98,8 @@ export interface Tuning {
   /** A surprise find turns up every this many cleans in a place. */
   findEveryCleans: number;
   /** Caves: days until broken rocks are back, Fluff a swing, swings per rock size. */
+  /** The cosy outdoors (nature/): where trees can be felled, swings and Fluff, logs, how long a stump and sapling take, and a sit on a bench. */
+  nature: { chopAreas: string[]; chopHits: number; fluffPerSwing: number; logsPerTree: number; stumpDays: number; regrowDays: number; sitFluff: number; sitMinutes: number };
   caves: { resetDays: number; fluffPerSwing: number; rockHits: Record<string, number> };
   /** Rain: dry for the first days, then a chance per season (spring, summer, autumn, winter). */
   weather: { dryFirstDays: number; rainChance: number[] };

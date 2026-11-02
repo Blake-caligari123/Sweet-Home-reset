@@ -259,5 +259,13 @@ export const TOUR: TourCard[] = [
   { title: '⚙ A tidier Pause', steps: ['Pause now holds the game: the journal, friends, collection, skills, the town, outfits and names.', 'Tap ⚙ Settings for sound, play, comfort and text options; Done brings you back to Pause.'],
     setup: (s) => { s.day(6).time(10).go('square'); } },
   { title: '📜 Little stories', steps: ['Most days now bring a new little story from a neighbour: Bea\'s list, Pip\'s music box, Gran\'s honey buns, Otto\'s brass duck...', 'Once today\'s 📖 step is done, the tracker says who has a story waiting and where to find them. The morning card lists them too.', 'Tap their 📜 button in the chat to take it on: each one sends you round town, talking to friends.'],
-    setup: (s) => { s.state.story = { step: 2, asked: false, count: 0, day: 3 }; s.day(3).time(9).flag('keeper_named').flag('keeper_day1_done').meet('hazel').go('bakery'); } }
+    setup: (s) => { s.state.story = { step: 2, asked: false, count: 0, day: 3 }; s.day(3).time(9).flag('keeper_named').flag('keeper_day1_done').meet('hazel').go('bakery'); } },
+  { title: '🌳 Shake trees, forage bushes', steps: ['Tap a tree with your paws for a shake: twigs, acorns, and fruit trees give what\'s in season (pears in summer, apples in autumn).', 'Tap a bush for a rummage: flowers, berries or mushrooms, by season.', 'Each one once a day. It counts for some goals, and twigs go into building.'],
+    setup: (s) => { s.day(16).time(9).go('yard'); } },
+  { title: '🪓 A little axe', steps: ['Pick the Axe from the toolbar and tap a tree in your yard or the wild woods. Three swings and... timber! +2 logs.', 'It leaves a stump, then a sapling, then a tree again in about six days.', 'Logs make chairs, tables, a bookcase, a birdhouse, a woodpile and a campfire at Pip\'s workbench. In a normal game, Pip makes you the axe in a day-3 story.'],
+    setup: (s) => { s.state.tools.axe = 1; s.flag('pip_axe_done').day(16).time(9).go('yard'); } },
+  { title: '🪑 Sit a while', steps: ['Tap any bench to sit and rest: +12 Fluff, and half an hour drifts by while Puff takes in the view.', 'Different thoughts in the morning, the day, the evening and at night.'],
+    setup: (s) => { s.state.fluff.value = 40; s.day(16).time(17, 30).go('square'); } },
+  { title: '📖 The story waits for you', steps: ['The story never moves on without you. Miss a festival? Its host tells you all about it (and saves you a treat), then the story carries on.', 'Here, the Spring Fair has been and gone: see Hazel at the bakery.'],
+    setup: (s) => { s.state.story = { step: 13, asked: false, count: 0, day: 13 }; s.day(16).time(9).flag('keeper_named').flag('keeper_day1_done').meet('hazel').go('bakery'); } }
 ];

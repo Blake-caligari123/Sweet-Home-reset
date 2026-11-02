@@ -75,6 +75,7 @@ export function drawToolMini(tool: string) {
     case 'sponge': pc.box(1, 3, 8, 6, P.butter, P.outline, 1); pc.rect(2, 3, 6, 2, P.sageShade); break;
     case 'rake': pc.vline(5, 3, 7, P.brown); pc.hline(1, 2, 9, P.greyShade); for (let i = 1; i < 10; i += 2) pc.set(i, 3, P.greyShade); break;
     case 'can': pc.box(1, 3, 6, 6, P.blue, P.outline, 1); pc.line(7, 4, 9, 2, P.blueShade); break;
+    case 'axe': pc.line(2, 9, 7, 2, P.brown); pc.line(3, 9, 8, 2, P.brownShade); pc.box(6, 0, 4, 4, P.greyLight, P.outline); pc.set(9, 1, P.white); break;
     case 'hands': break;
   }
   return pc;

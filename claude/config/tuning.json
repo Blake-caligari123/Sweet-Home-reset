@@ -270,6 +270,16 @@
     50
   ],
   "findEveryCleans": 8,
+  "nature": {
+    "chopAreas": ["yard", "woodland", "far_bank", "glade", "orchard_hill"],
+    "chopHits": 3,
+    "fluffPerSwing": 2,
+    "logsPerTree": 2,
+    "stumpDays": 3,
+    "regrowDays": 6,
+    "sitFluff": 12,
+    "sitMinutes": 30
+  },
   "caves": {
     "resetDays": 7,
     "fluffPerSwing": 2,

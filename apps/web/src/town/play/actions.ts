@@ -7,6 +7,7 @@ import { areasWith } from '../build/build';
 import { openCollection } from '../bloom/collection-sheet';
 import { setDone } from '../bloom/finds';
 import type { Mining } from '../caves/mining';
+import type { Nature } from '../nature/nature-life';
 import type { Lanterns } from '../festivals/lanterns';
 import type { TidyDash } from '../festivals/tidy-dash';
 import { openLetter } from '../letters/letter-sheet';
@@ -33,7 +34,7 @@ import type { Target } from './targets';
 
 export interface ActionsHost {
   state: TownState; view: View; content: Content; clock: Clock; settings: Settings;
-  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide; life: TownLife; grumbles: GrumbleLife; mining: Mining; dash: TidyDash; lanterns: Lanterns;
+  puff: Puff; world: World; hud: Hud; jobs: Jobs; talk: Conversations; guide: OnboardingGuide; life: TownLife; grumbles: GrumbleLife; mining: Mining; nature: Nature; dash: TidyDash; lanterns: Lanterns;
   /** Whether something in the year-one schedule has arrived (the caves on day 10). */
   arrived(key: string): boolean;
   /** The area Puff is in. */
@@ -150,6 +151,7 @@ export class PuffActions {
     if (!t) { puff.pose = 'idle'; puff.repeat = 0; return; }
     puff.pose = 'idle';
     if (t.kind === 'prop' && t.action === 'mine') { this.host.mining.land(t); return; }
+    if (t.kind === 'prop' && t.action === 'tree') { this.host.nature.land(t); return; }
     if (t.kind === 'grumble') {
       if (this.host.grumbles.tidy(t.id) === 'more' && puff.repeat > 0) { puff.repeat -= 1; this.startTidy(t); } else puff.repeat = 0;
       return;
@@ -308,6 +310,11 @@ export class PuffActions {
       case 'mine':
         this.host.mining.start(t);
         return;
+      case 'tree': this.host.nature.tree(t); return;
+      case 'bush': this.host.nature.bush(t); return;
+      case 'sit': this.host.nature.sit(); return;
+      case 'stump': this.host.nature.stump(); return;
+      case 'sapling': this.host.nature.sapling(); return;
       case 'festival':
         this.host.dash.open();
         return;
