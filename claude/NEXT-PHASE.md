@@ -755,6 +755,14 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - Juniper's old song asked Puff to talk to Mabel, who arrives on day 43, so the autumn chapter could stall for days. It now asks Otto.
     - Lost-treasure happenings now drop real bag items (a shell, a button, a brass acorn…) instead of collection finds.
     - A test checks that every story only sends Puff to neighbours already in town, and that every line is written.
+- **The story waits, and the cosy outdoors (2 Nov, Blake: "make it they have to complete the tasks for the story to move forward but we need good side activities like more farming, cutting down trees etc more cosy things to do"):**
+  - **The story never moves on by itself.** A festival (or its prep) whose day has gone by used to pass quietly. Now the story waits on a catch-up chat with its host: Hazel (Spring Fair), Otto (Picnic), Sorrel (Leaf Fest), Mabel (Winter Lights), or whoever asked for the prep ("📖 How was the Spring Fair?"). The host saves Puff a treat. This also fixes a real hole: missing Winter Lights meant the finale never played, so Thimble never woke. Now Mabel's catch-up plays the finale. Fields `host`/`hostScene` on story steps; text `story.<id>.missed.call/ask/line`.
+  - **🌳 Shake trees, forage bushes** (`nature/nature.ts`, `nature/nature-life.ts`): every tree and bush outdoors can be tapped once a day. Trees give twigs (and acorns, often in autumn). Fruit trees go blossom, then pears, then apples. Bushes give flowers, berries, mushrooms, then twigs, by season.
+  - **🪓 The little axe** (a new tool): Pip makes it in a day-3 story, "A little axe" (shake 2 trees for twigs, bring them to Pip). Three swings fell a tree in Puff's yard or the wild woods (woodland, far bank, glade, orchard hill) for 2 logs. A stump stays for 3 days, then a sapling, then a tree again by day 6. Town trees are left alone. Logs now make the garden chair, picnic table, bookcase and birdhouse, plus a new woodpile and campfire (decor), and sell at the General Store.
+  - **🪑 Sit a while:** tap any bench to rest: +12 Fluff, 30 minutes pass, and a line for the time of day.
+  - New daily goals (shake or forage 3 times, chop a tree, sit on a bench) and weekly goals (chop 3 trees, gather 12 times). Quests can ask for `gathered`, and a quest can hand over a tool.
+  - The toolbar tightens on narrow phones so the Bag always shows with six tools ("Water" for the can).
+  - Numbers are in tuning (`nature`).
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

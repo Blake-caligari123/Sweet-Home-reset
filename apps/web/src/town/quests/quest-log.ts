@@ -104,12 +104,13 @@ export class QuestLog {
       // The tracker shows the next step, with a glow (ui/hud.ts).
       view.feedback('chime', 'light');
     } else {
-      const { sparkles, item, qty = 1, flag } = q.reward;
+      const { sparkles, item, qty = 1, tool, flag } = q.reward;
       state.sparkles += sparkles;
       if (item) state.bag.add(item, qty);
+      if (tool) state.tools[tool] = Math.max(1, state.tools[tool] ?? 0);
       state.flag(flag);
       view.feedback('fanfare', 'success');
-      view.banner(`📜 Quest done: ${q.name}! +${sparkles} ✨${item ? ` and ${qty > 1 ? `${qty} × ` : 'a '}${content.itemName(item).toLowerCase()}` : ''}`);
+      view.banner(`📜 Quest done: ${q.name}! +${sparkles} ✨${item ? ` and ${qty > 1 ? `${qty} × ` : 'a '}${content.itemName(item).toLowerCase()}` : ''}${tool ? ` and a new tool: the ${tool}!` : ''}`);
     }
     this.host.refreshHud(); this.host.save();
   }

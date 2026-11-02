@@ -10,8 +10,8 @@ import type { ToolId } from '../play/mess';
 import { clockLabel, sparklesLabel } from './a11y';
 
 // The DOM HUD (GDD v3 A5 / A11.3): live text, real buttons, 44 pt targets, safe-area aware.
-export const TOOL_SLOTS: ToolId[] = ['hands', 'duster', 'sponge', 'rake', 'can'];
-export const TOOL_NAMES: Record<ToolId, string> = { hands: 'Hands', duster: 'Duster', sponge: 'Sponge', rake: 'Rake', can: 'Watering can', seeds: 'Seeds' };
+export const TOOL_SLOTS: ToolId[] = ['hands', 'duster', 'sponge', 'rake', 'can', 'axe'];
+export const TOOL_NAMES: Record<ToolId, string> = { hands: 'Hands', duster: 'Duster', sponge: 'Sponge', rake: 'Rake', can: 'Watering can', seeds: 'Seeds', axe: 'Axe' };
 /** How many recent lines the screen-reader live region keeps. */
 const LIVE_LINES = 3;
 
@@ -68,7 +68,7 @@ export class Hud {
     this.bubble = h('div', { class: 'bubble', 'aria-hidden': 'true' });
     this.live = h('div', { class: 'sr-only', role: 'status', 'aria-live': 'polite' });
     const tools = TOOL_SLOTS.map((t) => {
-      const b = h('button', { class: 'tool', type: 'button', 'aria-label': TOOL_NAMES[t], hidden: true }, toolIcon(t), h('span', {}, TOOL_NAMES[t].split(' ')[0]));
+      const b = h('button', { class: 'tool', type: 'button', 'aria-label': TOOL_NAMES[t], hidden: true }, toolIcon(t), h('span', {}, t === 'can' ? 'Water' : TOOL_NAMES[t].split(' ')[0]));
       b.addEventListener('click', () => handlers.tool(t));
       this.toolButtons.set(t, b);
       return b;

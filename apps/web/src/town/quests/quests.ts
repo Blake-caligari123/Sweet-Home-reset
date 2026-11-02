@@ -12,6 +12,8 @@ export type QuestGoal =
   | { type: 'found'; count: number }
   | { type: 'caught'; count: number }
   | { type: 'spotted'; count: number }
+  /** Shaking trees or foraging bushes (nature/). */
+  | { type: 'gathered'; count: number }
   /** Talk to `who`: `ask` is their chat-box button, `line` what they say. */
   | { type: 'talk'; who: string; ask: string; line: string };
 
@@ -25,7 +27,8 @@ export interface QuestDef {
   /** The giver's chat-box button, and what they say when Puff takes it on. */
   offer: string; intro: string;
   steps: QuestStep[];
-  reward: { sparkles: number; item?: string; qty?: number; flag: string };
+  /** `tool`: a tool handed over (Pip's little axe). */
+  reward: { sparkles: number; item?: string; qty?: number; tool?: string; flag: string };
 }
 
 /** Where a quest is: the step on now, how far into it, and the day it opened. */
@@ -59,6 +62,7 @@ export function counts(goal: QuestGoal, e: OnboardEvent) {
     case 'found': return e.type === 'found';
     case 'caught': return e.type === 'caught';
     case 'spotted': return e.type === 'spotted';
+    case 'gathered': return e.type === 'gathered';
     default: return false;
   }
 }

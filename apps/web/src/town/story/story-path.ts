@@ -1,10 +1,11 @@
 import type { Content } from '../data/content';
 import type { Conversations } from '../neighbours/conversations';
+import type { NeighbourDef } from '../neighbours/neighbours';
 import type { OnboardEvent } from '../play/onboarding';
 import type { TownState } from '../state';
 import type { Button, View } from '../ui/view';
 import { afterDue } from './scenes';
-import { done, hear, met, needsAsking, openingDue, passed, seenFlag, today, tomorrow, type StoryDef, type StoryFacts, type StoryStep } from './path';
+import { askerOf, caughtUp, done, hear, met, needsAsking, openingDue, passed, seenFlag, today, tomorrow, type StoryDef, type StoryFacts, type StoryStep } from './path';
 
 export interface StoryHost { state: TownState; content: Content; view: View; talk: Conversations; day(): number; refreshHud(): void; save(): void;
   /** Play a cutscene (story/scene-player.ts). */
@@ -51,10 +52,10 @@ export class StoryPath {
     const from = state.story.step;
     while (step) {
       const gone = passed(step, this.host.day());
-      if (!gone && !met(step, state.story, this.facts())) break;
-      // Already done before anyone asked, or a festival gone by: on to the next without using up the day.
+      if (gone ? !caughtUp(state.story) : !met(step, state.story, this.facts())) break;
+      // Already done before anyone asked, or a festival caught up on: on to the next without using up the day.
       state.story = done(state.story, this.host.day(), gone || needsAsking(step, state.story));
-      if (!gone) last = step;
+      last = step;
       step = this.step;
     }
     // A save that's ahead of the story catches up at once, with one banner, not a pile of them.
@@ -80,10 +81,14 @@ export class StoryPath {
   /** Someone's waiting to ask (a quest step is open until the quest is taken on, then it's done). */
   private calling(step: StoryStep) { return needsAsking(step, this.host.state.story) || step.goal.type === 'quest'; }
 
+  /** A festival day gone by, still to catch up on with its host. */
+  private missed(step: StoryStep) { return passed(step, this.host.day()) && !caughtUp(this.host.state.story); }
+
   /** The tracker: who to see, or what to do, for today's step. */
   tracker(): string | null {
     const step = this.step;
     if (!step) return null;
+    if (this.missed(step)) return `📖 ${this.text(step, 'missed.call')}`;
     if (this.calling(step)) return `📖 ${this.text(step, 'call')}`;
     return `📖 ${this.text(step, 'hint')}`;
   }
@@ -93,6 +98,7 @@ export class StoryPath {
     const step = this.step;
     const { state, content, view } = this.host;
     const def = content.neighbour(id);
+    if (step && def && this.missed(step)) return askerOf(step, this.host.day()) === id ? [this.catchUp(step, def)] : [];
     if (!step || step.who !== id || !def || !needsAsking(step, state.story)) return [];
     return [{ label: `📖 ${this.text(step, 'ask')}`, onClick: () => {
       state.story = { ...state.story, asked: true };
@@ -103,6 +109,20 @@ export class StoryPath {
       this.check();
       this.host.refreshHud(); this.host.save();
     } }];
+  }
+
+  /** "How was the Fair?": the host tells Puff all about the day gone by, and the story carries on (with the year's finale, for Winter Lights). */
+  private catchUp(step: StoryStep, def: NeighbourDef): Button {
+    const { state, view } = this.host;
+    return { label: `📖 ${this.text(step, 'missed.ask')}`, onClick: () => {
+      state.story = { ...state.story, asked: true };
+      for (const [item, qty] of Object.entries(step.gift ?? {})) state.bag.add(item, qty);
+      this.host.talk.says(def, this.text(step, 'missed.line'), 0, false);
+      view.feedback('chime', 'light');
+      this.check();
+      if (step.hostScene) this.host.talk.playStory(step.hostScene);
+      this.host.refreshHud(); this.host.save();
+    } };
   }
 
   /** In the morning: today's story step. */

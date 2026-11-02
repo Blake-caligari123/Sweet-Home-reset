@@ -73,17 +73,20 @@ describe('Hollowfern furniture', () => {
   it('makes outdoor decor at Pip\'s bench, taught by Pip\'s heart events, from forage', () => {
     const furniture = (pack.recipes ?? []).filter((r) => (r.station ?? 'bench') === 'bench' && 'item' in r.makes);
     expect(furniture.length).toBeGreaterThanOrEqual(4);
-    const heartDone = new Set((pack.heartEvents ?? []).filter((e) => e.neighbourId === 'pip').map((e) => `${e.id}_done`));
+    // Taught by Pip: a heart event, or one of Pip's stories (the little axe).
+    const heartDone = new Set([...(pack.heartEvents ?? []).filter((e) => e.neighbourId === 'pip').map((e) => `${e.id}_done`), ...(pack.quests ?? []).filter((q) => q.giver === 'pip').map((q) => q.reward.flag)]);
+    // Picked up about town, or from the trees (a shake gives twigs; the axe gives logs).
+    const NATURE = ['twig', 'acorn', 'log'];
     for (const r of furniture) {
       expect('item' in r.makes && pack.items[r.makes.item]?.decor, r.id).toBeTruthy();
       expect(heartDone.has(r.learn ?? ''), `${r.id} taught by Pip`).toBe(true);
-      for (const item of Object.keys(r.cost.items ?? {})) expect(pack.areas.some((a) => (a.pickups ?? []).some((p) => p.item === item)), `${item} can be foraged`).toBe(true);
+      for (const item of Object.keys(r.cost.items ?? {})) expect(NATURE.includes(item) || pack.areas.some((a) => (a.pickups ?? []).some((p) => p.item === item)), `${item} can be foraged`).toBe(true);
     }
   });
 
   it('can be made again and again while there are materials', () => {
     const chair = (pack.recipes ?? []).find((r) => r.id === 'garden_chair')!;
-    const s = new TownState(); s.flag(chair.learn!); s.sparkles = 100; s.bag.add('twig', 8);
+    const s = new TownState(); s.flag(chair.learn!); s.sparkles = 100; s.bag.add('twig', 5); s.bag.add('log', 2);
     expect(craft(s, chair)).toBe(true);
     expect(craft(s, chair)).toBe(true);
     expect(s.bag.count('garden_chair')).toBe(2);

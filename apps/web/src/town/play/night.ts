@@ -10,6 +10,8 @@ import type { TownAreas } from '../world/town-areas';
 import type { Clock } from './clock';
 import { morningLetter } from './letter';
 import { overnight } from './overnight';
+import { freshDay, regrow } from '../nature/nature';
+import { TUNING } from '../data/tuning';
 import { morningNews } from './weather';
 import { offerTonight, restNight, restsTonight } from '../unlock/unlock';
 
@@ -32,6 +34,7 @@ export function passNight(h: NightHost, dozed: boolean): { built: BuildingDef[];
   const rainy = clock.weather === 'rainy';
   const outdoor = new Set(pack.areas.filter((a) => a.kind === 'outdoor').map((a) => a.id));
   const built = overnight(state, { buildings: pack.buildings ?? [], plots: pack.plots ?? [], outdoor, crops: pack.crops }, clock.state.day - 1, dozed, rainy);
+  state.nature = regrow(freshDay(state.nature, clock.state.day), clock.state.day, TUNING.nature);
   h.places.rebuild(state);
   h.places.driftBack(clock.state.day, rainy);
   h.grumbles.newDay(clock.state.day);

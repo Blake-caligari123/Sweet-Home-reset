@@ -6,7 +6,7 @@ export const MESS_TYPES = ['none', 'dust', 'stain', 'grime', 'cobweb', 'crumbs',
   // Each place's own mess (NEXT-PHASE §5.1, tidying 2.0): the bakery, workshop, library, bathhouse and beach.
   'flour', 'sawdust', 'ink', 'soap', 'sand', 'seaweed'] as const;
 export type MessType = (typeof MESS_TYPES)[number];
-export type ToolId = 'duster' | 'sponge' | 'rake' | 'hands' | 'can' | 'seeds';
+export type ToolId = 'duster' | 'sponge' | 'rake' | 'hands' | 'can' | 'seeds' | 'axe';
 export const FULL_COLOUR = 4;
 
 /** Which tool cleans which mess, and the lowest tier that can (grime needs Copper). */

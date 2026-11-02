@@ -307,3 +307,12 @@ html.high-contrast .muted { color: #4a3a32; }
 .tracker.fresh { animation: tracker-fresh 1.2s ease; }
 @keyframes tracker-fresh { 0% { transform: scale(1.06); box-shadow: 0 0 0 3px #f2d479, 0 3px 0 var(--line, #5a4636); } 100% { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .tracker.fresh { animation: none; } }
+/* Six tools and the bag on a narrow phone: a little tighter, so the bag always shows. */
+@media (max-width: 460px) {
+  .toolbar { gap: 2px; padding: 4px; }
+  .tool { min-width: 44px; padding: 4px 2px 2px; font-size: 0.62rem; }
+}
+@media (max-width: 360px) {
+  .toolbar { gap: 1px; padding: 3px; }
+  .tool { min-width: 38px; padding: 3px 1px 2px; font-size: 0.58rem; }
+}

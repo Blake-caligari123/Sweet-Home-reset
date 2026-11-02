@@ -95,6 +95,7 @@ export function installDebugHooks(g: DebugTarget) {
     /** Friendship points straight in, to reach heart events in tests. */
     addPoints: (id: string, n: number) => { s.friendOf(id).points += Math.max(0, n); },
     meet: (id: string) => { s.friendOf(id).met = true; },
+    giveTool: (id: string) => { s.tools[id] = Math.max(1, s.tools[id] ?? 0); g.refreshHud(); },
     /** Puff's skill XP, and a moment as if Puff did it (skills and tips hear it). */
     skills: () => s.skills,
     /** Give thank-you notes from a neighbour (neighbours/tokens.ts). */

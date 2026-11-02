@@ -3,8 +3,9 @@ import type { OnboardEvent } from '../play/onboarding';
 
 // The Keeper's Story (claude/MAIN-PATH.md): one story step a day, through the whole year. A
 // neighbour asks for each step, the step can tick itself off from things Puff has already done,
-// and finishing it writes a line in the journal and hints at tomorrow. Nothing is missed by
-// waiting: a step just waits, and one tied to a festival day moves on quietly once the day passes.
+// and finishing it writes a line in the journal and hints at tomorrow. The story never moves on
+// without Puff: a step just waits, and one tied to a festival day that has gone by waits for a
+// chat with its host about how it went (Blake, 2 Nov: "they have to complete the tasks for the story to move forward").
 // Pure rules here; story-path.ts runs them in the game.
 
 /** What a step asks for: something done while it's on (`made`, `cleared`, …), or a fact about the save. */
@@ -36,6 +37,8 @@ export interface StoryStep {
   gift?: Record<string, number>; teach?: string[];
   /** A cutscene once it's done (the fountain speaking after a chapter's festival). */
   scene?: string;
+  /** A festival step: who tells Puff all about it if the day goes by, and the heart event that chat plays (the year's finale). */
+  host?: string; hostScene?: string;
   /** Text ids follow `story.<id>.`: ask (button), line (what they say), call (tracker before asking), hint (tracker), diary (journal), tease (bedtime, the night before). */
 }
 
@@ -63,6 +66,9 @@ export function today(def: StoryDef, s: StoryState, day: number): StoryStep | nu
 
 /** Whether Puff still has to be asked (a quest step is asked by the quest's own button). */
 export const needsAsking = (step: StoryStep, s: StoryState) => !!step.who && !s.asked && step.goal.type !== 'quest';
+
+/** A festival day gone by: done once Puff has had the catch-up chat. */
+export const caughtUp = (s: StoryState) => s.asked;
 
 /** Is the goal met? Counted goals need the step asked first; facts count whenever they're true. */
 export function met(step: StoryStep, s: StoryState, f: StoryFacts): boolean {
@@ -93,8 +99,11 @@ export function hear(step: StoryStep, s: StoryState, e: OnboardEvent): StoryStat
  */
 export const done = (s: StoryState, day: number, early: boolean): StoryState => ({ step: s.step + 1, asked: false, count: 0, day: early ? s.day : day });
 
-/** A festival step whose day has gone by moves on quietly (nothing is missed). */
+/** A festival step whose day has gone by: it waits for a chat with its host (or whoever asked). */
 export const passed = (step: StoryStep, day: number) => step.until !== undefined && day > step.until;
+
+/** Who Puff talks to for a step: its asker, or, for a festival day gone by, its host. */
+export const askerOf = (step: StoryStep, day: number) => (passed(step, day) ? step.host ?? step.who : step.who);
 
 /** The step after the one just done, if it comes up tomorrow: what the bedtime hint is about. */
 export function tomorrow(def: StoryDef, s: StoryState, day: number): StoryStep | null {
