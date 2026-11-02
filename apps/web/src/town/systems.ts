@@ -26,6 +26,9 @@ import { openIdeas } from './chill/ideas-sheet';
 import { isNight } from './stars/constellations';
 import { stageOf } from './play/crops';
 import { visitingToday } from './shops/shops';
+import { teaButtons, teaMorning } from './visits/tea-life';
+import { canInvite } from './visits/tea';
+import { heartsOf } from './neighbours/talk';
 import { journalPage } from './journal/journal';
 import { openJournal } from './journal/journal-sheet';
 import type { Jobs } from './requests/jobs';
@@ -164,7 +167,7 @@ export class TownSystems {
   }
 
   /** After the night: today's story step, town needs met, who helped tidy, what the stall sold, and new farm animals. */
-  morningNews() { return [...this.story.morning(), ...this.cartNews(), ...this.happening.morning(), ...this.quests.morning(), ...this.goals.morning(), ...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews(), ...this.farmNews()]; }
+  morningNews() { return [...this.story.morning(), ...teaMorning(this.teaHost()), ...this.cartNews(), ...this.happening.morning(), ...this.quests.morning(), ...this.goals.morning(), ...this.needs.morning(), ...this.helpers.morning(), ...this.stallNews(), ...this.farmNews()]; }
 
   /** The name of the place a neighbour is at right now, from their routine. */
   private whereIs(id: string) {
@@ -190,8 +193,15 @@ export class TownSystems {
       honey: Object.values(state.hives).reduce((a, b) => a + b, 0),
       gathered: state.nature.day === day ? state.nature.gathered.length : 0, axe: !!state.tools.axe,
       games: GAMES.filter((g) => state.friends[g.who]?.met).map((g) => ({ name: content.neighbour(g.who)?.name ?? g.who, game: g.title, where: this.whereIs(g.who) })),
-      goalsLeft: total - done, happening: happening && !happening.startsWith('🌟') ? happening : null, tired: state.fluff.value < 30
+      goalsLeft: total - done, happening: happening && !happening.startsWith('🌟') ? happening : null, tired: state.fluff.value < 30,
+      teaGuest: state.tea && state.tea.day === day && !state.tea.had ? content.neighbour(state.tea.who)?.name ?? null : null,
+      canTea: Object.entries(state.friends).some(([, f]) => f.met && canInvite(state.tea, day, heartsOf(f.points)))
     }));
+  }
+
+  private teaHost() {
+    const { state, content, view, talk } = this.host;
+    return { state, content, view, talk, day: () => this.host.day(), minutes: () => this.host.minutes(), refreshHud: () => this.host.refreshHud(), save: () => this.host.save() };
   }
 
   /** The Wandering Cart in town today (shops/shops.ts). */
@@ -233,7 +243,7 @@ export class TownSystems {
   buttonsFor(id: string) {
     const { state, content, view } = this.host;
     const changed = () => { this.host.refreshHud(); this.host.save(); };
-    return [...this.story.buttonsFor(id), ...this.quests.buttonsFor(id), ...this.happening.buttonsFor(id), ...this.gameButtons(id), ...cafeButtons({ state, content, view, day: () => this.host.day(), changed }, id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
+    return [...this.story.buttonsFor(id), ...this.quests.buttonsFor(id), ...this.happening.buttonsFor(id), ...teaButtons(this.teaHost(), id), ...this.gameButtons(id), ...cafeButtons({ state, content, view, day: () => this.host.day(), changed }, id), ...tradeButtons({ state, content, view, done: () => this.host.refreshHud() }, id)];
   }
 
   /** A neighbour's mini-game (minigames/): Sparkles for the first finish of each game each day, as many more as Puff likes for fun. */

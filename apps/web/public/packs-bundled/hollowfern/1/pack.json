@@ -537,6 +537,18 @@
    "decor": {
     "prop": "telescope"
    }
+  },
+  "pet_bed": {
+   "name": "Pet bed",
+   "decor": {
+    "prop": "pet_bed"
+   }
+  },
+  "pet_ball": {
+   "name": "Ball",
+   "decor": {
+    "prop": "pet_ball"
+   }
   }
  },
  "areas": [
@@ -12131,7 +12143,18 @@
    "pet.trick.dance": "{pet} does a happy little dance!",
    "pet.walk.start": "Walk time! Let's visit three places outdoors.",
    "pet.walk.step": "Walk with {pet}: {n} of {of} places",
-   "pet.walk.done": "What a lovely walk with {pet}!"
+   "pet.walk.done": "What a lovely walk with {pet}!",
+   "tea.yes": "Tea at yours? I'd love that! I'll come at three.",
+   "tea.morning": "☕ {name} is coming round for tea at 3 pm!",
+   "tea.banner": "Tea with {name}. What a cosy afternoon!",
+   "tea.chat.0": "Your burrow is so cosy, {puff}. More tea?",
+   "tea.chat.1": "This is nice. Just sitting, and the kettle singing.",
+   "tea.chat.2": "Remember when {town} was all grey? Look at it now.",
+   "tea.chat.3": "Thank you for having me. Same time next week?",
+   "pet.bed.nap": "{pet} curls up in the bed for a little nap.",
+   "pet.ball.chase": "Fetch! {pet} bounds after the ball.",
+   "pet.bed.empty": "A cosy little bed. A pet would love it.",
+   "pet.ball.empty": "A bouncy ball. Somebody would love to chase it."
   }
  },
  "heartEvents": [
@@ -15515,6 +15538,16 @@
      "price": 15,
      "qty": 5,
      "fromDay": 5
+    },
+    {
+     "item": "pet_bed",
+     "price": 45,
+     "fromDay": 4
+    },
+    {
+     "item": "pet_ball",
+     "price": 20,
+     "fromDay": 4
     }
    ],
    "buys": [

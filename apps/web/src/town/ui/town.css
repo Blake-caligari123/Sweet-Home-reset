@@ -338,3 +338,14 @@ html.high-contrast .muted { color: #4a3a32; }
 .lamps.sea .lamp { background: #7296bc; }
 .lamps.sea .lamp.on { background: #f9edc2; }
 @media (prefers-reduced-motion: reduce) { .bell.lit { animation: none; outline: 3px solid #534239; } }
+
+/* Photo mode (ui/photo-mode.ts): only the world, a parchment frame and the camera bar. */
+#ui.photo-mode > :not(.photo-ui) { visibility: hidden; }
+.photo-ui { position: absolute; inset: 0; pointer-events: none; }
+.photo-frame { position: absolute; inset: max(10px, env(safe-area-inset-top)) 10px calc(max(10px, env(safe-area-inset-bottom)) + 76px); border: 12px solid transparent; border-image: var(--frame-paper) 6 / 12px round; image-rendering: pixelated; }
+.photo-caption { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); margin: 0; padding: 0 10px; background: #f6e3a1; box-shadow: 0 0 0 2px #534239; font-weight: 600; white-space: nowrap; }
+.photo-bar { position: absolute; left: 0; right: 0; bottom: max(12px, env(safe-area-inset-bottom)); display: flex; gap: 8px; justify-content: center; pointer-events: auto; }
+.photo-flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+.photo-flash.on { animation: photo-flash 0.35s ease-out; }
+@keyframes photo-flash { 0% { opacity: 0.85; } 100% { opacity: 0; } }
+.reduce-motion .photo-flash.on { animation: none; }

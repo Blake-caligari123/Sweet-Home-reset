@@ -43,6 +43,8 @@ import { Mining } from './caves/mining';
 import { Nature } from './nature/nature-life';
 import { tapHive } from './garden/hive-life';
 import { stargaze } from './stars/stargaze';
+import { openPhoto } from './ui/photo-mode';
+import { guestVisit } from './visits/tea';
 import { Placing } from './decor/placing';
 import { Sweep } from './play/sweep';
 import { HomeLife } from './play/home-life';
@@ -139,7 +141,8 @@ export class TownGame {
     this.places = new TownAreas(pack, () => this.clock.state.day);
     this.content = new Content(pack, () => this.state.names);
     this.neighbours = new Neighbours(pack.neighbours ?? [], pack.areas, (id) => (this.places.has(id) ? this.places.nav(id) : null), NEIGHBOUR_WALK_SPEED, (id) => this.arrived(id), () => this.clock.state.day,
-      (id, when) => (when === 'rain' ? this.clock.weather === 'rainy' : ['happy', 'glowing'].includes(this.life.mood(id, true))));
+      (id, when) => (when === 'rain' ? this.clock.weather === 'rainy' : ['happy', 'glowing'].includes(this.life.mood(id, true))),
+      (id) => guestVisit(this.state.tea, id, this.clock.state.day));
     this.world = new World(app);
     app.stage.addChild(this.world.root);
     this.hud = new Hud(ui, {
@@ -198,7 +201,8 @@ export class TownGame {
       talk: this.talk, systems: this.systems, guide: this.guide, unlocker: this.unlocker, account: this.account, placing: this.placing,
       areaId: () => this.areaId, arrived: (k) => this.arrived(k), enterArea: (id, x, y, announce, feet) => this.enterArea(id, x, y, announce, feet),
       travel: (id, x, y) => void this.travel(id, x, y), refreshHud: () => this.refreshHud(), save: () => void this.save(false),
-      settingsChanged: () => this.applySettings(), tour: TOUR_ON ? () => new Scene(this.hooks()) : null, playStory: (id) => this.playStory(id)
+      settingsChanged: () => this.applySettings(), tour: TOUR_ON ? () => new Scene(this.hooks()) : null, playStory: (id) => this.playStory(id),
+      photo: () => openPhoto({ app: this.app, view: this.view, ui, caption: () => `${this.content.named(this.area.pack.name)} · ${this.clock.season} ${this.clock.dayOfSeason}`, town: () => this.state.names.town })
     });
     this.carry = new Carry({ puff: this.puff, area: () => this.area, mess: () => this.mess, tap: (x, y) => this.taps.tap(x, y) });
     this.sweep = new Sweep({ puff: this.puff, mess: () => this.mess, scrub: (x, y) => this.taps.scrub({ x, y }, MAX_RUB) });
@@ -222,6 +226,7 @@ export class TownGame {
       sleep: () => void this.endDay(false),
       openBuild: () => this.menus.openBuild(),
       pickUpDecor: (x, y) => this.placing.pickUp(x, y),
+      petToy: (type, x, y) => this.pet.toy(type, x, y),
       stargaze: () => stargaze({ state: this.state, view: this.view, content: this.content, clock: this.clock, onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), save: () => void this.save(false) }),
       hive: (x, y) => tapHive({ state: this.state, view: this.view, content: this.content, world: this.world, area: () => this.areaId, pickUp: (px, py) => this.placing.pickUp(px, py), refreshHud: () => this.refreshHud(), save: () => void this.save(false) }, x, y),
       openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false), made: (st) => this.guide.handle({ type: 'made', station: st }), tapOnly: !!this.settings.tapOnly }, station),

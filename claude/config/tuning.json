@@ -151,6 +151,8 @@
   "petPatsPerDay": 3,
   "petWalkBond": 3,
   "petWalkSparkles": 15,
+  "teaFriendship": 12,
+  "teaSparkles": 15,
   "unlocks": {
     "mabel": {
       "day": 43

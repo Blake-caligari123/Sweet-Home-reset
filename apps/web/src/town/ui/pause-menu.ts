@@ -19,6 +19,8 @@ export interface PauseHost {
   openJournal(): void;
   /** 🌿 Things to do (chill/ideas.ts). */
   openIdeas(): void;
+  /** 📷 Photo mode (ui/photo-mode.ts). */
+  openPhoto(): void;
   openSkills(): void;
   openNeeds(): void;
   /** The town's completion (bloom/completion.ts): its percentage, and the sheet. */
@@ -58,7 +60,7 @@ export function openPause(d: PauseHost) {
     h('p', { class: 'town-line' }, d.townLine),
     h('div', { class: 'btn-row', style: { width: '100%' } },
       button('♥ Friends', d.openFriends), button('📖 Collection', d.openCollection), button('✨ Skills', d.openSkills),
-      button('🏘 Town', d.openNeeds), button('👒 Outfits', d.openOutfits), button('✎ Names', d.openNames),
+      button('🏘 Town', d.openNeeds), button('👒 Outfits', d.openOutfits), button('✎ Names', d.openNames), button('📷 Photo', d.openPhoto),
       button(`🎖 ${d.rank} · 🏆 ${d.completion}%`, d.openCompletion, { 'aria-label': `${d.rank}, completion ${d.completion}%` }))
   );
   // Settings open on top of Pause: closing them comes back here.

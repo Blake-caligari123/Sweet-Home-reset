@@ -44,6 +44,8 @@ export interface MenusHost {
   /** The feature tour's scene setter, on the test link only. */
   tour: (() => Scene) | null;
   playStory(id: string): void;
+  /** 📷 Photo mode. */
+  photo(): void;
 }
 
 /**
@@ -95,6 +97,7 @@ export class Menus {
       openCollection: () => openCollection(view, content, state),
       openJournal: () => this.openJournal(),
       openIdeas: () => systems.openIdeas(),
+      openPhoto: () => this.h.photo(),
       openSkills: () => systems.openSkills(),
       openNeeds: () => systems.openNeeds(),
       completion: completionPct(completionParts(state, content.pack)),

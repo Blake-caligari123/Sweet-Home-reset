@@ -60,6 +60,7 @@ export class PetLife {
 
   /** A new area: the pet comes in at Puff's feet. Out in the yard, the visitors may be waiting. Outdoors, the pet may sniff something out. */
   entered(area: string) {
+    this.away = null;
     this.trail.reset(this.host.puff()); this.last = null;
     if (area === DOORSTEP) window.setTimeout(() => this.offer(), OFFER_DELAY_MS);
     this.walkHere(area);
@@ -82,7 +83,7 @@ export class PetLife {
 
   /** The pet drawn under this world point. */
   at(px: number, py: number) {
-    const s = this.trail.spot;
+    const s = this.away?.at ?? this.trail.spot;
     return !!this.host.state.pet && Math.abs(px - s.x) <= 9 && py >= s.y + FEET_TO_BASE - 14 && py <= s.y + FEET_TO_BASE + 2;
   }
 
@@ -91,6 +92,7 @@ export class PetLife {
     const { state, view } = this.host;
     const pet = state.pet;
     if (!pet) return;
+    this.comeBack();
     const walking = pet.walk?.day === this.host.day() && !pet.walk.done;
     const walked = pet.walk?.day === this.host.day() && pet.walk.done;
     view.ask(this.say('pet.menu'), [
@@ -167,18 +169,53 @@ export class PetLife {
     this.host.refreshHud(); this.host.save();
   }
 
-  /** Each frame: follow Puff's trail and draw. */
+  /** Off to its bed or after its ball: where it is, where it's going, and how long it's been. */
+  private away: { to: Pt; at: Pt; kind: 'nap' | 'play'; ms: number } | null = null;
+
+  /** A pet bed or ball (decor): the pet trots over for a nap, or chases the ball and comes back. A little bond, once a day each. */
+  toy(type: string, x: number, y: number) {
+    const { state, view } = this.host;
+    const pet = state.pet;
+    const kind = type === 'pet_bed' ? 'nap' : 'play';
+    if (!pet) { view.say(this.say(kind === 'nap' ? 'pet.bed.empty' : 'pet.ball.empty')); return; }
+    const day = this.host.day();
+    const played = pet.toys?.day === day ? pet.toys.kinds : [];
+    const before = pet.bond ?? 0;
+    if (!played.includes(kind)) { pet.bond = before + 1; pet.toys = { day, kinds: [...played, kind] }; }
+    this.away = { to: { x: x * T + T / 2, y: y * T + T - 3 }, at: { ...this.trail.spot }, kind, ms: 0 };
+    view.feedback(kind === 'nap' ? 'pop' : 'boing', 'light');
+    view.say(this.say(kind === 'nap' ? 'pet.bed.nap' : 'pet.ball.chase'));
+    this.learned(before);
+    this.host.save();
+  }
+
+  /** Back to trotting along behind Puff, from wherever it is. */
+  private comeBack() { if (this.away) { this.trail.reset(this.away.at); this.away = null; } }
+
+  /** Each frame: follow Puff's trail (or go to its bed or ball) and draw. */
   tick(dt: number) {
     const pet = this.host.state.pet;
     if (!pet) { this.host.layer.draw(null, dt); return; }
     this.trail.push(this.host.puff());
-    const s = this.trail.spot;
+    let s = this.trail.spot;
+    let napping = false;
+    if (this.away) {
+      const a = this.away; a.ms += dt;
+      const dx = a.to.x - a.at.x; const dy = a.to.y - a.at.y; const d = Math.hypot(dx, dy); const step = dt * 0.07;
+      a.at = d > step ? { x: a.at.x + (dx / d) * step, y: a.at.y + (dy / d) * step } : { ...a.to };
+      const there = d <= step;
+      const puff = this.host.puff();
+      if (there && a.kind === 'play' && !this.trick) this.trick = { id: 'spin', ms: 0 };
+      napping = there && a.kind === 'nap';
+      if ((a.kind === 'play' && a.ms > 2800) || (a.kind === 'nap' && Math.hypot(puff.x - a.at.x, puff.y - a.at.y) > 6 * T)) this.comeBack();
+      else s = a.at;
+    }
     const moving = !!this.last && Math.hypot(s.x - this.last.x, s.y - this.last.y) > 0.05;
     const left = this.last ? s.x < this.last.x - 0.05 || (s.x <= this.last.x + 0.05 && this.leftWas) : false;
     this.leftWas = left;
     this.last = s;
     if (this.trick) { this.trick.ms += dt; if (this.trick.ms > 1100) this.trick = null; }
-    this.host.layer.draw({ kind: pet.kind, x: s.x, y: s.y + FEET_TO_BASE, left, moving, trick: this.trick ?? undefined }, dt);
+    this.host.layer.draw({ kind: pet.kind, x: s.x, y: s.y + FEET_TO_BASE, left, moving, trick: napping ? { id: 'sit', ms: 0 } : this.trick ?? undefined }, dt);
   }
 
 }

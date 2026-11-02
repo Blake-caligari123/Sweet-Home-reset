@@ -60,7 +60,7 @@ function splice(schedule: Stop[], stop: Stop, until: number): Stop[] {
  * Today's routine: the usual one, with a visit spliced in on a visiting day, and any change of plan
  * that holds today (`holds('rain')`, `holds('happy')`). A visit wins over a change at the same time.
  */
-export function scheduleFor(d: NeighbourDef, day: number, holds: (when: Change['when']) => boolean = () => false): Stop[] {
+export function scheduleFor(d: NeighbourDef, day: number, holds: (when: Change['when']) => boolean = () => false, guest: { stop: Stop; until: number } | null = null): Stop[] {
   let out = d.schedule;
   const v = d.visits?.find((x) => day % x.every === x.on);
   if (v) { const { every: _e, on: _o, until, ...stop } = v; out = splice(out, stop, until); }
@@ -69,6 +69,8 @@ export function scheduleFor(d: NeighbourDef, day: number, holds: (when: Change['
     const { when, until, ...stop } = c;
     if (holds(when)) out = splice(out, stop, until);
   }
+  // Asked round for tea (visits/tea.ts): that wins over everything else that afternoon.
+  if (guest) out = splice(out, guest.stop, guest.until);
   return out;
 }
 
@@ -119,10 +121,12 @@ export class Neighbours {
     /** Today's day number, for visiting days. */
     private day: () => number = () => 1,
     /** Whether a change of plan holds for this neighbour now (rain today, feeling happy). */
-    private holds: (id: string, when: Change['when']) => boolean = () => false
+    private holds: (id: string, when: Change['when']) => boolean = () => false,
+    /** Asked round to Puff's for tea today (visits/tea.ts). */
+    private guest: (id: string) => { stop: Stop; until: number } | null = () => null
   ) {}
 
-  private routine(d: NeighbourDef) { return scheduleFor(d, this.day(), (when) => this.holds(d.id, when)); }
+  private routine(d: NeighbourDef) { return scheduleFor(d, this.day(), (when) => this.holds(d.id, when), this.guest(d.id)); }
 
   /** The feet point for a tile: its usual spot, nudged onto open floor. */
   private spot(area: string, x: number, y: number): Pt {

@@ -9,7 +9,9 @@ export interface PetDef { id: string; name: string; defaultName: string; line: s
 /** Puff's pet: which kind, what it's called, the day it moved in, and today's sniffing (places, so each counts once). */
 export interface Pet { kind: string; name: string; day: number; sniffed?: { day: number; areas: string[] };
   /** How close Puff and the pet are (tricks come with it), today's pats, and today's walk (pets/tricks.ts). */
-  bond?: number; pats?: { day: number; n: number }; walk?: { day: number; places: string[]; done: boolean } }
+  bond?: number; pats?: { day: number; n: number }; walk?: { day: number; places: string[]; done: boolean };
+  /** Toys played with today (a nap in its bed, a ball chased), each a little bond once a day. */
+  toys?: { day: number; kinds: string[] } }
 
 /**
  * The pet's help (NEXT-PHASE §10: the pet's help): the first time Puff goes somewhere outdoors
