@@ -295,7 +295,7 @@ These are the places Blake said "dealer's choice". Each can be changed:
     - The ground beyond a place's edge darkens with it.
   - **Puff's own soft glow** after dark.
   - **Layers** (`world/fronts.ts`): trees, fruit trees and lampposts also stand among the characters, sorted by their foot. Walking behind a tree puts its leaves in front of Puff; walking in front puts Puff in front. The copies grey with the ground until it's restored. Painted places are one picture, so they're left as they are.
-  - **Pixel-style menus** (`ui/pixel.css`, town only):
+  - **Pixel-style menus** (`ui/pixel.css`, town only; replaced on 2 Nov 2026 by the satchel skin, `ui/skin.css`):
     - Square corners, with the corner pixel notched out on framed boxes.
     - Raised buttons and panels get a thicker bottom edge instead of a soft shadow.
     - Icons stay crisp.
@@ -772,6 +772,19 @@ These are the places Blake said "dealer's choice". Each can be changed:
   - **🌼 Flower beds:** daisies (spring), poppies (summer), asters (autumn) and snowdrops (winter), with seeds at Bea's shop in season. They're planted like crops, bloom in 3 days, and bloom again 2 days after picking. Each is a gift a neighbour likes: Bea daisies, Hazel poppies, Mabel asters, Moss snowdrops.
   - **🪱 Fishing bait:** at the General Store from day 5 (5 for 15 ✨). At the ripples, 🪱 Use bait makes bites come sooner (`baitBiteShare`), and every other catch is a rare fish where one swims: golden trout (river, spring and summer days), pike (far bank), sunfish (beach, summer), eel (harbour, nights). Bait is used only on a catch. The four new fish join the Collection.
   - The context line now names the outdoor actions (shake the tree, have a rummage, sit a while, go fishing, collect honey).
+- **UI redesign: the Keeper's satchel (2 Nov, Blake: "a complete unique redesign of the ui. Right now it looks very ai generated"):**
+  - **Why it looked generic:** a system rounded font, flat cream boxes with thin outlines, pastel pills and phone emoji, sitting on top of a pixel-art world. The UI didn't belong to the game.
+  - **The idea:** everything on screen is a made thing Puff carries, drawn in the world's own 24 colours at 2 px a pixel, so the UI is pixel art like the town.
+    - Sheets and chat boxes are **parchment** with a running stitch and brass corner pins, with a **ribbon** for the title.
+    - Buttons are **wooden plaques** that press in (sage-faced for the main choice).
+    - HUD readouts (Fluff, tidiness, clock, Sparkles, goals) are **paper tags**, and the tracker is a **note pinned up** with a brass pin.
+    - Banners, the place name and toasts are **ribbons with notched tails**.
+    - The toolbar is a **wooden shelf of inset slots**, with the chosen tool lit and raised.
+    - List rows, bag slots and shop rows are **inset wells**, and switches are a wooden peg in a slot.
+    - The title screen sits on a sprig wallpaper.
+  - **Type:** Pixelify Sans (SIL OFL, bundled, so it works offline). **Pause → Settings → Easy-read font** switches to a plain rounded face. Text size and high contrast still work.
+  - **Icons:** about 60 emoji the game's text uses (✨ 🎯 📖 📜 ☀ ☾ ☂ 🐝 🪓…) are drawn as 12×12 pixel icons. `ui/skin/iconize.ts` swaps them in wherever text appears, keeping the emoji in the text (visually hidden) so screen readers and code that reads the text are unchanged.
+  - **How it's built:** `ui/skin/frames.ts` draws the frames and sets them on `:root` as CSS variables, used as 9-slice `border-image` in `ui/skin.css`. `ui/skin/icons.ts` holds the icons. The old `pixel.css` notch hack is gone. The frozen room game keeps its old look.
 
 ### The Keeper's Story: the guided main path (from 31 Oct, plan in `claude/MAIN-PATH.md`)
 - **K.1 The scene player and the opening (31 Oct, remade the same day after Blake's "it should be fluid and make sense").** `story/`.

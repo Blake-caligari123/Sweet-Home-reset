@@ -112,7 +112,7 @@ function openSettings(d: PauseHost) {
     h('div', { class: 'list' }, toggle('relaxed', 'Relaxed mode (half Fluff costs, no dozing off)'), toggle('autoTool', 'Pick the right tool for me'),
       toggle('tapOnly', 'Tap-only (one tap tidies a whole spot)'), toggle('joystick', 'Joystick (drag to walk)')),
     h('p', { class: 'friend-name' }, 'Comfort'),
-    h('div', { class: 'list' }, textSize(), toggle('highContrast', 'High contrast'), toggle('reducedMotion', 'Reduce motion'),
+    h('div', { class: 'list' }, textSize(), toggle('easyFont', 'Easy-read font'), toggle('highContrast', 'High contrast'), toggle('reducedMotion', 'Reduce motion'),
       // Builds with a server can send anonymous play counts, so only they show the switch.
       ...(d.openAccount ? [toggle('shareCounts', 'Share anonymous play counts')] : []))
   ];

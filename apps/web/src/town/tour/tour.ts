@@ -275,5 +275,7 @@ export const TOUR: TourCard[] = [
   { title: '🌼 Flower beds', steps: ['Bea\'s shop sells flower seeds for each season: daisies, poppies, asters, and snowdrops in winter.', 'Plant them in soil like any crop. Once picked they bloom again in two days, and bees nearby make double honey.', 'Neighbours like them as gifts: Bea daisies, Hazel poppies, Mabel asters, Moss snowdrops.'],
     setup: (s) => { s.give('daisy_seeds', 3).day(6).time(9).go('yard'); } },
   { title: '🪱 Fishing with bait', steps: ['Bait comes from the General Store, 5 for 15 ✨. At the ripples, turn on 🪱 Use bait.', 'Bites come quicker, and every other catch is a rare fish where one swims: a golden trout by the river, a pike on the far bank, a sunfish at the beach in summer, an eel in the harbour at night.', 'Bait is only used up on a catch.'],
-    setup: (s) => { s.give('fishing_rod').give('bait', 5).day(6).time(10).go('riverside'); } }
+    setup: (s) => { s.give('fishing_rod').give('bait', 5).day(6).time(10).go('riverside'); } },
+  { title: '🎨 The Keeper\'s satchel (new look)', steps: ['The whole UI is redrawn as things Puff carries: parchment sheets with stitching and brass pins, wooden buttons that press in, paper tags on the HUD, a pinned note for the tracker, ribbons for news, and a wooden shelf for the tools.', 'Text uses a pixel font, and the game\'s emoji are now little pixel icons.', 'Prefer plain letters? Pause → Settings → Easy-read font.'],
+    setup: (s) => { s.day(6).time(10).go('square'); } }
 ];

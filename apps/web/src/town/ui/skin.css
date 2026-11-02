@@ -1,0 +1,143 @@
+/* The Keeper's satchel (UI redesign, 2 Nov 2026; Blake: "it looks very ai generated"). Every
+   panel, button and readout is a made thing drawn in the town's own pixels: parchment with
+   stitching and brass pins, wooden plaques that press in, paper tags on the HUD, a ribbon for
+   news, a wooden shelf of slots for the tools. Frames are drawn in code (skin/frames.ts) and
+   used as 9-slice border-images at 2 px a pixel; the type is a pixel face (Pixelify Sans, OFL),
+   with an easy-read font in Settings. */
+
+:root {
+  --font: "Pixelify Sans", ui-rounded, "Nunito", system-ui, sans-serif;
+  --paper: #fff8ec; --paper-2: #faebd2; --wood: #b9937a; --wood-dark: #946f57; --wood-light: #c5a691;
+  --ink: #534239; --line: #534239; --line-soft: #9f8272;
+}
+html.easy-font { --font: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, sans-serif; }
+body, button, input, select, textarea { font-family: var(--font); }
+body { letter-spacing: 0.01em; }
+b, strong, h1, h2, h3, .btn, .friend-name, .logo { font-weight: 700; }
+*, *::before, *::after { border-radius: 0 !important; }
+img, canvas, .panel, .sheet, .dialogue, .btn, .icon-btn, .chip, .tool, .toolbar, .banner, .toast, .place-card, .tracker, .fluff, .tidy-meter, .clock-line, .bag-slot, .switch { image-rendering: pixelated; }
+
+/* ---- parchment: sheets, panels, the chat box ---- */
+.panel, .sheet, .dialogue {
+  border: 12px solid transparent; border-image: var(--frame-paper) 6 / 12px round;
+  background: var(--paper) var(--grain) repeat; background-size: 16px 16px; background-clip: padding-box;
+  box-shadow: 0 6px 0 rgba(47, 35, 28, 0.32);
+}
+.sheet { padding: 12px 12px; gap: 12px; }
+.sheet > * { flex-shrink: 0; }
+.sheet > h2, .title-card h1 {
+  align-self: center; margin: -2px 0 2px; padding: 0 6px; min-height: 0;
+  border-style: solid; border-width: 10px 16px; border-image: var(--frame-ribbon) 5 8 / 10px 16px stretch;
+  background: #f6e3a1; background-clip: padding-box; font-size: 1.25rem; line-height: 1.1; color: var(--ink);
+}
+.scrim { background: radial-gradient(circle at 50% 40%, rgba(47, 35, 28, 0.25), rgba(47, 35, 28, 0.55)); }
+
+/* ---- wooden plaques: every button ---- */
+.btn {
+  border-style: solid; border-width: 10px 10px 14px; border-image: var(--frame-wood) 5 5 7 5 / 10px 10px 14px 10px round;
+  background: #f9edc2; background-clip: padding-box; box-shadow: none !important; padding: 0 8px; min-height: 52px;
+  font-size: 1.02rem; color: var(--ink); text-shadow: 0 1px 0 #fff; transition: none;
+}
+.btn:active { transform: none; border-width: 14px 10px 10px; border-image-source: var(--frame-wood-down); border-image-slice: 7 5 5 5; border-image-width: 14px 10px 10px 10px; }
+.btn.primary { border-image-source: var(--frame-moss); background: #a9cda0; text-shadow: 0 1px 0 #caddc4; }
+.btn.primary:active { border-image-source: var(--frame-moss-down); }
+.btn.warm { background: #f6e3a1; }
+.btn.small { min-height: 46px; font-size: 0.92rem; padding: 0 6px; }
+.btn.big { min-height: 60px; font-size: 1.2rem; }
+.btn[disabled] { opacity: 0.6; }
+.btn:focus-visible, .icon-btn:focus-visible, .tool:focus-visible, .switch:focus-visible { outline: 3px dashed var(--ink); outline-offset: 2px; }
+.icon-btn {
+  width: 48px; height: 52px; border-style: solid; border-width: 10px 10px 14px; border-image: var(--frame-wood) 5 5 7 5 / 10px 10px 14px 10px round;
+  background: #f9edc2; background-clip: padding-box; box-shadow: none !important; font-size: 1rem; padding: 0;
+}
+.icon-btn:active { transform: none; border-width: 14px 10px 10px; border-image-source: var(--frame-wood-down); border-image-slice: 7 5 5 5; border-image-width: 14px 10px 10px 10px; }
+.pause-btn, .map-btn, .mood-btn { width: 46px; height: 50px; }
+.icon-btn .ico-img { width: 22px; height: 22px; }
+
+/* ---- paper tags: the HUD's little readouts ---- */
+.chip, .fluff, .tidy-meter, .clock-line, .goals-chip {
+  border-style: solid; border-width: 8px 8px 8px 12px; border-image: var(--frame-tag) 4 4 4 6 / 8px 8px 8px 12px stretch;
+  background: var(--paper); background-clip: padding-box; box-shadow: 0 3px 0 rgba(47, 35, 28, 0.25); min-height: 0;
+  padding: 0 6px 0 2px; font-weight: 700;
+}
+.fluff { padding: 0 6px 0 0; }
+.clock-line { padding: 0 4px; line-height: 1.15; }
+.fluff-bar, .tidy-bar, .set-bar, .heart-bar, .bar, .meter { border: 2px solid var(--ink); background: var(--paper-2); box-shadow: inset 0 2px 0 rgba(83, 66, 57, 0.18); }
+.fluff-bar > i, .tidy-bar > i, .set-bar > i, .bar > i { box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.55); }
+.fluff-bar > i { background: #79b176; }
+.fluff.tired { background: #f7d2bf; }
+
+/* The tracker: a note pinned up, with a brass pin. */
+.tracker {
+  position: relative; border-style: solid; border-width: 8px 8px 8px 12px; border-image: var(--frame-tag) 4 4 4 6 / 8px 8px 8px 12px stretch;
+  background: var(--paper) var(--grain); background-size: 16px; background-clip: padding-box; padding: 2px 8px; font-weight: 600; font-size: 0.92rem;
+  box-shadow: 0 3px 0 rgba(47, 35, 28, 0.25);
+}
+.tracker::after { content: ""; position: absolute; top: -12px; left: 50%; width: 8px; height: 8px; margin-left: -4px; background: #dca88d; box-shadow: 0 2px 0 #534239, inset -2px -2px 0 #946f57, inset 2px 2px 0 #f7d2bf; }
+.tracker.fresh { animation: tracker-fresh 1.2s steps(6); }
+@keyframes tracker-fresh { 0%, 33% { transform: translateY(-3px); filter: brightness(1.08); } 100% { transform: none; } }
+
+/* ---- ribbons: banners, the place name, toasts ---- */
+.banner, .place-card, .toast {
+  border-style: solid; border-width: 10px 16px; border-image: var(--frame-ribbon) 5 8 / 10px 16px stretch;
+  background: #f6e3a1; background-clip: padding-box; box-shadow: 0 4px 0 rgba(47, 35, 28, 0.3); padding: 0 6px; font-weight: 700; color: var(--ink);
+}
+#ui > .banner { font-size: 1.12rem; line-height: 1.25; }
+.banner { animation-timing-function: steps(12); }
+.toast { font-size: 0.95rem; }
+
+/* ---- the wooden shelf of tools ---- */
+.toolbar {
+  border-style: solid; border-width: 10px; border-image: var(--frame-shelf) 5 / 10px round;
+  background: #b9937a; background-clip: padding-box; padding: 2px; gap: 4px; box-shadow: 0 4px 0 rgba(47, 35, 28, 0.35);
+}
+.tool {
+  border-style: solid; border-width: 6px; border-image: var(--frame-slot) 3 / 6px stretch;
+  background: #faebd2; background-clip: padding-box; min-width: 50px; min-height: 54px; padding: 0 2px; color: var(--ink); font-weight: 700;
+}
+.tool.selected { border-image-source: var(--frame-slot-on); background: #f6e3a1; transform: translateY(-3px); box-shadow: 0 3px 0 rgba(47, 35, 28, 0.35); border-bottom-width: 6px; }
+.tool.bag { border-left-width: 6px; }
+.context { border: 0; padding: 2px 12px; background: rgba(47, 35, 28, 0.82); color: #fff8ec; font-weight: 600; box-shadow: 0 0 0 2px #534239, 0 0 0 4px rgba(255, 248, 236, 0.4); }
+@media (max-width: 460px) { .toolbar { gap: 2px; padding: 0; } .tool { min-width: 44px; border-width: 5px; padding: 0 1px; } }
+@media (max-width: 360px) { .tool { min-width: 38px; } }
+
+/* ---- inset wells: rows in lists, bag slots, shop rows ---- */
+.bag-slot, .note, .friend, .shop-row, .stat, .pet-card {
+  border-style: solid; border-width: 6px; border-image: var(--frame-slot) 3 / 6px stretch;
+  background: #fff8ec; background-clip: padding-box;
+}
+.bag-slot { background: #faebd2; }
+.note.letter { background: #fffaf0; }
+.row { border-bottom: 2px dashed #c5a691; padding: 10px 4px; }
+.list { gap: 2px; }
+.morning-note { border: 2px dashed #b9937a; background: #fffaf0; }
+.morning-list li, .journal-line { line-height: 1.35; }
+
+/* ---- switches: a wooden peg in a slot ---- */
+.switch { width: 60px; height: 36px; border: 0; background: #faebd2; box-shadow: inset 0 0 0 2px #534239, inset 2px 2px 0 2px #c5a691; }
+.switch::after { top: 6px; left: 6px; width: 20px; height: 24px; border: 0; background: #b9937a; box-shadow: 0 0 0 2px #534239, inset 0 2px 0 #c5a691, inset 0 -3px 0 #946f57; transition: transform 100ms steps(3); }
+.switch[aria-checked="true"] { background: #a9cda0; }
+.switch[aria-checked="true"]::after { transform: translateX(22px); }
+
+/* ---- speech bubbles and the name field ---- */
+.bubble, .npc-bubble, .scene-bubble { border: 2px solid var(--ink); background: #fff; box-shadow: 0 3px 0 rgba(47, 35, 28, 0.3); }
+.bubble::after { border-color: var(--ink); }
+.name-input { border: 0; box-shadow: inset 0 0 0 2px #534239, inset 2px 2px 0 2px #faebd2; background: #fff; }
+.dialogue .portrait, .friend .portrait { border: 0; box-shadow: inset 0 0 0 2px #534239; background: #f9edc2; }
+.dialogue-body .speaker { display: inline-block; align-self: flex-start; padding: 1px 6px; background: #534239; color: #fff8ec; font-size: 0.82rem; margin: -2px 0 0; }
+.dialogue-body p { font-weight: 500; font-size: 1.02rem; }
+
+/* ---- pixel icons (skin/iconize.ts) ---- */
+.ico { display: inline-flex; vertical-align: -0.18em; }
+.ico-img { width: 1.15em; height: 1.15em; image-rendering: pixelated; }
+.ico-t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.chip .ico-img, .tracker .ico-img, .tool .ico-img { width: 18px; height: 18px; }
+.banner .ico-img { width: 22px; height: 22px; }
+
+/* Full screens (the title) sit on a cottage wallpaper. */
+.screen { background: var(--butter-3, #f9edc2) var(--wallpaper) repeat; background-size: 48px 48px; image-rendering: pixelated; }
+.title-card { gap: 12px; }
+
+/* High contrast keeps the frames but darkens the text and the scrim. */
+html.high-contrast .scrim { background: rgba(30, 22, 18, 0.6); }
+html.high-contrast .tracker, html.high-contrast .chip, html.high-contrast .clock-line { background: #fffaf2; }

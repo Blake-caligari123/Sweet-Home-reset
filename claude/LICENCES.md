@@ -46,3 +46,6 @@ Allowed instead:
 | bakery | `apps/web/public/areas/bakery.webp` | `claude/SPRITE-SHEETS.md` | 2026-10-27 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
 | grumble_dust_grumpy | `apps/web/public/sprites/grumble_dust_grumpy.png` | `claude/SPRITE-SHEETS.md` | 2026-10-28 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
 | grumble_dust_bright | `apps/web/public/sprites/grumble_dust_bright.png` | `claude/SPRITE-SHEETS.md` | 2026-10-28 | Grok Imagine (mark removed per Blake overrule; jpg kept) |
+
+## Fonts
+- **Pixelify Sans** (the town's UI type, from 2 Nov 2026): © 2021 The Pixelify Sans Project Authors (github.com/eifetx/Pixelify-Sans), SIL Open Font License 1.1. Bundled through `@fontsource/pixelify-sans` (npm), so it works offline. The OFL allows bundling in a sold app; the font itself isn't sold on its own.

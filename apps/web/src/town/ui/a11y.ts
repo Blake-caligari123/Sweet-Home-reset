@@ -2,7 +2,7 @@ import type { Settings } from './view';
 
 /** Text sizes offered in Pause (FRONTEND-PLAN §11), as a percent of the normal 16 px. */
 const TEXT_SIZES = [100, 125, 150];
-type Look = Pick<Settings, 'reducedMotion' | 'bigText' | 'textSize' | 'highContrast'>;
+type Look = Pick<Settings, 'reducedMotion' | 'bigText' | 'textSize' | 'highContrast' | 'easyFont'>;
 
 /** The chosen text size; an older save's Bigger text switch reads as 125%. */
 export const textSizeOf = (s: Pick<Settings, 'bigText' | 'textSize'>) => s.textSize ?? (s.bigText ? 125 : 100);
@@ -20,6 +20,8 @@ export function applyLook(s: Look, root = document.documentElement) {
   root.classList.toggle('reduce-motion', s.reducedMotion);
   root.classList.toggle('big-text', size > 100);
   root.classList.toggle('high-contrast', !!s.highContrast);
+  // The pixel type, or a plain rounded one for easier reading (ui/skin.css).
+  root.classList.toggle('easy-font', !!s.easyFont);
 }
 
 // Screen readers (FRONTEND-PLAN §11): the live region speaks requests, hearts and the time in words,
