@@ -97,6 +97,8 @@ export interface TownSave {
   nature?: NatureState;
   /** Honey waiting in each beehive (garden/hives.ts). */
   hives?: Hives;
+  /** Constellations found through the telescope (stars/). */
+  starsSeen?: string[];
   /** This week's goals (`day` holds the week number). */
   weekly?: DailyGoals;
   /** Today's happening (daily/happenings.ts). */

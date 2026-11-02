@@ -94,6 +94,7 @@ export class Menus {
       openOutfits: () => openOutfits(view, content, state, () => this.h.save()),
       openCollection: () => openCollection(view, content, state),
       openJournal: () => this.openJournal(),
+      openIdeas: () => systems.openIdeas(),
       openSkills: () => systems.openSkills(),
       openNeeds: () => systems.openNeeds(),
       completion: completionPct(completionParts(state, content.pack)),

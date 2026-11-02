@@ -277,5 +277,11 @@ export const TOUR: TourCard[] = [
   { title: '🪱 Fishing with bait', steps: ['Bait comes from the General Store, 5 for 15 ✨. At the ripples, turn on 🪱 Use bait.', 'Bites come quicker, and every other catch is a rare fish where one swims: a golden trout by the river, a pike on the far bank, a sunfish at the beach in summer, an eel in the harbour at night.', 'Bait is only used up on a catch.'],
     setup: (s) => { s.give('fishing_rod').give('bait', 5).day(6).time(10).go('riverside'); } },
   { title: '🎨 The Keeper\'s satchel (new look)', steps: ['The whole UI is redrawn as things Puff carries: parchment sheets with stitching and brass pins, wooden buttons that press in, paper tags on the HUD, a pinned note for the tracker, ribbons for news, and a wooden shelf for the tools.', 'Text uses a pixel font, and the game\'s emoji are now little pixel icons.', 'Prefer plain letters? Pause → Settings → Easy-read font.'],
-    setup: (s) => { s.day(6).time(10).go('square'); } }
+    setup: (s) => { s.day(6).time(10).go('square'); } },
+  { title: '🛒 The Wandering Cart', steps: ['Every five days from day 8, a little striped cart stops in the Town Square, 8 am to 8 pm.', 'It sells rare seeds, cosy furniture, bait, honey and a telescope for stargazing.', 'The morning card says when it\'s in town.'],
+    setup: (s) => { s.sparkles(300).day(8).time(10).go('square'); } },
+  { title: '🔭 Stargazing', steps: ['A telescope stands in your yard and it\'s night. Tap it.', 'One constellation is up each night. Tap its bright stars and the lines join up: the Teapot, the Big Broom, Puff\'s Ears and more.', 'Each new one goes in your star book, with Sparkles.'],
+    setup: (s) => { s.state.decor = [...s.state.decor.filter((d) => d.item !== 'telescope'), { area: 'yard', x: 13, y: 8, item: 'telescope' }]; s.day(9).time(21).go('yard'); } },
+  { title: '🌿 Things to do', steps: ['Pause → 🌿 Things to do lists the cosy things on offer right now: crops to pick, honey waiting, who\'s up for a game and where, fishing, the cart, the stars...', 'When there\'s no story or quest on, the tracker says "Free time!" and opens it too.'],
+    setup: (s) => { s.give('fishing_rod').meet('bea', 'otto').day(10).time(10).go('yard'); } }
 ];

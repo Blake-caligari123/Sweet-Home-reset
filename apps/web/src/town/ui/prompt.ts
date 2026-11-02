@@ -24,7 +24,10 @@ export function promptFor(t: Target | null, here: Here, crops: Crop[], content: 
     case 'pickup': { const p = here.pickups.find((x) => x.id === t.id); return p?.letter ? 'Read the letter' : p ? `Take the ${name(p.item)}` : ''; }
     case 'neighbour': return `Say hello to ${content.neighbour(t.id)?.name ?? 'them'}`;
     case 'grumble': return 'Brighten the Grumble';
-    case 'prop': return t.action === 'decor' && here.area.tapPropAt(t.x, t.y)?.type === 'beehive' ? 'Collect honey' : USE[t.action] ?? '';
+    case 'prop': {
+      const type = t.action === 'decor' ? here.area.tapPropAt(t.x, t.y)?.type : null;
+      return type === 'beehive' ? 'Collect honey' : type === 'telescope' ? 'Look at the stars' : USE[t.action] ?? '';
+    }
     default: return '';
   }
 }

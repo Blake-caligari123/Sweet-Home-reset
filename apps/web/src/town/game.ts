@@ -42,6 +42,7 @@ import { Carry } from './play/carry';
 import { Mining } from './caves/mining';
 import { Nature } from './nature/nature-life';
 import { tapHive } from './garden/hive-life';
+import { stargaze } from './stars/stargaze';
 import { Placing } from './decor/placing';
 import { Sweep } from './play/sweep';
 import { HomeLife } from './play/home-life';
@@ -147,7 +148,12 @@ export class TownGame {
       pause: () => { this.view.uiTap(); this.menus.openPause(); },
       map: () => { this.view.uiTap(); if (!this.dash.active) this.menus.openMap(); },
       mood: () => { this.view.uiTap(); this.systems.moods.say(); },
-      tracker: (text) => { this.view.uiTap(); if (!text.startsWith('📖')) return false; this.menus.openJournal(); return true; },
+      tracker: (text) => {
+        this.view.uiTap();
+        if (text.startsWith('🌿')) { this.systems.openIdeas(); return true; }
+        if (!text.startsWith('📖')) return false;
+        this.menus.openJournal(); return true;
+      },
       goals: () => { this.view.uiTap(); this.menus.openJournal(); }
     });
     this.view = new View(ui, this.hud, sound, native, settings, () => this.mess.progress, () => this.state.names.puff);
@@ -216,6 +222,7 @@ export class TownGame {
       sleep: () => void this.endDay(false),
       openBuild: () => this.menus.openBuild(),
       pickUpDecor: (x, y) => this.placing.pickUp(x, y),
+      stargaze: () => stargaze({ state: this.state, view: this.view, content: this.content, clock: this.clock, onboard: (e) => this.guide.handle(e), refreshHud: () => this.refreshHud(), save: () => void this.save(false) }),
       hive: (x, y) => tapHive({ state: this.state, view: this.view, content: this.content, world: this.world, area: () => this.areaId, pickUp: (px, py) => this.placing.pickUp(px, py), refreshHud: () => this.refreshHud(), save: () => void this.save(false) }, x, y),
       openWorkbench: (station) => openWorkbench({ state: this.state, view: this.view, content: this.content, refreshHud: () => this.refreshHud(), save: () => void this.save(false), made: (st) => this.guide.handle({ type: 'made', station: st }), tapOnly: !!this.settings.tapOnly }, station),
       openShop: (shop) => this.menus.openShop(shop),
@@ -506,7 +513,7 @@ export class TownGame {
     if (up) { this.view.banner(`🌸 Town Bloom: ${this.content.line(`bloom.${up}`)}!`); this.view.feedback('fanfare', 'success'); }
     for (const o of newlyEarned(this.state, this.content.pack.outfits ?? [])) this.view.banner(`👒 New outfit: ${o.name}! (Pause → Outfits)`);
     const next = this.menus.nudgeLine();
-    this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? `${step.hint} (${this.state.onboarding.progress.join('/')})` : this.systems.story.tracker() ?? this.jobs.tracker() ?? this.systems.questHint() ?? next ?? 'Explore {town} and tidy what you find.'));
+    this.hud.setTracker(this.content.named(this.placing.active ? this.content.line('decor.tracker') ?? '' : step ? `${step.hint} (${this.state.onboarding.progress.join('/')})` : this.systems.story.tracker() ?? this.jobs.tracker() ?? this.systems.questHint() ?? next ?? this.content.line('ideas.tracker') ?? ''));
   }
 
   /** Play a cutscene and remember it was seen (for the journal's Memories). */

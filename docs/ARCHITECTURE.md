@@ -106,6 +106,8 @@ town/
   garden/       hives.ts (beehives: honey overnight, more beside flower beds, none in winter), hive-life.ts (collecting honey)
   ui/skin/      frames.ts (the satchel skin: parchment, wood, tag, ribbon, slot and shelf frames as CSS border-images),
                 icons.ts (pixel icons for the game's emoji), iconize.ts (swaps them into the UI's text); styles in ui/skin.css
+  chill/        ideas.ts (🌿 things to do now, for a quiet day), ideas-sheet.ts
+  stars/        constellations.ts (tonight's constellation, tapping its stars), star-sheet.ts (the night sky), stargaze.ts (the telescope)
   minigames/    games.ts (what a game sheet needs; stars; another round), minigame-buttons.ts (who plays which game),
                 shelf.ts + shelf-sheet.ts (Moss: sort the shelf), pairs.ts + pairs-sheet.ts (Bea: garden pairs),
                 pantry.ts + pantry-sheet.ts (Hazel: sort the pantry), skip.ts + skip-sheet.ts (Otto: skip stones),

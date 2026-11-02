@@ -316,3 +316,16 @@ html.high-contrast .muted { color: #4a3a32; }
   .toolbar { gap: 1px; padding: 3px; }
   .tool { min-width: 38px; padding: 3px 1px 2px; font-size: 0.58rem; }
 }
+
+/* Stargazing (stars/star-sheet.ts): a night sky, bright stars to tap, lines that join up. */
+.star-sky { position: relative; width: 100%; aspect-ratio: 20 / 14; overflow: hidden; background: linear-gradient(#2f3a4e, #46557a); box-shadow: inset 0 0 0 2px #534239; }
+.star-faint { position: absolute; width: 2px; height: 2px; background: #c1d1e2; opacity: 0.55; }
+.star-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.star-lines line { stroke: #f6e3a1; stroke-width: 0.14; stroke-dasharray: 0.3 0.2; }
+.star { position: absolute; width: 30px; height: 30px; margin: -15px 0 0 -15px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.star::before { content: ""; position: absolute; left: 12px; top: 12px; width: 6px; height: 6px; background: #f9edc2; box-shadow: 0 -4px 0 -1px #f9edc2, 0 4px 0 -1px #f9edc2, -4px 0 0 -1px #f9edc2, 4px 0 0 -1px #f9edc2; animation: twinkle 1.6s steps(2) infinite; }
+.star.found::before { background: #f6e3a1; box-shadow: 0 -5px 0 -1px #f6e3a1, 0 5px 0 -1px #f6e3a1, -5px 0 0 -1px #f6e3a1, 5px 0 0 -1px #f6e3a1, 0 0 10px 3px rgba(246, 227, 161, 0.7); animation: none; }
+.star-sky.done .star::before { animation: twinkle 0.5s steps(2) 3; }
+@keyframes twinkle { 50% { opacity: 0.55; } }
+.star-name { font-size: 1.25rem; font-weight: 700; }
+@media (prefers-reduced-motion: reduce) { .star::before, .star-sky.done .star::before { animation: none; } }

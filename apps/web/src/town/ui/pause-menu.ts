@@ -17,6 +17,8 @@ export interface PauseHost {
   openOutfits(): void;
   openCollection(): void;
   openJournal(): void;
+  /** 🌿 Things to do (chill/ideas.ts). */
+  openIdeas(): void;
   openSkills(): void;
   openNeeds(): void;
   /** The town's completion (bloom/completion.ts): its percentage, and the sheet. */
@@ -52,6 +54,7 @@ export function openPause(d: PauseHost) {
   if (d.openTour) body.push(button('🧪 Feature tour', d.openTour, { class: 'btn primary', style: { width: '100%' } }));
   body.push(
     button('📔 Keeper\'s journal', d.openJournal, { class: 'btn primary', style: { width: '100%' } }),
+    button('🌿 Things to do', d.openIdeas, { class: 'btn warm', style: { width: '100%' } }),
     h('p', { class: 'town-line' }, d.townLine),
     h('div', { class: 'btn-row', style: { width: '100%' } },
       button('♥ Friends', d.openFriends), button('📖 Collection', d.openCollection), button('✨ Skills', d.openSkills),

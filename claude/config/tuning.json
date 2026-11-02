@@ -147,6 +147,7 @@
   },
   "compostEvery": 5,
   "hiveHolds": 3,
+  "starSparkles": 20,
   "unlocks": {
     "mabel": {
       "day": 43

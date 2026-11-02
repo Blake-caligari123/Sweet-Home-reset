@@ -10,6 +10,7 @@ import { TUNING } from '../data/tuning';
 import { AreaMess } from '../play/mess';
 import { returningMess } from '../play/mess-return';
 import { NEW_NATURE, withNature, type NatureState } from '../nature/nature';
+import { withCarts } from '../shops/shops';
 import { navFor, type NavGrid } from './nav';
 
 /**
@@ -54,7 +55,7 @@ export class TownAreas {
     const day = this.day();
     const festival = festivalToday(this.pack.festivals ?? [], day);
     for (const a of areas.filter((x) => defs.some((p) => p.area === x.id) || decor.some((d) => d.area === x.id) || x.rocks?.length || x.id === festival?.area || animals.some((an) => an.area === x.id) || x.doors.some((d) => d.needsFind) || x.kind === 'outdoor' || this.built.has(x.id))) {
-      const built = withNature(withSecrets(withAnimals(withLanterns(withRocks(withBuilds(a, defs, plots, buildings), a.rocks ?? [], s.caves), festival, s.flags, day), animals, s.flags), s.finds.found), s.nature ?? NEW_NATURE, day, TUNING.nature);
+      const built = withCarts(withNature(withSecrets(withAnimals(withLanterns(withRocks(withBuilds(a, defs, plots, buildings), a.rocks ?? [], s.caves), festival, s.flags, day), animals, s.flags), s.finds.found), s.nature ?? NEW_NATURE, day, TUNING.nature), this.pack.shops ?? [], day);
       this.built.set(a.id, built);
       this.areas.set(a.id, new Area(withDecor(built, decor, items)));
       this.navs.delete(a.id);

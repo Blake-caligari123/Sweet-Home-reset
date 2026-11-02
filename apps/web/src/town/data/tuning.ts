@@ -87,6 +87,8 @@ export interface Tuning {
   compostEvery: number;
   /** Honey a beehive holds before it's collected (garden/hives.ts). */
   hiveHolds: number;
+  /** A new constellation for the star book (stars/). */
+  starSparkles: number;
   /** Crops that grow back after picking: days from picked to ready again. */
   cropRegrowDays?: Record<string, number>;
   /** The year-one schedule (VISION §8): when each thing arrives. Read only through `isUnlocked`. */

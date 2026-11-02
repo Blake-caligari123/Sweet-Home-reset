@@ -31,6 +31,17 @@ export interface ShopDef {
   stock: StockEntry[];
   /** Items it buys back, at each item's `sell` price. */
   buys?: string[];
+  /** A travelling shop (the Wandering Cart): here every `every` days from `from`, its cart at this spot. */
+  visits?: { every: number; from: number; area: string; x: number; y: number };
+}
+
+/** Whether a travelling shop is in town today (a shop without visits always is). */
+export const visitingToday = (shop: ShopDef, day: number) => !shop.visits || (day >= shop.visits.from && (day - shop.visits.from) % shop.visits.every === 0);
+
+/** An area with today's travelling carts set up in it. */
+export function withCarts<A extends { id: string; props: unknown[] }>(pack: A, shops: ShopDef[], day: number): A {
+  const carts = shops.filter((s) => s.visits?.area === pack.id && visitingToday(s, day)).map((s) => ({ type: 'trader_cart', x: s.visits!.x, y: s.visits!.y, w: 2, action: 'shop', shop: s.id }));
+  return carts.length ? { ...pack, props: [...pack.props, ...carts] } : pack;
 }
 
 export interface ShopContext { state: TownState; minutes: number; day: number; items: TownPack['items'] }
@@ -41,7 +52,7 @@ const boughtFlag = (shop: ShopDef, e: StockEntry) => `bought_${shop.id}_${e.item
 const once = (e: StockEntry) => e.kind === 'bag' || e.kind === 'recipe' || e.kind === 'animal';
 
 export function isOpen(shop: ShopDef, minutes: number, day: number) {
-  return day >= (shop.openFromDay ?? 1) && minutes >= shop.opens && minutes < shop.closes;
+  return day >= (shop.openFromDay ?? 1) && visitingToday(shop, day) && minutes >= shop.opens && minutes < shop.closes;
 }
 
 /** What's on the shelf today. */
